@@ -17,25 +17,20 @@ Traceback (most recent call last):
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
-import pymc3 as pm
-import arviz as az
-import numpy as np
+from matplotlib import rcParams, cycler
 import matplotlib.pyplot as plt
-from sklearn.linear_model import LinearRegression
-from warnings import filterwarnings
-
-az.style.use('arviz-darkgrid')
+import numpy as np
+plt.ion()
 ------------------
 
 [0;31m---------------------------------------------------------------------------[0m
 [0;31mModuleNotFoundError[0m                       Traceback (most recent call last)
-[0;32m/var/folders/pm/9z29qnf508bc1v6q8fksblm40000gn/T/ipykernel_43826/3158712021.py[0m in [0;36m<module>[0;34m[0m
-[0;32m----> 1[0;31m [0;32mimport[0m [0mpymc3[0m [0;32mas[0m [0mpm[0m[0;34m[0m[0;34m[0m[0m
-[0m[1;32m      2[0m [0;32mimport[0m [0marviz[0m [0;32mas[0m [0maz[0m[0;34m[0m[0;34m[0m[0m
+[0;32m/var/folders/pm/9z29qnf508bc1v6q8fksblm40000gn/T/ipykernel_43837/2191868119.py[0m in [0;36m<module>[0;34m[0m
+[0;32m----> 1[0;31m [0;32mfrom[0m [0mmatplotlib[0m [0;32mimport[0m [0mrcParams[0m[0;34m,[0m [0mcycler[0m[0;34m[0m[0;34m[0m[0m
+[0m[1;32m      2[0m [0;32mimport[0m [0mmatplotlib[0m[0;34m.[0m[0mpyplot[0m [0;32mas[0m [0mplt[0m[0;34m[0m[0;34m[0m[0m
 [1;32m      3[0m [0;32mimport[0m [0mnumpy[0m [0;32mas[0m [0mnp[0m[0;34m[0m[0;34m[0m[0m
-[1;32m      4[0m [0;32mimport[0m [0mmatplotlib[0m[0;34m.[0m[0mpyplot[0m [0;32mas[0m [0mplt[0m[0;34m[0m[0;34m[0m[0m
-[1;32m      5[0m [0;32mfrom[0m [0msklearn[0m[0;34m.[0m[0mlinear_model[0m [0;32mimport[0m [0mLinearRegression[0m[0;34m[0m[0;34m[0m[0m
+[1;32m      4[0m [0mplt[0m[0;34m.[0m[0mion[0m[0;34m([0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
 
-[0;31mModuleNotFoundError[0m: No module named 'pymc3'
-ModuleNotFoundError: No module named 'pymc3'
+[0;31mModuleNotFoundError[0m: No module named 'matplotlib'
+ModuleNotFoundError: No module named 'matplotlib'
 
