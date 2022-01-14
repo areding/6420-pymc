@@ -14,7 +14,7 @@ from warnings import filterwarnings
 get_ipython().run_line_magic('matplotlib', 'inline')
 
 
-# In[4]:
+# In[2]:
 
 
 filterwarnings('ignore')
@@ -66,7 +66,7 @@ with pm.Model() as asr:
                      )
 
 
-# In[6]:
+# In[4]:
 
 
 # this will remove the first 500 samples
