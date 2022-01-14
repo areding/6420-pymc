@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Markdown Files &#8212; BUGS to PyMC (ISYE 6420)</title>
+    <title>Markdown Files &#8212; ISYE 6420 - BUGS to PyMC</title>
     
   <link href="_static/css/theme.css" rel="stylesheet">
   <link href="_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
@@ -51,8 +51,6 @@
     <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Content with notebooks" href="notebooks.html" />
-    <link rel="prev" title="Welcome to your Jupyter Book" href="intro.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -76,7 +74,7 @@
       
       
       
-      <h1 class="site-logo" id="site-title">BUGS to PyMC (ISYE 6420)</h1>
+      <h1 class="site-logo" id="site-title">ISYE 6420 - BUGS to PyMC</h1>
       
     </a>
 </div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
@@ -87,19 +85,19 @@
         <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="intro.html">
-   Welcome to your Jupyter Book
+   Introduction
   </a>
  </li>
 </ul>
-<ul class="current nav bd-sidenav">
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
-   Markdown Files
-  </a>
- </li>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Unit 1
+ </span>
+</p>
+<ul class="nav bd-sidenav">
  <li class="toctree-l1">
-  <a class="reference internal" href="notebooks.html">
-   Content with notebooks
+  <a class="reference internal" href="Unit1.html">
+   A Simple Regression
   </a>
  </li>
 </ul>
@@ -339,7 +337,7 @@ this pattern:</p>
 <p>Again, roles will only work if <code class="docutils literal notranslate"><span class="pre">rolename</span></code> is a valid role’s name. For example,
 the <code class="docutils literal notranslate"><span class="pre">doc</span></code> role can be used to refer to another page in your book. You can
 refer directly to another page by its relative path. For example, the
-role syntax <code class="docutils literal notranslate"><span class="pre">{doc}`intro`</span></code> will result in: <a class="reference internal" href="intro.html"><span class="doc">Welcome to your Jupyter Book</span></a>.</p>
+role syntax <code class="docutils literal notranslate"><span class="pre">{doc}`intro`</span></code> will result in: <a class="reference internal" href="intro.html"><span class="doc">Introduction</span></a>.</p>
 <p>For more information on writing roles, see the
 <a class="reference external" href="https://myst-parser.readthedocs.io/">MyST documentation</a>.</p>
 </div>
@@ -347,7 +345,7 @@ role syntax <code class="docutils literal notranslate"><span class="pre">{doc}`i
 <h3>Adding a citation<a class="headerlink" href="#adding-a-citation" title="Permalink to this headline">¶</a></h3>
 <p>You can also cite references that are stored in a <code class="docutils literal notranslate"><span class="pre">bibtex</span></code> file. For example,
 the following syntax: <code class="docutils literal notranslate"><span class="pre">{cite}`holdgraf_evidence_2014`</span></code> will render like
-this: <span id="id1">[<a class="reference internal" href="#id3">HdHPK14</a>]</span>.</p>
+this: <span id="id1">[]</span>.</p>
 <p>Moreover, you can insert a bibliography into your page with this syntax:
 The <code class="docutils literal notranslate"><span class="pre">{bibliography}</span></code> directive must be used for all the <code class="docutils literal notranslate"><span class="pre">{cite}</span></code> roles to
 render properly.
@@ -359,8 +357,11 @@ then the bibliography is inserted with:</p>
 </div>
 <p>Resulting in a rendered bibliography that looks like:</p>
 <p id="id2"><dl class="citation">
-<dt class="label" id="id3"><span class="brackets"><a class="fn-backref" href="#id1">HdHPK14</a></span></dt>
-<dd><p>Christopher Ramsay Holdgraf, Wendy de Heer, Brian N. Pasley, and Robert T. Knight. Evidence for Predictive Coding in Human Auditory Cortex. In <em>International Conference on Cognitive Neuroscience</em>. Brisbane, Australia, Australia, 2014. Frontiers in Neuroscience.</p>
+<dt class="label" id="id3"><span class="brackets">Cow04</span></dt>
+<dd><p>Mary Kathryn Cowles. Review of WinBUGS 1.4. <em>The American Statistician</em>, 58(4):330–336, November 2004. URL: <a class="reference external" href="https://doi.org/10.1198/000313004x8515">https://doi.org/10.1198/000313004x8515</a>, <a class="reference external" href="https://doi.org/10.1198/000313004x8515">doi:10.1198/000313004x8515</a>.</p>
+</dd>
+<dt class="label" id="id5"><span class="brackets">HG11</span></dt>
+<dd><p>Matthew D. Hoffman and Andrew Gelman. The no-u-turn sampler: adaptively setting path lengths in hamiltonian monte carlo. 2011. <a class="reference external" href="https://arxiv.org/abs/1111.4246">arXiv:1111.4246</a>.</p>
 </dd>
 </dl>
 </p>
@@ -415,21 +416,7 @@ see <a class="reference external" href="https://myst-nb.readthedocs.io/">The MyS
               
             
                 <!-- Previous / next buttons -->
-<div class='prev-next-area'> 
-    <a class='left-prev' id="prev-link" href="intro.html" title="previous page">
-        <i class="fas fa-angle-left"></i>
-        <div class="prev-next-info">
-            <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">Welcome to your Jupyter Book</p>
-        </div>
-    </a>
-    <a class='right-next' id="next-link" href="notebooks.html" title="next page">
-    <div class="prev-next-info">
-        <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Content with notebooks</p>
-    </div>
-    <i class="fas fa-angle-right"></i>
-    </a>
+<div class='prev-next-area'>
 </div>
             
         </div>
@@ -439,7 +426,6 @@ see <a class="reference external" href="https://myst-nb.readthedocs.io/">The MyS
     
       By Aaron Reding<br/>
     
-        &copy; Copyright 2021.<br/>
   </p>
 </footer>
 </main>
