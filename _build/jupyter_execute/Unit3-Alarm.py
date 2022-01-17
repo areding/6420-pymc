@@ -4,12 +4,6 @@
 # In[1]:
 
 
-{
-    "tags": [
-        "skip-execution",
-    ]
-}
-
 # for colab
 get_ipython().run_line_magic('pip', 'install pgmpy')
 
