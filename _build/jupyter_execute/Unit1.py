@@ -67,7 +67,7 @@ with pm.Model() as asr:
                      )
 
 
-# PyMC3 uses the tuning step specified in the pm.sample call to adjust various parameters in the No-U-Turn Sampler (NUTS) algorithm {cite}`hoffman2011nouturn`, which is a form of Hamiltonian Monte Carlo. BUGS also silently uses different types of tuning depending on the algorithm it chooses {cite}`Cowles2004`. The professor often burns some number of samples in his examples. Note that this is separate from the tuning phase for both programs!
+# PyMC3 uses the tuning step specified in the pm.sample call to adjust various parameters in the No-U-Turn Sampler [(NUTS) algorithm](https://arxiv.org/abs/1111.4246), which is a form of Hamiltonian Monte Carlo. BUGS also silently uses different types of tuning depending on the algorithm it [chooses](https://www.york.ac.uk/depts/maths/histstat/pml1/bayes/winbugsinfo/cowles_winbugs.pdf). The professor often burns some number of samples in his examples. Note that this is separate from the tuning phase for both programs!
 # 
 # For some more detail on tuning, see [this post](https://colcarroll.github.io/hmc_tuning_talk/).
 
