@@ -51,6 +51,7 @@
     <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Code for Unit 2" href="Unit2.html" />
     <link rel="prev" title="Introduction" href="intro.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
@@ -99,6 +100,40 @@
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
    A Simple Regression
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Unit 2
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="Unit2.html">
+   Code for Unit 2
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Unit 3
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="Unit3-TwoHeadedCoin.html">
+   Two-headed Coin
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Unit3-ManufacturingBayes.html">
+   Manufacturing Bayes
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Unit3-Alarm.html">
+   Alarm
   </a>
  </li>
 </ul>
@@ -223,7 +258,7 @@
             
               <div>
                 
-  <div class="cell docutils container">
+  <div class="cell tag_hide_output docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pymc3</span> <span class="k">as</span> <span class="nn">pm</span>
 <span class="kn">import</span> <span class="nn">arviz</span> <span class="k">as</span> <span class="nn">az</span>
@@ -242,7 +277,7 @@
 </div>
 </div>
 </div>
-<div class="cell docutils container">
+<div class="cell tag_hide_cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
 </pre></div>
@@ -261,7 +296,7 @@
 <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">2000</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="n">inits</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="cell docutils container">
+<div class="cell tag_hide_output docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
 <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
@@ -346,7 +381,7 @@
   return _boost._beta_ppf(q, a, b)
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 500 tune and 3_000 draw iterations (2_000 + 12_000 draws total) took 11 seconds.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 500 tune and 3_000 draw iterations (2_000 + 12_000 draws total) took 12 seconds.
 </pre></div>
 </div>
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The number of effective samples is smaller than 25% for some parameters.
@@ -354,7 +389,7 @@
 </div>
 </div>
 </div>
-<p>PyMC3 uses the tuning step specified in the pm.sample call to adjust various parameters in the No-U-Turn Sampler (NUTS) algorithm <span id="id1">[<a class="reference internal" href="markdown.html#id5">Hoffman and Gelman, 2011</a>]</span>, which is a form of Hamiltonian Monte Carlo. BUGS also silently uses different types of tuning depending on the algorithm it chooses <span id="id2">[<a class="reference internal" href="markdown.html#id3">Cowles, 2004</a>]</span>. The professor often burns some number of samples in his examples. Note that this is separate from the tuning phase for both programs!</p>
+<p>PyMC3 uses the tuning step specified in the pm.sample call to adjust various parameters in the No-U-Turn Sampler (NUTS) algorithm <span id="id1">[]</span>, which is a form of Hamiltonian Monte Carlo. BUGS also silently uses different types of tuning depending on the algorithm it chooses <span id="id2">[]</span>. The professor often burns some number of samples in his examples. Note that this is separate from the tuning phase for both programs!</p>
 <p>For some more detail on tuning, see <a class="reference external" href="https://colcarroll.github.io/hmc_tuning_talk/">this post</a>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -588,6 +623,13 @@
             <p class="prev-next-subtitle">previous</p>
             <p class="prev-next-title">Introduction</p>
         </div>
+    </a>
+    <a class='right-next' id="next-link" href="Unit2.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Code for Unit 2</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
     </a>
 </div>
             
