@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Introduction &#8212; ISYE 6420 - BUGS to PyMC</title>
+    <title>Two-headed Coin &#8212; ISYE 6420 - BUGS to PyMC</title>
     
   <link href="_static/css/theme.css" rel="stylesheet">
   <link href="_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
@@ -51,7 +51,8 @@
     <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="A Simple Regression" href="Unit1.html" />
+    <link rel="next" title="Manufacturing Bayes" href="Unit3-ManufacturingBayes.html" />
+    <link rel="prev" title="Code for Unit 2" href="Unit2.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -84,8 +85,8 @@
 </form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item active">
         <ul class="nav bd-sidenav">
- <li class="toctree-l1 current">
-  <a class="reference internal" href="#">
+ <li class="toctree-l1">
+  <a class="reference internal" href="intro.html">
    Introduction
   </a>
  </li>
@@ -119,9 +120,9 @@
   Unit 3
  </span>
 </p>
-<ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="Unit3-TwoHeadedCoin.html">
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
    Two-headed Coin
   </a>
  </li>
@@ -176,9 +177,9 @@
         <!-- ipynb file if we had a myst markdown file -->
         
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="_sources/intro.md"><button type="button"
+        <a class="dropdown-buttons" href="_sources/Unit3-TwoHeadedCoin.ipynb"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
-                data-placement="left">.md</button></a>
+                data-placement="left">.ipynb</button></a>
         <!-- Download PDF via print -->
         <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
                 onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
@@ -196,7 +197,7 @@
                 data-toggle="tooltip" data-placement="left" title="Source repository"><i
                     class="fab fa-github"></i>repository</button></a>
         <a class="issues-button"
-            href="https://github.com/areding/6420-pymc/issues/new?title=Issue%20on%20page%20%2Fintro.html&body=Your%20issue%20content%20here."><button
+            href="https://github.com/areding/6420-pymc/issues/new?title=Issue%20on%20page%20%2FUnit3-TwoHeadedCoin.html&body=Your%20issue%20content%20here."><button
                 type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
                 title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
         
@@ -212,6 +213,28 @@
 
             <!-- Launch buttons -->
 
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/areding/6420-pymc/main?urlpath=tree/Unit3-TwoHeadedCoin.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        <a class="colab-button" href="https://colab.research.google.com/github/areding/6420-pymc/blob/main/Unit3-TwoHeadedCoin.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
+                title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
+                    src="_static/images/logo_colab.png"
+                    alt="Interact on Colab">Colab</button></a>
+        
+        
+    </div>
+</div>
+
         </div>
 
         <!-- Table of contents -->
@@ -224,7 +247,7 @@
         <div class="col-12 col-md-9 pl-md-3 pr-md-0">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>Introduction</h1>
+                <h1>Two-headed Coin</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
@@ -235,17 +258,51 @@
             
               <div>
                 
-  <div class="tex2jax_ignore mathjax_ignore section" id="introduction">
-<h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
-<p>This repository contains Python translations of the examples from Georgia Tech’s online version of <a class="reference external" href="https://www2.isye.gatech.edu/isye6420/">ISYE 6420: Bayesian Statistics</a>, created by Professor Brani Vidakovic and currently taught by Professor Roshan Joseph. I plan to redo most OpenBUGS examples in <a class="reference external" href="https://docs.pymc.io/">PyMC3</a>, except for Bayesian network problems, which will use <a class="reference external" href="https://pgmpy.org/">pgmpy</a>. There’s also some miscellaneous MATLAB code that I’ll redo in base Python or NumPy.</p>
-<p>I’d like to make it easy for students to use PyMC instead of OpenBUGS to finish the course. This will take a while because of my other commitments, but hopefully students taking the class in Spring 2022 will be able to get some use out of it.</p>
-<p>PyMC often has more than one way to do the same thing because it’s under active development. I’m also learning as I go, so these solutions will not be perfect! Please feel free to contribute if you have a better way to code something. You can file an issue on Github, make a post on the class forums, email me, or submit a pull request.</p>
-<p>I’ll start out by redoing the “Codes for Unit X” files on the <a class="reference external" href="https://www2.isye.gatech.edu/isye6420/supporting.html">Supporting material page</a>. After that, I might tackle the optional exercises for each unit.</p>
-<div class="toctree-wrapper compound">
+  <div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+</pre></div>
 </div>
-<div class="toctree-wrapper compound">
 </div>
-<div class="toctree-wrapper compound">
+</div>
+<div class="tex2jax_ignore mathjax_ignore section" id="two-headed-coin">
+<h1>Two-headed Coin<a class="headerlink" href="#two-headed-coin" title="Permalink to this headline">¶</a></h1>
+<p>From <a class="reference external" href="https://www2.isye.gatech.edu/isye6420/supporting.html">Codes for Unit 3</a>.</p>
+<p>Associated lecture videos: Unit 3 <a class="reference external" href="https://www.youtube.com/watch?v=FYjmNM1iMkA&amp;list=PLv0FeK5oXK4l-RdT6DWJj0_upJOG2WKNO&amp;index=14">Lesson 4</a> and <a class="reference external" href="https://www.youtube.com/watch?v=M4kbEw7xFy4&amp;list=PLv0FeK5oXK4l-RdT6DWJj0_upJOG2WKNO&amp;index=15">Lesson 6</a>.</p>
+<p>This is a pretty simple one. I’m sure no one needed help redoing this in Python, I’m just including it for the sake of completeness!</p>
+<p>Out of N coins only one has two heads. A coin is selected at random from the pile and flipped k times. Heads appears k times in a row. What is the probability that the coin with two heads was selected?</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">N</span> <span class="o">=</span> <span class="mi">1000000</span>
+<span class="n">flips</span> <span class="o">=</span> <span class="mi">40</span>
+
+<span class="k">def</span> <span class="nf">prob</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">N</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculate probability that we&#39;ve selected a two-headed coin.</span>
+
+<span class="sd">    k int: number of flips that come up as heads (consecutively)</span>
+<span class="sd">    N int: number of coins we selected from.</span>
+
+<span class="sd">    returns: probability at k flips in a row</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="mi">2</span><span class="o">**</span><span class="n">k</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="n">k</span> <span class="o">+</span> <span class="n">N</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># create a list of probabilities for different values of k</span>
+<span class="n">probabilities</span> <span class="o">=</span> <span class="p">[</span><span class="n">prob</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">flips</span><span class="p">)]</span>
+
+<span class="c1"># plot using matplotlib</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">probabilities</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Flips&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Probability&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s2">&quot;Probability that selected coin is two-headed&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;(given k flips in a row landing on heads)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/Unit3-TwoHeadedCoin_2_0.png" src="_images/Unit3-TwoHeadedCoin_2_0.png" />
+</div>
 </div>
 </div>
 
@@ -273,11 +330,18 @@
               
             
                 <!-- Previous / next buttons -->
-<div class='prev-next-area'>
-    <a class='right-next' id="next-link" href="Unit1.html" title="next page">
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="Unit2.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Code for Unit 2</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="Unit3-ManufacturingBayes.html" title="next page">
     <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">A Simple Regression</p>
+        <p class="prev-next-title">Manufacturing Bayes</p>
     </div>
     <i class="fas fa-angle-right"></i>
     </a>
