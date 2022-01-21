@@ -116,9 +116,3 @@ plt.show()
 
 
 # Right now I want to get through these examples so Spring 2022 students can get some use out of them. Later on, I think this example could use a lot more explanation and expansion.
-
-# In[ ]:
-
-
-
-
