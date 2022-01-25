@@ -19,7 +19,7 @@ from tqdm.auto import tqdm
 # Let $f(x)$ be proportional to the target pdf. $x_j$ is the current value and $q(x|x_j)$ is a proposal distribution.
 # 1. Sample $x_* ∼ q(x|x_j)$.
 # 2. Calculate the acceptance probability: 
-# $$ρ(x_j, x_*) = min\left\{1, \frac{f(x_*)}{f(x_j)}\frac{q(x_j|x_*)}{q(x_*|x_j)}\right\}$$
+# $ρ(x_j, x_*) = min\left\{1, \frac{f(x_*)}{f(x_j)}\frac{q(x_j|x_*)}{q(x_*|x_j)}\right\}$
 # 3. Update $x_{j+1} = x_*$ with probability $ρ(x_j, x_*)$, otherwise $x_{j+1}$ remains equal to $x_j$.
 # 
 # There are different variations on the algorithm. They differ when calculating $ρ$.
