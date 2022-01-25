@@ -159,6 +159,23 @@
   </a>
  </li>
 </ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Unit 5
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="Unit5-LaplacesMethod.html">
+   Laplace’s Method
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Unit5-MetropolisHastings.html">
+   Metropolis-Hastings Example 1
+  </a>
+ </li>
+</ul>
 
     </div>
 </nav> <!-- To handle the deprecated key -->
@@ -308,7 +325,7 @@
 <span class="k">def</span> <span class="nf">beta_dist</span><span class="p">(</span><span class="n">α</span><span class="p">,</span> <span class="n">β</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
     <span class="c1"># note: this syntax will change when pymc 4.0 is released</span>
     <span class="c1"># new syntax will use new pm.draw() function</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;α = </span><span class="si">{</span><span class="n">α</span><span class="si">}</span><span class="s1">, β = </span><span class="si">{</span><span class="n">β</span><span class="si">}</span><span class="s1">&#39;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">α</span><span class="si">=}</span><span class="s1">, </span><span class="si">{</span><span class="n">β</span><span class="si">=}</span><span class="s1">&#39;</span>
     <span class="k">return</span> <span class="n">pm</span><span class="o">.</span><span class="n">Beta</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">α</span><span class="p">,</span> <span class="n">β</span><span class="p">)</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">n</span><span class="p">),</span> <span class="n">name</span>
 
 <span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">betas</span><span class="p">:</span>

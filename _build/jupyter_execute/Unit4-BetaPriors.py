@@ -28,7 +28,7 @@ params = [(.5, .5), (1, 1), (2, 2), (10, 10), (1, 5), (1, .4), (3, 5),
 def beta_dist(α, β, n):
     # note: this syntax will change when pymc 4.0 is released
     # new syntax will use new pm.draw() function
-    name = f'α = {α}, β = {β}'
+    name = f'{α=}, {β=}'
     return pm.Beta(name, α, β).random(size=n), name
 
 with pm.Model() as betas:
@@ -48,4 +48,10 @@ for i, dist in enumerate(distributions):
 
 plt.xlim(0, 1)
 plt.show()
+
+
+# In[ ]:
+
+
+
 
