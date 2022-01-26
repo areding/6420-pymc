@@ -51,6 +51,8 @@
     <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Gibbs Sampler Example 1" href="Unit5-GibbsSampler.html" />
+    <link rel="prev" title="Metropolis-Hastings Example 1" href="Unit5-MetropolisHastings.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -162,7 +164,7 @@
   Unit 5
  </span>
 </p>
-<ul class="nav bd-sidenav">
+<ul class="current nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="Unit5-LaplacesMethod.html">
    Laplace’s Method
@@ -171,6 +173,16 @@
  <li class="toctree-l1">
   <a class="reference internal" href="Unit5-MetropolisHastings.html">
    Metropolis-Hastings Example 1
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Metropolis-Hastings Example 2
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Unit5-GibbsSampler.html">
+   Gibbs Sampler Example 1
   </a>
  </li>
 </ul>
@@ -312,36 +324,76 @@
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 
+<span class="n">obs</span> <span class="o">=</span> <span class="mi">1000000</span>
 <span class="n">burn</span> <span class="o">=</span> <span class="mi">500</span>
-<span class="n">theta</span> <span class="o">=</span> <span class="mi">1</span> <span class="c1"># init</span>
-<span class="n">thetas</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">.2</span><span class="p">,</span> <span class="mf">.1</span><span class="p">,</span> <span class="mf">.25</span><span class="p">])</span> <span class="c1"># observed</span>
+<span class="n">data_prod</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="c1"># prod1 in MATLAB code</span>
+<span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 
 <span class="c1"># inits</span>
 <span class="n">alpha</span> <span class="o">=</span> <span class="mi">2</span>
 <span class="n">eta</span> <span class="o">=</span> <span class="mi">2</span>
-<span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="mf">.2</span><span class="p">,</span> <span class="mf">.1</span><span class="p">,</span> <span class="mf">.25</span><span class="p">]</span> <span class="c1"># observed</span>
-<span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="c1"># observations</span>
+<span class="n">alphas</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">obs</span><span class="p">)</span>
+<span class="n">etas</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">obs</span><span class="p">)</span>
 
-<span class="c1"># generate proposals all at once for speed</span>
-<span class="n">theta_prop</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">standard_normal</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">+</span> <span class="n">x</span>
+<span class="n">beta</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">xi</span> <span class="o">=</span> <span class="mi">2</span>
 
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)):</span>
-    <span class="n">r</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">theta</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">theta_prop</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
-    <span class="n">rho</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">rng</span><span class="o">.</span><span class="n">uniform</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">rho</span><span class="p">:</span>
-        <span class="n">theta</span> <span class="o">=</span> <span class="n">theta_prop</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+<span class="c1"># pre-generate 3 sets of uniform randoms</span>
+<span class="n">unif</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">obs</span><span class="p">)</span>
+<span class="n">log_unif_alpha</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">rng</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">obs</span><span class="p">))</span>
+<span class="n">log_unif_eta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">rng</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">obs</span><span class="p">))</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">obs</span><span class="p">)):</span>
+    <span class="c1"># proposals</span>
+    <span class="n">alpha_prop</span> <span class="o">=</span> <span class="o">-</span><span class="n">alpha</span> <span class="o">*</span> <span class="n">log_unif_alpha</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="n">eta_prop</span> <span class="o">=</span> <span class="o">-</span><span class="n">eta</span> <span class="o">*</span> <span class="n">log_unif_eta</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
     
-    <span class="n">thetas</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">theta</span>
+    <span class="c1"># prod2 in MATLAB code</span>
+    <span class="n">prop_prod</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">eta</span><span class="o">*</span><span class="n">data</span><span class="o">**</span><span class="n">alpha</span> <span class="o">-</span> <span class="n">eta_prop</span><span class="o">*</span><span class="n">data</span><span class="o">**</span><span class="n">alpha_prop</span><span class="p">))</span>
+    
+    <span class="c1"># acceptance ratio</span>
+    <span class="n">rr</span> <span class="o">=</span> <span class="p">(</span><span class="n">eta_prop</span><span class="o">/</span><span class="n">eta</span><span class="p">)</span><span class="o">**</span><span class="p">(</span><span class="n">beta</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">alpha</span> <span class="o">-</span> <span class="n">alpha_prop</span> <span class="o">-</span> <span class="n">xi</span><span class="o">*</span><span class="p">(</span><span class="n">eta_prop</span> <span class="o">-</span> <span class="n">eta</span><span class="p">))</span>\
+         <span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">alpha</span><span class="o">/</span><span class="n">alpha_prop</span> <span class="o">-</span> <span class="n">eta</span><span class="o">/</span><span class="n">eta_prop</span> <span class="o">+</span> <span class="n">alpha_prop</span><span class="o">/</span><span class="n">alpha</span> <span class="o">+</span> <span class="n">eta_prop</span><span class="o">/</span><span class="n">eta</span><span class="p">)</span>\
+         <span class="o">*</span><span class="n">data_prod</span><span class="o">**</span><span class="p">(</span><span class="n">alpha_prop</span> <span class="o">-</span> <span class="n">alpha</span><span class="p">)</span> <span class="o">*</span> <span class="n">prop_prod</span> <span class="o">*</span> <span class="p">((</span><span class="n">alpha_prop</span><span class="o">*</span><span class="n">eta_prop</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">alpha</span><span class="o">*</span><span class="n">eta</span><span class="p">))</span><span class="o">**</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    
+    <span class="n">rho</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">rr</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">unif</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">rho</span><span class="p">:</span>
+        <span class="n">alpha</span> <span class="o">=</span> <span class="n">alpha_prop</span>
+        <span class="n">eta</span> <span class="o">=</span> <span class="n">eta_prop</span>
+    
+    <span class="n">alphas</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">alpha</span>
+    <span class="n">etas</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">eta</span>
 
-<span class="n">thetas</span> <span class="o">=</span> <span class="n">thetas</span><span class="p">[</span><span class="n">burn</span><span class="p">:]</span>
+<span class="n">alphas</span> <span class="o">=</span> <span class="n">alphas</span><span class="p">[</span><span class="n">burn</span><span class="p">:]</span>
+<span class="n">etas</span> <span class="o">=</span> <span class="n">etas</span><span class="p">[</span><span class="n">burn</span><span class="p">:]</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">thetas</span><span class="p">)</span><span class="si">=}</span><span class="s1">&#39;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">thetas</span><span class="p">)</span><span class="si">=}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">alphas</span><span class="p">)</span><span class="si">=}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">alphas</span><span class="p">)</span><span class="si">=}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">etas</span><span class="p">)</span><span class="si">=}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">etas</span><span class="p">)</span><span class="si">=}</span><span class="s1">&#39;</span><span class="p">)</span>
 
-<span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">thetas</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">alphas</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;alpha&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">etas</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;eta&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
+</div>
+<div class="cell_output docutils container">
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id": "8d8ade4f677c4beeb2798a0bdb5acb62", "version_major": 2, "version_minor": 0}
+</script><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>np.mean(alphas)=0.8946068730747929
+np.var(alphas)=0.1362387303239647
+np.mean(etas)=1.8368073523412645
+np.var(etas)=0.7482303084883631
+</pre></div>
+</div>
+<img alt="_images/Unit5-MetropolisHastings2_2_2.png" src="_images/Unit5-MetropolisHastings2_2_2.png" />
+<img alt="_images/Unit5-MetropolisHastings2_2_3.png" src="_images/Unit5-MetropolisHastings2_2_3.png" />
 </div>
 </div>
 </div>
@@ -370,7 +422,21 @@
               
             
                 <!-- Previous / next buttons -->
-<div class='prev-next-area'>
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="Unit5-MetropolisHastings.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Metropolis-Hastings Example 1</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="Unit5-GibbsSampler.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Gibbs Sampler Example 1</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
 </div>
             
         </div>

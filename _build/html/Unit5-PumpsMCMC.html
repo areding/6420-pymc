@@ -173,6 +173,16 @@
    Metropolis-Hastings Example 1
   </a>
  </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Unit5-MetropolisHastings2.html">
+   Metropolis-Hastings Example 2
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Unit5-GibbsSampler.html">
+   Gibbs Sampler Example 1
+  </a>
+ </li>
 </ul>
 
     </div>
@@ -299,6 +309,59 @@
 <h1>Gibbs Sampler Example 2: Pumps<a class="headerlink" href="#gibbs-sampler-example-2-pumps" title="Permalink to this headline">¶</a></h1>
 <p>Adapted from <a class="reference external" href="https://www2.isye.gatech.edu/isye6420/supporting.html">Codes for Unit 5: pumpsmc.m</a>.</p>
 <p>Associated lecture video: <a class="reference external" href="https://www.youtube.com/watch?v=DKlP93sD0O0&amp;list=PLv0FeK5oXK4l-RdT6DWJj0_upJOG2WKNO&amp;index=49">Unit 5 Lesson 13</a>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">obs</span> <span class="o">=</span> <span class="mi">100000</span>
+<span class="n">burn</span> <span class="o">=</span> <span class="mi">1000</span>
+
+<span class="c1"># data from Gaver and O&#39;Muircheartaigh, 1987</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">19</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">22</span><span class="p">])</span>
+<span class="n">t</span> <span class="o">=</span> <span class="p">[</span><span class="mf">94.32</span><span class="p">,</span> <span class="mf">15.52</span><span class="p">,</span> <span class="mf">62.88</span><span class="p">,</span> <span class="mf">125.76</span><span class="p">,</span> <span class="mf">5.24</span><span class="p">,</span> <span class="mf">31.44</span><span class="p">,</span> <span class="mf">1.048</span><span class="p">,</span> <span class="mf">1.048</span><span class="p">,</span> <span class="mf">2.096</span><span class="p">,</span> <span class="mf">10.48</span><span class="p">]</span>
+<span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+<span class="c1"># params</span>
+<span class="n">c</span> <span class="o">=</span> <span class="mf">.1</span>
+<span class="n">d</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="c1"># inits</span>
+<span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+<span class="n">beta</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="n">thetas</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">obs</span><span class="p">)</span>
+<span class="n">lambdas</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">obs</span><span class="p">)</span>
+
+<span class="c1"># pre-generate randoms where possible</span>
+<span class="n">randn</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">standard_normal</span><span class="p">(</span><span class="n">obs</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">obs</span><span class="p">)):</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">tau2</span> <span class="o">+</span> <span class="n">lam</span><span class="o">*</span><span class="n">sigma2</span>
+    <span class="n">theta</span> <span class="o">=</span> <span class="p">(</span><span class="n">tau2</span><span class="o">/</span><span class="n">d</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="n">lam</span><span class="o">*</span><span class="n">sigma2</span><span class="o">/</span><span class="n">d</span> <span class="o">*</span> <span class="n">mu</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">tau2</span><span class="o">*</span><span class="n">sigma2</span><span class="o">/</span><span class="n">d</span><span class="p">)</span> <span class="o">*</span> <span class="n">randn</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="n">lam</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">exponential</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="p">((</span><span class="n">tau2</span> <span class="o">+</span> <span class="p">(</span><span class="n">theta</span> <span class="o">-</span> <span class="n">mu</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">tau2</span><span class="p">)))</span>
+    
+    <span class="n">thetas</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">theta</span>
+    <span class="n">lambdas</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">lam</span>
+
+<span class="n">thetas</span> <span class="o">=</span> <span class="n">thetas</span><span class="p">[</span><span class="n">burn</span><span class="p">:]</span>
+<span class="n">lambdas</span> <span class="o">=</span> <span class="n">lambdas</span><span class="p">[</span><span class="n">burn</span><span class="p">:]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">thetas</span><span class="p">)</span><span class="si">=}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">thetas</span><span class="p">)</span><span class="si">=}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">lambdas</span><span class="p">)</span><span class="si">=}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">lambdas</span><span class="p">)</span><span class="si">=}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">thetas</span><span class="p">,</span> <span class="mi">40</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;theta&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">lambdas</span><span class="p">,</span> <span class="mi">40</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;lambda&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
 </div>
 
     <script type="text/x-thebe-config">

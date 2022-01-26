@@ -16,5 +16,51 @@
 # In[ ]:
 
 
+rng = np.random.default_rng(1)
 
+obs = 100000
+burn = 1000
+
+# data from Gaver and O'Muircheartaigh, 1987
+X = np.array([5, 1, 5, 14, 3, 19, 1, 1, 4, 22])
+t = [94.32, 15.52, 62.88, 125.76, 5.24, 31.44, 1.048, 1.048, 2.096, 10.48]
+n = len(X)
+
+# params
+c = .1
+d = 1
+
+# inits
+theta = np.ones(n)
+beta = 1
+
+thetas = np.zeros(obs)
+lambdas = np.zeros(obs)
+
+# pre-generate randoms where possible
+randn = rng.standard_normal(obs)
+
+for i in tqdm(range(obs)):
+    d = tau2 + lam*sigma2
+    theta = (tau2/d * x + lam*sigma2/d * mu) + np.sqrt(tau2*sigma2/d) * randn[i]
+    lam = rng.exponential(1/((tau2 + (theta - mu)**2)/(2*tau2)))
+    
+    thetas[i] = theta
+    lambdas[i] = lam
+
+thetas = thetas[burn:]
+lambdas = lambdas[burn:]
+
+print(f'{np.mean(thetas)=}')
+print(f'{np.var(thetas)=}')
+print(f'{np.mean(lambdas)=}')
+print(f'{np.var(lambdas)=}')
+
+plt.hist(thetas, 40)
+plt.xlabel('theta')
+plt.show()
+
+plt.hist(lambdas, 40)
+plt.xlabel('lambda')
+plt.show()
 

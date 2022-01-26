@@ -51,6 +51,7 @@
     <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Metropolis-Hastings Example 2" href="Unit5-MetropolisHastings2.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -162,7 +163,7 @@
   Unit 5
  </span>
 </p>
-<ul class="nav bd-sidenav">
+<ul class="current nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="Unit5-LaplacesMethod.html">
    Laplace’s Method
@@ -171,6 +172,16 @@
  <li class="toctree-l1">
   <a class="reference internal" href="Unit5-MetropolisHastings.html">
    Metropolis-Hastings Example 1
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Unit5-MetropolisHastings2.html">
+   Metropolis-Hastings Example 2
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Gibbs Sampler Example 1
   </a>
  </li>
 </ul>
@@ -298,7 +309,6 @@
   <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">numpy.random</span> <span class="kn">import</span> <span class="n">default_rng</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">from</span> <span class="nn">tqdm.auto</span> <span class="kn">import</span> <span class="n">tqdm</span>
 </pre></div>
@@ -309,6 +319,68 @@
 <h1>Gibbs Sampler Example 1<a class="headerlink" href="#gibbs-sampler-example-1" title="Permalink to this headline">¶</a></h1>
 <p>Adapted from <a class="reference external" href="https://www2.isye.gatech.edu/isye6420/supporting.html">Codes for Unit 5: norcaugibbs.m</a>.</p>
 <p>Associated lecture video: <a class="reference external" href="https://www.youtube.com/watch?v=WXSZ8S_pZC0&amp;list=PLv0FeK5oXK4l-RdT6DWJj0_upJOG2WKNO&amp;index=47">Unit 5 Lesson 11</a>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">obs</span> <span class="o">=</span> <span class="mi">100000</span>
+<span class="n">burn</span> <span class="o">=</span> <span class="mi">1000</span>
+
+<span class="c1"># params</span>
+<span class="n">x</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">sigma2</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">tau2</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">mu</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="c1"># inits</span>
+<span class="n">theta</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">lam</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="n">thetas</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">obs</span><span class="p">)</span>
+<span class="n">lambdas</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">obs</span><span class="p">)</span>
+
+<span class="c1"># pre-generate randoms where possible</span>
+<span class="n">randn</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">standard_normal</span><span class="p">(</span><span class="n">obs</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">obs</span><span class="p">)):</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">tau2</span> <span class="o">+</span> <span class="n">lam</span><span class="o">*</span><span class="n">sigma2</span>
+    <span class="n">theta</span> <span class="o">=</span> <span class="p">(</span><span class="n">tau2</span><span class="o">/</span><span class="n">d</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="n">lam</span><span class="o">*</span><span class="n">sigma2</span><span class="o">/</span><span class="n">d</span> <span class="o">*</span> <span class="n">mu</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">tau2</span><span class="o">*</span><span class="n">sigma2</span><span class="o">/</span><span class="n">d</span><span class="p">)</span> <span class="o">*</span> <span class="n">randn</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="n">lam</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">exponential</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="p">((</span><span class="n">tau2</span> <span class="o">+</span> <span class="p">(</span><span class="n">theta</span> <span class="o">-</span> <span class="n">mu</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">tau2</span><span class="p">)))</span>
+    
+    <span class="n">thetas</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">theta</span>
+    <span class="n">lambdas</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">lam</span>
+
+<span class="n">thetas</span> <span class="o">=</span> <span class="n">thetas</span><span class="p">[</span><span class="n">burn</span><span class="p">:]</span>
+<span class="n">lambdas</span> <span class="o">=</span> <span class="n">lambdas</span><span class="p">[</span><span class="n">burn</span><span class="p">:]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">thetas</span><span class="p">)</span><span class="si">=}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">thetas</span><span class="p">)</span><span class="si">=}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">lambdas</span><span class="p">)</span><span class="si">=}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">lambdas</span><span class="p">)</span><span class="si">=}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">thetas</span><span class="p">,</span> <span class="mi">40</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;theta&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">lambdas</span><span class="p">,</span> <span class="mi">40</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;lambda&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id": "be2637b4ff574cf895e71503aeed0d12", "version_major": 2, "version_minor": 0}
+</script><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>np.mean(thetas)=1.2810728558916804
+np.var(thetas)=0.860464992070327
+np.mean(lambdas)=0.9408560283549908
+np.var(lambdas)=1.5703387617734375
+</pre></div>
+</div>
+<img alt="_images/Unit5-GibbsSampler_2_2.png" src="_images/Unit5-GibbsSampler_2_2.png" />
+<img alt="_images/Unit5-GibbsSampler_2_3.png" src="_images/Unit5-GibbsSampler_2_3.png" />
+</div>
+</div>
 </div>
 
     <script type="text/x-thebe-config">
@@ -335,7 +407,14 @@
               
             
                 <!-- Previous / next buttons -->
-<div class='prev-next-area'>
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="Unit5-MetropolisHastings2.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Metropolis-Hastings Example 2</p>
+        </div>
+    </a>
 </div>
             
         </div>
