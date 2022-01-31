@@ -305,10 +305,111 @@
             
               <div>
                 
-  <div class="tex2jax_ignore mathjax_ignore section" id="gibbs-sampler-example-3-disasters">
+  <div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">tqdm.auto</span> <span class="kn">import</span> <span class="n">tqdm</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="tex2jax_ignore mathjax_ignore section" id="gibbs-sampler-example-3-disasters">
 <h1>Gibbs Sampler Example 3: Disasters<a class="headerlink" href="#gibbs-sampler-example-3-disasters" title="Permalink to this headline">¶</a></h1>
 <p>Adapted from <a class="reference external" href="https://www2.isye.gatech.edu/isye6420/supporting.html">Codes for Unit 5: disastersmc.m</a>.</p>
 <p>Associated lecture video: <a class="reference external" href="https://www.youtube.com/watch?v=yq6ZSzD6U0Y&amp;list=PLv0FeK5oXK4l-RdT6DWJj0_upJOG2WKNO&amp;index=51">Unit 5 Lesson 15</a>.</p>
+<p>The 112 data points represent the numbers of coal-mining disasters involving 10 or more men killed per year between 1851 and 1962.</p>
+<p>Based on the observation that the there was a significant decrease around 1900, it is suitable to apply a change-point model to divide the whole dataset into two periods; each period with its own distribution of number of disasters.</p>
+<p>The data set was compiled by Maguire, Pearson and Wynn in 1952 and updated by Jarrett (1978). This data have been used by a number of authors to illustrate various techniques that can be applied to point processes</p>
+<p>Maguire, B. A., Pearson, E. S. and Wynn, A. H. A. (1952). The time intervals between industrial accidents. Biometrika, 39, 168–180.</p>
+<p>Jarrett, R.G. (1979). A note on the intervals between coal-mining disasters. Biometrika, 66, 191-193.</p>
+<p>Carlin, Gelfand, and Smith (1992) Heirarchical Bayesian Analysis of Changepoint Problems. Applied Statistics, 41, 389-405.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># x is the number of coal mine disasters per year</span>
+<span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span>
+     <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span>
+     <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>
+     <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span>
+     <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+
+<span class="n">year</span> <span class="o">=</span> <span class="p">[</span><span class="n">y</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1851</span><span class="p">,</span> <span class="mi">1963</span><span class="p">)]</span>
+
+<span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">obs</span> <span class="o">=</span> <span class="mi">10000</span>
+<span class="n">burn</span> <span class="o">=</span> <span class="mi">500</span>
+
+<span class="n">lambdas</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">obs</span><span class="p">)</span>
+<span class="n">mus</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">obs</span><span class="p">)</span>
+<span class="n">ms</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">obs</span><span class="p">)</span>
+<span class="n">posterior_m</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+
+<span class="c1"># inits</span>
+<span class="n">lambdas</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="n">mus</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">.5</span>
+<span class="n">ms</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">10</span>
+
+<span class="c1"># hyperparameters</span>
+<span class="n">alpha</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="n">beta</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">gamma</span> <span class="o">=</span> <span class="mf">.5</span>
+<span class="n">delta</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="c1"># sampling</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">obs</span><span class="p">)):</span>
+    <span class="c1"># lambda</span>
+    <span class="n">mm</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">ms</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">alpha1</span> <span class="o">=</span> <span class="n">alpha</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">x</span><span class="p">[:</span><span class="n">mm</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">beta1</span> <span class="o">=</span> <span class="n">mm</span> <span class="o">+</span> <span class="n">beta</span>
+    
+    <span class="n">lambdas</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">gamma</span><span class="p">(</span><span class="n">alpha1</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="n">beta1</span><span class="p">)</span>
+    
+    <span class="c1"># mu</span>
+    <span class="n">gamma1</span> <span class="o">=</span> <span class="n">gamma</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">x</span><span class="p">[:</span><span class="n">mm</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">delta1</span> <span class="o">=</span> <span class="n">n</span> <span class="o">-</span> <span class="n">mm</span> <span class="o">+</span> <span class="n">delta</span>
+    
+    <span class="n">mus</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">gamma</span><span class="p">(</span><span class="n">gamma1</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="n">delta1</span><span class="p">)</span>
+    
+    <span class="c1"># posterior weights</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="n">posterior_m</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">((</span><span class="n">mus</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">lambdas</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">*</span><span class="n">j</span><span class="p">)</span> <span class="o">*</span>\
+                         <span class="p">(</span><span class="n">lambdas</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">/</span><span class="n">mus</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">**</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">x</span><span class="p">[:</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span>
+        <span class="c1"># normalize to get probabilities</span>
+        <span class="n">weights</span> <span class="o">=</span> <span class="n">posterior_m</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">posterior_m</span><span class="p">)</span>
+        
+    <span class="n">ms</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">),</span> <span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">weights</span><span class="p">,</span> 
+                       <span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="n">lambdas</span> <span class="o">=</span> <span class="n">lambdas</span><span class="p">[</span><span class="n">burn</span><span class="p">:]</span>
+<span class="n">mus</span> <span class="o">=</span> <span class="n">mus</span><span class="p">[</span><span class="n">burn</span><span class="p">:]</span>
+<span class="n">ms</span> <span class="o">=</span> <span class="n">ms</span><span class="p">[</span><span class="n">burn</span><span class="p">:]</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">lambdas</span><span class="p">,</span> <span class="mi">40</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;lambda&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">mus</span><span class="p">,</span> <span class="mi">40</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;mu&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">ms</span> <span class="o">+</span> <span class="mi">1851</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;year&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">year</span><span class="p">[</span><span class="mi">30</span><span class="p">:</span><span class="mi">50</span><span class="p">],</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">minorticks_off</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id": "25c5a888519a478aa08a8ac6917218dd", "version_major": 2, "version_minor": 0}
+</script><img alt="_images/Unit5-Gibbs3_3_1.png" src="_images/Unit5-Gibbs3_3_1.png" />
+<img alt="_images/Unit5-Gibbs3_3_2.png" src="_images/Unit5-Gibbs3_3_2.png" />
+<img alt="_images/Unit5-Gibbs3_3_3.png" src="_images/Unit5-Gibbs3_3_3.png" />
+</div>
+</div>
 </div>
 
     <script type="text/x-thebe-config">
