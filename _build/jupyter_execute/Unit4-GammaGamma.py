@@ -64,7 +64,7 @@ plt.plot([0.0246, 0.2741], [0, 0], 'r-', linewidth=4)
 plt.show()
 
 
-# In[4]:
+# In[17]:
 
 
 # hpd credible set
@@ -73,7 +73,7 @@ k = .857368863848
 
 lower_hpd = fsolve(lambda x: gamma_pdf(x, a, b) - k, 0.05)[0]
 upper_hpd = fsolve(lambda x: gamma_pdf(x, a, b) - k, 0.4)[0]
-print(f'Equitailed credible set: [{lower_hpd} {upper_hpd}]')
+print(f'HPD credible set: [{lower_hpd} {upper_hpd}]')
 
 prob_hpd = gamma.cdf(upper_hpd, a, scale=1/b) - gamma.cdf(lower_hpd, a, scale=1/b)
 print(f'Probability within hpd bounds: {prob_hpd}')
