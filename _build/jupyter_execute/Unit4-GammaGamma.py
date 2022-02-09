@@ -66,7 +66,7 @@ plt.plot([0.0246, 0.2741], [0, 0], 'r-', linewidth=4)
 plt.show()
 
 
-# In[5]:
+# In[4]:
 
 
 # hpd credible set
@@ -82,36 +82,7 @@ print(f'Probability within hpd bounds: {prob_hpd}')
 print(f'length of hpd cs: {upper_hpd - lower_hpd}')
 
 
-# In[ ]:
-
-
-from scipy.optimize import fsolve
-from scipy.stats import gamma
-import numpy as np
-
-# our pdf is Gamma(4, 1/29) where 29 is the rate.
-# looking at the plot, k must be between 0-2
-
-a = 4
-b = 29
-alpha = 0.05
-tolerance = 0.0001
-
-possible_k = np.arange(0.01, 2, tolerance)
-
-for k in tqdm(possible_k):
-    lower = fsolve(lambda x: gamma.pdf(x, a, scale=1 / b) - k, 0.05)[0]
-    upper = fsolve(lambda x: gamma.pdf(x, a, scale=1 / b) - k, 0.4)[0]
-    prob = gamma.cdf(upper, a, scale=1 / b) - gamma.cdf(lower, a, scale=1 / b)
-    if abs(prob - (1 - alpha)) <= tolerance:
-        print(f"{k=}")
-        print(f"HPD credible set: {lower, upper}")
-        print(f"length = {upper - lower}")
-        print(f"probability within these bounds: {prob}")
-        break
-
-
-# In[ ]:
+# In[5]:
 
 
 # equi-tailed credible set
@@ -126,7 +97,7 @@ print(f'Probability within eqt bounds: {prob_eqt}')
 print(f'length of eqt cs: {upper_eqt - lower_eqt}')
 
 
-# In[ ]:
+# In[6]:
 
 
 # figure 2
@@ -160,7 +131,7 @@ plt.show()
 # 
 # 2. Enter each bound into the posterior CDF, subtract the results to get the probability the posterior falls within those bounds. If it's close enough to 1 - α, you can stop the loop because you have your answer. If not, the loop continues.
 
-# In[ ]:
+# In[7]:
 
 
 # our pdf is Gamma(4, 1/29) where 29 is the rate.
