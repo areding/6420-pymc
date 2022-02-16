@@ -4,7 +4,6 @@
 # In[1]:
 
 
-import pymc3 as pm
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy.special import gamma as gamma_func
@@ -123,7 +122,7 @@ plt.show()
 # 
 # A student in the Spring 2022 class was wondering where the .05 and .4 values entered to ```fsolve()``` came from. They're just your guesses for the lower and upper bounds of the credible interval. They give the optimizer a starting point.
 # 
-# That led to the bigger question of where $k$ came from. What you need to find is $k(α)$, which is a horizontal line that intersects the lower and upper bounds of your HPD credible interval. The reason we want a horizontal line is that this ensures that you've got the shortest interval covering credibility $1 - α$ (we usually choose a credibility of .95 in this course, but that's arbitrary).
+# That led to the bigger question of where $k$ came from. What you need to find is $k(α)$, which is a horizontal line that intersects the posterior PDF at the lower and upper bounds of your HPD credible interval. The reason we want a horizontal line is that this ensures that you've got the shortest interval covering credibility $1 - α$ (we usually choose a credibility of .95 in this course, but that's arbitrary).
 # 
 # I don't know how the professor did it originally, but I do know two methods. First, the optimization method, pretty much just trying lots of values for $k$ (guessing Professor Vidakovic did it this way):
 # 
@@ -134,6 +133,8 @@ plt.show()
 # In[7]:
 
 
+# Finding the HPD credible set
+
 # our pdf is Gamma(4, 1/29) where 29 is the rate.
 # looking at the plot, k must be between 0-2
 
@@ -141,14 +142,15 @@ a = 4
 b = 29
 alpha = 0.05
 tolerance = 0.0001
+iterations = 20000
 
 # initial guesses
 guess_lwr = 0.05
 guess_upr = 0.4
-possible_k = np.arange(0, 2, tolerance)
+possible_k = np.linspace(0, 2, iterations)
 
 # if loop finishes without printing anthing, no solution within given tolerance
-# solution: adjust tolerance or initial guesses
+# solution: adjust tolerance, initial guesses, range of possible_k
 for k in tqdm(possible_k):
     lower = fsolve(lambda x: gamma.pdf(x, a, scale=1 / b) - k, guess_lwr)[0]
     upper = fsolve(lambda x: gamma.pdf(x, a, scale=1 / b) - k, guess_upr)[0]
@@ -161,7 +163,7 @@ for k in tqdm(possible_k):
         break
 
 
-# This method is really finicky, you might find yourself needing to adjust the tolerance and initial guesses quite a bit. It also wouldn't work as written for any posterior where the HPD credible set wasn't a continuous interval (as discussed in this post), but it could be extended to work for that situation.
+# This method is really finicky, you might find yourself needing to adjust the tolerance and initial guesses quite a bit. It also wouldn't work as written for any posterior where the HPD credible set wasn't a continuous interval, but it could be extended to work for that situation.
 # 
 # There's another way that I find simpler, which involves sampling lots of values from the posterior. I don't have time to write it up now, but I will add it here sometime soon.
 

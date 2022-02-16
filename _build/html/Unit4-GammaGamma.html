@@ -389,18 +389,12 @@
                 
   <div class="cell tag_hide_output docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pymc3</span> <span class="k">as</span> <span class="nn">pm</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">scipy.special</span> <span class="kn">import</span> <span class="n">gamma</span> <span class="k">as</span> <span class="n">gamma_func</span>
 <span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="kn">import</span> <span class="n">fsolve</span>
 <span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">gamma</span>
 <span class="kn">from</span> <span class="nn">tqdm.auto</span> <span class="kn">import</span> <span class="n">tqdm</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>WARNING (theano.link.c.cmodule): install mkl with `conda install mkl-service`: No module named &#39;mkl&#39;
 </pre></div>
 </div>
 </div>
@@ -534,7 +528,7 @@ length of eqt cs: 0.26473819641779306
 <div class="section" id="find-the-hpd-credible-interval-when-you-don-t-know-k">
 <h2>Find the HPD credible interval when you don’t know k<a class="headerlink" href="#find-the-hpd-credible-interval-when-you-don-t-know-k" title="Permalink to this headline">¶</a></h2>
 <p>A student in the Spring 2022 class was wondering where the .05 and .4 values entered to <code class="docutils literal notranslate"><span class="pre">fsolve()</span></code> came from. They’re just your guesses for the lower and upper bounds of the credible interval. They give the optimizer a starting point.</p>
-<p>That led to the bigger question of where <span class="math notranslate nohighlight">\(k\)</span> came from. What you need to find is <span class="math notranslate nohighlight">\(k(α)\)</span>, which is a horizontal line that intersects the lower and upper bounds of your HPD credible interval. The reason we want a horizontal line is that this ensures that you’ve got the shortest interval covering credibility <span class="math notranslate nohighlight">\(1 - α\)</span> (we usually choose a credibility of .95 in this course, but that’s arbitrary).</p>
+<p>That led to the bigger question of where <span class="math notranslate nohighlight">\(k\)</span> came from. What you need to find is <span class="math notranslate nohighlight">\(k(α)\)</span>, which is a horizontal line that intersects the posterior PDF at the lower and upper bounds of your HPD credible interval. The reason we want a horizontal line is that this ensures that you’ve got the shortest interval covering credibility <span class="math notranslate nohighlight">\(1 - α\)</span> (we usually choose a credibility of .95 in this course, but that’s arbitrary).</p>
 <p>I don’t know how the professor did it originally, but I do know two methods. First, the optimization method, pretty much just trying lots of values for <span class="math notranslate nohighlight">\(k\)</span> (guessing Professor Vidakovic did it this way):</p>
 <ol class="simple">
 <li><p>Loop over a bunch of possible k values, each time using an equation like fzero() on the pdf of your posterior minus k. This will solve for the location that your pdf intersects with k. You need to feed the optimizer an initial guess, one lower, near the lower bound of the credible interval, and one higher, near the upper bound.</p></li>
@@ -542,21 +536,24 @@ length of eqt cs: 0.26473819641779306
 </ol>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># our pdf is Gamma(4, 1/29) where 29 is the rate.</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Finding the HPD credible set</span>
+
+<span class="c1"># our pdf is Gamma(4, 1/29) where 29 is the rate.</span>
 <span class="c1"># looking at the plot, k must be between 0-2</span>
 
 <span class="n">a</span> <span class="o">=</span> <span class="mi">4</span>
 <span class="n">b</span> <span class="o">=</span> <span class="mi">29</span>
 <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.05</span>
 <span class="n">tolerance</span> <span class="o">=</span> <span class="mf">0.0001</span>
+<span class="n">iterations</span> <span class="o">=</span> <span class="mi">20000</span>
 
 <span class="c1"># initial guesses</span>
 <span class="n">guess_lwr</span> <span class="o">=</span> <span class="mf">0.05</span>
 <span class="n">guess_upr</span> <span class="o">=</span> <span class="mf">0.4</span>
-<span class="n">possible_k</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">tolerance</span><span class="p">)</span>
+<span class="n">possible_k</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">iterations</span><span class="p">)</span>
 
 <span class="c1"># if loop finishes without printing anthing, no solution within given tolerance</span>
-<span class="c1"># solution: adjust tolerance or initial guesses</span>
+<span class="c1"># solution: adjust tolerance, initial guesses, range of possible_k</span>
 <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">possible_k</span><span class="p">):</span>
     <span class="n">lower</span> <span class="o">=</span> <span class="n">fsolve</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">gamma</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">1</span> <span class="o">/</span> <span class="n">b</span><span class="p">)</span> <span class="o">-</span> <span class="n">k</span><span class="p">,</span> <span class="n">guess_lwr</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">upper</span> <span class="o">=</span> <span class="n">fsolve</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">gamma</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">1</span> <span class="o">/</span> <span class="n">b</span><span class="p">)</span> <span class="o">-</span> <span class="n">k</span><span class="p">,</span> <span class="n">guess_upr</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
@@ -572,20 +569,20 @@ length of eqt cs: 0.26473819641779306
 </div>
 <div class="cell_output docutils container">
 <script type="application/vnd.jupyter.widget-view+json">
-{"model_id": "ecf01ecd5947426383790108e1398b5d", "version_major": 2, "version_minor": 0}
+{"model_id": "9828effd2b3f4ceb8c4d45dd7100fad8", "version_major": 2, "version_minor": 0}
 </script><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc3_test/lib/python3.9/site-packages/scipy/optimize/minpack.py:175: RuntimeWarning: The number of calls to function has reached maxfev = 400.
   warnings.warn(msg, RuntimeWarning)
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>k=0.8559
-HPD credible set: (0.02455058682949025, 0.27417414231153076)
-length = 0.24962355548204052
-probability within these bounds: 0.950097118420648
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>k=0.855942797139857
+HPD credible set: (0.02455112335043536, 0.2741713733854568)
+length = 0.24962025003502142
+probability within these bounds: 0.950094289217813
 </pre></div>
 </div>
 </div>
 </div>
-<p>This method is really finicky, you might find yourself needing to adjust the tolerance and initial guesses quite a bit. It also wouldn’t work as written for any posterior where the HPD credible set wasn’t a continuous interval (as discussed in this post), but it could be extended to work for that situation.</p>
+<p>This method is really finicky, you might find yourself needing to adjust the tolerance and initial guesses quite a bit. It also wouldn’t work as written for any posterior where the HPD credible set wasn’t a continuous interval, but it could be extended to work for that situation.</p>
 <p>There’s another way that I find simpler, which involves sampling lots of values from the posterior. I don’t have time to write it up now, but I will add it here sometime soon.</p>
 </div>
 </div>
