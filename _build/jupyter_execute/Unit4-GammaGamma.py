@@ -32,14 +32,14 @@ from tqdm.auto import tqdm
 def gamma_pdf(x, a, b):
     """
     Gamma pdf
-    
+
     x: numpy array or float
     a: int or float. shape (α)
     b: int or float. rate (β)
-    
+
     returns a numpy array or float
     """
-    return 1/gamma_func(a) * x**(a - 1) * b**a * np.exp(-b*x)
+    return 1 / gamma_func(a) * x ** (a - 1) * b**a * np.exp(-b * x)
 
 
 # In[3]:
@@ -48,7 +48,7 @@ def gamma_pdf(x, a, b):
 # figure 1
 
 # unlike MATLAB i:j:k syntax, arange is not inclusive at the high end
-xx = np.arange(.01, .601, .001)
+xx = np.arange(0.01, 0.601, 0.001)
 a = 4
 b = 29
 
@@ -56,12 +56,12 @@ b = 29
 plt.plot(xx, gamma_pdf(xx, a, b))
 
 # additional markings
-plt.plot(xx, np.full_like(xx, .857), 'r-')
-plt.plot(.0246, gamma_pdf(.0246, a, b), 'o')
-plt.plot(.0246, 0, 'ro')
-plt.plot(.2741, gamma_pdf(.2741, a, b), 'o')
-plt.plot(.2741, 0, 'ro')
-plt.plot([0.0246, 0.2741], [0, 0], 'r-', linewidth=4)
+plt.plot(xx, np.full_like(xx, 0.857), "r-")
+plt.plot(0.0246, gamma_pdf(0.0246, a, b), "o")
+plt.plot(0.0246, 0, "ro")
+plt.plot(0.2741, gamma_pdf(0.2741, a, b), "o")
+plt.plot(0.2741, 0, "ro")
+plt.plot([0.0246, 0.2741], [0, 0], "r-", linewidth=4)
 plt.show()
 
 
@@ -70,15 +70,15 @@ plt.show()
 
 # hpd credible set
 
-k = .857368863848
+k = 0.857368863848
 
 lower_hpd = fsolve(lambda x: gamma_pdf(x, a, b) - k, 0.05)[0]
 upper_hpd = fsolve(lambda x: gamma_pdf(x, a, b) - k, 0.4)[0]
-print(f'HPD credible set: [{lower_hpd} {upper_hpd}]')
+print(f"HPD credible set: [{lower_hpd} {upper_hpd}]")
 
-prob_hpd = gamma.cdf(upper_hpd, a, scale=1/b) - gamma.cdf(lower_hpd, a, scale=1/b)
-print(f'Probability within hpd bounds: {prob_hpd}')
-print(f'length of hpd cs: {upper_hpd - lower_hpd}')
+prob_hpd = gamma.cdf(upper_hpd, a, scale=1 / b) - gamma.cdf(lower_hpd, a, scale=1 / b)
+print(f"Probability within hpd bounds: {prob_hpd}")
+print(f"length of hpd cs: {upper_hpd - lower_hpd}")
 
 
 # In[5]:
@@ -87,13 +87,13 @@ print(f'length of hpd cs: {upper_hpd - lower_hpd}')
 # equi-tailed credible set
 
 # percent point function aka quantile aka inverse cdf
-lower_eqt = gamma.ppf(.025, a, scale=1/b)
-upper_eqt = gamma.ppf(.975, a, scale=1/b)
-print(f'Equitailed credible set: [{lower_eqt} {upper_eqt}]')
+lower_eqt = gamma.ppf(0.025, a, scale=1 / b)
+upper_eqt = gamma.ppf(0.975, a, scale=1 / b)
+print(f"Equitailed credible set: [{lower_eqt} {upper_eqt}]")
 
-prob_eqt = gamma.cdf(upper_eqt, a, scale=1/b) - gamma.cdf(lower_eqt, a, scale=1/b)
-print(f'Probability within eqt bounds: {prob_eqt}')
-print(f'length of eqt cs: {upper_eqt - lower_eqt}')
+prob_eqt = gamma.cdf(upper_eqt, a, scale=1 / b) - gamma.cdf(lower_eqt, a, scale=1 / b)
+print(f"Probability within eqt bounds: {prob_eqt}")
+print(f"length of eqt cs: {upper_eqt - lower_eqt}")
 
 
 # In[6]:
@@ -102,17 +102,19 @@ print(f'length of eqt cs: {upper_eqt - lower_eqt}')
 # figure 2
 
 # curve
-plt.plot(xx, gamma_pdf(xx, a, b), 'k-', linewidth=2)
+plt.plot(xx, gamma_pdf(xx, a, b), "k-", linewidth=2)
 
-plt.plot(lower_eqt, gamma_pdf(lower_eqt, a, b), 'o')
-plt.plot(lower_eqt, 0, 'ro')
-plt.plot(upper_eqt, gamma_pdf(upper_eqt, a, b), 'o')
-plt.plot(upper_eqt, 0, 'ro')
-plt.plot([lower_eqt, upper_eqt], [0, 0], 'r-', linewidth=4)
-plt.plot([lower_eqt, upper_eqt],
-         [gamma_pdf(lower_eqt, a, b), gamma_pdf(upper_eqt, a, b)],
-         'k-',
-         linewidth=1)
+plt.plot(lower_eqt, gamma_pdf(lower_eqt, a, b), "o")
+plt.plot(lower_eqt, 0, "ro")
+plt.plot(upper_eqt, gamma_pdf(upper_eqt, a, b), "o")
+plt.plot(upper_eqt, 0, "ro")
+plt.plot([lower_eqt, upper_eqt], [0, 0], "r-", linewidth=4)
+plt.plot(
+    [lower_eqt, upper_eqt],
+    [gamma_pdf(lower_eqt, a, b), gamma_pdf(upper_eqt, a, b)],
+    "k-",
+    linewidth=1,
+)
 plt.show()
 
 
@@ -122,9 +124,12 @@ plt.show()
 # 
 # A student in the Spring 2022 class was wondering where the .05 and .4 values entered to ```fsolve()``` came from. They're just your guesses for the lower and upper bounds of the credible interval. They give the optimizer a starting point.
 # 
-# That led to the bigger question of where $k$ came from. What you need to find is $k(α)$, which is a horizontal line that intersects the posterior PDF at the lower and upper bounds of your HPD credible interval. The reason we want a horizontal line is that this ensures that you've got the shortest interval covering credibility $1 - α$ (we usually choose a credibility of .95 in this course, but that's arbitrary).
+# That led to the bigger question of where $k$ came from. What you need to find is the output of $k(α)$, which is a horizontal line that intersects the posterior PDF at the lower and upper bounds of your HPD credible interval. The reason we want a horizontal line is that this ensures that you've got the shortest interval covering credibility $1 - α$ (we usually choose a credibility of .95 in this course, but that's arbitrary).
 # 
-# I don't know how the professor did it originally, but I do know two methods. First, the optimization method, pretty much just trying lots of values for $k$ (guessing Professor Vidakovic did it this way):
+# I don't know how the professor did it originally, but here are two methods to estimate the HPD interval. Both assume that the posterior is unimodal, but could be extended to account for multimodal cases.
+# 
+# ### Optimization method
+# First, an optimization method, pretty much just trying lots of values for $k$ (guessing Professor Vidakovic did it this way):
 # 
 # 1. Loop over a bunch of possible k values, each time using an equation like fzero() on the pdf of your posterior minus k. This will solve for the location that your pdf intersects with k. You need to feed the optimizer an initial guess, one lower, near the lower bound of the credible interval, and one higher, near the upper bound.
 # 
@@ -163,12 +168,53 @@ for k in tqdm(possible_k):
         break
 
 
-# This method is really finicky, you might find yourself needing to adjust the tolerance and initial guesses quite a bit. It also wouldn't work as written for any posterior where the HPD credible set wasn't a continuous interval, but it could be extended to work for that situation.
+# This method is really finicky, you might find yourself needing to adjust the tolerance and initial guesses quite a bit. It helps to base your guesses off visual inspection of a plot of the posterior.
 # 
-# There's another way that I find simpler, which involves sampling lots of values from the posterior. I don't have time to write it up now, but I will add it here sometime soon.
+# ### Sampling method
+# 
+# There's another way that I find simpler, which involves sampling lots of values from the posterior. This is also the way it's generally done in practice (see the source code for hpd or hdi functions in many Bayesian libraries like [Arviz](https://arviz-devs.github.io/arviz/_modules/arviz/stats/stats.html#hdi) or [MCMCChains.jl](https://github.com/TuringLang/MCMCChains.jl/blob/master/src/stats.jl)). This method is simplified - it won't work for as many different cases as the ones in those packages, but it's easier to understand.
+# 
+# 1. Draw some samples from your posterior.
+# 2. Sort them from smallest to largest.
+# 3. Compute the possible credible intervals 
+# 
+# See [Chen and Shao, 1999](https://www.jstor.org/stable/1390921) for the math.
 
-# In[ ]:
+# In[8]:
 
 
+def calc_hdi(samples: np.ndarray, alpha: float = 0.05) -> tuple:
+    """
+    Calculate minimum-width credible interval (HPD credible set)
 
+    samples: samples from posterior
+    alpha: credibility of the interval = 1 - alpha
+
+    returns tuple of the lower and upper bounds of the interval
+    """
+    n = len(samples)
+    x = np.sort(samples)
+
+    lower_idx = int(np.floor(alpha * n))
+    x_left = x[:lower_idx]
+    x_right = x[n - lower_idx:]
+
+    idx = np.argmin(x_right - x_left)
+
+    upper_bound = x_right[idx]
+    lower_bound = x_left[idx]
+
+    return lower_bound, upper_bound
+
+a = 4
+b = 29
+
+samples = gamma.rvs(a, scale=1 / b, size=1000000)
+lower, upper = calc_hdi(samples, alpha=0.05)
+# double-check credibility
+prob = gamma.cdf(upper, a, scale=1 / b) - gamma.cdf(lower, a, scale=1 / b)
+
+print(f"HPD credible set: {lower, upper}")
+print(f"length = {upper - lower}")
+print(f"probability within these bounds: {prob}")
 
