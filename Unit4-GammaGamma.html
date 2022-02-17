@@ -347,6 +347,18 @@
   <a class="reference internal nav-link" href="#find-the-hpd-credible-interval-when-you-don-t-know-k">
    Find the HPD credible interval when you don’t know k
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#optimization-method">
+     Optimization method
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#sampling-method">
+     Sampling method
+    </a>
+   </li>
+  </ul>
  </li>
 </ul>
 
@@ -377,6 +389,18 @@
   <a class="reference internal nav-link" href="#find-the-hpd-credible-interval-when-you-don-t-know-k">
    Find the HPD credible interval when you don’t know k
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#optimization-method">
+     Optimization method
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#sampling-method">
+     Sampling method
+    </a>
+   </li>
+  </ul>
  </li>
 </ul>
 
@@ -413,14 +437,14 @@
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">gamma_pdf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Gamma pdf</span>
-<span class="sd">    </span>
+
 <span class="sd">    x: numpy array or float</span>
 <span class="sd">    a: int or float. shape (α)</span>
 <span class="sd">    b: int or float. rate (β)</span>
-<span class="sd">    </span>
+
 <span class="sd">    returns a numpy array or float</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="mi">1</span><span class="o">/</span><span class="n">gamma_func</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">*</span> <span class="n">x</span><span class="o">**</span><span class="p">(</span><span class="n">a</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">b</span><span class="o">**</span><span class="n">a</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">b</span><span class="o">*</span><span class="n">x</span><span class="p">)</span>
+    <span class="k">return</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">gamma_func</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">*</span> <span class="n">x</span> <span class="o">**</span> <span class="p">(</span><span class="n">a</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">b</span><span class="o">**</span><span class="n">a</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">b</span> <span class="o">*</span> <span class="n">x</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -430,7 +454,7 @@
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># figure 1</span>
 
 <span class="c1"># unlike MATLAB i:j:k syntax, arange is not inclusive at the high end</span>
-<span class="n">xx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mf">.01</span><span class="p">,</span> <span class="mf">.601</span><span class="p">,</span> <span class="mf">.001</span><span class="p">)</span>
+<span class="n">xx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.601</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">)</span>
 <span class="n">a</span> <span class="o">=</span> <span class="mi">4</span>
 <span class="n">b</span> <span class="o">=</span> <span class="mi">29</span>
 
@@ -438,12 +462,12 @@
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">gamma_pdf</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">))</span>
 
 <span class="c1"># additional markings</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">full_like</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="mf">.857</span><span class="p">),</span> <span class="s1">&#39;r-&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="mf">.0246</span><span class="p">,</span> <span class="n">gamma_pdf</span><span class="p">(</span><span class="mf">.0246</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">),</span> <span class="s1">&#39;o&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="mf">.0246</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;ro&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="mf">.2741</span><span class="p">,</span> <span class="n">gamma_pdf</span><span class="p">(</span><span class="mf">.2741</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">),</span> <span class="s1">&#39;o&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="mf">.2741</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;ro&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mf">0.0246</span><span class="p">,</span> <span class="mf">0.2741</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;r-&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">full_like</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="mf">0.857</span><span class="p">),</span> <span class="s2">&quot;r-&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="mf">0.0246</span><span class="p">,</span> <span class="n">gamma_pdf</span><span class="p">(</span><span class="mf">0.0246</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">),</span> <span class="s2">&quot;o&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="mf">0.0246</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;ro&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="mf">0.2741</span><span class="p">,</span> <span class="n">gamma_pdf</span><span class="p">(</span><span class="mf">0.2741</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">),</span> <span class="s2">&quot;o&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="mf">0.2741</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;ro&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mf">0.0246</span><span class="p">,</span> <span class="mf">0.2741</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;r-&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -456,15 +480,15 @@
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># hpd credible set</span>
 
-<span class="n">k</span> <span class="o">=</span> <span class="mf">.857368863848</span>
+<span class="n">k</span> <span class="o">=</span> <span class="mf">0.857368863848</span>
 
 <span class="n">lower_hpd</span> <span class="o">=</span> <span class="n">fsolve</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">gamma_pdf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span> <span class="o">-</span> <span class="n">k</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
 <span class="n">upper_hpd</span> <span class="o">=</span> <span class="n">fsolve</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">gamma_pdf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span> <span class="o">-</span> <span class="n">k</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;HPD credible set: [</span><span class="si">{</span><span class="n">lower_hpd</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">upper_hpd</span><span class="si">}</span><span class="s1">]&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;HPD credible set: [</span><span class="si">{</span><span class="n">lower_hpd</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">upper_hpd</span><span class="si">}</span><span class="s2">]&quot;</span><span class="p">)</span>
 
-<span class="n">prob_hpd</span> <span class="o">=</span> <span class="n">gamma</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">upper_hpd</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">1</span><span class="o">/</span><span class="n">b</span><span class="p">)</span> <span class="o">-</span> <span class="n">gamma</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">lower_hpd</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">1</span><span class="o">/</span><span class="n">b</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Probability within hpd bounds: </span><span class="si">{</span><span class="n">prob_hpd</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;length of hpd cs: </span><span class="si">{</span><span class="n">upper_hpd</span> <span class="o">-</span> <span class="n">lower_hpd</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="n">prob_hpd</span> <span class="o">=</span> <span class="n">gamma</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">upper_hpd</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">1</span> <span class="o">/</span> <span class="n">b</span><span class="p">)</span> <span class="o">-</span> <span class="n">gamma</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">lower_hpd</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">1</span> <span class="o">/</span> <span class="n">b</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Probability within hpd bounds: </span><span class="si">{</span><span class="n">prob_hpd</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;length of hpd cs: </span><span class="si">{</span><span class="n">upper_hpd</span> <span class="o">-</span> <span class="n">lower_hpd</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -481,13 +505,13 @@ length of hpd cs: 0.2495101833875405
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># equi-tailed credible set</span>
 
 <span class="c1"># percent point function aka quantile aka inverse cdf</span>
-<span class="n">lower_eqt</span> <span class="o">=</span> <span class="n">gamma</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="mf">.025</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">1</span><span class="o">/</span><span class="n">b</span><span class="p">)</span>
-<span class="n">upper_eqt</span> <span class="o">=</span> <span class="n">gamma</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="mf">.975</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">1</span><span class="o">/</span><span class="n">b</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Equitailed credible set: [</span><span class="si">{</span><span class="n">lower_eqt</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">upper_eqt</span><span class="si">}</span><span class="s1">]&#39;</span><span class="p">)</span>
+<span class="n">lower_eqt</span> <span class="o">=</span> <span class="n">gamma</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="mf">0.025</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">1</span> <span class="o">/</span> <span class="n">b</span><span class="p">)</span>
+<span class="n">upper_eqt</span> <span class="o">=</span> <span class="n">gamma</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="mf">0.975</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">1</span> <span class="o">/</span> <span class="n">b</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Equitailed credible set: [</span><span class="si">{</span><span class="n">lower_eqt</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">upper_eqt</span><span class="si">}</span><span class="s2">]&quot;</span><span class="p">)</span>
 
-<span class="n">prob_eqt</span> <span class="o">=</span> <span class="n">gamma</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">upper_eqt</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">1</span><span class="o">/</span><span class="n">b</span><span class="p">)</span> <span class="o">-</span> <span class="n">gamma</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">lower_eqt</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">1</span><span class="o">/</span><span class="n">b</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Probability within eqt bounds: </span><span class="si">{</span><span class="n">prob_eqt</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;length of eqt cs: </span><span class="si">{</span><span class="n">upper_eqt</span> <span class="o">-</span> <span class="n">lower_eqt</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="n">prob_eqt</span> <span class="o">=</span> <span class="n">gamma</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">upper_eqt</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">1</span> <span class="o">/</span> <span class="n">b</span><span class="p">)</span> <span class="o">-</span> <span class="n">gamma</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">lower_eqt</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">1</span> <span class="o">/</span> <span class="n">b</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Probability within eqt bounds: </span><span class="si">{</span><span class="n">prob_eqt</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;length of eqt cs: </span><span class="si">{</span><span class="n">upper_eqt</span> <span class="o">-</span> <span class="n">lower_eqt</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -504,17 +528,19 @@ length of eqt cs: 0.26473819641779306
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># figure 2</span>
 
 <span class="c1"># curve</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">gamma_pdf</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">),</span> <span class="s1">&#39;k-&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">gamma_pdf</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">),</span> <span class="s2">&quot;k-&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">lower_eqt</span><span class="p">,</span> <span class="n">gamma_pdf</span><span class="p">(</span><span class="n">lower_eqt</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">),</span> <span class="s1">&#39;o&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">lower_eqt</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;ro&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">upper_eqt</span><span class="p">,</span> <span class="n">gamma_pdf</span><span class="p">(</span><span class="n">upper_eqt</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">),</span> <span class="s1">&#39;o&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">upper_eqt</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;ro&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">lower_eqt</span><span class="p">,</span> <span class="n">upper_eqt</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;r-&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">lower_eqt</span><span class="p">,</span> <span class="n">upper_eqt</span><span class="p">],</span>
-         <span class="p">[</span><span class="n">gamma_pdf</span><span class="p">(</span><span class="n">lower_eqt</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">),</span> <span class="n">gamma_pdf</span><span class="p">(</span><span class="n">upper_eqt</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)],</span>
-         <span class="s1">&#39;k-&#39;</span><span class="p">,</span>
-         <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">lower_eqt</span><span class="p">,</span> <span class="n">gamma_pdf</span><span class="p">(</span><span class="n">lower_eqt</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">),</span> <span class="s2">&quot;o&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">lower_eqt</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;ro&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">upper_eqt</span><span class="p">,</span> <span class="n">gamma_pdf</span><span class="p">(</span><span class="n">upper_eqt</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">),</span> <span class="s2">&quot;o&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">upper_eqt</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;ro&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">lower_eqt</span><span class="p">,</span> <span class="n">upper_eqt</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;r-&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="p">[</span><span class="n">lower_eqt</span><span class="p">,</span> <span class="n">upper_eqt</span><span class="p">],</span>
+    <span class="p">[</span><span class="n">gamma_pdf</span><span class="p">(</span><span class="n">lower_eqt</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">),</span> <span class="n">gamma_pdf</span><span class="p">(</span><span class="n">upper_eqt</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)],</span>
+    <span class="s2">&quot;k-&quot;</span><span class="p">,</span>
+    <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -528,8 +554,11 @@ length of eqt cs: 0.26473819641779306
 <div class="section" id="find-the-hpd-credible-interval-when-you-don-t-know-k">
 <h2>Find the HPD credible interval when you don’t know k<a class="headerlink" href="#find-the-hpd-credible-interval-when-you-don-t-know-k" title="Permalink to this headline">¶</a></h2>
 <p>A student in the Spring 2022 class was wondering where the .05 and .4 values entered to <code class="docutils literal notranslate"><span class="pre">fsolve()</span></code> came from. They’re just your guesses for the lower and upper bounds of the credible interval. They give the optimizer a starting point.</p>
-<p>That led to the bigger question of where <span class="math notranslate nohighlight">\(k\)</span> came from. What you need to find is <span class="math notranslate nohighlight">\(k(α)\)</span>, which is a horizontal line that intersects the posterior PDF at the lower and upper bounds of your HPD credible interval. The reason we want a horizontal line is that this ensures that you’ve got the shortest interval covering credibility <span class="math notranslate nohighlight">\(1 - α\)</span> (we usually choose a credibility of .95 in this course, but that’s arbitrary).</p>
-<p>I don’t know how the professor did it originally, but I do know two methods. First, the optimization method, pretty much just trying lots of values for <span class="math notranslate nohighlight">\(k\)</span> (guessing Professor Vidakovic did it this way):</p>
+<p>That led to the bigger question of where <span class="math notranslate nohighlight">\(k\)</span> came from. What you need to find is the output of <span class="math notranslate nohighlight">\(k(α)\)</span>, which is a horizontal line that intersects the posterior PDF at the lower and upper bounds of your HPD credible interval. The reason we want a horizontal line is that this ensures that you’ve got the shortest interval covering credibility <span class="math notranslate nohighlight">\(1 - α\)</span> (we usually choose a credibility of .95 in this course, but that’s arbitrary).</p>
+<p>I don’t know how the professor did it originally, but here are two methods to estimate the HPD interval. Both assume that the posterior is unimodal, but could be extended to account for multimodal cases.</p>
+<div class="section" id="optimization-method">
+<h3>Optimization method<a class="headerlink" href="#optimization-method" title="Permalink to this headline">¶</a></h3>
+<p>First, an optimization method, pretty much just trying lots of values for <span class="math notranslate nohighlight">\(k\)</span> (guessing Professor Vidakovic did it this way):</p>
 <ol class="simple">
 <li><p>Loop over a bunch of possible k values, each time using an equation like fzero() on the pdf of your posterior minus k. This will solve for the location that your pdf intersects with k. You need to feed the optimizer an initial guess, one lower, near the lower bound of the credible interval, and one higher, near the upper bound.</p></li>
 <li><p>Enter each bound into the posterior CDF, subtract the results to get the probability the posterior falls within those bounds. If it’s close enough to 1 - α, you can stop the loop because you have your answer. If not, the loop continues.</p></li>
@@ -569,7 +598,7 @@ length of eqt cs: 0.26473819641779306
 </div>
 <div class="cell_output docutils container">
 <script type="application/vnd.jupyter.widget-view+json">
-{"model_id": "9828effd2b3f4ceb8c4d45dd7100fad8", "version_major": 2, "version_minor": 0}
+{"model_id": "a703f9c6e22d4a90badb72de3493c522", "version_major": 2, "version_minor": 0}
 </script><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc3_test/lib/python3.9/site-packages/scipy/optimize/minpack.py:175: RuntimeWarning: The number of calls to function has reached maxfev = 400.
   warnings.warn(msg, RuntimeWarning)
 </pre></div>
@@ -582,8 +611,65 @@ probability within these bounds: 0.950094289217813
 </div>
 </div>
 </div>
-<p>This method is really finicky, you might find yourself needing to adjust the tolerance and initial guesses quite a bit. It also wouldn’t work as written for any posterior where the HPD credible set wasn’t a continuous interval, but it could be extended to work for that situation.</p>
-<p>There’s another way that I find simpler, which involves sampling lots of values from the posterior. I don’t have time to write it up now, but I will add it here sometime soon.</p>
+<p>This method is really finicky, you might find yourself needing to adjust the tolerance and initial guesses quite a bit. It helps to base your guesses off visual inspection of a plot of the posterior.</p>
+</div>
+<div class="section" id="sampling-method">
+<h3>Sampling method<a class="headerlink" href="#sampling-method" title="Permalink to this headline">¶</a></h3>
+<p>There’s another way that I find simpler, which involves sampling lots of values from the posterior. This is also the way it’s generally done in practice (see the source code for hpd or hdi functions in many Bayesian libraries like <a class="reference external" href="https://arviz-devs.github.io/arviz/_modules/arviz/stats/stats.html#hdi">Arviz</a> or <a class="reference external" href="https://github.com/TuringLang/MCMCChains.jl/blob/master/src/stats.jl">MCMCChains.jl</a>). This method is simplified - it won’t work for as many different cases as the ones in those packages, but it’s easier to understand.</p>
+<ol class="simple">
+<li><p>Draw some samples from your posterior.</p></li>
+<li><p>Sort them from smallest to largest.</p></li>
+<li><p>Compute the possible credible intervals</p></li>
+</ol>
+<p>See <a class="reference external" href="https://www.jstor.org/stable/1390921">Chen and Shao, 1999</a> for the math.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">calc_hdi</span><span class="p">(</span><span class="n">samples</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.05</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculate minimum-width credible interval (HPD credible set)</span>
+
+<span class="sd">    samples: samples from posterior</span>
+<span class="sd">    alpha: credibility of the interval = 1 - alpha</span>
+
+<span class="sd">    returns tuple of the lower and upper bounds of the interval</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span>
+
+    <span class="n">lower_idx</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">alpha</span> <span class="o">*</span> <span class="n">n</span><span class="p">))</span>
+    <span class="n">x_left</span> <span class="o">=</span> <span class="n">x</span><span class="p">[:</span><span class="n">lower_idx</span><span class="p">]</span>
+    <span class="n">x_right</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">n</span> <span class="o">-</span> <span class="n">lower_idx</span><span class="p">:]</span>
+
+    <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">x_right</span> <span class="o">-</span> <span class="n">x_left</span><span class="p">)</span>
+
+    <span class="n">upper_bound</span> <span class="o">=</span> <span class="n">x_right</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+    <span class="n">lower_bound</span> <span class="o">=</span> <span class="n">x_left</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">lower_bound</span><span class="p">,</span> <span class="n">upper_bound</span>
+
+<span class="n">a</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="n">b</span> <span class="o">=</span> <span class="mi">29</span>
+
+<span class="n">samples</span> <span class="o">=</span> <span class="n">gamma</span><span class="o">.</span><span class="n">rvs</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">1</span> <span class="o">/</span> <span class="n">b</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">1000000</span><span class="p">)</span>
+<span class="n">lower</span><span class="p">,</span> <span class="n">upper</span> <span class="o">=</span> <span class="n">calc_hdi</span><span class="p">(</span><span class="n">samples</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.05</span><span class="p">)</span>
+<span class="c1"># double-check credibility</span>
+<span class="n">prob</span> <span class="o">=</span> <span class="n">gamma</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">upper</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">1</span> <span class="o">/</span> <span class="n">b</span><span class="p">)</span> <span class="o">-</span> <span class="n">gamma</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">lower</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">1</span> <span class="o">/</span> <span class="n">b</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;HPD credible set: </span><span class="si">{</span><span class="n">lower</span><span class="p">,</span> <span class="n">upper</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;length = </span><span class="si">{</span><span class="n">upper</span> <span class="o">-</span> <span class="n">lower</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;probability within these bounds: </span><span class="si">{</span><span class="n">prob</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>HPD credible set: (0.02452192943787325, 0.27414937182449606)
+length = 0.24962744238662282
+probability within these bounds: 0.9501004077382441
+</pre></div>
+</div>
+</div>
+</div>
+</div>
 </div>
 </div>
 
