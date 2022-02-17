@@ -176,7 +176,8 @@ for k in tqdm(possible_k):
 # 
 # 1. Draw some samples from your posterior.
 # 2. Sort them from smallest to largest.
-# 3. Compute the possible credible intervals 
+# 3. Compute the possible credible intervals.
+# 4. Take the one with the minimum width.
 # 
 # See [Chen and Shao, 1999](https://www.jstor.org/stable/1390921) for the math.
 
