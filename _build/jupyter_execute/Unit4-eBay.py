@@ -4,13 +4,13 @@
 # In[1]:
 
 
-import pymc3 as pm
 import arviz as az
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
+import pymc3 as pm
 from pymc3.math import invlogit
 
-az.style.use('arviz-darkgrid')
+az.style.use("arviz-darkgrid")
 
 
 # # eBay Purchase Example
@@ -36,7 +36,7 @@ az.style.use('arviz-darkgrid')
 pos_A = 95
 tot_A = 100
 
-tot_B = 3 
+tot_B = 3
 pos_B = 3
 
 
@@ -45,44 +45,45 @@ pos_B = 3
 
 with pm.Model() as ebay:
     # priors
-    priors_A = (pm.Beta('uniform_A', alpha=1, beta=1),
-                pm.Beta('jeffrey_A', alpha=.5, beta=.5),
-                pm.Beta('informative_A', alpha=30, beta=2), 
-                pm.Deterministic('zellner_A', invlogit(pm.Uniform('ignore_A', lower=-10000, upper=10000))), 
-                pm.LogitNormal('norm_A', mu=3, sigma=1)
-               )
+    priors_A = (
+        pm.Beta("uniform_A", alpha=1, beta=1),
+        pm.Beta("jeffrey_A", alpha=0.5, beta=0.5),
+        pm.Beta("informative_A", alpha=30, beta=2),
+        pm.Deterministic(
+            "zellner_A", invlogit(pm.Uniform("ignore_A", lower=-10000, upper=10000))
+        ),
+        pm.LogitNormal("norm_A", mu=3, sigma=1),
+    )
 
-    priors_B = (pm.Beta('uniform_B', alpha=1, beta=1),
-                pm.Beta('jeffrey_B', alpha=.5, beta=.5),
-                pm.Beta('informative_B', alpha=2.9, beta=.1), 
-                pm.Deterministic('zellner_B', invlogit(pm.Uniform('ignore_B', lower=-10000, upper=10000))), 
-                pm.LogitNormal('norm_B', mu=3, sigma=1)
-               )
+    priors_B = (
+        pm.Beta("uniform_B", alpha=1, beta=1),
+        pm.Beta("jeffrey_B", alpha=0.5, beta=0.5),
+        pm.Beta("informative_B", alpha=2.9, beta=0.1),
+        pm.Deterministic(
+            "zellner_B", invlogit(pm.Uniform("ignore_B", lower=-10000, upper=10000))
+        ),
+        pm.LogitNormal("norm_B", mu=3, sigma=1),
+    )
 
     # likelihoods
     for A, B in zip(priors_A, priors_B):
-        prior_type = A.name.strip('_A')
+        prior_type = A.name.strip("_A")
 
+        y_A = pm.Binomial("y_" + A.name, n=tot_A, p=A, observed=pos_A)
+        y_B = pm.Binomial("y_" + B.name, n=tot_B, p=B, observed=pos_B)
 
-        y_A = pm.Binomial('y_' + A.name, n=tot_A, p=A, observed=pos_A)
-        y_B = pm.Binomial('y_' + B.name, n=tot_B, p=B, observed=pos_B)
-        
-        diff = pm.Deterministic('diff_' + prior_type, A - B)
+        diff = pm.Deterministic("diff_" + prior_type, A - B)
 
-        
     # start sampling
-    trace = pm.sample(4000,
-                      tune=1000,
-                      chains=4,
-                      cores=4,
-                      random_seed=1,
-                      return_inferencedata=True)
+    trace = pm.sample(
+        4000, tune=1000, chains=4, cores=4, random_seed=1, return_inferencedata=True
+    )
 
 
 # In[4]:
 
 
-az.summary(trace, var_names=["~ignore_A", "~ignore_B"], hdi_prob=.95)
+az.summary(trace, var_names=["~ignore_A", "~ignore_B"], hdi_prob=0.95)
 
 
 # The results are pretty close to the professor's BUGS results:

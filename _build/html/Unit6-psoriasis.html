@@ -350,11 +350,11 @@
                 
   <div class="cell tag_hide_output docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">arviz</span> <span class="k">as</span> <span class="nn">az</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pymc3</span> <span class="k">as</span> <span class="nn">pm</span>
 <span class="kn">from</span> <span class="nn">pymc3.math</span> <span class="kn">import</span> <span class="n">switch</span>
-<span class="kn">import</span> <span class="nn">arviz</span> <span class="k">as</span> <span class="nn">az</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 </pre></div>
 </div>
 </div>
@@ -393,11 +393,13 @@
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">baseline</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">((</span><span class="mf">5.9</span><span class="p">,</span> <span class="mf">7.6</span><span class="p">,</span> <span class="mf">12.8</span><span class="p">,</span> <span class="mf">16.5</span><span class="p">,</span> <span class="mf">6.1</span><span class="p">,</span> <span class="mf">14.4</span><span class="p">,</span> <span class="mf">6.6</span><span class="p">,</span> <span class="mf">5.4</span><span class="p">,</span> <span class="mf">9.6</span><span class="p">,</span> <span class="mf">11.6</span><span class="p">,</span> 
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># fmt: off</span>
+<span class="n">baseline</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">((</span><span class="mf">5.9</span><span class="p">,</span> <span class="mf">7.6</span><span class="p">,</span> <span class="mf">12.8</span><span class="p">,</span> <span class="mf">16.5</span><span class="p">,</span> <span class="mf">6.1</span><span class="p">,</span> <span class="mf">14.4</span><span class="p">,</span> <span class="mf">6.6</span><span class="p">,</span> <span class="mf">5.4</span><span class="p">,</span> <span class="mf">9.6</span><span class="p">,</span> <span class="mf">11.6</span><span class="p">,</span> 
                      <span class="mf">11.1</span><span class="p">,</span> <span class="mf">15.6</span><span class="p">,</span> <span class="mf">9.6</span><span class="p">,</span> <span class="mf">15.2</span><span class="p">,</span> <span class="mf">21.0</span><span class="p">,</span> <span class="mf">5.9</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">,</span> <span class="mf">12.2</span><span class="p">,</span> <span class="mf">20.2</span><span class="p">,</span> 
                      <span class="mf">6.2</span><span class="p">))</span>
 <span class="n">after</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">((</span><span class="mf">5.2</span><span class="p">,</span> <span class="mf">12.2</span><span class="p">,</span> <span class="mf">4.6</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">3.8</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">3.1</span><span class="p">,</span> <span class="mf">3.5</span><span class="p">,</span> <span class="mf">4.9</span><span class="p">,</span> <span class="mf">11.1</span><span class="p">,</span>
                   <span class="mf">8.4</span><span class="p">,</span> <span class="mf">5.8</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mf">6.4</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">2.7</span><span class="p">,</span> <span class="mf">5.1</span><span class="p">,</span> <span class="mf">4.8</span><span class="p">,</span> <span class="mf">4.2</span><span class="p">))</span>
+<span class="c1"># fmt: on</span>
 </pre></div>
 </div>
 </div>
@@ -408,23 +410,22 @@
     <span class="c1"># priors</span>
     <span class="n">mu</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;mu&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">316</span><span class="p">)</span>
     <span class="n">prec</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Gamma</span><span class="p">(</span><span class="s2">&quot;prec&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span>
-    <span class="n">sigma</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s1">&#39;sigma&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="n">pm</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">prec</span><span class="p">))</span>
-        
-    <span class="n">ph1</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span>
-        <span class="s1">&#39;ph1&#39;</span><span class="p">,</span>
-        <span class="n">switch</span><span class="p">(</span><span class="n">mu</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-    <span class="p">)</span>
-    
-    <span class="n">diff</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s1">&#39;diff&#39;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">baseline</span> <span class="o">-</span> <span class="n">after</span><span class="p">)</span>
+    <span class="n">sigma</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;sigma&quot;</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">pm</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">prec</span><span class="p">))</span>
+
+    <span class="n">ph1</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;ph1&quot;</span><span class="p">,</span> <span class="n">switch</span><span class="p">(</span><span class="n">mu</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+
+    <span class="n">diff</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;diff&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">baseline</span> <span class="o">-</span> <span class="n">after</span><span class="p">)</span>
 
     <span class="c1"># start sampling</span>
-    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">10000</span><span class="p">,</span>
-                      <span class="n">chains</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
-                      <span class="n">tune</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span>
-                      <span class="n">cores</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
-                      <span class="n">init</span><span class="o">=</span><span class="s1">&#39;jitter+adapt_diag&#39;</span><span class="p">,</span>
-                      <span class="n">random_seed</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-                      <span class="n">return_inferencedata</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span>
+        <span class="mi">10000</span><span class="p">,</span>
+        <span class="n">chains</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+        <span class="n">tune</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span>
+        <span class="n">cores</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+        <span class="n">init</span><span class="o">=</span><span class="s2">&quot;jitter+adapt_diag&quot;</span><span class="p">,</span>
+        <span class="n">random_seed</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">return_inferencedata</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -472,7 +473,7 @@ The acceptance probability does not match the target. It is 0.8831827327620895, 
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">hdi_prob</span><span class="o">=</span><span class="mf">.95</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;~prec&quot;</span><span class="p">])</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">hdi_prob</span><span class="o">=</span><span class="mf">0.95</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;~prec&quot;</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>

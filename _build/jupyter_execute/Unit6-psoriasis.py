@@ -4,11 +4,11 @@
 # In[1]:
 
 
+import arviz as az
+import matplotlib.pyplot as plt
 import numpy as np
 import pymc3 as pm
 from pymc3.math import switch
-import arviz as az
-import matplotlib.pyplot as plt
 
 
 # # Psoriasis: Two sample problem with paired data
@@ -52,11 +52,13 @@ import matplotlib.pyplot as plt
 # In[2]:
 
 
+# fmt: off
 baseline = np.array((5.9, 7.6, 12.8, 16.5, 6.1, 14.4, 6.6, 5.4, 9.6, 11.6, 
                      11.1, 15.6, 9.6, 15.2, 21.0, 5.9, 10.0, 12.2, 20.2, 
                      6.2))
 after = np.array((5.2, 12.2, 4.6, 4.0, 0.4, 3.8, 1.2, 3.1, 3.5, 4.9, 11.1,
                   8.4, 5.8, 5, 6.4, 0.0, 2.7, 5.1, 4.8, 4.2))
+# fmt: on
 
 
 # In[3]:
@@ -66,29 +68,28 @@ with pm.Model() as psoriasis:
     # priors
     mu = pm.Normal("mu", mu=0, sigma=316)
     prec = pm.Gamma("prec", alpha=0.001, beta=0.001)
-    sigma = pm.Deterministic('sigma', 1/pm.math.sqrt(prec))
-        
-    ph1 = pm.Deterministic(
-        'ph1',
-        switch(mu >= 0, 1, 0)
-    )
-    
-    diff = pm.Normal('diff', mu=mu, sigma=sigma, observed=baseline - after)
+    sigma = pm.Deterministic("sigma", 1 / pm.math.sqrt(prec))
+
+    ph1 = pm.Deterministic("ph1", switch(mu >= 0, 1, 0))
+
+    diff = pm.Normal("diff", mu=mu, sigma=sigma, observed=baseline - after)
 
     # start sampling
-    trace = pm.sample(10000,
-                      chains=4,
-                      tune=500,
-                      cores=4,
-                      init='jitter+adapt_diag',
-                      random_seed=1,
-                      return_inferencedata=True)
+    trace = pm.sample(
+        10000,
+        chains=4,
+        tune=500,
+        cores=4,
+        init="jitter+adapt_diag",
+        random_seed=1,
+        return_inferencedata=True,
+    )
 
 
 # In[4]:
 
 
-az.summary(trace, hdi_prob=.95, var_names=["~prec"])
+az.summary(trace, hdi_prob=0.95, var_names=["~prec"])
 
 
 # Even though we're getting lots of warnings, our model agrees with the BUGS results:

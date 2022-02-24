@@ -4,9 +4,9 @@
 # In[1]:
 
 
-import pymc3 as pm
 import arviz as az
 import matplotlib.pyplot as plt
+import pymc3 as pm
 
 
 # # Beta plots
@@ -22,14 +22,26 @@ import matplotlib.pyplot as plt
 # In[2]:
 
 
-params = [(.5, .5), (1, 1), (2, 2), (10, 10), (1, 5), (1, .4), (3, 5),
-          (50, 30), (5000, 3000), (500, 500)]
+params = [
+    (0.5, 0.5),
+    (1, 1),
+    (2, 2),
+    (10, 10),
+    (1, 5),
+    (1, 0.4),
+    (3, 5),
+    (50, 30),
+    (5000, 3000),
+    (500, 500),
+]
+
 
 def beta_dist(α, β, n):
     # note: this syntax will change when pymc 4.0 is released
     # new syntax will use new pm.draw() function
-    name = f'{α=}, {β=}'
+    name = f"{α=}, {β=}"
     return pm.Beta(name, α, β).random(size=n), name
+
 
 with pm.Model() as betas:
     n = 1000000
@@ -39,11 +51,11 @@ with pm.Model() as betas:
 # In[3]:
 
 
-fig, ax = plt.subplots(nrows=5, ncols=2, figsize=(8, 22), sharex='col')
+fig, ax = plt.subplots(nrows=5, ncols=2, figsize=(8, 22), sharex="col")
 
 for i, dist in enumerate(distributions):
-    plt.subplot(5, 2, i+1, autoscalex_on=False)
-    az.plot_dist(dist[0], figsize=(2,2))
+    plt.subplot(5, 2, i + 1, autoscalex_on=False)
+    az.plot_dist(dist[0], figsize=(2, 2))
     plt.title(dist[1])
 
 plt.xlim(0, 1)

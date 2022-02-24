@@ -23,6 +23,7 @@ import matplotlib.pyplot as plt
 N = 1000000
 flips = 40
 
+
 def prob(k, N):
     """
     Calculate probability that we've selected a two-headed coin.
@@ -32,7 +33,8 @@ def prob(k, N):
 
     returns: probability at k flips in a row
     """
-    return 2**k/(2**k + N - 1)
+    return 2 ** k / (2 ** k + N - 1)
+
 
 # create a list of probabilities for different values of k
 probabilities = [prob(k, N) for k in range(flips)]

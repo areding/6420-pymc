@@ -4,10 +4,10 @@
 # In[1]:
 
 
-import numpy as np
-import pymc3 as pm
 import arviz as az
 import matplotlib.pyplot as plt
+import numpy as np
+import pymc3 as pm
 
 
 # # Dugongs: Dealing with Missing Data
@@ -30,12 +30,14 @@ import matplotlib.pyplot as plt
 # In[2]:
 
 
+# fmt: off
 X = [1.0, 1.5, 1.5, 1.5, 2.5, 4.0, 5.0, 5.0, 7.0, 8.0, 8.5, 9.0, 9.5, 
      9.5, 10.0, 12.0, 12.0, 13.0, 13.0, 14.5, 15.5, 15.5, 16.5, 17.0,
      22.5, 29.0, 31.5]
 y = [1.80, 1.85, 1.87, -1, 2.02, 2.27, 2.15, 2.26, 2.47, 2.19, 2.26,
      2.40, 2.39, 2.41, 2.50, 2.32, 2.32, 2.43, 2.47, 2.56, 2.65, 2.47,
      2.64, 2.56, 2.70, 2.72, -1]
+# fmt: on
 
 
 # PyMC3 imputes missing data automatically, similar to BUGS, but it requires the missing data be input as a NumPy masked array. See the NumPy docs for [np.ma.masked_values()](https://numpy.org/doc/stable/reference/generated/numpy.ma.masked_values.html). For ```y```, above, you can enter whatever number at the missing data positions, then plug it into the ```value``` parameter below. Just make sure the number you're using isn't actually in the data!
@@ -63,29 +65,31 @@ y
 
 with pm.Model() as dugongs:
     # priors
-    alpha = pm.Uniform('alpha', 0, 100)
-    beta = pm.Uniform('beta', 0, 100)
-    gamma = pm.Uniform('gamma', 0, 1)
-    sigma = pm.math.exp(pm.Uniform('sigma', -10, 10))
+    alpha = pm.Uniform("alpha", 0, 100)
+    beta = pm.Uniform("beta", 0, 100)
+    gamma = pm.Uniform("gamma", 0, 1)
+    sigma = pm.math.exp(pm.Uniform("sigma", -10, 10))
 
-    mu = alpha - beta * gamma**X
+    mu = alpha - beta * gamma ** X
 
-    likelihood = pm.Normal('likelihood', mu=mu, sd=sigma, observed=y)
+    likelihood = pm.Normal("likelihood", mu=mu, sd=sigma, observed=y)
 
     # start sampling
-    trace = pm.sample(10000, # samples
-                      chains=4,
-                      tune=500,
-                      cores=4,
-                      init='jitter+adapt_diag',
-                      random_seed=1,
-                      return_inferencedata=True)
+    trace = pm.sample(
+        10000,  # samples
+        chains=4,
+        tune=500,
+        cores=4,
+        init="jitter+adapt_diag",
+        random_seed=1,
+        return_inferencedata=True,
+    )
 
 
 # In[7]:
 
 
-az.summary(trace, hdi_prob=.95)
+az.summary(trace, hdi_prob=0.95)
 
 
 # This output is very close to the BUGS results if you use the inits labeled Alternative (full) inits (initializing the missing values at 1):

@@ -4,17 +4,21 @@
 # In[1]:
 
 
-import numpy as np
-import pymc3 as pm
 import arviz as az
 import matplotlib.pyplot as plt
+import numpy as np
+import pymc3 as pm
 
 
 # In[7]:
 
 
-kicks_cincy = np.array([53, 53, 43, 35, 40, 52, 21, 27, 0, 54, 51, 48, 41, 58, 46, 46, 43, 54, 52])
-kicks_la = np.array([53, 38, 48, 42, 47, 32, 47, 27, 54, 37, 39, 44, 55, 55, 32, 0, 43, 46, 40, 40])
+kicks_cincy = np.array(
+    [53, 53, 43, 35, 40, 52, 21, 27, 0, 54, 51, 48, 41, 58, 46, 46, 43, 54, 52]
+)
+kicks_la = np.array(
+    [53, 38, 48, 42, 47, 32, 47, 27, 54, 37, 39, 44, 55, 55, 32, 0, 43, 46, 40, 40]
+)
 kicks_both = np.append(kicks_cincy, kicks_la)
 np.median(kicks_both), np.mean(kicks_both), np.std(kicks_both)
 
@@ -60,22 +64,23 @@ np.median(kicks_both), np.mean(kicks_both), np.std(kicks_both)
 
 
 # gamma dist parameters
-alpha = .01
-beta = .1
+alpha = 0.01
+beta = 0.1
 
 observed = (2, -1, 51, -1, 33, 27, 14, 24, 4, -1)
 censored = (0, 72, 0, 60, 0, 0, 0, 0, 0, 21)
 
 y = (2, 72, 51, 60, 33, 27, 14, 24, 4, 21)
 
+
 def censored_exponential(y, alpha, beta):
     with pm.Model() as model:
         # prior
-        lam = pm.Gamma('lam', alpha, beta)
-        mu = pm.Deterministic('mu', 1/lam)
+        lam = pm.Gamma("lam", alpha, beta)
+        mu = pm.Deterministic("mu", 1 / lam)
         obs_latent = pm.Exponential.dist(lam)
-        observed = pm.Censored('observed', obs_latent, observed=y)
-        
+        observed = pm.Censored("observed", obs_latent, observed=y)
+
     return model
 
 
@@ -89,7 +94,7 @@ with censored_exponential(y, alpha, beta):
 # In[ ]:
 
 
-az.summary(trace, hdi_prob=.95)
+az.summary(trace, hdi_prob=0.95)
 
 
 # BUGS results:
@@ -111,7 +116,7 @@ from importlib.metadata import version
 # In[9]:
 
 
-version('pymc')
+version("pymc")
 
 
 # In[ ]:

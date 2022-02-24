@@ -4,8 +4,8 @@
 # In[1]:
 
 
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
 from tqdm.auto import tqdm
 
 
@@ -34,11 +34,13 @@ from tqdm.auto import tqdm
 rng = np.random.default_rng(1)
 
 # x is the number of coal mine disasters per year
+# fmt: off
 x = [4, 5, 4, 1, 0, 4, 3, 4, 0, 6, 3, 3, 4, 0, 2, 6, 3, 3, 5, 4, 5, 3, 1,
      4, 4, 1, 5, 5, 3, 4, 2, 5, 2, 2, 3, 4, 2, 1, 3, 2, 2, 1, 1, 1, 1, 3,
      0, 0, 1, 0, 1, 1, 0, 0, 3, 1, 0, 3, 2, 2, 0, 1, 1, 1, 0, 1, 0, 1, 0,
      0, 0, 2, 1, 0, 0, 0, 1, 1, 0, 2, 3, 3, 1, 1, 2, 1, 1, 1, 1, 2, 4, 2,
      0, 0, 0, 1, 4, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1]
+# fmt: on
 
 year = [y for y in range(1851, 1963)]
 
@@ -53,53 +55,54 @@ posterior_m = np.zeros(n)
 
 # inits
 lambdas[0] = 4
-mus[0] = .5
+mus[0] = 0.5
 ms[0] = 10
 
 # hyperparameters
 alpha = 4
 beta = 1
-gamma = .5
+gamma = 0.5
 delta = 1
 
 # sampling
 for i in tqdm(range(1, obs)):
     # lambda
-    mm = int(ms[i-1])
-    alpha1 = alpha + np.sum(x[:mm+1])
+    mm = int(ms[i - 1])
+    alpha1 = alpha + np.sum(x[: mm + 1])
     beta1 = mm + beta
-    
-    lambdas[i] = rng.gamma(alpha1, 1/beta1)
-    
+
+    lambdas[i] = rng.gamma(alpha1, 1 / beta1)
+
     # mu
-    gamma1 = gamma + np.sum(x) - np.sum(x[:mm+1])
+    gamma1 = gamma + np.sum(x) - np.sum(x[: mm + 1])
     delta1 = n - mm + delta
-    
-    mus[i] = rng.gamma(gamma1, 1/delta1)
-    
+
+    mus[i] = rng.gamma(gamma1, 1 / delta1)
+
     # posterior weights
     for j in range(n):
-        posterior_m[j] = np.exp((mus[i] - lambdas[i])*j) *                         (lambdas[i]/mus[i])**np.sum(x[:j+1])
+        posterior_m[j] = np.exp((mus[i] - lambdas[i]) * j) * (
+            lambdas[i] / mus[i]
+        ) ** np.sum(x[: j + 1])
         # normalize to get probabilities
-        weights = posterior_m/np.sum(posterior_m)
-        
-    ms[i] = rng.choice(range(n), replace=False, p=weights, 
-                       shuffle=False)
+        weights = posterior_m / np.sum(posterior_m)
+
+    ms[i] = rng.choice(range(n), replace=False, p=weights, shuffle=False)
 
 lambdas = lambdas[burn:]
 mus = mus[burn:]
 ms = ms[burn:]
 
 plt.hist(lambdas, 40)
-plt.xlabel('lambda')
+plt.xlabel("lambda")
 plt.show()
 
 plt.hist(mus, 40)
-plt.xlabel('mu')
+plt.xlabel("mu")
 plt.show()
 
 plt.hist(ms + 1851, n)
-plt.xlabel('year')
+plt.xlabel("year")
 plt.xticks(year[30:50], rotation=45)
 plt.minorticks_off()
 plt.show()

@@ -11,12 +11,11 @@ get_ipython().run_line_magic('pip', 'install pgmpy')
 # In[2]:
 
 
-from pgmpy.models import BayesianNetwork
+import matplotlib.pyplot as plt
+import networkx as nx
 from pgmpy.factors.discrete import TabularCPD
 from pgmpy.inference import CausalInference
-
-import networkx as nx
-import matplotlib.pyplot as plt
+from pgmpy.models import BayesianNetwork
 
 
 # # Manufacturing Bayes
@@ -39,19 +38,21 @@ import matplotlib.pyplot as plt
 # In[3]:
 
 
-#Defining network structure
-mb_model = BayesianNetwork([('Machine', 'Conforming')])
+# Defining network structure
+mb_model = BayesianNetwork([("Machine", "Conforming")])
 
-#Defining the parameters
-cpd_machine = TabularCPD(variable='Machine', 
-                          variable_card=3,
-                          values=[[.3], [0.5], [.2]])
+# Defining the parameters
+cpd_machine = TabularCPD(
+    variable="Machine", variable_card=3, values=[[0.3], [0.5], [0.2]]
+)
 
-cpd_conforming = TabularCPD(variable='Conforming', variable_card=2,
-                       values=[[0.06, 0.05, 0.03],
-                               [0.94, 0.95, 0.97]],
-                       evidence=['Machine'],
-                       evidence_card=[3])
+cpd_conforming = TabularCPD(
+    variable="Conforming",
+    variable_card=2,
+    values=[[0.06, 0.05, 0.03], [0.94, 0.95, 0.97]],
+    evidence=["Machine"],
+    evidence_card=[3],
+)
 
 # Associating the parameters with the model structure
 mb_model.add_cpds(cpd_machine, cpd_conforming)
@@ -66,15 +67,15 @@ print(f"Edges: {mb_model.edges()}")
 
 
 options = {
-    'arrowsize': 40,
-    'font_size': 8,
-    'font_weight': 'bold',
-    'node_size': 4000,
-    'node_color': 'white',
-    'edgecolors': 'black',
-    'linewidths': 2,
-    'width': 5,
-    'alpha': .9
+    "arrowsize": 40,
+    "font_size": 8,
+    "font_weight": "bold",
+    "node_size": 4000,
+    "node_color": "white",
+    "edgecolors": "black",
+    "linewidths": 2,
+    "width": 5,
+    "alpha": 0.9,
 }
 
 # plot the network
@@ -83,7 +84,7 @@ nx.draw(mb_model, with_labels=True, **options)
 # Set margins for the axes so that nodes aren't clipped
 ax = plt.gca()
 ax.margins(0.20)
-plt.axis('off')
+plt.axis("off")
 plt.show()
 
 
@@ -97,12 +98,12 @@ plt.show()
 mb_infer = CausalInference(mb_model)
 
 # probability a random item is conforming
-q = mb_infer.query(variables=['Conforming'])
+q = mb_infer.query(variables=["Conforming"])
 print("P(C):")
 print(q)
 
 # probability a conforming item came from the different machine types
-q = mb_infer.query(variables=['Machine'], evidence={'Conforming': True})
+q = mb_infer.query(variables=["Machine"], evidence={"Conforming": True})
 print("P(M|C) (0-indexed, so Machine 1 is listed as Machine(0) and so on):")
 print(q)
 

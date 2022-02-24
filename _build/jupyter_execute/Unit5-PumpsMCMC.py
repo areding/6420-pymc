@@ -4,10 +4,10 @@
 # In[1]:
 
 
-import pymc3 as pm
 import arviz as az
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
+import pymc3 as pm
 from tqdm.auto import tqdm
 
 
@@ -33,7 +33,7 @@ t = np.array([94.32, 15.52, 62.88, 125.76, 5.24, 31.44, 1.048, 1.048, 2.096, 10.
 n = len(X)
 
 # params
-c = .1
+c = 0.1
 d = 1
 
 # inits
@@ -44,21 +44,21 @@ thetas = np.zeros((obs, 10))
 betas = np.zeros(obs)
 
 for i in tqdm(range(obs)):
-    theta = rng.gamma(shape=X+1, scale=1/(beta+t), size=n)
+    theta = rng.gamma(shape=X + 1, scale=1 / (beta + t), size=n)
     sum_theta = np.sum(theta)
-    
-    beta = rng.gamma(shape=n + c, scale= 1/(sum_theta + d))
-    
+
+    beta = rng.gamma(shape=n + c, scale=1 / (sum_theta + d))
+
     thetas[i] = theta
     betas[i] = beta
 
 thetas = thetas[burn:]
 betas = betas[burn:]
 
-print(f'{np.mean(thetas, axis=0)=}')
-print(f'{np.std(thetas)=}')
-print(f'{np.mean(betas)=}')
-print(f'{np.std(betas)=}')
+print(f"{np.mean(thetas, axis=0)=}")
+print(f"{np.std(thetas)=}")
+print(f"{np.mean(betas)=}")
+print(f"{np.std(betas)=}")
 
 
 # In[3]:
@@ -73,24 +73,25 @@ np.mean(thetas, axis=0)
 
 
 with pm.Model() as pumps:
-    times = pm.Data('times', t)
-    data = pm.Data('data', X)
+    times = pm.Data("times", t)
+    data = pm.Data("data", X)
 
-    beta = pm.Gamma('beta', alpha=c, beta=d)
-    theta = pm.Gamma('theta', alpha=d, beta=beta, shape=n)
-    rate = pm.Deterministic('rate', theta * times)
-    
-    likelihood = pm.Poisson('likelihood', mu=rate, observed=data)
-    
+    beta = pm.Gamma("beta", alpha=c, beta=d)
+    theta = pm.Gamma("theta", alpha=d, beta=beta, shape=n)
+    rate = pm.Deterministic("rate", theta * times)
+
+    likelihood = pm.Poisson("likelihood", mu=rate, observed=data)
+
     # start sampling
-    trace = pm.sample(5000,
-                      chains=4,
-                      tune=500,
-                      init='jitter+adapt_diag',
-                      random_seed=1,
-                      cores=4,
-                      return_inferencedata=True
-                     )
+    trace = pm.sample(
+        5000,
+        chains=4,
+        tune=500,
+        init="jitter+adapt_diag",
+        random_seed=1,
+        cores=4,
+        return_inferencedata=True,
+    )
 
 
 # In[5]:

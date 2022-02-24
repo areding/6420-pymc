@@ -4,8 +4,8 @@
 # In[1]:
 
 
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
 from tqdm.auto import tqdm
 
 
@@ -40,27 +40,27 @@ lambdas = np.zeros(obs)
 randn = rng.standard_normal(obs)
 
 for i in tqdm(range(obs)):
-    d = tau2 + lam*sigma2
-    theta = (tau2/d * x + lam*sigma2/d * mu) + np.sqrt(tau2*sigma2/d) * randn[i]
-    lam = rng.exponential(1/((tau2 + (theta - mu)**2)/(2*tau2)))
-    
+    d = tau2 + lam * sigma2
+    theta = (tau2 / d * x + lam * sigma2 / d * mu) + np.sqrt(tau2 * sigma2 / d) * randn[i]
+    lam = rng.exponential(1 / ((tau2 + (theta - mu) ** 2) / (2 * tau2)))
+
     thetas[i] = theta
     lambdas[i] = lam
 
 thetas = thetas[burn:]
 lambdas = lambdas[burn:]
 
-print(f'{np.mean(thetas)=}')
-print(f'{np.var(thetas)=}')
-print(f'{np.mean(lambdas)=}')
-print(f'{np.var(lambdas)=}')
+print(f"{np.mean(thetas)=}")
+print(f"{np.var(thetas)=}")
+print(f"{np.mean(lambdas)=}")
+print(f"{np.var(lambdas)=}")
 
 plt.hist(thetas, 40)
-plt.xlabel('theta')
+plt.xlabel("theta")
 plt.show()
 
 plt.hist(lambdas, 40)
-plt.xlabel('lambda')
+plt.xlabel("lambda")
 plt.show()
 
 

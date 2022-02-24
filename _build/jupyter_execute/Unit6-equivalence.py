@@ -4,11 +4,11 @@
 # In[1]:
 
 
+import arviz as az
+import matplotlib.pyplot as plt
 import numpy as np
 import pymc3 as pm
 from pymc3.math import switch
-import arviz as az
-import matplotlib.pyplot as plt
 
 
 # # Equivalence of Generic and Brand-Name Drugs 
@@ -31,9 +31,11 @@ import matplotlib.pyplot as plt
 # In[2]:
 
 
+# fmt: off
 increase_type1 = [7, 8, 4, 6, 10, 10, 5, 7, 9, 8, 6, 7, 8, 4, 6, 10, 8, 9]
 increase_type2 = [6, 7, 5, 9, 5, 5, 3, 7, 5, 10, 8, 5, 8, 4, 4, 8, 6, 11, 
                   7, 5, 5, 5, 7, 4, 6]
+# fmt: on
 
 
 # We're using ```pm.math.switch``` to recreate the BUGS ```step()``` function for the ```probint``` variable.
@@ -48,18 +50,14 @@ with pm.Model() as equivalence:
     mudiff = pm.Deterministic("mudiff", mu1 - mu2)
     prec = pm.Gamma("prec", alpha=0.001, beta=0.001)
     sigma = 1 / pm.math.sqrt(prec)
-    
+
     probint = pm.Deterministic(
-        'probint',
+        "probint",
         switch(mudiff + 2 >= 0, 1, 0) * switch(2 - mudiff >= 0, 1, 0),
     )
-    
-    y_type1 = pm.Normal(
-        "y_type1", mu=mu1, sd=sigma, observed=increase_type1
-    )
-    y_type2 = pm.Normal(
-        "y_type2", mu=mu2, sd=sigma, observed=increase_type2
-    )
+
+    y_type1 = pm.Normal("y_type1", mu=mu1, sd=sigma, observed=increase_type1)
+    y_type2 = pm.Normal("y_type2", mu=mu2, sd=sigma, observed=increase_type2)
 
     # start sampling
     trace = pm.sample(
@@ -75,7 +73,7 @@ with pm.Model() as equivalence:
 # In[4]:
 
 
-az.summary(trace, hdi_prob=.95)
+az.summary(trace, hdi_prob=0.95)
 
 
 # BUGS results:

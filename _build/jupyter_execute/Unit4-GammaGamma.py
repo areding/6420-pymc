@@ -6,8 +6,8 @@
 
 import matplotlib.pyplot as plt
 import numpy as np
-from scipy.special import gamma as gamma_func
 from scipy.optimize import fsolve
+from scipy.special import gamma as gamma_func
 from scipy.stats import gamma
 from tqdm.auto import tqdm
 
@@ -39,7 +39,7 @@ def gamma_pdf(x, a, b):
 
     returns a numpy array or float
     """
-    return 1 / gamma_func(a) * x ** (a - 1) * b**a * np.exp(-b * x)
+    return 1 / gamma_func(a) * x ** (a - 1) * b ** a * np.exp(-b * x)
 
 
 # In[3]:
@@ -198,7 +198,7 @@ def calc_hdi(samples: np.ndarray, alpha: float = 0.05) -> tuple:
 
     lower_idx = int(np.floor(alpha * n))
     x_left = x[:lower_idx]
-    x_right = x[n - lower_idx:]
+    x_right = x[n - lower_idx :]
 
     idx = np.argmin(x_right - x_left)
 
@@ -206,6 +206,7 @@ def calc_hdi(samples: np.ndarray, alpha: float = 0.05) -> tuple:
     lower_bound = x_left[idx]
 
     return lower_bound, upper_bound
+
 
 a = 4
 b = 29

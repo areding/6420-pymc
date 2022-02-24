@@ -4,20 +4,21 @@
 # In[1]:
 
 
-import pymc3 as pm
-import arviz as az
-import numpy as np
-import matplotlib.pyplot as plt
-from sklearn.linear_model import LinearRegression
 from warnings import filterwarnings
 
-az.style.use('arviz-darkgrid')
+import arviz as az
+import matplotlib.pyplot as plt
+import numpy as np
+import pymc3 as pm
+from sklearn.linear_model import LinearRegression
+
+az.style.use("arviz-darkgrid")
 
 
 # In[2]:
 
 
-filterwarnings('ignore')
+filterwarnings("ignore")
 
 
 # # A Simple Regression
@@ -47,24 +48,25 @@ x_bar = np.mean(X)
 
 with pm.Model() as asr:
     # priors
-    alpha = pm.Normal('alpha', sigma=100)
-    beta = pm.Normal('beta', sigma=100)
+    alpha = pm.Normal("alpha", sigma=100)
+    beta = pm.Normal("beta", sigma=100)
     # using precision for direct comparison with BUGS output
-    tau = pm.Gamma('tau', alpha=.001, beta=.001) 
-    sigma = 1/pm.math.sqrt(tau) 
+    tau = pm.Gamma("tau", alpha=0.001, beta=0.001)
+    sigma = 1 / pm.math.sqrt(tau)
 
     mu = alpha + beta * (X - x_bar)
-    likelihood = pm.Normal('likelihood', mu=mu, sd=sigma, observed=y)
+    likelihood = pm.Normal("likelihood", mu=mu, sd=sigma, observed=y)
 
     # start sampling
-    trace = pm.sample(3000, # samples
-                    chains=4,
-                    tune=500,
-                    init='jitter+adapt_diag', 
-                    random_seed=1,
-                    cores=4, # parallel processing of chains
-                    return_inferencedata=True # return arviz inferencedata object
-                     )
+    trace = pm.sample(
+        3000,  # samples
+        chains=4,
+        tune=500,
+        init="jitter+adapt_diag",
+        random_seed=1,
+        cores=4,  # parallel processing of chains
+        return_inferencedata=True,  # return arviz inferencedata object
+    )
 
 
 # PyMC3 uses the tuning step specified in the pm.sample call to adjust various parameters in the No-U-Turn Sampler [(NUTS) algorithm](https://arxiv.org/abs/1111.4246), which is a form of Hamiltonian Monte Carlo. BUGS also silently uses different types of tuning depending on the algorithm it [chooses](https://www.york.ac.uk/depts/maths/histstat/pml1/bayes/winbugsinfo/cowles_winbugs.pdf). The professor often burns some number of samples in his examples. Note that this is separate from the tuning phase for both programs!
@@ -83,7 +85,7 @@ trace_burned = trace.sel(draw=slice(500, None))
 # In[5]:
 
 
-az.summary(trace_burned, hdi_prob=.95)
+az.summary(trace_burned, hdi_prob=0.95)
 
 
 # You can also get the HDIs directly:
@@ -91,7 +93,7 @@ az.summary(trace_burned, hdi_prob=.95)
 # In[6]:
 
 
-az.hdi(trace_burned, hdi_prob=.95)['beta'].values
+az.hdi(trace_burned, hdi_prob=0.95)["beta"].values
 
 
 # There are a variety of plots available. Commonly used to diagnose problems are the trace (see [When Traceplots go Bad](https://jpreszler.rbind.io/post/2019-09-28-bad-traceplots/)) and rank plots (see the Maybe it's time to let traceplots die section from [this post](https://statmodeling.stat.columbia.edu/2019/03/19/maybe-its-time-to-let-the-old-ways-die-or-we-broke-r-hat-so-now-we-have-to-fix-it/)).
@@ -116,7 +118,9 @@ plt.show()
 
 
 # alpha - beta * x.bar
-intercept = trace_burned.posterior.alpha.mean() - trace_burned.posterior.beta.mean() * x_bar
+intercept = (
+    trace_burned.posterior.alpha.mean() - trace_burned.posterior.beta.mean() * x_bar
+)
 intercept.values
 
 

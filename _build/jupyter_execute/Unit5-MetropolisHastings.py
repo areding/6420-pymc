@@ -4,8 +4,8 @@
 # In[1]:
 
 
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
 from tqdm.auto import tqdm
 
 
@@ -37,28 +37,28 @@ from tqdm.auto import tqdm
 
 rng = np.random.default_rng(1)
 
-n = 1000000 # observations
+n = 1000000  # observations
 burn = 500
-theta = 1 # init
+theta = 1  # init
 thetas = np.zeros(n)
-x = 2 # observed
+x = 2  # observed
 
 # generating necessary randoms as arrays is faster
 theta_prop = rng.standard_normal(n) + x
 unif = rng.uniform(size=n)
 
 for i in tqdm(range(n)):
-    r = (1 + theta**2)/(1 + theta_prop[i]**2)
+    r = (1 + theta ** 2) / (1 + theta_prop[i] ** 2)
     rho = min(r, 1)
     if unif[i] < rho:
         theta = theta_prop[i]
-    
+
     thetas[i] = theta
 
 thetas = thetas[burn:]
 
-print(f'{np.mean(thetas)=}')
-print(f'{np.var(thetas)=}')
+print(f"{np.mean(thetas)=}")
+print(f"{np.var(thetas)=}")
 
 plt.hist(thetas, 50)
 plt.show()

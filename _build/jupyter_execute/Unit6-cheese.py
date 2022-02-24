@@ -4,11 +4,11 @@
 # In[1]:
 
 
-import pandas as pd
-import numpy as np
-import pymc3 as pm
 import arviz as az
 import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+import pymc3 as pm
 
 
 # # Taste of Cheese
@@ -27,11 +27,11 @@ import matplotlib.pyplot as plt
 # In[2]:
 
 
-data = pd.read_csv('./data/cheese.csv', index_col=0)
-X = data[['Acetic', 'H2S', 'Lactic']].values
+data = pd.read_csv("./data/cheese.csv", index_col=0)
+X = data[["Acetic", "H2S", "Lactic"]].values
 # add intercept column to X
 X_aug = np.concatenate((np.ones((X.shape[0], 1)), X), axis=1)
-y = data['taste'].values
+y = data["taste"].values
 
 
 # In[3]:
@@ -39,36 +39,36 @@ y = data['taste'].values
 
 with pm.Model() as cheese:
     # associate data with model (this makes prediction easier)
-    X_data = pm.Data('X', X_aug)
-    y_data = pm.Data('y', y)
+    X_data = pm.Data("X", X_aug)
+    y_data = pm.Data("y", y)
 
     # priors
-    beta = pm.Normal('beta', mu=0, sigma=1000, shape=X.shape[1] + 1)
-    tau = pm.Gamma('tau', alpha=.001, beta=.001)
-    sigma = 1/pm.math.sqrt(tau)
-    
+    beta = pm.Normal("beta", mu=0, sigma=1000, shape=X.shape[1] + 1)
+    tau = pm.Gamma("tau", alpha=0.001, beta=0.001)
+    sigma = 1 / pm.math.sqrt(tau)
+
     mu = pm.math.dot(X_data, beta)
 
     # likelihood
-    taste_score = pm.Normal('taste_score', mu=mu, sd=sigma, 
-                            observed=y_data)
+    taste_score = pm.Normal("taste_score", mu=mu, sd=sigma, observed=y_data)
 
     # start sampling
-    trace = pm.sample(10000, # samples
-                      chains=4,
-                      tune=1000,
-                      init='jitter+adapt_diag',
-                      random_seed=1,
-                      cores=4,
-                      return_inferencedata=True,
-                      target_accept=.95
-                     )
+    trace = pm.sample(
+        10000,  # samples
+        chains=4,
+        tune=1000,
+        init="jitter+adapt_diag",
+        random_seed=1,
+        cores=4,
+        return_inferencedata=True,
+        target_accept=0.95,
+    )
 
 
 # In[4]:
 
 
-az.summary(trace, hdi_prob=.95)
+az.summary(trace, hdi_prob=0.95)
 
 
 # Results are pretty close to OpenBUGS:
@@ -91,7 +91,7 @@ az.summary(trace, hdi_prob=.95)
 
 
 # prediction
-new_obs = np.array([[1., 5.0, 7.1, 1.5]])
+new_obs = np.array([[1.0, 5.0, 7.1, 1.5]])
 pm.set_data({"X": new_obs}, model=cheese)
 ppc = pm.sample_posterior_predictive(trace, model=cheese, samples=30)
 
@@ -99,5 +99,5 @@ ppc = pm.sample_posterior_predictive(trace, model=cheese, samples=30)
 # In[6]:
 
 
-az.summary(ppc, hdi_prob=.95)
+az.summary(ppc, hdi_prob=0.95)
 
