@@ -381,12 +381,11 @@ Note: you may need to restart the kernel to use updated packages.
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pgmpy.models</span> <span class="kn">import</span> <span class="n">BayesianNetwork</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
 <span class="kn">from</span> <span class="nn">pgmpy.factors.discrete</span> <span class="kn">import</span> <span class="n">TabularCPD</span>
 <span class="kn">from</span> <span class="nn">pgmpy.inference</span> <span class="kn">import</span> <span class="n">CausalInference</span>
-
-<span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">pgmpy.models</span> <span class="kn">import</span> <span class="n">BayesianNetwork</span>
 </pre></div>
 </div>
 </div>
@@ -405,19 +404,21 @@ The probability of an item conforming to standards is 0.94 if it comes from a ty
 <p>The code below uses pgmpy. Jacob Harris, a student in the Fall 2021 class, also managed to get this <a class="reference external" href="https://github.gatech.edu/jharris373/isye6420_examples/blob/master/lecture/unit_3/manufacturing_bayes/PyMC3/simple%20bayes%20net%20example%20-%20manufacturing%20bayes.ipynb">working in PyMC3</a>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Defining network structure</span>
-<span class="n">mb_model</span> <span class="o">=</span> <span class="n">BayesianNetwork</span><span class="p">([(</span><span class="s1">&#39;Machine&#39;</span><span class="p">,</span> <span class="s1">&#39;Conforming&#39;</span><span class="p">)])</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Defining network structure</span>
+<span class="n">mb_model</span> <span class="o">=</span> <span class="n">BayesianNetwork</span><span class="p">([(</span><span class="s2">&quot;Machine&quot;</span><span class="p">,</span> <span class="s2">&quot;Conforming&quot;</span><span class="p">)])</span>
 
-<span class="c1">#Defining the parameters</span>
-<span class="n">cpd_machine</span> <span class="o">=</span> <span class="n">TabularCPD</span><span class="p">(</span><span class="n">variable</span><span class="o">=</span><span class="s1">&#39;Machine&#39;</span><span class="p">,</span> 
-                          <span class="n">variable_card</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
-                          <span class="n">values</span><span class="o">=</span><span class="p">[[</span><span class="mf">.3</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">],</span> <span class="p">[</span><span class="mf">.2</span><span class="p">]])</span>
+<span class="c1"># Defining the parameters</span>
+<span class="n">cpd_machine</span> <span class="o">=</span> <span class="n">TabularCPD</span><span class="p">(</span>
+    <span class="n">variable</span><span class="o">=</span><span class="s2">&quot;Machine&quot;</span><span class="p">,</span> <span class="n">variable_card</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="p">[[</span><span class="mf">0.3</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.2</span><span class="p">]]</span>
+<span class="p">)</span>
 
-<span class="n">cpd_conforming</span> <span class="o">=</span> <span class="n">TabularCPD</span><span class="p">(</span><span class="n">variable</span><span class="o">=</span><span class="s1">&#39;Conforming&#39;</span><span class="p">,</span> <span class="n">variable_card</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
-                       <span class="n">values</span><span class="o">=</span><span class="p">[[</span><span class="mf">0.06</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.03</span><span class="p">],</span>
-                               <span class="p">[</span><span class="mf">0.94</span><span class="p">,</span> <span class="mf">0.95</span><span class="p">,</span> <span class="mf">0.97</span><span class="p">]],</span>
-                       <span class="n">evidence</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Machine&#39;</span><span class="p">],</span>
-                       <span class="n">evidence_card</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+<span class="n">cpd_conforming</span> <span class="o">=</span> <span class="n">TabularCPD</span><span class="p">(</span>
+    <span class="n">variable</span><span class="o">=</span><span class="s2">&quot;Conforming&quot;</span><span class="p">,</span>
+    <span class="n">variable_card</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+    <span class="n">values</span><span class="o">=</span><span class="p">[[</span><span class="mf">0.06</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.03</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.94</span><span class="p">,</span> <span class="mf">0.95</span><span class="p">,</span> <span class="mf">0.97</span><span class="p">]],</span>
+    <span class="n">evidence</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Machine&quot;</span><span class="p">],</span>
+    <span class="n">evidence_card</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span>
+<span class="p">)</span>
 
 <span class="c1"># Associating the parameters with the model structure</span>
 <span class="n">mb_model</span><span class="o">.</span><span class="n">add_cpds</span><span class="p">(</span><span class="n">cpd_machine</span><span class="p">,</span> <span class="n">cpd_conforming</span><span class="p">)</span>
@@ -439,15 +440,15 @@ Edges: [(&#39;Machine&#39;, &#39;Conforming&#39;)]
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">options</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s1">&#39;arrowsize&#39;</span><span class="p">:</span> <span class="mi">40</span><span class="p">,</span>
-    <span class="s1">&#39;font_size&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span>
-    <span class="s1">&#39;font_weight&#39;</span><span class="p">:</span> <span class="s1">&#39;bold&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;node_size&#39;</span><span class="p">:</span> <span class="mi">4000</span><span class="p">,</span>
-    <span class="s1">&#39;node_color&#39;</span><span class="p">:</span> <span class="s1">&#39;white&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;edgecolors&#39;</span><span class="p">:</span> <span class="s1">&#39;black&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;linewidths&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
-    <span class="s1">&#39;width&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
-    <span class="s1">&#39;alpha&#39;</span><span class="p">:</span> <span class="mf">.9</span>
+    <span class="s2">&quot;arrowsize&quot;</span><span class="p">:</span> <span class="mi">40</span><span class="p">,</span>
+    <span class="s2">&quot;font_size&quot;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span>
+    <span class="s2">&quot;font_weight&quot;</span><span class="p">:</span> <span class="s2">&quot;bold&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;node_size&quot;</span><span class="p">:</span> <span class="mi">4000</span><span class="p">,</span>
+    <span class="s2">&quot;node_color&quot;</span><span class="p">:</span> <span class="s2">&quot;white&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;edgecolors&quot;</span><span class="p">:</span> <span class="s2">&quot;black&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;linewidths&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="s2">&quot;width&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+    <span class="s2">&quot;alpha&quot;</span><span class="p">:</span> <span class="mf">0.9</span><span class="p">,</span>
 <span class="p">}</span>
 
 <span class="c1"># plot the network</span>
@@ -456,7 +457,7 @@ Edges: [(&#39;Machine&#39;, &#39;Conforming&#39;)]
 <span class="c1"># Set margins for the axes so that nodes aren&#39;t clipped</span>
 <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">margins</span><span class="p">(</span><span class="mf">0.20</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -472,12 +473,12 @@ Edges: [(&#39;Machine&#39;, &#39;Conforming&#39;)]
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mb_infer</span> <span class="o">=</span> <span class="n">CausalInference</span><span class="p">(</span><span class="n">mb_model</span><span class="p">)</span>
 
 <span class="c1"># probability a random item is conforming</span>
-<span class="n">q</span> <span class="o">=</span> <span class="n">mb_infer</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">variables</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Conforming&#39;</span><span class="p">])</span>
+<span class="n">q</span> <span class="o">=</span> <span class="n">mb_infer</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">variables</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Conforming&quot;</span><span class="p">])</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;P(C):&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
 
 <span class="c1"># probability a conforming item came from the different machine types</span>
-<span class="n">q</span> <span class="o">=</span> <span class="n">mb_infer</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">variables</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Machine&#39;</span><span class="p">],</span> <span class="n">evidence</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;Conforming&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">})</span>
+<span class="n">q</span> <span class="o">=</span> <span class="n">mb_infer</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">variables</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Machine&quot;</span><span class="p">],</span> <span class="n">evidence</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;Conforming&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">})</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;P(M|C) (0-indexed, so Machine 1 is listed as Machine(0) and so on):&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
 </pre></div>

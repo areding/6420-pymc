@@ -381,12 +381,11 @@ Note: you may need to restart the kernel to use updated packages.
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pgmpy.models</span> <span class="kn">import</span> <span class="n">BayesianNetwork</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
 <span class="kn">from</span> <span class="nn">pgmpy.factors.discrete</span> <span class="kn">import</span> <span class="n">TabularCPD</span>
 <span class="kn">from</span> <span class="nn">pgmpy.inference</span> <span class="kn">import</span> <span class="n">CausalInference</span>
-
-<span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">pgmpy.models</span> <span class="kn">import</span> <span class="n">BayesianNetwork</span>
 </pre></div>
 </div>
 </div>
@@ -405,42 +404,53 @@ Note: you may need to restart the kernel to use updated packages.
 <p>Based on the example at <a class="reference external" href="https://pgmpy.org/examples/Earthquake.html">https://pgmpy.org/examples/Earthquake.html</a>, which is almost the exact same problem.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Defining network structure</span>
-<span class="n">alarm_model</span> <span class="o">=</span> <span class="n">BayesianNetwork</span><span class="p">([(</span><span class="s1">&#39;Burglary&#39;</span><span class="p">,</span> <span class="s1">&#39;Alarm&#39;</span><span class="p">),</span>
-                              <span class="p">(</span><span class="s1">&#39;Earthquake&#39;</span><span class="p">,</span> <span class="s1">&#39;Alarm&#39;</span><span class="p">),</span>
-                              <span class="p">(</span><span class="s1">&#39;Alarm&#39;</span><span class="p">,</span> <span class="s1">&#39;JohnCalls&#39;</span><span class="p">),</span>
-                              <span class="p">(</span><span class="s1">&#39;Alarm&#39;</span><span class="p">,</span> <span class="s1">&#39;MaryCalls&#39;</span><span class="p">)])</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Defining network structure</span>
+<span class="n">alarm_model</span> <span class="o">=</span> <span class="n">BayesianNetwork</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="p">(</span><span class="s2">&quot;Burglary&quot;</span><span class="p">,</span> <span class="s2">&quot;Alarm&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;Earthquake&quot;</span><span class="p">,</span> <span class="s2">&quot;Alarm&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;Alarm&quot;</span><span class="p">,</span> <span class="s2">&quot;JohnCalls&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;Alarm&quot;</span><span class="p">,</span> <span class="s2">&quot;MaryCalls&quot;</span><span class="p">),</span>
+    <span class="p">]</span>
+<span class="p">)</span>
 
-<span class="c1">#Defining the parameters</span>
-<span class="n">cpd_burglary</span> <span class="o">=</span> <span class="n">TabularCPD</span><span class="p">(</span><span class="n">variable</span><span class="o">=</span><span class="s1">&#39;Burglary&#39;</span><span class="p">,</span> 
-                          <span class="n">variable_card</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
-                          <span class="n">values</span><span class="o">=</span><span class="p">[[</span><span class="mf">.999</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.001</span><span class="p">]])</span>
+<span class="c1"># Defining the parameters</span>
+<span class="n">cpd_burglary</span> <span class="o">=</span> <span class="n">TabularCPD</span><span class="p">(</span>
+    <span class="n">variable</span><span class="o">=</span><span class="s2">&quot;Burglary&quot;</span><span class="p">,</span> <span class="n">variable_card</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="p">[[</span><span class="mf">0.999</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.001</span><span class="p">]]</span>
+<span class="p">)</span>
 
-<span class="n">cpd_earthquake</span> <span class="o">=</span> <span class="n">TabularCPD</span><span class="p">(</span><span class="n">variable</span><span class="o">=</span><span class="s1">&#39;Earthquake&#39;</span><span class="p">,</span> 
-                            <span class="n">variable_card</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
-                            <span class="n">values</span><span class="o">=</span><span class="p">[[</span><span class="mf">0.998</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.002</span><span class="p">]])</span>
+<span class="n">cpd_earthquake</span> <span class="o">=</span> <span class="n">TabularCPD</span><span class="p">(</span>
+    <span class="n">variable</span><span class="o">=</span><span class="s2">&quot;Earthquake&quot;</span><span class="p">,</span> <span class="n">variable_card</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="p">[[</span><span class="mf">0.998</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.002</span><span class="p">]]</span>
+<span class="p">)</span>
 
-<span class="n">cpd_alarm</span> <span class="o">=</span> <span class="n">TabularCPD</span><span class="p">(</span><span class="n">variable</span><span class="o">=</span><span class="s1">&#39;Alarm&#39;</span><span class="p">,</span> <span class="n">variable_card</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
-                       <span class="n">values</span><span class="o">=</span><span class="p">[[</span><span class="mf">0.999</span><span class="p">,</span> <span class="mf">0.71</span><span class="p">,</span> <span class="mf">0.06</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">],</span>
-                               <span class="p">[</span><span class="mf">0.001</span><span class="p">,</span> <span class="mf">0.29</span><span class="p">,</span> <span class="mf">0.94</span><span class="p">,</span> <span class="mf">0.95</span><span class="p">]],</span>
-                       <span class="n">evidence</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Burglary&#39;</span><span class="p">,</span> <span class="s1">&#39;Earthquake&#39;</span><span class="p">],</span>
-                       <span class="n">evidence_card</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+<span class="n">cpd_alarm</span> <span class="o">=</span> <span class="n">TabularCPD</span><span class="p">(</span>
+    <span class="n">variable</span><span class="o">=</span><span class="s2">&quot;Alarm&quot;</span><span class="p">,</span>
+    <span class="n">variable_card</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+    <span class="n">values</span><span class="o">=</span><span class="p">[[</span><span class="mf">0.999</span><span class="p">,</span> <span class="mf">0.71</span><span class="p">,</span> <span class="mf">0.06</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.001</span><span class="p">,</span> <span class="mf">0.29</span><span class="p">,</span> <span class="mf">0.94</span><span class="p">,</span> <span class="mf">0.95</span><span class="p">]],</span>
+    <span class="n">evidence</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Burglary&quot;</span><span class="p">,</span> <span class="s2">&quot;Earthquake&quot;</span><span class="p">],</span>
+    <span class="n">evidence_card</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
+<span class="p">)</span>
 
-<span class="n">cpd_marycalls</span> <span class="o">=</span> <span class="n">TabularCPD</span><span class="p">(</span><span class="n">variable</span><span class="o">=</span><span class="s1">&#39;MaryCalls&#39;</span><span class="p">,</span> <span class="n">variable_card</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
-                           <span class="n">values</span><span class="o">=</span><span class="p">[[</span><span class="mf">0.99</span><span class="p">,</span> <span class="mf">0.30</span> <span class="p">],</span> 
-                                   <span class="p">[</span><span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.70</span><span class="p">]],</span>
-                           <span class="n">evidence</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Alarm&#39;</span><span class="p">],</span>
-                           <span class="n">evidence_card</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+<span class="n">cpd_marycalls</span> <span class="o">=</span> <span class="n">TabularCPD</span><span class="p">(</span>
+    <span class="n">variable</span><span class="o">=</span><span class="s2">&quot;MaryCalls&quot;</span><span class="p">,</span>
+    <span class="n">variable_card</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+    <span class="n">values</span><span class="o">=</span><span class="p">[[</span><span class="mf">0.99</span><span class="p">,</span> <span class="mf">0.30</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.70</span><span class="p">]],</span>
+    <span class="n">evidence</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Alarm&quot;</span><span class="p">],</span>
+    <span class="n">evidence_card</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+<span class="p">)</span>
 
-<span class="n">cpd_johncalls</span> <span class="o">=</span> <span class="n">TabularCPD</span><span class="p">(</span><span class="n">variable</span><span class="o">=</span><span class="s1">&#39;JohnCalls&#39;</span><span class="p">,</span> <span class="n">variable_card</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
-                           <span class="n">values</span><span class="o">=</span><span class="p">[[</span><span class="mf">0.95</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">],</span>
-                                   <span class="p">[</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">]],</span>
-                           <span class="n">evidence</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Alarm&#39;</span><span class="p">],</span>
-                           <span class="n">evidence_card</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+<span class="n">cpd_johncalls</span> <span class="o">=</span> <span class="n">TabularCPD</span><span class="p">(</span>
+    <span class="n">variable</span><span class="o">=</span><span class="s2">&quot;JohnCalls&quot;</span><span class="p">,</span>
+    <span class="n">variable_card</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+    <span class="n">values</span><span class="o">=</span><span class="p">[[</span><span class="mf">0.95</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">]],</span>
+    <span class="n">evidence</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Alarm&quot;</span><span class="p">],</span>
+    <span class="n">evidence_card</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+<span class="p">)</span>
 
 <span class="c1"># Associating the parameters with the model structure</span>
-<span class="n">alarm_model</span><span class="o">.</span><span class="n">add_cpds</span><span class="p">(</span><span class="n">cpd_burglary</span><span class="p">,</span> <span class="n">cpd_earthquake</span><span class="p">,</span> <span class="n">cpd_alarm</span><span class="p">,</span> <span class="n">cpd_johncalls</span><span class="p">,</span> 
-                     <span class="n">cpd_marycalls</span><span class="p">)</span>
+<span class="n">alarm_model</span><span class="o">.</span><span class="n">add_cpds</span><span class="p">(</span>
+    <span class="n">cpd_burglary</span><span class="p">,</span> <span class="n">cpd_earthquake</span><span class="p">,</span> <span class="n">cpd_alarm</span><span class="p">,</span> <span class="n">cpd_johncalls</span><span class="p">,</span> <span class="n">cpd_marycalls</span>
+<span class="p">)</span>
 
 <span class="k">assert</span> <span class="n">alarm_model</span><span class="o">.</span><span class="n">check_model</span><span class="p">(),</span> <span class="s2">&quot;Your model doesn&#39;t make sense to pgmpy.&quot;</span>
 
@@ -461,15 +471,15 @@ Edges: [(&#39;Burglary&#39;, &#39;Alarm&#39;), (&#39;Alarm&#39;, &#39;JohnCalls&
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># plot the network</span>
 
 <span class="n">options</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s1">&#39;arrowsize&#39;</span><span class="p">:</span> <span class="mi">40</span><span class="p">,</span>
-    <span class="s1">&#39;font_size&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span>
-    <span class="s1">&#39;font_weight&#39;</span><span class="p">:</span> <span class="s1">&#39;bold&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;node_size&#39;</span><span class="p">:</span> <span class="mi">4000</span><span class="p">,</span>
-    <span class="s1">&#39;node_color&#39;</span><span class="p">:</span> <span class="s1">&#39;white&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;edgecolors&#39;</span><span class="p">:</span> <span class="s1">&#39;black&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;linewidths&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
-    <span class="s1">&#39;width&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
-    <span class="s1">&#39;alpha&#39;</span><span class="p">:</span> <span class="mf">.9</span>
+    <span class="s2">&quot;arrowsize&quot;</span><span class="p">:</span> <span class="mi">40</span><span class="p">,</span>
+    <span class="s2">&quot;font_size&quot;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span>
+    <span class="s2">&quot;font_weight&quot;</span><span class="p">:</span> <span class="s2">&quot;bold&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;node_size&quot;</span><span class="p">:</span> <span class="mi">4000</span><span class="p">,</span>
+    <span class="s2">&quot;node_color&quot;</span><span class="p">:</span> <span class="s2">&quot;white&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;edgecolors&quot;</span><span class="p">:</span> <span class="s2">&quot;black&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;linewidths&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="s2">&quot;width&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+    <span class="s2">&quot;alpha&quot;</span><span class="p">:</span> <span class="mf">0.9</span><span class="p">,</span>
 <span class="p">}</span>
 
 <span class="n">nx</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">alarm_model</span><span class="p">,</span> <span class="n">with_labels</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">options</span><span class="p">)</span>
@@ -477,7 +487,7 @@ Edges: [(&#39;Burglary&#39;, &#39;Alarm&#39;), (&#39;Alarm&#39;, &#39;JohnCalls&
 <span class="c1"># Set margins for the axes so that nodes aren&#39;t clipped</span>
 <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">margins</span><span class="p">(</span><span class="mf">0.20</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -491,25 +501,26 @@ Edges: [(&#39;Burglary&#39;, &#39;Alarm&#39;), (&#39;Alarm&#39;, &#39;JohnCalls&
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">alarm_infer</span> <span class="o">=</span> <span class="n">CausalInference</span><span class="p">(</span><span class="n">alarm_model</span><span class="p">)</span>
 
 <span class="c1"># probability John calls given an earthquake.</span>
-<span class="n">q</span> <span class="o">=</span> <span class="n">alarm_infer</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">variables</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;JohnCalls&#39;</span><span class="p">],</span> 
-                      <span class="n">evidence</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;Earthquake&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">})</span>
+<span class="n">q</span> <span class="o">=</span> <span class="n">alarm_infer</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">variables</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;JohnCalls&quot;</span><span class="p">],</span> <span class="n">evidence</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;Earthquake&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">})</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;P(J|E):&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
 
 <span class="c1"># probability that there was an earthquake given John has called.</span>
-<span class="n">q</span> <span class="o">=</span> <span class="n">alarm_infer</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">variables</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Earthquake&#39;</span><span class="p">],</span> <span class="n">evidence</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;JohnCalls&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">})</span>
+<span class="n">q</span> <span class="o">=</span> <span class="n">alarm_infer</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">variables</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Earthquake&quot;</span><span class="p">],</span> <span class="n">evidence</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;JohnCalls&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">})</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;P(E|J):&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
 
 <span class="c1"># probability of an earthquake given John has not called and Mary has called.</span>
-<span class="n">q</span> <span class="o">=</span> <span class="n">alarm_infer</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">variables</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Earthquake&#39;</span><span class="p">],</span> 
-                      <span class="n">evidence</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;JohnCalls&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;MaryCalls&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">})</span>
+<span class="n">q</span> <span class="o">=</span> <span class="n">alarm_infer</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
+    <span class="n">variables</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Earthquake&quot;</span><span class="p">],</span> <span class="n">evidence</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;JohnCalls&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;MaryCalls&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}</span>
+<span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;P(E|J^c, M):&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
- 
+
 <span class="c1"># probability of a burglary given an alarm and that Mary has not called.</span>
-<span class="n">q</span> <span class="o">=</span> <span class="n">alarm_infer</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">variables</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Burglary&#39;</span><span class="p">],</span> 
-                      <span class="n">evidence</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;Alarm&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;MaryCalls&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">})</span>
+<span class="n">q</span> <span class="o">=</span> <span class="n">alarm_infer</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
+    <span class="n">variables</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Burglary&quot;</span><span class="p">],</span> <span class="n">evidence</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;Alarm&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;MaryCalls&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">}</span>
+<span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;P(B|A, M^c):&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
 </pre></div>

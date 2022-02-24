@@ -354,7 +354,7 @@
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y</span> <span class="o">=</span> <span class="mi">98</span>
 <span class="n">mu</span> <span class="o">=</span> <span class="mi">110</span>
-<span class="n">sigma</span> <span class="o">=</span> <span class="mf">8.944272</span>  
+<span class="n">sigma</span> <span class="o">=</span> <span class="mf">8.944272</span>
 <span class="n">tau</span> <span class="o">=</span> <span class="mf">10.954451</span>
 </pre></div>
 </div>
@@ -365,22 +365,28 @@
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">zerotrickjeremy</span><span class="p">:</span>
     <span class="c1"># priors</span>
 
-    <span class="n">tau</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Gamma</span><span class="p">(</span><span class="s1">&#39;tau&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">.001</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mf">.001</span><span class="p">)</span>
-    <span class="n">sigma</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">tau</span><span class="p">)</span>
+    <span class="n">tau</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Gamma</span><span class="p">(</span><span class="s2">&quot;tau&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span>
+    <span class="n">sigma</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">tau</span><span class="p">)</span>
 
     <span class="c1"># likelihood</span>
-    <span class="n">mu</span> <span class="o">=</span> <span class="p">(</span><span class="n">beta0</span> <span class="o">+</span> <span class="n">beta1</span> <span class="o">*</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;Acetic&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span> <span class="o">+</span> <span class="n">beta2</span><span class="o">*</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;H2S&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
-        <span class="o">+</span> <span class="n">beta3</span><span class="o">*</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;Lactic&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+    <span class="n">mu</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">beta0</span>
+        <span class="o">+</span> <span class="n">beta1</span> <span class="o">*</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;Acetic&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+        <span class="o">+</span> <span class="n">beta2</span> <span class="o">*</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;H2S&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+        <span class="o">+</span> <span class="n">beta3</span> <span class="o">*</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;Lactic&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+    <span class="p">)</span>
 
-    <span class="n">taste</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s1">&#39;score&#39;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span> <span class="n">sd</span><span class="o">=</span><span class="n">sigma</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;taste&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+    <span class="n">taste</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;score&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span> <span class="n">sd</span><span class="o">=</span><span class="n">sigma</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;taste&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
 
     <span class="c1"># start sampling</span>
-    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="c1"># samples</span>
-                      <span class="n">chains</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
-                      <span class="n">tune</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span>
-                      <span class="n">init</span><span class="o">=</span><span class="s1">&#39;jitter+adapt_diag&#39;</span><span class="p">,</span>
-                      <span class="n">random_seed</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-                      <span class="n">return_inferencedata</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span>
+        <span class="mi">1000</span><span class="p">,</span>  <span class="c1"># samples</span>
+        <span class="n">chains</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+        <span class="n">tune</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span>
+        <span class="n">init</span><span class="o">=</span><span class="s2">&quot;jitter+adapt_diag&quot;</span><span class="p">,</span>
+        <span class="n">random_seed</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">return_inferencedata</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span>
 </pre></div>
 </div>
 </div>

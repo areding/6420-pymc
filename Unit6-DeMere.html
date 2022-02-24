@@ -368,28 +368,26 @@
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 <span class="n">sims</span> <span class="o">=</span> <span class="mi">1000000</span>
 
+
 <span class="k">def</span> <span class="nf">prob_sum</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    return probability of sum s in (sims, dice)-shaped np array arr</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">sims</span> <span class="o">=</span> <span class="n">arr</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="k">return</span> <span class="p">(</span><span class="n">arr</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">/</span><span class="n">sims</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">arr</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="n">sims</span>
+
 
 <span class="c1"># simulate 3 dice rolls</span>
 <span class="n">rolls_3</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">integers</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="p">(</span><span class="n">sims</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">endpoint</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Results with 3 dice&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Simulated probability of rolling 11:&quot;</span><span class="p">,</span>
-      <span class="n">prob_sum</span><span class="p">(</span><span class="n">rolls_3</span><span class="p">,</span> <span class="mi">11</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Simulated probability of rolling 12:&quot;</span><span class="p">,</span>
-      <span class="n">prob_sum</span><span class="p">(</span><span class="n">rolls_3</span><span class="p">,</span> <span class="mi">12</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Simulated probability of rolling 11:&quot;</span><span class="p">,</span> <span class="n">prob_sum</span><span class="p">(</span><span class="n">rolls_3</span><span class="p">,</span> <span class="mi">11</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Simulated probability of rolling 12:&quot;</span><span class="p">,</span> <span class="n">prob_sum</span><span class="p">(</span><span class="n">rolls_3</span><span class="p">,</span> <span class="mi">12</span><span class="p">))</span>
 
 <span class="c1"># simulate 300 dice rolls</span>
 <span class="n">rolls_300</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">integers</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="p">(</span><span class="n">sims</span><span class="p">,</span> <span class="mi">300</span><span class="p">),</span> <span class="n">endpoint</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Results with 300 dice&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Simulated probability of rolls summing to 1111:&quot;</span><span class="p">,</span>
-      <span class="n">prob_sum</span><span class="p">(</span><span class="n">rolls_300</span><span class="p">,</span> <span class="mi">1111</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Simulated probability of rolls summing to 1112:&quot;</span><span class="p">,</span>
-      <span class="n">prob_sum</span><span class="p">(</span><span class="n">rolls_300</span><span class="p">,</span> <span class="mi">1112</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Simulated probability of rolls summing to 1111:&quot;</span><span class="p">,</span> <span class="n">prob_sum</span><span class="p">(</span><span class="n">rolls_300</span><span class="p">,</span> <span class="mi">1111</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Simulated probability of rolls summing to 1112:&quot;</span><span class="p">,</span> <span class="n">prob_sum</span><span class="p">(</span><span class="n">rolls_300</span><span class="p">,</span> <span class="mi">1112</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>

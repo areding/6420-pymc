@@ -367,6 +367,7 @@
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">N</span> <span class="o">=</span> <span class="mi">1000000</span>
 <span class="n">flips</span> <span class="o">=</span> <span class="mi">40</span>
 
+
 <span class="k">def</span> <span class="nf">prob</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">N</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Calculate probability that we&#39;ve selected a two-headed coin.</span>
@@ -376,7 +377,8 @@
 
 <span class="sd">    returns: probability at k flips in a row</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="mi">2</span><span class="o">**</span><span class="n">k</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="n">k</span> <span class="o">+</span> <span class="n">N</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="mi">2</span> <span class="o">**</span> <span class="n">k</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">**</span> <span class="n">k</span> <span class="o">+</span> <span class="n">N</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+
 
 <span class="c1"># create a list of probabilities for different values of k</span>
 <span class="n">probabilities</span> <span class="o">=</span> <span class="p">[</span><span class="n">prob</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">flips</span><span class="p">)]</span>
