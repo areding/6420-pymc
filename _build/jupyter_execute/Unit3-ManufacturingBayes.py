@@ -1,14 +1,14 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[1]:
+# In[ ]:
 
 
 # for colab
 get_ipython().run_line_magic('pip', 'install pgmpy')
 
 
-# In[2]:
+# In[1]:
 
 
 import matplotlib.pyplot as plt
@@ -35,7 +35,7 @@ from pgmpy.models import BayesianNetwork
 # 
 # The code below uses pgmpy. Jacob Harris, a student in the Fall 2021 class, also managed to get this [working in PyMC3](https://github.gatech.edu/jharris373/isye6420_examples/blob/master/lecture/unit_3/manufacturing_bayes/PyMC3/simple%20bayes%20net%20example%20-%20manufacturing%20bayes.ipynb).
 
-# In[3]:
+# In[2]:
 
 
 # Defining network structure
@@ -57,13 +57,13 @@ cpd_conforming = TabularCPD(
 # Associating the parameters with the model structure
 mb_model.add_cpds(cpd_machine, cpd_conforming)
 
-assert mb_model.check_model(), "Your model doesn't make sense to pgmpy."
+mb_model.check_model()
 
 print(f"Nodes: {mb_model.nodes()}")
 print(f"Edges: {mb_model.edges()}")
 
 
-# In[4]:
+# In[3]:
 
 
 options = {
@@ -92,7 +92,7 @@ plt.show()
 # 
 # See [Networkx docs](https://networkx.org/documentation/latest/auto_examples/basic/plot_simple_graph.html#sphx-glr-auto-examples-basic-plot-simple-graph-py) for more details on plotting.
 
-# In[5]:
+# In[4]:
 
 
 mb_infer = CausalInference(mb_model)

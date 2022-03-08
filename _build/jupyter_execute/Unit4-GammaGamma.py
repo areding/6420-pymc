@@ -220,3 +220,31 @@ print(f"HPD credible set: {lower, upper}")
 print(f"length = {upper - lower}")
 print(f"probability within these bounds: {prob}")
 
+
+# In[3]:
+
+
+import numpy as np
+from scipy.stats import gamma
+a = 4
+b = 29
+n = 1000000
+samples = gamma.rvs(a, scale=1 / b, size=n)
+
+x = np.sort(samples)
+alpha = .05
+
+lower_idx = int(np.floor(alpha / 2 * n))
+upper_idx = int(np.floor((1 - alpha / 2) * n))
+                
+print(f"manual = {x[lower_idx], x[upper_idx]}")
+
+np.quantile(samples, (.025, .975))
+                
+
+
+# In[ ]:
+
+
+
+

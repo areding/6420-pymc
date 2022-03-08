@@ -356,28 +356,6 @@
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Requirement already satisfied: pgmpy in /Users/aaron/mambaforge/envs/pymc3_test/lib/python3.9/site-packages (0.1.17)
-Requirement already satisfied: statsmodels in /Users/aaron/mambaforge/envs/pymc3_test/lib/python3.9/site-packages (from pgmpy) (0.13.1)
-Requirement already satisfied: pyparsing in /Users/aaron/mambaforge/envs/pymc3_test/lib/python3.9/site-packages (from pgmpy) (3.0.6)
-Requirement already satisfied: numpy in /Users/aaron/mambaforge/envs/pymc3_test/lib/python3.9/site-packages (from pgmpy) (1.22.0)
-Requirement already satisfied: scipy in /Users/aaron/mambaforge/envs/pymc3_test/lib/python3.9/site-packages (from pgmpy) (1.7.3)
-Requirement already satisfied: tqdm in /Users/aaron/mambaforge/envs/pymc3_test/lib/python3.9/site-packages (from pgmpy) (4.62.3)
-Requirement already satisfied: joblib in /Users/aaron/mambaforge/envs/pymc3_test/lib/python3.9/site-packages (from pgmpy) (1.1.0)
-Requirement already satisfied: networkx in /Users/aaron/mambaforge/envs/pymc3_test/lib/python3.9/site-packages (from pgmpy) (2.6.3)
-Requirement already satisfied: torch in /Users/aaron/mambaforge/envs/pymc3_test/lib/python3.9/site-packages (from pgmpy) (1.10.1)
-Requirement already satisfied: pandas in /Users/aaron/mambaforge/envs/pymc3_test/lib/python3.9/site-packages (from pgmpy) (1.3.5)
-Requirement already satisfied: scikit-learn in /Users/aaron/mambaforge/envs/pymc3_test/lib/python3.9/site-packages (from pgmpy) (1.0.2)
-Requirement already satisfied: python-dateutil&gt;=2.7.3 in /Users/aaron/mambaforge/envs/pymc3_test/lib/python3.9/site-packages (from pandas-&gt;pgmpy) (2.8.2)
-Requirement already satisfied: pytz&gt;=2017.3 in /Users/aaron/mambaforge/envs/pymc3_test/lib/python3.9/site-packages (from pandas-&gt;pgmpy) (2021.3)
-Requirement already satisfied: threadpoolctl&gt;=2.0.0 in /Users/aaron/mambaforge/envs/pymc3_test/lib/python3.9/site-packages (from scikit-learn-&gt;pgmpy) (3.0.0)
-Requirement already satisfied: patsy&gt;=0.5.2 in /Users/aaron/mambaforge/envs/pymc3_test/lib/python3.9/site-packages (from statsmodels-&gt;pgmpy) (0.5.2)
-Requirement already satisfied: typing-extensions in /Users/aaron/mambaforge/envs/pymc3_test/lib/python3.9/site-packages (from torch-&gt;pgmpy) (4.0.1)
-Requirement already satisfied: six in /Users/aaron/mambaforge/envs/pymc3_test/lib/python3.9/site-packages (from patsy&gt;=0.5.2-&gt;statsmodels-&gt;pgmpy) (1.16.0)
-Note: you may need to restart the kernel to use updated packages.
-</pre></div>
-</div>
-</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -423,7 +401,7 @@ The probability of an item conforming to standards is 0.94 if it comes from a ty
 <span class="c1"># Associating the parameters with the model structure</span>
 <span class="n">mb_model</span><span class="o">.</span><span class="n">add_cpds</span><span class="p">(</span><span class="n">cpd_machine</span><span class="p">,</span> <span class="n">cpd_conforming</span><span class="p">)</span>
 
-<span class="k">assert</span> <span class="n">mb_model</span><span class="o">.</span><span class="n">check_model</span><span class="p">(),</span> <span class="s2">&quot;Your model doesn&#39;t make sense to pgmpy.&quot;</span>
+<span class="n">mb_model</span><span class="o">.</span><span class="n">check_model</span><span class="p">()</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Nodes: </span><span class="si">{</span><span class="n">mb_model</span><span class="o">.</span><span class="n">nodes</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Edges: </span><span class="si">{</span><span class="n">mb_model</span><span class="o">.</span><span class="n">edges</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>

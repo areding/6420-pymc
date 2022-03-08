@@ -331,6 +331,19 @@
         <!-- Table of contents -->
         <div class="d-none d-md-block col-md-2 bd-toc show noprint">
             
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#practice-midterm-question-1">
+   Practice Midterm, Question 1
+  </a>
+ </li>
+</ul>
+
+            </nav>
         </div>
     </div>
 </div>
@@ -343,6 +356,19 @@
                 <div id="print-main-content">
                     <div id="jb-print-toc">
                         
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#practice-midterm-question-1">
+   Practice Midterm, Question 1
+  </a>
+ </li>
+</ul>
+
+                        </nav>
                     </div>
                 </div>
             </div>
@@ -353,28 +379,6 @@
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># for colab</span>
 <span class="o">%</span><span class="k">pip</span> install pgmpy
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Requirement already satisfied: pgmpy in /Users/aaron/mambaforge/envs/pymc3_test/lib/python3.9/site-packages (0.1.17)
-Requirement already satisfied: scipy in /Users/aaron/mambaforge/envs/pymc3_test/lib/python3.9/site-packages (from pgmpy) (1.7.3)
-Requirement already satisfied: pandas in /Users/aaron/mambaforge/envs/pymc3_test/lib/python3.9/site-packages (from pgmpy) (1.3.5)
-Requirement already satisfied: statsmodels in /Users/aaron/mambaforge/envs/pymc3_test/lib/python3.9/site-packages (from pgmpy) (0.13.1)
-Requirement already satisfied: numpy in /Users/aaron/mambaforge/envs/pymc3_test/lib/python3.9/site-packages (from pgmpy) (1.22.0)
-Requirement already satisfied: networkx in /Users/aaron/mambaforge/envs/pymc3_test/lib/python3.9/site-packages (from pgmpy) (2.6.3)
-Requirement already satisfied: scikit-learn in /Users/aaron/mambaforge/envs/pymc3_test/lib/python3.9/site-packages (from pgmpy) (1.0.2)
-Requirement already satisfied: torch in /Users/aaron/mambaforge/envs/pymc3_test/lib/python3.9/site-packages (from pgmpy) (1.10.1)
-Requirement already satisfied: pyparsing in /Users/aaron/mambaforge/envs/pymc3_test/lib/python3.9/site-packages (from pgmpy) (3.0.6)
-Requirement already satisfied: joblib in /Users/aaron/mambaforge/envs/pymc3_test/lib/python3.9/site-packages (from pgmpy) (1.1.0)
-Requirement already satisfied: tqdm in /Users/aaron/mambaforge/envs/pymc3_test/lib/python3.9/site-packages (from pgmpy) (4.62.3)
-Requirement already satisfied: python-dateutil&gt;=2.7.3 in /Users/aaron/mambaforge/envs/pymc3_test/lib/python3.9/site-packages (from pandas-&gt;pgmpy) (2.8.2)
-Requirement already satisfied: pytz&gt;=2017.3 in /Users/aaron/mambaforge/envs/pymc3_test/lib/python3.9/site-packages (from pandas-&gt;pgmpy) (2021.3)
-Requirement already satisfied: threadpoolctl&gt;=2.0.0 in /Users/aaron/mambaforge/envs/pymc3_test/lib/python3.9/site-packages (from scikit-learn-&gt;pgmpy) (3.0.0)
-Requirement already satisfied: patsy&gt;=0.5.2 in /Users/aaron/mambaforge/envs/pymc3_test/lib/python3.9/site-packages (from statsmodels-&gt;pgmpy) (0.5.2)
-Requirement already satisfied: typing-extensions in /Users/aaron/mambaforge/envs/pymc3_test/lib/python3.9/site-packages (from torch-&gt;pgmpy) (4.0.1)
-Requirement already satisfied: six in /Users/aaron/mambaforge/envs/pymc3_test/lib/python3.9/site-packages (from patsy&gt;=0.5.2-&gt;statsmodels-&gt;pgmpy) (1.16.0)
-Note: you may need to restart the kernel to use updated packages.
 </pre></div>
 </div>
 </div>
@@ -394,13 +398,11 @@ Note: you may need to restart the kernel to use updated packages.
 <h1>Alarm<a class="headerlink" href="#alarm" title="Permalink to this headline">¶</a></h1>
 <p>From <a class="reference external" href="https://www2.isye.gatech.edu/isye6420/supporting.html">Codes for Unit 3</a>.</p>
 <p>Associated lecture videos: Unit 3 <a class="reference external" href="https://www.youtube.com/watch?v=IbHOo6ifJYE&amp;list=PLv0FeK5oXK4l-RdT6DWJj0_upJOG2WKNO&amp;index=16">Lesson 7</a> and <a class="reference external" href="https://www.youtube.com/watch?v=iVFycPG26OQ&amp;list=PLv0FeK5oXK4l-RdT6DWJj0_upJOG2WKNO&amp;index=17">Lesson 8</a>.</p>
-<p>Your house has an alarm system against burglary. The house is located in the seismically active area and the alarm system can get occasionally set off by an earthquake. You have two neighbors, Mary and John, who do not know each other. If they hear the alarm they call you, but this is not guaranteed. They also call you from time to time just to chat. The BUGS code provides an approximate solution for conditional  distributions of nodes given the evidence.</p>
-<ol class="simple">
-<li><p>Find the probability John calls given an earthquake.</p></li>
-<li><p>Find the probability that there was an earthquake given John has called.</p></li>
-<li><p>Find the probability of an earthquake given John has not called and Mary has called.</p></li>
-</ol>
-<p>Practice: Find the probability that there was a burglary given an alarm has gone off and Mary has not called.</p>
+<p><em>Your house has an alarm system against burglary. The house is located in the seismically active area and the alarm system can get occasionally set off by an earthquake. You have two neighbors, Mary and John, who do not know each other. If they hear the alarm they call you, but this is not guaranteed. They also call you from time to time just to chat. The BUGS code provides an approximate solution for conditional  distributions of nodes given the evidence.</em></p>
+<p><em>1. Find the probability John calls given an earthquake.</em></p>
+<p><em>2. Find the probability that there was an earthquake given John has called.</em></p>
+<p><em>3. Find the probability of an earthquake given John has not called and Mary has called.</em></p>
+<p><em>Practice: Find the probability that there was a burglary given an alarm has gone off and Mary has not called.</em></p>
 <p>Based on the example at <a class="reference external" href="https://pgmpy.org/examples/Earthquake.html">https://pgmpy.org/examples/Earthquake.html</a>, which is almost the exact same problem.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -452,7 +454,7 @@ Note: you may need to restart the kernel to use updated packages.
     <span class="n">cpd_burglary</span><span class="p">,</span> <span class="n">cpd_earthquake</span><span class="p">,</span> <span class="n">cpd_alarm</span><span class="p">,</span> <span class="n">cpd_johncalls</span><span class="p">,</span> <span class="n">cpd_marycalls</span>
 <span class="p">)</span>
 
-<span class="k">assert</span> <span class="n">alarm_model</span><span class="o">.</span><span class="n">check_model</span><span class="p">(),</span> <span class="s2">&quot;Your model doesn&#39;t make sense to pgmpy.&quot;</span>
+<span class="n">alarm_model</span><span class="o">.</span><span class="n">check_model</span><span class="p">()</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Nodes: </span><span class="si">{</span><span class="n">alarm_model</span><span class="o">.</span><span class="n">nodes</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Edges: </span><span class="si">{</span><span class="n">alarm_model</span><span class="o">.</span><span class="n">edges</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -560,6 +562,223 @@ P(B|A, M^c):
 | Burglary(1) |          0.3736 |
 +-------------+-----------------+
 </pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="practice-midterm-question-1">
+<h2>Practice Midterm, Question 1<a class="headerlink" href="#practice-midterm-question-1" title="Permalink to this headline">¶</a></h2>
+<p>From <a class="reference external" href="https://www2.isye.gatech.edu/isye6420/Bank/MidtermFall2019.pdf">this practice midterm</a>.</p>
+<p><strong>Emily, Car, Stock Market, Sweepstakes, Vacation and Bayes.</strong></p>
+<p><em>Emily is taking Bayesian Analysis course. She believes she will get an A with probability 0.6, a B with probability 0.3, and a C or less with probability 0.1. At the end of semester she will get a car as a present form her (very) rich uncle depending on her class performance. For getting an A in the course Emily will get a car with probability 0.8, for B with probability 0.5, and for anything less than B, she will get a car with probability of 0.2. These are the probabilities if the market is bullish. If the market is bearish, the uncle is less likely to make expensive presents, and the above probabilities are 0.5, 0.3, and 0.1, respectively. The probabilities of bullish and bearish market are equal, 0.5 each. If Emily gets a car, she would travel to Redington Shores with probability 0.7, or stay on campus with probability 0.3. If she does not get a car, these two probabilities are 0.2 and 0.8, respectively. Independently, Emily may be a lucky winner of a sweepstake lottery for a free air ticket and vacation in hotel Sol at Redington Shores. The chance to win the sweepstake is 0.001, but if Emily wins, she will go to vacation with probability of 0.99, irrespective of what happened with the car.</em></p>
+<p><em>After the semester was over you learned that Emily is at Redington Shores.</em></p>
+<p><em>(a) What is the probability that she got a car?</em></p>
+<p><em>(b) What is the probability that she won the sweepstakes?</em></p>
+<p><em>(c) What is the probability that she got a B in the course?</em></p>
+<p><em>(d) What is the probability that the market was bearish?</em></p>
+<p><em>Hint: You can solve this problem by any of the 3 ways: (i) use of WinBUGS or OpenBUGS, (ii) direct simulation using Octave/MATLAB, R, or Python, and (iii) exact calculation. Use just one of the three ways to solve it. WinBUGS/OpenBUGS or direct simulation are recommended. The exact solution, although straightforward, may be quite messy.</em></p>
+<hr class="docutils" />
+<p>This is a bit more complicated than the alarm example, but still pretty easy with pgmpy. The only tricky part is making sure you’ve entered everything in the correct order.</p>
+<p>When defining variables in pgmpy, the columns are evidence, the rows are the states of the variable. The order you enter evidence matters. See the comments above the <code class="docutils literal notranslate"><span class="pre">cpd_car</span></code> and <code class="docutils literal notranslate"><span class="pre">cpd_vacation</span></code> variables. I’m going to use the <code class="docutils literal notranslate"><span class="pre">state_names</span></code> parameter of <code class="docutils literal notranslate"><span class="pre">TabularCPD()</span></code> to help keep track of what’s going on here.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Defining network structure</span>
+<span class="n">emily_model</span> <span class="o">=</span> <span class="n">BayesianNetwork</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="p">(</span><span class="s2">&quot;Grade&quot;</span><span class="p">,</span> <span class="s2">&quot;Car&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;Car&quot;</span><span class="p">,</span> <span class="s2">&quot;Vacation&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;Sweepstakes&quot;</span><span class="p">,</span> <span class="s2">&quot;Vacation&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;Market&quot;</span><span class="p">,</span> <span class="s2">&quot;Car&quot;</span><span class="p">),</span>
+    <span class="p">]</span>
+<span class="p">)</span>
+
+<span class="c1"># Defining the variables</span>
+<span class="n">cpd_market</span> <span class="o">=</span> <span class="n">TabularCPD</span><span class="p">(</span>
+    <span class="n">variable</span><span class="o">=</span><span class="s2">&quot;Market&quot;</span><span class="p">,</span>
+    <span class="n">variable_card</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+    <span class="n">values</span><span class="o">=</span><span class="p">[[</span><span class="mf">0.5</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">]],</span>
+    <span class="n">state_names</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;Market&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;Bull&quot;</span><span class="p">,</span> <span class="s2">&quot;Bear&quot;</span><span class="p">]},</span>
+<span class="p">)</span>
+
+<span class="n">cpd_grade</span> <span class="o">=</span> <span class="n">TabularCPD</span><span class="p">(</span>
+    <span class="n">variable</span><span class="o">=</span><span class="s2">&quot;Grade&quot;</span><span class="p">,</span>
+    <span class="n">variable_card</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+    <span class="n">values</span><span class="o">=</span><span class="p">[[</span><span class="mf">0.6</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.3</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">]],</span>
+    <span class="n">state_names</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;Grade&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;A&quot;</span><span class="p">,</span> <span class="s2">&quot;B&quot;</span><span class="p">,</span> <span class="s2">&quot;C&quot;</span><span class="p">]},</span>
+<span class="p">)</span>
+
+<span class="c1">#    Car variable</span>
+<span class="c1">#    +---------+---------+---------+---------+---------+---------+---------+</span>
+<span class="c1">#    | Market  | Bull    | Bull    | Bull    | Bear    | Bear    | Bear    |</span>
+<span class="c1">#    +---------+---------+---------+---------+---------+---------+---------+</span>
+<span class="c1">#    | Grade   | A       | B       | C       | A       | B       | C       |</span>
+<span class="c1">#    +---------+---------+---------+---------+---------+---------+---------+</span>
+<span class="c1">#    | Car     | 0.8     | 0.5     | 0.2     | 0.5     | 0.3     | 0.1     |</span>
+<span class="c1">#    +---------+---------+---------+---------+---------+---------+---------+</span>
+<span class="c1">#    | No car  | 0.2     | 0.5     | 0.8     | 0.5     | 0.7     | 0.9     |</span>
+<span class="c1">#    +---------+---------+---------+---------+---------+---------+---------+</span>
+
+<span class="n">cpd_car</span> <span class="o">=</span> <span class="n">TabularCPD</span><span class="p">(</span>
+    <span class="n">variable</span><span class="o">=</span><span class="s2">&quot;Car&quot;</span><span class="p">,</span>
+    <span class="n">variable_card</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>  <span class="c1"># there are two possible outcomes, car or no car</span>
+    <span class="n">values</span><span class="o">=</span><span class="p">[</span>
+        <span class="p">[</span><span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">],</span>  <span class="c1"># car</span>
+        <span class="p">[</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">],</span>  <span class="c1"># no car</span>
+    <span class="p">],</span>
+    <span class="n">evidence</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Market&quot;</span><span class="p">,</span> <span class="s2">&quot;Grade&quot;</span><span class="p">],</span>
+    <span class="n">evidence_card</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>  <span class="c1"># 2 possible states for the market, 3 for grade</span>
+    <span class="n">state_names</span><span class="o">=</span><span class="p">{</span>
+        <span class="s2">&quot;Market&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;Bull&quot;</span><span class="p">,</span> <span class="s2">&quot;Bear&quot;</span><span class="p">],</span>
+        <span class="s2">&quot;Grade&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;A&quot;</span><span class="p">,</span> <span class="s2">&quot;B&quot;</span><span class="p">,</span> <span class="s2">&quot;C&quot;</span><span class="p">],</span>
+        <span class="s2">&quot;Car&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;Yes&quot;</span><span class="p">,</span> <span class="s2">&quot;No&quot;</span><span class="p">],</span>
+    <span class="p">},</span>
+<span class="p">)</span>
+
+<span class="n">cpd_sweepstakes</span> <span class="o">=</span> <span class="n">TabularCPD</span><span class="p">(</span>
+    <span class="n">variable</span><span class="o">=</span><span class="s2">&quot;Sweepstakes&quot;</span><span class="p">,</span>
+    <span class="n">variable_card</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+    <span class="n">values</span><span class="o">=</span><span class="p">[[</span><span class="mf">0.001</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.999</span><span class="p">]],</span>
+    <span class="n">state_names</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;Sweepstakes&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;Win&quot;</span><span class="p">,</span> <span class="s2">&quot;Lose&quot;</span><span class="p">]},</span>
+<span class="p">)</span>
+
+<span class="c1">#    +----------------+---------+---------+---------+---------+</span>
+<span class="c1">#    | Sweepstakes    | Win     | Win     | Lose    | Lose    |</span>
+<span class="c1">#    +----------------+---------+---------+---------+---------+</span>
+<span class="c1">#    | Car            | Yes     | No      | Yes     | No      |</span>
+<span class="c1">#    +----------------+---------+---------+---------+---------+</span>
+<span class="c1">#    | Vacation (yes) | 0.99    | 0.99    | 0.7     | 0.2     |</span>
+<span class="c1">#    +----------------+---------+---------+---------+---------+</span>
+<span class="c1">#    | Vacation (no)  | 0.01    | 0.01    | 0.3     | 0.8     |</span>
+<span class="c1">#    +----------------+---------+---------+---------+---------+</span>
+
+<span class="n">cpd_vacation</span> <span class="o">=</span> <span class="n">TabularCPD</span><span class="p">(</span>
+    <span class="n">variable</span><span class="o">=</span><span class="s2">&quot;Vacation&quot;</span><span class="p">,</span>
+    <span class="n">variable_card</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+    <span class="n">values</span><span class="o">=</span><span class="p">[</span>
+        <span class="p">[</span><span class="mf">0.99</span><span class="p">,</span> <span class="mf">0.99</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">],</span>  <span class="c1"># vacation</span>
+        <span class="p">[</span><span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">],</span>  <span class="c1"># no vacation</span>
+    <span class="p">],</span>
+    <span class="n">evidence</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Sweepstakes&quot;</span><span class="p">,</span> <span class="s2">&quot;Car&quot;</span><span class="p">],</span>
+    <span class="n">evidence_card</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
+    <span class="n">state_names</span><span class="o">=</span><span class="p">{</span>
+        <span class="s2">&quot;Sweepstakes&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;Win&quot;</span><span class="p">,</span> <span class="s2">&quot;Lose&quot;</span><span class="p">],</span>
+        <span class="s2">&quot;Car&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;Yes&quot;</span><span class="p">,</span> <span class="s2">&quot;No&quot;</span><span class="p">],</span>
+        <span class="s2">&quot;Vacation&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;Yes&quot;</span><span class="p">,</span> <span class="s2">&quot;No&quot;</span><span class="p">],</span>
+    <span class="p">},</span>
+<span class="p">)</span>
+
+<span class="c1"># Associating the parameters with the model structure</span>
+<span class="n">emily_model</span><span class="o">.</span><span class="n">add_cpds</span><span class="p">(</span><span class="n">cpd_market</span><span class="p">,</span> <span class="n">cpd_grade</span><span class="p">,</span> <span class="n">cpd_car</span><span class="p">,</span> <span class="n">cpd_sweepstakes</span><span class="p">,</span> <span class="n">cpd_vacation</span><span class="p">)</span>
+
+<span class="n">emily_model</span><span class="o">.</span><span class="n">check_model</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Nodes: </span><span class="si">{</span><span class="n">emily_model</span><span class="o">.</span><span class="n">nodes</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Edges: </span><span class="si">{</span><span class="n">emily_model</span><span class="o">.</span><span class="n">edges</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Nodes: [&#39;Grade&#39;, &#39;Car&#39;, &#39;Vacation&#39;, &#39;Sweepstakes&#39;, &#39;Market&#39;]
+Edges: [(&#39;Grade&#39;, &#39;Car&#39;), (&#39;Car&#39;, &#39;Vacation&#39;), (&#39;Sweepstakes&#39;, &#39;Vacation&#39;), (&#39;Market&#39;, &#39;Car&#39;)]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># plot the network</span>
+
+<span class="n">options</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;arrowsize&quot;</span><span class="p">:</span> <span class="mi">40</span><span class="p">,</span>
+    <span class="s2">&quot;font_size&quot;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span>
+    <span class="s2">&quot;font_weight&quot;</span><span class="p">:</span> <span class="s2">&quot;bold&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;node_size&quot;</span><span class="p">:</span> <span class="mi">4000</span><span class="p">,</span>
+    <span class="s2">&quot;node_color&quot;</span><span class="p">:</span> <span class="s2">&quot;white&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;edgecolors&quot;</span><span class="p">:</span> <span class="s2">&quot;black&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;linewidths&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="s2">&quot;width&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+    <span class="s2">&quot;alpha&quot;</span><span class="p">:</span> <span class="mf">0.9</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="n">nx</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">emily_model</span><span class="p">,</span> <span class="n">with_labels</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">options</span><span class="p">)</span>
+
+<span class="c1"># Set margins for the axes so that nodes aren&#39;t clipped</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">margins</span><span class="p">(</span><span class="mf">0.20</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/Unit3-Alarm_9_0.png" src="_images/Unit3-Alarm_9_0.png" />
+</div>
+</div>
+<p>If the above network makes sense, we’re good to go! Remember, we know Emily did go to Redington Shores for her vacation, so everything is conditional on that.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">emily_infer</span> <span class="o">=</span> <span class="n">CausalInference</span><span class="p">(</span><span class="n">emily_model</span><span class="p">)</span>
+
+<span class="n">evidence</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Vacation&quot;</span><span class="p">:</span> <span class="s2">&quot;Yes&quot;</span><span class="p">}</span>
+
+<span class="c1"># a: probability Emily got a car.</span>
+<span class="n">q</span> <span class="o">=</span> <span class="n">emily_infer</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">variables</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Car&quot;</span><span class="p">],</span> <span class="n">evidence</span><span class="o">=</span><span class="n">evidence</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;P(C|V):&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+
+<span class="c1"># b: probability she won the sweepstakes.</span>
+<span class="n">q</span> <span class="o">=</span> <span class="n">emily_infer</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">variables</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Sweepstakes&quot;</span><span class="p">],</span> <span class="n">evidence</span><span class="o">=</span><span class="n">evidence</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;P(SS|V):&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+
+<span class="c1"># c: probability she got a B.</span>
+<span class="n">q</span> <span class="o">=</span> <span class="n">emily_infer</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">variables</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Grade&quot;</span><span class="p">],</span> <span class="n">evidence</span><span class="o">=</span><span class="n">evidence</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;P(G|V):&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+
+<span class="c1"># d: probability the stock market was bearish</span>
+<span class="n">q</span> <span class="o">=</span> <span class="n">emily_infer</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">variables</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Market&quot;</span><span class="p">],</span> <span class="n">evidence</span><span class="o">=</span><span class="n">evidence</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;P(SM|V):&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>P(C|V):
++----------+------------+
+| Car      |   phi(Car) |
++==========+============+
+| Car(Yes) |     0.7940 |
++----------+------------+
+| Car(No)  |     0.2060 |
++----------+------------+
+P(SS|V):
++-------------------+--------------------+
+| Sweepstakes       |   phi(Sweepstakes) |
++===================+====================+
+| Sweepstakes(Win)  |             0.0021 |
++-------------------+--------------------+
+| Sweepstakes(Lose) |             0.9979 |
++-------------------+--------------------+
+P(G|V):
++----------+--------------+
+| Grade    |   phi(Grade) |
++==========+==============+
+| Grade(A) |       0.6809 |
++----------+--------------+
+| Grade(B) |       0.2595 |
++----------+--------------+
+| Grade(C) |       0.0595 |
++----------+--------------+
+P(SM|V):
++--------------+---------------+
+| Market       |   phi(Market) |
++==============+===============+
+| Market(Bull) |        0.5674 |
++--------------+---------------+
+| Market(Bear) |        0.4326 |
++--------------+---------------+
+</pre></div>
+</div>
 </div>
 </div>
 </div>

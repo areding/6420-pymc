@@ -32,8 +32,10 @@ filterwarnings("ignore")
 # If you do want to set an initial value, pass a dictionary to the start parameter of pm.sample.
 # 
 # ```python
-# inits = {"alpha": np.array(0.),
-#          "beta": np.array(0.)}
+# inits = {
+#     "alpha": np.array(0.0),
+#     "beta": np.array(0.0)
+# }
 # 
 # trace = pm.sample(2000, start=inits)
 # ```
