@@ -86,7 +86,7 @@ print(f"length of hpd cs: {upper_hpd - lower_hpd}")
 
 # equi-tailed credible set
 
-# percent point function aka quantile aka inverse cdf
+# percent point function aka inverse cdf
 lower_eqt = gamma.ppf(0.025, a, scale=1 / b)
 upper_eqt = gamma.ppf(0.975, a, scale=1 / b)
 print(f"Equitailed credible set: [{lower_eqt} {upper_eqt}]")
