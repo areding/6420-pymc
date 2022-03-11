@@ -224,8 +224,8 @@ print(f"probability within these bounds: {prob}")
 # In[3]:
 
 
-import numpy as np
-from scipy.stats import gamma
+# use np.quantile for equitailed credible sets
+
 a = 4
 b = 29
 n = 1000000
