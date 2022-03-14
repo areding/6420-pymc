@@ -736,16 +736,6 @@ Sampling 4 chains for 10_000 tune and 100_000 draw iterations (40_000 + 400_000 
 </tbody>
 </table>
 <p>Okay, these results are pretty close. We end up with <span class="math notranslate nohighlight">\(1/.023=43.5\)</span> days, compared to <span class="math notranslate nohighlight">\(43.8\)</span> days for BUGS. But we’re missing the imputed values for each censored observation. I don’t see an easy way to do that in PyMC right now, but I will circle back to this eventually.</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}
-        \begin{cases}
-            0 &amp; \text{for } x &lt; lower, \\
-            \text{CDF}(lower, dist) &amp; \text{for } x = lower, \\
-            \text{PDF}(x, dist) &amp; \text{for } lower &lt; x &lt; upper, \\
-            1-\text{CDF}(upper, dist) &amp; \text {for} x = upper, \\
-            0 &amp; \text{for } x &gt; upper,
-        \end{cases}
-        \end{split}\]</div>
 </div>
 </div>
 
