@@ -111,16 +111,6 @@ az.summary(trace, hdi_prob=0.95)
 # 
 # Okay, these results are pretty close. We end up with $1/.023=43.5$ days, compared to $43.8$ days for BUGS. But we're missing the imputed values for each censored observation. I don't see an easy way to do that in PyMC right now, but I will circle back to this eventually.
 
-# $$
-#         \begin{cases}
-#             0 & \text{for } x < lower, \\
-#             \text{CDF}(lower, dist) & \text{for } x = lower, \\
-#             \text{PDF}(x, dist) & \text{for } lower < x < upper, \\
-#             1-\text{CDF}(upper, dist) & \text {for} x = upper, \\
-#             0 & \text{for } x > upper,
-#         \end{cases}
-#         $$
-
 # In[ ]:
 
 
