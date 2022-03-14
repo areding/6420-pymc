@@ -53,6 +53,8 @@
     <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Psoriasis: Two sample problem with paired data" href="Unit6-psoriasis.html" />
+    <link rel="prev" title="Equivalence of Generic and Brand-Name Drugs" href="Unit6-equivalence.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -201,7 +203,7 @@
   Unit 6
  </span>
 </p>
-<ul class="nav bd-sidenav">
+<ul class="current nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="Unit6-cheese.html">
    Taste of Cheese
@@ -222,9 +224,24 @@
    Equivalence of Generic and Brand-Name Drugs
   </a>
  </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Bartholomew (1957) for Type I censoring
+  </a>
+ </li>
  <li class="toctree-l1">
   <a class="reference internal" href="Unit6-psoriasis.html">
    Psoriasis: Two sample problem with paired data
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Unit6-stressacids.html">
+   Stress, Diet and Plasma Acids
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Unit6-zerotrickJeremy.html">
+   Jeremy with Zero Tricks
   </a>
  </li>
 </ul>
@@ -719,6 +736,16 @@ Sampling 4 chains for 10_000 tune and 100_000 draw iterations (40_000 + 400_000 
 </tbody>
 </table>
 <p>Okay, these results are pretty close. We end up with <span class="math notranslate nohighlight">\(1/.023=43.5\)</span> days, compared to <span class="math notranslate nohighlight">\(43.8\)</span> days for BUGS. But we’re missing the imputed values for each censored observation. I don’t see an easy way to do that in PyMC right now, but I will circle back to this eventually.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+        \begin{cases}
+            0 &amp; \text{for } x &lt; lower, \\
+            \text{CDF}(lower, dist) &amp; \text{for } x = lower, \\
+            \text{PDF}(x, dist) &amp; \text{for } lower &lt; x &lt; upper, \\
+            1-\text{CDF}(upper, dist) &amp; \text {for} x = upper, \\
+            0 &amp; \text{for } x &gt; upper,
+        \end{cases}
+        \end{split}\]</div>
 </div>
 </div>
 
@@ -746,7 +773,21 @@ Sampling 4 chains for 10_000 tune and 100_000 draw iterations (40_000 + 400_000 
               
             
                 <!-- Previous / next buttons -->
-<div class='prev-next-area'>
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="Unit6-equivalence.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Equivalence of Generic and Brand-Name Drugs</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="Unit6-psoriasis.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Psoriasis: Two sample problem with paired data</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
 </div>
             
         </div>
