@@ -36,18 +36,7 @@ from pymc3.math import switch
 # 
 
 # ---
-# BUGS defines the step function like this:
-# 
-# ```step(e)``` is 1 if e >= 0; 0 otherwise.
-# 
-# Keep in mind that in PyMC, step functions are the algorithms used for sampling, as in NUTS or Metropolis.
-# 
-# We can recreate the BUGS step function with ```pm.math.switch()```:
-# 
-# ```
-# pm.math.switch(e >= 0, 1, 0)
-# 
-# ```
+# See [Unit 6: Stress, Diet and Plasma Acids](https://areding.github.io/6420-pymc/Unit6-stressacids.html) to find out more about converting the BUGS step function.
 
 # In[2]:
 
@@ -64,7 +53,7 @@ after = np.array((5.2, 12.2, 4.6, 4.0, 0.4, 3.8, 1.2, 3.1, 3.5, 4.9, 11.1,
 # In[3]:
 
 
-with pm.Model() as psoriasis:
+with pm.Model() as m:
     # priors
     mu = pm.Normal("mu", mu=0, sigma=316)
     prec = pm.Gamma("prec", alpha=0.001, beta=0.001)

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[1]:
+# In[2]:
 
 
 import arviz as az
@@ -24,7 +24,7 @@ import pymc3 as pm
 # 
 # Can the score be predicted well by the predictors: Acetic, H2S, and Lactic?
 
-# In[2]:
+# In[3]:
 
 
 data = pd.read_csv("./data/cheese.csv", index_col=0)
@@ -34,10 +34,10 @@ X_aug = np.concatenate((np.ones((X.shape[0], 1)), X), axis=1)
 y = data["taste"].values
 
 
-# In[3]:
+# In[4]:
 
 
-with pm.Model() as cheese:
+with pm.Model() as m:
     # associate data with model (this makes prediction easier)
     X_data = pm.Data("X", X_aug)
     y_data = pm.Data("y", y)
@@ -65,7 +65,7 @@ with pm.Model() as cheese:
     )
 
 
-# In[4]:
+# In[5]:
 
 
 az.summary(trace, hdi_prob=0.95)
@@ -87,7 +87,7 @@ az.summary(trace, hdi_prob=0.95)
 
 # It looks like there are multiple ways to get predictions on out-of-sample data in PyMC. The easiest way is to set up a shared variable using pm.Data in the original model, then using pm.set_data to change to the new observations before calling pm.sample_posterior_predictive. This section still needs some experimentation.
 
-# In[5]:
+# In[6]:
 
 
 # prediction
@@ -96,8 +96,14 @@ pm.set_data({"X": new_obs}, model=cheese)
 ppc = pm.sample_posterior_predictive(trace, model=cheese, samples=30)
 
 
-# In[6]:
+# In[7]:
 
 
 az.summary(ppc, hdi_prob=0.95)
+
+
+# In[ ]:
+
+
+
 

@@ -43,7 +43,7 @@ pos_B = 3
 # In[3]:
 
 
-with pm.Model() as ebay:
+with pm.Model() as m:
     # priors
     priors_A = (
         pm.Beta("uniform_A", alpha=1, beta=1),

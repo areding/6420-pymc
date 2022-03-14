@@ -11,8 +11,8 @@ import numpy as np
 # 
 # Not sure what this is from! The professor doesn't mention it in lectures, but it was in the Codes4Unit6 archive so here you go!
 # 
-# - What is more likely in rolling 3 fair dice: sum 11 or sum 12?
-# - What is more likely in rolling 300 fair dice: sum 1111 or sum 1112?
+# - What is more likely when rolling 3 fair dice: sum 11 or sum 12?
+# - What is more likely when rolling 300 fair dice: sum 1111 or sum 1112?
 
 # In[3]:
 

@@ -48,7 +48,7 @@ X = np.array([1, 2, 3, 4, 5])
 y = np.array([1, 3, 3, 3, 5])
 x_bar = np.mean(X)
 
-with pm.Model() as asr:
+with pm.Model() as m:
     # priors
     alpha = pm.Normal("alpha", sigma=100)
     beta = pm.Normal("beta", sigma=100)

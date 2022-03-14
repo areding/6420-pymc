@@ -63,7 +63,7 @@ y
 # In[5]:
 
 
-with pm.Model() as dugongs:
+with pm.Model() as m:
     # priors
     alpha = pm.Uniform("alpha", 0, 100)
     beta = pm.Uniform("beta", 0, 100)

@@ -39,11 +39,13 @@ increase_type2 = [6, 7, 5, 9, 5, 5, 3, 7, 5, 10, 8, 5, 8, 4, 4, 8, 6, 11,
 
 
 # We're using ```pm.math.switch``` to recreate the BUGS ```step()``` function for the ```probint``` variable.
+# 
+# See [Unit 6: Stress, Diet and Plasma Acids](https://areding.github.io/6420-pymc/Unit6-stressacids.html) to find out more about converting the BUGS step function.
 
 # In[3]:
 
 
-with pm.Model() as equivalence:
+with pm.Model() as m:
     # priors
     mu1 = pm.Normal("mu1", mu=10, sigma=316)
     mu2 = pm.Normal("mu2", mu=10, sigma=316)

@@ -1,26 +1,20 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[1]:
+# In[2]:
 
 
 import arviz as az
 import matplotlib.pyplot as plt
 import numpy as np
-import pymc3 as pm
+import pymc as pm
+get_ipython().run_line_magic('load_ext', 'watermark')
 
 
-# In[7]:
+# In[4]:
 
 
-kicks_cincy = np.array(
-    [53, 53, 43, 35, 40, 52, 21, 27, 0, 54, 51, 48, 41, 58, 46, 46, 43, 54, 52]
-)
-kicks_la = np.array(
-    [53, 38, 48, 42, 47, 32, 47, 27, 54, 37, 39, 44, 55, 55, 32, 0, 43, 46, 40, 40]
-)
-kicks_both = np.append(kicks_cincy, kicks_la)
-np.median(kicks_both), np.mean(kicks_both), np.std(kicks_both)
+get_ipython().run_line_magic('watermark', '--iversions')
 
 
 # # Bartholomew (1957) for Type I censoring
@@ -29,7 +23,7 @@ np.median(kicks_both), np.mean(kicks_both), np.std(kicks_both)
 # 
 # Associated lecture videos: [Unit 6 Lesson 9](https://www.youtube.com/watch?v=6gKnM6vL8Po&list=PLv0FeK5oXK4l-RdT6DWJj0_upJOG2WKNO&index=60).
 # 
-# Dataset from: [A Problem in Life Testing (Bartholemew 1957)](https://www.jstor.org/stable/2280905?seq=1#metadata_info_tab_contents).
+# Dataset and table from: [A Problem in Life Testing (Bartholemew 1957)](https://www.jstor.org/stable/2280905?seq=1#metadata_info_tab_contents).
 # 
 # ## Results of a life test on ten pieces of equipment
 # |Item No.|1|2|3|4|5|6|7|8|9|10|
@@ -49,7 +43,7 @@ np.median(kicks_both), np.mean(kicks_both), np.std(kicks_both)
 # 
 # 2. Ignore the equipment that didn't fail:
 #     - Take mean lifetime of the pieces of equipment that broke within the experiment period for an estimate of 22.1 days.
-#     - Problem: selection bias, underestimates even more.
+#     - Problems: selection bias, underestimates even more.
 # 
 # 3. Use the classical method:
 #     - Maximum Likelihood Estimation (MLE) under an exponential model. Total observed lifetime divided by 7 (number of observed failures) for an estimate of 44.0 days.
@@ -58,40 +52,48 @@ np.median(kicks_both), np.mean(kicks_both), np.std(kicks_both)
 # The actual mean lifespan of all pieces of equipment was 38.8 days.
 # 
 # ## Bayesian approach
-# What we need to do is called Type-1 censoring. We will right-censor the three machines that still hadn't failed by August 31.
+# What we need to do is called Type-1 censoring. We will right-censor the three machines that still hadn't failed by August 31, following [this example](https://docs.pymc.io/projects/examples/en/latest/generalized_linear_models/GLM-truncated-censored-regression.html#censored-regression-model).
+# 
+# ```{note}
+# This is using PyMC 4.0 beta 3!
+# ```
 
-# In[2]:
+# In[82]:
 
 
 # gamma dist parameters
-alpha = 0.01
-beta = 0.1
+α = 0.01
+β = 0.1
 
-observed = (2, -1, 51, -1, 33, 27, 14, 24, 4, -1)
-censored = (0, 72, 0, 60, 0, 0, 0, 0, 0, 21)
+# max possible observed life for each piece of equipment (before end of experiment)
+censored =(81, 72, 70, 60, 41, 31, 31, 30, 29, 21) 
 
+# observed life within experiment dates
 y = (2, 72, 51, 60, 33, 27, 14, 24, 4, 21)
 
 
-def censored_exponential(y, alpha, beta):
-    with pm.Model() as model:
-        # prior
-        lam = pm.Gamma("lam", alpha, beta)
-        mu = pm.Deterministic("mu", 1 / lam)
-        obs_latent = pm.Exponential.dist(lam)
-        observed = pm.Censored("observed", obs_latent, observed=y)
+with pm.Model() as m:
+    λ = pm.Gamma("λ", α, β)
+    μ = pm.Deterministic("μ", 1 / λ)
+    obs_latent = pm.Exponential.dist(λ)
+    
+    observed = pm.Censored(
+        "observed", obs_latent, lower=None, upper=censored, observed=y, shape=len(y)
+    )
 
-    return model
+    
+    trace = pm.sample(
+        100000,
+        chains=4,
+        tune=10000,
+        cores=4,
+        init="jitter+adapt_diag",
+        random_seed=1,
+        return_inferencedata=True,
+    )
 
 
-# In[5]:
-
-
-with censored_exponential(y, alpha, beta):
-    trace = pm.sample(tune=1000, return_inferencedata=True)
-
-
-# In[ ]:
+# In[83]:
 
 
 az.summary(trace, hdi_prob=0.95)
@@ -106,28 +108,8 @@ az.summary(trace, hdi_prob=0.95)
 # | observed[2]   | 122.8           | 60.45  | 0.2442   | 73.12    | 103.5   | 284.5     | 1001  | 100000 |
 # | observed[4]   | 110.8           | 59.93  | 0.2145   | 61.09    | 91.81   | 269.8     | 1001  | 100000 |
 # | observed[10]  | 72.01           | 60.28  | 0.2155   | 22.13    | 52.89   | 232.6     | 1001  | 100000 |
-
-# In[8]:
-
-
-from importlib.metadata import version
-
-
-# In[9]:
-
-
-version("pymc")
-
-
-# In[ ]:
-
-
-
-
-
-# Notes:
 # 
-# - PyMC 4.0 appears to have a new pm.Censored() function, but it's still in beta and the version on conda-forge didn't have that function available when I was working on this. I'll update later when the first stable release comes out (see [this PyMC example](https://docs.pymc.io/projects/examples/en/latest/generalized_linear_models/GLM-truncated-censored-regression.html#censored-regression-model)).
+# Okay, these results are pretty close. We end up with $1/.023=43.5$ days, compared to $43.8$ days for BUGS. But we're missing the imputed values for each censored observation. I don't see an easy way to do that in PyMC right now, but I will circle back to this eventually.
 
 # In[ ]:
 

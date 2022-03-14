@@ -72,7 +72,7 @@ np.mean(thetas, axis=0)
 # In[4]:
 
 
-with pm.Model() as pumps:
+with pm.Model() as m:
     times = pm.Data("times", t)
     data = pm.Data("data", X)
 
