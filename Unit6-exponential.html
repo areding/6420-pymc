@@ -22,8 +22,8 @@
       
 
     
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
@@ -33,17 +33,19 @@
     
   <link rel="preload" as="script" href="_static/js/index.be7d3bbb2ef33a8344ce.js">
 
-    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
     <script src="_static/doctools.js"></script>
     <script src="_static/togglebutton.js"></script>
     <script src="_static/clipboard.min.js"></script>
     <script src="_static/copybutton.js"></script>
-    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
-    <script >
+    <script>
         const thebe_selector = ".thebe"
         const thebe_selector_input = "pre"
         const thebe_selector_output = ".output"
@@ -89,7 +91,7 @@
   </a>
  </li>
 </ul>
-<p class="caption">
+<p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
   Unit 1
  </span>
@@ -101,7 +103,7 @@
   </a>
  </li>
 </ul>
-<p class="caption">
+<p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
   Unit 2
  </span>
@@ -113,7 +115,7 @@
   </a>
  </li>
 </ul>
-<p class="caption">
+<p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
   Unit 3
  </span>
@@ -135,7 +137,7 @@
   </a>
  </li>
 </ul>
-<p class="caption">
+<p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
   Unit 4
  </span>
@@ -157,7 +159,7 @@
   </a>
  </li>
 </ul>
-<p class="caption">
+<p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
   Unit 5
  </span>
@@ -194,7 +196,7 @@
   </a>
  </li>
 </ul>
-<p class="caption">
+<p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
   Unit 6
  </span>
@@ -388,40 +390,32 @@
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">arviz</span> <span class="k">as</span> <span class="nn">az</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">pymc3</span> <span class="k">as</span> <span class="nn">pm</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>WARNING (theano.link.c.cmodule): install mkl with `conda install mkl-service`: No module named &#39;mkl&#39;
+<span class="kn">import</span> <span class="nn">pymc</span> <span class="k">as</span> <span class="nn">pm</span>
+<span class="o">%</span><span class="k">load_ext</span> watermark
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">kicks_cincy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
-    <span class="p">[</span><span class="mi">53</span><span class="p">,</span> <span class="mi">53</span><span class="p">,</span> <span class="mi">43</span><span class="p">,</span> <span class="mi">35</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">52</span><span class="p">,</span> <span class="mi">21</span><span class="p">,</span> <span class="mi">27</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">54</span><span class="p">,</span> <span class="mi">51</span><span class="p">,</span> <span class="mi">48</span><span class="p">,</span> <span class="mi">41</span><span class="p">,</span> <span class="mi">58</span><span class="p">,</span> <span class="mi">46</span><span class="p">,</span> <span class="mi">46</span><span class="p">,</span> <span class="mi">43</span><span class="p">,</span> <span class="mi">54</span><span class="p">,</span> <span class="mi">52</span><span class="p">]</span>
-<span class="p">)</span>
-<span class="n">kicks_la</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
-    <span class="p">[</span><span class="mi">53</span><span class="p">,</span> <span class="mi">38</span><span class="p">,</span> <span class="mi">48</span><span class="p">,</span> <span class="mi">42</span><span class="p">,</span> <span class="mi">47</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">47</span><span class="p">,</span> <span class="mi">27</span><span class="p">,</span> <span class="mi">54</span><span class="p">,</span> <span class="mi">37</span><span class="p">,</span> <span class="mi">39</span><span class="p">,</span> <span class="mi">44</span><span class="p">,</span> <span class="mi">55</span><span class="p">,</span> <span class="mi">55</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">43</span><span class="p">,</span> <span class="mi">46</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">40</span><span class="p">]</span>
-<span class="p">)</span>
-<span class="n">kicks_both</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">kicks_cincy</span><span class="p">,</span> <span class="n">kicks_la</span><span class="p">)</span>
-<span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">kicks_both</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">kicks_both</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">kicks_both</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">watermark</span> --iversions
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(44.0, 41.94871794871795, 12.987071910861317)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>numpy     : 1.22.3
+arviz     : 0.11.4
+matplotlib: 3.5.1
+pymc      : 4.0.0b3
 </pre></div>
 </div>
 </div>
 </div>
-<div class="section" id="bartholomew-1957-for-type-i-censoring">
+<div class="tex2jax_ignore mathjax_ignore section" id="bartholomew-1957-for-type-i-censoring">
 <h1>Bartholomew (1957) for Type I censoring<a class="headerlink" href="#bartholomew-1957-for-type-i-censoring" title="Permalink to this headline">¶</a></h1>
 <p>Adapted from <a class="reference external" href="https://www2.isye.gatech.edu/isye6420/supporting.html">Codes for Unit 6: exponential1.odc</a>.</p>
 <p>Associated lecture videos: <a class="reference external" href="https://www.youtube.com/watch?v=6gKnM6vL8Po&amp;list=PLv0FeK5oXK4l-RdT6DWJj0_upJOG2WKNO&amp;index=60">Unit 6 Lesson 9</a>.</p>
-<p>Dataset from: <a class="reference external" href="https://www.jstor.org/stable/2280905?seq=1#metadata_info_tab_contents">A Problem in Life Testing (Bartholemew 1957)</a>.</p>
+<p>Dataset and table from: <a class="reference external" href="https://www.jstor.org/stable/2280905?seq=1#metadata_info_tab_contents">A Problem in Life Testing (Bartholemew 1957)</a>.</p>
 <div class="section" id="results-of-a-life-test-on-ten-pieces-of-equipment">
 <h2>Results of a life test on ten pieces of equipment<a class="headerlink" href="#results-of-a-life-test-on-ten-pieces-of-equipment" title="Permalink to this headline">¶</a></h2>
 <table class="colwidths-auto table">
@@ -502,7 +496,7 @@
 <li><p>Ignore the equipment that didn’t fail:</p>
 <ul class="simple">
 <li><p>Take mean lifetime of the pieces of equipment that broke within the experiment period for an estimate of 22.1 days.</p></li>
-<li><p>Problem: selection bias, underestimates even more.</p></li>
+<li><p>Problems: selection bias, underestimates even more.</p></li>
 </ul>
 </li>
 <li><p>Use the classical method:</p>
@@ -516,54 +510,78 @@
 </div>
 <div class="section" id="bayesian-approach">
 <h2>Bayesian approach<a class="headerlink" href="#bayesian-approach" title="Permalink to this headline">¶</a></h2>
-<p>What we need to do is called Type-1 censoring. We will right-censor the three machines that still hadn’t failed by August 31.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># gamma dist parameters</span>
-<span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.01</span>
-<span class="n">beta</span> <span class="o">=</span> <span class="mf">0.1</span>
-
-<span class="n">observed</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">51</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">33</span><span class="p">,</span> <span class="mi">27</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">24</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">censored</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">72</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">21</span><span class="p">)</span>
-
-<span class="n">y</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">72</span><span class="p">,</span> <span class="mi">51</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">33</span><span class="p">,</span> <span class="mi">27</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">24</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">21</span><span class="p">)</span>
-
-
-<span class="k">def</span> <span class="nf">censored_exponential</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">):</span>
-    <span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">model</span><span class="p">:</span>
-        <span class="c1"># prior</span>
-        <span class="n">lam</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Gamma</span><span class="p">(</span><span class="s2">&quot;lam&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">)</span>
-        <span class="n">mu</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;mu&quot;</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">lam</span><span class="p">)</span>
-        <span class="n">obs_latent</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Exponential</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="n">lam</span><span class="p">)</span>
-        <span class="n">observed</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Censored</span><span class="p">(</span><span class="s2">&quot;observed&quot;</span><span class="p">,</span> <span class="n">obs_latent</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">model</span>
-</pre></div>
-</div>
-</div>
+<p>What we need to do is called Type-1 censoring. We will right-censor the three machines that still hadn’t failed by August 31, following <a class="reference external" href="https://docs.pymc.io/projects/examples/en/latest/generalized_linear_models/GLM-truncated-censored-regression.html#censored-regression-model">this example</a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This is using PyMC 4.0 beta 3!</p>
 </div>
 <div class="cell tag_hide_output docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">censored_exponential</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">):</span>
-    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">tune</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">return_inferencedata</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># gamma dist parameters</span>
+<span class="n">α</span> <span class="o">=</span> <span class="mf">0.01</span>
+<span class="n">β</span> <span class="o">=</span> <span class="mf">0.1</span>
+
+<span class="c1"># max possible observed life for each piece of equipment (before end of experiment)</span>
+<span class="n">censored</span> <span class="o">=</span><span class="p">(</span><span class="mi">81</span><span class="p">,</span> <span class="mi">72</span><span class="p">,</span> <span class="mi">70</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">41</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">29</span><span class="p">,</span> <span class="mi">21</span><span class="p">)</span> 
+
+<span class="c1"># observed life within experiment dates</span>
+<span class="n">y</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">72</span><span class="p">,</span> <span class="mi">51</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">33</span><span class="p">,</span> <span class="mi">27</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">24</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">21</span><span class="p">)</span>
+
+
+<span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">m</span><span class="p">:</span>
+    <span class="n">λ</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Gamma</span><span class="p">(</span><span class="s2">&quot;λ&quot;</span><span class="p">,</span> <span class="n">α</span><span class="p">,</span> <span class="n">β</span><span class="p">)</span>
+    <span class="n">μ</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;μ&quot;</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">λ</span><span class="p">)</span>
+    <span class="n">obs_latent</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Exponential</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="n">λ</span><span class="p">)</span>
+    
+    <span class="n">observed</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Censored</span><span class="p">(</span>
+        <span class="s2">&quot;observed&quot;</span><span class="p">,</span> <span class="n">obs_latent</span><span class="p">,</span> <span class="n">lower</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">upper</span><span class="o">=</span><span class="n">censored</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+    <span class="p">)</span>
+
+    
+    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span>
+        <span class="mi">100000</span><span class="p">,</span>
+        <span class="n">chains</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+        <span class="n">tune</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span>
+        <span class="n">cores</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+        <span class="n">init</span><span class="o">=</span><span class="s2">&quot;jitter+adapt_diag&quot;</span><span class="p">,</span>
+        <span class="n">random_seed</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">return_inferencedata</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">AttributeError</span><span class="g g-Whitespace">                            </span>Traceback (most recent call last)
-<span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">folders</span><span class="o">/</span><span class="n">pm</span><span class="o">/</span><span class="mi">9</span><span class="n">z29qnf508bc1v6q8fksblm40000gn</span><span class="o">/</span><span class="n">T</span><span class="o">/</span><span class="n">ipykernel_41053</span><span class="o">/</span><span class="mf">2633417210.</span><span class="n">py</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
-<span class="ne">----&gt; </span><span class="mi">1</span> <span class="k">with</span> <span class="n">censored_exponential</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">):</span>
-<span class="g g-Whitespace">      </span><span class="mi">2</span>     <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">tune</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">return_inferencedata</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-
-<span class="nn">/var/folders/pm/9z29qnf508bc1v6q8fksblm40000gn/T/ipykernel_41053/141442410.py</span> in <span class="ni">censored_exponential</span><span class="nt">(y, alpha, beta)</span>
-<span class="g g-Whitespace">     </span><span class="mi">14</span>         <span class="n">mu</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s1">&#39;mu&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="n">lam</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">15</span>         <span class="n">obs_latent</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Exponential</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="n">lam</span><span class="p">)</span>
-<span class="ne">---&gt; </span><span class="mi">16</span>         <span class="n">observed</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Censored</span><span class="p">(</span><span class="s1">&#39;observed&#39;</span><span class="p">,</span> <span class="n">obs_latent</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">17</span> 
-<span class="g g-Whitespace">     </span><span class="mi">18</span>     <span class="k">return</span> <span class="n">model</span>
-
-<span class="ne">AttributeError</span>: module &#39;pymc&#39; has no attribute &#39;Censored&#39;
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Multiprocess sampling (4 chains in 4 jobs)
+NUTS: [λ]
+</pre></div>
+</div>
+<div class="output text_html">
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div><div class="output text_html">
+<div>
+  <progress value='440000' class='' max='440000' style='width:300px; height:20px; vertical-align: middle;'></progress>
+  100.00% [440000/440000 00:29<00:00 Sampling 4 chains, 0 divergences]
+</div>
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
+  return _boost._beta_ppf(q, a, b)
+/Users/aaron/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
+  return _boost._beta_ppf(q, a, b)
+/Users/aaron/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
+  return _boost._beta_ppf(q, a, b)
+/Users/aaron/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
+  return _boost._beta_ppf(q, a, b)
+Sampling 4 chains for 10_000 tune and 100_000 draw iterations (40_000 + 400_000 draws total) took 41 seconds.
 </pre></div>
 </div>
 </div>
@@ -574,6 +592,64 @@
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mean</th>
+      <th>sd</th>
+      <th>hdi_2.5%</th>
+      <th>hdi_97.5%</th>
+      <th>mcse_mean</th>
+      <th>mcse_sd</th>
+      <th>ess_bulk</th>
+      <th>ess_tail</th>
+      <th>r_hat</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>λ</th>
+      <td>0.023</td>
+      <td>0.009</td>
+      <td>0.008</td>
+      <td>0.040</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>181206.0</td>
+      <td>230367.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>μ</th>
+      <td>51.199</td>
+      <td>22.876</td>
+      <td>19.104</td>
+      <td>95.163</td>
+      <td>0.055</td>
+      <td>0.039</td>
+      <td>181206.0</td>
+      <td>230367.0</td>
+      <td>1.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
 </div>
 <p>BUGS results:</p>
 <table class="colwidths-auto table">
@@ -642,29 +718,7 @@
 </tr>
 </tbody>
 </table>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">importlib.metadata</span> <span class="kn">import</span> <span class="n">version</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">version</span><span class="p">(</span><span class="s2">&quot;pymc&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;4.0.0b1&#39;
-</pre></div>
-</div>
-</div>
-</div>
-<p>Notes:</p>
-<ul class="simple">
-<li><p>PyMC 4.0 appears to have a new pm.Censored() function, but it’s still in beta and the version on conda-forge didn’t have that function available when I was working on this. I’ll update later when the first stable release comes out (see <a class="reference external" href="https://docs.pymc.io/projects/examples/en/latest/generalized_linear_models/GLM-truncated-censored-regression.html#censored-regression-model">this PyMC example</a>).</p></li>
-</ul>
+<p>Okay, these results are pretty close. We end up with <span class="math notranslate nohighlight">\(1/.023=43.5\)</span> days, compared to <span class="math notranslate nohighlight">\(43.8\)</span> days for BUGS. But we’re missing the imputed values for each censored observation. I don’t see an easy way to do that in PyMC right now, but I will circle back to this eventually.</p>
 </div>
 </div>
 

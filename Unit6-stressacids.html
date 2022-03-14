@@ -22,8 +22,8 @@
       
 
     
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
@@ -33,17 +33,17 @@
     
   <link rel="preload" as="script" href="_static/js/index.be7d3bbb2ef33a8344ce.js">
 
-    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
     <script src="_static/doctools.js"></script>
     <script src="_static/togglebutton.js"></script>
     <script src="_static/clipboard.min.js"></script>
     <script src="_static/copybutton.js"></script>
-    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
     <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
-    <script >
+    <script>
         const thebe_selector = ".thebe"
         const thebe_selector_input = "pre"
         const thebe_selector_output = ".output"
@@ -89,7 +89,7 @@
   </a>
  </li>
 </ul>
-<p class="caption">
+<p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
   Unit 1
  </span>
@@ -101,7 +101,7 @@
   </a>
  </li>
 </ul>
-<p class="caption">
+<p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
   Unit 2
  </span>
@@ -113,7 +113,7 @@
   </a>
  </li>
 </ul>
-<p class="caption">
+<p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
   Unit 3
  </span>
@@ -135,7 +135,7 @@
   </a>
  </li>
 </ul>
-<p class="caption">
+<p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
   Unit 4
  </span>
@@ -157,7 +157,7 @@
   </a>
  </li>
 </ul>
-<p class="caption">
+<p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
   Unit 5
  </span>
@@ -194,7 +194,7 @@
   </a>
  </li>
 </ul>
-<p class="caption">
+<p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
   Unit 6
  </span>
@@ -329,6 +329,24 @@
         <!-- Table of contents -->
         <div class="d-none d-md-block col-md-2 bd-toc show noprint">
             
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#bugs-step-function">
+   BUGS step function
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#how-do-i-track-non-random-variables-in-pymc">
+   How do I track non-random variables in PyMC?
+  </a>
+ </li>
+</ul>
+
+            </nav>
         </div>
     </div>
 </div>
@@ -341,15 +359,48 @@
                 <div id="print-main-content">
                     <div id="jb-print-toc">
                         
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#bugs-step-function">
+   BUGS step function
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#how-do-i-track-non-random-variables-in-pymc">
+   How do I track non-random variables in PyMC?
+  </a>
+ </li>
+</ul>
+
+                        </nav>
                     </div>
                 </div>
             </div>
             
               <div>
                 
-  <div class="section" id="stress-diet-and-plasma-acids">
+  <div class="cell tag_hide_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">arviz</span> <span class="k">as</span> <span class="nn">az</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pymc3</span> <span class="k">as</span> <span class="nn">pm</span>
+<span class="kn">from</span> <span class="nn">pymc3.math</span> <span class="kn">import</span> <span class="n">switch</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="tex2jax_ignore mathjax_ignore section" id="stress-diet-and-plasma-acids">
 <h1>Stress, Diet and Plasma Acids<a class="headerlink" href="#stress-diet-and-plasma-acids" title="Permalink to this headline">¶</a></h1>
+<p>Adapted from <a class="reference external" href="https://www2.isye.gatech.edu/isye6420/supporting.html">Codes for Unit 6: stressacids.odc</a>.</p>
+<p>Associated lecture video: <a class="reference external" href="https://www.youtube.com/watch?v=xomK4tcePmc&amp;list=PLv0FeK5oXK4l-RdT6DWJj0_upJOG2WKNO&amp;index=56">Unit 6 Lesson 5</a>.</p>
 <p>In the study <a class="reference external" href="https://vtechworks.lib.vt.edu/handle/10919/74486">Interrelationships Between Stress, Dietary Intake, and Plasma Ascorbic Acid During Pregnancy</a> conducted at the Virginia Polytechnic Institute and State University, the plasma ascorbic acid levels of pregnant women were compared for smokers versus non-smokers. Thirty-two women in the last three months of pregnancy, free of major health disorders, and ranging in age from 15 to 32 years were selected for the study. Prior to the collection of 20 ml of blood, the participants were told to avoid breakfast, forego their vitamin supplements, and avoid foods high in ascorbic acid content. From the blood samples, the plasma ascorbic acid values of each subject were determined in milligrams per 100 milliliters.</p>
+<hr class="docutils" />
+<p>The purpose of this example in lectures was mostly just to show different ways to load data in BUGS. I’m not going to go into that too much, just want to get this example up just in case it’s useful. In the next cell, I start with the data formatted the same way as in <code class="docutils literal notranslate"><span class="pre">stressacids.odc</span></code>, and use list comprehensions to create two lists, one of smokers and one of non-smokers.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># fmt: off</span>
@@ -367,9 +418,24 @@
 </div>
 </div>
 </div>
-<div class="cell docutils container">
+<div class="section" id="bugs-step-function">
+<h2>BUGS step function<a class="headerlink" href="#bugs-step-function" title="Permalink to this headline">¶</a></h2>
+<p>I think this is the first time we’ve seen the BUGS step function.</p>
+<p>BUGS defines the step function like this:</p>
+<p><code class="docutils literal notranslate"><span class="pre">step(e)</span></code> is 1 if e &gt;= 0; 0 otherwise.</p>
+<p>Keep in mind that in PyMC, step functions are how they refer to the algorithms used for sampling, as in NUTS or Metropolis. Just different terminology.</p>
+<p>We can recreate the BUGS step function with <code class="docutils literal notranslate"><span class="pre">pm.math.switch()</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pm</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">switch</span><span class="p">(</span><span class="n">e</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+</pre></div>
+</div>
+</div>
+<div class="section" id="how-do-i-track-non-random-variables-in-pymc">
+<h2>How do I track non-random variables in PyMC?<a class="headerlink" href="#how-do-i-track-non-random-variables-in-pymc" title="Permalink to this headline">¶</a></h2>
+<p>One nice thing about BUGS is you can easily track both deterministic and non-deterministic variables while sampling. For PyMC, you can wrap these in <a class="reference external" href="https://docs.pymc.io/en/v3/api/model.html"><code class="docutils literal notranslate"><span class="pre">pm.Deterministic()</span></code></a>. Just make sure to use <a class="reference external" href="https://docs.pymc.io/en/v3/api/math.html"><code class="docutils literal notranslate"><span class="pre">pm.math</span></code></a> functions where possible.</p>
+<div class="cell tag_hide_output docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">stressacids</span><span class="p">:</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">m</span><span class="p">:</span>
     <span class="c1"># priors</span>
     <span class="n">tau_nonsmokers</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Gamma</span><span class="p">(</span><span class="s2">&quot;tau_nonsmokers&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">)</span>
     <span class="n">sigma_nonsmokers</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">pm</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">tau_nonsmokers</span><span class="p">)</span>
@@ -380,18 +446,22 @@
     <span class="n">mu_smokers</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;mu_smokers&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
 
     <span class="c1"># likelihood</span>
-    <span class="n">plasma_aa_nonsmokers</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span>
+    <span class="n">plasma_aa_ns</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span>
         <span class="s2">&quot;nonsmokers_aa&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu_nonsmokers</span><span class="p">,</span> <span class="n">sd</span><span class="o">=</span><span class="n">sigma_nonsmokers</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">nonsmokers</span>
     <span class="p">)</span>
-    <span class="n">plasma_aa_smokers</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span>
+    <span class="n">plasma_aa_s</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span>
         <span class="s2">&quot;smokers_aa&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu_smokers</span><span class="p">,</span> <span class="n">sd</span><span class="o">=</span><span class="n">sigma_smokers</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">smokers</span>
     <span class="p">)</span>
-
+    
+    <span class="n">testmu</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;test_mu&quot;</span><span class="p">,</span> <span class="n">switch</span><span class="p">(</span><span class="n">mu_smokers</span> <span class="o">&gt;=</span> <span class="n">mu_nonsmokers</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;prec_ratio&quot;</span><span class="p">,</span> <span class="n">tau_nonsmokers</span><span class="o">/</span><span class="n">tau_smokers</span><span class="p">)</span>
+    
     <span class="c1"># start sampling</span>
     <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span>
-        <span class="mi">1000</span><span class="p">,</span>  <span class="c1"># samples</span>
+        <span class="mi">5000</span><span class="p">,</span>
         <span class="n">chains</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
-        <span class="n">tune</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span>
+        <span class="n">tune</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+        <span class="n">cores</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
         <span class="n">init</span><span class="o">=</span><span class="s2">&quot;jitter+adapt_diag&quot;</span><span class="p">,</span>
         <span class="n">random_seed</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
         <span class="n">return_inferencedata</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
@@ -400,18 +470,160 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
-<span class="n">Input</span> <span class="n">In</span> <span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
-<span class="ne">----&gt; </span><span class="mi">1</span> <span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">stressacids</span><span class="p">:</span>
-<span class="g g-Whitespace">      </span><span class="mi">2</span>     <span class="c1"># priors</span>
-<span class="g g-Whitespace">      </span><span class="mi">3</span>     <span class="n">tau_nonsmokers</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Gamma</span><span class="p">(</span><span class="s1">&#39;tau_nonsmokers&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">.0001</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mf">.0001</span><span class="p">)</span>
-<span class="g g-Whitespace">      </span><span class="mi">4</span>     <span class="n">sigma_nonsmokers</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="n">pm</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">tau_nonsmokers</span><span class="p">)</span>
-
-<span class="ne">NameError</span>: name &#39;pm&#39; is not defined
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Auto-assigning NUTS sampler...
+Initializing NUTS using jitter+adapt_diag...
+Multiprocess sampling (4 chains in 4 jobs)
+NUTS: [mu_smokers, tau_smokers, mu_nonsmokers, tau_nonsmokers]
+WARNING (theano.link.c.cmodule): install mkl with `conda install mkl-service`: No module named &#39;mkl&#39;
+WARNING (theano.link.c.cmodule): install mkl with `conda install mkl-service`: No module named &#39;mkl&#39;
+WARNING (theano.link.c.cmodule): install mkl with `conda install mkl-service`: No module named &#39;mkl&#39;
+WARNING (theano.link.c.cmodule): install mkl with `conda install mkl-service`: No module named &#39;mkl&#39;
+</pre></div>
+</div>
+<div class="output text_html">
+<div>
+    <style>
+        /* Turns off some styling */
+        progress {
+            /* gets rid of default border in Firefox and Opera. */
+            border: none;
+            /* Needs to be in here for Safari polyfill so background images work as expected. */
+            background-size: auto;
+        }
+        .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+            background: #F44336;
+        }
+    </style>
+  <progress value='24000' class='' max='24000' style='width:300px; height:20px; vertical-align: middle;'></progress>
+  100.00% [24000/24000 00:02<00:00 Sampling 4 chains, 0 divergences]
+</div>
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc3_test/lib/python3.9/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
+  return _boost._beta_ppf(q, a, b)
+/Users/aaron/mambaforge/envs/pymc3_test/lib/python3.9/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
+  return _boost._beta_ppf(q, a, b)
+/Users/aaron/mambaforge/envs/pymc3_test/lib/python3.9/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
+  return _boost._beta_ppf(q, a, b)
+/Users/aaron/mambaforge/envs/pymc3_test/lib/python3.9/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
+  return _boost._beta_ppf(q, a, b)
+Sampling 4 chains for 1_000 tune and 5_000 draw iterations (4_000 + 20_000 draws total) took 11 seconds.
 </pre></div>
 </div>
 </div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">hdi_prob</span><span class="o">=</span><span class="mf">0.95</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mean</th>
+      <th>sd</th>
+      <th>hdi_2.5%</th>
+      <th>hdi_97.5%</th>
+      <th>mcse_mean</th>
+      <th>mcse_sd</th>
+      <th>ess_bulk</th>
+      <th>ess_tail</th>
+      <th>r_hat</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>mu_nonsmokers</th>
+      <td>0.912</td>
+      <td>0.045</td>
+      <td>0.823</td>
+      <td>1.000</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>15779.0</td>
+      <td>12159.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>mu_smokers</th>
+      <td>0.975</td>
+      <td>0.161</td>
+      <td>0.644</td>
+      <td>1.294</td>
+      <td>0.001</td>
+      <td>0.001</td>
+      <td>15199.0</td>
+      <td>11315.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>tau_nonsmokers</th>
+      <td>22.700</td>
+      <td>6.713</td>
+      <td>10.699</td>
+      <td>36.083</td>
+      <td>0.052</td>
+      <td>0.037</td>
+      <td>16210.0</td>
+      <td>13772.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>tau_smokers</th>
+      <td>6.598</td>
+      <td>3.558</td>
+      <td>0.884</td>
+      <td>13.605</td>
+      <td>0.030</td>
+      <td>0.022</td>
+      <td>14035.0</td>
+      <td>11430.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>test_mu</th>
+      <td>0.664</td>
+      <td>0.472</td>
+      <td>0.000</td>
+      <td>1.000</td>
+      <td>0.004</td>
+      <td>0.003</td>
+      <td>16561.0</td>
+      <td>16561.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>prec_ratio</th>
+      <td>4.836</td>
+      <td>4.219</td>
+      <td>0.651</td>
+      <td>11.914</td>
+      <td>0.040</td>
+      <td>0.029</td>
+      <td>14740.0</td>
+      <td>12629.0</td>
+      <td>1.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>I can’t get BUGS results for comparison right now because the GT virtual machines are down for maintenance. Will update later.</p>
 </div>
 </div>
 
