@@ -21,7 +21,7 @@
 # - Try creating a flat posterior.
 # - Can you actually create a posterior around zero?
 
-# In[1]:
+# In[42]:
 
 
 import arviz as az
@@ -55,4 +55,102 @@ with pm.Model() as model:
         cores=4,  # parallel processing of chains
         return_inferencedata=True,  # return arviz inferencedata object
     )
+
+
+# In[27]:
+
+
+alpha = .05
+
+1 - (1- alpha/2)**(1/11)
+
+
+# In[30]:
+
+
+((alpha/2) - 1)**(1/11) + 1
+
+
+# In[31]:
+
+
+(-alpha/2)**(1/11) +1
+
+
+# In[32]:
+
+
+(-alpha)**(1/11) + 1
+
+
+# In[36]:
+
+
+.42/.58
+
+
+# In[35]:
+
+
+.99/.01
+
+
+# In[37]:
+
+
+1.36/26
+
+
+# In[38]:
+
+
+.58/.42
+
+
+# In[39]:
+
+
+(alpha/2)**(1/11)
+
+
+# In[46]:
+
+
+1 - np.exp(np.log(alpha)/11)
+
+
+# In[53]:
+
+
+((-1)**(10/11)*(alpha-2)**(1/11))/2**(1/11)
+
+
+# In[58]:
+
+
+(-1)**(3/11)
+
+
+# In[52]:
+
+
+1 - alpha**(1/11)/2**(1/11)
+
+
+# In[59]:
+
+
+float("inf")
+
+
+# In[61]:
+
+
+0.9998475842/1.524e-4
+
+
+# In[ ]:
+
+
+
 

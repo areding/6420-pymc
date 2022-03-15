@@ -62,6 +62,8 @@ plt.xlim(0, 1)
 plt.show()
 
 
+# Note: you can now sample from PyMC distributions without using the context manager. See [this page](https://docs.pymc.io/en/v3/Probability_Distributions.html#using-pymc-distributions-without-a-model) in their docs.
+
 # In[ ]:
 
 

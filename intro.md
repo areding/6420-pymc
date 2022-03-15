@@ -13,6 +13,7 @@ Right now I'm working on redoing the "Codes for Unit X" files on the [Supporting
 ## Future plans
 
 - Add more explanations/notes.
+- Fix markdown table sizes. 
 - Update TOC/sidebar to make it easier to navigate.
 - Add FAQs based on student questions.
 - Add solutions to the optional exercises.
