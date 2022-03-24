@@ -658,7 +658,7 @@ Sampling 4 chains for 1_000 tune and 10_000 draw iterations (4_000 + 40_000 draw
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># prediction</span>
 <span class="n">new_obs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mf">7.1</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">]])</span>
-<span class="n">pm</span><span class="o">.</span><span class="n">set_data</span><span class="p">({</span><span class="s2">&quot;X&quot;</span><span class="p">:</span> <span class="n">new_obs</span><span class="p">},</span> <span class="n">model</span><span class="o">=</span><span class="n">cheese</span><span class="p">)</span>
+<span class="n">pm</span><span class="o">.</span><span class="n">set_data</span><span class="p">({</span><span class="s2">&quot;X&quot;</span><span class="p">:</span> <span class="n">new_obs</span><span class="p">},</span> <span class="n">model</span><span class="o">=</span><span class="n">m</span><span class="p">)</span>
 <span class="n">ppc</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample_posterior_predictive</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">cheese</span><span class="p">,</span> <span class="n">samples</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
 </pre></div>
 </div>
