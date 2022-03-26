@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[15]:
+# In[1]:
 
 
 import arviz as az
@@ -35,20 +35,20 @@ get_ipython().run_line_magic('load_ext', 'watermark')
 # 
 # Just going to throw this up real quick because it's relevant to homework 5! Will add more in the future. Note that I've switched to PyMC 4 beta 3 here.
 
-# In[16]:
+# In[2]:
 
 
 get_ipython().run_line_magic('watermark', '--iversions')
 
 
-# In[2]:
+# In[3]:
 
 
 data = pd.read_csv("./data/ants.csv")
 data.info()
 
 
-# In[12]:
+# In[4]:
 
 
 with pm.Model() as m:
@@ -75,13 +75,13 @@ with pm.Model() as m:
     )
 
 
-# In[13]:
+# In[5]:
 
 
 az.summary(trace)
 
 
-# In[14]:
+# In[6]:
 
 
 with m:

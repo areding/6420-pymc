@@ -1,13 +1,16 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[12]:
+# In[1]:
 
 
 import arviz as az
-import matplotlib.pyplot as plt
 import numpy as np
 import pymc as pm
+from pymc.math import dot
+
+get_ipython().run_line_magic('load_ext', 'watermark')
+get_ipython().run_line_magic('watermark', '--iversions')
 
 
 # # Rats 
@@ -20,21 +23,30 @@ import pymc as pm
 # 
 # Data can be found [here](https://raw.githubusercontent.com/areding/6420-pymc/main/data/rats.txt).
 # 
-# 
-# We had a previous example about [Dugongs](https://areding.github.io/6420-pymc/Unit6-dugongs.html) that dealt with missing data in the observed data (y values). This example shows how to deal with missing data in the input data (x).
+# We had a previous example about [Dugongs](https://areding.github.io/6420-pymc/Unit6-dugongs.html) that dealt with missing data in the observed data (y values). This example shows how to deal with missing data in the input data (x). It's still pretty easy. You could look at it like creating another likelihood in the model, a very simple one where the observed data is x, and you use a single distribution to fill in the missing values (see ```x_imputed``` in the model below).
 # 
 # For now I'm leaving the variable names the same as the BUGS example. Might go back and make them more descriptive later.
+# 
+# There are some differences with my version:
+# 
+# 1. My gamma priors on tau are more informative. This is because PyMC was having some computational issues with the Gamma(.001, .001) priors the professor used. I don't know if it's because of the sampling algorithm or if it's a problem with the new computational backend. I will look into it more later, for now I just want to get these examples up.
+# 
+# 2. I imputed the x values with a more informative prior for similar reasons. That Uniform(0, 500) prior seems kind of crazy to me, and I wanted to rule out more computational issues.
+# 
+# 3. I got rid of the separate definition of the intercept as alpha, it is now beta[0].
+# 
+# The priors are besides the point anyways, I just wanted to show how to impute x values for HW6!
 
-# In[16]:
+# In[2]:
 
 
-T = 5
-x = [8.0, 15.0, 22.0, np.nan, 36.0]
+# note that I added a 1 to the first value for x, this is for the intercept beta[0]
+x = [1.0, 8.0, 15.0, 22.0, np.nan, 36.0]
 y = np.loadtxt("./data/rats.txt")
-data.shape
+y.shape
 
 
-# In[17]:
+# In[3]:
 
 
 # create masked data
@@ -47,37 +59,35 @@ x = np.nan_to_num(x, nan=-1)
 x = np.ma.masked_values(x, value=-1)
 
 
-# In[14]:
+# In[5]:
 
 
 with pm.Model() as m:
     x_data = pm.Data("x_data", x, mutable=True)
     y_data = pm.Data("y_data", y, mutable=False)
-    
-    tau_c = pm.Gamma("tau.c", 0.001, 0.001)
-    alpha_c = pm.Normal("alpha.c", 0, tau=1e-6)
-    alpha_tau = pm.Gamma("alpha.tau", 0.001, 0.001)
+
+    tau_c = pm.Gamma("tau.c", 3, 0.5)
     beta_c = pm.Normal("beta.c", 0, tau=1e-6)
-    beta_tau = pm.Gamma("beta.tau", .001, .001)
-    
-    alpha = pm.Normal("alpha", alpha_c, tau=alpha_tau, shape=?)
-    beta = pm.Normal("beta", beta_c, tau=beta_tau, shape or size or whatever)
-    
-    mu = alpha + beta * x_data
-    likelihood = pm.Normal("likelihood", mu, tau=tau_c, observed=y_data)
-    
+    beta_tau = pm.Gamma("beta.tau", 3, 0.5)
+
+    beta = pm.Normal("beta", beta_c, tau=0.01, shape=6)
+
+    x_imputed = pm.Normal("x_imputed", mu=20, sigma=10, observed=x_data)
+
+    mu = dot(beta, x_imputed)
+    likelihood = pm.Normal("likelihood", mu, tau=0.01, observed=y_data, shape=5)
+
     trace = pm.sample(
         2000,
-        chains=4,
-        tune=500,
         cores=4,
-        init="adapt_diag",
-        random_seed=1,
-        return_inferencedata=True,
-        initvals=inits
+        init="jitter+adapt_diag",
     )
 
-az.summary(trace, hdi_prob=.95)
+
+# In[6]:
+
+
+az.summary(trace, hdi_prob=0.95)
 
 
 # In[ ]:
