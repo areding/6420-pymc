@@ -920,6 +920,371 @@ There were 594 divergences after tuning. Increase `target_accept` or reparameter
 </table>
 </div></div></div>
 </div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;temp&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan_to_num</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">nan</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_values</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">value</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(</span><span class="n">copy</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan_to_num</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">nan</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_values</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">value</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">x</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>masked_array(data=[1.0, 24.0, 32.0, 48.0, 56.0, --, 70.0, 72.0, 75.0,
+                   80.0, 96.0],
+             mask=[False, False, False, False, False,  True, False, False,
+                   False, False, False],
+       fill_value=-1.0)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>masked_array(data=[102.8, 104.5, 106.5, 107.0, 107.1, 105.1, 103.9, --,
+                   103.2, 102.1],
+             mask=[False, False, False, False, False, False, False,  True,
+                   False, False],
+       fill_value=-1.0)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># q1a using dot product</span>
+<span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">m</span><span class="p">:</span>
+    <span class="c1"># priors</span>
+    <span class="n">beta</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;beta1&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">tau</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Gamma</span><span class="p">(</span><span class="s2">&quot;tau&quot;</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">)</span>
+
+    <span class="c1"># x_imputed = pm.TruncatedNormal(&quot;x_imputed&quot;, mu=60, sigma=30, lower=1, upper=120, observed=x)</span>
+    <span class="n">x_imputed</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Uniform</span><span class="p">(</span><span class="s2">&quot;x_imputed&quot;</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="n">mu</span> <span class="o">=</span> <span class="n">dot</span><span class="p">(</span><span class="n">beta</span><span class="p">,</span> <span class="n">x_imputed</span><span class="p">)</span>
+
+    <span class="n">likelihood</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;likelihood&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="n">tau</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
+
+    <span class="c1"># start sampling</span>
+    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span>
+        <span class="mi">2000</span><span class="p">,</span>
+        <span class="n">chains</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+        <span class="n">tune</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span>
+        <span class="n">cores</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+        <span class="n">init</span><span class="o">=</span><span class="s2">&quot;adapt_diag&quot;</span><span class="p">,</span>
+        <span class="n">random_seed</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">return_inferencedata</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">initvals</span><span class="o">=</span><span class="n">inits</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/pymc/model.py:1322: ImputationWarning: Data in x_imputed contains missing values and will be automatically imputed from the sampling distribution.
+  warnings.warn(impute_message, ImputationWarning)
+/Users/aaron/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/pymc/model.py:1322: ImputationWarning: Data in likelihood contains missing values and will be automatically imputed from the sampling distribution.
+  warnings.warn(impute_message, ImputationWarning)
+ERROR (aesara.graph.opt): Optimization failure due to: constant_folding
+ERROR (aesara.graph.opt): node: Assert{msg=Aesara Assert failed!}(TensorConstant{0.0}, TensorConstant{False})
+ERROR (aesara.graph.opt): TRACEBACK:
+ERROR (aesara.graph.opt): Traceback (most recent call last):
+  File &quot;/Users/aaron/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/aesara/graph/opt.py&quot;, line 1850, in process_node
+    replacements = lopt.transform(fgraph, node)
+  File &quot;/Users/aaron/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/aesara/graph/opt.py&quot;, line 1055, in transform
+    return self.fn(fgraph, node)
+  File &quot;/Users/aaron/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/aesara/tensor/basic_opt.py&quot;, line 2945, in constant_folding
+    required = thunk()
+  File &quot;/Users/aaron/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/aesara/link/c/op.py&quot;, line 103, in rval
+    thunk()
+  File &quot;/Users/aaron/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/aesara/link/c/basic.py&quot;, line 1766, in __call__
+    raise exc_value.with_traceback(exc_trace)
+AssertionError: Aesara Assert failed!
+</pre></div>
+</div>
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">AssertionError</span><span class="g g-Whitespace">                            </span>Traceback (most recent call last)
+<span class="nn">Input In [37],</span> in <span class="ni">&lt;cell line: 2&gt;</span><span class="nt">()</span>
+<span class="g g-Whitespace">     </span><span class="mi">12</span> <span class="n">likelihood</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;likelihood&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="n">tau</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">14</span> <span class="c1"># start sampling</span>
+<span class="ne">---&gt; </span><span class="mi">15</span> <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span>
+<span class="g g-Whitespace">     </span><span class="mi">16</span>     <span class="mi">2000</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">17</span>     <span class="n">chains</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">18</span>     <span class="n">tune</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">19</span>     <span class="n">cores</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">20</span>     <span class="n">init</span><span class="o">=</span><span class="s2">&quot;adapt_diag&quot;</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">21</span>     <span class="n">random_seed</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">22</span>     <span class="n">return_inferencedata</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">23</span>     <span class="n">initvals</span><span class="o">=</span><span class="n">inits</span>
+<span class="g g-Whitespace">     </span><span class="mi">24</span> <span class="p">)</span>
+
+<span class="nn">File ~/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/pymc/sampling.py:470,</span> in <span class="ni">sample</span><span class="nt">(draws, step, init, n_init, initvals, trace, chain_idx, chains, cores, tune, progressbar, model, random_seed, discard_tuned_samples, compute_convergence_checks, callback, jitter_max_retries, return_inferencedata, idata_kwargs, mp_ctx, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">467</span> <span class="n">draws</span> <span class="o">+=</span> <span class="n">tune</span>
+<span class="g g-Whitespace">    </span><span class="mi">469</span> <span class="n">initial_points</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="ne">--&gt; </span><span class="mi">470</span> <span class="n">step</span> <span class="o">=</span> <span class="n">assign_step_methods</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">step</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="n">pm</span><span class="o">.</span><span class="n">STEP_METHODS</span><span class="p">,</span> <span class="n">step_kwargs</span><span class="o">=</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">472</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">step</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">473</span>     <span class="n">step</span> <span class="o">=</span> <span class="n">CompoundStep</span><span class="p">(</span><span class="n">step</span><span class="p">)</span>
+
+<span class="nn">File ~/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/pymc/sampling.py:219,</span> in <span class="ni">assign_step_methods</span><span class="nt">(model, step, methods, step_kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">211</span>         <span class="n">selected</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">212</span>             <span class="n">methods</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">213</span>             <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">method</span><span class="p">,</span> <span class="n">var</span><span class="o">=</span><span class="n">rv_var</span><span class="p">,</span> <span class="n">has_gradient</span><span class="o">=</span><span class="n">has_gradient</span><span class="p">:</span> <span class="n">method</span><span class="o">.</span><span class="n">_competence</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">214</span>                 <span class="n">var</span><span class="p">,</span> <span class="n">has_gradient</span>
+<span class="g g-Whitespace">    </span><span class="mi">215</span>             <span class="p">),</span>
+<span class="g g-Whitespace">    </span><span class="mi">216</span>         <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">217</span>         <span class="n">selected_steps</span><span class="p">[</span><span class="n">selected</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">219</span> <span class="k">return</span> <span class="n">instantiate_steppers</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">steps</span><span class="p">,</span> <span class="n">selected_steps</span><span class="p">,</span> <span class="n">step_kwargs</span><span class="p">)</span>
+
+<span class="nn">File ~/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/pymc/sampling.py:137,</span> in <span class="ni">instantiate_steppers</span><span class="nt">(model, steps, selected_steps, step_kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">135</span>         <span class="n">args</span> <span class="o">=</span> <span class="n">step_kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">step_class</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="p">{})</span>
+<span class="g g-Whitespace">    </span><span class="mi">136</span>         <span class="n">used_keys</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">step_class</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">137</span>         <span class="n">step</span> <span class="o">=</span> <span class="n">step_class</span><span class="p">(</span><span class="nb">vars</span><span class="o">=</span><span class="nb">vars</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span> <span class="o">**</span><span class="n">args</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">138</span>         <span class="n">steps</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">step</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">140</span> <span class="n">unused_args</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">step_kwargs</span><span class="p">)</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="n">used_keys</span><span class="p">)</span>
+
+<span class="nn">File ~/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/pymc/step_methods/hmc/nuts.py:169,</span> in <span class="ni">NUTS.__init__</span><span class="nt">(self, vars, max_treedepth, early_max_treedepth, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">111</span> <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">vars</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_treedepth</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">early_max_treedepth</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">112</span>     <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Set up the No-U-Turn sampler.</span>
+<span class="g g-Whitespace">    </span><span class="mi">113</span><span class="sd"> </span>
+<span class="g g-Whitespace">    </span><span class="mi">114</span><span class="sd">     Parameters</span>
+<span class="sd">   (...)</span>
+<span class="g g-Whitespace">    </span><span class="mi">167</span><span class="sd">     `pm.sample` to the desired number of tuning steps.</span>
+<span class="g g-Whitespace">    </span><span class="mi">168</span><span class="sd">     &quot;&quot;&quot;</span>
+<span class="ne">--&gt; </span><span class="mi">169</span>     <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="nb">vars</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">171</span>     <span class="bp">self</span><span class="o">.</span><span class="n">max_treedepth</span> <span class="o">=</span> <span class="n">max_treedepth</span>
+<span class="g g-Whitespace">    </span><span class="mi">172</span>     <span class="bp">self</span><span class="o">.</span><span class="n">early_max_treedepth</span> <span class="o">=</span> <span class="n">early_max_treedepth</span>
+
+<span class="nn">File ~/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/pymc/step_methods/hmc/base_hmc.py:95,</span> in <span class="ni">BaseHMC.__init__</span><span class="nt">(self, vars, scaling, step_scale, is_cov, model, blocked, potential, dtype, Emax, target_accept, gamma, k, t0, adapt_step_size, step_rand, **aesara_kwargs)</span>
+<span class="g g-Whitespace">     </span><span class="mi">92</span> <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">     </span><span class="mi">93</span>     <span class="nb">vars</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_model</span><span class="o">.</span><span class="n">rvs_to_values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">var</span><span class="p">)</span> <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="nb">vars</span><span class="p">]</span>
+<span class="ne">---&gt; </span><span class="mi">95</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="nb">vars</span><span class="p">,</span> <span class="n">blocked</span><span class="o">=</span><span class="n">blocked</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_model</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">,</span> <span class="o">**</span><span class="n">aesara_kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">97</span> <span class="bp">self</span><span class="o">.</span><span class="n">adapt_step_size</span> <span class="o">=</span> <span class="n">adapt_step_size</span>
+<span class="g g-Whitespace">     </span><span class="mi">98</span> <span class="bp">self</span><span class="o">.</span><span class="n">Emax</span> <span class="o">=</span> <span class="n">Emax</span>
+
+<span class="nn">File ~/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/pymc/step_methods/arraystep.py:276,</span> in <span class="ni">GradientSharedStep.__init__</span><span class="nt">(self, vars, model, blocked, dtype, logp_dlogp_func, **aesara_kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">273</span> <span class="n">model</span> <span class="o">=</span> <span class="n">modelcontext</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">275</span> <span class="k">if</span> <span class="n">logp_dlogp_func</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">276</span>     <span class="n">func</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">logp_dlogp_function</span><span class="p">(</span><span class="nb">vars</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">,</span> <span class="o">**</span><span class="n">aesara_kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">277</span> <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">278</span>     <span class="n">func</span> <span class="o">=</span> <span class="n">logp_dlogp_func</span>
+
+<span class="nn">File ~/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/pymc/model.py:641,</span> in <span class="ni">Model.logp_dlogp_function</span><span class="nt">(self, grad_vars, tempered, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">639</span> <span class="n">input_vars</span> <span class="o">=</span> <span class="p">{</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">graph_inputs</span><span class="p">(</span><span class="n">costs</span><span class="p">)</span> <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">Constant</span><span class="p">)}</span>
+<span class="g g-Whitespace">    </span><span class="mi">640</span> <span class="n">extra_vars</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">rvs_to_values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">var</span><span class="p">)</span> <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">free_RVs</span><span class="p">]</span>
+<span class="ne">--&gt; </span><span class="mi">641</span> <span class="n">ip</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">compute_initial_point</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">642</span> <span class="n">extra_vars_and_values</span> <span class="o">=</span> <span class="p">{</span>
+<span class="g g-Whitespace">    </span><span class="mi">643</span>     <span class="n">var</span><span class="p">:</span> <span class="n">ip</span><span class="p">[</span><span class="n">var</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">extra_vars</span> <span class="k">if</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">input_vars</span> <span class="ow">and</span> <span class="n">var</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">grad_vars</span>
+<span class="g g-Whitespace">    </span><span class="mi">644</span> <span class="p">}</span>
+<span class="g g-Whitespace">    </span><span class="mi">645</span> <span class="k">return</span> <span class="n">ValueGradFunction</span><span class="p">(</span><span class="n">costs</span><span class="p">,</span> <span class="n">grad_vars</span><span class="p">,</span> <span class="n">extra_vars_and_values</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<span class="nn">File ~/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/pymc/model.py:1021,</span> in <span class="ni">Model.compute_initial_point</span><span class="nt">(self, seed)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1019</span> <span class="k">if</span> <span class="n">seed</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">1020</span>     <span class="n">seed</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rng_seeder</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="mi">30</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span>
+<span class="ne">-&gt; </span><span class="mi">1021</span> <span class="n">fn</span> <span class="o">=</span> <span class="n">make_initial_point_fn</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span> <span class="n">return_transformed</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1022</span> <span class="k">return</span> <span class="n">Point</span><span class="p">(</span><span class="n">fn</span><span class="p">(</span><span class="n">seed</span><span class="p">),</span> <span class="n">model</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span>
+
+<span class="nn">File ~/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/pymc/initial_point.py:194,</span> in <span class="ni">make_initial_point_fn</span><span class="nt">(model, overrides, jitter_rvs, default_strategy, return_transformed)</span>
+<span class="g g-Whitespace">    </span><span class="mi">192</span>     <span class="n">new_rng_nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">aesara</span><span class="o">.</span><span class="n">shared</span><span class="p">(</span><span class="n">rng_cls</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">PCG64</span><span class="p">())))</span>
+<span class="g g-Whitespace">    </span><span class="mi">193</span> <span class="n">graph</span><span class="o">.</span><span class="n">replace_all</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">rng_nodes</span><span class="p">,</span> <span class="n">new_rng_nodes</span><span class="p">),</span> <span class="n">import_missing</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">194</span> <span class="n">func</span> <span class="o">=</span> <span class="n">compile_pymc</span><span class="p">(</span><span class="n">inputs</span><span class="o">=</span><span class="p">[],</span> <span class="n">outputs</span><span class="o">=</span><span class="n">graph</span><span class="o">.</span><span class="n">outputs</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="n">aesara</span><span class="o">.</span><span class="n">compile</span><span class="o">.</span><span class="n">mode</span><span class="o">.</span><span class="n">FAST_COMPILE</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">196</span> <span class="n">varnames</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="g g-Whitespace">    </span><span class="mi">197</span> <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">free_RVs</span><span class="p">:</span>
+
+<span class="nn">File ~/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/pymc/aesaraf.py:994,</span> in <span class="ni">compile_pymc</span><span class="nt">(inputs, outputs, mode, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">992</span> <span class="n">opt_qry</span> <span class="o">=</span> <span class="n">mode</span><span class="o">.</span><span class="n">provided_optimizer</span><span class="o">.</span><span class="n">including</span><span class="p">(</span><span class="s2">&quot;random_make_inplace&quot;</span><span class="p">,</span> <span class="n">check_parameter_opt</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">993</span> <span class="n">mode</span> <span class="o">=</span> <span class="n">Mode</span><span class="p">(</span><span class="n">linker</span><span class="o">=</span><span class="n">mode</span><span class="o">.</span><span class="n">linker</span><span class="p">,</span> <span class="n">optimizer</span><span class="o">=</span><span class="n">opt_qry</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">994</span> <span class="n">aesara_function</span> <span class="o">=</span> <span class="n">aesara</span><span class="o">.</span><span class="n">function</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="n">mode</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">995</span> <span class="k">return</span> <span class="n">aesara_function</span>
+
+<span class="nn">File ~/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/aesara/compile/function/__init__.py:337,</span> in <span class="ni">function</span><span class="nt">(inputs, outputs, mode, updates, givens, no_default_updates, accept_inplace, name, rebuild_strict, allow_input_downcast, profile, on_unused_input)</span>
+<span class="g g-Whitespace">    </span><span class="mi">331</span>     <span class="n">fn</span> <span class="o">=</span> <span class="n">orig_function</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">332</span>         <span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="n">mode</span><span class="p">,</span> <span class="n">accept_inplace</span><span class="o">=</span><span class="n">accept_inplace</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span>
+<span class="g g-Whitespace">    </span><span class="mi">333</span>     <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">334</span> <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">335</span>     <span class="c1"># note: pfunc will also call orig_function -- orig_function is</span>
+<span class="g g-Whitespace">    </span><span class="mi">336</span>     <span class="c1">#      a choke point that all compilation must pass through</span>
+<span class="ne">--&gt; </span><span class="mi">337</span>     <span class="n">fn</span> <span class="o">=</span> <span class="n">pfunc</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">338</span>         <span class="n">params</span><span class="o">=</span><span class="n">inputs</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">339</span>         <span class="n">outputs</span><span class="o">=</span><span class="n">outputs</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">340</span>         <span class="n">mode</span><span class="o">=</span><span class="n">mode</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">341</span>         <span class="n">updates</span><span class="o">=</span><span class="n">updates</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">342</span>         <span class="n">givens</span><span class="o">=</span><span class="n">givens</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">343</span>         <span class="n">no_default_updates</span><span class="o">=</span><span class="n">no_default_updates</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">344</span>         <span class="n">accept_inplace</span><span class="o">=</span><span class="n">accept_inplace</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">345</span>         <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">346</span>         <span class="n">rebuild_strict</span><span class="o">=</span><span class="n">rebuild_strict</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">347</span>         <span class="n">allow_input_downcast</span><span class="o">=</span><span class="n">allow_input_downcast</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">348</span>         <span class="n">on_unused_input</span><span class="o">=</span><span class="n">on_unused_input</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">349</span>         <span class="n">profile</span><span class="o">=</span><span class="n">profile</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">350</span>         <span class="n">output_keys</span><span class="o">=</span><span class="n">output_keys</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">351</span>     <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">352</span> <span class="k">return</span> <span class="n">fn</span>
+
+<span class="nn">File ~/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/aesara/compile/function/pfunc.py:363,</span> in <span class="ni">pfunc</span><span class="nt">(params, outputs, mode, updates, givens, no_default_updates, accept_inplace, name, rebuild_strict, allow_input_downcast, profile, on_unused_input, output_keys)</span>
+<span class="g g-Whitespace">    </span><span class="mi">350</span>     <span class="n">profile</span> <span class="o">=</span> <span class="n">ProfileStats</span><span class="p">(</span><span class="n">message</span><span class="o">=</span><span class="n">profile</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">352</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">cloned_outputs</span> <span class="o">=</span> <span class="n">construct_pfunc_ins_and_outs</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">353</span>     <span class="n">params</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">354</span>     <span class="n">outputs</span><span class="p">,</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">360</span>     <span class="n">allow_input_downcast</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">361</span> <span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">363</span> <span class="k">return</span> <span class="n">orig_function</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">364</span>     <span class="n">inputs</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">365</span>     <span class="n">cloned_outputs</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">366</span>     <span class="n">mode</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">367</span>     <span class="n">accept_inplace</span><span class="o">=</span><span class="n">accept_inplace</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">368</span>     <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">369</span>     <span class="n">profile</span><span class="o">=</span><span class="n">profile</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">370</span>     <span class="n">on_unused_input</span><span class="o">=</span><span class="n">on_unused_input</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">371</span>     <span class="n">output_keys</span><span class="o">=</span><span class="n">output_keys</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">372</span> <span class="p">)</span>
+
+<span class="nn">File ~/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/aesara/compile/function/types.py:1732,</span> in <span class="ni">orig_function</span><span class="nt">(inputs, outputs, mode, accept_inplace, name, profile, on_unused_input, output_keys)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1730</span> <span class="k">try</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">1731</span>     <span class="n">Maker</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">mode</span><span class="p">,</span> <span class="s2">&quot;function_maker&quot;</span><span class="p">,</span> <span class="n">FunctionMaker</span><span class="p">)</span>
+<span class="ne">-&gt; </span><span class="mi">1732</span>     <span class="n">m</span> <span class="o">=</span> <span class="n">Maker</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">1733</span>         <span class="n">inputs</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1734</span>         <span class="n">outputs</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1735</span>         <span class="n">mode</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1736</span>         <span class="n">accept_inplace</span><span class="o">=</span><span class="n">accept_inplace</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1737</span>         <span class="n">profile</span><span class="o">=</span><span class="n">profile</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1738</span>         <span class="n">on_unused_input</span><span class="o">=</span><span class="n">on_unused_input</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1739</span>         <span class="n">output_keys</span><span class="o">=</span><span class="n">output_keys</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1740</span>         <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1741</span>     <span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1742</span>     <span class="k">with</span> <span class="n">config</span><span class="o">.</span><span class="n">change_flags</span><span class="p">(</span><span class="n">compute_test_value</span><span class="o">=</span><span class="s2">&quot;off&quot;</span><span class="p">):</span>
+<span class="g g-Whitespace">   </span><span class="mi">1743</span>         <span class="n">fn</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">defaults</span><span class="p">)</span>
+
+<span class="nn">File ~/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/aesara/compile/function/types.py:1471,</span> in <span class="ni">FunctionMaker.__init__</span><span class="nt">(self, inputs, outputs, mode, accept_inplace, function_builder, profile, on_unused_input, fgraph, output_keys, name)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1465</span> <span class="n">opt_time</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="g g-Whitespace">   </span><span class="mi">1467</span> <span class="k">with</span> <span class="n">config</span><span class="o">.</span><span class="n">change_flags</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">1468</span>     <span class="n">compute_test_value</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">compute_test_value_opt</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1469</span>     <span class="n">traceback__limit</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">traceback__compile_limit</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1470</span> <span class="p">):</span>
+<span class="ne">-&gt; </span><span class="mi">1471</span>     <span class="n">optimizer_profile</span> <span class="o">=</span> <span class="n">optimizer</span><span class="p">(</span><span class="n">fgraph</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1473</span>     <span class="n">end_optimizer</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="g g-Whitespace">   </span><span class="mi">1474</span>     <span class="n">opt_time</span> <span class="o">=</span> <span class="n">end_optimizer</span> <span class="o">-</span> <span class="n">start_optimizer</span>
+
+<span class="nn">File ~/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/aesara/graph/opt.py:112,</span> in <span class="ni">GlobalOptimizer.__call__</span><span class="nt">(self, fgraph)</span>
+<span class="g g-Whitespace">    </span><span class="mi">106</span> <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fgraph</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">107</span>     <span class="sd">&quot;&quot;&quot;Optimize a `FunctionGraph`.</span>
+<span class="g g-Whitespace">    </span><span class="mi">108</span><span class="sd"> </span>
+<span class="g g-Whitespace">    </span><span class="mi">109</span><span class="sd">     This is the same as ``self.optimize(fgraph)``.</span>
+<span class="g g-Whitespace">    </span><span class="mi">110</span><span class="sd"> </span>
+<span class="g g-Whitespace">    </span><span class="mi">111</span><span class="sd">     &quot;&quot;&quot;</span>
+<span class="ne">--&gt; </span><span class="mi">112</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">optimize</span><span class="p">(</span><span class="n">fgraph</span><span class="p">)</span>
+
+<span class="nn">File ~/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/aesara/graph/opt.py:103,</span> in <span class="ni">GlobalOptimizer.optimize</span><span class="nt">(self, fgraph, *args, **kwargs)</span>
+<span class="g g-Whitespace">     </span><span class="mi">94</span> <span class="sd">&quot;&quot;&quot;</span>
+<span class="g g-Whitespace">     </span><span class="mi">95</span><span class="sd"> </span>
+<span class="g g-Whitespace">     </span><span class="mi">96</span><span class="sd"> This is meant as a shortcut for the following::</span>
+<span class="sd">   (...)</span>
+<span class="g g-Whitespace">    </span><span class="mi">100</span><span class="sd"> </span>
+<span class="g g-Whitespace">    </span><span class="mi">101</span><span class="sd"> &quot;&quot;&quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">102</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_requirements</span><span class="p">(</span><span class="n">fgraph</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">103</span> <span class="n">ret</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">fgraph</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">104</span> <span class="k">return</span> <span class="n">ret</span>
+
+<span class="nn">File ~/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/aesara/graph/opt.py:280,</span> in <span class="ni">SeqOptimizer.apply</span><span class="nt">(self, fgraph)</span>
+<span class="g g-Whitespace">    </span><span class="mi">278</span> <span class="n">nb_nodes_before</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">fgraph</span><span class="o">.</span><span class="n">apply_nodes</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">279</span> <span class="n">t0</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="ne">--&gt; </span><span class="mi">280</span> <span class="n">sub_prof</span> <span class="o">=</span> <span class="n">optimizer</span><span class="o">.</span><span class="n">optimize</span><span class="p">(</span><span class="n">fgraph</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">281</span> <span class="n">l</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">t0</span><span class="p">))</span>
+<span class="g g-Whitespace">    </span><span class="mi">282</span> <span class="n">sub_profs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sub_prof</span><span class="p">)</span>
+
+<span class="nn">File ~/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/aesara/graph/opt.py:103,</span> in <span class="ni">GlobalOptimizer.optimize</span><span class="nt">(self, fgraph, *args, **kwargs)</span>
+<span class="g g-Whitespace">     </span><span class="mi">94</span> <span class="sd">&quot;&quot;&quot;</span>
+<span class="g g-Whitespace">     </span><span class="mi">95</span><span class="sd"> </span>
+<span class="g g-Whitespace">     </span><span class="mi">96</span><span class="sd"> This is meant as a shortcut for the following::</span>
+<span class="sd">   (...)</span>
+<span class="g g-Whitespace">    </span><span class="mi">100</span><span class="sd"> </span>
+<span class="g g-Whitespace">    </span><span class="mi">101</span><span class="sd"> &quot;&quot;&quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">102</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_requirements</span><span class="p">(</span><span class="n">fgraph</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">103</span> <span class="n">ret</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">fgraph</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">104</span> <span class="k">return</span> <span class="n">ret</span>
+
+<span class="nn">File ~/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/aesara/graph/opt.py:2357,</span> in <span class="ni">EquilibriumOptimizer.apply</span><span class="nt">(self, fgraph, start_from)</span>
+<span class="g g-Whitespace">   </span><span class="mi">2355</span> <span class="n">nb</span> <span class="o">=</span> <span class="n">change_tracker</span><span class="o">.</span><span class="n">nb_imported</span>
+<span class="g g-Whitespace">   </span><span class="mi">2356</span> <span class="n">t_opt</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="ne">-&gt; </span><span class="mi">2357</span> <span class="n">sub_prof</span> <span class="o">=</span> <span class="n">gopt</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">fgraph</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">2358</span> <span class="n">time_opts</span><span class="p">[</span><span class="n">gopt</span><span class="p">]</span> <span class="o">+=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">t_opt</span>
+<span class="g g-Whitespace">   </span><span class="mi">2359</span> <span class="n">sub_profs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sub_prof</span><span class="p">)</span>
+
+<span class="nn">File ~/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/aesara/graph/opt.py:1960,</span> in <span class="ni">TopoOptimizer.apply</span><span class="nt">(self, fgraph, start_from)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1958</span>             <span class="k">continue</span>
+<span class="g g-Whitespace">   </span><span class="mi">1959</span>         <span class="n">current_node</span> <span class="o">=</span> <span class="n">node</span>
+<span class="ne">-&gt; </span><span class="mi">1960</span>         <span class="n">nb</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">process_node</span><span class="p">(</span><span class="n">fgraph</span><span class="p">,</span> <span class="n">node</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1961</span>     <span class="n">loop_t</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">t0</span>
+<span class="g g-Whitespace">   </span><span class="mi">1962</span> <span class="k">finally</span><span class="p">:</span>
+
+<span class="nn">File ~/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/aesara/graph/opt.py:1853,</span> in <span class="ni">NavigatorOptimizer.process_node</span><span class="nt">(self, fgraph, node, lopt)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1851</span> <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">1852</span>     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">failure_callback</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+<span class="ne">-&gt; </span><span class="mi">1853</span>         <span class="bp">self</span><span class="o">.</span><span class="n">failure_callback</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">1854</span>             <span class="n">e</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="p">[(</span><span class="n">x</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">node</span><span class="o">.</span><span class="n">outputs</span><span class="p">],</span> <span class="n">lopt</span><span class="p">,</span> <span class="n">node</span>
+<span class="g g-Whitespace">   </span><span class="mi">1855</span>         <span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1856</span>         <span class="k">return</span> <span class="kc">False</span>
+<span class="g g-Whitespace">   </span><span class="mi">1857</span>     <span class="k">else</span><span class="p">:</span>
+
+<span class="nn">File ~/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/aesara/graph/opt.py:1756,</span> in <span class="ni">NavigatorOptimizer.warn_inplace</span><span class="nt">(exc, nav, repl_pairs, local_opt, node)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1754</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">exc</span><span class="p">,</span> <span class="n">InconsistencyError</span><span class="p">):</span>
+<span class="g g-Whitespace">   </span><span class="mi">1755</span>     <span class="k">return</span>
+<span class="ne">-&gt; </span><span class="mi">1756</span> <span class="k">return</span> <span class="n">NavigatorOptimizer</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">exc</span><span class="p">,</span> <span class="n">nav</span><span class="p">,</span> <span class="n">repl_pairs</span><span class="p">,</span> <span class="n">local_opt</span><span class="p">,</span> <span class="n">node</span><span class="p">)</span>
+
+<span class="nn">File ~/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/aesara/graph/opt.py:1744,</span> in <span class="ni">NavigatorOptimizer.warn</span><span class="nt">(exc, nav, repl_pairs, local_opt, node)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1740</span>     <span class="n">pdb</span><span class="o">.</span><span class="n">post_mortem</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">exc_info</span><span class="p">()[</span><span class="mi">2</span><span class="p">])</span>
+<span class="g g-Whitespace">   </span><span class="mi">1741</span> <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">exc</span><span class="p">,</span> <span class="ne">AssertionError</span><span class="p">)</span> <span class="ow">or</span> <span class="n">config</span><span class="o">.</span><span class="n">on_opt_error</span> <span class="o">==</span> <span class="s2">&quot;raise&quot;</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">1742</span>     <span class="c1"># We always crash on AssertionError because something may be</span>
+<span class="g g-Whitespace">   </span><span class="mi">1743</span>     <span class="c1"># seriously wrong if such an exception is raised.</span>
+<span class="ne">-&gt; </span><span class="mi">1744</span>     <span class="k">raise</span> <span class="n">exc</span>
+
+<span class="nn">File ~/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/aesara/graph/opt.py:1850,</span> in <span class="ni">NavigatorOptimizer.process_node</span><span class="nt">(self, fgraph, node, lopt)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1848</span> <span class="n">lopt</span> <span class="o">=</span> <span class="n">lopt</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">local_opt</span>
+<span class="g g-Whitespace">   </span><span class="mi">1849</span> <span class="k">try</span><span class="p">:</span>
+<span class="ne">-&gt; </span><span class="mi">1850</span>     <span class="n">replacements</span> <span class="o">=</span> <span class="n">lopt</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">fgraph</span><span class="p">,</span> <span class="n">node</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1851</span> <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">1852</span>     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">failure_callback</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+
+<span class="nn">File ~/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/aesara/graph/opt.py:1055,</span> in <span class="ni">FromFunctionLocalOptimizer.transform</span><span class="nt">(self, fgraph, node)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1050</span>     <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span>
+<span class="nn">   1051         node.op</span> in <span class="ni">self._tracks or isinstance</span><span class="nt">(node.op, self._tracked_types)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1052</span>     <span class="p">):</span>
+<span class="g g-Whitespace">   </span><span class="mi">1053</span>         <span class="k">return</span> <span class="kc">False</span>
+<span class="ne">-&gt; </span><span class="mi">1055</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">fn</span><span class="p">(</span><span class="n">fgraph</span><span class="p">,</span> <span class="n">node</span><span class="p">)</span>
+
+<span class="nn">File ~/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/aesara/tensor/basic_opt.py:2945,</span> in <span class="ni">constant_folding</span><span class="nt">(fgraph, node)</span>
+<span class="g g-Whitespace">   </span><span class="mi">2942</span>     <span class="n">compute_map</span><span class="p">[</span><span class="n">o</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="kc">False</span><span class="p">]</span>
+<span class="g g-Whitespace">   </span><span class="mi">2944</span> <span class="n">thunk</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">op</span><span class="o">.</span><span class="n">make_thunk</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">storage_map</span><span class="p">,</span> <span class="n">compute_map</span><span class="p">,</span> <span class="n">no_recycling</span><span class="o">=</span><span class="p">[])</span>
+<span class="ne">-&gt; </span><span class="mi">2945</span> <span class="n">required</span> <span class="o">=</span> <span class="n">thunk</span><span class="p">()</span>
+<span class="g g-Whitespace">   </span><span class="mi">2947</span> <span class="c1"># A node whose inputs are all provided should always return successfully</span>
+<span class="g g-Whitespace">   </span><span class="mi">2948</span> <span class="k">assert</span> <span class="ow">not</span> <span class="n">required</span>
+
+<span class="nn">File ~/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/aesara/link/c/op.py:103,</span> in <span class="ni">COp.make_c_thunk.&lt;locals&gt;.rval</span><span class="nt">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">101</span> <span class="nd">@is_cthunk_wrapper_type</span>
+<span class="g g-Whitespace">    </span><span class="mi">102</span> <span class="k">def</span> <span class="nf">rval</span><span class="p">():</span>
+<span class="ne">--&gt; </span><span class="mi">103</span>     <span class="n">thunk</span><span class="p">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">104</span>     <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">node</span><span class="o">.</span><span class="n">outputs</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">105</span>         <span class="n">compute_map</span><span class="p">[</span><span class="n">o</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+
+<span class="nn">File ~/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/aesara/link/c/basic.py:1766,</span> in <span class="ni">_CThunk.__call__</span><span class="nt">(self)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1764</span>     <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">error_storage</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1765</span>     <span class="k">raise</span>
+<span class="ne">-&gt; </span><span class="mi">1766</span> <span class="k">raise</span> <span class="n">exc_value</span><span class="o">.</span><span class="n">with_traceback</span><span class="p">(</span><span class="n">exc_trace</span><span class="p">)</span>
+
+<span class="ne">AssertionError</span>: Aesara Assert failed!
+</pre></div>
+</div>
+</div>
+</div>
 
     <script type="text/x-thebe-config">
     {
