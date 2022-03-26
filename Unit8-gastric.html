@@ -1,0 +1,1009 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gastric Cancer Data &#8212; ISYE 6420 - BUGS to PyMC</title>
+    
+  <link href="_static/css/theme.css" rel="stylesheet">
+  <link href="_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/togglebutton.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
+    <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
+    <script>
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="index.html">
+      
+      
+      
+      <h1 class="site-logo" id="site-title">ISYE 6420 - BUGS to PyMC</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="intro.html">
+   Introduction
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Unit 1
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="Unit1.html">
+   A Simple Regression
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Unit 2
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="Unit2.html">
+   Code for Unit 2
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Unit 3
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="Unit3-TwoHeadedCoin.html">
+   Two-headed Coin
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Unit3-ManufacturingBayes.html">
+   Manufacturing Bayes
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Unit3-Alarm.html">
+   Alarm
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Unit 4
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="Unit4-BetaPriors.html">
+   Beta plots
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Unit4-GammaGamma.html">
+   Gamma Gamma
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Unit4-eBay.html">
+   eBay Purchase Example
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Unit 5
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="Unit5-LaplacesMethod.html">
+   Laplace’s Method
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Unit5-MetropolisHastings.html">
+   Metropolis-Hastings Example 1
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Unit5-MetropolisHastings2.html">
+   Metropolis-Hastings Example 2
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Unit5-GibbsSampler.html">
+   Gibbs Sampler Example 1
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Unit5-PumpsMCMC.html">
+   Gibbs Sampler Example 2: Pumps
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Unit5-Gibbs3.html">
+   Gibbs Sampler Example 3: Disasters
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Unit 6
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="Unit6-cheese.html">
+   Taste of Cheese
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Unit6-DeMere.html">
+   Demere
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Unit6-dugongs.html">
+   Dugongs: Dealing with Missing Data
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Unit6-equivalence.html">
+   Equivalence of Generic and Brand-Name Drugs
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Unit6-exponential.html">
+   Bartholomew (1957) for Type I censoring
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Unit6-psoriasis.html">
+   Psoriasis: Two sample problem with paired data
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Unit6-stressacids.html">
+   Stress, Diet and Plasma Acids
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Unit6-zerotrickJeremy.html">
+   Jeremy with Zero Tricks
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Unit 7
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="Unit7-ants.html">
+   Ants
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Unit7-arrhythmia.html">
+   Arrhythmia
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="_sources/Unit8-gastric.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/areding/6420-pymc"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/areding/6420-pymc/issues/new?title=Issue%20on%20page%20%2FUnit8-gastric.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/areding/6420-pymc/main?urlpath=tree/Unit8-gastric.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        <a class="colab-button" href="https://colab.research.google.com/github/areding/6420-pymc/blob/main/Unit8-gastric.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
+                title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
+                    src="_static/images/logo_colab.png"
+                    alt="Interact on Colab">Colab</button></a>
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+            
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Gastric Cancer Data</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                    </div>
+                </div>
+            </div>
+            
+              <div>
+                
+  <div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">arviz</span> <span class="k">as</span> <span class="nn">az</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">pymc</span> <span class="k">as</span> <span class="nn">pm</span>
+<span class="kn">from</span> <span class="nn">pymc.math</span> <span class="kn">import</span> <span class="n">exp</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="tex2jax_ignore mathjax_ignore section" id="gastric-cancer-data">
+<h1>Gastric Cancer Data<a class="headerlink" href="#gastric-cancer-data" title="Permalink to this headline">¶</a></h1>
+<p>Adapted from <a class="reference external" href="https://www2.isye.gatech.edu/isye6420/supporting.html">Codes for Unit 8: gastric.odc</a>.</p>
+<p>Associated lecture video: <a class="reference external" href="https://www.youtube.com/watch?v=t4pHpZxtC0U&amp;list=PLv0FeK5oXK4l-RdT6DWJj0_upJOG2WKNO&amp;index=87">Unit 8 Lesson 6</a>.</p>
+<p>Data can be found <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/data/gastric.csv">here</a>.</p>
+<p>Stablein et al. (1981) provide data on 90 patients affected by locally advanced, nonresectable gastric carcinoma. The patients are randomized to two treatments:
+chemotherapy alone (coded as 0) and chemotherapy plus radiation (coded as 1).
+Survival time is reported in days, with censoring indicator (1 = censored, 0 = observed).</p>
+<p>Stablein, D. M., Carter, W. H., Novak, J. W. (1981). Analysis of survival data with nonproportional hazard functions. Control. Clin. Trials,  2 , 2, 149–159.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;./data/gastric.csv&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>type</th>
+      <th>censor</th>
+      <th>times</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>0</td>
+      <td>17.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>0</td>
+      <td>42.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1</td>
+      <td>0</td>
+      <td>44.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1</td>
+      <td>0</td>
+      <td>48.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1</td>
+      <td>0</td>
+      <td>60.0</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>85</th>
+      <td>0</td>
+      <td>0</td>
+      <td>1271.0</td>
+    </tr>
+    <tr>
+      <th>86</th>
+      <td>0</td>
+      <td>1277</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>87</th>
+      <td>0</td>
+      <td>1397</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>88</th>
+      <td>0</td>
+      <td>1512</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>89</th>
+      <td>0</td>
+      <td>1519</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+<p>90 rows × 3 columns</p>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(</span><span class="n">copy</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">censored</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;censor&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(</span><span class="n">copy</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;times&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(</span><span class="n">copy</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">y</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">y</span><span class="p">)]</span> <span class="o">=</span> <span class="n">censored</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">y</span><span class="p">)]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+       1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+       1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+       0, 0])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">censored</span><span class="p">[</span><span class="n">censored</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="n">censored</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">censored</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([  18,   43,   45,   49,   61,   73,   75,   96,  104,  109,  123,
+        145,  168,  171,  184,  186,  194,  196,  198,  209,  235,  236,
+        255,  308,  316,  402,  446,  465,  485,  529,  543,  568,  578,
+        581,  796,  856,  882,  892, 1031, 1033, 1306, 1335, 1367, 1452,
+       1472,    2,   64,  106,  130,  183,  217,  251,  263,  302,  302,
+        343,  355,  357,  359,  381,  381,  384,  384,  389,  395,  409,
+        461,  490,  500,  525,  529,  536,  563,  676,  677,  749,  749,
+        779,  787,  798,  945,  956,  969, 1180, 1246, 1272, 1277, 1397,
+       1512, 1519])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([  17,   42,   44,   48,   60,   72,   74,   95,  103,  108,  122,
+        144,  167,  170,  183,  185,  193,  195,  197,  208,  234,  235,
+        254,  307,  315,  401,  445,  464,  484,  528,  542,  567,  577,
+        580,  795,  855,  882,  892, 1031, 1033, 1306, 1335, 1366, 1452,
+       1472,    1,   63,  105,  129,  182,  216,  250,  262,  301,  301,
+        342,  354,  356,  358,  380,  381,  383,  383,  388,  394,  408,
+        460,  489,  499,  524,  529,  535,  562,  675,  676,  748,  748,
+        778,  786,  797,  945,  955,  968, 1180, 1245, 1271, 1277, 1397,
+       1512, 1519])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mf">1.5</span><span class="p">)</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="o">/</span><span class="mi">100</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.9998500112494375
+</pre></div>
+</div>
+</div>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>PyMC and BUGS do not specify the Weibull distribution in the same way!</p>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">m</span><span class="p">:</span>
+    <span class="n">x_data</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Data</span><span class="p">(</span><span class="s2">&quot;x_data&quot;</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">mutable</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">y_data</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Data</span><span class="p">(</span><span class="s2">&quot;y_data&quot;</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">mutable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    
+    <span class="n">beta0</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;beta0&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">beta1</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;beta1&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">α</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Exponential</span><span class="p">(</span><span class="s2">&quot;α&quot;</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">)</span>
+
+    <span class="n">λ</span> <span class="o">=</span> <span class="n">exp</span><span class="p">(</span><span class="n">beta0</span> <span class="o">+</span> <span class="n">beta1</span> <span class="o">*</span> <span class="n">x_data</span><span class="p">)</span>
+    <span class="n">β</span> <span class="o">=</span> <span class="n">λ</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span> <span class="o">/</span> <span class="n">α</span><span class="p">)</span>
+
+    <span class="n">obs_latent</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Weibull</span><span class="p">(</span><span class="s2">&quot;test&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">α</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="n">β</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">y_data</span><span class="p">)</span>
+    <span class="c1"># likelihood = pm.Censored(</span>
+    <span class="c1">#    &quot;likelihood&quot;, obs_latent, lower=0, upper=censored, observed=y, shape=len(y)</span>
+    <span class="c1"># )</span>
+
+    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">)</span>
+
+<span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">hdi_prob</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">SamplingError</span><span class="g g-Whitespace">                             </span>Traceback (most recent call last)
+<span class="nn">Input In [279],</span> in <span class="ni">&lt;cell line: 1&gt;</span><span class="nt">()</span>
+<span class="g g-Whitespace">     </span><span class="mi">12</span>     <span class="n">obs_latent</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Weibull</span><span class="p">(</span><span class="s2">&quot;test&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">α</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="n">β</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">y_data</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">13</span>     <span class="c1"># likelihood = pm.Censored(</span>
+<span class="g g-Whitespace">     </span><span class="mi">14</span>     <span class="c1">#    &quot;likelihood&quot;, obs_latent, lower=0, upper=censored, observed=y, shape=len(y)</span>
+<span class="g g-Whitespace">     </span><span class="mi">15</span>     <span class="c1"># )</span>
+<span class="ne">---&gt; </span><span class="mi">17</span>     <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">19</span> <span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">hdi_prob</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
+
+<span class="nn">File ~/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/pymc/sampling.py:487,</span> in <span class="ni">sample</span><span class="nt">(draws, step, init, n_init, initvals, trace, chain_idx, chains, cores, tune, progressbar, model, random_seed, discard_tuned_samples, compute_convergence_checks, callback, jitter_max_retries, return_inferencedata, idata_kwargs, mp_ctx, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">485</span> <span class="c1"># One final check that shapes and logps at the starting points are okay.</span>
+<span class="g g-Whitespace">    </span><span class="mi">486</span> <span class="k">for</span> <span class="n">ip</span> <span class="ow">in</span> <span class="n">initial_points</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">487</span>     <span class="n">model</span><span class="o">.</span><span class="n">check_start_vals</span><span class="p">(</span><span class="n">ip</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">488</span>     <span class="n">_check_start_shape</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">ip</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">490</span> <span class="n">sample_args</span> <span class="o">=</span> <span class="p">{</span>
+<span class="g g-Whitespace">    </span><span class="mi">491</span>     <span class="s2">&quot;draws&quot;</span><span class="p">:</span> <span class="n">draws</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">492</span>     <span class="s2">&quot;step&quot;</span><span class="p">:</span> <span class="n">step</span><span class="p">,</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">503</span>     <span class="s2">&quot;discard_tuned_samples&quot;</span><span class="p">:</span> <span class="n">discard_tuned_samples</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">504</span> <span class="p">}</span>
+
+<span class="nn">File ~/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/pymc/model.py:1683,</span> in <span class="ni">Model.check_start_vals</span><span class="nt">(self, start)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1680</span> <span class="n">initial_eval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">point_logps</span><span class="p">(</span><span class="n">point</span><span class="o">=</span><span class="n">elem</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1682</span> <span class="k">if</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">initial_eval</span><span class="o">.</span><span class="n">values</span><span class="p">()):</span>
+<span class="ne">-&gt; </span><span class="mi">1683</span>     <span class="k">raise</span> <span class="n">SamplingError</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">1684</span>         <span class="s2">&quot;Initial evaluation of model at starting point failed!</span><span class="se">\n</span><span class="s2">&quot;</span>
+<span class="g g-Whitespace">   </span><span class="mi">1685</span>         <span class="sa">f</span><span class="s2">&quot;Starting values:</span><span class="se">\n</span><span class="si">{</span><span class="n">elem</span><span class="si">}</span><span class="se">\n\n</span><span class="s2">&quot;</span>
+<span class="g g-Whitespace">   </span><span class="mi">1686</span>         <span class="sa">f</span><span class="s2">&quot;Initial evaluation results:</span><span class="se">\n</span><span class="si">{</span><span class="n">initial_eval</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="g g-Whitespace">   </span><span class="mi">1687</span>     <span class="p">)</span>
+
+<span class="ne">SamplingError</span>: Initial evaluation of model at starting point failed!
+<span class="n">Starting</span> <span class="n">values</span><span class="p">:</span>
+<span class="p">{</span><span class="s1">&#39;beta0&#39;</span><span class="p">:</span> <span class="n">array</span><span class="p">(</span><span class="mf">0.</span><span class="p">),</span> <span class="s1">&#39;beta1&#39;</span><span class="p">:</span> <span class="n">array</span><span class="p">(</span><span class="mf">0.</span><span class="p">),</span> <span class="s1">&#39;α_log__&#39;</span><span class="p">:</span> <span class="n">array</span><span class="p">(</span><span class="mf">4.60517019</span><span class="p">)}</span>
+
+<span class="n">Initial</span> <span class="n">evaluation</span> <span class="n">results</span><span class="p">:</span>
+<span class="p">{</span><span class="s1">&#39;beta0&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mf">3.22</span><span class="p">,</span> <span class="s1">&#39;beta1&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mf">3.22</span><span class="p">,</span> <span class="s1">&#39;α&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="s1">&#39;test&#39;</span><span class="p">:</span> <span class="o">-</span><span class="n">inf</span><span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">tqdm.auto</span> <span class="kn">import</span> <span class="n">tqdm</span>
+
+<span class="n">values</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">500</span><span class="p">)):</span>
+    <span class="n">beta0</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">10</span><span class="p">))</span>
+    <span class="n">beta1</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">10</span><span class="p">))</span>
+    <span class="n">v</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">pm</span><span class="o">.</span><span class="n">Exponential</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="mf">0.01</span><span class="p">))</span>
+    <span class="n">x0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">λ</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">beta0</span> <span class="o">+</span> <span class="n">beta1</span> <span class="o">*</span> <span class="n">x0</span><span class="p">)</span>
+
+    <span class="n">likelihood</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">pm</span><span class="o">.</span><span class="n">Weibull</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">λ</span> <span class="o">**</span> <span class="o">-</span><span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">v</span><span class="p">)))</span>
+    <span class="n">values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+        <span class="p">(</span>
+            <span class="nb">round</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">beta0</span><span class="p">),</span> <span class="mi">2</span><span class="p">),</span>
+            <span class="nb">round</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">beta1</span><span class="p">),</span> <span class="mi">2</span><span class="p">),</span>
+            <span class="nb">round</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">v</span><span class="p">),</span> <span class="mi">2</span><span class="p">),</span>
+            <span class="nb">round</span><span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+            <span class="nb">round</span><span class="p">(</span><span class="n">λ</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+            <span class="nb">round</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">likelihood</span><span class="p">),</span> <span class="mi">10</span><span class="p">),</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+
+<span class="n">vals</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;beta0&quot;</span><span class="p">,</span> <span class="s2">&quot;beta1&quot;</span><span class="p">,</span> <span class="s2">&quot;v&quot;</span><span class="p">,</span> <span class="s2">&quot;x0&quot;</span><span class="p">,</span> <span class="s2">&quot;λ&quot;</span><span class="p">,</span> <span class="s2">&quot;likelihood&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id": "afb5a14c98c0473898c74dc7732254dc", "version_major": 2, "version_minor": 0}
+</script></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">vals</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>beta0</th>
+      <th>beta1</th>
+      <th>v</th>
+      <th>x0</th>
+      <th>λ</th>
+      <th>likelihood</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>500.000000</td>
+      <td>500.000000</td>
+      <td>500.000000</td>
+      <td>500.000000</td>
+      <td>5.000000e+02</td>
+      <td>5.000000e+02</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>0.571260</td>
+      <td>-0.679380</td>
+      <td>107.754060</td>
+      <td>0.478000</td>
+      <td>1.030877e+16</td>
+      <td>1.170143e+04</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>9.873538</td>
+      <td>9.955019</td>
+      <td>102.741596</td>
+      <td>0.500016</td>
+      <td>2.033595e+17</td>
+      <td>2.616261e+05</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>-26.910000</td>
+      <td>-26.730000</td>
+      <td>0.340000</td>
+      <td>0.000000</td>
+      <td>0.000000e+00</td>
+      <td>0.000000e+00</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>-6.532500</td>
+      <td>-7.567500</td>
+      <td>30.792500</td>
+      <td>0.000000</td>
+      <td>0.000000e+00</td>
+      <td>8.893228e-01</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>0.895000</td>
+      <td>-0.765000</td>
+      <td>72.325000</td>
+      <td>0.000000</td>
+      <td>2.635000e+00</td>
+      <td>9.881558e-01</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>7.582500</td>
+      <td>6.032500</td>
+      <td>155.542500</td>
+      <td>1.000000</td>
+      <td>4.745622e+03</td>
+      <td>1.091491e+00</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>32.920000</td>
+      <td>25.800000</td>
+      <td>554.340000</td>
+      <td>1.000000</td>
+      <td>4.501481e+18</td>
+      <td>5.850138e+06</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">vals</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>beta0</th>
+      <th>beta1</th>
+      <th>v</th>
+      <th>x0</th>
+      <th>λ</th>
+      <th>likelihood</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>58.56</td>
+      <td>8.71</td>
+      <td>21.90</td>
+      <td>0</td>
+      <td>2.704999e+25</td>
+      <td>0.074630</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>4.29</td>
+      <td>3.32</td>
+      <td>18.94</td>
+      <td>1</td>
+      <td>2.017870e+03</td>
+      <td>0.670639</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>35.80</td>
+      <td>2.22</td>
+      <td>43.55</td>
+      <td>0</td>
+      <td>3.543164e+15</td>
+      <td>0.438529</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>-44.06</td>
+      <td>-44.39</td>
+      <td>32.10</td>
+      <td>1</td>
+      <td>0.000000e+00</td>
+      <td>14.985962</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>6.69</td>
+      <td>4.85</td>
+      <td>102.33</td>
+      <td>0</td>
+      <td>8.003400e+02</td>
+      <td>0.933407</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>995</th>
+      <td>-29.24</td>
+      <td>-28.54</td>
+      <td>21.22</td>
+      <td>1</td>
+      <td>0.000000e+00</td>
+      <td>15.219278</td>
+    </tr>
+    <tr>
+      <th>996</th>
+      <td>7.46</td>
+      <td>15.64</td>
+      <td>11.50</td>
+      <td>1</td>
+      <td>1.070468e+10</td>
+      <td>0.135769</td>
+    </tr>
+    <tr>
+      <th>997</th>
+      <td>24.07</td>
+      <td>-39.97</td>
+      <td>48.86</td>
+      <td>0</td>
+      <td>2.834368e+10</td>
+      <td>0.612771</td>
+    </tr>
+    <tr>
+      <th>998</th>
+      <td>-21.10</td>
+      <td>-10.80</td>
+      <td>6.96</td>
+      <td>1</td>
+      <td>0.000000e+00</td>
+      <td>87.772372</td>
+    </tr>
+    <tr>
+      <th>999</th>
+      <td>54.86</td>
+      <td>27.97</td>
+      <td>232.61</td>
+      <td>1</td>
+      <td>9.368866e+35</td>
+      <td>0.697366</td>
+    </tr>
+  </tbody>
+</table>
+<p>1000 rows × 6 columns</p>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">expo</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">pm</span><span class="o">.</span><span class="n">Exponential</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="mf">0.01</span><span class="p">),</span> <span class="mi">10000</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">expo</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D at 0x28030b220&gt;]
+</pre></div>
+</div>
+<img alt="_images/Unit8-gastric_16_1.png" src="_images/Unit8-gastric_16_1.png" />
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+</div>
+            
+        </div>
+    </div>
+    <footer class="footer">
+  <p>
+    
+      By Aaron Reding<br/>
+    
+  </p>
+</footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>
