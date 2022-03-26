@@ -7,9 +7,13 @@
 import arviz as az
 import matplotlib.pyplot as plt
 import numpy as np
-import pymc3 as pm
-from pymc3.math import switch
+import pymc as pm
+from pymc.math import eq, switch
 
+
+# ```{note}
+# This is using PyMC 4.0 beta 4! Syntax should be backwards-compatible except for the imports.
+# ```
 
 # # Equivalence of Generic and Brand-Name Drugs 
 # 
@@ -38,7 +42,7 @@ increase_type2 = [6, 7, 5, 9, 5, 5, 3, 7, 5, 10, 8, 5, 8, 4, 4, 8, 6, 11,
 # fmt: on
 
 
-# We're using ```pm.math.switch``` to recreate the BUGS ```step()``` function for the ```probint``` variable.
+# We're using ```pm.math.switch``` and ```pm.math.eq``` to recreate the BUGS ```step()``` function for the ```probint``` variable.
 # 
 # See [Unit 6: Stress, Diet and Plasma Acids](https://areding.github.io/6420-pymc/Unit6-stressacids.html) to find out more about converting the BUGS step function.
 
@@ -55,7 +59,7 @@ with pm.Model() as m:
 
     probint = pm.Deterministic(
         "probint",
-        switch(mudiff + 2 >= 0, 1, 0) * switch(2 - mudiff >= 0, 1, 0),
+        switch(mudiff + 2 >= 0, 1, 0) * switch(eq(2 - mudiff, 0), 1, 0),
     )
 
     y_type1 = pm.Normal("y_type1", mu=mu1, sd=sigma, observed=increase_type1)
@@ -87,3 +91,9 @@ az.summary(trace, hdi_prob=0.95)
 # | mudiff   | 1.133  | 0.618   | 0.00196  | -0.07884 | 1.134  | 2.354     | 1001  | 100000 |
 # | prec     | 0.2626 | 0.05792 | 1.90E-04 | 0.1617   | 0.2584 | 0.3877    | 1001  | 100000 |
 # | probint  | 0.9209 | 0.2699  | 9.07E-04 | 0        | 1      | 1         | 1001  | 100000 |
+
+# In[ ]:
+
+
+
+

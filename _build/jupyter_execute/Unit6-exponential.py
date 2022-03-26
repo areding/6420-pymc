@@ -1,17 +1,18 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[2]:
+# In[ ]:
 
 
 import arviz as az
 import matplotlib.pyplot as plt
 import numpy as np
 import pymc as pm
+
 get_ipython().run_line_magic('load_ext', 'watermark')
 
 
-# In[4]:
+# In[ ]:
 
 
 get_ipython().run_line_magic('watermark', '--iversions')
@@ -58,7 +59,7 @@ get_ipython().run_line_magic('watermark', '--iversions')
 # This is using PyMC 4.0 beta 3!
 # ```
 
-# In[82]:
+# In[6]:
 
 
 # gamma dist parameters
@@ -66,7 +67,7 @@ get_ipython().run_line_magic('watermark', '--iversions')
 β = 0.1
 
 # max possible observed life for each piece of equipment (before end of experiment)
-censored =(81, 72, 70, 60, 41, 31, 31, 30, 29, 21) 
+censored = (81, 72, 70, 60, 41, 31, 31, 30, 29, 21)
 
 # observed life within experiment dates
 y = (2, 72, 51, 60, 33, 27, 14, 24, 4, 21)
@@ -76,12 +77,11 @@ with pm.Model() as m:
     λ = pm.Gamma("λ", α, β)
     μ = pm.Deterministic("μ", 1 / λ)
     obs_latent = pm.Exponential.dist(λ)
-    
+
     observed = pm.Censored(
         "observed", obs_latent, lower=None, upper=censored, observed=y, shape=len(y)
     )
 
-    
     trace = pm.sample(
         100000,
         chains=4,
@@ -93,7 +93,7 @@ with pm.Model() as m:
     )
 
 
-# In[83]:
+# In[7]:
 
 
 az.summary(trace, hdi_prob=0.95)

@@ -93,7 +93,7 @@ az.summary(trace, hdi_prob=0.95)
 # prediction
 new_obs = np.array([[1.0, 5.0, 7.1, 1.5]])
 pm.set_data({"X": new_obs}, model=m)
-ppc = pm.sample_posterior_predictive(trace, model=cheese, samples=30)
+ppc = pm.sample_posterior_predictive(trace, model=m, samples=30)
 
 
 # In[7]:

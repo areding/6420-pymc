@@ -1,15 +1,19 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[5]:
+# In[1]:
 
 
 import arviz as az
 import matplotlib.pyplot as plt
 import numpy as np
-import pymc3 as pm
-from pymc3.math import switch
+import pymc as pm
+from pymc.math import switch, ge
 
+
+# ```{note}
+# This is using PyMC 4.0 beta 4! Syntax should be backwards-compatible except for the imports.
+# ```
 
 # # Stress, Diet and Plasma Acids
 # 
@@ -23,7 +27,7 @@ from pymc3.math import switch
 
 # The purpose of this example in lectures was mostly just to show different ways to load data in BUGS. I'm not going to go into that too much, just want to get this example up just in case it's useful. In the next cell, I start with the data formatted the same way as in ```stressacids.odc```, and use list comprehensions to create two lists, one of smokers and one of non-smokers.
 
-# In[4]:
+# In[2]:
 
 
 # fmt: off
@@ -55,12 +59,19 @@ smokers = [x for x, y in zip(plasma, smo) if y == 2]
 # pm.math.switch(e >= 0, 1, 0)
 # 
 # ```
+# 
+# We should also probably use pm.math.ge for greater than or equal, as well, so:
+# 
+# ```
+# pm.math.switch(ge(e,0), 1, 0)
+# 
+# ```
 
 # ## How do I track non-random variables in PyMC?
 # 
 # One nice thing about BUGS is you can easily track both deterministic and non-deterministic variables while sampling. For PyMC, you can wrap these in [```pm.Deterministic()```](https://docs.pymc.io/en/v3/api/model.html). Just make sure to use [```pm.math```](https://docs.pymc.io/en/v3/api/math.html) functions where possible.
 
-# In[11]:
+# In[3]:
 
 
 with pm.Model() as m:
@@ -81,7 +92,7 @@ with pm.Model() as m:
         "smokers_aa", mu=mu_smokers, sd=sigma_smokers, observed=smokers
     )
     
-    testmu = pm.Deterministic("test_mu", switch(mu_smokers >= mu_nonsmokers, 1, 0))
+    testmu = pm.Deterministic("test_mu", switch(ge(mu_smokers, mu_nonsmokers), 1, 0))
     r = pm.Deterministic("prec_ratio", tau_nonsmokers/tau_smokers)
     
     # start sampling
@@ -96,10 +107,14 @@ with pm.Model() as m:
     )
 
 
-# In[12]:
+# In[4]:
 
 
 az.summary(trace, hdi_prob=0.95)
 
 
-# I can't get BUGS results for comparison right now because the GT virtual machines are down for maintenance. Will update later.
+# In[ ]:
+
+
+
+
