@@ -426,7 +426,7 @@ pymc : 4.0.0b4
 <li><p>I imputed the x values with a more informative prior for similar reasons. That Uniform(0, 500) prior seems kind of crazy to me, and I wanted to rule out more computational issues.</p></li>
 <li><p>I got rid of the separate definition of the intercept as alpha, it is now beta[0].</p></li>
 </ol>
-<p>The priors are besides the point anyways, I just wanted to show how to impute x values for HW6!</p>
+<p>I have not checked this model for any kind of correctness or compared the answers to the BUGS version. It may make no sense at all! But I</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># note that I added a 1 to the first value for x, this is for the intercept beta[0]</span>
@@ -462,19 +462,20 @@ pymc : 4.0.0b4
     <span class="n">x_data</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Data</span><span class="p">(</span><span class="s2">&quot;x_data&quot;</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">mutable</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">y_data</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Data</span><span class="p">(</span><span class="s2">&quot;y_data&quot;</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">mutable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
-    <span class="n">tau_c</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Gamma</span><span class="p">(</span><span class="s2">&quot;tau.c&quot;</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+    <span class="n">tau_c</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Gamma</span><span class="p">(</span><span class="s2">&quot;tau.c&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
     <span class="n">beta_c</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;beta.c&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">)</span>
-    <span class="n">beta_tau</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Gamma</span><span class="p">(</span><span class="s2">&quot;beta.tau&quot;</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+    <span class="n">beta_tau</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Gamma</span><span class="p">(</span><span class="s2">&quot;beta.tau&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 
-    <span class="n">beta</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;beta&quot;</span><span class="p">,</span> <span class="n">beta_c</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
+    <span class="n">beta</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;beta&quot;</span><span class="p">,</span> <span class="n">beta_c</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="n">beta_tau</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
 
     <span class="n">x_imputed</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;x_imputed&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">x_data</span><span class="p">)</span>
 
     <span class="n">mu</span> <span class="o">=</span> <span class="n">dot</span><span class="p">(</span><span class="n">beta</span><span class="p">,</span> <span class="n">x_imputed</span><span class="p">)</span>
-    <span class="n">likelihood</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;likelihood&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">y_data</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+    <span class="n">likelihood</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;likelihood&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="n">tau_c</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">y_data</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
 
     <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span>
-        <span class="mi">2000</span><span class="p">,</span>
+        <span class="mi">10000</span><span class="p">,</span>
+        <span class="n">tune</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span>
         <span class="n">cores</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
         <span class="n">init</span><span class="o">=</span><span class="s2">&quot;jitter+adapt_diag&quot;</span><span class="p">,</span>
     <span class="p">)</span>
@@ -501,21 +502,10 @@ NUTS: [tau.c, beta.c, beta.tau, beta]
 </style>
 </div><div class="output text_html">
 <div>
-  <progress value='12000' class='' max='12000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-  100.00% [12000/12000 02:47<00:00 Sampling 4 chains, 0 divergences]
+  <progress value='29773' class='' max='48000' style='width:300px; height:20px; vertical-align: middle;'></progress>
+  62.03% [29773/48000 00:06<00:03 Sampling 4 chains, 10,209 divergences]
 </div>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
-  return _boost._beta_ppf(q, a, b)
-/Users/aaron/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
-  return _boost._beta_ppf(q, a, b)
-/Users/aaron/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
-  return _boost._beta_ppf(q, a, b)
-/Users/aaron/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
-  return _boost._beta_ppf(q, a, b)
-Sampling 4 chains for 1_000 tune and 2_000 draw iterations (4_000 + 8_000 draws total) took 175 seconds.
-</pre></div>
-</div>
-</div>
+</div></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -523,148 +513,6 @@ Sampling 4 chains for 1_000 tune and 2_000 draw iterations (4_000 + 8_000 draws 
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>mean</th>
-      <th>sd</th>
-      <th>hdi_2.5%</th>
-      <th>hdi_97.5%</th>
-      <th>mcse_mean</th>
-      <th>mcse_sd</th>
-      <th>ess_bulk</th>
-      <th>ess_tail</th>
-      <th>r_hat</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>beta.c</th>
-      <td>1.743</td>
-      <td>5.664</td>
-      <td>-9.253</td>
-      <td>12.811</td>
-      <td>0.081</td>
-      <td>0.060</td>
-      <td>4900.0</td>
-      <td>5289.0</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>beta[0]</th>
-      <td>1.768</td>
-      <td>11.393</td>
-      <td>-20.379</td>
-      <td>23.810</td>
-      <td>0.138</td>
-      <td>0.118</td>
-      <td>6833.0</td>
-      <td>5962.0</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>beta[1]</th>
-      <td>1.586</td>
-      <td>10.776</td>
-      <td>-19.371</td>
-      <td>22.694</td>
-      <td>0.133</td>
-      <td>0.118</td>
-      <td>6522.0</td>
-      <td>5729.0</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>beta[2]</th>
-      <td>1.739</td>
-      <td>9.781</td>
-      <td>-16.872</td>
-      <td>20.716</td>
-      <td>0.126</td>
-      <td>0.110</td>
-      <td>6003.0</td>
-      <td>5529.0</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>beta[3]</th>
-      <td>1.626</td>
-      <td>8.979</td>
-      <td>-15.908</td>
-      <td>19.329</td>
-      <td>0.118</td>
-      <td>0.104</td>
-      <td>5830.0</td>
-      <td>5234.0</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>beta[4]</th>
-      <td>1.832</td>
-      <td>11.710</td>
-      <td>-21.728</td>
-      <td>24.133</td>
-      <td>0.151</td>
-      <td>0.128</td>
-      <td>6056.0</td>
-      <td>5542.0</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>beta[5]</th>
-      <td>1.558</td>
-      <td>6.588</td>
-      <td>-10.809</td>
-      <td>14.511</td>
-      <td>0.100</td>
-      <td>0.075</td>
-      <td>4362.0</td>
-      <td>4721.0</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>tau.c</th>
-      <td>6.047</td>
-      <td>3.494</td>
-      <td>0.435</td>
-      <td>12.739</td>
-      <td>0.037</td>
-      <td>0.028</td>
-      <td>7618.0</td>
-      <td>4104.0</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>beta.tau</th>
-      <td>6.007</td>
-      <td>3.554</td>
-      <td>0.619</td>
-      <td>12.872</td>
-      <td>0.037</td>
-      <td>0.027</td>
-      <td>7243.0</td>
-      <td>3680.0</td>
-      <td>1.0</td>
-    </tr>
-  </tbody>
-</table>
-</div></div></div>
 </div>
 </div>
 

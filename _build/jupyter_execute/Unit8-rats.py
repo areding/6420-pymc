@@ -35,7 +35,7 @@ get_ipython().run_line_magic('watermark', '--iversions')
 # 
 # 3. I got rid of the separate definition of the intercept as alpha, it is now beta[0].
 # 
-# The priors are besides the point anyways, I just wanted to show how to impute x values for HW6!
+# I have not checked this model for any kind of correctness or compared the answers to the BUGS version. It may make no sense at all! But I
 
 # In[2]:
 
@@ -59,32 +59,33 @@ x = np.nan_to_num(x, nan=-1)
 x = np.ma.masked_values(x, value=-1)
 
 
-# In[5]:
+# In[ ]:
 
 
 with pm.Model() as m:
     x_data = pm.Data("x_data", x, mutable=True)
     y_data = pm.Data("y_data", y, mutable=False)
 
-    tau_c = pm.Gamma("tau.c", 3, 0.5)
+    tau_c = pm.Gamma("tau.c", 1, 1)
     beta_c = pm.Normal("beta.c", 0, tau=1e-6)
-    beta_tau = pm.Gamma("beta.tau", 3, 0.5)
+    beta_tau = pm.Gamma("beta.tau", 1, 1)
 
-    beta = pm.Normal("beta", beta_c, tau=0.01, shape=6)
+    beta = pm.Normal("beta", beta_c, tau=beta_tau, shape=6)
 
     x_imputed = pm.Normal("x_imputed", mu=20, sigma=10, observed=x_data)
 
     mu = dot(beta, x_imputed)
-    likelihood = pm.Normal("likelihood", mu, tau=0.01, observed=y_data, shape=5)
+    likelihood = pm.Normal("likelihood", mu, tau=tau_c, observed=y_data, shape=5)
 
     trace = pm.sample(
-        2000,
+        10000,
+        tune=2000,
         cores=4,
         init="jitter+adapt_diag",
     )
 
 
-# In[6]:
+# In[ ]:
 
 
 az.summary(trace, hdi_prob=0.95)
