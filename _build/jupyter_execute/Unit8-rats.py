@@ -35,7 +35,7 @@ get_ipython().run_line_magic('watermark', '--iversions')
 # 
 # 3. I got rid of the separate definition of the intercept as alpha, it is now beta[0].
 # 
-# I have not checked this model for any kind of correctness or compared the answers to the BUGS version. It may make no sense at all! But I
+# I have not checked this model for any kind of correctness or compared the answers to the BUGS version. It may make no sense at all! But I hope it gives you an idea for how to handle the missing data question on HW6, which I have confirmed works well in PyMC.
 
 # In[2]:
 
@@ -59,7 +59,7 @@ x = np.nan_to_num(x, nan=-1)
 x = np.ma.masked_values(x, value=-1)
 
 
-# In[ ]:
+# In[30]:
 
 
 with pm.Model() as m:
@@ -75,7 +75,7 @@ with pm.Model() as m:
     x_imputed = pm.Normal("x_imputed", mu=20, sigma=10, observed=x_data)
 
     mu = dot(beta, x_imputed)
-    likelihood = pm.Normal("likelihood", mu, tau=tau_c, observed=y_data, shape=5)
+    likelihood = pm.Normal("likelihood", mu, tau=tau_c, observed=y_data)
 
     trace = pm.sample(
         10000,
@@ -85,7 +85,7 @@ with pm.Model() as m:
     )
 
 
-# In[ ]:
+# In[31]:
 
 
 az.summary(trace, hdi_prob=0.95)
