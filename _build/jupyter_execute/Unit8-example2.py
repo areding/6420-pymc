@@ -18,14 +18,14 @@ from pymc.math import exp
 
 
 
-# In[19]:
+# In[21]:
 
 
 censored = np.array([np.inf, np.inf, 1, np.inf, 3])
 y = np.array([2, 3, 1, 2.5, 3])
 
 
-# In[20]:
+# In[22]:
 
 
 with pm.Model() as m:

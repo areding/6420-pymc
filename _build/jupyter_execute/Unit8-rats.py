@@ -88,8 +88,10 @@ with pm.Model() as m:
 az.summary(trace, hdi_prob=0.95)
 
 
-# In[ ]:
-
-
-
-
+# Notes:
+# 
+# can't impute data with pm.Data(mutable=True)? 
+# reading:
+# https://github.com/pymc-devs/pymc/issues/4441
+# https://github.com/pymc-devs/pymc/pull/5295
+# 
