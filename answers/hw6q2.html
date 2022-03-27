@@ -269,6 +269,11 @@
    Rats
   </a>
  </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Unit8-gastric.html">
+   Gastric Cancer Data
+  </a>
+ </li>
 </ul>
 
     </div>
@@ -413,7 +418,89 @@
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">pymc</span> <span class="k">as</span> <span class="nn">pm</span>
-<span class="kn">from</span> <span class="nn">pymc.math</span> <span class="kn">import</span> <span class="n">exp</span><span class="p">,</span> <span class="n">ge</span><span class="p">,</span> <span class="n">switch</span>
+<span class="kn">import</span> <span class="nn">aesara</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">aesara</span><span class="o">.</span><span class="vm">__file__</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;/Users/aaron/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/aesara/__init__.py&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">aesara</span><span class="o">.</span><span class="n">__version__</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;2.5.1&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">aesara</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">optimizer</span><span class="o">=</span><span class="s2">&quot;None&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ERROR! Session/line number was not unique in database. History logging moved to new session 635
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">aesara</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">exception_verbosity</span><span class="o">=</span><span class="s2">&quot;high&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">aesara</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">optimizer</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;None&#39;
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ERROR! Session/line number was not unique in database. History logging moved to new session 636
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">aesara</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">exception_verbosity</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;high&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">aesara</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">print_active_device</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
 </pre></div>
 </div>
 </div>
@@ -585,11 +672,85 @@
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;censored&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
 <span class="n">data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;observed&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;censored&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span>
-<span class="n">data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;observed&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;censored&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="n">data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;observed&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;censored&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span>
 
 <span class="n">y</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(</span><span class="n">copy</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">x</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;group&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(</span><span class="n">copy</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">censored</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;censored&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(</span><span class="n">copy</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([ 0.,  1.,  4.,  7., 10.,  6., 14., 18.,  5., 12., 23., 10.,  3.,
+        3.,  7.,  3., 26.,  1.,  2., 25., 29., 29., 29., 28.,  2.,  3.,
+       12., 32., 34., 36., 29., 37.,  9., 16., 41.,  3.,  6.,  3.,  9.,
+       18., 49., 35., 17.,  3., 59.,  2.,  5.,  2.,  1.,  1.,  5.,  9.,
+       10., 13.,  3.,  1., 18., 17.,  2., 17., 22., 25., 25., 25.,  6.,
+        6.,  2., 26., 38., 22.,  4., 24., 41., 41.,  1., 44.,  2., 45.,
+        2., 46., 49., 50.,  4., 54., 38., 59.])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">censored</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([ 0.,  1.,  4.,  7., 10., inf, 14., 18., inf, inf, 23., inf, inf,
+       inf, inf, inf, 26., inf, inf, inf, 29., 29., 29., inf, inf, inf,
+       inf, 32., 34., 36., inf, 37., inf, inf, 41., inf, inf, inf, inf,
+       inf, 49., inf, inf, inf, 59., inf, inf, inf,  1.,  1., inf,  9.,
+       10., 13., inf, inf, 18., inf, inf, inf, 22., 25., 25., 25., inf,
+       inf, inf, inf, 38., inf, inf, inf, 41., 41., inf, 44., inf, 45.,
+       inf, 46., 49., 50., inf, 54., inf, 59.])
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ERROR! Session/line number was not unique in database. History logging moved to new session 634
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">censored</span> <span class="o">==</span> <span class="n">y</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([ True,  True,  True,  True,  True, False,  True,  True, False,
+       False,  True, False, False, False, False, False,  True, False,
+       False, False,  True,  True,  True, False, False, False, False,
+        True,  True,  True, False,  True, False, False,  True, False,
+       False, False, False, False,  True, False, False, False,  True,
+       False, False, False,  True,  True, False,  True,  True,  True,
+       False, False,  True, False, False, False,  True,  True,  True,
+        True, False, False, False, False,  True, False, False, False,
+        True,  True, False,  True, False,  True, False,  True,  True,
+        True, False,  True, False,  True])
 </pre></div>
 </div>
 </div>
@@ -597,124 +758,39 @@
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># right-censored model</span>
-<span class="c1">#inits = {&#39;beta0&#39;: np.array(.1), &#39;beta1&#39;: np.array(.1)}</span>
+<span class="c1"># inits = {&#39;beta0&#39;: np.array(.1), &#39;beta1&#39;: np.array(.1)}</span>
 
 <span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">m</span><span class="p">:</span>
-    <span class="n">beta0</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;beta0&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">)</span>
-    <span class="n">beta1</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;beta1&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">)</span>
+    <span class="n">beta0</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;beta0&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">beta1</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;beta1&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    
     <span class="n">λ</span> <span class="o">=</span> <span class="n">exp</span><span class="p">(</span><span class="n">beta0</span> <span class="o">+</span> <span class="n">beta1</span> <span class="o">*</span> <span class="n">x</span><span class="p">)</span>
+    
+    <span class="c1">#λ_prop = exp(beta0 + beta1 * x)    </span>
+    <span class="c1">#λ = switch(le(λ_prop, 1), 1, λ_prop)</span>
+    
+    <span class="c1">#obs_latent = pm.Exponential(&quot;ol&quot;, lam=λ, observed=y)</span>
     <span class="n">obs_latent</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Exponential</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="n">lam</span><span class="o">=</span><span class="n">λ</span><span class="p">)</span>
+
     <span class="n">likelihood</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Censored</span><span class="p">(</span>
         <span class="s2">&quot;likelihood&quot;</span><span class="p">,</span> <span class="n">obs_latent</span><span class="p">,</span> <span class="n">lower</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">upper</span><span class="o">=</span><span class="n">censored</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">y</span>
     <span class="p">)</span>
 
-    <span class="n">mu0</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;mu0&quot;</span><span class="p">,</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">beta0</span><span class="p">))</span>
-    <span class="n">mu1</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;mu1&quot;</span><span class="p">,</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">beta0</span> <span class="o">-</span> <span class="n">beta1</span><span class="p">))</span>
+    <span class="c1">#mu0 = pm.Deterministic(&quot;mu0&quot;, exp(-beta0))</span>
+    <span class="c1">#mu1 = pm.Deterministic(&quot;mu1&quot;, exp(-beta0 - beta1))</span>
 
-    <span class="n">mu_diff</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;mu_diff&quot;</span><span class="p">,</span> <span class="n">mu1</span> <span class="o">-</span> <span class="n">mu0</span><span class="p">)</span>
+    <span class="c1">#mu_diff = pm.Deterministic(&quot;mu_diff&quot;, mu1 - mu0)</span>
 
-    <span class="n">H_prob</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;H_prob&quot;</span><span class="p">,</span> <span class="n">switch</span><span class="p">(</span><span class="n">ge</span><span class="p">(</span><span class="n">mu_diff</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+    <span class="c1">#H_prob = pm.Deterministic(&quot;H_prob&quot;, switch(ge(mu_diff, 0), 1, 0))</span>
 
     <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span>
-        <span class="mi">2000</span><span class="p">,</span>  <span class="c1"># samples</span>
+        <span class="mi">3000</span><span class="p">,</span>
         <span class="n">chains</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
-        <span class="n">tune</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span>
+        <span class="n">tune</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
         <span class="n">cores</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
-        <span class="n">init</span><span class="o">=</span><span class="s2">&quot;jitter+adapt_diag&quot;</span><span class="p">,</span>
-        <span class="n">random_seed</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-        <span class="n">return_inferencedata</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="p">)</span>
-
-<span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">hdi_prob</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Multiprocess sampling (4 chains in 4 jobs)
-NUTS: [beta0, beta1]
-</pre></div>
-</div>
-<div class="output text_html">
-<style>
-    /* Turns off some styling */
-    progress {
-        /* gets rid of default border in Firefox and Opera. */
-        border: none;
-        /* Needs to be in here for Safari polyfill so background images work as expected. */
-        background-size: auto;
-    }
-    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
-        background: #F44336;
-    }
-</style>
-</div><div class="output text_html">
-<div>
-  <progress value='320' class='' max='10000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-  3.20% [320/10000 00:00<00:08 Sampling 4 chains, 0 divergences]
-</div>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/pymc/step_methods/hmc/quadpotential.py:258: RuntimeWarning: divide by zero encountered in true_divide
-  np.divide(1, self._stds, out=self._inv_stds)
-/Users/aaron/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/pymc/step_methods/hmc/quadpotential.py:237: RuntimeWarning: invalid value encountered in multiply
-  return np.multiply(self._var, x, out=out)
-/Users/aaron/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/pymc/step_methods/hmc/quadpotential.py:258: RuntimeWarning: divide by zero encountered in true_divide
-  np.divide(1, self._stds, out=self._inv_stds)
-/Users/aaron/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/pymc/step_methods/hmc/quadpotential.py:237: RuntimeWarning: invalid value encountered in multiply
-  return np.multiply(self._var, x, out=out)
-/Users/aaron/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/pymc/step_methods/hmc/quadpotential.py:258: RuntimeWarning: divide by zero encountered in true_divide
-  np.divide(1, self._stds, out=self._inv_stds)
-/Users/aaron/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/pymc/step_methods/hmc/quadpotential.py:237: RuntimeWarning: invalid value encountered in multiply
-  return np.multiply(self._var, x, out=out)
-/Users/aaron/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/pymc/step_methods/hmc/quadpotential.py:258: RuntimeWarning: divide by zero encountered in true_divide
-  np.divide(1, self._stds, out=self._inv_stds)
-/Users/aaron/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/pymc/step_methods/hmc/quadpotential.py:237: RuntimeWarning: invalid value encountered in multiply
-  return np.multiply(self._var, x, out=out)
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># testing</span>
-<span class="c1">#inits = {&#39;beta0&#39;: np.array(.1), &#39;beta1&#39;: np.array(.1)}</span>
-
-<span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;bladderc.csv&quot;</span><span class="p">)</span>
-
-<span class="n">data</span><span class="p">[</span><span class="s2">&quot;censored&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
-<span class="n">data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;observed&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;censored&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span>
-<span class="n">data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;observed&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;censored&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span>
-
-<span class="n">y</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(</span><span class="n">copy</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">x</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;group&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(</span><span class="n">copy</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">censored</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;censored&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(</span><span class="n">copy</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-
-
-<span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">m</span><span class="p">:</span>
-    <span class="n">x_data</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Data</span><span class="p">(</span><span class="s2">&quot;x_data&quot;</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">mutable</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">y_data</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Data</span><span class="p">(</span><span class="s2">&quot;y_data&quot;</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">mutable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-    <span class="n">censored_data</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Data</span><span class="p">(</span><span class="s2">&quot;censored_data&quot;</span><span class="p">,</span> <span class="n">censored</span><span class="p">,</span> <span class="n">mutable</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-
-    <span class="n">beta0</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;beta0&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-    <span class="n">beta1</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;beta1&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-    <span class="n">λ</span> <span class="o">=</span> <span class="n">exp</span><span class="p">(</span><span class="n">beta0</span> <span class="o">+</span> <span class="n">beta1</span> <span class="o">*</span> <span class="n">x_data</span><span class="p">)</span>
-    <span class="n">obs_latent</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Exponential</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="n">lam</span><span class="o">=</span><span class="n">λ</span><span class="p">)</span>
-    <span class="n">likelihood</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Censored</span><span class="p">(</span>
-        <span class="s2">&quot;likelihood&quot;</span><span class="p">,</span> <span class="n">obs_latent</span><span class="p">,</span> <span class="n">lower</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">upper</span><span class="o">=</span><span class="n">censored</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">y_data</span>
-    <span class="p">)</span>
-
-    <span class="n">mu0</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;mu0&quot;</span><span class="p">,</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">beta0</span><span class="p">))</span>
-    <span class="n">mu1</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;mu1&quot;</span><span class="p">,</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">beta0</span> <span class="o">-</span> <span class="n">beta1</span><span class="p">))</span>
-
-    <span class="n">mu_diff</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;mu_diff&quot;</span><span class="p">,</span> <span class="n">mu1</span> <span class="o">-</span> <span class="n">mu0</span><span class="p">)</span>
-
-    <span class="n">H_prob</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;H_prob&quot;</span><span class="p">,</span> <span class="n">switch</span><span class="p">(</span><span class="n">ge</span><span class="p">(</span><span class="n">mu_diff</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
-
-    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span>
-        <span class="mi">2000</span><span class="p">,</span>  <span class="c1"># samples</span>
-        <span class="n">chains</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
-        <span class="n">tune</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span>
         <span class="n">init</span><span class="o">=</span><span class="s2">&quot;adapt_diag&quot;</span><span class="p">,</span>
-        <span class="n">random_seed</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
         <span class="n">return_inferencedata</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">step</span><span class="o">=</span><span class="p">[</span><span class="n">pm</span><span class="o">.</span><span class="n">NUTS</span><span class="p">(</span><span class="n">target_accept</span><span class="o">=</span><span class="mf">.9</span><span class="p">)]</span>
     <span class="p">)</span>
 
 <span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">hdi_prob</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
@@ -741,8 +817,8 @@ NUTS: [beta0, beta1]
 </style>
 </div><div class="output text_html">
 <div>
-  <progress value='5' class='' max='10000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-  0.05% [5/10000 00:00<00:05 Sampling 4 chains, 0 divergences]
+  <progress value='5' class='' max='16000' style='width:300px; height:20px; vertical-align: middle;'></progress>
+  0.03% [5/16000 00:00<00:08 Sampling 4 chains, 0 divergences]
 </div>
 </div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/pymc/step_methods/hmc/quadpotential.py:258: RuntimeWarning: divide by zero encountered in true_divide
   np.divide(1, self._stds, out=self._inv_stds)
@@ -763,19 +839,6 @@ NUTS: [beta0, beta1]
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">hdi_prob</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
-<span class="nn">Input In [7],</span> in <span class="ni">&lt;cell line: 1&gt;</span><span class="nt">()</span>
-<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">hdi_prob</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
-
-<span class="ne">NameError</span>: name &#39;trace&#39; is not defined
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ERROR! Session/line number was not unique in database. History logging moved to new session 566
 </pre></div>
 </div>
 </div>

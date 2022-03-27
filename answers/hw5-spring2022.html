@@ -269,6 +269,11 @@
    Rats
   </a>
  </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Unit8-gastric.html">
+   Gastric Cancer Data
+  </a>
+ </li>
 </ul>
 
     </div>
@@ -6076,6 +6081,7 @@ array(-2.81221892)</pre><div class='xr-wrap' style='display:none'><div class='xr
         <span class="n">init</span><span class="o">=</span><span class="s2">&quot;jitter+adapt_diag&quot;</span><span class="p">,</span>
         <span class="n">random_seed</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
         <span class="n">return_inferencedata</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        
     <span class="p">)</span>
 
     <span class="nb">print</span><span class="p">(</span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">hdi_prob</span><span class="o">=</span><span class="mf">0.95</span><span class="p">))</span> 
@@ -6119,7 +6125,7 @@ NUTS: [beta]
   return _boost._beta_ppf(q, a, b)
 /Users/aaron/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
   return _boost._beta_ppf(q, a, b)
-Sampling 4 chains for 2_000 tune and 10_000 draw iterations (8_000 + 40_000 draws total) took 48 seconds.
+Sampling 4 chains for 2_000 tune and 10_000 draw iterations (8_000 + 40_000 draws total) took 49 seconds.
 /Users/aaron/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/pymc/backends/arviz.py:58: UserWarning: Could not extract data from symbolic observation y
   warnings.warn(f&quot;Could not extract data from symbolic observation {obs}&quot;)
 </pre></div>
@@ -6156,10 +6162,10 @@ beta[3]   11408.0    1.0
   100.00% [40000/40000 00:01<00:00]
 </div>
 </div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>       mean     sd  hdi_2.5%  hdi_97.5%  mcse_mean  mcse_sd  ess_bulk  \
-y[0]  0.687  0.464       0.0        1.0      0.002    0.002   36742.0   
+y[0]  0.688  0.463       0.0        1.0      0.002    0.002   36744.0   
 
       ess_tail  r_hat  
-y[0]   36742.0    1.0  
+y[0]   36744.0    1.0  
 </pre></div>
 </div>
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/pymc/backends/arviz.py:58: UserWarning: Could not extract data from symbolic observation y

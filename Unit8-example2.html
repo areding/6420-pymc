@@ -269,6 +269,11 @@
    Rats
   </a>
  </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Unit8-gastric.html">
+   Gastric Cancer Data
+  </a>
+ </li>
 </ul>
 
     </div>
@@ -445,46 +450,85 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">SamplingError</span><span class="g g-Whitespace">                             </span>Traceback (most recent call last)
-<span class="nn">Input In [20],</span> in <span class="ni">&lt;cell line: 1&gt;</span><span class="nt">()</span>
-<span class="g g-Whitespace">      </span><span class="mi">5</span>     <span class="n">obs_latent</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Weibull</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="n">α</span><span class="p">,</span> <span class="n">β</span><span class="p">)</span>
-<span class="g g-Whitespace">      </span><span class="mi">6</span>     <span class="n">likelihood</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Censored</span><span class="p">(</span>
-<span class="g g-Whitespace">      </span><span class="mi">7</span>         <span class="s2">&quot;likelihood&quot;</span><span class="p">,</span> <span class="n">obs_latent</span><span class="p">,</span> <span class="n">lower</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">upper</span><span class="o">=</span><span class="n">censored</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">y</span>
-<span class="g g-Whitespace">      </span><span class="mi">8</span>     <span class="p">)</span>
-<span class="ne">---&gt; </span><span class="mi">10</span>     <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">12</span> <span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>
-
-<span class="nn">File ~/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/pymc/sampling.py:487,</span> in <span class="ni">sample</span><span class="nt">(draws, step, init, n_init, initvals, trace, chain_idx, chains, cores, tune, progressbar, model, random_seed, discard_tuned_samples, compute_convergence_checks, callback, jitter_max_retries, return_inferencedata, idata_kwargs, mp_ctx, **kwargs)</span>
-<span class="g g-Whitespace">    </span><span class="mi">485</span> <span class="c1"># One final check that shapes and logps at the starting points are okay.</span>
-<span class="g g-Whitespace">    </span><span class="mi">486</span> <span class="k">for</span> <span class="n">ip</span> <span class="ow">in</span> <span class="n">initial_points</span><span class="p">:</span>
-<span class="ne">--&gt; </span><span class="mi">487</span>     <span class="n">model</span><span class="o">.</span><span class="n">check_start_vals</span><span class="p">(</span><span class="n">ip</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">488</span>     <span class="n">_check_start_shape</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">ip</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">490</span> <span class="n">sample_args</span> <span class="o">=</span> <span class="p">{</span>
-<span class="g g-Whitespace">    </span><span class="mi">491</span>     <span class="s2">&quot;draws&quot;</span><span class="p">:</span> <span class="n">draws</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">492</span>     <span class="s2">&quot;step&quot;</span><span class="p">:</span> <span class="n">step</span><span class="p">,</span>
-   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">503</span>     <span class="s2">&quot;discard_tuned_samples&quot;</span><span class="p">:</span> <span class="n">discard_tuned_samples</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">504</span> <span class="p">}</span>
-
-<span class="nn">File ~/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/pymc/model.py:1683,</span> in <span class="ni">Model.check_start_vals</span><span class="nt">(self, start)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1680</span> <span class="n">initial_eval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">point_logps</span><span class="p">(</span><span class="n">point</span><span class="o">=</span><span class="n">elem</span><span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1682</span> <span class="k">if</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">initial_eval</span><span class="o">.</span><span class="n">values</span><span class="p">()):</span>
-<span class="ne">-&gt; </span><span class="mi">1683</span>     <span class="k">raise</span> <span class="n">SamplingError</span><span class="p">(</span>
-<span class="g g-Whitespace">   </span><span class="mi">1684</span>         <span class="s2">&quot;Initial evaluation of model at starting point failed!</span><span class="se">\n</span><span class="s2">&quot;</span>
-<span class="g g-Whitespace">   </span><span class="mi">1685</span>         <span class="sa">f</span><span class="s2">&quot;Starting values:</span><span class="se">\n</span><span class="si">{</span><span class="n">elem</span><span class="si">}</span><span class="se">\n\n</span><span class="s2">&quot;</span>
-<span class="g g-Whitespace">   </span><span class="mi">1686</span>         <span class="sa">f</span><span class="s2">&quot;Initial evaluation results:</span><span class="se">\n</span><span class="si">{</span><span class="n">initial_eval</span><span class="si">}</span><span class="s2">&quot;</span>
-<span class="g g-Whitespace">   </span><span class="mi">1687</span>     <span class="p">)</span>
-
-<span class="ne">SamplingError</span>: Initial evaluation of model at starting point failed!
-<span class="n">Starting</span> <span class="n">values</span><span class="p">:</span>
-<span class="p">{</span><span class="s1">&#39;λ_log__&#39;</span><span class="p">:</span> <span class="n">array</span><span class="p">(</span><span class="o">-</span><span class="mf">0.40546511</span><span class="p">)}</span>
-
-<span class="n">Initial</span> <span class="n">evaluation</span> <span class="n">results</span><span class="p">:</span>
-<span class="p">{</span><span class="s1">&#39;λ&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mf">0.61</span><span class="p">,</span> <span class="s1">&#39;likelihood&#39;</span><span class="p">:</span> <span class="o">-</span><span class="n">inf</span><span class="p">}</span>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Multiprocess sampling (4 chains in 4 jobs)
+NUTS: [λ]
 </pre></div>
 </div>
+<div class="output text_html">
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div><div class="output text_html">
+<div>
+  <progress value='8000' class='' max='8000' style='width:300px; height:20px; vertical-align: middle;'></progress>
+  100.00% [8000/8000 00:00<00:00 Sampling 4 chains, 0 divergences]
 </div>
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
+  return _boost._beta_ppf(q, a, b)
+/Users/aaron/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
+  return _boost._beta_ppf(q, a, b)
+/Users/aaron/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
+  return _boost._beta_ppf(q, a, b)
+/Users/aaron/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
+  return _boost._beta_ppf(q, a, b)
+Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws total) took 11 seconds.
+The acceptance probability does not match the target. It is 0.8859, but should be close to 0.8. Try to increase the number of tuning steps.
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mean</th>
+      <th>sd</th>
+      <th>hdi_3%</th>
+      <th>hdi_97%</th>
+      <th>mcse_mean</th>
+      <th>mcse_sd</th>
+      <th>ess_bulk</th>
+      <th>ess_tail</th>
+      <th>r_hat</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>λ</th>
+      <td>0.237</td>
+      <td>0.105</td>
+      <td>0.068</td>
+      <td>0.434</td>
+      <td>0.002</td>
+      <td>0.002</td>
+      <td>1540.0</td>
+      <td>2102.0</td>
+      <td>1.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
 </div>
 
     <script type="text/x-thebe-config">
