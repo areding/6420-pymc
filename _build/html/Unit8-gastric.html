@@ -390,18 +390,23 @@
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#censoring">
-   Censoring
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#model-changes">
    Model changes
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#tips">
-   Tips
+  <a class="reference internal nav-link" href="#method-1-pm-censored">
+   Method 1:
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     pm.Censored
+    </span>
+   </code>
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#method-2-imputed-censoring">
+   Method 2: Imputed Censoring
   </a>
  </li>
 </ul>
@@ -430,18 +435,23 @@
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#censoring">
-   Censoring
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#model-changes">
    Model changes
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#tips">
-   Tips
+  <a class="reference internal nav-link" href="#method-1-pm-censored">
+   Method 1:
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     pm.Censored
+    </span>
+   </code>
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#method-2-imputed-censoring">
+   Method 2: Imputed Censoring
   </a>
  </li>
 </ul>
@@ -469,7 +479,7 @@
 <h1>Gastric Cancer Data<a class="headerlink" href="#gastric-cancer-data" title="Permalink to this headline">¶</a></h1>
 <p>Adapted from <a class="reference external" href="https://www2.isye.gatech.edu/isye6420/supporting.html">Codes for Unit 8: gastric.odc</a>.</p>
 <p>Associated lecture video: <a class="reference external" href="https://www.youtube.com/watch?v=t4pHpZxtC0U&amp;list=PLv0FeK5oXK4l-RdT6DWJj0_upJOG2WKNO&amp;index=87">Unit 8 Lesson 6</a>.</p>
-<p>Data can be found <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/data/gastric.txt">here</a>.</p>
+<p>Data can be found <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/data/gastric.csv">here</a>.</p>
 <p>Stablein et al. (1981) provide data on 90 patients affected by locally advanced, nonresectable gastric carcinoma. The patients are randomized to two treatments: chemotherapy alone (coded as 0) and chemotherapy plus radiation (coded as 1). Survival time is reported in days. Recorded times are censored if the patient stopped participating in the study before it finished.</p>
 <p>Stablein, D. M., Carter, W. H., Novak, J. W. (1981). Analysis of survival data with nonproportional hazard functions. Control. Clin. Trials,  2 , 2, 149–159.</p>
 <div class="section" id="data">
@@ -481,25 +491,15 @@
 <li><p>times: Recorded days without cancer recurrence. NaN if censored.</p></li>
 </ul>
 </div>
-<div class="section" id="censoring">
-<h2>Censoring<a class="headerlink" href="#censoring" title="Permalink to this headline">¶</a></h2>
-<p>The way PyMC censoring works is described in some detail in <a class="reference external" href="https://docs.pymc.io/projects/examples/en/latest/generalized_linear_models/GLM-truncated-censored-regression.html#censored-regression-model">this notebook</a>. This is accomplished in the code <a class="reference external" href="https://github.com/aesara-devs/aeppl/blob/751979802f1aef5478fdbf7cc1839df07df60825/aeppl/truncation.py#L79">here</a> if you want to take a look. For right-censoring, try this: <code class="docutils literal notranslate"><span class="pre">pm.Censored(&quot;name&quot;,</span> <span class="pre">dist,</span> <span class="pre">lower=None,</span> <span class="pre">upper=censored,</span> <span class="pre">observed=y)</span></code>. The censored values can be an array of the same shape as the y values.</p>
-<p>If the y value equals the right-censored value, <a class="reference external" href="https://docs.pymc.io/en/latest/api/distributions/generated/pymc.Censored.html#pymc.Censored"><code class="docutils literal notranslate"><span class="pre">pm.Censored</span></code></a> returns the complement to the CDF evaluated at the censored value. If the y value is greater than the censored value, it returns <code class="docutils literal notranslate"><span class="pre">-np.inf</span></code>. Otherwise, the distribution you passed to the <code class="docutils literal notranslate"><span class="pre">dist</span></code> parameter works as normal. What I’ve been doing is setting the values in the censored array to <code class="docutils literal notranslate"><span class="pre">np.inf</span></code> if the corresponding y value is not censored, and equal to the y value if it should be censored.</p>
-</div>
 <div class="section" id="model-changes">
 <h2>Model changes<a class="headerlink" href="#model-changes" title="Permalink to this headline">¶</a></h2>
-<p>I didn’t implement S, f, or h from the original model. They should be simple enough, but I really just wanted to get another example of censoring up before HW6 is released. I will add those later.</p>
+<p>I didn’t implement S, f, or h from the original model. They should be simple enough, but I really just wanted to get another example of censoring up before HW6. I will add those later.</p>
 <p>PyMC really did not like the noninformative exponential prior on v (α in this model). To avoid the divide by zero errors, I just kept increasing lambda until the model ran all the way through. This is not ideal, but I haven’t had time to look into it further. The results actually came out fairly close to the BUGS results.</p>
 </div>
-<div class="section" id="tips">
-<h2>Tips<a class="headerlink" href="#tips" title="Permalink to this headline">¶</a></h2>
-<p>If your model is not working, keep making it simpler and simpler until it runs. Then add pieces of it back one at a time until you identify where the problem is.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>I haven’t been able to get this method working on HW6 Q2.</p>
-<p>If someone gets it working please let me know!</p>
-<p>I’m currently working on a different method for the homework question, I hope to get it done in the next couple of days.</p>
-</div>
+<div class="section" id="method-1-pm-censored">
+<h2>Method 1: <code class="docutils literal notranslate"><span class="pre">pm.Censored</span></code><a class="headerlink" href="#method-1-pm-censored" title="Permalink to this headline">¶</a></h2>
+<p>The way PyMC censoring works is described in some detail in <a class="reference external" href="https://docs.pymc.io/projects/examples/en/latest/generalized_linear_models/GLM-truncated-censored-regression.html#censored-regression-model">this notebook</a> by <a class="reference external" href="https://github.com/drbenvincent">Dr. Benjamin T. Vincent</a>. This is accomplished in the source code <a class="reference external" href="https://github.com/aesara-devs/aeppl/blob/751979802f1aef5478fdbf7cc1839df07df60825/aeppl/truncation.py#L79">here</a> if you want to take a look. For right-censoring, try this: <code class="docutils literal notranslate"><span class="pre">pm.Censored(&quot;name&quot;,</span> <span class="pre">dist,</span> <span class="pre">lower=None,</span> <span class="pre">upper=censored,</span> <span class="pre">observed=y)</span></code>. The censored values can be an array of the same shape as the y values.</p>
+<p>If the y value equals the right-censored value, <a class="reference external" href="https://docs.pymc.io/en/latest/api/distributions/generated/pymc.Censored.html#pymc.Censored"><code class="docutils literal notranslate"><span class="pre">pm.Censored</span></code></a> returns the complement to the CDF evaluated at the censored value. If the y value is greater than the censored value, it returns <code class="docutils literal notranslate"><span class="pre">-np.inf</span></code>. Otherwise, the distribution you passed to the <code class="docutils literal notranslate"><span class="pre">dist</span></code> parameter works as normal. What I’ve been doing is setting the values in the censored array to <code class="docutils literal notranslate"><span class="pre">np.inf</span></code> if the corresponding y value is not censored, and equal to the y value if it should be censored.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="s2">&quot;./data/gastric.txt&quot;</span><span class="p">)</span>
@@ -575,7 +575,9 @@
 </div>
 <div class="cell tag_hide_output docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">m</span><span class="p">:</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">log2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">m</span><span class="p">:</span>
     <span class="n">beta0</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;beta0&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">)</span>
     <span class="n">beta1</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;beta1&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">)</span>
     <span class="n">α</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Exponential</span><span class="p">(</span><span class="s2">&quot;α&quot;</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
@@ -592,8 +594,8 @@
         <span class="n">observed</span><span class="o">=</span><span class="n">y</span><span class="p">,</span>
     <span class="p">)</span>
 
-    <span class="n">median0</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;median0&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">beta0</span><span class="p">))</span> <span class="o">**</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">α</span><span class="p">))</span>
-    <span class="n">median1</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;median1&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">beta0</span> <span class="o">-</span> <span class="n">beta1</span><span class="p">))</span> <span class="o">**</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">α</span><span class="p">))</span>
+    <span class="n">median0</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;median0&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">log2</span> <span class="o">*</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">beta0</span><span class="p">))</span> <span class="o">**</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">α</span><span class="p">))</span>
+    <span class="n">median1</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;median1&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">log2</span> <span class="o">*</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">beta0</span> <span class="o">-</span> <span class="n">beta1</span><span class="p">))</span> <span class="o">**</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">α</span><span class="p">))</span>
 
     <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span>
         <span class="mi">10000</span><span class="p">,</span> <span class="n">tune</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">cores</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="p">[</span><span class="n">pm</span><span class="o">.</span><span class="n">NUTS</span><span class="p">(</span><span class="n">target_accept</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)]</span>
@@ -676,62 +678,481 @@ Sampling 4 chains for 2_000 tune and 10_000 draw iterations (8_000 + 40_000 draw
   <tbody>
     <tr>
       <th>beta0</th>
-      <td>-6.629</td>
-      <td>0.668</td>
+      <td>-6.621</td>
+      <td>0.657</td>
       <td>-7.688</td>
-      <td>-5.499</td>
+      <td>-5.550</td>
       <td>0.006</td>
       <td>0.004</td>
-      <td>12248.0</td>
-      <td>13567.0</td>
+      <td>12673.0</td>
+      <td>15509.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>beta1</th>
-      <td>0.263</td>
-      <td>0.234</td>
-      <td>-0.118</td>
-      <td>0.652</td>
+      <td>0.262</td>
+      <td>0.237</td>
+      <td>-0.109</td>
+      <td>0.666</td>
       <td>0.002</td>
       <td>0.001</td>
-      <td>17278.0</td>
-      <td>16915.0</td>
+      <td>17389.0</td>
+      <td>15702.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>α</th>
-      <td>1.003</td>
-      <td>0.098</td>
-      <td>0.843</td>
-      <td>1.163</td>
+      <td>1.002</td>
+      <td>0.096</td>
+      <td>0.846</td>
+      <td>1.158</td>
       <td>0.001</td>
       <td>0.001</td>
-      <td>12434.0</td>
-      <td>13362.0</td>
+      <td>12802.0</td>
+      <td>14919.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>median0</th>
-      <td>520.721</td>
-      <td>90.100</td>
-      <td>374.131</td>
-      <td>662.282</td>
+      <td>519.814</td>
+      <td>90.723</td>
+      <td>376.416</td>
+      <td>665.831</td>
       <td>0.622</td>
-      <td>0.440</td>
-      <td>20964.0</td>
-      <td>24066.0</td>
+      <td>0.442</td>
+      <td>21388.0</td>
+      <td>24772.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>median1</th>
-      <td>400.311</td>
-      <td>70.611</td>
-      <td>285.317</td>
-      <td>512.527</td>
-      <td>0.465</td>
-      <td>0.330</td>
-      <td>23123.0</td>
-      <td>25433.0</td>
+      <td>399.914</td>
+      <td>71.281</td>
+      <td>285.372</td>
+      <td>513.401</td>
+      <td>0.476</td>
+      <td>0.341</td>
+      <td>22777.0</td>
+      <td>24768.0</td>
+      <td>1.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</div>
+<div class="section" id="method-2-imputed-censoring">
+<h2>Method 2: Imputed Censoring<a class="headerlink" href="#method-2-imputed-censoring" title="Permalink to this headline">¶</a></h2>
+<p>This method is from <a class="reference external" href="https://docs.pymc.io/projects/examples/en/latest/survival_analysis/censored_data.html#censored-data-model1">this notebook</a> by <a class="reference external" href="https://github.com/domenzain">Luis Mario Domenzain</a>, <a class="reference external" href="https://github.com/eigenfoo">George Ho</a>, and <a class="reference external" href="https://github.com/drbenvincent">Dr. Ben Vincent</a>. This method imputes the values using what is almost another likelihood (not sure if it actually meets the definition of one, so I’m calling the variable <code class="docutils literal notranslate"><span class="pre">impute_censored</span></code>) in the model, with the right-censored values as lower bounds. Since the two likelihoods share the same priors, this ends up working nearly as well as the previous method. Better, in the case of homework 6 question 2, since the previous method doesn’t seem to work for the required model at all. This method will work for the homework, albeit more slowly and with some extra warnings.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="s2">&quot;./data/gastric.txt&quot;</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">data</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">censored_vals</span> <span class="o">=</span> <span class="n">data</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">data</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+<span class="c1"># we need to separate the observed values and the censored values</span>
+<span class="n">observed_mask</span> <span class="o">=</span> <span class="n">censored_vals</span> <span class="o">==</span> <span class="mi">0</span>
+
+<span class="n">censored</span> <span class="o">=</span> <span class="n">censored_vals</span><span class="p">[</span><span class="o">~</span><span class="n">observed_mask</span><span class="p">]</span>
+<span class="n">y_uncensored</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="n">observed_mask</span><span class="p">]</span>
+<span class="n">x_censored</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="o">~</span><span class="n">observed_mask</span><span class="p">]</span>
+<span class="n">x_uncensored</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">observed_mask</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_hide_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">log2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">m</span><span class="p">:</span>
+    <span class="n">beta0</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;beta0&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">)</span>
+    <span class="n">beta1</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;beta1&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">)</span>
+    <span class="n">α</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Exponential</span><span class="p">(</span><span class="s2">&quot;α&quot;</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+
+    <span class="n">λ_censored</span> <span class="o">=</span> <span class="n">exp</span><span class="p">(</span><span class="n">beta0</span> <span class="o">+</span> <span class="n">beta1</span> <span class="o">*</span> <span class="n">x_censored</span><span class="p">)</span>
+    <span class="n">β_censored</span> <span class="o">=</span> <span class="n">λ_censored</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span> <span class="o">/</span> <span class="n">α</span><span class="p">)</span>
+
+    <span class="n">λ_uncensored</span> <span class="o">=</span> <span class="n">exp</span><span class="p">(</span><span class="n">beta0</span> <span class="o">+</span> <span class="n">beta1</span> <span class="o">*</span> <span class="n">x_uncensored</span><span class="p">)</span>
+    <span class="n">β_uncensored</span> <span class="o">=</span> <span class="n">λ_uncensored</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span> <span class="o">/</span> <span class="n">α</span><span class="p">)</span>
+
+    <span class="n">impute_censored</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Bound</span><span class="p">(</span>
+        <span class="s2">&quot;impute_censored&quot;</span><span class="p">,</span>
+        <span class="n">pm</span><span class="o">.</span><span class="n">Weibull</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="n">α</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="n">β_censored</span><span class="p">),</span>
+        <span class="n">lower</span><span class="o">=</span><span class="n">censored</span><span class="p">,</span>
+        <span class="n">shape</span><span class="o">=</span><span class="n">censored</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+    <span class="p">)</span>
+
+    <span class="n">likelihood</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Weibull</span><span class="p">(</span>
+        <span class="s2">&quot;likelihood&quot;</span><span class="p">,</span>
+        <span class="n">alpha</span><span class="o">=</span><span class="n">α</span><span class="p">,</span>
+        <span class="n">beta</span><span class="o">=</span><span class="n">β_uncensored</span><span class="p">,</span>
+        <span class="n">observed</span><span class="o">=</span><span class="n">y_uncensored</span><span class="p">,</span>
+        <span class="n">shape</span><span class="o">=</span><span class="n">y_uncensored</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+    <span class="p">)</span>
+
+    <span class="n">median0</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;median0&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">log2</span> <span class="o">*</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">beta0</span><span class="p">))</span> <span class="o">**</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">α</span><span class="p">))</span>
+    <span class="n">median1</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;median1&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">log2</span> <span class="o">*</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">beta0</span> <span class="o">-</span> <span class="n">beta1</span><span class="p">))</span> <span class="o">**</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">α</span><span class="p">))</span>
+
+    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span>
+        <span class="mi">10000</span><span class="p">,</span> <span class="n">tune</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">cores</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="p">[</span><span class="n">pm</span><span class="o">.</span><span class="n">NUTS</span><span class="p">(</span><span class="n">target_accept</span><span class="o">=</span><span class="mf">0.95</span><span class="p">)]</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/pymc/sampling.py:635: UserWarning: Unable to validate shapes: Cannot sample from a bounded variable
+Apply node that caused the error: bound_rv{0, (0, 0, 0), floatX, False}(RandomStateSharedVariable(&lt;RandomState(MT19937) at 0x14027C340&gt;), TensorConstant{(1,) of 16}, TensorConstant{11}, weibull_rv{0, (0, 0), floatX, False}.out, TensorConstant{[ 882.  89..12. 1519.]}, TensorConstant{inf})
+Toposort index: 18
+Inputs types: [RandomStateType, TensorType(int64, (1,)), TensorType(int64, ()), TensorType(float64, (None,)), TensorType(float64, (16,)), TensorType(float64, ())]
+Inputs shapes: [&#39;No shapes&#39;, (1,), (), (16,), (16,), ()]
+Inputs strides: [&#39;No strides&#39;, (8,), (), (8,), (8,), ()]
+Inputs values: [RandomState(MT19937) at 0x14027C340, array([16]), array(11), &#39;not shown&#39;, &#39;not shown&#39;, array(inf)]
+Outputs clients: [[&#39;output&#39;], []]
+
+Backtrace when the node is created (use Aesara flag traceback__limit=N to make it longer):
+  File &quot;/Users/aaron/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/IPython/core/interactiveshell.py&quot;, line 3301, in run_ast_nodes
+    if await self.run_code(code, result, async_=asy):
+  File &quot;/Users/aaron/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/IPython/core/interactiveshell.py&quot;, line 3361, in run_code
+    exec(code_obj, self.user_global_ns, self.user_ns)
+  File &quot;/var/folders/pm/9z29qnf508bc1v6q8fksblm40000gn/T/ipykernel_70488/882117803.py&quot;, line 14, in &lt;cell line: 3&gt;
+    impute_censored = pm.Bound(
+  File &quot;/Users/aaron/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/pymc/distributions/bound.py&quot;, line 193, in __new__
+    res = _ContinuousBounded(
+  File &quot;/Users/aaron/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/pymc/distributions/continuous.py&quot;, line 167, in __new__
+    return super().__new__(cls, *args, **kwargs)
+  File &quot;/Users/aaron/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/pymc/distributions/distribution.py&quot;, line 267, in __new__
+    rv_out, dims, observed, resize_shape = _make_rv_and_resize_shape(
+  File &quot;/Users/aaron/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/pymc/distributions/distribution.py&quot;, line 166, in _make_rv_and_resize_shape
+    rv_out = cls.dist(*args, **kwargs)
+  File &quot;/Users/aaron/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/pymc/distributions/distribution.py&quot;, line 354, in dist
+    rv_out = cls.rv_op(*dist_params, size=create_size, **kwargs)
+
+HINT: Use the Aesara flag `exception_verbosity=high` for a debug print-out and storage map footprint of this Apply node.
+  warnings.warn(f&quot;Unable to validate shapes: {ex.args[0]}&quot;, UserWarning)
+Multiprocess sampling (4 chains in 4 jobs)
+NUTS: [beta0, beta1, α, impute_censored]
+</pre></div>
+</div>
+<div class="output text_html">
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div><div class="output text_html">
+<div>
+  <progress value='48000' class='' max='48000' style='width:300px; height:20px; vertical-align: middle;'></progress>
+  100.00% [48000/48000 00:43<00:00 Sampling 4 chains, 0 divergences]
+</div>
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
+  return _boost._beta_ppf(q, a, b)
+/Users/aaron/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
+  return _boost._beta_ppf(q, a, b)
+/Users/aaron/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
+  return _boost._beta_ppf(q, a, b)
+/Users/aaron/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
+  return _boost._beta_ppf(q, a, b)
+Sampling 4 chains for 2_000 tune and 10_000 draw iterations (8_000 + 40_000 draws total) took 52 seconds.
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">hdi_prob</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mean</th>
+      <th>sd</th>
+      <th>hdi_5%</th>
+      <th>hdi_95%</th>
+      <th>mcse_mean</th>
+      <th>mcse_sd</th>
+      <th>ess_bulk</th>
+      <th>ess_tail</th>
+      <th>r_hat</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>beta0</th>
+      <td>-6.609</td>
+      <td>0.656</td>
+      <td>-7.658</td>
+      <td>-5.503</td>
+      <td>0.005</td>
+      <td>0.003</td>
+      <td>19480.0</td>
+      <td>25298.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>beta1</th>
+      <td>0.261</td>
+      <td>0.234</td>
+      <td>-0.117</td>
+      <td>0.654</td>
+      <td>0.001</td>
+      <td>0.001</td>
+      <td>36898.0</td>
+      <td>30235.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>α</th>
+      <td>1.000</td>
+      <td>0.096</td>
+      <td>0.843</td>
+      <td>1.159</td>
+      <td>0.001</td>
+      <td>0.000</td>
+      <td>19009.0</td>
+      <td>24796.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>impute_censored[0]</th>
+      <td>1475.726</td>
+      <td>635.099</td>
+      <td>882.011</td>
+      <td>2265.299</td>
+      <td>2.881</td>
+      <td>2.218</td>
+      <td>34725.0</td>
+      <td>18448.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>impute_censored[1]</th>
+      <td>1484.463</td>
+      <td>639.192</td>
+      <td>892.043</td>
+      <td>2261.448</td>
+      <td>2.810</td>
+      <td>2.167</td>
+      <td>36833.0</td>
+      <td>19391.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>impute_censored[2]</th>
+      <td>1629.256</td>
+      <td>645.326</td>
+      <td>1031.043</td>
+      <td>2398.520</td>
+      <td>2.956</td>
+      <td>2.232</td>
+      <td>33942.0</td>
+      <td>19618.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>impute_censored[3]</th>
+      <td>1630.216</td>
+      <td>647.041</td>
+      <td>1033.016</td>
+      <td>2409.227</td>
+      <td>2.838</td>
+      <td>2.205</td>
+      <td>36396.0</td>
+      <td>19188.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>impute_censored[4]</th>
+      <td>1902.019</td>
+      <td>644.556</td>
+      <td>1306.005</td>
+      <td>2680.309</td>
+      <td>2.985</td>
+      <td>2.218</td>
+      <td>32290.0</td>
+      <td>18608.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>impute_censored[5]</th>
+      <td>1935.348</td>
+      <td>656.242</td>
+      <td>1335.022</td>
+      <td>2721.087</td>
+      <td>2.963</td>
+      <td>2.193</td>
+      <td>32197.0</td>
+      <td>17857.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>impute_censored[6]</th>
+      <td>2052.146</td>
+      <td>651.151</td>
+      <td>1452.010</td>
+      <td>2837.503</td>
+      <td>3.027</td>
+      <td>2.268</td>
+      <td>33399.0</td>
+      <td>18709.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>impute_censored[7]</th>
+      <td>2066.770</td>
+      <td>643.909</td>
+      <td>1472.015</td>
+      <td>2861.416</td>
+      <td>3.130</td>
+      <td>2.251</td>
+      <td>26487.0</td>
+      <td>16168.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>impute_censored[8]</th>
+      <td>1144.371</td>
+      <td>829.969</td>
+      <td>381.020</td>
+      <td>2155.169</td>
+      <td>3.864</td>
+      <td>3.006</td>
+      <td>28395.0</td>
+      <td>15674.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>impute_censored[9]</th>
+      <td>1294.927</td>
+      <td>826.368</td>
+      <td>529.010</td>
+      <td>2284.129</td>
+      <td>4.132</td>
+      <td>3.071</td>
+      <td>25458.0</td>
+      <td>15248.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>impute_censored[10]</th>
+      <td>1717.688</td>
+      <td>827.815</td>
+      <td>945.010</td>
+      <td>2719.337</td>
+      <td>4.112</td>
+      <td>3.000</td>
+      <td>24767.0</td>
+      <td>15907.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>impute_censored[11]</th>
+      <td>1951.842</td>
+      <td>828.344</td>
+      <td>1180.021</td>
+      <td>2961.577</td>
+      <td>3.706</td>
+      <td>2.850</td>
+      <td>35982.0</td>
+      <td>18984.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>impute_censored[12]</th>
+      <td>2062.470</td>
+      <td>860.885</td>
+      <td>1277.026</td>
+      <td>3075.704</td>
+      <td>4.050</td>
+      <td>3.079</td>
+      <td>30632.0</td>
+      <td>17070.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>impute_censored[13]</th>
+      <td>2171.657</td>
+      <td>847.226</td>
+      <td>1397.006</td>
+      <td>3184.004</td>
+      <td>3.836</td>
+      <td>2.917</td>
+      <td>32163.0</td>
+      <td>17639.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>impute_censored[14]</th>
+      <td>2290.005</td>
+      <td>838.325</td>
+      <td>1512.006</td>
+      <td>3306.691</td>
+      <td>3.642</td>
+      <td>2.889</td>
+      <td>35337.0</td>
+      <td>19057.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>impute_censored[15]</th>
+      <td>2295.061</td>
+      <td>842.727</td>
+      <td>1519.035</td>
+      <td>3305.438</td>
+      <td>3.798</td>
+      <td>2.864</td>
+      <td>33620.0</td>
+      <td>19920.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>median0</th>
+      <td>519.612</td>
+      <td>90.235</td>
+      <td>370.828</td>
+      <td>658.346</td>
+      <td>0.475</td>
+      <td>0.340</td>
+      <td>36377.0</td>
+      <td>31332.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>median1</th>
+      <td>399.754</td>
+      <td>70.817</td>
+      <td>283.279</td>
+      <td>510.271</td>
+      <td>0.342</td>
+      <td>0.246</td>
+      <td>43533.0</td>
+      <td>35611.0</td>
       <td>1.0</td>
     </tr>
   </tbody>

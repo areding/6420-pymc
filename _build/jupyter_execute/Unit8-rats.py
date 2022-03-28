@@ -88,6 +88,12 @@ with pm.Model() as m:
 az.summary(trace, hdi_prob=0.95)
 
 
+# In[47]:
+
+
+trace
+
+
 # Notes:
 # 
 # can't impute data with pm.Data(mutable=True)? 
