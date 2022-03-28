@@ -418,89 +418,7 @@
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">pymc</span> <span class="k">as</span> <span class="nn">pm</span>
-<span class="kn">import</span> <span class="nn">aesara</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">aesara</span><span class="o">.</span><span class="vm">__file__</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;/Users/aaron/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/aesara/__init__.py&#39;
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">aesara</span><span class="o">.</span><span class="n">__version__</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;2.5.1&#39;
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">aesara</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">optimizer</span><span class="o">=</span><span class="s2">&quot;None&quot;</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ERROR! Session/line number was not unique in database. History logging moved to new session 635
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">aesara</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">exception_verbosity</span><span class="o">=</span><span class="s2">&quot;high&quot;</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">aesara</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">optimizer</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;None&#39;
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ERROR! Session/line number was not unique in database. History logging moved to new session 636
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">aesara</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">exception_verbosity</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;high&#39;
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">aesara</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">print_active_device</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+<span class="kn">from</span> <span class="nn">pymc.math</span> <span class="kn">import</span> <span class="n">exp</span><span class="p">,</span> <span class="n">ge</span>
 </pre></div>
 </div>
 </div>
@@ -670,141 +588,42 @@
 <p>So if we oberved the tumor, we want to right-censor the data. If not, we don’t.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;censored&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;censored&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
 <span class="n">data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;observed&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;censored&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span>
-<span class="n">data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;observed&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;censored&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span>
 
 <span class="n">y</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(</span><span class="n">copy</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">x</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;group&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(</span><span class="n">copy</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">observed</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;observed&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(</span><span class="n">copy</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span>
 <span class="n">censored</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;censored&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(</span><span class="n">copy</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y</span>
+
+<span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">observed</span><span class="p">),</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">observed</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">censored</span><span class="o">.</span><span class="n">shape</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([ 0.,  1.,  4.,  7., 10.,  6., 14., 18.,  5., 12., 23., 10.,  3.,
-        3.,  7.,  3., 26.,  1.,  2., 25., 29., 29., 29., 28.,  2.,  3.,
-       12., 32., 34., 36., 29., 37.,  9., 16., 41.,  3.,  6.,  3.,  9.,
-       18., 49., 35., 17.,  3., 59.,  2.,  5.,  2.,  1.,  1.,  5.,  9.,
-       10., 13.,  3.,  1., 18., 17.,  2., 17., 22., 25., 25., 25.,  6.,
-        6.,  2., 26., 38., 22.,  4., 24., 41., 41.,  1., 44.,  2., 45.,
-        2., 46., 49., 50.,  4., 54., 38., 59.])
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(47, (86,), (86,), (86,), (86,))
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">censored</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([ 0.,  1.,  4.,  7., 10., inf, 14., 18., inf, inf, 23., inf, inf,
-       inf, inf, inf, 26., inf, inf, inf, 29., 29., 29., inf, inf, inf,
-       inf, 32., 34., 36., inf, 37., inf, inf, 41., inf, inf, inf, inf,
-       inf, 49., inf, inf, inf, 59., inf, inf, inf,  1.,  1., inf,  9.,
-       10., 13., inf, inf, 18., inf, inf, inf, 22., 25., 25., 25., inf,
-       inf, inf, inf, 38., inf, inf, inf, 41., 41., inf, 44., inf, 45.,
-       inf, 46., 49., 50., inf, 54., inf, 59.])
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ERROR! Session/line number was not unique in database. History logging moved to new session 634
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x_uncensored</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">observed</span><span class="p">]</span>
+<span class="n">x_censored</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="o">~</span><span class="n">observed</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">censored</span> <span class="o">==</span> <span class="n">y</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([ True,  True,  True,  True,  True, False,  True,  True, False,
-       False,  True, False, False, False, False, False,  True, False,
-       False, False,  True,  True,  True, False, False, False, False,
-        True,  True,  True, False,  True, False, False,  True, False,
-       False, False, False, False,  True, False, False, False,  True,
-       False, False, False,  True,  True, False,  True,  True,  True,
-       False, False,  True, False, False, False,  True,  True,  True,
-        True, False, False, False, False,  True, False, False, False,
-        True,  True, False,  True, False,  True, False,  True,  True,
-        True, False,  True, False,  True])
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y_uncensored</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="n">observed</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">censored</span> <span class="o">&gt;</span> <span class="n">y</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([False, False, False, False, False,  True, False, False,  True,
-        True, False,  True,  True,  True,  True,  True, False,  True,
-        True,  True, False, False, False,  True,  True,  True,  True,
-       False, False, False,  True, False,  True,  True, False,  True,
-        True,  True,  True,  True, False,  True,  True,  True, False,
-        True,  True,  True, False, False,  True, False, False, False,
-        True,  True, False,  True,  True,  True, False, False, False,
-       False,  True,  True,  True,  True, False,  True,  True,  True,
-       False, False,  True, False,  True, False,  True, False, False,
-       False,  True, False,  True, False])
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">censored</span> <span class="o">&lt;</span> <span class="n">y</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([False, False, False, False, False, False, False, False, False,
-       False, False, False, False, False, False, False, False, False,
-       False, False, False, False, False, False, False, False, False,
-       False, False, False, False, False, False, False, False, False,
-       False, False, False, False, False, False, False, False, False,
-       False, False, False, False, False, False, False, False, False,
-       False, False, False, False, False, False, False, False, False,
-       False, False, False, False, False, False, False, False, False,
-       False, False, False, False, False, False, False, False, False,
-       False, False, False, False, False])
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>86
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">censored</span> <span class="o">=</span> <span class="n">censored</span><span class="p">[</span><span class="o">~</span><span class="n">observed</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -812,96 +631,115 @@
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># right-censored model</span>
-<span class="c1"># inits = {&#39;beta0&#39;: np.array(.1), &#39;beta1&#39;: np.array(.1)}</span>
 
 <span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">m</span><span class="p">:</span>
-    <span class="n">beta0</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Cauchy</span><span class="p">(</span><span class="s2">&quot;beta0&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=-</span><span class="mi">2</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-    <span class="n">beta1</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Cauchy</span><span class="p">(</span><span class="s2">&quot;beta1&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=-</span><span class="mi">2</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">beta0</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;beta0&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">beta1</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;beta1&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
     
-    <span class="n">λ</span> <span class="o">=</span> <span class="n">aesara</span><span class="o">.</span><span class="n">tensor</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">beta0</span> <span class="o">+</span> <span class="n">beta1</span> <span class="o">*</span> <span class="n">x</span><span class="p">)</span>
+    <span class="n">λ_uncensored</span> <span class="o">=</span> <span class="n">exp</span><span class="p">(</span><span class="n">beta0</span> <span class="o">+</span> <span class="n">beta1</span> <span class="o">*</span> <span class="n">x_uncensored</span><span class="p">)</span>
+    <span class="n">λ_censored</span> <span class="o">=</span> <span class="n">exp</span><span class="p">(</span><span class="n">beta0</span> <span class="o">+</span> <span class="n">beta1</span> <span class="o">*</span> <span class="n">x_censored</span><span class="p">)</span>
     
-    <span class="c1">#λ_prop = exp(beta0 + beta1 * x)    </span>
-    <span class="c1">#λ = switch(le(λ_prop, 1), 1, λ_prop)</span>
-    
-    <span class="c1">#obs_latent = pm.Exponential(&quot;ol&quot;, lam=λ, observed=y)</span>
-    <span class="n">obs_latent</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Exponential</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="n">lam</span><span class="o">=</span><span class="n">λ</span><span class="o">+</span><span class="mi">1000</span><span class="p">)</span>
-        
-    <span class="n">likelihood</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Censored</span><span class="p">(</span>
-        <span class="s2">&quot;likelihood&quot;</span><span class="p">,</span> <span class="n">obs_latent</span><span class="p">,</span> <span class="n">lower</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">upper</span><span class="o">=</span><span class="n">censored</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">y</span>
-    <span class="p">)</span>
+    <span class="n">likelihood_uncensored</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Exponential</span><span class="p">(</span><span class="s2">&quot;likelihood_uncensored&quot;</span><span class="p">,</span> <span class="n">λ_uncensored</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">y_uncensored</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="n">y_uncensored</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">likelihood_censored</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Bound</span><span class="p">(</span><span class="s2">&quot;censored&quot;</span><span class="p">,</span> <span class="n">pm</span><span class="o">.</span><span class="n">Exponential</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="n">λ_censored</span><span class="p">),</span> <span class="n">lower</span><span class="o">=</span><span class="n">censored</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="n">censored</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 
-    <span class="c1">#mu0 = pm.Deterministic(&quot;mu0&quot;, exp(-beta0))</span>
-    <span class="c1">#mu1 = pm.Deterministic(&quot;mu1&quot;, exp(-beta0 - beta1))</span>
+    <span class="n">mu_placebo</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;mu_placebo&quot;</span><span class="p">,</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">beta0</span><span class="p">))</span>
+    <span class="n">mu_chemo</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;mu_chemo&quot;</span><span class="p">,</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">beta0</span> <span class="o">-</span> <span class="n">beta1</span><span class="p">))</span>
 
-    <span class="c1">#mu_diff = pm.Deterministic(&quot;mu_diff&quot;, mu1 - mu0)</span>
+    <span class="n">mu_diff</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;mu_diff&quot;</span><span class="p">,</span> <span class="n">mu_chemo</span> <span class="o">-</span> <span class="n">mu_placebo</span><span class="p">)</span>
 
-    <span class="c1">#H_prob = pm.Deterministic(&quot;H_prob&quot;, switch(ge(mu_diff, 0), 1, 0))</span>
+    <span class="n">H_prob</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;H_prob&quot;</span><span class="p">,</span> <span class="n">switch</span><span class="p">(</span><span class="n">ge</span><span class="p">(</span><span class="n">mu_diff</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
 
     <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span>
-        <span class="mi">3000</span><span class="p">,</span>
-        <span class="n">chains</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
-        <span class="n">tune</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
-        <span class="n">cores</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
-        <span class="n">init</span><span class="o">=</span><span class="s2">&quot;adapt_diag&quot;</span><span class="p">,</span>
-        <span class="n">return_inferencedata</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="n">step</span><span class="o">=</span><span class="p">[</span><span class="n">pm</span><span class="o">.</span><span class="n">NUTS</span><span class="p">(</span><span class="n">target_accept</span><span class="o">=</span><span class="mf">.9</span><span class="p">)]</span>
+        <span class="mi">10000</span><span class="p">,</span> <span class="n">tune</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">cores</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span>
     <span class="p">)</span>
-
-<span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">hdi_prob</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">SamplingError</span><span class="g g-Whitespace">                             </span>Traceback (most recent call last)
-<span class="nn">Input In [66],</span> in <span class="ni">&lt;cell line: 4&gt;</span><span class="nt">()</span>
-<span class="g g-Whitespace">     </span><span class="mi">16</span>     <span class="n">likelihood</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Censored</span><span class="p">(</span>
-<span class="g g-Whitespace">     </span><span class="mi">17</span>         <span class="s2">&quot;likelihood&quot;</span><span class="p">,</span> <span class="n">obs_latent</span><span class="p">,</span> <span class="n">lower</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">upper</span><span class="o">=</span><span class="n">censored</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">y</span>
-<span class="g g-Whitespace">     </span><span class="mi">18</span>     <span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">20</span>     <span class="c1">#mu0 = pm.Deterministic(&quot;mu0&quot;, exp(-beta0))</span>
-<span class="g g-Whitespace">     </span><span class="mi">21</span>     <span class="c1">#mu1 = pm.Deterministic(&quot;mu1&quot;, exp(-beta0 - beta1))</span>
-<span class="g g-Whitespace">     </span><span class="mi">22</span> 
-<span class="g g-Whitespace">     </span><span class="mi">23</span>     <span class="c1">#mu_diff = pm.Deterministic(&quot;mu_diff&quot;, mu1 - mu0)</span>
-<span class="g g-Whitespace">     </span><span class="mi">24</span> 
-<span class="g g-Whitespace">     </span><span class="mi">25</span>     <span class="c1">#H_prob = pm.Deterministic(&quot;H_prob&quot;, switch(ge(mu_diff, 0), 1, 0))</span>
-<span class="ne">---&gt; </span><span class="mi">27</span>     <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span>
-<span class="g g-Whitespace">     </span><span class="mi">28</span>         <span class="mi">3000</span><span class="p">,</span>
-<span class="g g-Whitespace">     </span><span class="mi">29</span>         <span class="n">chains</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
-<span class="g g-Whitespace">     </span><span class="mi">30</span>         <span class="n">tune</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
-<span class="g g-Whitespace">     </span><span class="mi">31</span>         <span class="n">cores</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
-<span class="g g-Whitespace">     </span><span class="mi">32</span>         <span class="n">init</span><span class="o">=</span><span class="s2">&quot;adapt_diag&quot;</span><span class="p">,</span>
-<span class="g g-Whitespace">     </span><span class="mi">33</span>         <span class="n">return_inferencedata</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-<span class="g g-Whitespace">     </span><span class="mi">34</span>         <span class="n">step</span><span class="o">=</span><span class="p">[</span><span class="n">pm</span><span class="o">.</span><span class="n">NUTS</span><span class="p">(</span><span class="n">target_accept</span><span class="o">=</span><span class="mf">.9</span><span class="p">)]</span>
-<span class="g g-Whitespace">     </span><span class="mi">35</span>     <span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">37</span> <span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">hdi_prob</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/pymc/sampling.py:635: UserWarning: Unable to validate shapes: Cannot sample from a bounded variable
+Apply node that caused the error: bound_rv{0, (0, 0, 0), floatX, False}(RandomStateSharedVariable(&lt;RandomState(MT19937) at 0x129E04C40&gt;), TensorConstant{(1,) of 39}, TensorConstant{11}, exponential_rv{0, (0,), floatX, False}.out, TensorConstant{[ 0.  1.  ... 54. 59.]}, TensorConstant{inf})
+Toposort index: 13
+Inputs types: [RandomStateType, TensorType(int64, (1,)), TensorType(int64, ()), TensorType(float64, (None,)), TensorType(float64, (39,)), TensorType(float64, ())]
+Inputs shapes: [&#39;No shapes&#39;, (1,), (), (39,), (39,), ()]
+Inputs strides: [&#39;No strides&#39;, (8,), (), (8,), (8,), ()]
+Inputs values: [RandomState(MT19937) at 0x129E04C40, array([39]), array(11), &#39;not shown&#39;, &#39;not shown&#39;, array(inf)]
+Inputs type_num: [&#39;&#39;, 7, 7, 12, 12, 12]
+Outputs clients: [[&#39;output&#39;], []]
 
-<span class="nn">File ~/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/pymc/sampling.py:487,</span> in <span class="ni">sample</span><span class="nt">(draws, step, init, n_init, initvals, trace, chain_idx, chains, cores, tune, progressbar, model, random_seed, discard_tuned_samples, compute_convergence_checks, callback, jitter_max_retries, return_inferencedata, idata_kwargs, mp_ctx, **kwargs)</span>
-<span class="g g-Whitespace">    </span><span class="mi">485</span> <span class="c1"># One final check that shapes and logps at the starting points are okay.</span>
-<span class="g g-Whitespace">    </span><span class="mi">486</span> <span class="k">for</span> <span class="n">ip</span> <span class="ow">in</span> <span class="n">initial_points</span><span class="p">:</span>
-<span class="ne">--&gt; </span><span class="mi">487</span>     <span class="n">model</span><span class="o">.</span><span class="n">check_start_vals</span><span class="p">(</span><span class="n">ip</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">488</span>     <span class="n">_check_start_shape</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">ip</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">490</span> <span class="n">sample_args</span> <span class="o">=</span> <span class="p">{</span>
-<span class="g g-Whitespace">    </span><span class="mi">491</span>     <span class="s2">&quot;draws&quot;</span><span class="p">:</span> <span class="n">draws</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">492</span>     <span class="s2">&quot;step&quot;</span><span class="p">:</span> <span class="n">step</span><span class="p">,</span>
-   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">503</span>     <span class="s2">&quot;discard_tuned_samples&quot;</span><span class="p">:</span> <span class="n">discard_tuned_samples</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">504</span> <span class="p">}</span>
+Backtrace when the node is created (use Aesara flag traceback__limit=N to make it longer):
+  File &quot;/Users/aaron/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/IPython/core/interactiveshell.py&quot;, line 3301, in run_ast_nodes
+    if await self.run_code(code, result, async_=asy):
+  File &quot;/Users/aaron/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/IPython/core/interactiveshell.py&quot;, line 3361, in run_code
+    exec(code_obj, self.user_global_ns, self.user_ns)
+  File &quot;/var/folders/pm/9z29qnf508bc1v6q8fksblm40000gn/T/ipykernel_82270/63290787.py&quot;, line 11, in &lt;cell line: 3&gt;
+    likelihood_censored = pm.Bound(&quot;censored&quot;, pm.Exponential.dist(λ_censored), lower=censored, shape=censored.shape[0])
+  File &quot;/Users/aaron/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/pymc/distributions/bound.py&quot;, line 193, in __new__
+    res = _ContinuousBounded(
+  File &quot;/Users/aaron/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/pymc/distributions/continuous.py&quot;, line 167, in __new__
+    return super().__new__(cls, *args, **kwargs)
+  File &quot;/Users/aaron/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/pymc/distributions/distribution.py&quot;, line 267, in __new__
+    rv_out, dims, observed, resize_shape = _make_rv_and_resize_shape(
+  File &quot;/Users/aaron/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/pymc/distributions/distribution.py&quot;, line 166, in _make_rv_and_resize_shape
+    rv_out = cls.dist(*args, **kwargs)
+  File &quot;/Users/aaron/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/pymc/distributions/distribution.py&quot;, line 354, in dist
+    rv_out = cls.rv_op(*dist_params, size=create_size, **kwargs)
 
-<span class="nn">File ~/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/pymc/model.py:1683,</span> in <span class="ni">Model.check_start_vals</span><span class="nt">(self, start)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1680</span> <span class="n">initial_eval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">point_logps</span><span class="p">(</span><span class="n">point</span><span class="o">=</span><span class="n">elem</span><span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1682</span> <span class="k">if</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">initial_eval</span><span class="o">.</span><span class="n">values</span><span class="p">()):</span>
-<span class="ne">-&gt; </span><span class="mi">1683</span>     <span class="k">raise</span> <span class="n">SamplingError</span><span class="p">(</span>
-<span class="g g-Whitespace">   </span><span class="mi">1684</span>         <span class="s2">&quot;Initial evaluation of model at starting point failed!</span><span class="se">\n</span><span class="s2">&quot;</span>
-<span class="g g-Whitespace">   </span><span class="mi">1685</span>         <span class="sa">f</span><span class="s2">&quot;Starting values:</span><span class="se">\n</span><span class="si">{</span><span class="n">elem</span><span class="si">}</span><span class="se">\n\n</span><span class="s2">&quot;</span>
-<span class="g g-Whitespace">   </span><span class="mi">1686</span>         <span class="sa">f</span><span class="s2">&quot;Initial evaluation results:</span><span class="se">\n</span><span class="si">{</span><span class="n">initial_eval</span><span class="si">}</span><span class="s2">&quot;</span>
-<span class="g g-Whitespace">   </span><span class="mi">1687</span>     <span class="p">)</span>
+Debug print of the apply node: 
+bound_rv{0, (0, 0, 0), floatX, False}.0 [id A] &lt;RandomStateType&gt; &#39;&#39;   
+ |RandomStateSharedVariable(&lt;RandomState(MT19937) at 0x129E04C40&gt;) [id B] &lt;RandomStateType&gt;
+ |TensorConstant{(1,) of 39} [id C] &lt;TensorType(int64, (1,))&gt;
+ |TensorConstant{11} [id D] &lt;TensorType(int64, ())&gt;
+ |exponential_rv{0, (0,), floatX, False}.1 [id E] &lt;TensorType(float64, (None,))&gt; &#39;&#39;   
+ | |RandomGeneratorSharedVariable(&lt;Generator(PCG64) at 0x131629040&gt;) [id F] &lt;RandomGeneratorType&gt;
+ | |TensorConstant{[]} [id G] &lt;TensorType(int64, (0,))&gt;
+ | |TensorConstant{11} [id D] &lt;TensorType(int64, ())&gt;
+ | |Elemwise{true_div,no_inplace} [id H] &lt;TensorType(float64, (None,))&gt; &#39;&#39;   
+ |   |TensorConstant{(1,) of 1.0} [id I] &lt;TensorType(float64, (1,))&gt;
+ |   |Elemwise{exp,no_inplace} [id J] &lt;TensorType(float64, (None,))&gt; &#39;&#39;   
+ |     |Elemwise{add,no_inplace} [id K] &lt;TensorType(float64, (None,))&gt; &#39;&#39;   
+ |       |InplaceDimShuffle{x} [id L] &lt;TensorType(float64, (1,))&gt; &#39;&#39;   
+ |       | |normal_rv{0, (0, 0), floatX, False}.1 [id M] &lt;TensorType(float64, ())&gt; &#39;beta0&#39;   
+ |       |Elemwise{mul,no_inplace} [id N] &lt;TensorType(float64, (None,))&gt; &#39;&#39;   
+ |         |InplaceDimShuffle{x} [id O] &lt;TensorType(float64, (1,))&gt; &#39;&#39;   
+ |         | |normal_rv{0, (0, 0), floatX, False}.1 [id P] &lt;TensorType(float64, ())&gt; &#39;beta1&#39;   
+ |         |TensorConstant{[0. 0. 0. .. 1. 1. 1.]} [id Q] &lt;TensorType(float64, (39,))&gt;
+ |TensorConstant{[ 0.  1.  ... 54. 59.]} [id R] &lt;TensorType(float64, (39,))&gt;
+ |TensorConstant{inf} [id S] &lt;TensorType(float64, ())&gt;
+bound_rv{0, (0, 0, 0), floatX, False}.1 [id A] &lt;TensorType(float64, (None,))&gt; &#39;censored&#39;   
 
-<span class="ne">SamplingError</span>: Initial evaluation of model at starting point failed!
-<span class="n">Starting</span> <span class="n">values</span><span class="p">:</span>
-<span class="p">{</span><span class="s1">&#39;beta0&#39;</span><span class="p">:</span> <span class="n">array</span><span class="p">(</span><span class="o">-</span><span class="mf">2.</span><span class="p">),</span> <span class="s1">&#39;beta1&#39;</span><span class="p">:</span> <span class="n">array</span><span class="p">(</span><span class="o">-</span><span class="mf">2.</span><span class="p">)}</span>
-
-<span class="n">Initial</span> <span class="n">evaluation</span> <span class="n">results</span><span class="p">:</span>
-<span class="p">{</span><span class="s1">&#39;beta0&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mf">1.84</span><span class="p">,</span> <span class="s1">&#39;beta1&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mf">1.84</span><span class="p">,</span> <span class="s1">&#39;likelihood&#39;</span><span class="p">:</span> <span class="o">-</span><span class="n">inf</span><span class="p">}</span>
+HINT: Use the Aesara flag `exception_verbosity=high` for a debug print-out and storage map footprint of this Apply node.
+  warnings.warn(f&quot;Unable to validate shapes: {ex.args[0]}&quot;, UserWarning)
+Multiprocess sampling (4 chains in 4 jobs)
+NUTS: [beta0, beta1, censored]
+</pre></div>
+</div>
+<div class="output text_html">
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div><div class="output text_html">
+<div>
+  <progress value='48000' class='' max='48000' style='width:300px; height:20px; vertical-align: middle;'></progress>
+  100.00% [48000/48000 00:08<00:00 Sampling 4 chains, 0 divergences]
+</div>
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
+  return _boost._beta_ppf(q, a, b)
+/Users/aaron/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
+  return _boost._beta_ppf(q, a, b)
+/Users/aaron/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
+  return _boost._beta_ppf(q, a, b)
+/Users/aaron/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
+  return _boost._beta_ppf(q, a, b)
+Sampling 4 chains for 2_000 tune and 10_000 draw iterations (8_000 + 40_000 draws total) took 18 seconds.
 </pre></div>
 </div>
 </div>
@@ -912,6 +750,580 @@
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mean</th>
+      <th>sd</th>
+      <th>hdi_5%</th>
+      <th>hdi_95%</th>
+      <th>mcse_mean</th>
+      <th>mcse_sd</th>
+      <th>ess_bulk</th>
+      <th>ess_tail</th>
+      <th>r_hat</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>beta0</th>
+      <td>-3.279</td>
+      <td>0.186</td>
+      <td>-3.576</td>
+      <td>-2.967</td>
+      <td>0.001</td>
+      <td>0.001</td>
+      <td>20036.0</td>
+      <td>23506.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>beta1</th>
+      <td>-0.545</td>
+      <td>0.302</td>
+      <td>-1.028</td>
+      <td>-0.036</td>
+      <td>0.002</td>
+      <td>0.002</td>
+      <td>17664.0</td>
+      <td>23424.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>censored[0]</th>
+      <td>27.157</td>
+      <td>28.238</td>
+      <td>0.000</td>
+      <td>62.402</td>
+      <td>0.137</td>
+      <td>0.105</td>
+      <td>28314.0</td>
+      <td>16450.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>censored[1]</th>
+      <td>28.014</td>
+      <td>27.827</td>
+      <td>1.002</td>
+      <td>63.195</td>
+      <td>0.137</td>
+      <td>0.104</td>
+      <td>29036.0</td>
+      <td>18124.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>censored[2]</th>
+      <td>31.142</td>
+      <td>28.292</td>
+      <td>4.002</td>
+      <td>66.946</td>
+      <td>0.141</td>
+      <td>0.108</td>
+      <td>30357.0</td>
+      <td>20039.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>censored[3]</th>
+      <td>34.122</td>
+      <td>28.119</td>
+      <td>7.003</td>
+      <td>70.286</td>
+      <td>0.139</td>
+      <td>0.102</td>
+      <td>26036.0</td>
+      <td>15214.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>censored[4]</th>
+      <td>37.382</td>
+      <td>28.214</td>
+      <td>10.002</td>
+      <td>73.085</td>
+      <td>0.144</td>
+      <td>0.105</td>
+      <td>24422.0</td>
+      <td>14932.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>censored[5]</th>
+      <td>40.982</td>
+      <td>27.976</td>
+      <td>14.003</td>
+      <td>76.537</td>
+      <td>0.139</td>
+      <td>0.101</td>
+      <td>26403.0</td>
+      <td>16919.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>censored[6]</th>
+      <td>45.158</td>
+      <td>28.063</td>
+      <td>18.001</td>
+      <td>80.428</td>
+      <td>0.137</td>
+      <td>0.102</td>
+      <td>28217.0</td>
+      <td>17902.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>censored[7]</th>
+      <td>50.015</td>
+      <td>27.883</td>
+      <td>23.000</td>
+      <td>85.596</td>
+      <td>0.132</td>
+      <td>0.100</td>
+      <td>32005.0</td>
+      <td>18188.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>censored[8]</th>
+      <td>53.045</td>
+      <td>28.169</td>
+      <td>26.001</td>
+      <td>89.039</td>
+      <td>0.136</td>
+      <td>0.101</td>
+      <td>27869.0</td>
+      <td>16569.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>censored[9]</th>
+      <td>55.857</td>
+      <td>27.625</td>
+      <td>29.002</td>
+      <td>91.373</td>
+      <td>0.138</td>
+      <td>0.099</td>
+      <td>26171.0</td>
+      <td>17286.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>censored[10]</th>
+      <td>55.942</td>
+      <td>27.858</td>
+      <td>29.001</td>
+      <td>91.893</td>
+      <td>0.135</td>
+      <td>0.099</td>
+      <td>28650.0</td>
+      <td>16368.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>censored[11]</th>
+      <td>55.854</td>
+      <td>27.814</td>
+      <td>29.003</td>
+      <td>90.960</td>
+      <td>0.138</td>
+      <td>0.098</td>
+      <td>24498.0</td>
+      <td>15292.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>censored[12]</th>
+      <td>59.031</td>
+      <td>27.950</td>
+      <td>32.005</td>
+      <td>94.168</td>
+      <td>0.140</td>
+      <td>0.102</td>
+      <td>25995.0</td>
+      <td>15885.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>censored[13]</th>
+      <td>60.998</td>
+      <td>27.910</td>
+      <td>34.002</td>
+      <td>96.228</td>
+      <td>0.138</td>
+      <td>0.101</td>
+      <td>25846.0</td>
+      <td>16346.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>censored[14]</th>
+      <td>63.030</td>
+      <td>28.058</td>
+      <td>36.000</td>
+      <td>98.792</td>
+      <td>0.135</td>
+      <td>0.098</td>
+      <td>28809.0</td>
+      <td>16888.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>censored[15]</th>
+      <td>64.030</td>
+      <td>27.744</td>
+      <td>37.003</td>
+      <td>99.629</td>
+      <td>0.137</td>
+      <td>0.098</td>
+      <td>25337.0</td>
+      <td>16113.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>censored[16]</th>
+      <td>67.907</td>
+      <td>27.669</td>
+      <td>41.001</td>
+      <td>102.923</td>
+      <td>0.139</td>
+      <td>0.102</td>
+      <td>25065.0</td>
+      <td>15465.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>censored[17]</th>
+      <td>75.931</td>
+      <td>28.135</td>
+      <td>49.003</td>
+      <td>111.344</td>
+      <td>0.141</td>
+      <td>0.102</td>
+      <td>26336.0</td>
+      <td>15719.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>censored[18]</th>
+      <td>85.911</td>
+      <td>27.878</td>
+      <td>59.003</td>
+      <td>121.887</td>
+      <td>0.138</td>
+      <td>0.098</td>
+      <td>26104.0</td>
+      <td>15623.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>censored[19]</th>
+      <td>48.122</td>
+      <td>49.672</td>
+      <td>1.002</td>
+      <td>110.291</td>
+      <td>0.251</td>
+      <td>0.185</td>
+      <td>26438.0</td>
+      <td>17028.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>censored[20]</th>
+      <td>47.883</td>
+      <td>49.818</td>
+      <td>1.003</td>
+      <td>109.813</td>
+      <td>0.252</td>
+      <td>0.186</td>
+      <td>26221.0</td>
+      <td>17191.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>censored[21]</th>
+      <td>55.971</td>
+      <td>49.409</td>
+      <td>9.001</td>
+      <td>117.926</td>
+      <td>0.257</td>
+      <td>0.182</td>
+      <td>23402.0</td>
+      <td>15631.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>censored[22]</th>
+      <td>57.391</td>
+      <td>49.847</td>
+      <td>10.004</td>
+      <td>119.657</td>
+      <td>0.259</td>
+      <td>0.195</td>
+      <td>25386.0</td>
+      <td>16038.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>censored[23]</th>
+      <td>60.012</td>
+      <td>50.422</td>
+      <td>13.001</td>
+      <td>122.684</td>
+      <td>0.255</td>
+      <td>0.182</td>
+      <td>23318.0</td>
+      <td>14561.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>censored[24]</th>
+      <td>64.826</td>
+      <td>49.534</td>
+      <td>18.001</td>
+      <td>127.523</td>
+      <td>0.259</td>
+      <td>0.190</td>
+      <td>24587.0</td>
+      <td>16335.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>censored[25]</th>
+      <td>69.322</td>
+      <td>49.733</td>
+      <td>22.000</td>
+      <td>131.776</td>
+      <td>0.259</td>
+      <td>0.188</td>
+      <td>24060.0</td>
+      <td>15342.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>censored[26]</th>
+      <td>71.763</td>
+      <td>49.459</td>
+      <td>25.002</td>
+      <td>133.623</td>
+      <td>0.250</td>
+      <td>0.181</td>
+      <td>26035.0</td>
+      <td>16404.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>censored[27]</th>
+      <td>72.118</td>
+      <td>50.248</td>
+      <td>25.003</td>
+      <td>134.343</td>
+      <td>0.247</td>
+      <td>0.182</td>
+      <td>27324.0</td>
+      <td>18122.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>censored[28]</th>
+      <td>72.171</td>
+      <td>48.728</td>
+      <td>25.000</td>
+      <td>133.831</td>
+      <td>0.238</td>
+      <td>0.176</td>
+      <td>28597.0</td>
+      <td>17613.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>censored[29]</th>
+      <td>85.423</td>
+      <td>49.732</td>
+      <td>38.000</td>
+      <td>146.827</td>
+      <td>0.257</td>
+      <td>0.183</td>
+      <td>25151.0</td>
+      <td>16269.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>censored[30]</th>
+      <td>88.344</td>
+      <td>50.101</td>
+      <td>41.000</td>
+      <td>151.673</td>
+      <td>0.240</td>
+      <td>0.180</td>
+      <td>30986.0</td>
+      <td>18417.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>censored[31]</th>
+      <td>87.956</td>
+      <td>49.871</td>
+      <td>41.001</td>
+      <td>150.237</td>
+      <td>0.253</td>
+      <td>0.183</td>
+      <td>26541.0</td>
+      <td>15495.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>censored[32]</th>
+      <td>90.951</td>
+      <td>50.171</td>
+      <td>44.005</td>
+      <td>153.857</td>
+      <td>0.257</td>
+      <td>0.182</td>
+      <td>22858.0</td>
+      <td>15026.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>censored[33]</th>
+      <td>92.164</td>
+      <td>49.920</td>
+      <td>45.006</td>
+      <td>154.727</td>
+      <td>0.257</td>
+      <td>0.184</td>
+      <td>24464.0</td>
+      <td>15250.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>censored[34]</th>
+      <td>93.164</td>
+      <td>50.377</td>
+      <td>46.006</td>
+      <td>155.766</td>
+      <td>0.251</td>
+      <td>0.182</td>
+      <td>26535.0</td>
+      <td>16360.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>censored[35]</th>
+      <td>95.942</td>
+      <td>49.607</td>
+      <td>49.001</td>
+      <td>158.063</td>
+      <td>0.237</td>
+      <td>0.176</td>
+      <td>29594.0</td>
+      <td>18460.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>censored[36]</th>
+      <td>97.275</td>
+      <td>49.995</td>
+      <td>50.002</td>
+      <td>159.080</td>
+      <td>0.255</td>
+      <td>0.181</td>
+      <td>25565.0</td>
+      <td>17477.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>censored[37]</th>
+      <td>101.563</td>
+      <td>50.085</td>
+      <td>54.001</td>
+      <td>164.457</td>
+      <td>0.258</td>
+      <td>0.184</td>
+      <td>24913.0</td>
+      <td>16438.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>censored[38]</th>
+      <td>106.318</td>
+      <td>49.564</td>
+      <td>59.001</td>
+      <td>168.342</td>
+      <td>0.251</td>
+      <td>0.180</td>
+      <td>25542.0</td>
+      <td>16803.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>mu_placebo</th>
+      <td>27.012</td>
+      <td>5.159</td>
+      <td>18.880</td>
+      <td>34.948</td>
+      <td>0.037</td>
+      <td>0.027</td>
+      <td>20036.0</td>
+      <td>23506.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>mu_chemo</th>
+      <td>47.107</td>
+      <td>11.744</td>
+      <td>28.638</td>
+      <td>64.283</td>
+      <td>0.077</td>
+      <td>0.055</td>
+      <td>23687.0</td>
+      <td>27514.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>mu_diff</th>
+      <td>20.095</td>
+      <td>12.815</td>
+      <td>-0.406</td>
+      <td>39.872</td>
+      <td>0.093</td>
+      <td>0.066</td>
+      <td>18863.0</td>
+      <td>24798.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>H_prob</th>
+      <td>0.967</td>
+      <td>0.179</td>
+      <td>1.000</td>
+      <td>1.000</td>
+      <td>0.001</td>
+      <td>0.001</td>
+      <td>25031.0</td>
+      <td>40000.0</td>
+      <td>1.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
 </div>
 
     <script type="text/x-thebe-config">

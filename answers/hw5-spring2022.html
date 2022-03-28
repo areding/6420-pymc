@@ -5532,6 +5532,7 @@ Attributes:
         <span class="n">init</span><span class="o">=</span><span class="s2">&quot;jitter+adapt_diag&quot;</span><span class="p">,</span>
         <span class="n">random_seed</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
         <span class="n">return_inferencedata</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">step</span><span class="o">=</span><span class="p">[</span><span class="n">pm</span><span class="o">.</span><span class="n">NUTS</span><span class="p">(</span><span class="n">target_accept</span><span class="o">=</span><span class="mf">.9</span><span class="p">)]</span>
     <span class="p">)</span>
 
     <span class="c1"># burning first 500 samples as per problem description,</span>
@@ -5570,7 +5571,7 @@ NUTS: [beta0, beta1]
 </div><div class="output text_html">
 <div>
   <progress value='16000' class='' max='16000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-  100.00% [16000/16000 00:03<00:00 Sampling 4 chains, 0 divergences]
+  100.00% [16000/16000 00:04<00:00 Sampling 4 chains, 0 divergences]
 </div>
 </div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
   return _boost._beta_ppf(q, a, b)
@@ -5580,20 +5581,18 @@ NUTS: [beta0, beta1]
   return _boost._beta_ppf(q, a, b)
 /Users/aaron/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
   return _boost._beta_ppf(q, a, b)
-Sampling 4 chains for 1_000 tune and 3_000 draw iterations (4_000 + 12_000 draws total) took 14 seconds.
+Sampling 4 chains for 1_000 tune and 3_000 draw iterations (4_000 + 12_000 draws total) took 15 seconds.
 /Users/aaron/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/pymc/backends/arviz.py:58: UserWarning: Could not extract data from symbolic observation y
   warnings.warn(f&quot;Could not extract data from symbolic observation {obs}&quot;)
-The acceptance probability does not match the target. It is 0.8827, but should be close to 0.8. Try to increase the number of tuning steps.
-The acceptance probability does not match the target. It is 0.8869, but should be close to 0.8. Try to increase the number of tuning steps.
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>        mean     sd  hdi_2.5%  hdi_97.5%  mcse_mean  mcse_sd  ess_bulk  \
-beta0 -2.812  0.064    -2.936     -2.688      0.001    0.001    2166.0   
-beta1  0.670  0.020     0.632      0.708      0.000    0.000    2156.0   
+beta0 -2.815  0.064    -2.943     -2.698      0.001    0.001    1999.0   
+beta1  0.671  0.020     0.633      0.709      0.000    0.000    2006.0   
 
        ess_tail  r_hat  
-beta0    2451.0    1.0  
-beta1    2493.0    1.0  
+beta0    2298.0    1.0  
+beta1    2483.0    1.0  
 </pre></div>
 </div>
 <div class="output text_html">
@@ -5615,10 +5614,10 @@ beta1    2493.0    1.0
   100.00% [10000/10000 00:00<00:00]
 </div>
 </div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>       mean     sd  hdi_2.5%  hdi_97.5%  mcse_mean  mcse_sd  ess_bulk  \
-y[0]  0.631  0.795       0.0        2.0      0.008    0.006   10406.0   
+y[0]  0.617  0.788       0.0        2.0      0.008    0.006    9890.0   
 
       ess_tail  r_hat  
-y[0]    9713.0    1.0  
+y[0]    9517.0    1.0  
 </pre></div>
 </div>
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/pymc/backends/arviz.py:58: UserWarning: Could not extract data from symbolic observation y
@@ -6115,7 +6114,7 @@ NUTS: [beta]
 </div><div class="output text_html">
 <div>
   <progress value='48000' class='' max='48000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-  100.00% [48000/48000 00:38<00:00 Sampling 4 chains, 0 divergences]
+  100.00% [48000/48000 00:37<00:00 Sampling 4 chains, 0 divergences]
 </div>
 </div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
   return _boost._beta_ppf(q, a, b)
@@ -6162,10 +6161,137 @@ beta[3]   11408.0    1.0
   100.00% [40000/40000 00:01<00:00]
 </div>
 </div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>       mean     sd  hdi_2.5%  hdi_97.5%  mcse_mean  mcse_sd  ess_bulk  \
-y[0]  0.688  0.463       0.0        1.0      0.002    0.002   36744.0   
+y[0]  0.686  0.464       0.0        1.0      0.002    0.002   37781.0   
 
       ess_tail  r_hat  
-y[0]   36744.0    1.0  
+y[0]   37781.0    1.0  
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/pymc/backends/arviz.py:58: UserWarning: Could not extract data from symbolic observation y
+  warnings.warn(f&quot;Could not extract data from symbolic observation {obs}&quot;)
+/Users/aaron/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/arviz/stats/stats.py:1180: UserWarning: Selecting first found group: posterior_predictive
+  warnings.warn(f&quot;Selecting first found group: {data.groups()[0]}&quot;)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#bharat q2</span>
+<span class="kn">import</span> <span class="nn">arviz</span> <span class="k">as</span> <span class="nn">az</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pymc</span> <span class="k">as</span> <span class="nn">pm</span>
+<span class="kn">from</span> <span class="nn">pymc.math</span> <span class="kn">import</span> <span class="n">dot</span><span class="p">,</span> <span class="n">exp</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;micronuclei.csv&quot;</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">run</span><span class="p">():</span>
+    <span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">m</span><span class="p">:</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Data</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">())</span><span class="c1">#, mutable=False)</span>
+        <span class="n">y_data</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Data</span><span class="p">(</span><span class="s2">&quot;y_data&quot;</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">())</span>
+
+        <span class="n">beta0</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;beta0_intercept&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">)</span>
+        <span class="n">beta1</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;beta1_x&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">)</span>
+
+        <span class="n">μ</span> <span class="o">=</span> <span class="n">exp</span><span class="p">(</span><span class="n">beta0</span> <span class="o">+</span> <span class="n">beta1</span> <span class="o">*</span> <span class="n">x</span> <span class="p">)</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Poisson</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">μ</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">y_data</span><span class="p">)</span>
+
+        <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span>
+            <span class="mi">20000</span><span class="p">,</span>
+            <span class="n">chains</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+            <span class="n">tune</span><span class="o">=</span><span class="mi">400</span><span class="p">,</span>
+            <span class="n">return_inferencedata</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="n">summ</span> <span class="o">=</span> <span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">hdi_prob</span><span class="o">=</span><span class="mf">0.95</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">summ</span><span class="p">)</span>
+
+    <span class="k">with</span> <span class="n">m</span><span class="p">:</span>
+        <span class="n">pm</span><span class="o">.</span><span class="n">set_data</span><span class="p">({</span><span class="s2">&quot;x&quot;</span><span class="p">:[</span><span class="mf">3.5</span><span class="p">]})</span>
+        <span class="n">ppc</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample_posterior_predictive</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">ppc</span><span class="p">))</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/pymc/data.py:647: FutureWarning: The `mutable` kwarg was not specified. Currently it defaults to `pm.Data(mutable=True)`, which is equivalent to using `pm.MutableData()`. In v4.1.0 the default will change to `pm.Data(mutable=False)`, equivalent to `pm.ConstantData`. Set `pm.Data(..., mutable=False/True)`, or use `pm.ConstantData`/`pm.MutableData`.
+  warnings.warn(
+Multiprocess sampling (4 chains in 4 jobs)
+NUTS: [beta0_intercept, beta1_x]
+</pre></div>
+</div>
+<div class="output text_html">
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div><div class="output text_html">
+<div>
+  <progress value='81600' class='' max='81600' style='width:300px; height:20px; vertical-align: middle;'></progress>
+  100.00% [81600/81600 00:25<00:00 Sampling 4 chains, 0 divergences]
+</div>
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
+  return _boost._beta_ppf(q, a, b)
+/Users/aaron/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
+  return _boost._beta_ppf(q, a, b)
+/Users/aaron/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
+  return _boost._beta_ppf(q, a, b)
+/Users/aaron/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
+  return _boost._beta_ppf(q, a, b)
+Sampling 4 chains for 400 tune and 20_000 draw iterations (1_600 + 80_000 draws total) took 36 seconds.
+/Users/aaron/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/pymc/backends/arviz.py:58: UserWarning: Could not extract data from symbolic observation y
+  warnings.warn(f&quot;Could not extract data from symbolic observation {obs}&quot;)
+The acceptance probability does not match the target. It is 0.8815, but should be close to 0.8. Try to increase the number of tuning steps.
+The acceptance probability does not match the target. It is 0.9026, but should be close to 0.8. Try to increase the number of tuning steps.
+The acceptance probability does not match the target. It is 0.9089, but should be close to 0.8. Try to increase the number of tuning steps.
+The acceptance probability does not match the target. It is 0.8798, but should be close to 0.8. Try to increase the number of tuning steps.
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>                  mean     sd  hdi_2.5%  hdi_97.5%  mcse_mean  mcse_sd  \
+beta0_intercept -2.814  0.065    -2.943     -2.690      0.001      0.0   
+beta1_x          0.671  0.020     0.633      0.711      0.000      0.0   
+
+                 ess_bulk  ess_tail  r_hat  
+beta0_intercept   16164.0   18109.0    1.0  
+beta1_x           16024.0   18353.0    1.0  
+</pre></div>
+</div>
+<div class="output text_html">
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div><div class="output text_html">
+<div>
+  <progress value='80000' class='' max='80000' style='width:300px; height:20px; vertical-align: middle;'></progress>
+  100.00% [80000/80000 00:01<00:00]
+</div>
+</div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>       mean     sd  hdi_3%  hdi_97%  mcse_mean  mcse_sd  ess_bulk  ess_tail  \
+y[0]  0.622  0.787     0.0      2.0      0.003    0.002   77973.0   78551.0   
+
+      r_hat  
+y[0]    1.0  
 </pre></div>
 </div>
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/pymc/backends/arviz.py:58: UserWarning: Could not extract data from symbolic observation y
@@ -8264,6 +8390,7 @@ dl.xr-attrs {
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">pymc.math</span> <span class="kn">import</span> <span class="n">exp</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="n">impor</span>
 
 
 
@@ -8466,6 +8593,96 @@ y[0]    9830.0    1.0
   warnings.warn(f&quot;Could not extract data from symbolic observation {obs}&quot;)
 /Users/aaron/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/arviz/stats/stats.py:1180: UserWarning: Selecting first found group: posterior_predictive
   warnings.warn(f&quot;Selecting first found group: {data.groups()[0]}&quot;)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># q1 full</span>
+<span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="c1"># @Author: Aaron Reding</span>
+<span class="c1"># @Date:   2022-03-21 15:41:55</span>
+<span class="c1"># @Last Modified by:   areding</span>
+<span class="c1"># @Last Modified time: 2022-03-21 22:27:15</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">arviz</span> <span class="k">as</span> <span class="nn">az</span>
+<span class="kn">import</span> <span class="nn">pymc</span> <span class="k">as</span> <span class="nn">pm</span>
+
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="n">babies</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;babies.csv&quot;</span><span class="p">)</span>
+
+    <span class="n">prior_α</span> <span class="o">=</span> <span class="mf">0.001</span>
+    <span class="n">prior_β</span> <span class="o">=</span> <span class="mf">0.001</span>
+
+    <span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">m</span><span class="p">:</span>
+        <span class="n">α1</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Gamma</span><span class="p">(</span><span class="s2">&quot;μ1&quot;</span><span class="p">,</span> <span class="n">prior_α</span><span class="p">,</span> <span class="n">prior_β</span><span class="p">)</span>
+        <span class="n">α2</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Gamma</span><span class="p">(</span><span class="s2">&quot;μ2&quot;</span><span class="p">,</span> <span class="n">prior_α</span><span class="p">,</span> <span class="n">prior_β</span><span class="p">)</span>
+        <span class="n">β1</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Gamma</span><span class="p">(</span><span class="s2">&quot;β1&quot;</span><span class="p">,</span> <span class="n">prior_α</span><span class="p">,</span> <span class="n">prior_β</span><span class="p">)</span>
+        <span class="n">β2</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Gamma</span><span class="p">(</span><span class="s2">&quot;β2&quot;</span><span class="p">,</span> <span class="n">prior_α</span><span class="p">,</span> <span class="n">prior_β</span><span class="p">)</span>
+
+        <span class="n">x</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Gamma</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">α1</span><span class="p">,</span> <span class="n">β1</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">babies</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">())</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Gamma</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="n">α2</span><span class="p">,</span> <span class="n">β2</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">babies</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">())</span>
+
+        <span class="n">a</span><span class="o">=</span><span class="mf">.001</span>
+        <span class="n">b</span><span class="o">=</span><span class="mf">.001</span>
+        <span class="n">a2</span><span class="o">=</span><span class="mf">.001</span>
+        <span class="n">b2</span><span class="o">=</span><span class="mf">.001</span>
+        
+        <span class="n">mean_diff</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;mean_diff&quot;</span><span class="p">,</span> <span class="n">a</span> <span class="o">/</span> <span class="n">b</span> <span class="o">-</span> <span class="n">a2</span> <span class="o">/</span> <span class="n">b2</span><span class="p">)</span>
+
+        <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span>
+            <span class="mi">10000</span><span class="p">,</span>
+            <span class="n">chains</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+            <span class="n">tune</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span>
+            <span class="n">cores</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+            <span class="n">init</span><span class="o">=</span><span class="s2">&quot;jitter+adapt_diag&quot;</span><span class="p">,</span>
+            <span class="n">random_seed</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+            <span class="n">return_inferencedata</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">hdi_prob</span><span class="o">=</span><span class="mf">0.95</span><span class="p">))</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">AttributeError</span><span class="g g-Whitespace">                            </span>Traceback (most recent call last)
+<span class="nn">Input In [18],</span> in <span class="ni">&lt;cell line: 46&gt;</span><span class="nt">()</span>
+<span class="g g-Whitespace">     </span><span class="mi">43</span>         <span class="nb">print</span><span class="p">(</span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">hdi_prob</span><span class="o">=</span><span class="mf">0.95</span><span class="p">))</span>
+<span class="g g-Whitespace">     </span><span class="mi">46</span> <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+<span class="ne">---&gt; </span><span class="mi">47</span>     <span class="n">main</span><span class="p">()</span>
+
+<span class="nn">Input In [18],</span> in <span class="ni">main</span><span class="nt">()</span>
+<span class="g g-Whitespace">     </span><span class="mi">28</span> <span class="n">a2</span><span class="o">=</span><span class="mf">.001</span>
+<span class="g g-Whitespace">     </span><span class="mi">29</span> <span class="n">b2</span><span class="o">=</span><span class="mf">.001</span>
+<span class="ne">---&gt; </span><span class="mi">31</span> <span class="n">mean_diff</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;mean_diff&quot;</span><span class="p">,</span> <span class="n">a</span> <span class="o">/</span> <span class="n">b</span> <span class="o">-</span> <span class="n">a2</span> <span class="o">/</span> <span class="n">b2</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">33</span> <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span>
+<span class="g g-Whitespace">     </span><span class="mi">34</span>     <span class="mi">10000</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">35</span>     <span class="n">chains</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">40</span>     <span class="n">return_inferencedata</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">41</span> <span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">43</span> <span class="nb">print</span><span class="p">(</span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">hdi_prob</span><span class="o">=</span><span class="mf">0.95</span><span class="p">))</span>
+
+<span class="nn">File ~/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/pymc/model.py:1844,</span> in <span class="ni">Deterministic</span><span class="nt">(name, var, model, dims, auto)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1824</span> <span class="sd">&quot;&quot;&quot;Create a named deterministic variable</span>
+<span class="g g-Whitespace">   </span><span class="mi">1825</span><span class="sd"> </span>
+<span class="g g-Whitespace">   </span><span class="mi">1826</span><span class="sd"> Notes</span>
+<span class="sd">   (...)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1841</span><span class="sd"> var: var, with name attribute</span>
+<span class="g g-Whitespace">   </span><span class="mi">1842</span><span class="sd"> &quot;&quot;&quot;</span>
+<span class="g g-Whitespace">   </span><span class="mi">1843</span> <span class="n">model</span> <span class="o">=</span> <span class="n">modelcontext</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+<span class="ne">-&gt; </span><span class="mi">1844</span> <span class="n">var</span> <span class="o">=</span> <span class="n">var</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">name_for</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
+<span class="g g-Whitespace">   </span><span class="mi">1845</span> <span class="k">if</span> <span class="n">auto</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">1846</span>     <span class="n">model</span><span class="o">.</span><span class="n">auto_deterministics</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
+
+<span class="ne">AttributeError</span>: &#39;float&#39; object has no attribute &#39;copy&#39;
 </pre></div>
 </div>
 </div>
