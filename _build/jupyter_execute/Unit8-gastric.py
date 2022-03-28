@@ -41,7 +41,9 @@ np.set_printoptions(suppress=True)
 # 
 # If the y value equals the right-censored value, [```pm.Censored```](https://docs.pymc.io/en/latest/api/distributions/generated/pymc.Censored.html#pymc.Censored) returns the complement to the CDF evaluated at the censored value. If the y value is greater than the censored value, it returns ```-np.inf```. Otherwise, the distribution you passed to the ```dist``` parameter works as normal. What I've been doing is setting the values in the censored array to ```np.inf``` if the corresponding y value is not censored, and equal to the y value if it should be censored.
 # 
-# 
+# ```{note}
+# I could not get this method working on homework 6! Please see the imputed censoring model below for an example that does work for this homework problem.
+# ```
 
 # In[2]:
 
