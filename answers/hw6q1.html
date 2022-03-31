@@ -561,11 +561,11 @@ commentsRunWhenDOMLoaded(addUtterances);
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;temp&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;temp&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(</span><span class="n">copy</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan_to_num</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">nan</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
 <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_values</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">value</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
 
-<span class="n">x</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(</span><span class="n">copy</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan_to_num</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">nan</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
 <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_values</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">value</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
@@ -608,7 +608,11 @@ commentsRunWhenDOMLoaded(addUtterances);
     <span class="n">beta0</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;beta0&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">)</span>
     <span class="n">beta1</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;beta1&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">)</span>
     <span class="n">tau</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Gamma</span><span class="p">(</span><span class="s2">&quot;tau&quot;</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">)</span>
-
+    <span class="n">sigma2</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="n">tau</span>
+    <span class="n">sse</span> <span class="o">=</span> <span class="mi">7</span> <span class="o">*</span> <span class="n">sigma2</span>
+    <span class="n">sst</span> <span class="o">=</span> 
+    
+    
     <span class="c1"># x_imputed = pm.TruncatedNormal(&quot;x_imputed&quot;, mu=60, sigma=30, lower=1, upper=120, observed=x)</span>
     <span class="n">x_imputed</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Uniform</span><span class="p">(</span><span class="s2">&quot;x_imputed&quot;</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">x</span><span class="p">)</span>
 
@@ -625,13 +629,16 @@ commentsRunWhenDOMLoaded(addUtterances);
         <span class="n">init</span><span class="o">=</span><span class="s2">&quot;adapt_diag&quot;</span><span class="p">,</span>
         <span class="n">random_seed</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
         <span class="n">return_inferencedata</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="n">initvals</span><span class="o">=</span><span class="n">inits</span>
     <span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Multiprocess sampling (4 chains in 4 jobs)
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/pymc/model.py:1322: ImputationWarning: Data in x_imputed contains missing values and will be automatically imputed from the sampling distribution.
+  warnings.warn(impute_message, ImputationWarning)
+/Users/aaron/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/pymc/model.py:1322: ImputationWarning: Data in likelihood contains missing values and will be automatically imputed from the sampling distribution.
+  warnings.warn(impute_message, ImputationWarning)
+Multiprocess sampling (4 chains in 4 jobs)
 NUTS: [beta0, beta1, tau, x_imputed_missing, likelihood_missing]
 </pre></div>
 </div>
@@ -651,7 +658,7 @@ NUTS: [beta0, beta1, tau, x_imputed_missing, likelihood_missing]
 </div><div class="output text_html">
 <div>
   <progress value='10000' class='' max='10000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-  100.00% [10000/10000 00:07<00:00 Sampling 4 chains, 2 divergences]
+  100.00% [10000/10000 00:09<00:00 Sampling 4 chains, 2 divergences]
 </div>
 </div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
   return _boost._beta_ppf(q, a, b)
@@ -661,7 +668,7 @@ NUTS: [beta0, beta1, tau, x_imputed_missing, likelihood_missing]
   return _boost._beta_ppf(q, a, b)
 /Users/aaron/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
   return _boost._beta_ppf(q, a, b)
-Sampling 4 chains for 500 tune and 2_000 draw iterations (2_000 + 8_000 draws total) took 17 seconds.
+Sampling 4 chains for 500 tune and 2_000 draw iterations (2_000 + 8_000 draws total) took 20 seconds.
 There was 1 divergence after tuning. Increase `target_accept` or reparameterize.
 The acceptance probability does not match the target. It is 0.882, but should be close to 0.8. Try to increase the number of tuning steps.
 The acceptance probability does not match the target. It is 0.8831, but should be close to 0.8. Try to increase the number of tuning steps.
@@ -771,6 +778,98 @@ The acceptance probability does not match the target. It is 0.9119, but should b
   </tbody>
 </table>
 </div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y_pred</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample_posterior_predictive</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">m</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html">
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div><div class="output text_html">
+<div>
+  <progress value='8000' class='' max='8000' style='width:300px; height:20px; vertical-align: middle;'></progress>
+  100.00% [8000/8000 00:00<00:00]
+</div>
+</div><div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">AttributeError</span><span class="g g-Whitespace">                            </span>Traceback (most recent call last)
+<span class="nn">Input In [44],</span> in <span class="ni">&lt;cell line: 2&gt;</span><span class="nt">()</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="n">y_pred</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample_posterior_predictive</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">m</span><span class="p">)</span>
+<span class="ne">----&gt; </span><span class="mi">2</span> <span class="n">az</span><span class="o">.</span><span class="n">r2_score</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+
+<span class="nn">File ~/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/arviz/stats/stats.py:1005,</span> in <span class="ni">r2_score</span><span class="nt">(y_true, y_pred)</span>
+<span class="g g-Whitespace">    </span><span class="mi">976</span> <span class="sd">&quot;&quot;&quot;R² for Bayesian regression models. Only valid for linear models.</span>
+<span class="g g-Whitespace">    </span><span class="mi">977</span><span class="sd"> </span>
+<span class="g g-Whitespace">    </span><span class="mi">978</span><span class="sd"> Parameters</span>
+<span class="sd">   (...)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1002</span><span class="sd"> </span>
+<span class="g g-Whitespace">   </span><span class="mi">1003</span><span class="sd"> &quot;&quot;&quot;</span>
+<span class="g g-Whitespace">   </span><span class="mi">1004</span> <span class="n">_numba_flag</span> <span class="o">=</span> <span class="n">Numba</span><span class="o">.</span><span class="n">numba_flag</span>
+<span class="ne">-&gt; </span><span class="mi">1005</span> <span class="k">if</span> <span class="n">y_pred</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">1006</span>     <span class="n">var_y_est</span> <span class="o">=</span> <span class="n">_numba_var</span><span class="p">(</span><span class="n">svar</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1007</span>     <span class="n">var_e</span> <span class="o">=</span> <span class="n">_numba_var</span><span class="p">(</span><span class="n">svar</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">,</span> <span class="p">(</span><span class="n">y_true</span> <span class="o">-</span> <span class="n">y_pred</span><span class="p">))</span>
+
+<span class="ne">AttributeError</span>: &#39;InferenceData&#39; object has no attribute &#39;ndim&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>masked_array(data=[102.8, 104.5, 106.5, 107.0, 107.1, 105.1, 103.9, --,
+                   103.2, 102.1],
+             mask=[False, False, False, False, False, False, False,  True,
+                   False, False],
+       fill_value=-1.0)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y_pred</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([104.64830959, 104.64516156, 104.63935882, 104.61351096,
+       105.04866812, 104.6080446 , 104.61697807, 104.32846277,
+       104.61273773, 104.68254815])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">r2_score</span><span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="n">y_pred</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>r2        0.00914
+r2_std    0.00000
+dtype: float64
+</pre></div>
+</div>
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
