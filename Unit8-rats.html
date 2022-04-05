@@ -475,7 +475,9 @@ numpy: 1.22.3
 <p>Original paper <a class="reference external" href="https://www.jstor.org/stable/pdf/2289594.pdf">here.</a></p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">8.0</span><span class="p">,</span> <span class="mf">15.0</span><span class="p">,</span> <span class="mf">22.0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="mf">36.0</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># trying to figure out how to get the shapes to work recreating ratsignoreable1.odc</span>
+<span class="c1"># it looks like there are 30 alphas and taus in his model! </span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">8.0</span><span class="p">,</span> <span class="mf">15.0</span><span class="p">,</span> <span class="mf">22.0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="mf">36.0</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="s2">&quot;./data/rats.txt&quot;</span><span class="p">)</span>
 </pre></div>
@@ -723,10 +725,14 @@ numpy: 1.22.3
 </div>
 </div>
 <p>Notes:</p>
-<p>can’t impute data with pm.Data(mutable=True)?</p>
-<p>reading:
-<a class="reference external" href="https://github.com/pymc-devs/pymc/issues/4441">https://github.com/pymc-devs/pymc/issues/4441</a></p>
-<p><a class="reference external" href="https://github.com/pymc-devs/pymc/pull/5295">https://github.com/pymc-devs/pymc/pull/5295</a></p>
+<ul class="simple">
+<li><p>Pretty sure it’s mostly a shape problem. Need to take some time and do this by hand to confirm.</p></li>
+<li><p>can’t impute data with pm.Data(mutable=True)?</p>
+<ul>
+<li><p>reading: <a class="reference external" href="https://github.com/pymc-devs/pymc/issues/4441">https://github.com/pymc-devs/pymc/issues/4441</a> <a class="reference external" href="https://github.com/pymc-devs/pymc/pull/5295">https://github.com/pymc-devs/pymc/pull/5295</a></p></li>
+</ul>
+</li>
+</ul>
 </div>
 
     <script type="text/x-thebe-config">
