@@ -457,7 +457,7 @@ commentsRunWhenDOMLoaded(addUtterances);
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">pymc</span> <span class="k">as</span> <span class="nn">pm</span>
-<span class="kn">from</span> <span class="nn">pymc.math</span> <span class="kn">import</span> <span class="n">exp</span><span class="p">,</span> <span class="n">ge</span>
+<span class="kn">from</span> <span class="nn">pymc.math</span> <span class="kn">import</span> <span class="n">exp</span><span class="p">,</span> <span class="n">ge</span><span class="p">,</span> <span class="n">switch</span>
 </pre></div>
 </div>
 </div>
@@ -672,8 +672,8 @@ commentsRunWhenDOMLoaded(addUtterances);
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># right-censored model</span>
 
 <span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">m</span><span class="p">:</span>
-    <span class="n">beta0</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;beta0&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-    <span class="n">beta1</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;beta1&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">beta0</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;beta0&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+    <span class="n">beta1</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;beta1&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
     
     <span class="n">λ_uncensored</span> <span class="o">=</span> <span class="n">exp</span><span class="p">(</span><span class="n">beta0</span> <span class="o">+</span> <span class="n">beta1</span> <span class="o">*</span> <span class="n">x_uncensored</span><span class="p">)</span>
     <span class="n">λ_censored</span> <span class="o">=</span> <span class="n">exp</span><span class="p">(</span><span class="n">beta0</span> <span class="o">+</span> <span class="n">beta1</span> <span class="o">*</span> <span class="n">x_censored</span><span class="p">)</span>
@@ -688,6 +688,7 @@ commentsRunWhenDOMLoaded(addUtterances);
 
     <span class="n">H_prob</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;H_prob&quot;</span><span class="p">,</span> <span class="n">switch</span><span class="p">(</span><span class="n">ge</span><span class="p">(</span><span class="n">mu_diff</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
 
+    <span class="n">H_prob2</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;H_prob2&quot;</span><span class="p">,</span> <span class="n">switch</span><span class="p">(</span><span class="n">ge</span><span class="p">(</span><span class="n">mu_chemo</span><span class="p">,</span> <span class="n">mu_placebo</span><span class="p">),</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
     <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span>
         <span class="mi">10000</span><span class="p">,</span> <span class="n">tune</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">cores</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span>
     <span class="p">)</span>
@@ -695,14 +696,15 @@ commentsRunWhenDOMLoaded(addUtterances);
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/pymc/sampling.py:635: UserWarning: Unable to validate shapes: Cannot sample from a bounded variable
-Apply node that caused the error: bound_rv{0, (0, 0, 0), floatX, False}(RandomStateSharedVariable(&lt;RandomState(MT19937) at 0x129E04C40&gt;), TensorConstant{(1,) of 39}, TensorConstant{11}, exponential_rv{0, (0,), floatX, False}.out, TensorConstant{[ 0.  1.  ... 54. 59.]}, TensorConstant{inf})
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/aesara/tensor/elemwise.py:768: RuntimeWarning: overflow encountered in exp
+  variables = ufunc(*ufunc_args, **ufunc_kwargs)
+/Users/aaron/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/pymc/sampling.py:635: UserWarning: Unable to validate shapes: Cannot sample from a bounded variable
+Apply node that caused the error: bound_rv{0, (0, 0, 0), floatX, False}(RandomStateSharedVariable(&lt;RandomState(MT19937) at 0x1673AAD40&gt;), TensorConstant{(1,) of 39}, TensorConstant{11}, exponential_rv{0, (0,), floatX, False}.out, TensorConstant{[ 0.  1.  ... 54. 59.]}, TensorConstant{inf})
 Toposort index: 13
 Inputs types: [RandomStateType, TensorType(int64, (1,)), TensorType(int64, ()), TensorType(float64, (None,)), TensorType(float64, (39,)), TensorType(float64, ())]
 Inputs shapes: [&#39;No shapes&#39;, (1,), (), (39,), (39,), ()]
 Inputs strides: [&#39;No strides&#39;, (8,), (), (8,), (8,), ()]
-Inputs values: [RandomState(MT19937) at 0x129E04C40, array([39]), array(11), &#39;not shown&#39;, &#39;not shown&#39;, array(inf)]
-Inputs type_num: [&#39;&#39;, 7, 7, 12, 12, 12]
+Inputs values: [RandomState(MT19937) at 0x1673AAD40, array([39]), array(11), &#39;not shown&#39;, &#39;not shown&#39;, array(inf)]
 Outputs clients: [[&#39;output&#39;], []]
 
 Backtrace when the node is created (use Aesara flag traceback__limit=N to make it longer):
@@ -710,7 +712,7 @@ Backtrace when the node is created (use Aesara flag traceback__limit=N to make i
     if await self.run_code(code, result, async_=asy):
   File &quot;/Users/aaron/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/IPython/core/interactiveshell.py&quot;, line 3361, in run_code
     exec(code_obj, self.user_global_ns, self.user_ns)
-  File &quot;/var/folders/pm/9z29qnf508bc1v6q8fksblm40000gn/T/ipykernel_82270/63290787.py&quot;, line 11, in &lt;cell line: 3&gt;
+  File &quot;/var/folders/pm/9z29qnf508bc1v6q8fksblm40000gn/T/ipykernel_39848/2683312744.py&quot;, line 11, in &lt;cell line: 3&gt;
     likelihood_censored = pm.Bound(&quot;censored&quot;, pm.Exponential.dist(λ_censored), lower=censored, shape=censored.shape[0])
   File &quot;/Users/aaron/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/pymc/distributions/bound.py&quot;, line 193, in __new__
     res = _ContinuousBounded(
@@ -722,29 +724,6 @@ Backtrace when the node is created (use Aesara flag traceback__limit=N to make i
     rv_out = cls.dist(*args, **kwargs)
   File &quot;/Users/aaron/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/pymc/distributions/distribution.py&quot;, line 354, in dist
     rv_out = cls.rv_op(*dist_params, size=create_size, **kwargs)
-
-Debug print of the apply node: 
-bound_rv{0, (0, 0, 0), floatX, False}.0 [id A] &lt;RandomStateType&gt; &#39;&#39;   
- |RandomStateSharedVariable(&lt;RandomState(MT19937) at 0x129E04C40&gt;) [id B] &lt;RandomStateType&gt;
- |TensorConstant{(1,) of 39} [id C] &lt;TensorType(int64, (1,))&gt;
- |TensorConstant{11} [id D] &lt;TensorType(int64, ())&gt;
- |exponential_rv{0, (0,), floatX, False}.1 [id E] &lt;TensorType(float64, (None,))&gt; &#39;&#39;   
- | |RandomGeneratorSharedVariable(&lt;Generator(PCG64) at 0x131629040&gt;) [id F] &lt;RandomGeneratorType&gt;
- | |TensorConstant{[]} [id G] &lt;TensorType(int64, (0,))&gt;
- | |TensorConstant{11} [id D] &lt;TensorType(int64, ())&gt;
- | |Elemwise{true_div,no_inplace} [id H] &lt;TensorType(float64, (None,))&gt; &#39;&#39;   
- |   |TensorConstant{(1,) of 1.0} [id I] &lt;TensorType(float64, (1,))&gt;
- |   |Elemwise{exp,no_inplace} [id J] &lt;TensorType(float64, (None,))&gt; &#39;&#39;   
- |     |Elemwise{add,no_inplace} [id K] &lt;TensorType(float64, (None,))&gt; &#39;&#39;   
- |       |InplaceDimShuffle{x} [id L] &lt;TensorType(float64, (1,))&gt; &#39;&#39;   
- |       | |normal_rv{0, (0, 0), floatX, False}.1 [id M] &lt;TensorType(float64, ())&gt; &#39;beta0&#39;   
- |       |Elemwise{mul,no_inplace} [id N] &lt;TensorType(float64, (None,))&gt; &#39;&#39;   
- |         |InplaceDimShuffle{x} [id O] &lt;TensorType(float64, (1,))&gt; &#39;&#39;   
- |         | |normal_rv{0, (0, 0), floatX, False}.1 [id P] &lt;TensorType(float64, ())&gt; &#39;beta1&#39;   
- |         |TensorConstant{[0. 0. 0. .. 1. 1. 1.]} [id Q] &lt;TensorType(float64, (39,))&gt;
- |TensorConstant{[ 0.  1.  ... 54. 59.]} [id R] &lt;TensorType(float64, (39,))&gt;
- |TensorConstant{inf} [id S] &lt;TensorType(float64, ())&gt;
-bound_rv{0, (0, 0, 0), floatX, False}.1 [id A] &lt;TensorType(float64, (None,))&gt; &#39;censored&#39;   
 
 HINT: Use the Aesara flag `exception_verbosity=high` for a debug print-out and storage map footprint of this Apply node.
   warnings.warn(f&quot;Unable to validate shapes: {ex.args[0]}&quot;, UserWarning)
@@ -778,7 +757,7 @@ NUTS: [beta0, beta1, censored]
   return _boost._beta_ppf(q, a, b)
 /Users/aaron/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
   return _boost._beta_ppf(q, a, b)
-Sampling 4 chains for 2_000 tune and 10_000 draw iterations (8_000 + 40_000 draws total) took 18 seconds.
+Sampling 4 chains for 2_000 tune and 10_000 draw iterations (8_000 + 40_000 draws total) took 20 seconds.
 </pre></div>
 </div>
 </div>
@@ -822,541 +801,553 @@ Sampling 4 chains for 2_000 tune and 10_000 draw iterations (8_000 + 40_000 draw
   <tbody>
     <tr>
       <th>beta0</th>
-      <td>-3.279</td>
+      <td>-3.280</td>
       <td>0.186</td>
-      <td>-3.576</td>
-      <td>-2.967</td>
+      <td>-3.588</td>
+      <td>-2.975</td>
       <td>0.001</td>
       <td>0.001</td>
-      <td>20036.0</td>
-      <td>23506.0</td>
+      <td>19211.0</td>
+      <td>21245.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>beta1</th>
-      <td>-0.545</td>
-      <td>0.302</td>
-      <td>-1.028</td>
-      <td>-0.036</td>
+      <td>-0.540</td>
+      <td>0.303</td>
+      <td>-1.022</td>
+      <td>-0.029</td>
       <td>0.002</td>
       <td>0.002</td>
-      <td>17664.0</td>
-      <td>23424.0</td>
+      <td>18118.0</td>
+      <td>24839.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>censored[0]</th>
-      <td>27.157</td>
-      <td>28.238</td>
-      <td>0.000</td>
-      <td>62.402</td>
-      <td>0.137</td>
-      <td>0.105</td>
-      <td>28314.0</td>
-      <td>16450.0</td>
+      <td>27.136</td>
+      <td>27.624</td>
+      <td>0.001</td>
+      <td>62.629</td>
+      <td>0.146</td>
+      <td>0.104</td>
+      <td>23322.0</td>
+      <td>15029.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>censored[1]</th>
-      <td>28.014</td>
-      <td>27.827</td>
-      <td>1.002</td>
-      <td>63.195</td>
-      <td>0.137</td>
-      <td>0.104</td>
-      <td>29036.0</td>
-      <td>18124.0</td>
+      <td>28.127</td>
+      <td>27.965</td>
+      <td>1.000</td>
+      <td>63.868</td>
+      <td>0.132</td>
+      <td>0.103</td>
+      <td>31817.0</td>
+      <td>17785.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>censored[2]</th>
-      <td>31.142</td>
-      <td>28.292</td>
-      <td>4.002</td>
-      <td>66.946</td>
-      <td>0.141</td>
-      <td>0.108</td>
-      <td>30357.0</td>
-      <td>20039.0</td>
+      <td>31.161</td>
+      <td>28.345</td>
+      <td>4.000</td>
+      <td>67.208</td>
+      <td>0.139</td>
+      <td>0.103</td>
+      <td>27466.0</td>
+      <td>16962.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>censored[3]</th>
-      <td>34.122</td>
-      <td>28.119</td>
-      <td>7.003</td>
-      <td>70.286</td>
-      <td>0.139</td>
-      <td>0.102</td>
-      <td>26036.0</td>
-      <td>15214.0</td>
+      <td>34.126</td>
+      <td>28.021</td>
+      <td>7.000</td>
+      <td>70.057</td>
+      <td>0.145</td>
+      <td>0.103</td>
+      <td>24576.0</td>
+      <td>15897.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>censored[4]</th>
-      <td>37.382</td>
-      <td>28.214</td>
-      <td>10.002</td>
-      <td>73.085</td>
-      <td>0.144</td>
+      <td>37.096</td>
+      <td>28.078</td>
+      <td>10.000</td>
+      <td>72.813</td>
+      <td>0.138</td>
       <td>0.105</td>
-      <td>24422.0</td>
-      <td>14932.0</td>
+      <td>29287.0</td>
+      <td>17957.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>censored[5]</th>
-      <td>40.982</td>
-      <td>27.976</td>
-      <td>14.003</td>
-      <td>76.537</td>
-      <td>0.139</td>
-      <td>0.101</td>
-      <td>26403.0</td>
-      <td>16919.0</td>
+      <td>41.177</td>
+      <td>28.141</td>
+      <td>14.002</td>
+      <td>77.106</td>
+      <td>0.142</td>
+      <td>0.104</td>
+      <td>25344.0</td>
+      <td>16411.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>censored[6]</th>
-      <td>45.158</td>
-      <td>28.063</td>
+      <td>45.021</td>
+      <td>28.273</td>
       <td>18.001</td>
-      <td>80.428</td>
-      <td>0.137</td>
-      <td>0.102</td>
-      <td>28217.0</td>
-      <td>17902.0</td>
+      <td>80.648</td>
+      <td>0.136</td>
+      <td>0.105</td>
+      <td>30355.0</td>
+      <td>17390.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>censored[7]</th>
-      <td>50.015</td>
-      <td>27.883</td>
+      <td>50.218</td>
+      <td>28.304</td>
       <td>23.000</td>
-      <td>85.596</td>
-      <td>0.132</td>
-      <td>0.100</td>
-      <td>32005.0</td>
-      <td>18188.0</td>
+      <td>86.367</td>
+      <td>0.140</td>
+      <td>0.102</td>
+      <td>26083.0</td>
+      <td>16495.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>censored[8]</th>
-      <td>53.045</td>
-      <td>28.169</td>
-      <td>26.001</td>
-      <td>89.039</td>
-      <td>0.136</td>
-      <td>0.101</td>
-      <td>27869.0</td>
-      <td>16569.0</td>
+      <td>52.990</td>
+      <td>28.059</td>
+      <td>26.003</td>
+      <td>88.413</td>
+      <td>0.148</td>
+      <td>0.104</td>
+      <td>22842.0</td>
+      <td>15487.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>censored[9]</th>
-      <td>55.857</td>
-      <td>27.625</td>
-      <td>29.002</td>
-      <td>91.373</td>
+      <td>56.145</td>
+      <td>28.043</td>
+      <td>29.000</td>
+      <td>91.801</td>
       <td>0.138</td>
-      <td>0.099</td>
-      <td>26171.0</td>
-      <td>17286.0</td>
+      <td>0.101</td>
+      <td>28002.0</td>
+      <td>16865.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>censored[10]</th>
-      <td>55.942</td>
-      <td>27.858</td>
-      <td>29.001</td>
-      <td>91.893</td>
-      <td>0.135</td>
-      <td>0.099</td>
-      <td>28650.0</td>
-      <td>16368.0</td>
+      <td>56.096</td>
+      <td>27.696</td>
+      <td>29.003</td>
+      <td>91.186</td>
+      <td>0.146</td>
+      <td>0.103</td>
+      <td>23142.0</td>
+      <td>15691.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>censored[11]</th>
-      <td>55.854</td>
-      <td>27.814</td>
-      <td>29.003</td>
-      <td>90.960</td>
+      <td>56.184</td>
+      <td>28.266</td>
+      <td>29.000</td>
+      <td>92.202</td>
       <td>0.138</td>
-      <td>0.098</td>
-      <td>24498.0</td>
-      <td>15292.0</td>
+      <td>0.099</td>
+      <td>25342.0</td>
+      <td>15460.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>censored[12]</th>
-      <td>59.031</td>
-      <td>27.950</td>
-      <td>32.005</td>
-      <td>94.168</td>
-      <td>0.140</td>
-      <td>0.102</td>
-      <td>25995.0</td>
-      <td>15885.0</td>
+      <td>59.027</td>
+      <td>28.064</td>
+      <td>32.001</td>
+      <td>94.677</td>
+      <td>0.142</td>
+      <td>0.100</td>
+      <td>24653.0</td>
+      <td>15031.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>censored[13]</th>
-      <td>60.998</td>
-      <td>27.910</td>
-      <td>34.002</td>
-      <td>96.228</td>
-      <td>0.138</td>
-      <td>0.101</td>
-      <td>25846.0</td>
-      <td>16346.0</td>
+      <td>61.135</td>
+      <td>28.137</td>
+      <td>34.000</td>
+      <td>96.938</td>
+      <td>0.133</td>
+      <td>0.100</td>
+      <td>30223.0</td>
+      <td>18917.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>censored[14]</th>
-      <td>63.030</td>
-      <td>28.058</td>
-      <td>36.000</td>
-      <td>98.792</td>
-      <td>0.135</td>
-      <td>0.098</td>
-      <td>28809.0</td>
-      <td>16888.0</td>
+      <td>63.235</td>
+      <td>28.346</td>
+      <td>36.001</td>
+      <td>99.045</td>
+      <td>0.142</td>
+      <td>0.102</td>
+      <td>24963.0</td>
+      <td>14519.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>censored[15]</th>
-      <td>64.030</td>
-      <td>27.744</td>
-      <td>37.003</td>
-      <td>99.629</td>
-      <td>0.137</td>
+      <td>63.939</td>
+      <td>27.811</td>
+      <td>37.002</td>
+      <td>99.014</td>
+      <td>0.136</td>
       <td>0.098</td>
-      <td>25337.0</td>
-      <td>16113.0</td>
+      <td>27096.0</td>
+      <td>16480.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>censored[16]</th>
-      <td>67.907</td>
-      <td>27.669</td>
+      <td>68.230</td>
+      <td>28.169</td>
       <td>41.001</td>
-      <td>102.923</td>
-      <td>0.139</td>
-      <td>0.102</td>
-      <td>25065.0</td>
-      <td>15465.0</td>
+      <td>104.629</td>
+      <td>0.141</td>
+      <td>0.100</td>
+      <td>25984.0</td>
+      <td>15885.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>censored[17]</th>
-      <td>75.931</td>
-      <td>28.135</td>
-      <td>49.003</td>
-      <td>111.344</td>
-      <td>0.141</td>
-      <td>0.102</td>
-      <td>26336.0</td>
-      <td>15719.0</td>
+      <td>76.023</td>
+      <td>27.942</td>
+      <td>49.001</td>
+      <td>111.748</td>
+      <td>0.137</td>
+      <td>0.098</td>
+      <td>25944.0</td>
+      <td>15745.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>censored[18]</th>
-      <td>85.911</td>
-      <td>27.878</td>
-      <td>59.003</td>
-      <td>121.887</td>
-      <td>0.138</td>
-      <td>0.098</td>
-      <td>26104.0</td>
-      <td>15623.0</td>
+      <td>86.218</td>
+      <td>28.145</td>
+      <td>59.000</td>
+      <td>122.071</td>
+      <td>0.136</td>
+      <td>0.100</td>
+      <td>27653.0</td>
+      <td>16670.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>censored[19]</th>
-      <td>48.122</td>
-      <td>49.672</td>
-      <td>1.002</td>
-      <td>110.291</td>
-      <td>0.251</td>
-      <td>0.185</td>
-      <td>26438.0</td>
-      <td>17028.0</td>
+      <td>48.164</td>
+      <td>49.529</td>
+      <td>1.004</td>
+      <td>111.339</td>
+      <td>0.245</td>
+      <td>0.183</td>
+      <td>28252.0</td>
+      <td>17383.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>censored[20]</th>
-      <td>47.883</td>
-      <td>49.818</td>
+      <td>47.705</td>
+      <td>50.184</td>
       <td>1.003</td>
-      <td>109.813</td>
-      <td>0.252</td>
-      <td>0.186</td>
-      <td>26221.0</td>
-      <td>17191.0</td>
+      <td>109.008</td>
+      <td>0.249</td>
+      <td>0.185</td>
+      <td>26233.0</td>
+      <td>16439.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>censored[21]</th>
-      <td>55.971</td>
-      <td>49.409</td>
-      <td>9.001</td>
-      <td>117.926</td>
-      <td>0.257</td>
-      <td>0.182</td>
-      <td>23402.0</td>
-      <td>15631.0</td>
+      <td>56.009</td>
+      <td>49.652</td>
+      <td>9.000</td>
+      <td>118.069</td>
+      <td>0.240</td>
+      <td>0.179</td>
+      <td>31040.0</td>
+      <td>19481.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>censored[22]</th>
-      <td>57.391</td>
-      <td>49.847</td>
-      <td>10.004</td>
-      <td>119.657</td>
-      <td>0.259</td>
-      <td>0.195</td>
-      <td>25386.0</td>
-      <td>16038.0</td>
+      <td>57.072</td>
+      <td>50.232</td>
+      <td>10.000</td>
+      <td>119.500</td>
+      <td>0.256</td>
+      <td>0.188</td>
+      <td>24057.0</td>
+      <td>15643.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>censored[23]</th>
-      <td>60.012</td>
-      <td>50.422</td>
-      <td>13.001</td>
-      <td>122.684</td>
-      <td>0.255</td>
-      <td>0.182</td>
-      <td>23318.0</td>
-      <td>14561.0</td>
+      <td>60.519</td>
+      <td>50.228</td>
+      <td>13.003</td>
+      <td>123.027</td>
+      <td>0.245</td>
+      <td>0.181</td>
+      <td>28744.0</td>
+      <td>17569.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>censored[24]</th>
-      <td>64.826</td>
-      <td>49.534</td>
+      <td>64.915</td>
+      <td>48.992</td>
       <td>18.001</td>
-      <td>127.523</td>
-      <td>0.259</td>
-      <td>0.190</td>
-      <td>24587.0</td>
-      <td>16335.0</td>
+      <td>126.386</td>
+      <td>0.247</td>
+      <td>0.187</td>
+      <td>28538.0</td>
+      <td>18573.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>censored[25]</th>
-      <td>69.322</td>
-      <td>49.733</td>
-      <td>22.000</td>
-      <td>131.776</td>
-      <td>0.259</td>
-      <td>0.188</td>
-      <td>24060.0</td>
-      <td>15342.0</td>
+      <td>69.497</td>
+      <td>49.223</td>
+      <td>22.007</td>
+      <td>130.892</td>
+      <td>0.253</td>
+      <td>0.185</td>
+      <td>25906.0</td>
+      <td>16627.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>censored[26]</th>
-      <td>71.763</td>
-      <td>49.459</td>
+      <td>71.621</td>
+      <td>49.175</td>
       <td>25.002</td>
-      <td>133.623</td>
+      <td>134.745</td>
       <td>0.250</td>
-      <td>0.181</td>
-      <td>26035.0</td>
-      <td>16404.0</td>
+      <td>0.178</td>
+      <td>23318.0</td>
+      <td>15163.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>censored[27]</th>
-      <td>72.118</td>
-      <td>50.248</td>
-      <td>25.003</td>
-      <td>134.343</td>
-      <td>0.247</td>
-      <td>0.182</td>
-      <td>27324.0</td>
-      <td>18122.0</td>
+      <td>71.762</td>
+      <td>49.808</td>
+      <td>25.002</td>
+      <td>132.754</td>
+      <td>0.263</td>
+      <td>0.186</td>
+      <td>22739.0</td>
+      <td>14903.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>censored[28]</th>
-      <td>72.171</td>
-      <td>48.728</td>
-      <td>25.000</td>
-      <td>133.831</td>
-      <td>0.238</td>
-      <td>0.176</td>
-      <td>28597.0</td>
-      <td>17613.0</td>
+      <td>72.257</td>
+      <td>49.627</td>
+      <td>25.004</td>
+      <td>135.370</td>
+      <td>0.264</td>
+      <td>0.187</td>
+      <td>21423.0</td>
+      <td>13955.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>censored[29]</th>
-      <td>85.423</td>
-      <td>49.732</td>
-      <td>38.000</td>
-      <td>146.827</td>
-      <td>0.257</td>
-      <td>0.183</td>
-      <td>25151.0</td>
-      <td>16269.0</td>
+      <td>84.694</td>
+      <td>50.002</td>
+      <td>38.001</td>
+      <td>146.637</td>
+      <td>0.242</td>
+      <td>0.178</td>
+      <td>27739.0</td>
+      <td>15978.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>censored[30]</th>
-      <td>88.344</td>
-      <td>50.101</td>
-      <td>41.000</td>
-      <td>151.673</td>
-      <td>0.240</td>
-      <td>0.180</td>
-      <td>30986.0</td>
-      <td>18417.0</td>
+      <td>88.196</td>
+      <td>49.679</td>
+      <td>41.005</td>
+      <td>151.409</td>
+      <td>0.263</td>
+      <td>0.187</td>
+      <td>23663.0</td>
+      <td>15481.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>censored[31]</th>
-      <td>87.956</td>
-      <td>49.871</td>
+      <td>88.136</td>
+      <td>50.154</td>
       <td>41.001</td>
-      <td>150.237</td>
-      <td>0.253</td>
-      <td>0.183</td>
-      <td>26541.0</td>
-      <td>15495.0</td>
+      <td>150.518</td>
+      <td>0.246</td>
+      <td>0.182</td>
+      <td>28700.0</td>
+      <td>17199.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>censored[32]</th>
-      <td>90.951</td>
-      <td>50.171</td>
-      <td>44.005</td>
-      <td>153.857</td>
-      <td>0.257</td>
-      <td>0.182</td>
-      <td>22858.0</td>
-      <td>15026.0</td>
+      <td>90.900</td>
+      <td>49.032</td>
+      <td>44.004</td>
+      <td>152.906</td>
+      <td>0.244</td>
+      <td>0.176</td>
+      <td>27144.0</td>
+      <td>17625.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>censored[33]</th>
-      <td>92.164</td>
-      <td>49.920</td>
-      <td>45.006</td>
-      <td>154.727</td>
-      <td>0.257</td>
-      <td>0.184</td>
-      <td>24464.0</td>
-      <td>15250.0</td>
+      <td>91.784</td>
+      <td>50.152</td>
+      <td>45.000</td>
+      <td>153.728</td>
+      <td>0.241</td>
+      <td>0.180</td>
+      <td>28002.0</td>
+      <td>17437.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>censored[34]</th>
-      <td>93.164</td>
-      <td>50.377</td>
-      <td>46.006</td>
-      <td>155.766</td>
-      <td>0.251</td>
-      <td>0.182</td>
-      <td>26535.0</td>
-      <td>16360.0</td>
+      <td>93.384</td>
+      <td>50.202</td>
+      <td>46.010</td>
+      <td>156.206</td>
+      <td>0.241</td>
+      <td>0.181</td>
+      <td>33738.0</td>
+      <td>20180.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>censored[35]</th>
-      <td>95.942</td>
-      <td>49.607</td>
-      <td>49.001</td>
-      <td>158.063</td>
-      <td>0.237</td>
-      <td>0.176</td>
-      <td>29594.0</td>
-      <td>18460.0</td>
+      <td>96.053</td>
+      <td>49.847</td>
+      <td>49.003</td>
+      <td>158.275</td>
+      <td>0.246</td>
+      <td>0.179</td>
+      <td>28280.0</td>
+      <td>17900.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>censored[36]</th>
-      <td>97.275</td>
-      <td>49.995</td>
-      <td>50.002</td>
-      <td>159.080</td>
-      <td>0.255</td>
-      <td>0.181</td>
-      <td>25565.0</td>
-      <td>17477.0</td>
+      <td>96.766</td>
+      <td>49.479</td>
+      <td>50.003</td>
+      <td>158.160</td>
+      <td>0.247</td>
+      <td>0.179</td>
+      <td>25425.0</td>
+      <td>16008.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>censored[37]</th>
-      <td>101.563</td>
-      <td>50.085</td>
+      <td>101.033</td>
+      <td>49.657</td>
       <td>54.001</td>
-      <td>164.457</td>
-      <td>0.258</td>
-      <td>0.184</td>
-      <td>24913.0</td>
-      <td>16438.0</td>
+      <td>164.237</td>
+      <td>0.230</td>
+      <td>0.174</td>
+      <td>31673.0</td>
+      <td>18821.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>censored[38]</th>
-      <td>106.318</td>
-      <td>49.564</td>
-      <td>59.001</td>
-      <td>168.342</td>
-      <td>0.251</td>
-      <td>0.180</td>
-      <td>25542.0</td>
-      <td>16803.0</td>
+      <td>105.991</td>
+      <td>49.873</td>
+      <td>59.005</td>
+      <td>167.903</td>
+      <td>0.242</td>
+      <td>0.176</td>
+      <td>29838.0</td>
+      <td>19040.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>mu_placebo</th>
-      <td>27.012</td>
-      <td>5.159</td>
-      <td>18.880</td>
-      <td>34.948</td>
-      <td>0.037</td>
+      <td>27.060</td>
+      <td>5.179</td>
+      <td>18.417</td>
+      <td>34.680</td>
+      <td>0.038</td>
       <td>0.027</td>
-      <td>20036.0</td>
-      <td>23506.0</td>
+      <td>19211.0</td>
+      <td>21245.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>mu_chemo</th>
-      <td>47.107</td>
-      <td>11.744</td>
-      <td>28.638</td>
-      <td>64.283</td>
+      <td>46.991</td>
+      <td>11.796</td>
+      <td>29.279</td>
+      <td>64.968</td>
       <td>0.077</td>
       <td>0.055</td>
-      <td>23687.0</td>
-      <td>27514.0</td>
+      <td>24903.0</td>
+      <td>26290.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>mu_diff</th>
-      <td>20.095</td>
-      <td>12.815</td>
-      <td>-0.406</td>
-      <td>39.872</td>
+      <td>19.930</td>
+      <td>12.849</td>
+      <td>-0.433</td>
+      <td>40.056</td>
       <td>0.093</td>
       <td>0.066</td>
-      <td>18863.0</td>
-      <td>24798.0</td>
+      <td>19357.0</td>
+      <td>25192.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>H_prob</th>
-      <td>0.967</td>
-      <td>0.179</td>
+      <td>0.964</td>
+      <td>0.186</td>
       <td>1.000</td>
       <td>1.000</td>
       <td>0.001</td>
       <td>0.001</td>
-      <td>25031.0</td>
+      <td>25101.0</td>
+      <td>40000.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>H_prob2</th>
+      <td>0.964</td>
+      <td>0.186</td>
+      <td>1.000</td>
+      <td>1.000</td>
+      <td>0.001</td>
+      <td>0.001</td>
+      <td>25101.0</td>
       <td>40000.0</td>
       <td>1.0</td>
     </tr>
