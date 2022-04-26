@@ -22,8 +22,8 @@
       
 
     
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
@@ -33,7 +33,7 @@
     
   <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
 
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
@@ -74,10 +74,10 @@ var addUtterances = () => {
 }
 commentsRunWhenDOMLoaded(addUtterances);
 </script>
-    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
     <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
-    <script>
+    <script >
         const thebe_selector = ".thebe"
         const thebe_selector_input = "pre"
         const thebe_selector_output = ".output"
@@ -123,7 +123,7 @@ commentsRunWhenDOMLoaded(addUtterances);
   </a>
  </li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
+<p class="caption">
  <span class="caption-text">
   Unit 1
  </span>
@@ -135,7 +135,7 @@ commentsRunWhenDOMLoaded(addUtterances);
   </a>
  </li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
+<p class="caption">
  <span class="caption-text">
   Unit 2
  </span>
@@ -147,7 +147,7 @@ commentsRunWhenDOMLoaded(addUtterances);
   </a>
  </li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
+<p class="caption">
  <span class="caption-text">
   Unit 3
  </span>
@@ -169,7 +169,7 @@ commentsRunWhenDOMLoaded(addUtterances);
   </a>
  </li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
+<p class="caption">
  <span class="caption-text">
   Unit 4
  </span>
@@ -191,7 +191,7 @@ commentsRunWhenDOMLoaded(addUtterances);
   </a>
  </li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
+<p class="caption">
  <span class="caption-text">
   Unit 5
  </span>
@@ -228,7 +228,7 @@ commentsRunWhenDOMLoaded(addUtterances);
   </a>
  </li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
+<p class="caption">
  <span class="caption-text">
   Unit 6
  </span>
@@ -275,7 +275,7 @@ commentsRunWhenDOMLoaded(addUtterances);
   </a>
  </li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
+<p class="caption">
  <span class="caption-text">
   Unit 7
  </span>
@@ -297,17 +297,12 @@ commentsRunWhenDOMLoaded(addUtterances);
   </a>
  </li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
+<p class="caption">
  <span class="caption-text">
   Unit 8
  </span>
 </p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="../Unit8-rats.html">
-   Rats
-  </a>
- </li>
  <li class="toctree-l1">
   <a class="reference internal" href="../Unit8-gastric.html">
    Gastric Cancer Data
@@ -624,6 +619,92 @@ commentsRunWhenDOMLoaded(addUtterances);
 </table>
 </div></div></div>
 </div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">censored</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">data</span><span class="o">.</span><span class="n">observed</span><span class="o">==</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;observed&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">y_uncensored</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">data</span><span class="o">.</span><span class="n">observed</span><span class="o">!=</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;time&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">x_uncensored</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">data</span><span class="o">.</span><span class="n">observed</span><span class="o">!=</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;group&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">x_censored</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">data</span><span class="o">.</span><span class="n">observed</span><span class="o">==</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;group&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">censored</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">censored</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([ 0,  1,  4,  7, 10, 14, 18, 23, 26, 29, 29, 29, 32, 34, 36, 37, 41,
+       49, 59,  1,  1,  9, 10, 13, 18, 22, 25, 25, 25, 38, 41, 41, 44, 45,
+       46, 49, 50, 54, 59])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y_uncensored</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([ 6,  5, 12, 10,  3,  3,  7,  3,  1,  2, 25, 28,  2,  3, 12, 29,  9,
+       16,  3,  6,  3,  9, 18, 35, 17,  3,  2,  5,  2,  5,  3,  1, 17,  2,
+       17,  6,  6,  2, 26, 22,  4, 24,  1,  2,  2,  4, 38])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x_uncensored</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+       0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+       1, 1, 1])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x_uncensored</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+       0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+       1, 1, 1])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x_censored</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1,
+       1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1])
+</pre></div>
+</div>
+</div>
+</div>
 <p>So if we oberved the tumor, we want to right-censor the data. If not, we don’t.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -669,6 +750,34 @@ commentsRunWhenDOMLoaded(addUtterances);
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y_uncensored</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([ 6,  5, 12, 10,  3,  3,  7,  3,  1,  2, 25, 28,  2,  3, 12, 29,  9,
+       16,  3,  6,  3,  9, 18, 35, 17,  3,  2,  5,  2,  5,  3,  1, 17,  2,
+       17,  6,  6,  2, 26, 22,  4, 24,  1,  2,  2,  4, 38])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x_uncensored</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+       0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+       1, 1, 1])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># right-censored model</span>
 
 <span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">m</span><span class="p">:</span>
@@ -679,7 +788,7 @@ commentsRunWhenDOMLoaded(addUtterances);
     <span class="n">λ_censored</span> <span class="o">=</span> <span class="n">exp</span><span class="p">(</span><span class="n">beta0</span> <span class="o">+</span> <span class="n">beta1</span> <span class="o">*</span> <span class="n">x_censored</span><span class="p">)</span>
     
     <span class="n">likelihood_uncensored</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Exponential</span><span class="p">(</span><span class="s2">&quot;likelihood_uncensored&quot;</span><span class="p">,</span> <span class="n">λ_uncensored</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">y_uncensored</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="n">y_uncensored</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-    <span class="n">likelihood_censored</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Bound</span><span class="p">(</span><span class="s2">&quot;censored&quot;</span><span class="p">,</span> <span class="n">pm</span><span class="o">.</span><span class="n">Exponential</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="n">λ_censored</span><span class="p">),</span> <span class="n">lower</span><span class="o">=</span><span class="n">censored</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="n">censored</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">likelihood_censored</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Bound</span><span class="p">(</span><span class="s2">&quot;censored&quot;</span><span class="p">,</span> <span class="n">pm</span><span class="o">.</span><span class="n">Exponential</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="n">λ_censored</span><span class="p">),</span> <span class="n">lower</span><span class="o">=</span><span class="n">censored</span><span class="p">,</span> <span class="n">upper</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="n">censored</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 
     <span class="n">mu_placebo</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;mu_placebo&quot;</span><span class="p">,</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">beta0</span><span class="p">))</span>
     <span class="n">mu_chemo</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;mu_chemo&quot;</span><span class="p">,</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">beta0</span> <span class="o">-</span> <span class="n">beta1</span><span class="p">))</span>
@@ -699,12 +808,12 @@ commentsRunWhenDOMLoaded(addUtterances);
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/aesara/tensor/elemwise.py:768: RuntimeWarning: overflow encountered in exp
   variables = ufunc(*ufunc_args, **ufunc_kwargs)
 /Users/aaron/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/pymc/sampling.py:635: UserWarning: Unable to validate shapes: Cannot sample from a bounded variable
-Apply node that caused the error: bound_rv{0, (0, 0, 0), floatX, False}(RandomStateSharedVariable(&lt;RandomState(MT19937) at 0x1673AAD40&gt;), TensorConstant{(1,) of 39}, TensorConstant{11}, exponential_rv{0, (0,), floatX, False}.out, TensorConstant{[ 0.  1.  ... 54. 59.]}, TensorConstant{inf})
+Apply node that caused the error: bound_rv{0, (0, 0, 0), floatX, False}(RandomStateSharedVariable(&lt;RandomState(MT19937) at 0x1665FFD40&gt;), TensorConstant{(1,) of 39}, TensorConstant{11}, exponential_rv{0, (0,), floatX, False}.out, TensorConstant{[ 0.  1.  ... 54. 59.]}, TensorConstant{inf})
 Toposort index: 13
 Inputs types: [RandomStateType, TensorType(int64, (1,)), TensorType(int64, ()), TensorType(float64, (None,)), TensorType(float64, (39,)), TensorType(float64, ())]
 Inputs shapes: [&#39;No shapes&#39;, (1,), (), (39,), (39,), ()]
 Inputs strides: [&#39;No strides&#39;, (8,), (), (8,), (8,), ()]
-Inputs values: [RandomState(MT19937) at 0x1673AAD40, array([39]), array(11), &#39;not shown&#39;, &#39;not shown&#39;, array(inf)]
+Inputs values: [RandomState(MT19937) at 0x1665FFD40, array([39]), array(11), &#39;not shown&#39;, &#39;not shown&#39;, array(inf)]
 Outputs clients: [[&#39;output&#39;], []]
 
 Backtrace when the node is created (use Aesara flag traceback__limit=N to make it longer):
@@ -712,8 +821,8 @@ Backtrace when the node is created (use Aesara flag traceback__limit=N to make i
     if await self.run_code(code, result, async_=asy):
   File &quot;/Users/aaron/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/IPython/core/interactiveshell.py&quot;, line 3361, in run_code
     exec(code_obj, self.user_global_ns, self.user_ns)
-  File &quot;/var/folders/pm/9z29qnf508bc1v6q8fksblm40000gn/T/ipykernel_39848/2683312744.py&quot;, line 11, in &lt;cell line: 3&gt;
-    likelihood_censored = pm.Bound(&quot;censored&quot;, pm.Exponential.dist(λ_censored), lower=censored, shape=censored.shape[0])
+  File &quot;/var/folders/pm/9z29qnf508bc1v6q8fksblm40000gn/T/ipykernel_39848/10092300.py&quot;, line 11, in &lt;cell line: 3&gt;
+    likelihood_censored = pm.Bound(&quot;censored&quot;, pm.Exponential.dist(λ_censored), lower=censored, upper=np.inf, shape=censored.shape[0])
   File &quot;/Users/aaron/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/pymc/distributions/bound.py&quot;, line 193, in __new__
     res = _ContinuousBounded(
   File &quot;/Users/aaron/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/pymc/distributions/continuous.py&quot;, line 167, in __new__
@@ -747,7 +856,7 @@ NUTS: [beta0, beta1, censored]
 </div><div class="output text_html">
 <div>
   <progress value='48000' class='' max='48000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-  100.00% [48000/48000 00:08<00:00 Sampling 4 chains, 0 divergences]
+  100.00% [48000/48000 00:10<00:00 Sampling 4 chains, 0 divergences]
 </div>
 </div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
   return _boost._beta_ppf(q, a, b)
@@ -757,7 +866,7 @@ NUTS: [beta0, beta1, censored]
   return _boost._beta_ppf(q, a, b)
 /Users/aaron/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
   return _boost._beta_ppf(q, a, b)
-Sampling 4 chains for 2_000 tune and 10_000 draw iterations (8_000 + 40_000 draws total) took 20 seconds.
+Sampling 4 chains for 2_000 tune and 10_000 draw iterations (8_000 + 40_000 draws total) took 21 seconds.
 </pre></div>
 </div>
 </div>
