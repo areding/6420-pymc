@@ -1,0 +1,769 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Control the page layout &#8212; ISYE 6420 - BUGS to PyMC</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet">
+  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../_static/bayeslogo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">ISYE 6420 - BUGS to PyMC</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../intro.html">
+   Introduction
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Unit 1
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Unit1.html">
+   A Simple Regression
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Unit 2
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Unit2.html">
+   Code for Unit 2
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Unit 3
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Unit3-TwoHeadedCoin.html">
+   Two-headed Coin
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Unit3-ManufacturingBayes.html">
+   Manufacturing Bayes
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Unit3-Alarm.html">
+   Alarm
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Unit 4
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Unit4-BetaPriors.html">
+   Beta plots
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Unit4-GammaGamma.html">
+   Gamma Gamma
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Unit4-eBay.html">
+   eBay Purchase Example
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Unit 5
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Unit5-LaplacesMethod.html">
+   Laplace’s Method
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Unit5-MetropolisHastings.html">
+   Metropolis-Hastings Example 1
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Unit5-MetropolisHastings2.html">
+   Metropolis-Hastings Example 2
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Unit5-GibbsSampler.html">
+   Gibbs Sampler Example 1
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Unit5-PumpsMCMC.html">
+   Gibbs Sampler Example 2: Pumps
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Unit5-Gibbs3.html">
+   Gibbs Sampler Example 3: Disasters
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Unit 6
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Unit6-cheese.html">
+   Taste of Cheese
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Unit6-DeMere.html">
+   Demere
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Unit6-dugongs.html">
+   Dugongs: Dealing with Missing Data
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Unit6-equivalence.html">
+   Equivalence of Generic and Brand-Name Drugs
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Unit6-exponential.html">
+   Bartholomew (1957) for Type I censoring
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Unit6-psoriasis.html">
+   Psoriasis: Two sample problem with paired data
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Unit6-stressacids.html">
+   Stress, Diet and Plasma Acids
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Unit6-zerotrickJeremy.html">
+   Jeremy with Zero Tricks
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Unit 7
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Unit7-ants.html">
+   Ants
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Unit7-arrhythmia.html">
+   Arrhythmia
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Unit7-fat.html">
+   Brozek index prediction
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Unit 8
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Unit8-gastric.html">
+   Gastric cancer example
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/answers/layout.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/areding/6420-pymc"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/areding/6420-pymc/issues/new?title=Issue%20on%20page%20%2Fanswers/layout.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/areding/6420-pymc/main?urlpath=tree/answers/layout.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        <a class="colab-button" href="https://colab.research.google.com/github/areding/6420-pymc/blob/main/answers/layout.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
+                title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
+                    src="../_static/images/logo_colab.png"
+                    alt="Interact on Colab">Colab</button></a>
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#sidebar-content">
+   Sidebar content
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#sidebars-within-content">
+     Sidebars within content
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#margin-content">
+     Margin content
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#margins-with-code-cells">
+     Margins with code cells
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#full-width-content">
+   Full-width content
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#full-width-code-cells">
+     Full-width code cells
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#full-width-markdown-content">
+     Full-width markdown content
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Control the page layout</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#sidebar-content">
+   Sidebar content
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#sidebars-within-content">
+     Sidebars within content
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#margin-content">
+     Margin content
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#margins-with-code-cells">
+     Margins with code cells
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#full-width-content">
+   Full-width content
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#full-width-code-cells">
+     Full-width code cells
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#full-width-markdown-content">
+     Full-width markdown content
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
+              <div>
+                
+  <div class="tex2jax_ignore mathjax_ignore section" id="control-the-page-layout">
+<h1>Control the page layout<a class="headerlink" href="#control-the-page-layout" title="Permalink to this headline">¶</a></h1>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Many of the features on this page are experimental and may change at any time.</p>
+</div>
+<p>There are a few ways to control the layout of a page with Jupyter Book. Many of these
+ideas take inspiration from the <a class="reference external" href="https://edwardtufte.github.io/tufte-css/">Edward Tufte layout CSS guide</a>.</p>
+<p>Let’s begin with a sample plot. You can click the toggle button to the right
+to see the code that generated it.</p>
+<div class="cell tag_hide-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">make_fig</span><span class="p">(</span><span class="n">figsize</span><span class="p">):</span>
+    <span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">rcParams</span><span class="p">,</span> <span class="n">cycler</span>
+    <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+    <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ion</span><span class="p">()</span>
+
+    <span class="c1"># Fixing random state for reproducibility</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">19680801</span><span class="p">)</span>
+
+    <span class="n">N</span> <span class="o">=</span> <span class="mi">10</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span> <span class="o">+</span> <span class="mf">.2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span> <span class="o">+</span> <span class="n">ii</span> <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">)]</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+    <span class="n">cmap</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">coolwarm</span>
+    <span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;axes.prop_cycle&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cycler</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="n">cmap</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">N</span><span class="p">)))</span>
+
+
+    <span class="kn">from</span> <span class="nn">matplotlib.lines</span> <span class="kn">import</span> <span class="n">Line2D</span>
+    <span class="n">custom_lines</span> <span class="o">=</span> <span class="p">[</span><span class="n">Line2D</span><span class="p">([</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">cmap</span><span class="p">(</span><span class="mf">0.</span><span class="p">),</span> <span class="n">lw</span><span class="o">=</span><span class="mi">4</span><span class="p">),</span>
+                    <span class="n">Line2D</span><span class="p">([</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">cmap</span><span class="p">(</span><span class="mf">.5</span><span class="p">),</span> <span class="n">lw</span><span class="o">=</span><span class="mi">4</span><span class="p">),</span>
+                    <span class="n">Line2D</span><span class="p">([</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">cmap</span><span class="p">(</span><span class="mf">1.</span><span class="p">),</span> <span class="n">lw</span><span class="o">=</span><span class="mi">4</span><span class="p">)]</span>
+
+    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span><span class="p">)</span>
+    <span class="n">lines</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">custom_lines</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;Cold&#39;</span><span class="p">,</span> <span class="s1">&#39;Medium&#39;</span><span class="p">,</span> <span class="s1">&#39;Hot&#39;</span><span class="p">])</span>
+<span class="n">make_fig</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/layout_1_0.png" src="../_images/layout_1_0.png" />
+</div>
+</div>
+<div class="section" id="sidebar-content">
+<span id="layout-sidebar"></span><h2>Sidebar content<a class="headerlink" href="#sidebar-content" title="Permalink to this headline">¶</a></h2>
+<p>Adding sidebar elements allow you to provide contextual information that doesn’t break
+up the flow of your main content. It is one of the main patterns recommended in the
+<a class="reference external" href="https://edwardtufte.github.io/tufte-css/">Tufte style guide</a>.</p>
+<p>There are two kinds of sidebars supported by Jupyter Book. We’ll
+describe them below.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Some sidebar content behaves differently depending on the screen size. If the screen is narrow
+enough, the sidebar content will exist in-line with your content. Make the screen
+wider and it’ll pop out to the right.</p>
+</div>
+<div class="section" id="sidebars-within-content">
+<h3>Sidebars within content<a class="headerlink" href="#sidebars-within-content" title="Permalink to this headline">¶</a></h3>
+<div class="sidebar">
+<p class="sidebar-title">Here is some sidebar content</p>
+<p>It spans a bit of your main content, as well as the margin, as seen by the
+note block below:</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Here’s a note block within the sidebar!</p>
+</div>
+</div>
+<p>If you use a sidebar within your content, the sidebar will stay in-line with your page’s content. However, it will be
+placed to the right, allowing your content to wrap around it. This prevents
+the sidebar from breaking up the flow of your content. This is particularly
+useful if you’ve got tall-and-long blocks of content or images that you would
+like to provide context to throughout your content.</p>
+<p>To add a sidebar to your content, use the following syntax:</p>
+<div class="highlight-md notranslate"><div class="highlight"><pre><span></span>```{sidebar} My sidebar title
+My sidebar content
+```
+</pre></div>
+</div>
+</div>
+<div class="section" id="margin-content">
+<h3>Margin content<a class="headerlink" href="#margin-content" title="Permalink to this headline">¶</a></h3>
+<p>To add content to the margin with MyST Markdown, use this syntax:</p>
+<div class="highlight-md notranslate"><div class="highlight"><pre><span></span>```{margin} An optional title
+My margin content
+```
+</pre></div>
+</div>
+<div class="margin sidebar">
+<p class="sidebar-title"><strong>For example</strong></p>
+<p>Here’s some margin content! It was created by using the</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>```{margin}
+```
+</pre></div>
+</div>
+<p>directive in a Markdown cell. Jupyter Book automatically converts these
+cells into helpful margin content.</p>
+</div>
+<p>Controlling margin content with code cells uses a slightly different syntax,
+which we’ll cover below.</p>
+</div>
+<div class="section" id="margins-with-code-cells">
+<h3>Margins with code cells<a class="headerlink" href="#margins-with-code-cells" title="Permalink to this headline">¶</a></h3>
+<p>You can make a code cell move to the right margin by adding <code class="docutils literal notranslate"><span class="pre">margin</span></code> to your
+cell’s tags.</p>
+<div class="tabbed-set docutils">
+<input checked="checked" id="fd9e7b4d-a93c-4733-a340-752b599d248f" name="3bc63505-8626-4340-ab6d-b0d259acf916" type="radio">
+</input><label class="tabbed-label" for="fd9e7b4d-a93c-4733-a340-752b599d248f">
+Jupyter Notebook</label><div class="tabbed-content docutils">
+<p>Here’s what the cell metadata for a margin cell looks like:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;tags&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
+<span class="w">        </span><span class="s2">&quot;margin&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="p">]</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><span class="xref myst"></span></p>
+</div>
+</div>
+<input id="c32e2d03-0c14-49d5-b727-09c3827cad0b" name="3bc63505-8626-4340-ab6d-b0d259acf916" type="radio">
+</input><label class="tabbed-label" for="c32e2d03-0c14-49d5-b727-09c3827cad0b">
+MyST Text File</label><div class="tabbed-content docutils">
+<p>For a MyST text file these tags can be added to the <code class="docutils literal notranslate"><span class="pre">code-cell</span></code></p>
+<div class="highlight-md notranslate"><div class="highlight"><pre><span></span>```{code-cell} &lt;language&gt;
+:tags: [margin]
+```
+</pre></div>
+</div>
+</div>
+</div>
+<p>For example, we’ll re-display the figure above, and add a <code class="docutils literal notranslate"><span class="pre">margin</span></code> tag to the code cell.</p>
+<div class="cell tag_margin docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">make_fig</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/layout_3_0.png" src="../_images/layout_3_0.png" />
+</div>
+</div>
+<p>This can be combined with other tags like <code class="docutils literal notranslate"><span class="pre">remove-input</span></code> to <strong>only display the figure</strong>.</p>
+<p>The <span class="xref myst">MyST cheat sheet</span> provides a <span class="xref myst">list of <code class="docutils literal notranslate"><span class="pre">code-cell</span></code> tags available</span></p>
+</div>
+</div>
+<div class="section" id="full-width-content">
+<h2>Full-width content<a class="headerlink" href="#full-width-content" title="Permalink to this headline">¶</a></h2>
+<p>Sometimes, you’d like to use <strong>all</strong> of the horizontal space available to you.
+This allows you to highlight particular ideas, visualizations, etc.</p>
+<div class="section" id="full-width-code-cells">
+<h3>Full-width code cells<a class="headerlink" href="#full-width-code-cells" title="Permalink to this headline">¶</a></h3>
+<p>You can specify that a code cell’s inputs and/or outputs should take up all of the horizontal space (including the margin to the right) using the following cell metadata tag:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;tags&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
+<span class="w">        </span><span class="s2">&quot;full-width&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="p">]</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>For tips on how to add cell metadata to your notebooks, see <span class="xref myst"></span>.</p>
+</div>
+<p>For example, let’s take a look at the figure in the margin above in a cell with <code class="docutils literal notranslate"><span class="pre">full-width</span></code> set. We’ll tell Matplotlib
+to make it a bit wider so we can take advantage of the extra space!</p>
+<div class="cell tag_hide-input tag_full-width docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">make_fig</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/layout_5_0.png" src="../_images/layout_5_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="full-width-markdown-content">
+<h3>Full-width markdown content<a class="headerlink" href="#full-width-markdown-content" title="Permalink to this headline">¶</a></h3>
+<p>If you’d like to make your markdown content full-width, you cannot do so via cell tags.
+Instead, you have a few options:</p>
+<ol>
+<li><p><strong>Use the <code class="docutils literal notranslate"><span class="pre">{div}</span></code> directive with a <code class="docutils literal notranslate"><span class="pre">full-width</span></code> class.</strong>. Any content with a <code class="docutils literal notranslate"><span class="pre">full-width</span></code> class will take up the full width of the screen. For example, the following code:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>````{div} full-width
+```{note}
+Here&#39;s a note that will take the full width
+```
+````
+</pre></div>
+</div>
+<p>results in:</p>
+<div class="full-width docutils">
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Here’s a note that will take the full width</p>
+</div>
+</div>
+<p>For more information on <code class="docutils literal notranslate"><span class="pre">&lt;div&gt;</span></code> blocks, see <span class="xref myst"></span>.</p>
+</li>
+<li><p><strong>Add a <code class="docutils literal notranslate"><span class="pre">full-width</span></code> class to directives that support classes</strong>. Many directives allow you to directly add a CSS class to them.</p>
+<p>For example, the <code class="docutils literal notranslate"><span class="pre">{note}</span></code> directive above allows for this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>```{note}
+:class: full-width
+Here&#39;s a note that will take the full width
+```
+</pre></div>
+</div>
+<p>results in:</p>
+<div class="full-width admonition note">
+<p class="admonition-title">Note</p>
+<p>Here’s a note that will take the full width</p>
+</div>
+<p>Check the documentation of the directive to see if it supports adding your own classes, or use the <code class="docutils literal notranslate"><span class="pre">{div}</span></code> directive as described above.</p>
+</li>
+</ol>
+<div class="warning full-width admonition">
+<p class="admonition-title"><strong>Mixing margins and full-width content</strong></p>
+<p>Be careful when mixing margins and full-width content.
+Sometimes these can conflict with one another in visual space. You should use them relatively sparingly in order for them to have their full effect of highlighting information.</p>
+</div>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./answers"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+</div>
+            
+        </div>
+    </div>
+    <footer class="footer">
+  <p>
+    
+      By Aaron Reding<br/>
+    
+  </p>
+</footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>
