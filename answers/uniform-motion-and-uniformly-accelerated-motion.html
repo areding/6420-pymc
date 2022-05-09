@@ -40,40 +40,6 @@
     <script src="../_static/togglebutton.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
-    <script kind="utterances">
-
-    var commentsRunWhenDOMLoaded = cb => {
-    if (document.readyState != 'loading') {
-        cb()
-    } else if (document.addEventListener) {
-        document.addEventListener('DOMContentLoaded', cb)
-    } else {
-        document.attachEvent('onreadystatechange', function() {
-        if (document.readyState == 'complete') cb()
-        })
-    }
-}
-
-var addUtterances = () => {
-    var script = document.createElement("script");
-    script.type = "text/javascript";
-    script.src = "https://utteranc.es/client.js";
-    script.async = "async";
-
-    script.setAttribute("repo", "areding/6420-pymc");
-    script.setAttribute("issue-term", "pathname");
-    script.setAttribute("theme", "github-light");
-    script.setAttribute("label", "💬 comment");
-    script.setAttribute("crossorigin", "anonymous");
-
-    sections = document.querySelectorAll("div.section");
-    if (sections !== null) {
-        section = sections[sections.length-1];
-        section.appendChild(script);
-    }
-}
-commentsRunWhenDOMLoaded(addUtterances);
-</script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
@@ -107,6 +73,11 @@ const thebe_selector_output = ".output, .cell_output"
         <div class="navbar-brand-box">
     <a class="navbar-brand text-wrap" href="../index.html">
       
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../_static/bayeslogo.png" class="logo" alt="logo">
       
       
       <h1 class="site-logo" id="site-title">ISYE 6420 - BUGS to PyMC</h1>
@@ -3164,7 +3135,7 @@ A bike accelerates uniformly from rest to a speed of <span class="math notransla
 <p><strong>Question 3</strong>:
 A bullet leaves a rifle with a velocity of <span class="math notranslate nohighlight">\(521 \ \textrm{ms}^{-1}\)</span>. While accelerating through the barrel of the rifle, the bullet moves a distance of <span class="math notranslate nohighlight">\(0.840 \ \textrm{m}\)</span>. Determine the acceleration of the bullet (Consider a uniform acceleration). (Ans: <span class="math notranslate nohighlight">\(1.62 \times 10^{5} \ \textrm{ms}^{-1}\)</span>)</p>
 <p><strong>Question 4</strong>:
-The Velocity of a jeep decreases uniformly from <span class="math notranslate nohighlight">\(35 \ \textrm{ms}^{-1}\)</span> and after <span class="math notranslate nohighlight">\(8 \ \textrm{s}\)</span> it becomes <span class="math notranslate nohighlight">\(10 \ \textrm{ms}^{-1}\)</span>. Find the acceleration of the car? (Ans: <span class="math notranslate nohighlight">\(-3.125 \ \textrm{ms}^{-2}\)</span>, You do not have worry about the ‘-‘ sign. It defines the direction as velocity is decreasing)</p>
+The Velocity of a jeep decreases uniformly from <span class="math notranslate nohighlight">\(35 \ \textrm{ms}^{-1}\)</span> and after <span class="math notranslate nohighlight">\(8 \ \textrm{s}\)</span> it becomes <span class="math notranslate nohighlight">\(10 \ \textrm{ms}^{-1}\)</span>. Find the acceleration of the car? (Ans: <span class="math notranslate nohighlight">\(-3.125 \ \textrm{ms}^{-2}\)</span>, You do not have worry about the ‘-’ sign. It defines the direction as velocity is decreasing)</p>
 </div>
 </div>
 <div class="section" id="conclusion">
