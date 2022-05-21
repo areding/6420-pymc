@@ -3,7 +3,7 @@
 
 title: ISYE 6420 - BUGS to PyMC 
 author: Aaron Reding
-# logo: logo.png
+logo: bayeslogo.png
 
 # Force re-execution of notebooks on each build.
 # See https://jupyterbook.org/content/execute.html
@@ -29,9 +29,10 @@ repository:
 html:
   use_issues_button: true
   use_repository_button: true
-  comments:
-    utterances:
-      repo: "areding/6420-pymc"
+  favicon: "favicon/favicon.ico"
+#  comments:
+#    utterances:
+#      repo: "areding/6420-pymc"
 
 launch_buttons:
   colab_url: "https://colab.research.google.com"
@@ -40,3 +41,17 @@ sphinx:
   config:
     html_show_copyright: false
     bibtex_reference_style: author_year
+  extra_extensions:
+    - sphinx_proof
+    
+parse:
+  myst_enable_extensions:
+    - colon_fence
+    - dollarmath
+    - linkify
+    - replacements
+    - smartquotes
+    - substitution
+    - tasklist
+  myst_url_schemes: [mailto, http, https]
+  myst_dmath_double_inline: true

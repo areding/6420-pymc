@@ -1,0 +1,924 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>A Simple Regression &#8212; ISYE 6420 - BUGS to PyMC</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet">
+  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/proof.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/extra.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Why learn Bayesian statistics?" href="../unit2/why-bayesian-statistics.html" />
+    <link rel="prev" title="About this course" href="about-this-course.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../_static/bayeslogo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">ISYE 6420 - BUGS to PyMC</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../intro.html">
+   Introduction
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Unit 1
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="about-this-course.html">
+   About this course
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     A Simple Regression
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Unit 2
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../unit2/why-bayesian-statistics.html">
+   Why learn Bayesian statistics?
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../unit2/Unit2.html">
+     Code for Unit 2
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Unit 3
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../unit3/bayes-theorem.html">
+   Bayes’ theorem
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <label for="toctree-checkbox-3">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../unit3/Unit3-Alarm.html">
+     Alarm
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../unit3/Unit3-ManufacturingBayes.html">
+     Manufacturing Bayes
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../unit3/Unit3-TwoHeadedCoin.html">
+     Two-headed Coin
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Unit 4
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../unit4/bayesian-inference.html">
+   Bayesian inference
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+  <label for="toctree-checkbox-4">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../unit4/Unit4-BetaPriors.html">
+     Beta plots
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../unit4/Unit4-GammaGamma.html">
+     Gamma Gamma
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../unit4/Unit4-eBay.html">
+     eBay Purchase Example
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Unit 5
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../unit5/bayesian-computation.html">
+   Bayesian computation
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+  <label for="toctree-checkbox-5">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../unit5/Unit5-Gibbs3.html">
+     Gibbs Sampler Example 3: Disasters
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../unit5/Unit5-GibbsSampler.html">
+     Gibbs Sampler Example 1
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../unit5/Unit5-LaplacesMethod.html">
+     Laplace’s Method
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../unit5/Unit5-MetropolisHastings.html">
+     Metropolis-Hastings Example 1
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../unit5/Unit5-MetropolisHastings2.html">
+     Metropolis-Hastings Example 2
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../unit5/Unit5-PumpsMCMC.html">
+     Gibbs Sampler Example 2: Pumps
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Unit 6
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../unit6/probabilistic-programming.html">
+   Probabilistic programming languages
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
+  <label for="toctree-checkbox-6">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../unit6/Unit6-DeMere.html">
+     Demere
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../unit6/Unit6-cheese.html">
+     Taste of Cheese
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../unit6/Unit6-dugongs.html">
+     Dugongs: Dealing with Missing Data
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../unit6/Unit6-equivalence.html">
+     Equivalence of Generic and Brand-Name Drugs
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../unit6/Unit6-exponential.html">
+     Bartholomew (1957) for Type I censoring
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../unit6/Unit6-psoriasis.html">
+     Psoriasis: Two sample problem with paired data
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../unit6/Unit6-stressacids.html">
+     Stress, Diet and Plasma Acids
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../unit6/Unit6-zerotrickJeremy.html">
+     Jeremy with Zero Tricks
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Unit 7
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../unit7/models.html">
+   Models
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
+  <label for="toctree-checkbox-7">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../unit7/Unit7-ants.html">
+     Ants
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../unit7/Unit7-arrhythmia.html">
+     Arrhythmia
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../unit7/Unit7-fat.html">
+     Brozek index prediction
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Unit 8
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../unit8/missing-censoring-tte.html">
+   Missing data, censoring, and time-to-event models
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/>
+  <label for="toctree-checkbox-8">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../unit8/Unit8-gastric.html">
+     Gastric cancer example
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../unit8/Unit8-rats.html">
+     Rats
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Unit 9
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../unit9/fit-selection-diagnostics.html">
+   Model fit, selection, and diagnostics
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/>
+  <label for="toctree-checkbox-9">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="simple">
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Unit 10
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../unit10/case-studies.html">
+   Case studies
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/>
+  <label for="toctree-checkbox-10">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="simple">
+  </ul>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/unit1/Unit1-simple-regression.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/areding/6420-pymc"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/areding/6420-pymc/issues/new?title=Issue%20on%20page%20%2Funit1/Unit1-simple-regression.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/areding/6420-pymc/main?urlpath=tree/unit1/Unit1-simple-regression.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        <a class="colab-button" href="https://colab.research.google.com/github/areding/6420-pymc/blob/main/unit1/Unit1-simple-regression.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
+                title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
+                    src="../_static/images/logo_colab.png"
+                    alt="Interact on Colab">Colab</button></a>
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+            
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>A Simple Regression</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                    </div>
+                </div>
+            </div>
+            
+              <div>
+                
+  <div class="cell tag_hide_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">warnings</span> <span class="kn">import</span> <span class="n">filterwarnings</span>
+
+<span class="kn">import</span> <span class="nn">arviz</span> <span class="k">as</span> <span class="nn">az</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pymc3</span> <span class="k">as</span> <span class="nn">pm</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LinearRegression</span>
+
+<span class="n">az</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s2">&quot;arviz-darkgrid&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>WARNING (theano.link.c.cmodule): install mkl with `conda install mkl-service`: No module named &#39;mkl&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_hide_cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="tex2jax_ignore mathjax_ignore section" id="a-simple-regression">
+<h1>A Simple Regression<a class="headerlink" href="#a-simple-regression" title="Permalink to this headline">¶</a></h1>
+<p>From <a class="reference external" href="https://www2.isye.gatech.edu/isye6420/supporting.html">Codes for Unit 1</a>.</p>
+<p>Associated lecture video: <a class="reference external" href="https://www.youtube.com/watch?v=c9VXDzJGmNw&amp;list=PLv0FeK5oXK4l-RdT6DWJj0_upJOG2WKNO&amp;index=4">Unit 1 Lesson 4</a></p>
+<p>You don’t necessarily need to set inits in PyMC. The default method of generating inits is ‘jitter+adapt_diag’, which chooses them based on the model and input data while adding some randomness.</p>
+<p>If you do want to set an initial value, pass a dictionary to the start parameter of pm.sample.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">inits</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;alpha&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="mf">0.0</span><span class="p">),</span>
+    <span class="s2">&quot;beta&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">2000</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="n">inits</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="cell tag_hide_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
+<span class="n">x_bar</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">m</span><span class="p">:</span>
+    <span class="c1"># priors</span>
+    <span class="n">alpha</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;alpha&quot;</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+    <span class="n">beta</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;beta&quot;</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+    <span class="c1"># using precision for direct comparison with BUGS output</span>
+    <span class="n">tau</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Gamma</span><span class="p">(</span><span class="s2">&quot;tau&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span>
+    <span class="n">sigma</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">pm</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">tau</span><span class="p">)</span>
+
+    <span class="n">mu</span> <span class="o">=</span> <span class="n">alpha</span> <span class="o">+</span> <span class="n">beta</span> <span class="o">*</span> <span class="p">(</span><span class="n">X</span> <span class="o">-</span> <span class="n">x_bar</span><span class="p">)</span>
+    <span class="n">likelihood</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;likelihood&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span> <span class="n">sd</span><span class="o">=</span><span class="n">sigma</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
+
+    <span class="c1"># start sampling</span>
+    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span>
+        <span class="mi">3000</span><span class="p">,</span>  <span class="c1"># samples</span>
+        <span class="n">chains</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+        <span class="n">tune</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span>
+        <span class="n">init</span><span class="o">=</span><span class="s2">&quot;jitter+adapt_diag&quot;</span><span class="p">,</span>
+        <span class="n">random_seed</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">cores</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>  <span class="c1"># parallel processing of chains</span>
+        <span class="n">return_inferencedata</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>  <span class="c1"># return arviz inferencedata object</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Auto-assigning NUTS sampler...
+Initializing NUTS using jitter+adapt_diag...
+Multiprocess sampling (4 chains in 4 jobs)
+NUTS: [tau, beta, alpha]
+WARNING (theano.link.c.cmodule): install mkl with `conda install mkl-service`: No module named &#39;mkl&#39;
+WARNING (theano.link.c.cmodule): install mkl with `conda install mkl-service`: No module named &#39;mkl&#39;
+WARNING (theano.link.c.cmodule): install mkl with `conda install mkl-service`: No module named &#39;mkl&#39;
+WARNING (theano.link.c.cmodule): install mkl with `conda install mkl-service`: No module named &#39;mkl&#39;
+</pre></div>
+</div>
+<div class="output text_html">
+<div>
+    <style>
+        /* Turns off some styling */
+        progress {
+            /* gets rid of default border in Firefox and Opera. */
+            border: none;
+            /* Needs to be in here for Safari polyfill so background images work as expected. */
+            background-size: auto;
+        }
+        .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+            background: #F44336;
+        }
+    </style>
+  <progress value='14000' class='' max='14000' style='width:300px; height:20px; vertical-align: middle;'></progress>
+  100.00% [14000/14000 00:01<00:00 Sampling 4 chains, 0 divergences]
+</div>
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc3_test/lib/python3.9/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
+  return _boost._beta_ppf(q, a, b)
+/Users/aaron/mambaforge/envs/pymc3_test/lib/python3.9/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
+  return _boost._beta_ppf(q, a, b)
+/Users/aaron/mambaforge/envs/pymc3_test/lib/python3.9/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
+  return _boost._beta_ppf(q, a, b)
+/Users/aaron/mambaforge/envs/pymc3_test/lib/python3.9/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
+  return _boost._beta_ppf(q, a, b)
+Sampling 4 chains for 500 tune and 3_000 draw iterations (2_000 + 12_000 draws total) took 10 seconds.
+The number of effective samples is smaller than 25% for some parameters.
+</pre></div>
+</div>
+</div>
+</div>
+<p>PyMC3 uses the tuning step specified in the pm.sample call to adjust various parameters in the No-U-Turn Sampler <a class="reference external" href="https://arxiv.org/abs/1111.4246">(NUTS) algorithm</a>, which is a form of Hamiltonian Monte Carlo. BUGS also silently uses different types of tuning depending on the algorithm it <a class="reference external" href="https://www.york.ac.uk/depts/maths/histstat/pml1/bayes/winbugsinfo/cowles_winbugs.pdf">chooses</a>. The professor often burns some number of samples in his examples. Note that this is separate from the tuning phase for both programs!</p>
+<p>For some more detail on tuning, see <a class="reference external" href="https://colcarroll.github.io/hmc_tuning_talk/">this post</a>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># this burns the first 500 samples</span>
+<span class="n">trace_burned</span> <span class="o">=</span> <span class="n">trace</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">draw</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="mi">500</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Arviz has a variety of functions to view the results of the model. One of the most useful is az.summary. Professor Vidakovic arbitrarily asks for the 95% credible set (also called the highest density interval), so we can specify hdi_prob=.95 to get that. This is the HPD, or minimum-width, credible set.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace_burned</span><span class="p">,</span> <span class="n">hdi_prob</span><span class="o">=</span><span class="mf">0.95</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mean</th>
+      <th>sd</th>
+      <th>hdi_2.5%</th>
+      <th>hdi_97.5%</th>
+      <th>mcse_mean</th>
+      <th>mcse_sd</th>
+      <th>ess_bulk</th>
+      <th>ess_tail</th>
+      <th>r_hat</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>alpha</th>
+      <td>3.003</td>
+      <td>0.546</td>
+      <td>2.004</td>
+      <td>4.116</td>
+      <td>0.010</td>
+      <td>0.007</td>
+      <td>4288.0</td>
+      <td>3096.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>beta</th>
+      <td>0.799</td>
+      <td>0.431</td>
+      <td>0.017</td>
+      <td>1.616</td>
+      <td>0.008</td>
+      <td>0.006</td>
+      <td>4422.0</td>
+      <td>2664.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>tau</th>
+      <td>1.907</td>
+      <td>1.562</td>
+      <td>0.003</td>
+      <td>5.015</td>
+      <td>0.031</td>
+      <td>0.022</td>
+      <td>2106.0</td>
+      <td>2440.0</td>
+      <td>1.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>You can also get the HDIs directly:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">hdi</span><span class="p">(</span><span class="n">trace_burned</span><span class="p">,</span> <span class="n">hdi_prob</span><span class="o">=</span><span class="mf">0.95</span><span class="p">)[</span><span class="s2">&quot;beta&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([0.01692589, 1.6158758 ])
+</pre></div>
+</div>
+</div>
+</div>
+<p>There are a variety of plots available. Commonly used to diagnose problems are the trace (see <a class="reference external" href="https://jpreszler.rbind.io/post/2019-09-28-bad-traceplots/">When Traceplots go Bad</a>) and rank plots (see the Maybe it’s time to let traceplots die section from <a class="reference external" href="https://statmodeling.stat.columbia.edu/2019/03/19/maybe-its-time-to-let-the-old-ways-die-or-we-broke-r-hat-so-now-we-have-to-fix-it/">this post</a>).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">plot_trace</span><span class="p">(</span><span class="n">trace_burned</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/Unit1-simple-regression_11_0.png" src="../_images/Unit1-simple-regression_11_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">plot_rank</span><span class="p">(</span><span class="n">trace_burned</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/Unit1-simple-regression_12_0.png" src="../_images/Unit1-simple-regression_12_0.png" />
+</div>
+</div>
+<p>There are many ways to manipulate Arviz <a class="reference external" href="https://arviz-devs.github.io/arviz/api/generated/arviz.InferenceData.html">InferenceData</a> objects to calculate statistics after sampling is complete.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># alpha - beta * x.bar</span>
+<span class="n">intercept</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">trace_burned</span><span class="o">.</span><span class="n">posterior</span><span class="o">.</span><span class="n">alpha</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">-</span> <span class="n">trace_burned</span><span class="o">.</span><span class="n">posterior</span><span class="o">.</span><span class="n">beta</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">*</span> <span class="n">x_bar</span>
+<span class="p">)</span>
+<span class="n">intercept</span><span class="o">.</span><span class="n">values</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array(0.60513275)
+</pre></div>
+</div>
+</div>
+</div>
+<p>OpenBugs results:</p>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>mean</p></th>
+<th class="head"><p>sd</p></th>
+<th class="head"><p>MC_error</p></th>
+<th class="head"><p>val2.5pc</p></th>
+<th class="head"><p>median</p></th>
+<th class="head"><p>val97.5pc</p></th>
+<th class="head"><p>start</p></th>
+<th class="head"><p>sample</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>alpha</p></td>
+<td><p>2.995</p></td>
+<td><p>0.5388</p></td>
+<td><p>0.005863</p></td>
+<td><p>1.947</p></td>
+<td><p>3.008</p></td>
+<td><p>4.015</p></td>
+<td><p>1000</p></td>
+<td><p>9001</p></td>
+</tr>
+<tr class="row-odd"><td><p>beta</p></td>
+<td><p>0.7963</p></td>
+<td><p>0.3669</p></td>
+<td><p>0.003795</p></td>
+<td><p>0.08055</p></td>
+<td><p>0.7936</p></td>
+<td><p>1.526</p></td>
+<td><p>1000</p></td>
+<td><p>9001</p></td>
+</tr>
+<tr class="row-even"><td><p>tau</p></td>
+<td><p>1.88</p></td>
+<td><p>1.524</p></td>
+<td><p>0.02414</p></td>
+<td><p>0.1416</p></td>
+<td><p>1.484</p></td>
+<td><p>5.79</p></td>
+<td><p>1000</p></td>
+<td><p>9001</p></td>
+</tr>
+</tbody>
+</table>
+<p>Sometimes you might want to do a sanity check with classical regression. If your Bayesian regression has noninformative priors, the results should be close.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">reg</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">y</span><span class="p">)</span>
+<span class="c1"># compare with intercept and beta from above</span>
+<span class="n">reg</span><span class="o">.</span><span class="n">intercept_</span><span class="p">,</span> <span class="n">reg</span><span class="o">.</span><span class="n">coef_</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(0.5999999999999996, array([0.8]))
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./unit1"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="about-this-course.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">About this course</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="../unit2/why-bayesian-statistics.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Why learn Bayesian statistics?</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            
+        </div>
+    </div>
+    <footer class="footer">
+  <p>
+    
+      By Aaron Reding<br/>
+    
+  </p>
+</footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>

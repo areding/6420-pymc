@@ -28,6 +28,8 @@
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/proof.css" />
+    <link rel="stylesheet" type="text/css" href="_static/extra.css" />
     <link rel="stylesheet" type="text/css" href="_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
     <link rel="stylesheet" type="text/css" href="_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
     
@@ -42,13 +44,13 @@
     <script src="_static/copybutton.js"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
-    <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
-    <script>
-        const thebe_selector = ".thebe"
-        const thebe_selector_input = "pre"
-        const thebe_selector_output = ".output"
-    </script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
     <script async="async" src="_static/sphinx-thebe.js"></script>
+    <link rel="shortcut icon" href="_static/favicon.ico"/>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -72,6 +74,11 @@
         <div class="navbar-brand-box">
     <a class="navbar-brand text-wrap" href="index.html">
       
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="_static/bayeslogo.png" class="logo" alt="logo">
       
       
       <h1 class="site-logo" id="site-title">ISYE 6420 - BUGS to PyMC</h1>
@@ -95,10 +102,22 @@
  </span>
 </p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="Unit1.html">
-   A Simple Regression
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="unit1/about-this-course.html">
+   About this course
   </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="unit1/Unit1-simple-regression.html">
+     A Simple Regression
+    </a>
+   </li>
+  </ul>
  </li>
 </ul>
 <p aria-level="2" class="caption" role="heading">
@@ -107,10 +126,22 @@
  </span>
 </p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="Unit2.html">
-   Code for Unit 2
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="unit2/why-bayesian-statistics.html">
+   Why learn Bayesian statistics?
   </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="unit2/Unit2.html">
+     Code for Unit 2
+    </a>
+   </li>
+  </ul>
  </li>
 </ul>
 <p aria-level="2" class="caption" role="heading">
@@ -119,20 +150,32 @@
  </span>
 </p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="Unit3-TwoHeadedCoin.html">
-   Two-headed Coin
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="unit3/bayes-theorem.html">
+   Bayes’ theorem
   </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="Unit3-ManufacturingBayes.html">
-   Manufacturing Bayes
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="Unit3-Alarm.html">
-   Alarm
-  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <label for="toctree-checkbox-3">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="unit3/Unit3-Alarm.html">
+     Alarm
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="unit3/Unit3-ManufacturingBayes.html">
+     Manufacturing Bayes
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="unit3/Unit3-TwoHeadedCoin.html">
+     Two-headed Coin
+    </a>
+   </li>
+  </ul>
  </li>
 </ul>
 <p aria-level="2" class="caption" role="heading">
@@ -141,20 +184,32 @@
  </span>
 </p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="Unit4-BetaPriors.html">
-   Beta plots
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="unit4/bayesian-inference.html">
+   Bayesian inference
   </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="Unit4-GammaGamma.html">
-   Gamma Gamma
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="Unit4-eBay.html">
-   eBay Purchase Example
-  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+  <label for="toctree-checkbox-4">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="unit4/Unit4-BetaPriors.html">
+     Beta plots
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="unit4/Unit4-GammaGamma.html">
+     Gamma Gamma
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="unit4/Unit4-eBay.html">
+     eBay Purchase Example
+    </a>
+   </li>
+  </ul>
  </li>
 </ul>
 <p aria-level="2" class="caption" role="heading">
@@ -163,35 +218,47 @@
  </span>
 </p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="Unit5-LaplacesMethod.html">
-   Laplace’s Method
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="unit5/bayesian-computation.html">
+   Bayesian computation
   </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="Unit5-MetropolisHastings.html">
-   Metropolis-Hastings Example 1
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="Unit5-MetropolisHastings2.html">
-   Metropolis-Hastings Example 2
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="Unit5-GibbsSampler.html">
-   Gibbs Sampler Example 1
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="Unit5-PumpsMCMC.html">
-   Gibbs Sampler Example 2: Pumps
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="Unit5-Gibbs3.html">
-   Gibbs Sampler Example 3: Disasters
-  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+  <label for="toctree-checkbox-5">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="unit5/Unit5-Gibbs3.html">
+     Gibbs Sampler Example 3: Disasters
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="unit5/Unit5-GibbsSampler.html">
+     Gibbs Sampler Example 1
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="unit5/Unit5-LaplacesMethod.html">
+     Laplace’s Method
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="unit5/Unit5-MetropolisHastings.html">
+     Metropolis-Hastings Example 1
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="unit5/Unit5-MetropolisHastings2.html">
+     Metropolis-Hastings Example 2
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="unit5/Unit5-PumpsMCMC.html">
+     Gibbs Sampler Example 2: Pumps
+    </a>
+   </li>
+  </ul>
  </li>
 </ul>
 <p aria-level="2" class="caption" role="heading">
@@ -200,45 +267,57 @@
  </span>
 </p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="Unit6-cheese.html">
-   Taste of Cheese
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="unit6/probabilistic-programming.html">
+   Probabilistic programming languages
   </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="Unit6-DeMere.html">
-   Demere
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="Unit6-dugongs.html">
-   Dugongs: Dealing with Missing Data
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="Unit6-equivalence.html">
-   Equivalence of Generic and Brand-Name Drugs
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="Unit6-exponential.html">
-   Bartholomew (1957) for Type I censoring
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="Unit6-psoriasis.html">
-   Psoriasis: Two sample problem with paired data
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="Unit6-stressacids.html">
-   Stress, Diet and Plasma Acids
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="Unit6-zerotrickJeremy.html">
-   Jeremy with Zero Tricks
-  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
+  <label for="toctree-checkbox-6">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="unit6/Unit6-DeMere.html">
+     Demere
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="unit6/Unit6-cheese.html">
+     Taste of Cheese
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="unit6/Unit6-dugongs.html">
+     Dugongs: Dealing with Missing Data
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="unit6/Unit6-equivalence.html">
+     Equivalence of Generic and Brand-Name Drugs
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="unit6/Unit6-exponential.html">
+     Bartholomew (1957) for Type I censoring
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="unit6/Unit6-psoriasis.html">
+     Psoriasis: Two sample problem with paired data
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="unit6/Unit6-stressacids.html">
+     Stress, Diet and Plasma Acids
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="unit6/Unit6-zerotrickJeremy.html">
+     Jeremy with Zero Tricks
+    </a>
+   </li>
+  </ul>
  </li>
 </ul>
 <p aria-level="2" class="caption" role="heading">
@@ -247,15 +326,32 @@
  </span>
 </p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="Unit7-ants.html">
-   Ants
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="unit7/models.html">
+   Models
   </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="Unit7-arrhythmia.html">
-   Arrhythmia
-  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
+  <label for="toctree-checkbox-7">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="unit7/Unit7-ants.html">
+     Ants
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="unit7/Unit7-arrhythmia.html">
+     Arrhythmia
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="unit7/Unit7-fat.html">
+     Brozek index prediction
+    </a>
+   </li>
+  </ul>
  </li>
 </ul>
 <p aria-level="2" class="caption" role="heading">
@@ -264,15 +360,65 @@
  </span>
 </p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="Unit8-rats.html">
-   Rats
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="unit8/missing-censoring-tte.html">
+   Missing data, censoring, and time-to-event models
   </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/>
+  <label for="toctree-checkbox-8">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="unit8/Unit8-gastric.html">
+     Gastric cancer example
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="unit8/Unit8-rats.html">
+     Rats
+    </a>
+   </li>
+  </ul>
  </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="Unit8-gastric.html">
-   Gastric Cancer Data
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Unit 9
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="unit9/fit-selection-diagnostics.html">
+   Model fit, selection, and diagnostics
   </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/>
+  <label for="toctree-checkbox-9">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="simple">
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Unit 10
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="unit10/case-studies.html">
+   Case studies
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/>
+  <label for="toctree-checkbox-10">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="simple">
+  </ul>
  </li>
 </ul>
 
