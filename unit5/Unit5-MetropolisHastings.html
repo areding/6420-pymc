@@ -44,8 +44,6 @@
     <script src="../_static/copybutton.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
-    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
     <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
     <script >
         const thebe_selector = ".thebe"
@@ -603,28 +601,28 @@
 <h1>Metropolis-Hastings Example 1<a class="headerlink" href="#metropolis-hastings-example-1" title="Permalink to this headline">¶</a></h1>
 <p>Adapted from <a class="reference external" href="https://www2.isye.gatech.edu/isye6420/supporting.html">Codes for Unit 5: norcaumet.m</a>.</p>
 <p>Associated lecture video: <a class="reference external" href="https://www.youtube.com/watch?v=hH2VCAgrQEQ&amp;list=PLv0FeK5oXK4l-RdT6DWJj0_upJOG2WKNO&amp;index=43">Unit 5 Lesson 7</a>.</p>
-<p>Let <span class="math notranslate nohighlight">\(f(x)\)</span> be proportional to the target pdf. <span class="math notranslate nohighlight">\(x_j\)</span> is the current value and <span class="math notranslate nohighlight">\(q(x|x_j)\)</span> is a proposal distribution.</p>
+<p>Let $f(x)$ be proportional to the target pdf. $x_j$ is the current value and $q(x|x_j)$ is a proposal distribution.</p>
 <ol class="simple">
-<li><p>Sample <span class="math notranslate nohighlight">\(x_* ∼ q(x|x_j)\)</span>.</p></li>
+<li><p>Sample $x_* ∼ q(x|x_j)$.</p></li>
 <li><p>Calculate the acceptance probability:
-<span class="math notranslate nohighlight">\(ρ(x_j, x_*) = min\left\{1, \frac{f(x_*)}{f(x_j)}\frac{q(x_j|x_*)}{q(x_*|x_j)}\right\}\)</span></p></li>
-<li><p>Update <span class="math notranslate nohighlight">\(x_{j+1} = x_*\)</span> with probability <span class="math notranslate nohighlight">\(ρ(x_j, x_*)\)</span>, otherwise <span class="math notranslate nohighlight">\(x_{j+1}\)</span> remains equal to <span class="math notranslate nohighlight">\(x_j\)</span>.</p></li>
+$ρ(x_j, x_<em>) = min\left{1, \frac{f(x_</em>)}{f(x_j)}\frac{q(x_j|x_<em>)}{q(x_</em>|x_j)}\right}$</p></li>
+<li><p>Update $x_{j+1} = x_<em>$ with probability $ρ(x_j, x_</em>)$, otherwise $x_{j+1}$ remains equal to $x_j$.</p></li>
 </ol>
-<p>There are different variations on the algorithm. They differ when calculating <span class="math notranslate nohighlight">\(ρ\)</span>.</p>
+<p>There are different variations on the algorithm. They differ when calculating $ρ$.</p>
 <ul class="simple">
 <li><p>Random-walk Metropolis:</p>
 <ul>
-<li><p>If <span class="math notranslate nohighlight">\(q\)</span> is symmetric, then you can simplify the acceptance probability to <span class="math notranslate nohighlight">\(ρ(x_j, x_*) = min\left\{1, \frac{f(x_*)}{f(x_j)}\right\}\)</span></p></li>
+<li><p>If $q$ is symmetric, then you can simplify the acceptance probability to $ρ(x_j, x_<em>) = min\left{1, \frac{f(x_</em>)}{f(x_j)}\right}$</p></li>
 </ul>
 </li>
 <li><p>Independent Metropolis-Hastings:</p>
 <ul>
-<li><p>If <span class="math notranslate nohighlight">\(q\)</span> is independent, then the acceptance probability is <span class="math notranslate nohighlight">\(ρ(x_j, x_*) = min\left\{1, \frac{f(x_*)}{f(x_j)}\frac{q(x_j)}{q(x_*)}\right\}\)</span></p></li>
+<li><p>If $q$ is independent, then the acceptance probability is $ρ(x_j, x_<em>) = min\left{1, \frac{f(x_</em>)}{f(x_j)}\frac{q(x_j)}{q(x_*)}\right}$</p></li>
 </ul>
 </li>
 </ul>
 <p>For this example:</p>
-<p><span class="math notranslate nohighlight">\(X|\theta~\sim{N}(\theta, 1)\)</span> and <span class="math notranslate nohighlight">\(\theta~\sim {\rm Cauchy}(0, 1)\)</span></p>
+<p>$X|\theta~\sim{N}(\theta, 1)$ and $\theta~\sim {\rm Cauchy}(0, 1)$</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
