@@ -570,6 +570,24 @@
         <!-- Table of contents -->
         <div class="d-none d-md-block col-md-2 bd-toc show noprint">
             
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#associated-lecture-video-unit-6-lesson-7">
+   Associated lecture video: Unit 6 Lesson 7
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#problem-statement">
+   Problem statement
+  </a>
+ </li>
+</ul>
+
+            </nav>
         </div>
     </div>
 </div>
@@ -582,6 +600,24 @@
                 <div id="print-main-content">
                     <div id="jb-print-toc">
                         
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#associated-lecture-video-unit-6-lesson-7">
+   Associated lecture video: Unit 6 Lesson 7
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#problem-statement">
+   Problem statement
+  </a>
+ </li>
+</ul>
+
+                        </nav>
                     </div>
                 </div>
             </div>
@@ -593,21 +629,37 @@
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">arviz</span> <span class="k">as</span> <span class="nn">az</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">pymc3</span> <span class="k">as</span> <span class="nn">pm</span>
-<span class="kn">from</span> <span class="nn">pymc3.math</span> <span class="kn">import</span> <span class="n">switch</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>WARNING (theano.link.c.cmodule): install mkl with `conda install mkl-service`: No module named &#39;mkl&#39;
+<span class="kn">import</span> <span class="nn">pymc</span> <span class="k">as</span> <span class="nn">pm</span>
+<span class="kn">from</span> <span class="nn">pymc.math</span> <span class="kn">import</span> <span class="n">switch</span>
+
+<span class="o">%</span><span class="k">load_ext</span> watermark
+<span class="o">%</span><span class="k">load_ext</span> lab_black
 </pre></div>
 </div>
 </div>
 </div>
 <div class="section" id="psoriasis-two-sample-problem-with-paired-data">
 <h1>Psoriasis: Two sample problem with paired data<a class="headerlink" href="#psoriasis-two-sample-problem-with-paired-data" title="Permalink to this headline">¶</a></h1>
-<p>Adapted from <a class="reference external" href="https://www2.isye.gatech.edu/isye6420/supporting.html">Codes for Unit 6: psoriasis.odc</a>.</p>
-<p>Associated lecture video: <a class="reference external" href="https://www.youtube.com/watch?v=aF1whV0brtw&amp;list=PLv0FeK5oXK4l-RdT6DWJj0_upJOG2WKNO&amp;index=58">Unit 6 Lesson 7</a>.</p>
+<p>This is our first example of hypothesis testing.</p>
+<p>Adapted from <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/original_examples/Codes4Unit6/psoriasis.odc">Codes for Unit 6: psoriasis.odc</a>.</p>
+<div class="section" id="associated-lecture-video-unit-6-lesson-7">
+<h2>Associated lecture video: Unit 6 Lesson 7<a class="headerlink" href="#associated-lecture-video-unit-6-lesson-7" title="Permalink to this headline">¶</a></h2>
+<div class="cell tag_hide_input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%html</span>
+<span class="p">&lt;</span><span class="nt">iframe</span> <span class="na">width</span><span class="o">=</span><span class="s">&quot;560&quot;</span> <span class="na">height</span><span class="o">=</span><span class="s">&quot;315&quot;</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;https://www.youtube.com/embed?v=aF1whV0brtw&amp;list=PLv0FeK5oXK4l-RdT6DWJj0_upJOG2WKNO&amp;index=58</span>
+<span class="s">&quot;</span> <span class="na">frameborder</span><span class="o">=</span><span class="s">&quot;0&quot;</span> <span class="na">allow</span><span class="o">=</span><span class="s">&quot;autoplay; encrypted-media&quot;</span> <span class="na">allowfullscreen</span><span class="p">&gt;&lt;/</span><span class="nt">iframe</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><iframe width="560" height="315" src="https://www.youtube.com/embed?v=aF1whV0brtw&list=PLv0FeK5oXK4l-RdT6DWJj0_upJOG2WKNO&index=58
+" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+</div></div>
+</div>
+</div>
+<div class="section" id="problem-statement">
+<h2>Problem statement<a class="headerlink" href="#problem-statement" title="Permalink to this headline">¶</a></h2>
 <p>Woo and McKenna (2003) investigated the effect of broadband ultraviolet B (UVB) therapy and topical calcipotriol cream used together on areas of psoriasis. One of the outcome variables is the Psoriasis Area and Severity Index (PASI), where a lower score is better.</p>
 <p>The PASI scores for 20 subjects are measured at baseline and after 8 treatments.  Do these data provide sufficient evidence to indicate that the combination therapy reduces PASI scores?</p>
 <p>Classical Analysis:</p>
@@ -623,13 +675,14 @@
 </pre></div>
 </div>
 <hr class="docutils" />
-<p>See <a class="reference external" href="https://areding.github.io/6420-pymc/Unit6-stressacids.html">Unit 6: Stress, Diet and Plasma Acids</a> to find out more about converting the BUGS step function.</p>
+<p>See <a class="reference external" href="https://areding.github.io/6420-pymc/unit6/Unit6-stressacids.html">Unit 6: Stress, Diet and Plasma Acids</a> to find out more about recreating the BUGS step function.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># fmt: off</span>
 <span class="n">baseline</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">((</span><span class="mf">5.9</span><span class="p">,</span> <span class="mf">7.6</span><span class="p">,</span> <span class="mf">12.8</span><span class="p">,</span> <span class="mf">16.5</span><span class="p">,</span> <span class="mf">6.1</span><span class="p">,</span> <span class="mf">14.4</span><span class="p">,</span> <span class="mf">6.6</span><span class="p">,</span> <span class="mf">5.4</span><span class="p">,</span> <span class="mf">9.6</span><span class="p">,</span> <span class="mf">11.6</span><span class="p">,</span> 
                      <span class="mf">11.1</span><span class="p">,</span> <span class="mf">15.6</span><span class="p">,</span> <span class="mf">9.6</span><span class="p">,</span> <span class="mf">15.2</span><span class="p">,</span> <span class="mf">21.0</span><span class="p">,</span> <span class="mf">5.9</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">,</span> <span class="mf">12.2</span><span class="p">,</span> <span class="mf">20.2</span><span class="p">,</span> 
                      <span class="mf">6.2</span><span class="p">))</span>
+
 <span class="n">after</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">((</span><span class="mf">5.2</span><span class="p">,</span> <span class="mf">12.2</span><span class="p">,</span> <span class="mf">4.6</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">3.8</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">3.1</span><span class="p">,</span> <span class="mf">3.5</span><span class="p">,</span> <span class="mf">4.9</span><span class="p">,</span> <span class="mf">11.1</span><span class="p">,</span>
                   <span class="mf">8.4</span><span class="p">,</span> <span class="mf">5.8</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mf">6.4</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">2.7</span><span class="p">,</span> <span class="mf">5.1</span><span class="p">,</span> <span class="mf">4.8</span><span class="p">,</span> <span class="mf">4.2</span><span class="p">))</span>
 <span class="c1"># fmt: on</span>
@@ -665,41 +718,39 @@
 <div class="cell_output docutils container">
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Auto-assigning NUTS sampler...
 Initializing NUTS using jitter+adapt_diag...
+/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/pymc/aesaraf.py:996: UserWarning: The parameter &#39;updates&#39; of aesara.function() expects an OrderedDict, got &lt;class &#39;dict&#39;&gt;. Using a standard dictionary here results in non-deterministic behavior. You should use an OrderedDict if you are using Python 2.7 (collections.OrderedDict for older python), or use a list of (shared, update) pairs. Do not just convert your dictionary to this type before the call as the conversion will still be non-deterministic.
+  aesara_function = aesara.function(
 Multiprocess sampling (4 chains in 4 jobs)
-NUTS: [prec, mu]
-WARNING (theano.link.c.cmodule): install mkl with `conda install mkl-service`: No module named &#39;mkl&#39;
-WARNING (theano.link.c.cmodule): install mkl with `conda install mkl-service`: No module named &#39;mkl&#39;
-WARNING (theano.link.c.cmodule): install mkl with `conda install mkl-service`: No module named &#39;mkl&#39;
-WARNING (theano.link.c.cmodule): install mkl with `conda install mkl-service`: No module named &#39;mkl&#39;
+NUTS: [mu, prec]
 </pre></div>
 </div>
 <div class="output text_html">
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div><div class="output text_html">
 <div>
-    <style>
-        /* Turns off some styling */
-        progress {
-            /* gets rid of default border in Firefox and Opera. */
-            border: none;
-            /* Needs to be in here for Safari polyfill so background images work as expected. */
-            background-size: auto;
-        }
-        .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
-            background: #F44336;
-        }
-    </style>
   <progress value='42000' class='' max='42000' style='width:300px; height:20px; vertical-align: middle;'></progress>
   100.00% [42000/42000 00:03<00:00 Sampling 4 chains, 0 divergences]
 </div>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc3_test/lib/python3.9/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
   return _boost._beta_ppf(q, a, b)
-/Users/aaron/mambaforge/envs/pymc3_test/lib/python3.9/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
+/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
   return _boost._beta_ppf(q, a, b)
-/Users/aaron/mambaforge/envs/pymc3_test/lib/python3.9/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
+/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
   return _boost._beta_ppf(q, a, b)
-/Users/aaron/mambaforge/envs/pymc3_test/lib/python3.9/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
+/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
   return _boost._beta_ppf(q, a, b)
-Sampling 4 chains for 500 tune and 10_000 draw iterations (2_000 + 40_000 draws total) took 13 seconds.
-The acceptance probability does not match the target. It is 0.8831827327620895, but should be close to 0.8. Try to increase the number of tuning steps.
+Sampling 4 chains for 500 tune and 10_000 draw iterations (2_000 + 40_000 draws total) took 11 seconds.
 </pre></div>
 </div>
 </div>
@@ -711,10 +762,6 @@ The acceptance probability does not match the target. It is 0.8831827327620895, 
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc3_test/lib/python3.9/site-packages/arviz/stats/diagnostics.py:561: RuntimeWarning: invalid value encountered in double_scalars
-  (between_chain_variance / within_chain_variance + num_samples - 1) / (num_samples)
-</pre></div>
-</div>
 <div class="output text_html"><div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
@@ -748,38 +795,38 @@ The acceptance probability does not match the target. It is 0.8831827327620895, 
     <tr>
       <th>mu</th>
       <td>6.357</td>
-      <td>1.187</td>
-      <td>4.041</td>
-      <td>8.726</td>
+      <td>1.169</td>
+      <td>4.019</td>
+      <td>8.641</td>
       <td>0.007</td>
       <td>0.005</td>
-      <td>28662.0</td>
-      <td>23288.0</td>
+      <td>28710.0</td>
+      <td>24581.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>sigma</th>
-      <td>5.137</td>
-      <td>0.903</td>
-      <td>3.563</td>
-      <td>6.915</td>
+      <td>5.132</td>
+      <td>0.898</td>
+      <td>3.521</td>
+      <td>6.896</td>
       <td>0.006</td>
       <td>0.004</td>
-      <td>26302.0</td>
-      <td>24795.0</td>
+      <td>24297.0</td>
+      <td>21512.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>ph1</th>
       <td>1.000</td>
-      <td>0.000</td>
+      <td>0.005</td>
       <td>1.000</td>
       <td>1.000</td>
       <td>0.000</td>
       <td>0.000</td>
+      <td>40016.0</td>
       <td>40000.0</td>
-      <td>40000.0</td>
-      <td>NaN</td>
+      <td>1.0</td>
     </tr>
   </tbody>
 </table>
@@ -842,6 +889,26 @@ The acceptance probability does not match the target. It is 0.8831827327620895, 
 </tr>
 </tbody>
 </table>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">watermark</span> --iversions -v
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Python implementation: CPython
+Python version       : 3.10.4
+IPython version      : 8.3.0
+
+numpy     : 1.22.3
+matplotlib: 3.5.2
+arviz     : 0.12.1
+pymc      : 4.0.0b5
+</pre></div>
+</div>
+</div>
+</div>
+</div>
 </div>
 
     <script type="text/x-thebe-config">

@@ -570,6 +570,24 @@
         <!-- Table of contents -->
         <div class="d-none d-md-block col-md-2 bd-toc show noprint">
             
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#associated-lecture-video-unit-6-lesson-10">
+   Associated lecture video: Unit 6 Lesson 10
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#problem-statement">
+   Problem statement
+  </a>
+ </li>
+</ul>
+
+            </nav>
         </div>
     </div>
 </div>
@@ -582,6 +600,24 @@
                 <div id="print-main-content">
                     <div id="jb-print-toc">
                         
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#associated-lecture-video-unit-6-lesson-10">
+   Associated lecture video: Unit 6 Lesson 10
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#problem-statement">
+   Problem statement
+  </a>
+ </li>
+</ul>
+
+                        </nav>
                     </div>
                 </div>
             </div>
@@ -593,20 +629,38 @@
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">arviz</span> <span class="k">as</span> <span class="nn">az</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">pymc3</span> <span class="k">as</span> <span class="nn">pm</span>
-<span class="kn">from</span> <span class="nn">pymc3.math</span> <span class="kn">import</span> <span class="n">log</span><span class="p">,</span> <span class="n">sqr</span>
+<span class="kn">import</span> <span class="nn">pymc</span> <span class="k">as</span> <span class="nn">pm</span>
+<span class="kn">from</span> <span class="nn">pymc.math</span> <span class="kn">import</span> <span class="n">log</span><span class="p">,</span> <span class="n">sqr</span>
+
+<span class="o">%</span><span class="k">load_ext</span> watermark
+<span class="o">%</span><span class="k">load_ext</span> lab_black
 </pre></div>
 </div>
 </div>
 </div>
 <div class="section" id="jeremy-with-zero-tricks">
 <h1>Jeremy with Zero Tricks<a class="headerlink" href="#jeremy-with-zero-tricks" title="Permalink to this headline">¶</a></h1>
-<p>Adapted from <a class="reference external" href="https://www2.isye.gatech.edu/isye6420/supporting.html">Codes for Unit 6: zerotrickjeremy.odc</a>.</p>
-<p>Associated lecture video: <a class="reference external" href="https://www.youtube.com/watch?v=wilCD0fSv20&amp;list=PLv0FeK5oXK4l-RdT6DWJj0_upJOG2WKNO&amp;index=61">Unit 6 Lesson 10</a>.</p>
+<p>This introduces the “zero trick”, which I’m still not sure if we’ll ever need. Including for completeness’ sake.</p>
+<p>Adapted from <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/original_examples/Codes4Unit6/zerotrickjeremy.odc">Codes for Unit 6: zerotrickjeremy.odc</a>.</p>
+<div class="section" id="associated-lecture-video-unit-6-lesson-10">
+<h2>Associated lecture video: Unit 6 Lesson 10<a class="headerlink" href="#associated-lecture-video-unit-6-lesson-10" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%html</span>
+<span class="p">&lt;</span><span class="nt">iframe</span> <span class="na">width</span><span class="o">=</span><span class="s">&quot;560&quot;</span> <span class="na">height</span><span class="o">=</span><span class="s">&quot;315&quot;</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;https://www.youtube.com/embed?v=t4pHpZxtC0U&amp;list=PLv0FeK5oXK4l-RdT6DWJj0_upJOG2WKNO&amp;index=61&quot;</span> <span class="na">frameborder</span><span class="o">=</span><span class="s">&quot;0&quot;</span> <span class="na">allow</span><span class="o">=</span><span class="s">&quot;autoplay; encrypted-media&quot;</span> <span class="na">allowfullscreen</span><span class="p">&gt;&lt;/</span><span class="nt">iframe</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><iframe width="560" height="315" src="https://www.youtube.com/embed?v=t4pHpZxtC0U&list=PLv0FeK5oXK4l-RdT6DWJj0_upJOG2WKNO&index=61" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+</div></div>
+</div>
+</div>
+<div class="section" id="problem-statement">
+<h2>Problem statement<a class="headerlink" href="#problem-statement" title="Permalink to this headline">¶</a></h2>
 <p>There’s a running example in the lectures about Jeremy testing his IQ. At some point I will track all those down and add links here, but for now I’m just going to port the code.</p>
 <p>I’m not sure what’s going on when the professor sets <code class="docutils literal notranslate"><span class="pre">z1</span></code> as both a deterministic and random variable. I’ll need to test some things out in BUGS once the Citrix virtual machines are back online. For now, here’s a first pass at recreating the model, where I interpret the <code class="docutils literal notranslate"><span class="pre">z</span> <span class="pre">&lt;-</span> <span class="pre">0</span></code> as feeding an observation of zero to the variable.</p>
 <p>That said, I don’t think we will ever need to use the zeros or ones tricks in the homeworks. If we do I will definitely expand this page.</p>
-<p>I played around with using Greek letters as variable names for this example. Not sure if I’ll continue doing so, but it’s really easy in Jupyter Lab. Just type \theta and hit TAB in a code cell.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y</span> <span class="o">=</span> <span class="mi">98</span>
@@ -636,10 +690,10 @@
         <span class="n">chains</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
         <span class="n">cores</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
         <span class="n">tune</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
-        <span class="n">init</span><span class="o">=</span><span class="s2">&quot;jitter+adapt_diag&quot;</span><span class="p">,</span>
         <span class="n">random_seed</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
         <span class="n">return_inferencedata</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="n">start</span><span class="o">=</span><span class="n">inits</span><span class="p">,</span>
+        <span class="n">initvals</span><span class="o">=</span><span class="n">inits</span><span class="p">,</span>
+        <span class="n">target_accept</span><span class="o">=</span><span class="mf">0.88</span><span class="p">,</span>
     <span class="p">)</span>
 </pre></div>
 </div>
@@ -649,38 +703,35 @@
 Initializing NUTS using jitter+adapt_diag...
 Multiprocess sampling (4 chains in 4 jobs)
 NUTS: [θ]
-WARNING (theano.link.c.cmodule): install mkl with `conda install mkl-service`: No module named &#39;mkl&#39;
-WARNING (theano.link.c.cmodule): install mkl with `conda install mkl-service`: No module named &#39;mkl&#39;
-WARNING (theano.link.c.cmodule): install mkl with `conda install mkl-service`: No module named &#39;mkl&#39;
-WARNING (theano.link.c.cmodule): install mkl with `conda install mkl-service`: No module named &#39;mkl&#39;
 </pre></div>
 </div>
 <div class="output text_html">
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div><div class="output text_html">
 <div>
-    <style>
-        /* Turns off some styling */
-        progress {
-            /* gets rid of default border in Firefox and Opera. */
-            border: none;
-            /* Needs to be in here for Safari polyfill so background images work as expected. */
-            background-size: auto;
-        }
-        .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
-            background: #F44336;
-        }
-    </style>
   <progress value='44000' class='' max='44000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-  100.00% [44000/44000 00:02<00:00 Sampling 4 chains, 0 divergences]
+  100.00% [44000/44000 00:03<00:00 Sampling 4 chains, 0 divergences]
 </div>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc3_test/lib/python3.9/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
   return _boost._beta_ppf(q, a, b)
-/Users/aaron/mambaforge/envs/pymc3_test/lib/python3.9/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
+/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
   return _boost._beta_ppf(q, a, b)
-/Users/aaron/mambaforge/envs/pymc3_test/lib/python3.9/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
+/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
   return _boost._beta_ppf(q, a, b)
-/Users/aaron/mambaforge/envs/pymc3_test/lib/python3.9/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
+/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
   return _boost._beta_ppf(q, a, b)
-Sampling 4 chains for 1_000 tune and 10_000 draw iterations (4_000 + 40_000 draws total) took 10 seconds.
+Sampling 4 chains for 1_000 tune and 10_000 draw iterations (4_000 + 40_000 draws total) took 9 seconds.
 </pre></div>
 </div>
 </div>
@@ -724,38 +775,38 @@ Sampling 4 chains for 1_000 tune and 10_000 draw iterations (4_000 + 40_000 draw
   <tbody>
     <tr>
       <th>θ</th>
-      <td>102.802</td>
-      <td>6.978</td>
-      <td>89.121</td>
-      <td>116.371</td>
-      <td>0.053</td>
-      <td>0.037</td>
-      <td>17683.0</td>
-      <td>26654.0</td>
+      <td>102.740</td>
+      <td>6.992</td>
+      <td>89.332</td>
+      <td>116.583</td>
+      <td>0.058</td>
+      <td>0.041</td>
+      <td>14393.0</td>
+      <td>22941.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>λ1</th>
-      <td>1002.639</td>
-      <td>0.598</td>
+      <td>1002.637</td>
+      <td>0.597</td>
       <td>1002.191</td>
-      <td>1003.868</td>
-      <td>0.004</td>
+      <td>1003.847</td>
+      <td>0.005</td>
       <td>0.003</td>
-      <td>18213.0</td>
-      <td>28757.0</td>
+      <td>17220.0</td>
+      <td>23150.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>λ2</th>
-      <td>1002.812</td>
-      <td>0.508</td>
+      <td>1002.817</td>
+      <td>0.512</td>
       <td>1002.394</td>
-      <td>1003.834</td>
+      <td>1003.862</td>
       <td>0.004</td>
       <td>0.003</td>
-      <td>17736.0</td>
-      <td>26460.0</td>
+      <td>15742.0</td>
+      <td>23355.0</td>
       <td>1.0</td>
     </tr>
   </tbody>
@@ -764,6 +815,26 @@ Sampling 4 chains for 1_000 tune and 10_000 draw iterations (4_000 + 40_000 draw
 </div>
 <p>Again, it’s not clear to me what BUGS is doing, but these PyMC results are almost exactly the same as the professor’s results so this must be close. I have also tried passing vectors of zeros to each <code class="docutils literal notranslate"><span class="pre">z</span></code>, putting more weight on the zero “observations.” This ended up reducing the credible interval and standard deviation of theta.</p>
 <p>I found <a class="reference external" href="http://www.medicine.mcgill.ca/epidemiology/Joseph/courses/common/Tricks.html">this page</a> that briefly mentions the same trick. They note that “… this method can be very inefficient and give a very high MC error.”</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">watermark</span> --iversions -v
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Python implementation: CPython
+Python version       : 3.10.4
+IPython version      : 8.3.0
+
+pymc      : 4.0.0b5
+arviz     : 0.12.1
+matplotlib: 3.5.2
+numpy     : 1.22.3
+</pre></div>
+</div>
+</div>
+</div>
+</div>
 </div>
 
     <script type="text/x-thebe-config">
