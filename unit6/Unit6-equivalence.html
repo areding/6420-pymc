@@ -55,7 +55,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Bartholomew (1957) for Type I censoring" href="Unit6-exponential.html" />
-    <link rel="prev" title="Dugongs: Dealing with Missing Data" href="Unit6-dugongs.html" />
+    <link rel="prev" title="Dugongs" href="Unit6-dugongs.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -287,7 +287,7 @@
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="Unit6-dugongs.html">
-     Dugongs: Dealing with Missing Data
+     Dugongs
     </a>
    </li>
    <li class="toctree-l2 current active">
@@ -570,6 +570,24 @@
         <!-- Table of contents -->
         <div class="d-none d-md-block col-md-2 bd-toc show noprint">
             
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#associated-lecture-video-unit-6-lesson-7">
+   Associated lecture video: Unit 6 Lesson 7
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#problem-statement">
+   Problem Statement
+  </a>
+ </li>
+</ul>
+
+            </nav>
         </div>
     </div>
 </div>
@@ -582,6 +600,24 @@
                 <div id="print-main-content">
                     <div id="jb-print-toc">
                         
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#associated-lecture-video-unit-6-lesson-7">
+   Associated lecture video: Unit 6 Lesson 7
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#problem-statement">
+   Problem Statement
+  </a>
+ </li>
+</ul>
+
+                        </nav>
                     </div>
                 </div>
             </div>
@@ -595,18 +631,33 @@
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pymc</span> <span class="k">as</span> <span class="nn">pm</span>
 <span class="kn">from</span> <span class="nn">pymc.math</span> <span class="kn">import</span> <span class="n">eq</span><span class="p">,</span> <span class="n">switch</span>
+
+<span class="o">%</span><span class="k">load_ext</span> watermark
+<span class="o">%</span><span class="k">load_ext</span> lab_black
 </pre></div>
 </div>
 </div>
 </div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>This is using PyMC 4.0 beta 4! Syntax should be backwards-compatible except for the imports.</p>
-</div>
 <div class="section" id="equivalence-of-generic-and-brand-name-drugs">
 <h1>Equivalence of Generic and Brand-Name Drugs<a class="headerlink" href="#equivalence-of-generic-and-brand-name-drugs" title="Permalink to this headline">¶</a></h1>
-<p>Adapted from <a class="reference external" href="https://www2.isye.gatech.edu/isye6420/supporting.html">Codes for Unit 6: equivalence.odc</a>.</p>
-<p>Associated lecture video: <a class="reference external" href="https://www.youtube.com/watch?v=aF1whV0brtw&amp;list=PLv0FeK5oXK4l-RdT6DWJj0_upJOG2WKNO&amp;index=58">Unit 6 Lesson 7</a>.</p>
+<p>This is the first Bayesian ANOVA example. We’re comparing the means of two different drug types.</p>
+<p>Adapted from <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/original_examples/Codes4Unit6/equivalence.odc">Codes for Unit 6: equivalence.odc</a>.</p>
+<div class="section" id="associated-lecture-video-unit-6-lesson-7">
+<h2>Associated lecture video: Unit 6 Lesson 7<a class="headerlink" href="#associated-lecture-video-unit-6-lesson-7" title="Permalink to this headline">¶</a></h2>
+<div class="cell tag_hide_input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%html</span>
+<span class="p">&lt;</span><span class="nt">iframe</span> <span class="na">width</span><span class="o">=</span><span class="s">&quot;560&quot;</span> <span class="na">height</span><span class="o">=</span><span class="s">&quot;315&quot;</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;https://www.youtube.com/embed?v=xomK4tcePmc&amp;list=PLv0FeK5oXK4l-RdT6DWJj0_upJOG2WKNO&amp;index=58&quot;</span> <span class="na">frameborder</span><span class="o">=</span><span class="s">&quot;0&quot;</span> <span class="na">allow</span><span class="o">=</span><span class="s">&quot;autoplay; encrypted-media&quot;</span> <span class="na">allowfullscreen</span><span class="p">&gt;&lt;/</span><span class="nt">iframe</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><iframe width="560" height="315" src="https://www.youtube.com/embed?v=xomK4tcePmc&list=PLv0FeK5oXK4l-RdT6DWJj0_upJOG2WKNO&index=58" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+</div></div>
+</div>
+</div>
+<div class="section" id="problem-statement">
+<h2>Problem Statement<a class="headerlink" href="#problem-statement" title="Permalink to this headline">¶</a></h2>
 <p>The manufacturer wishes to demonstrate that their generic drug for a particular metabolic disorder is equivalent to a brand name drug. One of indication of the disorder is an abnormally low concentration of levocarnitine, an amino acid derivative, in the plasma. The treatment with the brand name drug substantially increases this concentration.</p>
 <p>A small clinical trial is conducted with 43 patients, 18 in the Brand Name Drug arm and 25 in the Generic Drug arm. The increases in the log-concentration of levocarnitine are in the data below.</p>
 <p>The FDA declares that bioequivalence among the two drugs can be established if the difference in response to the two drugs is within 2 units of log-concentration. Assuming that the log-concentration measurements follow normal distributions with equal population variance, can these two drugs be declared bioequivalent within a tolerance +/-2  units?</p>
@@ -624,7 +675,7 @@
 </div>
 </div>
 <p>We’re using <code class="docutils literal notranslate"><span class="pre">pm.math.switch</span></code> and <code class="docutils literal notranslate"><span class="pre">pm.math.eq</span></code> to recreate the BUGS <code class="docutils literal notranslate"><span class="pre">step()</span></code> function for the <code class="docutils literal notranslate"><span class="pre">probint</span></code> variable.</p>
-<p>See <a class="reference external" href="https://areding.github.io/6420-pymc/Unit6-stressacids.html">Unit 6: Stress, Diet and Plasma Acids</a> to find out more about converting the BUGS step function.</p>
+<p>See <a class="reference external" href="https://areding.github.io/6420-pymc/unit6/Unit6-stressacids.html">Unit 6: Stress, Diet and Plasma Acids</a> to find out more about converting the BUGS step function.</p>
 <div class="cell tag_hide_output docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">m</span><span class="p">:</span>
@@ -640,8 +691,8 @@
         <span class="n">switch</span><span class="p">(</span><span class="n">mudiff</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">*</span> <span class="n">switch</span><span class="p">(</span><span class="n">eq</span><span class="p">(</span><span class="mi">2</span> <span class="o">-</span> <span class="n">mudiff</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
     <span class="p">)</span>
 
-    <span class="n">y_type1</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;y_type1&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu1</span><span class="p">,</span> <span class="n">sd</span><span class="o">=</span><span class="n">sigma</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">increase_type1</span><span class="p">)</span>
-    <span class="n">y_type2</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;y_type2&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu2</span><span class="p">,</span> <span class="n">sd</span><span class="o">=</span><span class="n">sigma</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">increase_type2</span><span class="p">)</span>
+    <span class="n">y_type1</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;y_type1&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu1</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">increase_type1</span><span class="p">)</span>
+    <span class="n">y_type2</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;y_type2&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu2</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">increase_type2</span><span class="p">)</span>
 
     <span class="c1"># start sampling</span>
     <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span>
@@ -656,7 +707,11 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Multiprocess sampling (4 chains in 4 jobs)
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Auto-assigning NUTS sampler...
+Initializing NUTS using jitter+adapt_diag...
+/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/pymc/aesaraf.py:996: UserWarning: The parameter &#39;updates&#39; of aesara.function() expects an OrderedDict, got &lt;class &#39;dict&#39;&gt;. Using a standard dictionary here results in non-deterministic behavior. You should use an OrderedDict if you are using Python 2.7 (collections.OrderedDict for older python), or use a list of (shared, update) pairs. Do not just convert your dictionary to this type before the call as the conversion will still be non-deterministic.
+  aesara_function = aesara.function(
+Multiprocess sampling (4 chains in 4 jobs)
 NUTS: [mu1, mu2, prec]
 </pre></div>
 </div>
@@ -678,15 +733,15 @@ NUTS: [mu1, mu2, prec]
   <progress value='42000' class='' max='42000' style='width:300px; height:20px; vertical-align: middle;'></progress>
   100.00% [42000/42000 00:04<00:00 Sampling 4 chains, 0 divergences]
 </div>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
   return _boost._beta_ppf(q, a, b)
-/Users/aaron/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
+/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
   return _boost._beta_ppf(q, a, b)
-/Users/aaron/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
+/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
   return _boost._beta_ppf(q, a, b)
-/Users/aaron/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
+/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
   return _boost._beta_ppf(q, a, b)
-Sampling 4 chains for 500 tune and 10_000 draw iterations (2_000 + 40_000 draws total) took 14 seconds.
+Sampling 4 chains for 500 tune and 10_000 draw iterations (2_000 + 40_000 draws total) took 12 seconds.
 </pre></div>
 </div>
 </div>
@@ -698,7 +753,7 @@ Sampling 4 chains for 500 tune and 10_000 draw iterations (2_000 + 40_000 draws 
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc-dev-py39/lib/python3.9/site-packages/arviz/stats/diagnostics.py:561: RuntimeWarning: invalid value encountered in double_scalars
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/arviz/stats/diagnostics.py:586: RuntimeWarning: invalid value encountered in double_scalars
   (between_chain_variance / within_chain_variance + num_samples - 1) / (num_samples)
 </pre></div>
 </div>
@@ -735,49 +790,49 @@ Sampling 4 chains for 500 tune and 10_000 draw iterations (2_000 + 40_000 draws 
     <tr>
       <th>mu1</th>
       <td>7.335</td>
-      <td>0.474</td>
-      <td>6.413</td>
-      <td>8.269</td>
+      <td>0.479</td>
+      <td>6.405</td>
+      <td>8.285</td>
       <td>0.002</td>
       <td>0.002</td>
-      <td>47983.0</td>
-      <td>29143.0</td>
+      <td>45553.0</td>
+      <td>29526.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>mu2</th>
-      <td>6.203</td>
+      <td>6.201</td>
       <td>0.403</td>
-      <td>5.404</td>
-      <td>6.982</td>
+      <td>5.410</td>
+      <td>6.996</td>
       <td>0.002</td>
       <td>0.001</td>
-      <td>44715.0</td>
-      <td>28236.0</td>
+      <td>48853.0</td>
+      <td>28445.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>prec</th>
       <td>0.263</td>
-      <td>0.058</td>
-      <td>0.156</td>
-      <td>0.381</td>
+      <td>0.059</td>
+      <td>0.153</td>
+      <td>0.378</td>
       <td>0.000</td>
       <td>0.000</td>
-      <td>47012.0</td>
-      <td>27842.0</td>
+      <td>44056.0</td>
+      <td>27074.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>mudiff</th>
-      <td>1.131</td>
-      <td>0.622</td>
-      <td>-0.052</td>
-      <td>2.378</td>
+      <td>1.133</td>
+      <td>0.626</td>
+      <td>-0.107</td>
+      <td>2.332</td>
       <td>0.003</td>
       <td>0.002</td>
-      <td>47101.0</td>
-      <td>28902.0</td>
+      <td>46056.0</td>
+      <td>28917.0</td>
       <td>1.0</td>
     </tr>
     <tr>
@@ -863,6 +918,26 @@ Sampling 4 chains for 500 tune and 10_000 draw iterations (2_000 + 40_000 draws 
 </tr>
 </tbody>
 </table>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">watermark</span> --iversions -v
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Python implementation: CPython
+Python version       : 3.10.4
+IPython version      : 8.3.0
+
+numpy     : 1.22.3
+pymc      : 4.0.0b5
+matplotlib: 3.5.2
+arviz     : 0.12.1
+</pre></div>
+</div>
+</div>
+</div>
+</div>
 </div>
 
     <script type="text/x-thebe-config">
@@ -894,7 +969,7 @@ Sampling 4 chains for 500 tune and 10_000 draw iterations (2_000 + 40_000 draws 
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">Dugongs: Dealing with Missing Data</p>
+            <p class="prev-next-title">Dugongs</p>
         </div>
     </a>
     <a class='right-next' id="next-link" href="Unit6-exponential.html" title="next page">

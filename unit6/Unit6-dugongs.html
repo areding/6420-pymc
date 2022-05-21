@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dugongs: Dealing with Missing Data &#8212; ISYE 6420 - BUGS to PyMC</title>
+    <title>Dugongs &#8212; ISYE 6420 - BUGS to PyMC</title>
     
   <link href="../_static/css/theme.css" rel="stylesheet">
   <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
@@ -287,7 +287,7 @@
    </li>
    <li class="toctree-l2 current active">
     <a class="current reference internal" href="#">
-     Dugongs: Dealing with Missing Data
+     Dugongs
     </a>
    </li>
    <li class="toctree-l2">
@@ -570,6 +570,31 @@
         <!-- Table of contents -->
         <div class="d-none d-md-block col-md-2 bd-toc show noprint">
             
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#associated-lecture-video-unit-6-lesson-6">
+   Associated lecture video: Unit 6 Lesson 6
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#problem-statement">
+   Problem statement
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#references">
+     References
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+            </nav>
         </div>
     </div>
 </div>
@@ -577,11 +602,36 @@
         <div class="col-12 col-md-9 pl-md-3 pr-md-0">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>Dugongs: Dealing with Missing Data</h1>
+                <h1>Dugongs</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
                         
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#associated-lecture-video-unit-6-lesson-6">
+   Associated lecture video: Unit 6 Lesson 6
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#problem-statement">
+   Problem statement
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#references">
+     References
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+                        </nav>
                     </div>
                 </div>
             </div>
@@ -593,21 +643,26 @@
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">arviz</span> <span class="k">as</span> <span class="nn">az</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">pymc3</span> <span class="k">as</span> <span class="nn">pm</span>
+<span class="kn">import</span> <span class="nn">pymc</span> <span class="k">as</span> <span class="nn">pm</span>
+
+<span class="o">%</span><span class="k">load_ext</span> watermark
+<span class="o">%</span><span class="k">load_ext</span> lab_black
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>WARNING (theano.link.c.cmodule): install mkl with `conda install mkl-service`: No module named &#39;mkl&#39;
-</pre></div>
 </div>
-</div>
-</div>
-<div class="section" id="dugongs-dealing-with-missing-data">
-<h1>Dugongs: Dealing with Missing Data<a class="headerlink" href="#dugongs-dealing-with-missing-data" title="Permalink to this headline">¶</a></h1>
-<p>Adapted from <a class="reference external" href="https://www2.isye.gatech.edu/isye6420/supporting.html">Codes for Unit 6: dugongsmissing.odc</a>.</p>
-<p>Associated lecture video: <a class="reference external" href="https://www.youtube.com/watch?v=dZly6DDPViE&amp;list=PLv0FeK5oXK4l-RdT6DWJj0_upJOG2WKNO&amp;index=57">Unit 6 Lesson 6</a>.</p>
+<div class="section" id="dugongs">
+<h1>Dugongs<a class="headerlink" href="#dugongs" title="Permalink to this headline">¶</a></h1>
+<p>This example is the first example of dealing with missing data.</p>
+<p>It is adapted from <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/original_examples/Codes4Unit6/dugongsmissing.odc">unit 6: dugongsmissing.odc</a>.</p>
+<div class="section" id="associated-lecture-video-unit-6-lesson-6">
+<h2>Associated lecture video: Unit 6 Lesson 6<a class="headerlink" href="#associated-lecture-video-unit-6-lesson-6" title="Permalink to this headline">¶</a></h2>
+<iframe width="560" height="315" src="https://www.youtube.com/embed?v=xomK4tcePmc&list=PLv0FeK5oXK4l-RdT6DWJj0_upJOG2WKNO&index=57" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>
+<div class="section" id="problem-statement">
+<h2>Problem statement<a class="headerlink" href="#problem-statement" title="Permalink to this headline">¶</a></h2>
 <p>Carlin and Gelfand (1991) investigated the age (x) and length (y) of 27 captured dugongs (sea cows). Estimate parameters in a nonlinear growth model.</p>
+<div class="section" id="references">
+<h3>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h3>
 <p>Data provided by Ratkowsky (1983).</p>
 <p>Carlin, B. and Gelfand, B. (1991). An Iterative Monte Carlo Method for
 Nonconjugate Bayesian Analysis, Statistics and Computing, 1, (2), 119†128.</p>
@@ -626,20 +681,12 @@ Nonconjugate Bayesian Analysis, Statistics and Computing, 1, (2), 119†128.</p
 </div>
 </div>
 </div>
-<p>PyMC3 imputes missing data automatically, similar to BUGS, but it requires the missing data be input as a NumPy masked array. See the NumPy docs for <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ma.masked_values.html">np.ma.masked_values()</a>. For <code class="docutils literal notranslate"><span class="pre">y</span></code>, above, you can enter whatever number at the missing data positions, then plug it into the <code class="docutils literal notranslate"><span class="pre">value</span></code> parameter below. Just make sure the number you’re using isn’t actually in the data!</p>
-<p>Using np.nan for the missing values doesn’t seem to work at the moment (NumPy handles it fine, but PyMC3 throws an error).</p>
+<p>PyMC imputes missing data automatically, similar to BUGS, but it requires the missing data be input as a NumPy masked array. See the NumPy docs for <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ma.masked_values.html">np.ma.masked_values()</a>. For <code class="docutils literal notranslate"><span class="pre">y</span></code>, above, you can enter whatever number at the missing data positions, then plug it into the <code class="docutils literal notranslate"><span class="pre">value</span></code> parameter below. Just make sure the number you’re using isn’t actually in the data. I chose -1 above.</p>
 <p>Note that this method only works for missing <em>observed</em> data. We’ll learn about missing data in X later.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_values</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">value</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<p>Check it out! The array now has a mask attribute.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y</span>
+<span class="n">y</span>
 </pre></div>
 </div>
 </div>
@@ -656,6 +703,7 @@ Nonconjugate Bayesian Analysis, Statistics and Computing, 1, (2), 119†128.</p
 </div>
 </div>
 </div>
+<p>Check it out! The array now has a mask attribute.</p>
 <div class="cell tag_hide_output docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">m</span><span class="p">:</span>
@@ -665,13 +713,13 @@ Nonconjugate Bayesian Analysis, Statistics and Computing, 1, (2), 119†128.</p
     <span class="n">gamma</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Uniform</span><span class="p">(</span><span class="s2">&quot;gamma&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
     <span class="n">sigma</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">pm</span><span class="o">.</span><span class="n">Uniform</span><span class="p">(</span><span class="s2">&quot;sigma&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
 
-    <span class="n">mu</span> <span class="o">=</span> <span class="n">alpha</span> <span class="o">-</span> <span class="n">beta</span> <span class="o">*</span> <span class="n">gamma</span> <span class="o">**</span> <span class="n">X</span>
+    <span class="n">mu</span> <span class="o">=</span> <span class="n">alpha</span> <span class="o">-</span> <span class="n">beta</span> <span class="o">*</span> <span class="n">gamma</span><span class="o">**</span><span class="n">X</span>
 
-    <span class="n">likelihood</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;likelihood&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span> <span class="n">sd</span><span class="o">=</span><span class="n">sigma</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
+    <span class="n">likelihood</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;likelihood&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
 
     <span class="c1"># start sampling</span>
     <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span>
-        <span class="mi">10000</span><span class="p">,</span>  <span class="c1"># samples</span>
+        <span class="mi">10000</span><span class="p">,</span>
         <span class="n">chains</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
         <span class="n">tune</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span>
         <span class="n">cores</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
@@ -683,50 +731,49 @@ Nonconjugate Bayesian Analysis, Statistics and Computing, 1, (2), 119†128.</p
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc3_test/lib/python3.9/site-packages/pymc3/model.py:1755: ImputationWarning: Data in likelihood contains missing values and will be automatically imputed from the sampling distribution.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/pymc/model.py:1325: ImputationWarning: Data in likelihood contains missing values and will be automatically imputed from the sampling distribution.
   warnings.warn(impute_message, ImputationWarning)
 Auto-assigning NUTS sampler...
 Initializing NUTS using jitter+adapt_diag...
+/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/pymc/aesaraf.py:996: UserWarning: The parameter &#39;updates&#39; of aesara.function() expects an OrderedDict, got &lt;class &#39;dict&#39;&gt;. Using a standard dictionary here results in non-deterministic behavior. You should use an OrderedDict if you are using Python 2.7 (collections.OrderedDict for older python), or use a list of (shared, update) pairs. Do not just convert your dictionary to this type before the call as the conversion will still be non-deterministic.
+  aesara_function = aesara.function(
 Multiprocess sampling (4 chains in 4 jobs)
-NUTS: [likelihood_missing, sigma, gamma, beta, alpha]
-WARNING (theano.link.c.cmodule): install mkl with `conda install mkl-service`: No module named &#39;mkl&#39;
-WARNING (theano.link.c.cmodule): install mkl with `conda install mkl-service`: No module named &#39;mkl&#39;
-WARNING (theano.link.c.cmodule): install mkl with `conda install mkl-service`: No module named &#39;mkl&#39;
-WARNING (theano.link.c.cmodule): install mkl with `conda install mkl-service`: No module named &#39;mkl&#39;
+NUTS: [alpha, beta, gamma, sigma, likelihood_missing]
 </pre></div>
 </div>
 <div class="output text_html">
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div><div class="output text_html">
 <div>
-    <style>
-        /* Turns off some styling */
-        progress {
-            /* gets rid of default border in Firefox and Opera. */
-            border: none;
-            /* Needs to be in here for Safari polyfill so background images work as expected. */
-            background-size: auto;
-        }
-        .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
-            background: #F44336;
-        }
-    </style>
   <progress value='42000' class='' max='42000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-  100.00% [42000/42000 00:12<00:00 Sampling 4 chains, 99 divergences]
+  100.00% [42000/42000 00:36<00:00 Sampling 4 chains, 603 divergences]
 </div>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc3_test/lib/python3.9/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
   return _boost._beta_ppf(q, a, b)
-/Users/aaron/mambaforge/envs/pymc3_test/lib/python3.9/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
+/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
   return _boost._beta_ppf(q, a, b)
-/Users/aaron/mambaforge/envs/pymc3_test/lib/python3.9/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
+/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
   return _boost._beta_ppf(q, a, b)
-/Users/aaron/mambaforge/envs/pymc3_test/lib/python3.9/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
+/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
   return _boost._beta_ppf(q, a, b)
-Sampling 4 chains for 500 tune and 10_000 draw iterations (2_000 + 40_000 draws total) took 21 seconds.
+Sampling 4 chains for 500 tune and 10_000 draw iterations (2_000 + 40_000 draws total) took 44 seconds.
+There were 24 divergences after tuning. Increase `target_accept` or reparameterize.
 There was 1 divergence after tuning. Increase `target_accept` or reparameterize.
-The acceptance probability does not match the target. It is 0.8972943720137355, but should be close to 0.8. Try to increase the number of tuning steps.
-The acceptance probability does not match the target. It is 0.9350456040150471, but should be close to 0.8. Try to increase the number of tuning steps.
-There were 42 divergences after tuning. Increase `target_accept` or reparameterize.
-There were 56 divergences after tuning. Increase `target_accept` or reparameterize.
-The number of effective samples is smaller than 25% for some parameters.
+The acceptance probability does not match the target. It is 0.9083, but should be close to 0.8. Try to increase the number of tuning steps.
+There were 578 divergences after tuning. Increase `target_accept` or reparameterize.
+The acceptance probability does not match the target. It is 0.7197, but should be close to 0.8. Try to increase the number of tuning steps.
+The acceptance probability does not match the target. It is 0.9516, but should be close to 0.8. Try to increase the number of tuning steps.
 </pre></div>
 </div>
 </div>
@@ -770,50 +817,50 @@ The number of effective samples is smaller than 25% for some parameters.
   <tbody>
     <tr>
       <th>likelihood_missing[0]</th>
-      <td>1.906</td>
-      <td>0.109</td>
-      <td>1.692</td>
-      <td>2.123</td>
+      <td>1.904</td>
+      <td>0.110</td>
+      <td>1.684</td>
+      <td>2.116</td>
       <td>0.001</td>
       <td>0.001</td>
-      <td>20871.0</td>
-      <td>21689.0</td>
+      <td>16516.0</td>
+      <td>21145.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>likelihood_missing[1]</th>
       <td>2.692</td>
-      <td>0.128</td>
-      <td>2.443</td>
-      <td>2.951</td>
+      <td>0.127</td>
+      <td>2.435</td>
+      <td>2.932</td>
+      <td>0.002</td>
       <td>0.001</td>
-      <td>0.001</td>
-      <td>11339.0</td>
-      <td>11898.0</td>
+      <td>7274.0</td>
+      <td>6980.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>alpha</th>
-      <td>2.736</td>
-      <td>0.131</td>
-      <td>2.519</td>
-      <td>2.996</td>
+      <td>2.738</td>
+      <td>0.139</td>
+      <td>2.517</td>
+      <td>3.000</td>
+      <td>0.003</td>
       <td>0.002</td>
-      <td>0.001</td>
-      <td>7375.0</td>
-      <td>5095.0</td>
+      <td>4447.0</td>
+      <td>2155.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>beta</th>
-      <td>0.989</td>
-      <td>0.108</td>
-      <td>0.789</td>
-      <td>1.201</td>
+      <td>0.990</td>
+      <td>0.116</td>
+      <td>0.785</td>
+      <td>1.204</td>
+      <td>0.002</td>
       <td>0.001</td>
-      <td>0.001</td>
-      <td>9040.0</td>
-      <td>5785.0</td>
+      <td>5218.0</td>
+      <td>2215.0</td>
       <td>1.0</td>
     </tr>
     <tr>
@@ -821,23 +868,23 @@ The number of effective samples is smaller than 25% for some parameters.
       <td>0.888</td>
       <td>0.035</td>
       <td>0.818</td>
-      <td>0.951</td>
+      <td>0.952</td>
       <td>0.000</td>
       <td>0.000</td>
-      <td>7864.0</td>
-      <td>6033.0</td>
+      <td>4975.0</td>
+      <td>2796.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>sigma</th>
-      <td>-2.342</td>
+      <td>-2.341</td>
       <td>0.154</td>
-      <td>-2.637</td>
-      <td>-2.040</td>
+      <td>-2.638</td>
+      <td>-2.039</td>
+      <td>0.002</td>
       <td>0.001</td>
-      <td>0.001</td>
-      <td>12761.0</td>
-      <td>9940.0</td>
+      <td>5704.0</td>
+      <td>3755.0</td>
       <td>1.0</td>
     </tr>
   </tbody>
@@ -1008,6 +1055,27 @@ The number of effective samples is smaller than 25% for some parameters.
 </tr>
 </tbody>
 </table>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">watermark</span> --iversions -v
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Python implementation: CPython
+Python version       : 3.10.4
+IPython version      : 8.3.0
+
+numpy     : 1.22.3
+pymc      : 4.0.0b5
+matplotlib: 3.5.2
+arviz     : 0.12.1
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
 </div>
 
     <script type="text/x-thebe-config">
