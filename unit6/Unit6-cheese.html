@@ -44,6 +44,8 @@
     <script src="../_static/copybutton.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
     <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
     <script >
         const thebe_selector = ".thebe"
@@ -166,6 +168,11 @@
    <li class="toctree-l2">
     <a class="reference internal" href="../unit3/Unit3-Alarm.html">
      Alarm
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../unit3/Unit3-DeMere.html">
+     Demere
     </a>
    </li>
    <li class="toctree-l2">
@@ -312,7 +319,7 @@
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="Unit6-zerotrickJeremy.html">
-     Jeremy with Zero Tricks
+     Jeremy with the zero trick
     </a>
    </li>
   </ul>
@@ -672,7 +679,7 @@ The lab_black extension is already loaded. To reload it, use:
 </div>
 <div class="section" id="taste-of-cheese">
 <h1>Taste of Cheese<a class="headerlink" href="#taste-of-cheese" title="Permalink to this headline">¶</a></h1>
-<p>This example introduces prediction, divergences, and Bayesian $R^2$ (not added yet).</p>
+<p>This example introduces prediction, divergences, and Bayesian <span class="math notranslate nohighlight">\(R^2\)</span> (not added yet).</p>
 <p>It is adapted from <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/original_examples/Codes4Unit6/cheese.odc">unit 6: cheese.odc</a>.</p>
 <p>The link in the original .odc file is dead. I downloaded the data from <a class="reference external" href="https://www3.nd.edu/~busiforc/handouts/Data%20and%20Stories/multicollinearity/Cheese%20Taste/Cheddar%20Cheese%20Data.html">here</a> and have a copy <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/data/cheese.csv">here</a>.</p>
 <div class="section" id="associated-lecture-videos">
@@ -713,10 +720,10 @@ The lab_black extension is already loaded. To reload it, use:
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;../data/cheese.csv&quot;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">X</span> <span class="o">=</span> <span class="n">data</span><span class="p">[[</span><span class="s2">&quot;Acetic&quot;</span><span class="p">,</span> <span class="s2">&quot;H2S&quot;</span><span class="p">,</span> <span class="s2">&quot;Lactic&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">data</span><span class="p">[[</span><span class="s2">&quot;Acetic&quot;</span><span class="p">,</span> <span class="s2">&quot;H2S&quot;</span><span class="p">,</span> <span class="s2">&quot;Lactic&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
 <span class="c1"># add intercept column to X</span>
 <span class="n">X_aug</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">)),</span> <span class="n">X</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">y</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;taste&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;taste&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
