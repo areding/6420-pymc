@@ -54,7 +54,7 @@
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Missing data" href="../unit8/missing.html" />
+    <link rel="next" title="Priors as hidden mixtures" href="h-tasmixture.html" />
     <link rel="prev" title="Hierarchical models" href="hierarchical.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
@@ -371,6 +371,11 @@
      Arrhythmia
     </a>
    </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="glm-nhanesmulti.html">
+     Multinomial Regression
+    </a>
+   </li>
   </ul>
  </li>
  <li class="toctree-l1 current active has-children">
@@ -386,6 +391,11 @@
    <li class="toctree-l2 current active">
     <a class="current reference internal" href="#">
      Paraguay vaccination status
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="h-tasmixture.html">
+     Priors as hidden mixtures
     </a>
    </li>
   </ul>
@@ -654,7 +664,7 @@
 </div>
 <div class="section" id="paraguay-vaccination-status">
 <h1>Paraguay vaccination status<a class="headerlink" href="#paraguay-vaccination-status" title="Permalink to this headline">¶</a></h1>
-<p>This example goes over a multilevel or hierarchical logistic regression model. It also shows how to use the PyMC coordinate system.</p>
+<p>This example goes over a multilevel, or hierarchical, logistic regression model. It also shows how to use the PyMC coordinate system.</p>
 <p>Adapted from <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/original_examples/Codes4Unit7/paraguay.odc">unit 7: paraguay.odc</a></p>
 <p>Data can be found <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/data/paraguay.csv">here</a>.</p>
 <div class="section" id="associated-lecture-video-unit-7-lesson-19">
@@ -811,7 +821,9 @@ Sampling 4 chains for 1_000 tune and 3_000 draw iterations (4_000 + 12_000 draws
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;beta&quot;</span><span class="p">,</span> <span class="s2">&quot;cluster_variance&quot;</span><span class="p">],</span> <span class="n">filter_vars</span><span class="o">=</span><span class="s2">&quot;like&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span>
+    <span class="n">trace</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;beta&quot;</span><span class="p">,</span> <span class="s2">&quot;cluster_variance&quot;</span><span class="p">],</span> <span class="n">filter_vars</span><span class="o">=</span><span class="s2">&quot;like&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;stats&quot;</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -838,11 +850,6 @@ Sampling 4 chains for 1_000 tune and 3_000 draw iterations (4_000 + 12_000 draws
       <th>sd</th>
       <th>hdi_3%</th>
       <th>hdi_97%</th>
-      <th>mcse_mean</th>
-      <th>mcse_sd</th>
-      <th>ess_bulk</th>
-      <th>ess_tail</th>
-      <th>r_hat</th>
     </tr>
   </thead>
   <tbody>
@@ -852,11 +859,6 @@ Sampling 4 chains for 1_000 tune and 3_000 draw iterations (4_000 + 12_000 draws
       <td>0.131</td>
       <td>1.201</td>
       <td>1.697</td>
-      <td>0.001</td>
-      <td>0.001</td>
-      <td>10492.0</td>
-      <td>9339.0</td>
-      <td>1.0</td>
     </tr>
     <tr>
       <th>beta[1]</th>
@@ -864,11 +866,6 @@ Sampling 4 chains for 1_000 tune and 3_000 draw iterations (4_000 + 12_000 draws
       <td>0.015</td>
       <td>-0.098</td>
       <td>-0.043</td>
-      <td>0.000</td>
-      <td>0.000</td>
-      <td>16619.0</td>
-      <td>9409.0</td>
-      <td>1.0</td>
     </tr>
     <tr>
       <th>beta[2]</th>
@@ -876,11 +873,6 @@ Sampling 4 chains for 1_000 tune and 3_000 draw iterations (4_000 + 12_000 draws
       <td>0.204</td>
       <td>-0.952</td>
       <td>-0.180</td>
-      <td>0.001</td>
-      <td>0.001</td>
-      <td>18952.0</td>
-      <td>9730.0</td>
-      <td>1.0</td>
     </tr>
     <tr>
       <th>beta[3]</th>
@@ -888,11 +880,6 @@ Sampling 4 chains for 1_000 tune and 3_000 draw iterations (4_000 + 12_000 draws
       <td>0.098</td>
       <td>-0.376</td>
       <td>-0.009</td>
-      <td>0.001</td>
-      <td>0.001</td>
-      <td>20799.0</td>
-      <td>8769.0</td>
-      <td>1.0</td>
     </tr>
     <tr>
       <th>beta[4]</th>
@@ -900,11 +887,6 @@ Sampling 4 chains for 1_000 tune and 3_000 draw iterations (4_000 + 12_000 draws
       <td>0.131</td>
       <td>-0.941</td>
       <td>-0.455</td>
-      <td>0.001</td>
-      <td>0.001</td>
-      <td>12931.0</td>
-      <td>9684.0</td>
-      <td>1.0</td>
     </tr>
     <tr>
       <th>beta[5]</th>
@@ -912,11 +894,6 @@ Sampling 4 chains for 1_000 tune and 3_000 draw iterations (4_000 + 12_000 draws
       <td>0.110</td>
       <td>-0.484</td>
       <td>-0.071</td>
-      <td>0.001</td>
-      <td>0.001</td>
-      <td>12379.0</td>
-      <td>9379.0</td>
-      <td>1.0</td>
     </tr>
     <tr>
       <th>beta[6]</th>
@@ -924,11 +901,6 @@ Sampling 4 chains for 1_000 tune and 3_000 draw iterations (4_000 + 12_000 draws
       <td>0.097</td>
       <td>-0.805</td>
       <td>-0.440</td>
-      <td>0.001</td>
-      <td>0.001</td>
-      <td>15200.0</td>
-      <td>9748.0</td>
-      <td>1.0</td>
     </tr>
     <tr>
       <th>cluster_variance</th>
@@ -936,16 +908,16 @@ Sampling 4 chains for 1_000 tune and 3_000 draw iterations (4_000 + 12_000 draws
       <td>0.094</td>
       <td>0.359</td>
       <td>0.705</td>
-      <td>0.002</td>
-      <td>0.001</td>
-      <td>3169.0</td>
-      <td>5538.0</td>
-      <td>1.0</td>
     </tr>
   </tbody>
 </table>
 </div></div></div>
 </div>
+<p>Links on coordinates:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://oriolabrilpla.cat/python/arviz/pymc3/xarray/2020/09/22/pymc3-arviz.html">https://oriolabrilpla.cat/python/arviz/pymc3/xarray/2020/09/22/pymc3-arviz.html</a></p></li>
+<li></li>
+</ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">watermark</span> --iversions -v
@@ -988,10 +960,10 @@ Sampling 4 chains for 1_000 tune and 3_000 draw iterations (4_000 + 12_000 draws
             <p class="prev-next-title">Hierarchical models</p>
         </div>
     </a>
-    <a class='right-next' id="next-link" href="../unit8/missing.html" title="next page">
+    <a class='right-next' id="next-link" href="h-tasmixture.html" title="next page">
     <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Missing data</p>
+        <p class="prev-next-title">Priors as hidden mixtures</p>
     </div>
     <i class="fas fa-angle-right"></i>
     </a>
