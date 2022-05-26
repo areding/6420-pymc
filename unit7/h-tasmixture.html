@@ -55,7 +55,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Missing data" href="../unit8/missing.html" />
-    <link rel="prev" title="Paraguay vaccination status" href="h-paraguay.html" />
+    <link rel="prev" title="Meta-analysis via hierarchical models" href="h-rats_nocentering.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -393,6 +393,11 @@
      Paraguay vaccination status
     </a>
    </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="h-rats_nocentering.html">
+     Meta-analysis via hierarchical models
+    </a>
+   </li>
    <li class="toctree-l2 current active">
     <a class="current reference internal" href="#">
      Priors as hidden mixtures
@@ -605,6 +610,16 @@
    Associated lecture video: Unit 7 Lesson 4
   </a>
  </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#student-t-likelihood-with-normal-prior-vs-normal-likelihood-with-gamma-prior">
+   Student T likelihood with Normal prior vs Normal likelihood with Gamma prior
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#jeremys-iq-normal-prior-as-a-scale-mixture-of-uniforms">
+   Jeremy’s IQ - Normal prior as a scale mixture of uniforms
+  </a>
+ </li>
 </ul>
 
             </nav>
@@ -628,6 +643,16 @@
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#associated-lecture-video-unit-7-lesson-4">
    Associated lecture video: Unit 7 Lesson 4
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#student-t-likelihood-with-normal-prior-vs-normal-likelihood-with-gamma-prior">
+   Student T likelihood with Normal prior vs Normal likelihood with Gamma prior
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#jeremys-iq-normal-prior-as-a-scale-mixture-of-uniforms">
+   Jeremy’s IQ - Normal prior as a scale mixture of uniforms
   </a>
  </li>
 </ul>
@@ -654,7 +679,7 @@
 <div class="section" id="priors-as-hidden-mixtures">
 <h1>Priors as hidden mixtures<a class="headerlink" href="#priors-as-hidden-mixtures" title="Permalink to this headline">¶</a></h1>
 <p>This example demonstrates …</p>
-<p>Adapted from <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/original_examples/Codes4Unit7/tasmixture.odc">unit 7: tasmixture.odc</a></p>
+<p>Adapted from <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/original_examples/Codes4Unit7/tasmixture.odc">unit 7: tasmixture.odc</a> and <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/original_examples/Codes4Unit7/jeremymus.odc">unit 7: jeremymus.odc</a></p>
 <div class="section" id="associated-lecture-video-unit-7-lesson-4">
 <h2>Associated lecture video: Unit 7 Lesson 4<a class="headerlink" href="#associated-lecture-video-unit-7-lesson-4" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
@@ -668,6 +693,9 @@
 <div class="output text_html"><iframe width="560" height="315" src="https://www.youtube.com/embed?v=xomK4tcePmc&list=PLv0FeK5oXK4l-RdT6DWJj0_upJOG2WKNO&index=66" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
 </div></div>
 </div>
+</div>
+<div class="section" id="student-t-likelihood-with-normal-prior-vs-normal-likelihood-with-gamma-prior">
+<h2>Student T likelihood with Normal prior vs Normal likelihood with Gamma prior<a class="headerlink" href="#student-t-likelihood-with-normal-prior-vs-normal-likelihood-with-gamma-prior" title="Permalink to this headline">¶</a></h2>
 <p>Not really a problem statement - this is just to demonstrate the equivalence of a couple methods. Probably add notes and explanation here. Variable names from original problem are retained right now, but they are a mess. Fix later.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -679,7 +707,7 @@
 <span class="n">a</span> <span class="o">=</span> <span class="n">df</span> <span class="o">/</span> <span class="mi">2</span>
 <span class="n">b</span> <span class="o">=</span> <span class="n">df</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">tau</span><span class="p">)</span>
 
-<span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">m</span><span class="p">:</span>
+<span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">m1</span><span class="p">:</span>
     <span class="n">mu1</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">StudentT</span><span class="p">(</span><span class="s2">&quot;mu1&quot;</span><span class="p">,</span> <span class="n">nu</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="n">tau</span><span class="o">**</span><span class="mf">0.5</span><span class="p">))</span>
     <span class="n">X</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;X&quot;</span><span class="p">,</span> <span class="n">mu1</span><span class="p">,</span> <span class="n">tau1</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">x</span><span class="p">)</span>
 
@@ -811,6 +839,147 @@ Sampling 4 chains for 1_000 tune and 3_000 draw iterations (4_000 + 12_000 draws
 </div>
 <p>Results are not equivalent to BUGS…why?</p>
 </div>
+<div class="section" id="jeremys-iq-normal-prior-as-a-scale-mixture-of-uniforms">
+<h2>Jeremy’s IQ - Normal prior as a scale mixture of uniforms<a class="headerlink" href="#jeremys-iq-normal-prior-as-a-scale-mixture-of-uniforms" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">precy</span> <span class="o">=</span> <span class="mf">0.0125</span>
+<span class="n">precth</span> <span class="o">=</span> <span class="mf">0.0083333</span>
+<span class="n">mu</span> <span class="o">=</span> <span class="mi">110</span>
+<span class="n">s</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">beta</span> <span class="o">=</span> <span class="n">s</span> <span class="o">/</span> <span class="mi">2</span>
+
+<span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">m2</span><span class="p">:</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Gamma</span><span class="p">(</span><span class="s2">&quot;d&quot;</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="n">beta</span><span class="p">)</span>
+    <span class="n">ub</span> <span class="o">=</span> <span class="n">mu</span> <span class="o">+</span> <span class="p">(</span><span class="n">d</span> <span class="o">/</span> <span class="n">precth</span><span class="p">)</span> <span class="o">**</span> <span class="mf">0.5</span>
+    <span class="n">lb</span> <span class="o">=</span> <span class="n">mu</span> <span class="o">-</span> <span class="p">(</span><span class="n">d</span> <span class="o">/</span> <span class="n">precth</span><span class="p">)</span> <span class="o">**</span> <span class="mf">0.5</span>
+
+    <span class="n">theta</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Uniform</span><span class="p">(</span><span class="s2">&quot;theta&quot;</span><span class="p">,</span> <span class="n">lb</span><span class="p">,</span> <span class="n">ub</span><span class="p">)</span>
+
+    <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">theta</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="n">precy</span><span class="p">)</span>
+
+    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">3000</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Auto-assigning NUTS sampler...
+Initializing NUTS using jitter+adapt_diag...
+/Users/aaron/mambaforge/envs/pymc/lib/python3.10/site-packages/pymc/model.py:984: FutureWarning: `Model.initial_point` has been deprecated. Use `Model.recompute_initial_point(seed=None)`.
+  warnings.warn(
+Multiprocess sampling (4 chains in 4 jobs)
+NUTS: [d, theta, y]
+</pre></div>
+</div>
+<div class="output text_html">
+<div>
+    <style>
+        /* Turns off some styling */
+        progress {
+            /* gets rid of default border in Firefox and Opera. */
+            border: none;
+            /* Needs to be in here for Safari polyfill so background images work as expected. */
+            background-size: auto;
+        }
+        .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+            background: #F44336;
+        }
+    </style>
+  <progress value='16000' class='' max='16000' style='width:300px; height:20px; vertical-align: middle;'></progress>
+  100.00% [16000/16000 00:02<00:00 Sampling 4 chains, 0 divergences]
+</div>
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc/lib/python3.10/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
+  return _boost._beta_ppf(q, a, b)
+/Users/aaron/mambaforge/envs/pymc/lib/python3.10/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
+  return _boost._beta_ppf(q, a, b)
+/Users/aaron/mambaforge/envs/pymc/lib/python3.10/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
+  return _boost._beta_ppf(q, a, b)
+/Users/aaron/mambaforge/envs/pymc/lib/python3.10/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
+  return _boost._beta_ppf(q, a, b)
+Sampling 4 chains for 1_000 tune and 3_000 draw iterations (4_000 + 12_000 draws total) took 11 seconds.
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mean</th>
+      <th>sd</th>
+      <th>hdi_3%</th>
+      <th>hdi_97%</th>
+      <th>mcse_mean</th>
+      <th>mcse_sd</th>
+      <th>ess_bulk</th>
+      <th>ess_tail</th>
+      <th>r_hat</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>d</th>
+      <td>1.540</td>
+      <td>1.286</td>
+      <td>0.000</td>
+      <td>3.818</td>
+      <td>0.017</td>
+      <td>0.012</td>
+      <td>4600.0</td>
+      <td>4613.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>theta</th>
+      <td>110.044</td>
+      <td>7.772</td>
+      <td>95.862</td>
+      <td>124.897</td>
+      <td>0.113</td>
+      <td>0.080</td>
+      <td>4687.0</td>
+      <td>8333.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>y</th>
+      <td>110.135</td>
+      <td>12.026</td>
+      <td>88.084</td>
+      <td>133.746</td>
+      <td>0.192</td>
+      <td>0.136</td>
+      <td>3946.0</td>
+      <td>4981.0</td>
+      <td>1.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Again not quite equivalent…look into it.</p>
+</div>
 </div>
 
     <script type="text/x-thebe-config">
@@ -838,11 +1007,11 @@ Sampling 4 chains for 1_000 tune and 3_000 draw iterations (4_000 + 12_000 draws
             
                 <!-- Previous / next buttons -->
 <div class='prev-next-area'> 
-    <a class='left-prev' id="prev-link" href="h-paraguay.html" title="previous page">
+    <a class='left-prev' id="prev-link" href="h-rats_nocentering.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">Paraguay vaccination status</p>
+            <p class="prev-next-title">Meta-analysis via hierarchical models</p>
         </div>
     </a>
     <a class='right-next' id="next-link" href="../unit8/missing.html" title="next page">
