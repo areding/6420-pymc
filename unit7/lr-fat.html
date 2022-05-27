@@ -56,7 +56,7 @@
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Generalized linear models" href="glm.html" />
+    <link rel="next" title="Insulin" href="lr-insulin.html" />
     <link rel="prev" title="Coagulation" href="lr-coagulation.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
@@ -351,6 +351,21 @@
      Brozek index prediction
     </a>
    </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="lr-insulin.html">
+     Insulin
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="lr-isoflavon.html">
+     Isoflavon
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="lr-simvastatin.html">
+     Simvastatin
+    </a>
+   </li>
   </ul>
  </li>
  <li class="toctree-l1 has-children">
@@ -639,6 +654,11 @@
    All predictors
   </a>
  </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#multinomial-regression-with-zellners-prior">
+   Multinomial regression with Zellner’s prior
+  </a>
+ </li>
 </ul>
 
             </nav>
@@ -691,6 +711,11 @@
    All predictors
   </a>
  </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#multinomial-regression-with-zellners-prior">
+   Multinomial regression with Zellner’s prior
+  </a>
+ </li>
 </ul>
 
                         </nav>
@@ -726,8 +751,7 @@ The watermark extension is already loaded. To reload it, use:
 <div class="section" id="brozek-index-prediction">
 <h1>Brozek index prediction<a class="headerlink" href="#brozek-index-prediction" title="Permalink to this headline">¶</a></h1>
 <p>This example goes over linear regression and Bayesian <span class="math notranslate nohighlight">\(R^2\)</span>.</p>
-<p>Adapted from <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/original_examples/Codes4Unit7/fat2d.odc">unit 7: fat2d.odc</a> and <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/original_examples/Codes4Unit7/fatmulti.odc">fatmulti.odc</a>.</p>
-<p>The first lecture uses fat1.odc, but that file wasn’t provided. You can see the code in the Lesson 11 video, though. It just uses the X8 predictor.</p>
+<p>Adapted from <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/original_examples/Codes4Unit7/fat2d.odc">unit 7: fat1.odc</a>, <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/original_examples/Codes4Unit7/fat1.odc">unit 7: fat2d.odc</a> and <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/original_examples/Codes4Unit7/fatmulti.odc">fatmulti.odc</a>.</p>
 <p>Data can be found <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/data/fat.tsv">here</a>.</p>
 <div class="section" id="associated-lecture-videos">
 <h2>Associated lecture videos:<a class="headerlink" href="#associated-lecture-videos" title="Permalink to this headline">¶</a></h2>
@@ -1496,6 +1520,9 @@ dtype: float64
 <a class="reference external" href="https://en.wikipedia.org/wiki/G-prior%5C">https://en.wikipedia.org/wiki/G-prior\</a></p>
 <p>original paper:</p>
 <p>Zellner, A. (1986). “On Assessing Prior Distributions and Bayesian Regression Analysis with g Prior Distributions”. In Goel, P.; Zellner, A. (eds.). Bayesian Inference and Decision Techniques: Essays in Honor of Bruno de Finetti. Studies in Bayesian Econometrics and Statistics. Vol. 6. New York: Elsevier. pp. 233–243. ISBN 978-0-444-87712-3.</p>
+</div>
+<div class="section" id="multinomial-regression-with-zellners-prior">
+<h2>Multinomial regression with Zellner’s prior<a class="headerlink" href="#multinomial-regression-with-zellners-prior" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">watermark</span> --iversions -v
@@ -1550,10 +1577,10 @@ arviz : 0.12.1
             <p class="prev-next-title">Coagulation</p>
         </div>
     </a>
-    <a class='right-next' id="next-link" href="glm.html" title="next page">
+    <a class='right-next' id="next-link" href="lr-insulin.html" title="next page">
     <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Generalized linear models</p>
+        <p class="prev-next-title">Insulin</p>
     </div>
     <i class="fas fa-angle-right"></i>
     </a>
