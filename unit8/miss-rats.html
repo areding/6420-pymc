@@ -1187,41 +1187,319 @@ There were 2 divergences after tuning. Increase `target_accept` or reparameteriz
 <div class="section" id="model-3-non-ignorable-missingness">
 <h2>Model 3: Non-ignorable missingness<a class="headerlink" href="#model-3-non-ignorable-missingness" title="Permalink to this headline">¶</a></h2>
 <p>Probability of missingness increases approx. at a rate of 1% with increasing the weight.</p>
-<p>I don’t fully understand the purpose of this model yet, just going to translate to PyMC for now.</p>
+<p>I don’t think the model can actually be translated to PyMC in this way because of the different way input data is handled. This definitely isn’t constraining the missing value of y in the same way. If someone wants to figure this out I would appreciate it!</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">151.0</span><span class="p">,</span> <span class="mf">199.0</span><span class="p">,</span> <span class="mf">246.0</span><span class="p">,</span> <span class="mf">283.0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">])</span>  <span class="c1"># original value was 320</span>
-<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_values</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">value</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># create mask</span>
-<span class="c1"># note: can access mask with y.mask, is equivalent to the &quot;miss&quot; array from the Professor&#39;s example</span>
-<span class="n">p</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">mask</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_values</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">value</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># create masked array</span>
+<span class="c1"># note: can access mask with y.mask, equivalent to the &quot;miss&quot; array from the Professor&#39;s example</span>
+<span class="n">miss</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">mask</span>
 <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">8.0</span><span class="p">,</span> <span class="mf">15.0</span><span class="p">,</span> <span class="mf">22.0</span><span class="p">,</span> <span class="mf">29.0</span><span class="p">,</span> <span class="mf">36.0</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_hide_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">m</span><span class="p">:</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Logistic</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mf">1.01</span><span class="p">)</span>
+    <span class="n">alpha</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Flat</span><span class="p">(</span><span class="s2">&quot;alpha&quot;</span><span class="p">)</span>
+    <span class="n">beta</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Flat</span><span class="p">(</span><span class="s2">&quot;beta&quot;</span><span class="p">)</span>
+    <span class="n">log_sigma</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Flat</span><span class="p">(</span><span class="s2">&quot;log_sigma&quot;</span><span class="p">)</span>
+    <span class="n">tau</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;tau&quot;</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">exp</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">log_sigma</span><span class="p">))</span>
+
+    <span class="n">p</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;p&quot;</span><span class="p">,</span> <span class="n">invlogit</span><span class="p">(</span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span> <span class="o">*</span> <span class="n">y</span><span class="p">))</span>
+    <span class="n">missing</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Bernoulli</span><span class="p">(</span><span class="s2">&quot;missing&quot;</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">miss</span><span class="p">)</span>
+
+    <span class="n">mu</span> <span class="o">=</span> <span class="n">alpha</span> <span class="o">+</span> <span class="n">beta</span> <span class="o">*</span> <span class="n">x</span>
+
+    <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;likelihood&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="n">tau</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
+
+    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">5000</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc/lib/python3.10/site-packages/pymc/model.py:1299: ImputationWarning: Data in likelihood contains missing values and will be automatically imputed from the sampling distribution.
+  warnings.warn(impute_message, ImputationWarning)
+Auto-assigning NUTS sampler...
+INFO:pymc:Auto-assigning NUTS sampler...
+Initializing NUTS using jitter+adapt_diag...
+INFO:pymc:Initializing NUTS using jitter+adapt_diag...
+/Users/aaron/mambaforge/envs/pymc/lib/python3.10/site-packages/pymc/model.py:984: FutureWarning: `Model.initial_point` has been deprecated. Use `Model.recompute_initial_point(seed=None)`.
+  warnings.warn(
+/Users/aaron/mambaforge/envs/pymc/lib/python3.10/site-packages/pymc/sampling.py:683: UserWarning: Unable to validate shapes: Cannot sample from flat variable
+Apply node that caused the error: flat_rv{0, (), floatX, False}(RandomStateSharedVariable(&lt;RandomState(MT19937) at 0x151830F40&gt;), TensorConstant{[]}, TensorConstant{11})
+Toposort index: 2
+Inputs types: [RandomStateType, TensorType(int64, vector), TensorType(int64, scalar)]
+Inputs shapes: [&#39;No shapes&#39;, (0,), ()]
+Inputs strides: [&#39;No strides&#39;, (8,), ()]
+Inputs values: [RandomState(MT19937) at 0x151830F40, array([], dtype=int64), array(11)]
+Outputs clients: [[&#39;output&#39;], [Shape(alpha), InplaceDimShuffle{x}(alpha)]]
+
+Backtrace when the node is created (use Aesara flag traceback__limit=N to make it longer):
+  File &quot;/Users/aaron/mambaforge/envs/pymc/lib/python3.10/site-packages/IPython/core/interactiveshell.py&quot;, line 3185, in run_cell_async
+    has_raised = await self.run_ast_nodes(code_ast.body, cell_name,
+  File &quot;/Users/aaron/mambaforge/envs/pymc/lib/python3.10/site-packages/IPython/core/interactiveshell.py&quot;, line 3377, in run_ast_nodes
+    if (await self.run_code(code, result,  async_=asy)):
+  File &quot;/Users/aaron/mambaforge/envs/pymc/lib/python3.10/site-packages/IPython/core/interactiveshell.py&quot;, line 3457, in run_code
+    exec(code_obj, self.user_global_ns, self.user_ns)
+  File &quot;/var/folders/pm/9z29qnf508bc1v6q8fksblm40000gn/T/ipykernel_22826/2989897829.py&quot;, line 4, in &lt;module&gt;
+    alpha = pm.Flat(&quot;alpha&quot;)
+  File &quot;/Users/aaron/mambaforge/envs/pymc/lib/python3.10/site-packages/pymc/distributions/continuous.py&quot;, line 364, in __new__
+    return super().__new__(cls, *args, **kwargs)
+  File &quot;/Users/aaron/mambaforge/envs/pymc/lib/python3.10/site-packages/pymc/distributions/distribution.py&quot;, line 227, in __new__
+    rv_out = cls.dist(*args, rng=rng, **kwargs)
+  File &quot;/Users/aaron/mambaforge/envs/pymc/lib/python3.10/site-packages/pymc/distributions/continuous.py&quot;, line 368, in dist
+    res = super().dist([], size=size, **kwargs)
+  File &quot;/Users/aaron/mambaforge/envs/pymc/lib/python3.10/site-packages/pymc/distributions/distribution.py&quot;, line 321, in dist
+    rv_out = cls.rv_op(*dist_params, size=create_size, **kwargs)
+
+HINT: Use the Aesara flag `exception_verbosity=high` for a debug print-out and storage map footprint of this Apply node.
+  warnings.warn(f&quot;Unable to validate shapes: {ex.args[0]}&quot;, UserWarning)
+Multiprocess sampling (4 chains in 4 jobs)
+INFO:pymc:Multiprocess sampling (4 chains in 4 jobs)
+NUTS: [a, alpha, beta, log_sigma, likelihood_missing]
+INFO:pymc:NUTS: [a, alpha, beta, log_sigma, likelihood_missing]
+</pre></div>
+</div>
+<div class="output text_html">
+<div>
+    <style>
+        /* Turns off some styling */
+        progress {
+            /* gets rid of default border in Firefox and Opera. */
+            border: none;
+            /* Needs to be in here for Safari polyfill so background images work as expected. */
+            background-size: auto;
+        }
+        .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+            background: #F44336;
+        }
+    </style>
+  <progress value='24000' class='' max='24000' style='width:300px; height:20px; vertical-align: middle;'></progress>
+  100.00% [24000/24000 00:10<00:00 Sampling 4 chains, 6,535 divergences]
+</div>
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc/lib/python3.10/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
+  return _boost._beta_ppf(q, a, b)
+/Users/aaron/mambaforge/envs/pymc/lib/python3.10/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
+  return _boost._beta_ppf(q, a, b)
+/Users/aaron/mambaforge/envs/pymc/lib/python3.10/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
+  return _boost._beta_ppf(q, a, b)
+/Users/aaron/mambaforge/envs/pymc/lib/python3.10/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
+  return _boost._beta_ppf(q, a, b)
+Sampling 4 chains for 1_000 tune and 5_000 draw iterations (4_000 + 20_000 draws total) took 19 seconds.
+INFO:pymc:Sampling 4 chains for 1_000 tune and 5_000 draw iterations (4_000 + 20_000 draws total) took 19 seconds.
+There were 611 divergences after tuning. Increase `target_accept` or reparameterize.
+ERROR:pymc:There were 611 divergences after tuning. Increase `target_accept` or reparameterize.
+The acceptance probability does not match the target. It is 0.6379, but should be close to 0.8. Try to increase the number of tuning steps.
+WARNING:pymc:The acceptance probability does not match the target. It is 0.6379, but should be close to 0.8. Try to increase the number of tuning steps.
+There were 3449 divergences after tuning. Increase `target_accept` or reparameterize.
+ERROR:pymc:There were 3449 divergences after tuning. Increase `target_accept` or reparameterize.
+The acceptance probability does not match the target. It is 0.02252, but should be close to 0.8. Try to increase the number of tuning steps.
+WARNING:pymc:The acceptance probability does not match the target. It is 0.02252, but should be close to 0.8. Try to increase the number of tuning steps.
+There were 2068 divergences after tuning. Increase `target_accept` or reparameterize.
+ERROR:pymc:There were 2068 divergences after tuning. Increase `target_accept` or reparameterize.
+The acceptance probability does not match the target. It is 0.3253, but should be close to 0.8. Try to increase the number of tuning steps.
+WARNING:pymc:The acceptance probability does not match the target. It is 0.3253, but should be close to 0.8. Try to increase the number of tuning steps.
+There were 407 divergences after tuning. Increase `target_accept` or reparameterize.
+ERROR:pymc:There were 407 divergences after tuning. Increase `target_accept` or reparameterize.
+The rhat statistic is larger than 1.2 for some parameters.
+WARNING:pymc:The rhat statistic is larger than 1.2 for some parameters.
+The estimated number of effective samples is smaller than 200 for some parameters.
+ERROR:pymc:The estimated number of effective samples is smaller than 200 for some parameters.
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">m</span><span class="p">:</span>
-    <span class="n">alpha</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Flat</span><span class="p">(</span><span class="s2">&quot;alpha&quot;</span><span class="p">)</span>
-    <span class="n">beta</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Flat</span><span class="p">(</span><span class="s2">&quot;beta&quot;</span><span class="p">)</span>
-    <span class="n">log_sigma</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Flat</span><span class="p">(</span><span class="s2">&quot;log_sigma&quot;</span><span class="p">)</span>
-    <span class="n">tau</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;tau&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="n">exp</span><span class="o">*</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">log_sigma</span><span class="p">))</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">hdi_prob</span><span class="o">=</span><span class="mf">0.95</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
 
-    <span class="n">miss</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Bernoulli</span><span class="p">(</span><span class="s2">&quot;missing&quot;</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
-    <span class="n">p_</span> <span class="o">=</span> <span class="n">invlogit</span><span class="p">(</span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span> <span class="o">*</span> <span class="n">y</span><span class="p">)</span>
-    
-    <span class="n">alpha</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;alpha&quot;</span><span class="p">,</span> <span class="n">alpha_c</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="n">alpha_tau</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
-    <span class="n">beta</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;beta&quot;</span><span class="p">,</span> <span class="n">beta_c</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="n">beta_tau</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
-    <span class="n">lik_tau</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Gamma</span><span class="p">(</span><span class="s2">&quot;lik_tau&quot;</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">)</span>
-    <span class="n">sigma</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;sigma&quot;</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">lik_tau</span><span class="o">**</span><span class="mf">0.5</span><span class="p">)</span>
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
 
-    <span class="n">x_imputed</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">TruncatedNormal</span><span class="p">(</span><span class="s2">&quot;x_imputed&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">lower</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">x</span><span class="p">)</span>
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mean</th>
+      <th>sd</th>
+      <th>hdi_2.5%</th>
+      <th>hdi_97.5%</th>
+      <th>mcse_mean</th>
+      <th>mcse_sd</th>
+      <th>ess_bulk</th>
+      <th>ess_tail</th>
+      <th>r_hat</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>a</th>
+      <td>-3.370</td>
+      <td>1.649</td>
+      <td>-6.219</td>
+      <td>-0.930</td>
+      <td>0.416</td>
+      <td>0.300</td>
+      <td>14.0</td>
+      <td>34.0</td>
+      <td>1.21</td>
+    </tr>
+    <tr>
+      <th>alpha</th>
+      <td>102.162</td>
+      <td>12.412</td>
+      <td>76.060</td>
+      <td>121.021</td>
+      <td>0.386</td>
+      <td>0.273</td>
+      <td>449.0</td>
+      <td>693.0</td>
+      <td>1.03</td>
+    </tr>
+    <tr>
+      <th>beta</th>
+      <td>6.351</td>
+      <td>0.639</td>
+      <td>5.331</td>
+      <td>7.639</td>
+      <td>0.020</td>
+      <td>0.014</td>
+      <td>433.0</td>
+      <td>924.0</td>
+      <td>1.02</td>
+    </tr>
+    <tr>
+      <th>log_sigma</th>
+      <td>1.761</td>
+      <td>0.582</td>
+      <td>0.728</td>
+      <td>2.964</td>
+      <td>0.076</td>
+      <td>0.054</td>
+      <td>45.0</td>
+      <td>215.0</td>
+      <td>1.12</td>
+    </tr>
+    <tr>
+      <th>likelihood_missing[0]</th>
+      <td>330.850</td>
+      <td>16.503</td>
+      <td>303.956</td>
+      <td>358.831</td>
+      <td>0.425</td>
+      <td>0.307</td>
+      <td>523.0</td>
+      <td>1164.0</td>
+      <td>1.01</td>
+    </tr>
+    <tr>
+      <th>tau</th>
+      <td>0.049</td>
+      <td>0.050</td>
+      <td>0.000</td>
+      <td>0.152</td>
+      <td>0.007</td>
+      <td>0.005</td>
+      <td>45.0</td>
+      <td>215.0</td>
+      <td>1.13</td>
+    </tr>
+    <tr>
+      <th>p[0]</th>
+      <td>0.221</td>
+      <td>0.193</td>
+      <td>0.000</td>
+      <td>0.553</td>
+      <td>0.064</td>
+      <td>0.048</td>
+      <td>14.0</td>
+      <td>34.0</td>
+      <td>1.27</td>
+    </tr>
+    <tr>
+      <th>p[1]</th>
+      <td>0.289</td>
+      <td>0.231</td>
+      <td>0.001</td>
+      <td>0.666</td>
+      <td>0.075</td>
+      <td>0.059</td>
+      <td>14.0</td>
+      <td>34.0</td>
+      <td>1.27</td>
+    </tr>
+    <tr>
+      <th>p[2]</th>
+      <td>0.363</td>
+      <td>0.260</td>
+      <td>0.001</td>
+      <td>0.761</td>
+      <td>0.081</td>
+      <td>0.066</td>
+      <td>14.0</td>
+      <td>34.0</td>
+      <td>1.27</td>
+    </tr>
+    <tr>
+      <th>p[3]</th>
+      <td>0.425</td>
+      <td>0.277</td>
+      <td>0.001</td>
+      <td>0.822</td>
+      <td>0.082</td>
+      <td>0.068</td>
+      <td>14.0</td>
+      <td>34.0</td>
+      <td>1.21</td>
+    </tr>
+    <tr>
+      <th>p[4]</th>
+      <td>0.073</td>
+      <td>0.077</td>
+      <td>0.000</td>
+      <td>0.214</td>
+      <td>0.026</td>
+      <td>0.019</td>
+      <td>14.0</td>
+      <td>34.0</td>
+      <td>1.27</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">watermark</span> --iversions -v
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Python implementation: CPython
+Python version       : 3.10.1
+IPython version      : 7.31.0
 
-    <span class="n">mu</span> <span class="o">=</span> <span class="n">alpha</span> <span class="o">+</span> <span class="n">beta</span> <span class="o">*</span> <span class="n">x_imputed</span>
-
-    <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;likelihood&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="n">tau</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
-
-    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">5000</span><span class="p">)</span>
+pymc : 4.0.0b1
+numpy: 1.22.0
+arviz: 0.11.4
 </pre></div>
 </div>
 </div>
