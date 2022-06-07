@@ -851,9 +851,18 @@ title="Print to PDF"
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pymc</span> <span class="k">as</span> <span class="nn">pm</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">arviz</span> <span class="k">as</span> <span class="nn">az</span>
+<span class="kn">from</span> <span class="nn">pymc.math</span> <span class="kn">import</span> <span class="n">logit</span>
 
 <span class="o">%</span><span class="k">load_ext</span> lab_black
 <span class="o">%</span><span class="k">load_ext</span> watermark
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The lab_black extension is already loaded. To reload it, use:
+  %reload_ext lab_black
+The watermark extension is already loaded. To reload it, use:
+  %reload_ext watermark
 </pre></div>
 </div>
 </div>
@@ -861,7 +870,7 @@ title="Print to PDF"
 <section class="tex2jax_ignore mathjax_ignore" id="priors-as-hidden-mixtures">
 <h1>Priors as hidden mixtures<a class="headerlink" href="#priors-as-hidden-mixtures" title="Permalink to this headline">#</a></h1>
 <p>This example demonstrates …</p>
-<p>Adapted from <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/original_examples/Codes4Unit7/tasmixture.odc">unit 7: tasmixture.odc</a> and <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/original_examples/Codes4Unit7/jeremymus.odc">unit 7: jeremymus.odc</a></p>
+<p>Adapted from <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/original_examples/Codes4Unit9/cumulative2.odc">unit 9: cumulative2.odc</a>.</p>
 <section id="associated-lecture-video-unit-9-lesson-8">
 <h2>Associated lecture video: Unit 9 Lesson 8<a class="headerlink" href="#associated-lecture-video-unit-9-lesson-8" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
@@ -874,6 +883,66 @@ title="Print to PDF"
 <div class="cell_output docutils container">
 <div class="output text_html"><iframe width="560" height="315" src="https://www.youtube.com/embed?v=xomK4tcePmc&list=PLv0FeK5oXK4l-RdT6DWJj0_upJOG2WKNO&index=95" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
 </div></div>
+</div>
+<p>Use of CUMULATIVE as a check for outliers</p>
+<p>How consistent are the data with the model? Check cumulative(y[i], y[i]).</p>
+<p>The first y[i] specifies the distribution of y[i]’s, the second is the argument/observation. The output is empirical cdf of y[i]s evaluated at y[i].</p>
+<p>Values close to 0 or 1 are potential outliers.</p>
+<p>What exactly does the cumulative function in BUGS do???</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># fmt: off</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+    <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.2</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.4</span><span class="p">,</span> 
+     <span class="mf">0.2</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.4</span><span class="p">,</span> <span class="mf">1.8</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.6</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">,</span> <span class="mf">5.1</span><span class="p">,</span> <span class="o">-</span><span class="mf">6.3</span><span class="p">]</span>
+<span class="p">)</span>
+<span class="c1"># fmt: on</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>with pm.Model() as m:
+    theta = pm.Flat(&quot;theta&quot;)
+    log_sigma = pm.Flat(&quot;log_sigma&quot;)
+    tau = pm.Deterministic(&quot;tau&quot;, 1/exp(2*log_sigma))
+    
+    cuy = pm.Deterministic(&quot;cuy&quot;, ???cumulative)
+    add = pm.Deterministic(&quot;add&quot;, logit(cuy)**2)
+    a = pm.Deterministic(&quot;a&quot;, pm.math.sum(add))
+    
+    pm.Normal(&quot;y&quot;, mu=theta, tau=tau, observed=y)
+    
+    trace = pm.sample(2000)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">watermark</span> --iversions -v
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Python implementation: CPython
+Python version       : 3.10.4
+IPython version      : 8.4.0
+
+arviz: 0.12.1
+numpy: 1.22.4
+pymc : 4.0.0
+</pre></div>
+</div>
+</div>
 </div>
 </section>
 </section>
