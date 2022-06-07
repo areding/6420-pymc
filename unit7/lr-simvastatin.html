@@ -56,7 +56,7 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Generalized linear models" href="glm.html" />
-    <link rel="prev" title="Isoflavon" href="lr-isoflavon.html" />
+    <link rel="prev" title="Insulin" href="lr-insulin.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -369,11 +369,6 @@ const thebe_selector_output = ".output, .cell_output"
    <li class="toctree-l2">
     <a class="reference internal" href="lr-insulin.html">
      Insulin
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="lr-isoflavon.html">
-     Isoflavon
     </a>
    </li>
    <li class="toctree-l2 current active">
@@ -920,14 +915,6 @@ title="Print to PDF"
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The lab_black extension is already loaded. To reload it, use:
-  %reload_ext lab_black
-The watermark extension is already loaded. To reload it, use:
-  %reload_ext watermark
-</pre></div>
-</div>
-</div>
 </div>
 <section class="tex2jax_ignore mathjax_ignore" id="simvastatin">
 <h1>Simvastatin<a class="headerlink" href="#simvastatin" title="Permalink to this headline">#</a></h1>
@@ -1118,16 +1105,17 @@ The watermark extension is already loaded. To reload it, use:
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">conc_idx</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">conc_idx</span><span class="p">,</span> <span class="n">conc</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 0, 0, 0, 0, 1, 1,
-       1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2,
-       3, 3, 3, 3, 0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 0, 0,
-       0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 0, 0, 0, 0, 1, 1, 1, 1,
-       2, 2, 2, 2, 3, 3, 3, 3])
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(array([0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 0, 0, 0, 0, 1, 1,
+        1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2,
+        3, 3, 3, 3, 0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 0, 0,
+        0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 0, 0, 0, 0, 1, 1, 1, 1,
+        2, 2, 2, 2, 3, 3, 3, 3]),
+ Int64Index([1, 2, 3, 4], dtype=&#39;int64&#39;))
 </pre></div>
 </div>
 </div>
@@ -1717,53 +1705,31 @@ INFO:pymc:Sampling 4 chains for 1_000 tune and 2_000 draw iterations (4_000 + 8_
         <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;alpha</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2"> - alpha</span><span class="si">{</span><span class="n">j</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">alpha</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">alpha_combos</span>
     <span class="p">]</span>
-    <span class="p">[</span><span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;beta</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2"> - beta</span><span class="si">{</span><span class="n">j</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">beta</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">beta</span><span class="p">[</span><span class="n">j</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">alpha_combos</span><span class="p">]</span>
+    <span class="p">[</span><span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;beta</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2"> - beta</span><span class="si">{</span><span class="n">j</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">beta</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">beta</span><span class="p">[</span><span class="n">j</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">beta_combos</span><span class="p">]</span>
 
     <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">2000</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Auto-assigning NUTS sampler...
-INFO:pymc:Auto-assigning NUTS sampler...
-Initializing NUTS using jitter+adapt_diag...
-INFO:pymc:Initializing NUTS using jitter+adapt_diag...
-/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/pymc/aesaraf.py:1005: UserWarning: The parameter &#39;updates&#39; of aesara.function() expects an OrderedDict, got &lt;class &#39;dict&#39;&gt;. Using a standard dictionary here results in non-deterministic behavior. You should use an OrderedDict if you are using Python 2.7 (collections.OrderedDict for older python), or use a list of (shared, update) pairs. Do not just convert your dictionary to this type before the call as the conversion will still be non-deterministic.
-  aesara_function = aesara.function(
-Multiprocess sampling (4 chains in 4 jobs)
-INFO:pymc:Multiprocess sampling (4 chains in 4 jobs)
-NUTS: [mu0, _alpha, _beta, _alphabeta, tau]
-INFO:pymc:NUTS: [mu0, _alpha, _beta, _alphabeta, tau]
-</pre></div>
-</div>
-<div class="output text_html">
-<style>
-    /* Turns off some styling */
-    progress {
-        /* gets rid of default border in Firefox and Opera. */
-        border: none;
-        /* Needs to be in here for Safari polyfill so background images work as expected. */
-        background-size: auto;
-    }
-    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
-        background: #F44336;
-    }
-</style>
-</div><div class="output text_html">
-<div>
-  <progress value='12000' class='' max='12000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-  100.00% [12000/12000 00:13<00:00 Sampling 4 chains, 0 divergences]
-</div>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
-  return _boost._beta_ppf(q, a, b)
-/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
-  return _boost._beta_ppf(q, a, b)
-/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
-  return _boost._beta_ppf(q, a, b)
-/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
-  return _boost._beta_ppf(q, a, b)
-Sampling 4 chains for 1_000 tune and 2_000 draw iterations (4_000 + 8_000 draws total) took 21 seconds.
-INFO:pymc:Sampling 4 chains for 1_000 tune and 2_000 draw iterations (4_000 + 8_000 draws total) took 21 seconds.
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="nn">Input In [9],</span> in <span class="ni">&lt;cell line: 1&gt;</span><span class="nt">()</span>
+<span class="g g-Whitespace">     </span><span class="mi">19</span> <span class="n">mu</span> <span class="o">=</span> <span class="p">(</span>
+<span class="g g-Whitespace">     </span><span class="mi">20</span>     <span class="n">mu0</span>
+<span class="g g-Whitespace">     </span><span class="mi">21</span>     <span class="o">+</span> <span class="n">alpha</span><span class="p">[</span><span class="n">conc_idx_data</span><span class="p">]</span>
+<span class="g g-Whitespace">     </span><span class="mi">22</span>     <span class="o">+</span> <span class="n">beta</span><span class="p">[</span><span class="n">time_idx_data</span><span class="p">]</span>
+<span class="g g-Whitespace">     </span><span class="mi">23</span>     <span class="o">+</span> <span class="n">alphabeta</span><span class="p">[</span><span class="n">conc_idx_data</span><span class="p">,</span> <span class="n">time_idx_data</span><span class="p">]</span>
+<span class="g g-Whitespace">     </span><span class="mi">24</span> <span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">25</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;apa&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="n">tau</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">apa_data</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">27</span> <span class="p">[</span>
+<span class="g g-Whitespace">     </span><span class="mi">28</span>     <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;alpha</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2"> - alpha</span><span class="si">{</span><span class="n">j</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">alpha</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
+<span class="ne">---&gt; </span><span class="mi">29</span>     <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">alpha_combos</span>
+<span class="g g-Whitespace">     </span><span class="mi">30</span> <span class="p">]</span>
+<span class="g g-Whitespace">     </span><span class="mi">31</span> <span class="p">[</span><span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;beta</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2"> - beta</span><span class="si">{</span><span class="n">j</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">beta</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">beta</span><span class="p">[</span><span class="n">j</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">beta_combos</span><span class="p">]</span>
+<span class="g g-Whitespace">     </span><span class="mi">33</span> <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">2000</span><span class="p">)</span>
+
+<span class="ne">NameError</span>: name &#39;alpha_combos&#39; is not defined
 </pre></div>
 </div>
 </div>
@@ -2177,11 +2143,11 @@ INFO:pymc:Sampling 4 chains for 1_000 tune and 2_000 draw iterations (4_000 + 8_
                 
     <!-- Previous / next buttons -->
 <div class='prev-next-area'>
-    <a class='left-prev' id="prev-link" href="lr-isoflavon.html" title="previous page">
+    <a class='left-prev' id="prev-link" href="lr-insulin.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">Isoflavon</p>
+            <p class="prev-next-title">Insulin</p>
         </div>
     </a>
     <a class='right-next' id="next-link" href="glm.html" title="next page">

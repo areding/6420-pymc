@@ -374,11 +374,6 @@ const thebe_selector_output = ".output, .cell_output"
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="lr-isoflavon.html">
-     Isoflavon
-    </a>
-   </li>
-   <li class="toctree-l2">
     <a class="reference internal" href="lr-simvastatin.html">
      Simvastatin
     </a>
@@ -842,13 +837,8 @@ title="Print to PDF"
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#all-predictors">
-   All predictors
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#multinomial-regression-with-zellners-prior">
-   Multinomial regression with Zellner’s prior
+  <a class="reference internal nav-link" href="#multinomial-regression-with-all-predictors">
+   Multinomial regression with all predictors
   </a>
  </li>
 </ul>
@@ -898,13 +888,8 @@ title="Print to PDF"
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#all-predictors">
-   All predictors
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#multinomial-regression-with-zellners-prior">
-   Multinomial regression with Zellner’s prior
+  <a class="reference internal nav-link" href="#multinomial-regression-with-all-predictors">
+   Multinomial regression with all predictors
   </a>
  </li>
 </ul>
@@ -920,7 +905,6 @@ title="Print to PDF"
   <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pymc</span> <span class="k">as</span> <span class="nn">pm</span>
-<span class="kn">from</span> <span class="nn">pymc.math</span> <span class="kn">import</span> <span class="n">dot</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">arviz</span> <span class="k">as</span> <span class="nn">az</span>
@@ -928,14 +912,6 @@ title="Print to PDF"
 
 <span class="o">%</span><span class="k">load_ext</span> lab_black
 <span class="o">%</span><span class="k">load_ext</span> watermark
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The lab_black extension is already loaded. To reload it, use:
-  %reload_ext lab_black
-The watermark extension is already loaded. To reload it, use:
-  %reload_ext watermark
 </pre></div>
 </div>
 </div>
@@ -1220,9 +1196,9 @@ dtype: float64
 </div>
 <p>In this case they agree, but that won’t always be true.</p>
 </section>
-<section id="all-predictors">
-<h2>All predictors<a class="headerlink" href="#all-predictors" title="Permalink to this headline">#</a></h2>
-<p>Based on fat2d.odc.</p>
+<section id="multinomial-regression-with-all-predictors">
+<h2>Multinomial regression with all predictors<a class="headerlink" href="#multinomial-regression-with-all-predictors" title="Permalink to this headline">#</a></h2>
+<p>Based on fat2d.odc or fatmulti.odc (they appear to be identical).</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;../data/fat.tsv&quot;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -1249,14 +1225,116 @@ dtype: float64
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X_aug</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(252, 15)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">new_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">15</span><span class="p">,</span> <span class="mi">15</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">15</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">15</span><span class="p">):</span>
+        <span class="n">new_matrix</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inner</span><span class="p">(</span><span class="n">X_aug</span><span class="p">[:,</span> <span class="n">i</span><span class="p">],</span> <span class="n">X_aug</span><span class="p">[:,</span> <span class="n">j</span><span class="p">])</span>
+<span class="n">new_matrix</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(15, 15)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">equal</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">X_aug</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">X_aug</span><span class="p">),</span> <span class="n">new_matrix</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[ True,  True,  True,  True, False, False, False, False,  True,
+         True, False, False, False, False, False],
+       [ True,  True, False,  True, False, False, False,  True, False,
+        False, False, False,  True, False, False],
+       [ True, False,  True,  True, False, False,  True,  True, False,
+        False, False, False,  True, False, False],
+       [ True,  True,  True,  True, False, False, False,  True, False,
+        False, False, False, False, False, False],
+       [False, False, False, False, False, False,  True, False, False,
+        False, False, False, False, False,  True],
+       [False, False, False, False, False, False, False, False, False,
+        False, False, False, False, False,  True],
+       [False, False,  True, False,  True, False, False, False, False,
+        False, False, False, False, False, False],
+       [False,  True,  True,  True, False, False, False, False,  True,
+         True, False, False, False, False,  True],
+       [ True, False, False, False, False, False, False,  True,  True,
+        False, False,  True, False, False, False],
+       [ True, False, False, False, False, False, False,  True, False,
+        False,  True, False, False, False, False],
+       [False, False, False, False, False, False, False, False, False,
+         True, False, False, False, False, False],
+       [False, False, False, False, False, False, False, False,  True,
+        False, False, False, False, False, False],
+       [False,  True,  True, False, False, False, False, False, False,
+        False, False, False, False, False, False],
+       [False, False, False, False, False, False, False, False, False,
+        False, False, False, False,  True,  True],
+       [False, False, False, False,  True,  True, False,  True, False,
+        False, False, False, False,  True, False]])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">X_aug</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">X_aug</span><span class="p">),</span> <span class="n">new_matrix</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">X_aug</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">X_aug</span><span class="p">)</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(15, 15)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mu_beta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">m2d</span><span class="p">:</span>
-    <span class="n">tau</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Gamma</span><span class="p">(</span><span class="s2">&quot;tau&quot;</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">)</span>
+    <span class="n">tau</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Gamma</span><span class="p">(</span><span class="s2">&quot;tau&quot;</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">)</span>
     <span class="n">variance</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;variance&quot;</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">tau</span><span class="p">)</span>
 
-    <span class="n">tau_beta</span> <span class="o">=</span> <span class="n">tau</span><span class="o">/</span><span class="n">g</span> <span class="o">*</span> <span class="n">dot</span><span class="p">(</span><span class="n">X_aug</span><span class="p">,</span> <span class="n">X_aug</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
-    <span class="n">beta</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">MvNormal</span><span class="p">(</span><span class="s2">&quot;beta&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="n">tau_beta</span><span class="p">)</span>
+    <span class="n">tau_matrix</span> <span class="o">=</span> <span class="n">at</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="n">at</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">15</span><span class="p">,</span> <span class="mi">15</span><span class="p">)),</span> <span class="n">tau</span><span class="p">)</span>
+    <span class="n">tau_beta</span> <span class="o">=</span> <span class="n">tau_matrix</span> <span class="o">/</span> <span class="n">g</span> <span class="o">*</span> <span class="n">dot</span><span class="p">(</span><span class="n">X_aug</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">X_aug</span><span class="p">)</span>
+    <span class="n">beta</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">MvNormal</span><span class="p">(</span><span class="s2">&quot;beta&quot;</span><span class="p">,</span> <span class="n">mu_beta</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="n">tau_beta</span><span class="p">)</span>
+
     <span class="n">mu</span> <span class="o">=</span> <span class="n">dot</span><span class="p">(</span><span class="n">X_aug</span><span class="p">,</span> <span class="n">beta</span><span class="p">)</span>
-    <span class="n">likelihood</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;likelihood&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="n">tau</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
+    <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;likelihood&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="n">tau</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
 
     <span class="c1"># Bayesian R2 from fat2d.odc</span>
     <span class="n">sse</span> <span class="o">=</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="n">p</span><span class="p">)</span> <span class="o">*</span> <span class="n">variance</span>
@@ -1265,7 +1343,7 @@ dtype: float64
     <span class="n">br2</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;br2&quot;</span><span class="p">,</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">sse</span> <span class="o">/</span> <span class="n">sst</span><span class="p">)</span>
     <span class="n">br2_adj</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;br2_adj&quot;</span><span class="p">,</span> <span class="mi">1</span> <span class="o">-</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">variance</span> <span class="o">/</span> <span class="n">sst</span><span class="p">)</span>
 
-    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">2000</span><span class="p">)</span>
+    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>
     <span class="n">ppc</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample_posterior_predictive</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -1273,153 +1351,61 @@ dtype: float64
 <div class="cell_output docutils container">
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Auto-assigning NUTS sampler...
 Initializing NUTS using jitter+adapt_diag...
+Multiprocess sampling (4 chains in 4 jobs)
+NUTS: [tau, beta]
 </pre></div>
 </div>
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">ValueError</span><span class="g g-Whitespace">                                </span>Traceback (most recent call last)
-<span class="nn">File ~/mambaforge/envs/pymc_env/lib/python3.10/site-packages/aesara/compile/function/types.py:964,</span> in <span class="ni">Function.__call__</span><span class="nt">(self, *args, **kwargs)</span>
-<span class="g g-Whitespace">    </span><span class="mi">962</span> <span class="k">try</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">963</span>     <span class="n">outputs</span> <span class="o">=</span> <span class="p">(</span>
-<span class="ne">--&gt; </span><span class="mi">964</span>         <span class="bp">self</span><span class="o">.</span><span class="n">fn</span><span class="p">()</span>
-<span class="g g-Whitespace">    </span><span class="mi">965</span>         <span class="k">if</span> <span class="n">output_subset</span> <span class="ow">is</span> <span class="kc">None</span>
-<span class="g g-Whitespace">    </span><span class="mi">966</span>         <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">fn</span><span class="p">(</span><span class="n">output_subset</span><span class="o">=</span><span class="n">output_subset</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">967</span>     <span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">968</span> <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
-
-<span class="ne">ValueError</span>: Shape mismatch: A.shape[1] != x.shape[0]
-
-<span class="n">During</span> <span class="n">handling</span> <span class="n">of</span> <span class="n">the</span> <span class="n">above</span> <span class="n">exception</span><span class="p">,</span> <span class="n">another</span> <span class="n">exception</span> <span class="n">occurred</span><span class="p">:</span>
-
-<span class="ne">ValueError</span><span class="g g-Whitespace">                                </span>Traceback (most recent call last)
-<span class="nn">Input In [59],</span> in <span class="ni">&lt;cell line: 1&gt;</span><span class="nt">()</span>
-<span class="g g-Whitespace">     </span><span class="mi">14</span> <span class="n">br2</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;br2&quot;</span><span class="p">,</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">sse</span> <span class="o">/</span> <span class="n">sst</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">15</span> <span class="n">br2_adj</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;br2_adj&quot;</span><span class="p">,</span> <span class="mi">1</span> <span class="o">-</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">variance</span> <span class="o">/</span> <span class="n">sst</span><span class="p">)</span>
-<span class="ne">---&gt; </span><span class="mi">17</span> <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">2000</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">18</span> <span class="n">ppc</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample_posterior_predictive</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>
-
-<span class="nn">File ~/mambaforge/envs/pymc_env/lib/python3.10/site-packages/pymc/sampling.py:481,</span> in <span class="ni">sample</span><span class="nt">(draws, step, init, n_init, initvals, trace, chain_idx, chains, cores, tune, progressbar, model, random_seed, discard_tuned_samples, compute_convergence_checks, callback, jitter_max_retries, return_inferencedata, idata_kwargs, mp_ctx, **kwargs)</span>
-<span class="g g-Whitespace">    </span><span class="mi">479</span>         <span class="p">[</span><span class="n">kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">nuts_kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">()]</span>
-<span class="g g-Whitespace">    </span><span class="mi">480</span>     <span class="n">_log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Auto-assigning NUTS sampler...&quot;</span><span class="p">)</span>
-<span class="ne">--&gt; </span><span class="mi">481</span>     <span class="n">initial_points</span><span class="p">,</span> <span class="n">step</span> <span class="o">=</span> <span class="n">init_nuts</span><span class="p">(</span>
-<span class="g g-Whitespace">    </span><span class="mi">482</span>         <span class="n">init</span><span class="o">=</span><span class="n">init</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">483</span>         <span class="n">chains</span><span class="o">=</span><span class="n">chains</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">484</span>         <span class="n">n_init</span><span class="o">=</span><span class="n">n_init</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">485</span>         <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">486</span>         <span class="n">seeds</span><span class="o">=</span><span class="n">random_seed</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">487</span>         <span class="n">progressbar</span><span class="o">=</span><span class="n">progressbar</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">488</span>         <span class="n">jitter_max_retries</span><span class="o">=</span><span class="n">jitter_max_retries</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">489</span>         <span class="n">tune</span><span class="o">=</span><span class="n">tune</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">490</span>         <span class="n">initvals</span><span class="o">=</span><span class="n">initvals</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">491</span>         <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">492</span>     <span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">494</span> <span class="k">if</span> <span class="n">initial_points</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">495</span>     <span class="c1"># Time to draw/evaluate numeric start points for each chain.</span>
-<span class="g g-Whitespace">    </span><span class="mi">496</span>     <span class="n">ipfns</span> <span class="o">=</span> <span class="n">make_initial_point_fns_per_chain</span><span class="p">(</span>
-<span class="g g-Whitespace">    </span><span class="mi">497</span>         <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">498</span>         <span class="n">overrides</span><span class="o">=</span><span class="n">initvals</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">499</span>         <span class="n">jitter_rvs</span><span class="o">=</span><span class="n">filter_rvs_to_jitter</span><span class="p">(</span><span class="n">step</span><span class="p">),</span>
-<span class="g g-Whitespace">    </span><span class="mi">500</span>         <span class="n">chains</span><span class="o">=</span><span class="n">chains</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">501</span>     <span class="p">)</span>
-
-<span class="nn">File ~/mambaforge/envs/pymc_env/lib/python3.10/site-packages/pymc/sampling.py:2307,</span> in <span class="ni">init_nuts</span><span class="nt">(init, chains, n_init, model, seeds, progressbar, jitter_max_retries, tune, initvals, **kwargs)</span>
-<span class="g g-Whitespace">   </span><span class="mi">2300</span> <span class="n">_log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Initializing NUTS using </span><span class="si">{</span><span class="n">init</span><span class="si">}</span><span class="s2">...&quot;</span><span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">2302</span> <span class="n">cb</span> <span class="o">=</span> <span class="p">[</span>
-<span class="g g-Whitespace">   </span><span class="mi">2303</span>     <span class="n">pm</span><span class="o">.</span><span class="n">callbacks</span><span class="o">.</span><span class="n">CheckParametersConvergence</span><span class="p">(</span><span class="n">tolerance</span><span class="o">=</span><span class="mf">1e-2</span><span class="p">,</span> <span class="n">diff</span><span class="o">=</span><span class="s2">&quot;absolute&quot;</span><span class="p">),</span>
-<span class="g g-Whitespace">   </span><span class="mi">2304</span>     <span class="n">pm</span><span class="o">.</span><span class="n">callbacks</span><span class="o">.</span><span class="n">CheckParametersConvergence</span><span class="p">(</span><span class="n">tolerance</span><span class="o">=</span><span class="mf">1e-2</span><span class="p">,</span> <span class="n">diff</span><span class="o">=</span><span class="s2">&quot;relative&quot;</span><span class="p">),</span>
-<span class="g g-Whitespace">   </span><span class="mi">2305</span> <span class="p">]</span>
-<span class="ne">-&gt; </span><span class="mi">2307</span> <span class="n">initial_points</span> <span class="o">=</span> <span class="n">_init_jitter</span><span class="p">(</span>
-<span class="g g-Whitespace">   </span><span class="mi">2308</span>     <span class="n">model</span><span class="p">,</span>
-<span class="g g-Whitespace">   </span><span class="mi">2309</span>     <span class="n">initvals</span><span class="p">,</span>
-<span class="g g-Whitespace">   </span><span class="mi">2310</span>     <span class="n">seeds</span><span class="o">=</span><span class="n">seeds</span><span class="p">,</span>
-<span class="g g-Whitespace">   </span><span class="mi">2311</span>     <span class="n">jitter</span><span class="o">=</span><span class="s2">&quot;jitter&quot;</span> <span class="ow">in</span> <span class="n">init</span><span class="p">,</span>
-<span class="g g-Whitespace">   </span><span class="mi">2312</span>     <span class="n">jitter_max_retries</span><span class="o">=</span><span class="n">jitter_max_retries</span><span class="p">,</span>
-<span class="g g-Whitespace">   </span><span class="mi">2313</span> <span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">2315</span> <span class="n">apoints</span> <span class="o">=</span> <span class="p">[</span><span class="n">DictToArrayBijection</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">point</span><span class="p">)</span> <span class="k">for</span> <span class="n">point</span> <span class="ow">in</span> <span class="n">initial_points</span><span class="p">]</span>
-<span class="g g-Whitespace">   </span><span class="mi">2316</span> <span class="n">apoints_data</span> <span class="o">=</span> <span class="p">[</span><span class="n">apoint</span><span class="o">.</span><span class="n">data</span> <span class="k">for</span> <span class="n">apoint</span> <span class="ow">in</span> <span class="n">apoints</span><span class="p">]</span>
-
-<span class="nn">File ~/mambaforge/envs/pymc_env/lib/python3.10/site-packages/pymc/sampling.py:2194,</span> in <span class="ni">_init_jitter</span><span class="nt">(model, initvals, seeds, jitter, jitter_max_retries)</span>
-<span class="g g-Whitespace">   </span><span class="mi">2192</span> <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">jitter_max_retries</span><span class="p">:</span>
-<span class="g g-Whitespace">   </span><span class="mi">2193</span>     <span class="k">try</span><span class="p">:</span>
-<span class="ne">-&gt; </span><span class="mi">2194</span>         <span class="n">model</span><span class="o">.</span><span class="n">check_start_vals</span><span class="p">(</span><span class="n">point</span><span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">2195</span>     <span class="k">except</span> <span class="n">SamplingError</span><span class="p">:</span>
-<span class="g g-Whitespace">   </span><span class="mi">2196</span>         <span class="c1"># Retry with a new seed</span>
-<span class="g g-Whitespace">   </span><span class="mi">2197</span>         <span class="n">seed</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="mi">30</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span>
-
-<span class="nn">File ~/mambaforge/envs/pymc_env/lib/python3.10/site-packages/pymc/model.py:1687,</span> in <span class="ni">Model.check_start_vals</span><span class="nt">(self, start)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1681</span>     <span class="n">valid_keys</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">named_vars</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
-<span class="g g-Whitespace">   </span><span class="mi">1682</span>     <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span>
-<span class="g g-Whitespace">   </span><span class="mi">1683</span>         <span class="s2">&quot;Some start parameters do not appear in the model!</span><span class="se">\n</span><span class="s2">&quot;</span>
-<span class="g g-Whitespace">   </span><span class="mi">1684</span>         <span class="sa">f</span><span class="s2">&quot;Valid keys are: </span><span class="si">{</span><span class="n">valid_keys</span><span class="si">}</span><span class="s2">, but </span><span class="si">{</span><span class="n">extra_keys</span><span class="si">}</span><span class="s2"> was supplied&quot;</span>
-<span class="g g-Whitespace">   </span><span class="mi">1685</span>     <span class="p">)</span>
-<span class="ne">-&gt; </span><span class="mi">1687</span> <span class="n">initial_eval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">point_logps</span><span class="p">(</span><span class="n">point</span><span class="o">=</span><span class="n">elem</span><span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1689</span> <span class="k">if</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">initial_eval</span><span class="o">.</span><span class="n">values</span><span class="p">()):</span>
-<span class="g g-Whitespace">   </span><span class="mi">1690</span>     <span class="k">raise</span> <span class="n">SamplingError</span><span class="p">(</span>
-<span class="g g-Whitespace">   </span><span class="mi">1691</span>         <span class="s2">&quot;Initial evaluation of model at starting point failed!</span><span class="se">\n</span><span class="s2">&quot;</span>
-<span class="g g-Whitespace">   </span><span class="mi">1692</span>         <span class="sa">f</span><span class="s2">&quot;Starting values:</span><span class="se">\n</span><span class="si">{</span><span class="n">elem</span><span class="si">}</span><span class="se">\n\n</span><span class="s2">&quot;</span>
-<span class="g g-Whitespace">   </span><span class="mi">1693</span>         <span class="sa">f</span><span class="s2">&quot;Initial evaluation results:</span><span class="se">\n</span><span class="si">{</span><span class="n">initial_eval</span><span class="si">}</span><span class="s2">&quot;</span>
-<span class="g g-Whitespace">   </span><span class="mi">1694</span>     <span class="p">)</span>
-
-<span class="nn">File ~/mambaforge/envs/pymc_env/lib/python3.10/site-packages/pymc/model.py:1728,</span> in <span class="ni">Model.point_logps</span><span class="nt">(self, point, round_vals)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1722</span> <span class="n">factors</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">basic_RVs</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">potentials</span>
-<span class="g g-Whitespace">   </span><span class="mi">1723</span> <span class="n">factor_logps_fn</span> <span class="o">=</span> <span class="p">[</span><span class="n">at</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">factor</span><span class="p">)</span> <span class="k">for</span> <span class="n">factor</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">logpt</span><span class="p">(</span><span class="n">factors</span><span class="p">,</span> <span class="nb">sum</span><span class="o">=</span><span class="kc">False</span><span class="p">)]</span>
-<span class="g g-Whitespace">   </span><span class="mi">1724</span> <span class="k">return</span> <span class="p">{</span>
-<span class="g g-Whitespace">   </span><span class="mi">1725</span>     <span class="n">factor</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">factor_logp</span><span class="p">),</span> <span class="n">round_vals</span><span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1726</span>     <span class="k">for</span> <span class="n">factor</span><span class="p">,</span> <span class="n">factor_logp</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span>
-<span class="g g-Whitespace">   </span><span class="mi">1727</span>         <span class="n">factors</span><span class="p">,</span>
-<span class="ne">-&gt; </span><span class="mi">1728</span>         <span class="bp">self</span><span class="o">.</span><span class="n">compile_fn</span><span class="p">(</span><span class="n">factor_logps_fn</span><span class="p">)(</span><span class="n">point</span><span class="p">),</span>
-<span class="g g-Whitespace">   </span><span class="mi">1729</span>     <span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1730</span> <span class="p">}</span>
-
-<span class="nn">File ~/mambaforge/envs/pymc_env/lib/python3.10/site-packages/pymc/model.py:1827,</span> in <span class="ni">PointFunc.__call__</span><span class="nt">(self, state)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1826</span> <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
-<span class="ne">-&gt; </span><span class="mi">1827</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="p">(</span><span class="o">**</span><span class="n">state</span><span class="p">)</span>
-
-<span class="nn">File ~/mambaforge/envs/pymc_env/lib/python3.10/site-packages/aesara/compile/function/types.py:977,</span> in <span class="ni">Function.__call__</span><span class="nt">(self, *args, **kwargs)</span>
-<span class="g g-Whitespace">    </span><span class="mi">975</span>     <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fn</span><span class="p">,</span> <span class="s2">&quot;thunks&quot;</span><span class="p">):</span>
-<span class="g g-Whitespace">    </span><span class="mi">976</span>         <span class="n">thunk</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fn</span><span class="o">.</span><span class="n">thunks</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">fn</span><span class="o">.</span><span class="n">position_of_error</span><span class="p">]</span>
-<span class="ne">--&gt; </span><span class="mi">977</span>     <span class="n">raise_with_op</span><span class="p">(</span>
-<span class="g g-Whitespace">    </span><span class="mi">978</span>         <span class="bp">self</span><span class="o">.</span><span class="n">maker</span><span class="o">.</span><span class="n">fgraph</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">979</span>         <span class="n">node</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">fn</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">fn</span><span class="o">.</span><span class="n">position_of_error</span><span class="p">],</span>
-<span class="g g-Whitespace">    </span><span class="mi">980</span>         <span class="n">thunk</span><span class="o">=</span><span class="n">thunk</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">981</span>         <span class="n">storage_map</span><span class="o">=</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fn</span><span class="p">,</span> <span class="s2">&quot;storage_map&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
-<span class="g g-Whitespace">    </span><span class="mi">982</span>     <span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">983</span> <span class="k">else</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">984</span>     <span class="c1"># old-style linkers raise their own exceptions</span>
-<span class="g g-Whitespace">    </span><span class="mi">985</span>     <span class="k">raise</span>
-
-<span class="nn">File ~/mambaforge/envs/pymc_env/lib/python3.10/site-packages/aesara/link/utils.py:538,</span> in <span class="ni">raise_with_op</span><span class="nt">(fgraph, node, thunk, exc_info, storage_map)</span>
-<span class="g g-Whitespace">    </span><span class="mi">533</span>     <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-<span class="g g-Whitespace">    </span><span class="mi">534</span>         <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">exc_type</span><span class="si">}</span><span class="s2"> error does not allow us to add an extra error message&quot;</span>
-<span class="g g-Whitespace">    </span><span class="mi">535</span>     <span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">536</span>     <span class="c1"># Some exception need extra parameter in inputs. So forget the</span>
-<span class="g g-Whitespace">    </span><span class="mi">537</span>     <span class="c1"># extra long error message in that case.</span>
-<span class="ne">--&gt; </span><span class="mi">538</span> <span class="k">raise</span> <span class="n">exc_value</span><span class="o">.</span><span class="n">with_traceback</span><span class="p">(</span><span class="n">exc_trace</span><span class="p">)</span>
-
-<span class="nn">File ~/mambaforge/envs/pymc_env/lib/python3.10/site-packages/aesara/compile/function/types.py:964,</span> in <span class="ni">Function.__call__</span><span class="nt">(self, *args, **kwargs)</span>
-<span class="g g-Whitespace">    </span><span class="mi">961</span> <span class="n">t0_fn</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
-<span class="g g-Whitespace">    </span><span class="mi">962</span> <span class="k">try</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">963</span>     <span class="n">outputs</span> <span class="o">=</span> <span class="p">(</span>
-<span class="ne">--&gt; </span><span class="mi">964</span>         <span class="bp">self</span><span class="o">.</span><span class="n">fn</span><span class="p">()</span>
-<span class="g g-Whitespace">    </span><span class="mi">965</span>         <span class="k">if</span> <span class="n">output_subset</span> <span class="ow">is</span> <span class="kc">None</span>
-<span class="g g-Whitespace">    </span><span class="mi">966</span>         <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">fn</span><span class="p">(</span><span class="n">output_subset</span><span class="o">=</span><span class="n">output_subset</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">967</span>     <span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">968</span> <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">969</span>     <span class="n">restore_defaults</span><span class="p">()</span>
-
-<span class="ne">ValueError</span>: Shape mismatch: A.shape[1] != x.shape[0]
-<span class="n">Apply</span> <span class="n">node</span> <span class="n">that</span> <span class="n">caused</span> <span class="n">the</span> <span class="n">error</span><span class="p">:</span> <span class="n">CGemv</span><span class="p">{</span><span class="n">no_inplace</span><span class="p">}(</span><span class="n">likelihood</span><span class="p">{[</span><span class="mf">12.6</span>  <span class="mf">6.9</span><span class="o">.</span><span class="mf">.25.3</span> <span class="mf">30.7</span><span class="p">]},</span> <span class="n">TensorConstant</span><span class="p">{</span><span class="o">-</span><span class="mf">1.0</span><span class="p">},</span> <span class="n">TensorConstant</span><span class="p">{[[</span>  <span class="mf">1.</span>    <span class="o">..</span>   <span class="mf">20.9</span> <span class="p">]]},</span> <span class="n">beta</span><span class="p">,</span> <span class="n">TensorConstant</span><span class="p">{</span><span class="mf">1.0</span><span class="p">})</span>
-<span class="n">Toposort</span> <span class="n">index</span><span class="p">:</span> <span class="mi">3</span>
-<span class="n">Inputs</span> <span class="n">types</span><span class="p">:</span> <span class="p">[</span><span class="n">TensorType</span><span class="p">(</span><span class="n">float64</span><span class="p">,</span> <span class="p">(</span><span class="mi">252</span><span class="p">,)),</span> <span class="n">TensorType</span><span class="p">(</span><span class="n">float64</span><span class="p">,</span> <span class="p">()),</span> <span class="n">TensorType</span><span class="p">(</span><span class="n">float64</span><span class="p">,</span> <span class="p">(</span><span class="mi">252</span><span class="p">,</span> <span class="mi">15</span><span class="p">)),</span> <span class="n">TensorType</span><span class="p">(</span><span class="n">float64</span><span class="p">,</span> <span class="p">(</span><span class="kc">None</span><span class="p">,)),</span> <span class="n">TensorType</span><span class="p">(</span><span class="n">float64</span><span class="p">,</span> <span class="p">())]</span>
-<span class="n">Inputs</span> <span class="n">shapes</span><span class="p">:</span> <span class="p">[(</span><span class="mi">252</span><span class="p">,),</span> <span class="p">(),</span> <span class="p">(</span><span class="mi">252</span><span class="p">,</span> <span class="mi">15</span><span class="p">),</span> <span class="p">(</span><span class="mi">252</span><span class="p">,),</span> <span class="p">()]</span>
-<span class="n">Inputs</span> <span class="n">strides</span><span class="p">:</span> <span class="p">[(</span><span class="mi">8</span><span class="p">,),</span> <span class="p">(),</span> <span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">2016</span><span class="p">),</span> <span class="p">(</span><span class="mi">8</span><span class="p">,),</span> <span class="p">()]</span>
-<span class="n">Inputs</span> <span class="n">values</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;not shown&#39;</span><span class="p">,</span> <span class="n">array</span><span class="p">(</span><span class="o">-</span><span class="mf">1.</span><span class="p">),</span> <span class="s1">&#39;not shown&#39;</span><span class="p">,</span> <span class="s1">&#39;not shown&#39;</span><span class="p">,</span> <span class="n">array</span><span class="p">(</span><span class="mf">1.</span><span class="p">)]</span>
-<span class="n">Outputs</span> <span class="n">clients</span><span class="p">:</span> <span class="p">[[</span><span class="n">Elemwise</span><span class="p">{</span><span class="n">Composite</span><span class="p">{</span><span class="n">Switch</span><span class="p">(</span><span class="n">i0</span><span class="p">,</span> <span class="p">((</span><span class="n">i1</span> <span class="o">+</span> <span class="p">(</span><span class="n">i2</span> <span class="o">*</span> <span class="n">sqr</span><span class="p">((</span><span class="n">i3</span> <span class="o">/</span> <span class="n">i4</span><span class="p">))))</span> <span class="o">-</span> <span class="n">i5</span><span class="p">),</span> <span class="n">i6</span><span class="p">)}}(</span><span class="n">Elemwise</span><span class="p">{</span><span class="n">gt</span><span class="p">,</span><span class="n">no_inplace</span><span class="p">}</span><span class="mf">.0</span><span class="p">,</span> <span class="n">TensorConstant</span><span class="p">{(</span><span class="mi">1</span><span class="p">,)</span> <span class="n">of</span> <span class="o">-</span><span class="mf">0..5332046727</span><span class="p">},</span> <span class="n">TensorConstant</span><span class="p">{(</span><span class="mi">1</span><span class="p">,)</span> <span class="n">of</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">},</span> <span class="n">CGemv</span><span class="p">{</span><span class="n">no_inplace</span><span class="p">}</span><span class="mf">.0</span><span class="p">,</span> <span class="n">Elemwise</span><span class="p">{</span><span class="n">Composite</span><span class="p">{</span><span class="n">reciprocal</span><span class="p">(</span><span class="n">sqrt</span><span class="p">(</span><span class="n">Switch</span><span class="p">(</span><span class="n">GT</span><span class="p">(</span><span class="n">i0</span><span class="p">,</span> <span class="n">i1</span><span class="p">),</span> <span class="n">i0</span><span class="p">,</span> <span class="n">i2</span><span class="p">)))}}</span><span class="mf">.0</span><span class="p">,</span> <span class="n">Elemwise</span><span class="p">{</span><span class="n">log</span><span class="p">,</span><span class="n">no_inplace</span><span class="p">}</span><span class="mf">.0</span><span class="p">,</span> <span class="n">TensorConstant</span><span class="p">{(</span><span class="mi">1</span><span class="p">,)</span> <span class="n">of</span> <span class="o">-</span><span class="n">inf</span><span class="p">})]]</span>
-
-<span class="ne">HINT</span>: Re-running with most Aesara optimizations disabled could provide a back-trace showing when this node was created. This can be done by setting the Aesara flag &#39;optimizer=fast_compile&#39;. If that does not work, Aesara optimizations can be disabled with &#39;optimizer=None&#39;.
-<span class="ne">HINT</span>: Use the Aesara flag `exception_verbosity=high` for a debug print-out and storage map footprint of this Apply node.
+<div class="output text_html">
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div><div class="output text_html">
+<div>
+  <progress value='8000' class='' max='8000' style='width:300px; height:20px; vertical-align: middle;'></progress>
+  100.00% [8000/8000 08:51<00:00 Sampling 4 chains, 46 divergences]
+</div>
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
+  return _boost._beta_ppf(q, a, b)
+/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
+  return _boost._beta_ppf(q, a, b)
+/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
+  return _boost._beta_ppf(q, a, b)
+/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
+  return _boost._beta_ppf(q, a, b)
+Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws total) took 546 seconds.
+There was 1 divergence after tuning. Increase `target_accept` or reparameterize.
+There were 36 divergences after tuning. Increase `target_accept` or reparameterize.
+There were 9 divergences after tuning. Increase `target_accept` or reparameterize.
 </pre></div>
 </div>
+<div class="output text_html">
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div><div class="output text_html">
+<div>
+  <progress value='4000' class='' max='4000' style='width:300px; height:20px; vertical-align: middle;'></progress>
+  100.00% [4000/4000 00:00<00:00]
 </div>
+</div></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1460,230 +1446,230 @@ Initializing NUTS using jitter+adapt_diag...
   <tbody>
     <tr>
       <th>beta[0]</th>
-      <td>-11.891</td>
-      <td>14.161</td>
-      <td>-39.766</td>
-      <td>15.355</td>
-      <td>0.245</td>
-      <td>0.175</td>
-      <td>3341.0</td>
-      <td>3959.0</td>
+      <td>-15.242</td>
+      <td>16.608</td>
+      <td>-47.655</td>
+      <td>16.373</td>
+      <td>0.439</td>
+      <td>0.318</td>
+      <td>1438.0</td>
+      <td>2268.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>beta[1]</th>
       <td>0.057</td>
-      <td>0.030</td>
-      <td>-0.002</td>
-      <td>0.116</td>
+      <td>0.031</td>
+      <td>-0.005</td>
+      <td>0.118</td>
+      <td>0.001</td>
       <td>0.000</td>
-      <td>0.000</td>
-      <td>5126.0</td>
-      <td>5215.0</td>
+      <td>2260.0</td>
+      <td>2449.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>beta[2]</th>
-      <td>-0.072</td>
-      <td>0.045</td>
-      <td>-0.158</td>
-      <td>0.017</td>
+      <td>-0.081</td>
+      <td>0.051</td>
+      <td>-0.186</td>
+      <td>0.012</td>
       <td>0.001</td>
       <td>0.001</td>
-      <td>3331.0</td>
-      <td>4692.0</td>
+      <td>1527.0</td>
+      <td>2464.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>beta[3]</th>
-      <td>-0.062</td>
-      <td>0.101</td>
-      <td>-0.255</td>
-      <td>0.137</td>
+      <td>-0.051</td>
+      <td>0.105</td>
+      <td>-0.264</td>
+      <td>0.157</td>
       <td>0.002</td>
-      <td>0.001</td>
-      <td>4318.0</td>
-      <td>5189.0</td>
+      <td>0.002</td>
+      <td>2434.0</td>
+      <td>2632.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>beta[4]</th>
-      <td>0.064</td>
-      <td>0.282</td>
-      <td>-0.477</td>
-      <td>0.629</td>
-      <td>0.004</td>
-      <td>0.003</td>
-      <td>4322.0</td>
-      <td>4952.0</td>
+      <td>0.066</td>
+      <td>0.288</td>
+      <td>-0.507</td>
+      <td>0.605</td>
+      <td>0.006</td>
+      <td>0.005</td>
+      <td>2446.0</td>
+      <td>2441.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>beta[5]</th>
-      <td>-0.461</td>
-      <td>0.214</td>
-      <td>-0.874</td>
-      <td>-0.041</td>
+      <td>-0.440</td>
+      <td>0.224</td>
+      <td>-0.877</td>
+      <td>-0.008</td>
+      <td>0.004</td>
       <td>0.003</td>
-      <td>0.002</td>
-      <td>5295.0</td>
-      <td>5463.0</td>
+      <td>3017.0</td>
+      <td>3011.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>beta[6]</th>
-      <td>-0.039</td>
-      <td>0.096</td>
-      <td>-0.233</td>
-      <td>0.145</td>
+      <td>-0.031</td>
+      <td>0.100</td>
+      <td>-0.224</td>
+      <td>0.168</td>
+      <td>0.002</td>
       <td>0.001</td>
-      <td>0.001</td>
-      <td>6016.0</td>
-      <td>5835.0</td>
+      <td>2531.0</td>
+      <td>2725.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>beta[7]</th>
-      <td>0.879</td>
-      <td>0.087</td>
-      <td>0.702</td>
-      <td>1.040</td>
+      <td>0.875</td>
+      <td>0.086</td>
+      <td>0.714</td>
+      <td>1.044</td>
+      <td>0.002</td>
       <td>0.001</td>
-      <td>0.001</td>
-      <td>5416.0</td>
-      <td>5564.0</td>
+      <td>2436.0</td>
+      <td>2804.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>beta[8]</th>
-      <td>-0.221</td>
-      <td>0.133</td>
-      <td>-0.492</td>
-      <td>0.027</td>
+      <td>-0.203</td>
+      <td>0.139</td>
+      <td>-0.465</td>
+      <td>0.076</td>
+      <td>0.003</td>
       <td>0.002</td>
-      <td>0.001</td>
-      <td>4588.0</td>
-      <td>5134.0</td>
+      <td>1854.0</td>
+      <td>2860.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>beta[9]</th>
-      <td>0.227</td>
-      <td>0.137</td>
-      <td>-0.038</td>
-      <td>0.502</td>
-      <td>0.002</td>
-      <td>0.001</td>
-      <td>5869.0</td>
-      <td>5810.0</td>
+      <td>0.230</td>
+      <td>0.143</td>
+      <td>-0.035</td>
+      <td>0.522</td>
+      <td>0.003</td>
+      <td>0.003</td>
+      <td>1803.0</td>
+      <td>650.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>beta[10]</th>
-      <td>-0.015</td>
-      <td>0.233</td>
-      <td>-0.439</td>
-      <td>0.475</td>
-      <td>0.003</td>
-      <td>0.002</td>
-      <td>5057.0</td>
-      <td>5502.0</td>
+      <td>-0.006</td>
+      <td>0.241</td>
+      <td>-0.467</td>
+      <td>0.463</td>
+      <td>0.005</td>
+      <td>0.004</td>
+      <td>2491.0</td>
+      <td>2910.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>beta[11]</th>
-      <td>0.148</td>
-      <td>0.205</td>
-      <td>-0.255</td>
+      <td>0.154</td>
+      <td>0.208</td>
+      <td>-0.271</td>
       <td>0.541</td>
       <td>0.003</td>
-      <td>0.002</td>
-      <td>5002.0</td>
-      <td>5810.0</td>
+      <td>0.003</td>
+      <td>3713.0</td>
+      <td>2754.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>beta[12]</th>
-      <td>0.147</td>
-      <td>0.162</td>
-      <td>-0.169</td>
-      <td>0.461</td>
+      <td>0.146</td>
+      <td>0.166</td>
+      <td>-0.176</td>
+      <td>0.478</td>
+      <td>0.003</td>
       <td>0.002</td>
-      <td>0.002</td>
-      <td>6200.0</td>
-      <td>5543.0</td>
+      <td>3059.0</td>
+      <td>2783.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>beta[13]</th>
-      <td>0.425</td>
+      <td>0.428</td>
       <td>0.190</td>
-      <td>0.058</td>
-      <td>0.794</td>
+      <td>0.044</td>
+      <td>0.797</td>
+      <td>0.003</td>
       <td>0.002</td>
-      <td>0.002</td>
-      <td>6516.0</td>
-      <td>5647.0</td>
+      <td>3389.0</td>
+      <td>2889.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>beta[14]</th>
-      <td>-1.491</td>
-      <td>0.501</td>
-      <td>-2.446</td>
-      <td>-0.496</td>
-      <td>0.006</td>
-      <td>0.004</td>
-      <td>6600.0</td>
-      <td>5867.0</td>
+      <td>-1.474</td>
+      <td>0.517</td>
+      <td>-2.421</td>
+      <td>-0.395</td>
+      <td>0.011</td>
+      <td>0.008</td>
+      <td>2385.0</td>
+      <td>2538.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>tau</th>
-      <td>0.062</td>
+      <td>0.060</td>
       <td>0.006</td>
-      <td>0.051</td>
-      <td>0.073</td>
+      <td>0.048</td>
+      <td>0.070</td>
       <td>0.000</td>
       <td>0.000</td>
-      <td>6987.0</td>
-      <td>3764.0</td>
+      <td>1945.0</td>
+      <td>608.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>variance</th>
-      <td>16.135</td>
-      <td>1.489</td>
-      <td>13.332</td>
-      <td>19.176</td>
-      <td>0.017</td>
-      <td>0.012</td>
-      <td>6987.0</td>
-      <td>3764.0</td>
+      <td>16.891</td>
+      <td>1.584</td>
+      <td>13.710</td>
+      <td>19.969</td>
+      <td>0.031</td>
+      <td>0.022</td>
+      <td>1945.0</td>
+      <td>608.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>br2</th>
-      <td>0.746</td>
-      <td>0.023</td>
-      <td>0.699</td>
-      <td>0.790</td>
+      <td>0.735</td>
+      <td>0.025</td>
+      <td>0.686</td>
+      <td>0.785</td>
       <td>0.000</td>
       <td>0.000</td>
-      <td>6987.0</td>
-      <td>3764.0</td>
+      <td>1945.0</td>
+      <td>608.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>br2_adj</th>
-      <td>0.731</td>
-      <td>0.025</td>
-      <td>0.681</td>
-      <td>0.778</td>
+      <td>0.719</td>
+      <td>0.026</td>
+      <td>0.668</td>
+      <td>0.772</td>
+      <td>0.001</td>
       <td>0.000</td>
-      <td>0.000</td>
-      <td>6987.0</td>
-      <td>3764.0</td>
+      <td>1945.0</td>
+      <td>608.0</td>
       <td>1.0</td>
     </tr>
   </tbody>
@@ -1699,7 +1685,7 @@ Initializing NUTS using jitter+adapt_diag...
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>r2        0.748573
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>r2        0.748129
 r2_std    0.000000
 dtype: float64
 </pre></div>
@@ -1712,9 +1698,6 @@ dtype: float64
 <a class="reference external" href="https://en.wikipedia.org/wiki/G-prior%5C">https://en.wikipedia.org/wiki/G-prior\</a></p>
 <p>original paper:</p>
 <p>Zellner, A. (1986). “On Assessing Prior Distributions and Bayesian Regression Analysis with g Prior Distributions”. In Goel, P.; Zellner, A. (eds.). Bayesian Inference and Decision Techniques: Essays in Honor of Bruno de Finetti. Studies in Bayesian Econometrics and Statistics. Vol. 6. New York: Elsevier. pp. 233–243. ISBN 978-0-444-87712-3.</p>
-</section>
-<section id="multinomial-regression-with-zellners-prior">
-<h2>Multinomial regression with Zellner’s prior<a class="headerlink" href="#multinomial-regression-with-zellners-prior" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">watermark</span> --iversions -v
