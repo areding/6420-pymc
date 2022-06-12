@@ -872,7 +872,7 @@ title="Print to PDF"
 <h1>Prediction of time series<a class="headerlink" href="#prediction-of-time-series" title="Permalink to this headline">#</a></h1>
 <p>This example demonstrates …</p>
 <p>Adapted from <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/original_examples/Codes4Unit10/sunspots.odc">unit 10: sunspots.odc</a>.</p>
-<p>Data can be found <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/data/r.txt">here</a>.</p>
+<p>Data can be found <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/data/sunspots.txt">here</a>.</p>
 <section id="associated-lecture-video-unit-10-lesson-7">
 <h2>Associated lecture video: Unit 10 Lesson 7<a class="headerlink" href="#associated-lecture-video-unit-10-lesson-7" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
@@ -891,6 +891,53 @@ title="Print to PDF"
 <h2>Problem statement<a class="headerlink" href="#problem-statement" title="Permalink to this headline">#</a></h2>
 <p>Sunspot numbers observed each year from 1770 to 1869.</p>
 <p>BUGS Book Page 258.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="s2">&quot;../data/sunspots.txt&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">m</span><span class="p">:</span>
+    <span class="n">eps_1</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;eps_1&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">.0001</span><span class="p">)</span>
+    <span class="n">theta</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;theta&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">.0001</span><span class="p">)</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">.0001</span><span class="p">)</span>
+    <span class="n">sigma</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Uniform</span><span class="p">(</span><span class="s2">&quot;sigma&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+    <span class="n">tau</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="n">sigma</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+    
+    <span class="n">mu</span> <span class="o">=</span> <span class="n">c</span> <span class="o">+</span> <span class="n">theta</span> <span class="o">*</span> <span class="n">y</span>
+    <span class="n">eps</span> <span class="o">=</span> <span class="n">y</span> <span class="o">-</span> <span class="n">mu</span>
+
+    <span class="n">mu</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">eps</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">eps</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">eps_1</span>
+    
+
+    <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;likelihood&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="n">tau</span><span class="p">)</span>
+    
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">TypeError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="nn">Input In [4],</span> in <span class="ni">&lt;cell line: 1&gt;</span><span class="nt">()</span>
+<span class="g g-Whitespace">      </span><span class="mi">8</span> <span class="n">mu</span> <span class="o">=</span> <span class="n">c</span> <span class="o">+</span> <span class="n">theta</span> <span class="o">*</span> <span class="n">y</span>
+<span class="g g-Whitespace">      </span><span class="mi">9</span> <span class="n">eps</span> <span class="o">=</span> <span class="n">y</span> <span class="o">-</span> <span class="n">mu</span>
+<span class="ne">---&gt; </span><span class="mi">11</span> <span class="n">mu</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">eps</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="g g-Whitespace">     </span><span class="mi">12</span> <span class="n">eps</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">eps_1</span>
+<span class="g g-Whitespace">     </span><span class="mi">15</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;likelihood&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="n">tau</span><span class="p">)</span>
+
+<span class="ne">TypeError</span>: &#39;TensorVariable&#39; object does not support item assignment
+</pre></div>
+</div>
+</div>
+</div>
+<p>notes:</p>
+<ul class="simple">
+<li><p>try above way first, but also just found <a class="reference external" href="http://pm.AR">pm.AR</a> under timeseries, so check that out.</p></li>
+</ul>
 </section>
 </section>
 

@@ -902,14 +902,6 @@ title="Print to PDF"
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The lab_black extension is already loaded. To reload it, use:
-  %reload_ext lab_black
-The watermark extension is already loaded. To reload it, use:
-  %reload_ext watermark
-</pre></div>
-</div>
-</div>
 </div>
 <section class="tex2jax_ignore mathjax_ignore" id="deviance">
 <h1>Deviance<a class="headerlink" href="#deviance" title="Permalink to this headline">#</a></h1>
@@ -972,9 +964,7 @@ The watermark extension is already loaded. To reload it, use:
     <span class="n">mu</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;mu&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span>
     <span class="n">beta</span> <span class="o">=</span> <span class="n">mu</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span> <span class="o">/</span> <span class="n">gamma</span><span class="p">)</span>  <span class="c1"># convert to PyMC parameterization</span>
 
-    <span class="n">f</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span>
-        <span class="s2">&quot;f&quot;</span><span class="p">,</span> <span class="n">mu</span> <span class="o">*</span> <span class="n">gamma</span> <span class="o">*</span> <span class="n">t</span> <span class="o">**</span> <span class="p">(</span><span class="n">gamma</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">mu</span> <span class="o">*</span> <span class="n">t</span><span class="o">**</span><span class="n">gamma</span><span class="p">)</span>
-    <span class="p">)</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;f&quot;</span><span class="p">,</span> <span class="n">mu</span> <span class="o">*</span> <span class="n">gamma</span> <span class="o">*</span> <span class="n">t</span> <span class="o">**</span> <span class="p">(</span><span class="n">gamma</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">mu</span> <span class="o">*</span> <span class="n">t</span><span class="o">**</span><span class="n">gamma</span><span class="p">))</span>
     <span class="n">loglik</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;loglik&quot;</span><span class="p">,</span> <span class="n">log</span><span class="p">(</span><span class="n">f</span><span class="p">))</span>
     <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;deviance&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span> <span class="o">*</span> <span class="n">pm</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">loglik</span><span class="p">))</span>
 
@@ -1007,21 +997,13 @@ NUTS: [gamma, mu]
 </div><div class="output text_html">
 <div>
   <progress value='28000' class='' max='28000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-  100.00% [28000/28000 00:09<00:00 Sampling 4 chains, 89 divergences]
+  100.00% [28000/28000 00:39<00:00 Sampling 4 chains, 64 divergences]
 </div>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
-  return _boost._beta_ppf(q, a, b)
-/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
-  return _boost._beta_ppf(q, a, b)
-/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
-  return _boost._beta_ppf(q, a, b)
-/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
-  return _boost._beta_ppf(q, a, b)
-Sampling 4 chains for 2_000 tune and 5_000 draw iterations (8_000 + 20_000 draws total) took 18 seconds.
-There were 22 divergences after tuning. Increase `target_accept` or reparameterize.
-There were 24 divergences after tuning. Increase `target_accept` or reparameterize.
-There were 8 divergences after tuning. Increase `target_accept` or reparameterize.
-There were 35 divergences after tuning. Increase `target_accept` or reparameterize.
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 2_000 tune and 5_000 draw iterations (8_000 + 20_000 draws total) took 59 seconds.
+There were 26 divergences after tuning. Increase `target_accept` or reparameterize.
+There were 17 divergences after tuning. Increase `target_accept` or reparameterize.
+There were 15 divergences after tuning. Increase `target_accept` or reparameterize.
+There were 6 divergences after tuning. Increase `target_accept` or reparameterize.
 </pre></div>
 </div>
 </div>
@@ -1061,24 +1043,24 @@ There were 35 divergences after tuning. Increase `target_accept` or reparameteri
   <tbody>
     <tr>
       <th>mu</th>
-      <td>0.173</td>
-      <td>0.107</td>
+      <td>0.174</td>
+      <td>0.110</td>
       <td>0.020</td>
-      <td>0.368</td>
+      <td>0.384</td>
     </tr>
     <tr>
       <th>gamma</th>
-      <td>1.490</td>
-      <td>0.366</td>
-      <td>0.832</td>
-      <td>2.190</td>
+      <td>1.491</td>
+      <td>0.379</td>
+      <td>0.792</td>
+      <td>2.197</td>
     </tr>
     <tr>
       <th>deviance</th>
-      <td>43.291</td>
-      <td>2.271</td>
-      <td>40.869</td>
-      <td>47.436</td>
+      <td>43.385</td>
+      <td>2.397</td>
+      <td>40.868</td>
+      <td>47.758</td>
     </tr>
   </tbody>
 </table>
@@ -1099,8 +1081,8 @@ See http://arxiv.org/abs/1507.04544 for details
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Computed from 20000 posterior samples and 10 observations log-likelihood matrix.
 
               Estimate       SE
-deviance_waic    44.84     4.68
-p_waic            1.35        -
+deviance_waic    45.01     4.68
+p_waic            1.42        -
 
 There has been a warning during the calculation. Please check the results.
 </pre></div>
@@ -1148,17 +1130,9 @@ NUTS: [λ]
 </div><div class="output text_html">
 <div>
   <progress value='12000' class='' max='12000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-  100.00% [12000/12000 00:00<00:00 Sampling 4 chains, 0 divergences]
+  100.00% [12000/12000 00:05<00:00 Sampling 4 chains, 0 divergences]
 </div>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
-  return _boost._beta_ppf(q, a, b)
-/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
-  return _boost._beta_ppf(q, a, b)
-/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
-  return _boost._beta_ppf(q, a, b)
-/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
-  return _boost._beta_ppf(q, a, b)
-Sampling 4 chains for 1_000 tune and 2_000 draw iterations (4_000 + 8_000 draws total) took 10 seconds.
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 2_000 draw iterations (4_000 + 8_000 draws total) took 28 seconds.
 </pre></div>
 </div>
 </div>
@@ -1197,17 +1171,17 @@ Sampling 4 chains for 1_000 tune and 2_000 draw iterations (4_000 + 8_000 draws 
   <tbody>
     <tr>
       <th>λ</th>
-      <td>0.288</td>
-      <td>0.090</td>
-      <td>0.120</td>
-      <td>0.454</td>
+      <td>0.286</td>
+      <td>0.091</td>
+      <td>0.123</td>
+      <td>0.447</td>
     </tr>
     <tr>
       <th>deviance</th>
-      <td>46.053</td>
-      <td>1.432</td>
+      <td>46.061</td>
+      <td>1.431</td>
       <td>45.055</td>
-      <td>48.648</td>
+      <td>48.654</td>
     </tr>
   </tbody>
 </table>
@@ -1223,7 +1197,7 @@ Sampling 4 chains for 1_000 tune and 2_000 draw iterations (4_000 + 8_000 draws 
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Computed from 8000 posterior samples and 10 observations log-likelihood matrix.
 
               Estimate       SE
-deviance_waic    46.49     3.85
+deviance_waic    46.51     3.82
 p_waic            0.40        -
 </pre></div>
 </div>
@@ -1239,8 +1213,8 @@ p_waic            0.40        -
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Computed from 8000 posterior samples and 10 observations log-likelihood matrix.
 
          Estimate       SE
-elpd_loo   -23.25     1.93
-p_loo        0.40        -
+elpd_loo   -23.26     1.92
+p_loo        0.41        -
 ------
 
 Pareto k diagnostic values:
@@ -1265,8 +1239,8 @@ Python version       : 3.10.4
 IPython version      : 8.4.0
 
 pymc : 4.0.0
-arviz: 0.12.1
 numpy: 1.22.4
+arviz: 0.12.1
 </pre></div>
 </div>
 </div>

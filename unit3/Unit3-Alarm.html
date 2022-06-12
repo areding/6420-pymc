@@ -846,21 +846,16 @@ title="Print to PDF"
                 
               <div>
                 
-  <div class="cell tag_hide_cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># for colab</span>
-<span class="o">%</span><span class="k">pip</span> install pgmpy
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
+  <div class="cell tag_hide_output docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
 <span class="kn">from</span> <span class="nn">pgmpy.factors.discrete</span> <span class="kn">import</span> <span class="n">TabularCPD</span>
 <span class="kn">from</span> <span class="nn">pgmpy.inference</span> <span class="kn">import</span> <span class="n">CausalInference</span>
 <span class="kn">from</span> <span class="nn">pgmpy.models</span> <span class="kn">import</span> <span class="n">BayesianNetwork</span>
+
+<span class="o">%</span><span class="k">load_ext</span> lab_black
+<span class="o">%</span><span class="k">load_ext</span> watermark
 </pre></div>
 </div>
 </div>
@@ -955,8 +950,7 @@ Edges: [(&#39;Burglary&#39;, &#39;Alarm&#39;), (&#39;Alarm&#39;, &#39;JohnCalls&
     <span class="s2">&quot;alpha&quot;</span><span class="p">:</span> <span class="mf">0.9</span><span class="p">,</span>
 <span class="p">}</span>
 
-<span class="n">nx</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">alarm_model</span><span class="p">,</span> <span class="n">with_labels</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">options</span><span class="p">)</span>
-
+<span class="n">nx</span><span class="o">.</span><span class="n">draw_circular</span><span class="p">(</span><span class="n">alarm_model</span><span class="p">,</span> <span class="n">with_labels</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">options</span><span class="p">)</span>
 <span class="c1"># Set margins for the axes so that nodes aren&#39;t clipped</span>
 <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">margins</span><span class="p">(</span><span class="mf">0.20</span><span class="p">)</span>
@@ -966,7 +960,7 @@ Edges: [(&#39;Burglary&#39;, &#39;Alarm&#39;), (&#39;Alarm&#39;, &#39;JohnCalls&
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/Unit3-Alarm_4_0.png" src="../_images/Unit3-Alarm_4_0.png" />
+<img alt="../_images/Unit3-Alarm_3_0.png" src="../_images/Unit3-Alarm_3_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1170,7 +1164,7 @@ Edges: [(&#39;Grade&#39;, &#39;Car&#39;), (&#39;Car&#39;, &#39;Vacation&#39;), (
     <span class="s2">&quot;alpha&quot;</span><span class="p">:</span> <span class="mf">0.9</span><span class="p">,</span>
 <span class="p">}</span>
 
-<span class="n">nx</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">emily_model</span><span class="p">,</span> <span class="n">with_labels</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">options</span><span class="p">)</span>
+<span class="n">nx</span><span class="o">.</span><span class="n">draw_circular</span><span class="p">(</span><span class="n">emily_model</span><span class="p">,</span> <span class="n">with_labels</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">options</span><span class="p">)</span>
 
 <span class="c1"># Set margins for the axes so that nodes aren&#39;t clipped</span>
 <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
@@ -1181,7 +1175,7 @@ Edges: [(&#39;Grade&#39;, &#39;Car&#39;), (&#39;Car&#39;, &#39;Vacation&#39;), (
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/Unit3-Alarm_9_0.png" src="../_images/Unit3-Alarm_9_0.png" />
+<img alt="../_images/Unit3-Alarm_8_0.png" src="../_images/Unit3-Alarm_8_0.png" />
 </div>
 </div>
 <p>If the above network makes sense, we’re good to go! Remember, we know Emily did go to Redington Shores for her vacation, so everything is conditional on that.</p>
@@ -1248,6 +1242,23 @@ P(SM|V):
 +--------------+---------------+
 | Market(Bear) |        0.4326 |
 +--------------+---------------+
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">watermark</span> --iversions -v
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Python implementation: CPython
+Python version       : 3.10.4
+IPython version      : 8.4.0
+
+matplotlib: 3.5.2
+networkx  : 2.8.3
 </pre></div>
 </div>
 </div>

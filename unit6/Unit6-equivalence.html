@@ -941,8 +941,6 @@ title="Print to PDF"
 <div class="cell_output docutils container">
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Auto-assigning NUTS sampler...
 Initializing NUTS using jitter+adapt_diag...
-/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/pymc/aesaraf.py:996: UserWarning: The parameter &#39;updates&#39; of aesara.function() expects an OrderedDict, got &lt;class &#39;dict&#39;&gt;. Using a standard dictionary here results in non-deterministic behavior. You should use an OrderedDict if you are using Python 2.7 (collections.OrderedDict for older python), or use a list of (shared, update) pairs. Do not just convert your dictionary to this type before the call as the conversion will still be non-deterministic.
-  aesara_function = aesara.function(
 Multiprocess sampling (4 chains in 4 jobs)
 NUTS: [mu1, mu2, prec]
 </pre></div>
@@ -963,17 +961,9 @@ NUTS: [mu1, mu2, prec]
 </div><div class="output text_html">
 <div>
   <progress value='42000' class='' max='42000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-  100.00% [42000/42000 00:04<00:00 Sampling 4 chains, 0 divergences]
+  100.00% [42000/42000 00:30<00:00 Sampling 4 chains, 0 divergences]
 </div>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
-  return _boost._beta_ppf(q, a, b)
-/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
-  return _boost._beta_ppf(q, a, b)
-/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
-  return _boost._beta_ppf(q, a, b)
-/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
-  return _boost._beta_ppf(q, a, b)
-Sampling 4 chains for 500 tune and 10_000 draw iterations (2_000 + 40_000 draws total) took 12 seconds.
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 500 tune and 10_000 draw iterations (2_000 + 40_000 draws total) took 64 seconds.
 </pre></div>
 </div>
 </div>
@@ -1021,50 +1011,50 @@ Sampling 4 chains for 500 tune and 10_000 draw iterations (2_000 + 40_000 draws 
   <tbody>
     <tr>
       <th>mu1</th>
-      <td>7.335</td>
-      <td>0.479</td>
-      <td>6.405</td>
-      <td>8.285</td>
+      <td>7.334</td>
+      <td>0.478</td>
+      <td>6.386</td>
+      <td>8.260</td>
       <td>0.002</td>
       <td>0.002</td>
-      <td>45553.0</td>
-      <td>29526.0</td>
+      <td>46714.0</td>
+      <td>29943.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>mu2</th>
-      <td>6.201</td>
-      <td>0.403</td>
-      <td>5.410</td>
-      <td>6.996</td>
+      <td>6.199</td>
+      <td>0.401</td>
+      <td>5.418</td>
+      <td>6.989</td>
       <td>0.002</td>
       <td>0.001</td>
-      <td>48853.0</td>
-      <td>28445.0</td>
+      <td>48190.0</td>
+      <td>30369.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>prec</th>
-      <td>0.263</td>
+      <td>0.264</td>
       <td>0.059</td>
-      <td>0.153</td>
-      <td>0.378</td>
+      <td>0.152</td>
+      <td>0.377</td>
       <td>0.000</td>
       <td>0.000</td>
-      <td>44056.0</td>
-      <td>27074.0</td>
+      <td>39775.0</td>
+      <td>26504.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>mudiff</th>
-      <td>1.133</td>
-      <td>0.626</td>
-      <td>-0.107</td>
-      <td>2.332</td>
+      <td>1.134</td>
+      <td>0.624</td>
+      <td>-0.077</td>
+      <td>2.358</td>
       <td>0.003</td>
       <td>0.002</td>
-      <td>46056.0</td>
-      <td>28917.0</td>
+      <td>47650.0</td>
+      <td>28634.0</td>
       <td>1.0</td>
     </tr>
     <tr>
@@ -1159,12 +1149,12 @@ Sampling 4 chains for 500 tune and 10_000 draw iterations (2_000 + 40_000 draws 
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Python implementation: CPython
 Python version       : 3.10.4
-IPython version      : 8.3.0
+IPython version      : 8.4.0
 
-numpy     : 1.22.3
-pymc      : 4.0.0b5
-matplotlib: 3.5.2
 arviz     : 0.12.1
+numpy     : 1.22.4
+matplotlib: 3.5.2
+pymc      : 4.0.0
 </pre></div>
 </div>
 </div>

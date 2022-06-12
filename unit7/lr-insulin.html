@@ -858,14 +858,6 @@ title="Print to PDF"
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The lab_black extension is already loaded. To reload it, use:
-  %reload_ext lab_black
-The watermark extension is already loaded. To reload it, use:
-  %reload_ext watermark
-</pre></div>
-</div>
-</div>
 </div>
 <section class="tex2jax_ignore mathjax_ignore" id="insulin">
 <h1>Insulin<a class="headerlink" href="#insulin" title="Permalink to this headline">#</a></h1>
@@ -963,15 +955,9 @@ The watermark extension is already loaded. To reload it, use:
 </div>
 <div class="cell_output docutils container">
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Auto-assigning NUTS sampler...
-INFO:pymc:Auto-assigning NUTS sampler...
 Initializing NUTS using jitter+adapt_diag...
-INFO:pymc:Initializing NUTS using jitter+adapt_diag...
-/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/pymc/aesaraf.py:1005: UserWarning: The parameter &#39;updates&#39; of aesara.function() expects an OrderedDict, got &lt;class &#39;dict&#39;&gt;. Using a standard dictionary here results in non-deterministic behavior. You should use an OrderedDict if you are using Python 2.7 (collections.OrderedDict for older python), or use a list of (shared, update) pairs. Do not just convert your dictionary to this type before the call as the conversion will still be non-deterministic.
-  aesara_function = aesara.function(
 Multiprocess sampling (4 chains in 4 jobs)
-INFO:pymc:Multiprocess sampling (4 chains in 4 jobs)
 NUTS: [mu0, _alpha, _beta, _alphabeta, tau]
-INFO:pymc:NUTS: [mu0, _alpha, _beta, _alphabeta, tau]
 </pre></div>
 </div>
 <div class="output text_html">
@@ -990,18 +976,9 @@ INFO:pymc:NUTS: [mu0, _alpha, _beta, _alphabeta, tau]
 </div><div class="output text_html">
 <div>
   <progress value='12000' class='' max='12000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-  100.00% [12000/12000 00:08<00:00 Sampling 4 chains, 0 divergences]
+  100.00% [12000/12000 00:38<00:00 Sampling 4 chains, 0 divergences]
 </div>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
-  return _boost._beta_ppf(q, a, b)
-/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
-  return _boost._beta_ppf(q, a, b)
-/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
-  return _boost._beta_ppf(q, a, b)
-/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
-  return _boost._beta_ppf(q, a, b)
-Sampling 4 chains for 1_000 tune and 2_000 draw iterations (4_000 + 8_000 draws total) took 15 seconds.
-INFO:pymc:Sampling 4 chains for 1_000 tune and 2_000 draw iterations (4_000 + 8_000 draws total) took 15 seconds.
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 2_000 draw iterations (4_000 + 8_000 draws total) took 64 seconds.
 </pre></div>
 </div>
 </div>
@@ -1046,37 +1023,37 @@ INFO:pymc:Sampling 4 chains for 1_000 tune and 2_000 draw iterations (4_000 + 8_
     <tr>
       <th>alpha[1]</th>
       <td>-1.470</td>
-      <td>0.622</td>
-      <td>-2.606</td>
-      <td>-0.278</td>
+      <td>0.624</td>
+      <td>-2.674</td>
+      <td>-0.325</td>
     </tr>
     <tr>
       <th>mu0</th>
-      <td>4.330</td>
-      <td>0.438</td>
-      <td>3.512</td>
-      <td>5.156</td>
+      <td>4.333</td>
+      <td>0.441</td>
+      <td>3.516</td>
+      <td>5.173</td>
     </tr>
     <tr>
       <th>sigma</th>
-      <td>1.229</td>
-      <td>0.170</td>
+      <td>1.234</td>
+      <td>0.171</td>
       <td>0.935</td>
-      <td>1.544</td>
+      <td>1.560</td>
     </tr>
     <tr>
       <th>beta[1]</th>
-      <td>-0.540</td>
-      <td>0.619</td>
-      <td>-1.736</td>
-      <td>0.587</td>
+      <td>-0.543</td>
+      <td>0.621</td>
+      <td>-1.707</td>
+      <td>0.614</td>
     </tr>
     <tr>
       <th>alphabeta[1, 1]</th>
-      <td>1.032</td>
-      <td>0.878</td>
-      <td>-0.594</td>
-      <td>2.733</td>
+      <td>1.036</td>
+      <td>0.874</td>
+      <td>-0.522</td>
+      <td>2.778</td>
     </tr>
   </tbody>
 </table>

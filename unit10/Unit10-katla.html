@@ -892,6 +892,140 @@ title="Print to PDF"
 <h2>Problem statement<a class="headerlink" href="#problem-statement" title="Permalink to this headline">#</a></h2>
 <p>In 2010 Icelandic volcano Eyjafjallajökull erupted. Nearby volcano Katla erupts more frequently.</p>
 <p>Prediction for next Katla erruption (BUGS Book p254)</p>
+<p>notes:</p>
+<p>Having problems with Weibull and pm.Censored again! What is the deal here? Imputed censoring works fine.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># fmt: off</span>
+<span class="n">D</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+    <span class="p">(</span><span class="mi">1177</span><span class="p">,</span> <span class="mi">1262</span><span class="p">,</span> <span class="mi">1311</span><span class="p">,</span> <span class="mi">1357</span><span class="p">,</span> <span class="mi">1416</span><span class="p">,</span> <span class="mi">1440</span><span class="p">,</span> <span class="mi">1450</span><span class="p">,</span> <span class="mi">1500</span><span class="p">,</span> <span class="mi">1550</span><span class="p">,</span> 
+     <span class="mi">1580</span><span class="p">,</span> <span class="mi">1612</span><span class="p">,</span> <span class="mi">1625</span><span class="p">,</span> <span class="mi">1660</span><span class="p">,</span> <span class="mi">1721</span><span class="p">,</span> <span class="mi">1755</span><span class="p">,</span> <span class="mi">1823</span><span class="p">,</span> <span class="mi">1860</span><span class="p">,</span> <span class="mi">1918</span><span class="p">,</span> <span class="mi">2100</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="c1"># fmt: on</span>
+
+<span class="n">ps</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">50</span><span class="p">]</span>
+
+<span class="c1"># time between eruptions</span>
+<span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">D</span><span class="p">)</span>
+<span class="n">t</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([ 85,  49,  46,  59,  24,  10,  50,  50,  30,  32,  13,  35,  61,
+        34,  68,  37,  58, 182])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">m</span><span class="p">:</span>
+    <span class="n">α</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">TruncatedNormal</span><span class="p">(</span><span class="s2">&quot;α&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">lower</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># v in BUGS model</span>
+
+    <span class="n">σ</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Gamma</span><span class="p">(</span><span class="s2">&quot;σ&quot;</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">)</span>
+    <span class="n">λ</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">σ</span><span class="p">)</span><span class="o">**</span><span class="n">α</span>
+    <span class="n">β</span> <span class="o">=</span> <span class="n">λ</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span> <span class="o">/</span> <span class="n">α</span><span class="p">)</span>
+    
+    <span class="n">_t</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Weibull</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="n">α</span><span class="p">,</span> <span class="n">β</span><span class="p">)</span>
+    <span class="n">pm</span><span class="o">.</span><span class="n">Censored</span><span class="p">(</span><span class="s2">&quot;likelihood&quot;</span><span class="p">,</span> <span class="n">_t</span><span class="p">,</span> <span class="n">lower</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">upper</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">t</span><span class="p">)</span>
+    
+    <span class="n">median</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;median tte&quot;</span><span class="p">,</span> <span class="n">σ</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">**</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">α</span><span class="p">))</span>
+    
+    <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">ps</span><span class="p">:</span>
+        <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;p_erupt_</span><span class="si">{</span><span class="n">p</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">pm</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">exp</span><span class="p">((</span><span class="mi">100</span> <span class="o">/</span> <span class="n">σ</span><span class="p">)</span> <span class="o">**</span> <span class="n">α</span> <span class="o">-</span> <span class="p">((</span><span class="mi">100</span> <span class="o">+</span> <span class="n">p</span><span class="p">)</span> <span class="o">/</span> <span class="n">σ</span><span class="p">)</span> <span class="o">**</span> <span class="n">α</span><span class="p">)</span>
+        <span class="p">)</span>
+
+    <span class="n">trace</span><span class="o">=</span><span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">3000</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Auto-assigning NUTS sampler...
+Initializing NUTS using jitter+adapt_diag...
+</pre></div>
+</div>
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">SamplingError</span><span class="g g-Whitespace">                             </span>Traceback (most recent call last)
+<span class="nn">Input In [4],</span> in <span class="ni">&lt;cell line: 1&gt;</span><span class="nt">()</span>
+<span class="g g-Whitespace">     </span><span class="mi">13</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">ps</span><span class="p">:</span>
+<span class="g g-Whitespace">     </span><span class="mi">14</span>     <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span>
+<span class="g g-Whitespace">     </span><span class="mi">15</span>         <span class="sa">f</span><span class="s2">&quot;p_erupt_</span><span class="si">{</span><span class="n">p</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">pm</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">exp</span><span class="p">((</span><span class="mi">100</span> <span class="o">/</span> <span class="n">σ</span><span class="p">)</span> <span class="o">**</span> <span class="n">α</span> <span class="o">-</span> <span class="p">((</span><span class="mi">100</span> <span class="o">+</span> <span class="n">p</span><span class="p">)</span> <span class="o">/</span> <span class="n">σ</span><span class="p">)</span> <span class="o">**</span> <span class="n">α</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">16</span>     <span class="p">)</span>
+<span class="ne">---&gt; </span><span class="mi">18</span> <span class="n">trace</span><span class="o">=</span><span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">3000</span><span class="p">)</span>
+
+<span class="nn">File ~/mambaforge/envs/pymc_env/lib/python3.10/site-packages/pymc/sampling.py:558,</span> in <span class="ni">sample</span><span class="nt">(draws, step, init, n_init, initvals, trace, chain_idx, chains, cores, tune, progressbar, model, random_seed, discard_tuned_samples, compute_convergence_checks, callback, jitter_max_retries, return_inferencedata, idata_kwargs, mp_ctx, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">556</span> <span class="c1"># One final check that shapes and logps at the starting points are okay.</span>
+<span class="g g-Whitespace">    </span><span class="mi">557</span> <span class="k">for</span> <span class="n">ip</span> <span class="ow">in</span> <span class="n">initial_points</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">558</span>     <span class="n">model</span><span class="o">.</span><span class="n">check_start_vals</span><span class="p">(</span><span class="n">ip</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">559</span>     <span class="n">_check_start_shape</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">ip</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">561</span> <span class="n">sample_args</span> <span class="o">=</span> <span class="p">{</span>
+<span class="g g-Whitespace">    </span><span class="mi">562</span>     <span class="s2">&quot;draws&quot;</span><span class="p">:</span> <span class="n">draws</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">563</span>     <span class="s2">&quot;step&quot;</span><span class="p">:</span> <span class="n">step</span><span class="p">,</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">573</span>     <span class="s2">&quot;discard_tuned_samples&quot;</span><span class="p">:</span> <span class="n">discard_tuned_samples</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">574</span> <span class="p">}</span>
+
+<span class="nn">File ~/mambaforge/envs/pymc_env/lib/python3.10/site-packages/pymc/model.py:1725,</span> in <span class="ni">Model.check_start_vals</span><span class="nt">(self, start)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1722</span> <span class="n">initial_eval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">point_logps</span><span class="p">(</span><span class="n">point</span><span class="o">=</span><span class="n">elem</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1724</span> <span class="k">if</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">initial_eval</span><span class="o">.</span><span class="n">values</span><span class="p">()):</span>
+<span class="ne">-&gt; </span><span class="mi">1725</span>     <span class="k">raise</span> <span class="n">SamplingError</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">1726</span>         <span class="s2">&quot;Initial evaluation of model at starting point failed!</span><span class="se">\n</span><span class="s2">&quot;</span>
+<span class="g g-Whitespace">   </span><span class="mi">1727</span>         <span class="sa">f</span><span class="s2">&quot;Starting values:</span><span class="se">\n</span><span class="si">{</span><span class="n">elem</span><span class="si">}</span><span class="se">\n\n</span><span class="s2">&quot;</span>
+<span class="g g-Whitespace">   </span><span class="mi">1728</span>         <span class="sa">f</span><span class="s2">&quot;Initial evaluation results:</span><span class="se">\n</span><span class="si">{</span><span class="n">initial_eval</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="g g-Whitespace">   </span><span class="mi">1729</span>     <span class="p">)</span>
+
+<span class="ne">SamplingError</span>: Initial evaluation of model at starting point failed!
+<span class="n">Starting</span> <span class="n">values</span><span class="p">:</span>
+<span class="p">{</span><span class="s1">&#39;α_interval__&#39;</span><span class="p">:</span> <span class="n">array</span><span class="p">(</span><span class="o">-</span><span class="mf">0.75002609</span><span class="p">),</span> <span class="s1">&#39;σ_log__&#39;</span><span class="p">:</span> <span class="n">array</span><span class="p">(</span><span class="o">-</span><span class="mf">0.55321869</span><span class="p">)}</span>
+
+<span class="n">Initial</span> <span class="n">evaluation</span> <span class="n">results</span><span class="p">:</span>
+<span class="p">{</span><span class="s1">&#39;α&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mf">2.59</span><span class="p">,</span> <span class="s1">&#39;σ&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mf">6.92</span><span class="p">,</span> <span class="s1">&#39;likelihood&#39;</span><span class="p">:</span> <span class="o">-</span><span class="n">inf</span><span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">m</span><span class="p">:</span>
+    <span class="c1"># α = pm.Uniform(&quot;α&quot;, 0, 10) # getting divide by 0 errors</span>
+    <span class="n">α</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">TruncatedNormal</span><span class="p">(</span><span class="s2">&quot;α&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">lower</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># v in BUGS model</span>
+
+    <span class="n">σ</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Gamma</span><span class="p">(</span><span class="s2">&quot;σ&quot;</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">)</span>
+    <span class="n">λ</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">σ</span><span class="p">)</span> <span class="o">**</span> <span class="n">α</span>
+    <span class="n">β</span> <span class="o">=</span> <span class="n">λ</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span> <span class="o">/</span> <span class="n">α</span><span class="p">)</span>
+
+    <span class="n">impute_censored</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Bound</span><span class="p">(</span><span class="s2">&quot;impute_censored&quot;</span><span class="p">,</span> <span class="n">pm</span><span class="o">.</span><span class="n">Weibull</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="n">α</span><span class="p">,</span> <span class="n">β</span><span class="p">),</span> <span class="n">lower</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+
+    <span class="n">pm</span><span class="o">.</span><span class="n">Weibull</span><span class="p">(</span><span class="s2">&quot;likelihood&quot;</span><span class="p">,</span> <span class="n">α</span><span class="p">,</span> <span class="n">β</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">t_uncens</span><span class="p">)</span>
+
+    <span class="n">median</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;median tte&quot;</span><span class="p">,</span> <span class="n">σ</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">α</span><span class="p">))</span>
+
+    <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">ps</span><span class="p">:</span>
+        <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;p_erupt_</span><span class="si">{</span><span class="n">p</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">pm</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">exp</span><span class="p">((</span><span class="mi">100</span> <span class="o">/</span> <span class="n">σ</span><span class="p">)</span> <span class="o">**</span> <span class="n">α</span> <span class="o">-</span> <span class="p">((</span><span class="mi">100</span> <span class="o">+</span> <span class="n">p</span><span class="p">)</span> <span class="o">/</span> <span class="n">σ</span><span class="p">)</span> <span class="o">**</span> <span class="n">α</span><span class="p">)</span>
+        <span class="p">)</span>
+
+    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">3000</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 </section>
 

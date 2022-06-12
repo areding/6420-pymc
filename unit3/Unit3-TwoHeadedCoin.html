@@ -812,6 +812,9 @@ title="Print to PDF"
   <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="o">%</span><span class="k">load_ext</span> lab_black
+<span class="o">%</span><span class="k">load_ext</span> watermark
 </pre></div>
 </div>
 </div>
@@ -837,7 +840,7 @@ title="Print to PDF"
 
 <span class="sd">    returns: probability at k flips in a row</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="mi">2</span> <span class="o">**</span> <span class="n">k</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">**</span> <span class="n">k</span> <span class="o">+</span> <span class="n">N</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="mi">2</span><span class="o">**</span><span class="n">k</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="n">k</span> <span class="o">+</span> <span class="n">N</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
 
 
 <span class="c1"># create a list of probabilities for different values of k</span>
@@ -855,6 +858,22 @@ title="Print to PDF"
 </div>
 <div class="cell_output docutils container">
 <img alt="../_images/Unit3-TwoHeadedCoin_2_0.png" src="../_images/Unit3-TwoHeadedCoin_2_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">watermark</span> --iversions -v
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Python implementation: CPython
+Python version       : 3.10.4
+IPython version      : 8.4.0
+
+matplotlib: 3.5.2
+</pre></div>
+</div>
 </div>
 </div>
 </section>

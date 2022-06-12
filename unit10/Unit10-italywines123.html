@@ -862,6 +862,7 @@ title="Print to PDF"
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">arviz</span> <span class="k">as</span> <span class="nn">az</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">aesara.tensor.subtensor</span> <span class="kn">import</span> <span class="n">set_subtensor</span>
 
 <span class="o">%</span><span class="k">load_ext</span> lab_black
 <span class="o">%</span><span class="k">load_ext</span> watermark
@@ -873,7 +874,7 @@ title="Print to PDF"
 <h1>Wine classification<a class="headerlink" href="#wine-classification" title="Permalink to this headline">#</a></h1>
 <p>This example demonstrates …</p>
 <p>Adapted from <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/original_examples/Codes4Unit10/italywines123.odc">unit 10: italywines123.odc</a>.</p>
-<p>Data can be found <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/data/r.txt">here</a>.</p>
+<p>Data can be found <a class="reference external" href="https://archive.ics.uci.edu/ml/datasets/wine">here</a>.</p>
 <section id="associated-lecture-video-unit-10-lesson-5">
 <h2>Associated lecture video: Unit 10 Lesson 5<a class="headerlink" href="#associated-lecture-video-unit-10-lesson-5" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
@@ -895,24 +896,24 @@ The data below consist of results of a chemical analysis of wines grown in the s
 <p>The variables are</p>
 <p>Column   Variable   Description</p>
 <p>==========================</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>  1       Y     Type (Response, 1,2,3)  
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span> 1      Y     Type (Response, 1,2,3)  
                   1 == 1 0 0;    2 == 0 1 0;   3 == 0 0 1
                   
-  2      X1    Alcohol 
+ 2      X1    Alcohol 
   
  3      X2    Malic acid 
  
  4      X3    Ash 
  
-  5      X4    Alcalinity of ash 
+ 5      X4    Alcalinity of ash 
   
-6      X5    Magnesium 
+ 6      X5    Magnesium 
 
-  7      X6    Total phenols 
+ 7      X6    Total phenols 
   
  8      X7    Flavanoids 
  
-  9      X8    Nonflavanoid phenols 
+ 9      X8    Nonflavanoid phenols 
   
  10     X9    Proanthocyanins 
  
@@ -937,6 +938,187 @@ How would you classify this wine type, as 1, 2, or 3?</p>
 PARVUS: An extendable package of programs for data exploration, classification and correlation,  Elsevier, Amsterdam,   ISBN 0-444-43012-1;
 also, Report at Institute of Pharmaceutical and Food Analysis and Technologies, Via Brigata Salerno,
 16147 Genoa, Italy.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;../data/wine.data&quot;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="n">Y</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+<span class="n">X_aug</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">)),</span> <span class="n">X</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">m</span><span class="p">:</span>
+    <span class="n">_b</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;_b&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="n">set_subtensor</span><span class="p">(</span><span class="n">_b</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="mi">0</span><span class="p">))</span>
+    <span class="n">phi</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">X_aug</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+    <span class="n">P</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">phi</span> <span class="o">/</span> <span class="n">pm</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">phi</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+
+    <span class="n">pm</span><span class="o">.</span><span class="n">Multinomial</span><span class="p">(</span><span class="s2">&quot;likelihood&quot;</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">P</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">Y</span><span class="p">)</span>
+    
+    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">2000</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Auto-assigning NUTS sampler...
+Initializing NUTS using jitter+adapt_diag...
+</pre></div>
+</div>
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">ValueError</span><span class="g g-Whitespace">                                </span>Traceback (most recent call last)
+<span class="nn">File ~/mambaforge/envs/pymc_env/lib/python3.10/site-packages/aesara/compile/function/types.py:962,</span> in <span class="ni">Function.__call__</span><span class="nt">(self, *args, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">960</span> <span class="k">try</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">961</span>     <span class="n">outputs</span> <span class="o">=</span> <span class="p">(</span>
+<span class="ne">--&gt; </span><span class="mi">962</span>         <span class="bp">self</span><span class="o">.</span><span class="n">fn</span><span class="p">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">963</span>         <span class="k">if</span> <span class="n">output_subset</span> <span class="ow">is</span> <span class="kc">None</span>
+<span class="g g-Whitespace">    </span><span class="mi">964</span>         <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">fn</span><span class="p">(</span><span class="n">output_subset</span><span class="o">=</span><span class="n">output_subset</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">965</span>     <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">966</span> <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+
+<span class="ne">ValueError</span>: Input dimension mismatch. One other input has shape[1] = 3, but input[1].shape[1] = 178.
+
+<span class="n">During</span> <span class="n">handling</span> <span class="n">of</span> <span class="n">the</span> <span class="n">above</span> <span class="n">exception</span><span class="p">,</span> <span class="n">another</span> <span class="n">exception</span> <span class="n">occurred</span><span class="p">:</span>
+
+<span class="ne">ValueError</span><span class="g g-Whitespace">                                </span>Traceback (most recent call last)
+<span class="nn">Input In [4],</span> in <span class="ni">&lt;cell line: 1&gt;</span><span class="nt">()</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="n">P</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">phi</span> <span class="o">/</span> <span class="n">pm</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">phi</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+<span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="n">pm</span><span class="o">.</span><span class="n">Multinomial</span><span class="p">(</span><span class="s2">&quot;likelihood&quot;</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">P</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">Y</span><span class="p">)</span>
+<span class="ne">----&gt; </span><span class="mi">9</span> <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">2000</span><span class="p">)</span>
+
+<span class="nn">File ~/mambaforge/envs/pymc_env/lib/python3.10/site-packages/pymc/sampling.py:533,</span> in <span class="ni">sample</span><span class="nt">(draws, step, init, n_init, initvals, trace, chain_idx, chains, cores, tune, progressbar, model, random_seed, discard_tuned_samples, compute_convergence_checks, callback, jitter_max_retries, return_inferencedata, idata_kwargs, mp_ctx, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">531</span>         <span class="p">[</span><span class="n">kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">nuts_kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">()]</span>
+<span class="g g-Whitespace">    </span><span class="mi">532</span>     <span class="n">_log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Auto-assigning NUTS sampler...&quot;</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">533</span>     <span class="n">initial_points</span><span class="p">,</span> <span class="n">step</span> <span class="o">=</span> <span class="n">init_nuts</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">534</span>         <span class="n">init</span><span class="o">=</span><span class="n">init</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">535</span>         <span class="n">chains</span><span class="o">=</span><span class="n">chains</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">536</span>         <span class="n">n_init</span><span class="o">=</span><span class="n">n_init</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">537</span>         <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">538</span>         <span class="n">random_seed</span><span class="o">=</span><span class="n">random_seed_list</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">539</span>         <span class="n">progressbar</span><span class="o">=</span><span class="n">progressbar</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">540</span>         <span class="n">jitter_max_retries</span><span class="o">=</span><span class="n">jitter_max_retries</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">541</span>         <span class="n">tune</span><span class="o">=</span><span class="n">tune</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">542</span>         <span class="n">initvals</span><span class="o">=</span><span class="n">initvals</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">543</span>         <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">544</span>     <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">546</span> <span class="k">if</span> <span class="n">initial_points</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">547</span>     <span class="c1"># Time to draw/evaluate numeric start points for each chain.</span>
+<span class="g g-Whitespace">    </span><span class="mi">548</span>     <span class="n">ipfns</span> <span class="o">=</span> <span class="n">make_initial_point_fns_per_chain</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">549</span>         <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">550</span>         <span class="n">overrides</span><span class="o">=</span><span class="n">initvals</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">551</span>         <span class="n">jitter_rvs</span><span class="o">=</span><span class="n">filter_rvs_to_jitter</span><span class="p">(</span><span class="n">step</span><span class="p">),</span>
+<span class="g g-Whitespace">    </span><span class="mi">552</span>         <span class="n">chains</span><span class="o">=</span><span class="n">chains</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">553</span>     <span class="p">)</span>
+
+<span class="nn">File ~/mambaforge/envs/pymc_env/lib/python3.10/site-packages/pymc/sampling.py:2487,</span> in <span class="ni">init_nuts</span><span class="nt">(init, chains, n_init, model, random_seed, progressbar, jitter_max_retries, tune, initvals, **kwargs)</span>
+<span class="g g-Whitespace">   </span><span class="mi">2480</span> <span class="n">_log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Initializing NUTS using </span><span class="si">{</span><span class="n">init</span><span class="si">}</span><span class="s2">...&quot;</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">2482</span> <span class="n">cb</span> <span class="o">=</span> <span class="p">[</span>
+<span class="g g-Whitespace">   </span><span class="mi">2483</span>     <span class="n">pm</span><span class="o">.</span><span class="n">callbacks</span><span class="o">.</span><span class="n">CheckParametersConvergence</span><span class="p">(</span><span class="n">tolerance</span><span class="o">=</span><span class="mf">1e-2</span><span class="p">,</span> <span class="n">diff</span><span class="o">=</span><span class="s2">&quot;absolute&quot;</span><span class="p">),</span>
+<span class="g g-Whitespace">   </span><span class="mi">2484</span>     <span class="n">pm</span><span class="o">.</span><span class="n">callbacks</span><span class="o">.</span><span class="n">CheckParametersConvergence</span><span class="p">(</span><span class="n">tolerance</span><span class="o">=</span><span class="mf">1e-2</span><span class="p">,</span> <span class="n">diff</span><span class="o">=</span><span class="s2">&quot;relative&quot;</span><span class="p">),</span>
+<span class="g g-Whitespace">   </span><span class="mi">2485</span> <span class="p">]</span>
+<span class="ne">-&gt; </span><span class="mi">2487</span> <span class="n">initial_points</span> <span class="o">=</span> <span class="n">_init_jitter</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">2488</span>     <span class="n">model</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">2489</span>     <span class="n">initvals</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">2490</span>     <span class="n">seeds</span><span class="o">=</span><span class="n">random_seed_list</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">2491</span>     <span class="n">jitter</span><span class="o">=</span><span class="s2">&quot;jitter&quot;</span> <span class="ow">in</span> <span class="n">init</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">2492</span>     <span class="n">jitter_max_retries</span><span class="o">=</span><span class="n">jitter_max_retries</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">2493</span> <span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">2495</span> <span class="n">apoints</span> <span class="o">=</span> <span class="p">[</span><span class="n">DictToArrayBijection</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">point</span><span class="p">)</span> <span class="k">for</span> <span class="n">point</span> <span class="ow">in</span> <span class="n">initial_points</span><span class="p">]</span>
+<span class="g g-Whitespace">   </span><span class="mi">2496</span> <span class="n">apoints_data</span> <span class="o">=</span> <span class="p">[</span><span class="n">apoint</span><span class="o">.</span><span class="n">data</span> <span class="k">for</span> <span class="n">apoint</span> <span class="ow">in</span> <span class="n">apoints</span><span class="p">]</span>
+
+<span class="nn">File ~/mambaforge/envs/pymc_env/lib/python3.10/site-packages/pymc/sampling.py:2381,</span> in <span class="ni">_init_jitter</span><span class="nt">(model, initvals, seeds, jitter, jitter_max_retries)</span>
+<span class="g g-Whitespace">   </span><span class="mi">2379</span> <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">jitter_max_retries</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">2380</span>     <span class="k">try</span><span class="p">:</span>
+<span class="ne">-&gt; </span><span class="mi">2381</span>         <span class="n">model</span><span class="o">.</span><span class="n">check_start_vals</span><span class="p">(</span><span class="n">point</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">2382</span>     <span class="k">except</span> <span class="n">SamplingError</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">2383</span>         <span class="c1"># Retry with a new seed</span>
+<span class="g g-Whitespace">   </span><span class="mi">2384</span>         <span class="n">seed</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="mi">30</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span>
+
+<span class="nn">File ~/mambaforge/envs/pymc_env/lib/python3.10/site-packages/pymc/model.py:1722,</span> in <span class="ni">Model.check_start_vals</span><span class="nt">(self, start)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1716</span>     <span class="n">valid_keys</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">named_vars</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+<span class="g g-Whitespace">   </span><span class="mi">1717</span>     <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">1718</span>         <span class="s2">&quot;Some start parameters do not appear in the model!</span><span class="se">\n</span><span class="s2">&quot;</span>
+<span class="g g-Whitespace">   </span><span class="mi">1719</span>         <span class="sa">f</span><span class="s2">&quot;Valid keys are: </span><span class="si">{</span><span class="n">valid_keys</span><span class="si">}</span><span class="s2">, but </span><span class="si">{</span><span class="n">extra_keys</span><span class="si">}</span><span class="s2"> was supplied&quot;</span>
+<span class="g g-Whitespace">   </span><span class="mi">1720</span>     <span class="p">)</span>
+<span class="ne">-&gt; </span><span class="mi">1722</span> <span class="n">initial_eval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">point_logps</span><span class="p">(</span><span class="n">point</span><span class="o">=</span><span class="n">elem</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1724</span> <span class="k">if</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">initial_eval</span><span class="o">.</span><span class="n">values</span><span class="p">()):</span>
+<span class="g g-Whitespace">   </span><span class="mi">1725</span>     <span class="k">raise</span> <span class="n">SamplingError</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">1726</span>         <span class="s2">&quot;Initial evaluation of model at starting point failed!</span><span class="se">\n</span><span class="s2">&quot;</span>
+<span class="g g-Whitespace">   </span><span class="mi">1727</span>         <span class="sa">f</span><span class="s2">&quot;Starting values:</span><span class="se">\n</span><span class="si">{</span><span class="n">elem</span><span class="si">}</span><span class="se">\n\n</span><span class="s2">&quot;</span>
+<span class="g g-Whitespace">   </span><span class="mi">1728</span>         <span class="sa">f</span><span class="s2">&quot;Initial evaluation results:</span><span class="se">\n</span><span class="si">{</span><span class="n">initial_eval</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="g g-Whitespace">   </span><span class="mi">1729</span>     <span class="p">)</span>
+
+<span class="nn">File ~/mambaforge/envs/pymc_env/lib/python3.10/site-packages/pymc/model.py:1763,</span> in <span class="ni">Model.point_logps</span><span class="nt">(self, point, round_vals)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1757</span> <span class="n">factors</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">basic_RVs</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">potentials</span>
+<span class="g g-Whitespace">   </span><span class="mi">1758</span> <span class="n">factor_logps_fn</span> <span class="o">=</span> <span class="p">[</span><span class="n">at</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">factor</span><span class="p">)</span> <span class="k">for</span> <span class="n">factor</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">logpt</span><span class="p">(</span><span class="n">factors</span><span class="p">,</span> <span class="nb">sum</span><span class="o">=</span><span class="kc">False</span><span class="p">)]</span>
+<span class="g g-Whitespace">   </span><span class="mi">1759</span> <span class="k">return</span> <span class="p">{</span>
+<span class="g g-Whitespace">   </span><span class="mi">1760</span>     <span class="n">factor</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">factor_logp</span><span class="p">),</span> <span class="n">round_vals</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1761</span>     <span class="k">for</span> <span class="n">factor</span><span class="p">,</span> <span class="n">factor_logp</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">1762</span>         <span class="n">factors</span><span class="p">,</span>
+<span class="ne">-&gt; </span><span class="mi">1763</span>         <span class="bp">self</span><span class="o">.</span><span class="n">compile_fn</span><span class="p">(</span><span class="n">factor_logps_fn</span><span class="p">)(</span><span class="n">point</span><span class="p">),</span>
+<span class="g g-Whitespace">   </span><span class="mi">1764</span>     <span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1765</span> <span class="p">}</span>
+
+<span class="nn">File ~/mambaforge/envs/pymc_env/lib/python3.10/site-packages/pymc/model.py:1862,</span> in <span class="ni">PointFunc.__call__</span><span class="nt">(self, state)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1861</span> <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
+<span class="ne">-&gt; </span><span class="mi">1862</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="p">(</span><span class="o">**</span><span class="n">state</span><span class="p">)</span>
+
+<span class="nn">File ~/mambaforge/envs/pymc_env/lib/python3.10/site-packages/aesara/compile/function/types.py:975,</span> in <span class="ni">Function.__call__</span><span class="nt">(self, *args, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">973</span>     <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fn</span><span class="p">,</span> <span class="s2">&quot;thunks&quot;</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">974</span>         <span class="n">thunk</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fn</span><span class="o">.</span><span class="n">thunks</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">fn</span><span class="o">.</span><span class="n">position_of_error</span><span class="p">]</span>
+<span class="ne">--&gt; </span><span class="mi">975</span>     <span class="n">raise_with_op</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">976</span>         <span class="bp">self</span><span class="o">.</span><span class="n">maker</span><span class="o">.</span><span class="n">fgraph</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">977</span>         <span class="n">node</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">fn</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">fn</span><span class="o">.</span><span class="n">position_of_error</span><span class="p">],</span>
+<span class="g g-Whitespace">    </span><span class="mi">978</span>         <span class="n">thunk</span><span class="o">=</span><span class="n">thunk</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">979</span>         <span class="n">storage_map</span><span class="o">=</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fn</span><span class="p">,</span> <span class="s2">&quot;storage_map&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+<span class="g g-Whitespace">    </span><span class="mi">980</span>     <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">981</span> <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">982</span>     <span class="c1"># old-style linkers raise their own exceptions</span>
+<span class="g g-Whitespace">    </span><span class="mi">983</span>     <span class="k">raise</span>
+
+<span class="nn">File ~/mambaforge/envs/pymc_env/lib/python3.10/site-packages/aesara/link/utils.py:538,</span> in <span class="ni">raise_with_op</span><span class="nt">(fgraph, node, thunk, exc_info, storage_map)</span>
+<span class="g g-Whitespace">    </span><span class="mi">533</span>     <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">534</span>         <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">exc_type</span><span class="si">}</span><span class="s2"> error does not allow us to add an extra error message&quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">535</span>     <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">536</span>     <span class="c1"># Some exception need extra parameter in inputs. So forget the</span>
+<span class="g g-Whitespace">    </span><span class="mi">537</span>     <span class="c1"># extra long error message in that case.</span>
+<span class="ne">--&gt; </span><span class="mi">538</span> <span class="k">raise</span> <span class="n">exc_value</span><span class="o">.</span><span class="n">with_traceback</span><span class="p">(</span><span class="n">exc_trace</span><span class="p">)</span>
+
+<span class="nn">File ~/mambaforge/envs/pymc_env/lib/python3.10/site-packages/aesara/compile/function/types.py:962,</span> in <span class="ni">Function.__call__</span><span class="nt">(self, *args, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">959</span> <span class="n">t0_fn</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">960</span> <span class="k">try</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">961</span>     <span class="n">outputs</span> <span class="o">=</span> <span class="p">(</span>
+<span class="ne">--&gt; </span><span class="mi">962</span>         <span class="bp">self</span><span class="o">.</span><span class="n">fn</span><span class="p">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">963</span>         <span class="k">if</span> <span class="n">output_subset</span> <span class="ow">is</span> <span class="kc">None</span>
+<span class="g g-Whitespace">    </span><span class="mi">964</span>         <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">fn</span><span class="p">(</span><span class="n">output_subset</span><span class="o">=</span><span class="n">output_subset</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">965</span>     <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">966</span> <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">967</span>     <span class="n">restore_defaults</span><span class="p">()</span>
+
+<span class="ne">ValueError</span>: Input dimension mismatch. One other input has shape[1] = 3, but input[1].shape[1] = 178.
+<span class="n">Apply</span> <span class="n">node</span> <span class="n">that</span> <span class="n">caused</span> <span class="n">the</span> <span class="n">error</span><span class="p">:</span> <span class="n">Elemwise</span><span class="p">{</span><span class="n">TrueDiv</span><span class="p">}[(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)](</span><span class="n">Dot22</span><span class="mf">.0</span><span class="p">,</span> <span class="n">InplaceDimShuffle</span><span class="p">{</span><span class="n">x</span><span class="p">,</span><span class="mi">0</span><span class="p">}</span><span class="mf">.0</span><span class="p">)</span>
+<span class="n">Toposort</span> <span class="n">index</span><span class="p">:</span> <span class="mi">6</span>
+<span class="n">Inputs</span> <span class="n">types</span><span class="p">:</span> <span class="p">[</span><span class="n">TensorType</span><span class="p">(</span><span class="n">float64</span><span class="p">,</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)),</span> <span class="n">TensorType</span><span class="p">(</span><span class="n">float64</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="kc">None</span><span class="p">))]</span>
+<span class="n">Inputs</span> <span class="n">shapes</span><span class="p">:</span> <span class="p">[(</span><span class="mi">178</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">178</span><span class="p">)]</span>
+<span class="n">Inputs</span> <span class="n">strides</span><span class="p">:</span> <span class="p">[(</span><span class="mi">24</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span> <span class="p">(</span><span class="mi">1424</span><span class="p">,</span> <span class="mi">8</span><span class="p">)]</span>
+<span class="n">Inputs</span> <span class="n">values</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;not shown&#39;</span><span class="p">,</span> <span class="s1">&#39;not shown&#39;</span><span class="p">]</span>
+<span class="n">Outputs</span> <span class="n">clients</span><span class="p">:</span> <span class="p">[[</span><span class="n">Elemwise</span><span class="p">{</span><span class="n">exp</span><span class="p">,</span><span class="n">no_inplace</span><span class="p">}(</span><span class="n">Elemwise</span><span class="p">{</span><span class="n">TrueDiv</span><span class="p">}[(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)]</span><span class="mf">.0</span><span class="p">),</span> <span class="n">Elemwise</span><span class="p">{</span><span class="n">Composite</span><span class="p">{</span><span class="n">Switch</span><span class="p">(</span><span class="n">EQ</span><span class="p">(</span><span class="n">i0</span><span class="p">,</span> <span class="n">i1</span><span class="p">),</span> <span class="n">i2</span><span class="p">,</span> <span class="p">(</span><span class="n">i3</span> <span class="o">*</span> <span class="n">i4</span><span class="p">))}}[(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)](</span><span class="n">Elemwise</span><span class="p">{</span><span class="n">exp</span><span class="p">,</span><span class="n">no_inplace</span><span class="p">}</span><span class="mf">.0</span><span class="p">,</span> <span class="n">TensorConstant</span><span class="p">{(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="n">of</span> <span class="mi">0</span><span class="p">},</span> <span class="n">TensorConstant</span><span class="p">{[[</span><span class="o">-</span><span class="n">inf</span>   <span class="mf">0.</span><span class="o">.</span> <span class="mf">0.</span> <span class="o">-</span><span class="n">inf</span><span class="p">]]},</span> <span class="n">TensorConstant</span><span class="p">{[[</span><span class="mf">1.</span> <span class="mf">0.</span> <span class="mf">0.</span><span class="o">.</span><span class="mf">.0</span><span class="o">.</span> <span class="mf">0.</span> <span class="mf">1.</span><span class="p">]]},</span> <span class="n">Elemwise</span><span class="p">{</span><span class="n">TrueDiv</span><span class="p">}[(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)]</span><span class="mf">.0</span><span class="p">)]]</span>
+
+<span class="ne">HINT</span>: Re-running with most Aesara optimizations disabled could provide a back-trace showing when this node was created. This can be done by setting the Aesara flag &#39;optimizer=fast_compile&#39;. If that does not work, Aesara optimizations can be disabled with &#39;optimizer=None&#39;.
+<span class="ne">HINT</span>: Use the Aesara flag `exception_verbosity=high` for a debug print-out and storage map footprint of this Apply node.
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 </section>
 

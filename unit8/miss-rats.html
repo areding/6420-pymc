@@ -888,14 +888,6 @@ title="Print to PDF"
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The lab_black extension is already loaded. To reload it, use:
-  %reload_ext lab_black
-The watermark extension is already loaded. To reload it, use:
-  %reload_ext watermark
-</pre></div>
-</div>
-</div>
 </div>
 <section class="tex2jax_ignore mathjax_ignore" id="rats">
 <h1>Rats<a class="headerlink" href="#rats" title="Permalink to this headline">#</a></h1>
@@ -964,7 +956,9 @@ likelihood</p>
     <span class="n">beta_c</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;beta_c&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">)</span>
     <span class="n">beta_tau</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Gamma</span><span class="p">(</span><span class="s2">&quot;beta_tau&quot;</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">)</span>
 
-    <span class="n">alpha</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;alpha&quot;</span><span class="p">,</span> <span class="n">alpha_c</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="n">alpha_tau</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span> <span class="c1"># (30, 1) for broadcasting</span>
+    <span class="n">alpha</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span>
+        <span class="s2">&quot;alpha&quot;</span><span class="p">,</span> <span class="n">alpha_c</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="n">alpha_tau</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="p">)</span>  <span class="c1"># (30, 1) for broadcasting</span>
     <span class="n">beta</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;beta&quot;</span><span class="p">,</span> <span class="n">beta_c</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="n">beta_tau</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
     <span class="n">lik_tau</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Gamma</span><span class="p">(</span><span class="s2">&quot;lik_tau&quot;</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">)</span>
     <span class="n">sigma</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;sigma&quot;</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">lik_tau</span><span class="o">**</span><span class="mf">0.5</span><span class="p">)</span>
@@ -982,63 +976,40 @@ likelihood</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Auto-assigning NUTS sampler...
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/pymc/model.py:1365: ImputationWarning: Data in likelihood contains missing values and will be automatically imputed from the sampling distribution.
+  warnings.warn(impute_message, ImputationWarning)
+Auto-assigning NUTS sampler...
 Initializing NUTS using jitter+adapt_diag...
 Multiprocess sampling (4 chains in 4 jobs)
 NUTS: [alpha_c, alpha_tau, beta_c, beta_tau, alpha, beta, lik_tau, likelihood_missing]
 </pre></div>
 </div>
 <div class="output text_html">
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div><div class="output text_html">
 <div>
-    <style>
-        /* Turns off some styling */
-        progress {
-            /* gets rid of default border in Firefox and Opera. */
-            border: none;
-            /* Needs to be in here for Safari polyfill so background images work as expected. */
-            background-size: auto;
-        }
-        .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
-            background: #F44336;
-        }
-    </style>
   <progress value='24000' class='' max='24000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-  100.00% [24000/24000 01:14<00:00 Sampling 4 chains, 23 divergences]
+  100.00% [24000/24000 02:59<00:00 Sampling 4 chains, 37 divergences]
 </div>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc/lib/python3.10/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
-  return _boost._beta_ppf(q, a, b)
-/Users/aaron/mambaforge/envs/pymc/lib/python3.10/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
-  return _boost._beta_ppf(q, a, b)
-/Users/aaron/mambaforge/envs/pymc/lib/python3.10/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
-  return _boost._beta_ppf(q, a, b)
-/Users/aaron/mambaforge/envs/pymc/lib/python3.10/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
-  return _boost._beta_ppf(q, a, b)
-Sampling 4 chains for 1_000 tune and 5_000 draw iterations (4_000 + 20_000 draws total) took 84 seconds.
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 5_000 draw iterations (4_000 + 20_000 draws total) took 197 seconds.
+There were 27 divergences after tuning. Increase `target_accept` or reparameterize.
+There were 6 divergences after tuning. Increase `target_accept` or reparameterize.
 There were 2 divergences after tuning. Increase `target_accept` or reparameterize.
-There were 11 divergences after tuning. Increase `target_accept` or reparameterize.
-There was 1 divergence after tuning. Increase `target_accept` or reparameterize.
-There were 9 divergences after tuning. Increase `target_accept` or reparameterize.
-The number of effective samples is smaller than 25% for some parameters.
+There were 2 divergences after tuning. Increase `target_accept` or reparameterize.
 </pre></div>
 </div>
-<div class="output text_html">
-<div>
-    <style>
-        /* Turns off some styling */
-        progress {
-            /* gets rid of default border in Firefox and Opera. */
-            border: none;
-            /* Needs to be in here for Safari polyfill so background images work as expected. */
-            background-size: auto;
-        }
-        .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
-            background: #F44336;
-        }
-    </style>
-  <progress value='20000' class='' max='20000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-  100.00% [20000/20000 00:01<00:00]
 </div>
-</div></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1079,38 +1050,38 @@ The number of effective samples is smaller than 25% for some parameters.
   <tbody>
     <tr>
       <th>alpha_c</th>
-      <td>101.223</td>
-      <td>2.297</td>
-      <td>96.640</td>
-      <td>105.714</td>
+      <td>101.194</td>
+      <td>2.308</td>
+      <td>96.353</td>
+      <td>105.492</td>
     </tr>
     <tr>
       <th>alpha_tau</th>
-      <td>0.025</td>
-      <td>0.074</td>
+      <td>0.028</td>
+      <td>0.091</td>
       <td>0.004</td>
-      <td>0.049</td>
+      <td>0.052</td>
     </tr>
     <tr>
       <th>beta_c</th>
-      <td>6.567</td>
-      <td>0.164</td>
-      <td>6.238</td>
-      <td>6.884</td>
+      <td>6.570</td>
+      <td>0.165</td>
+      <td>6.256</td>
+      <td>6.902</td>
     </tr>
     <tr>
       <th>beta_tau</th>
-      <td>2.865</td>
-      <td>1.208</td>
-      <td>0.953</td>
-      <td>5.181</td>
+      <td>2.862</td>
+      <td>1.216</td>
+      <td>0.957</td>
+      <td>5.233</td>
     </tr>
     <tr>
       <th>sigma</th>
-      <td>6.009</td>
-      <td>0.652</td>
-      <td>4.768</td>
-      <td>7.307</td>
+      <td>6.008</td>
+      <td>0.663</td>
+      <td>4.752</td>
+      <td>7.290</td>
     </tr>
   </tbody>
 </table>
@@ -1174,46 +1145,36 @@ The number of effective samples is smaller than 25% for some parameters.
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc/lib/python3.10/site-packages/pymc/model.py:1299: ImputationWarning: Data in x_imputed contains missing values and will be automatically imputed from the sampling distribution.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/pymc/model.py:1365: ImputationWarning: Data in x_imputed contains missing values and will be automatically imputed from the sampling distribution.
   warnings.warn(impute_message, ImputationWarning)
-/Users/aaron/mambaforge/envs/pymc/lib/python3.10/site-packages/pymc/model.py:1299: ImputationWarning: Data in likelihood contains missing values and will be automatically imputed from the sampling distribution.
+/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/pymc/model.py:1365: ImputationWarning: Data in likelihood contains missing values and will be automatically imputed from the sampling distribution.
   warnings.warn(impute_message, ImputationWarning)
 Auto-assigning NUTS sampler...
 Initializing NUTS using jitter+adapt_diag...
-/Users/aaron/mambaforge/envs/pymc/lib/python3.10/site-packages/pymc/model.py:984: FutureWarning: `Model.initial_point` has been deprecated. Use `Model.recompute_initial_point(seed=None)`.
-  warnings.warn(
 Multiprocess sampling (4 chains in 4 jobs)
 NUTS: [alpha_c, alpha_tau, beta_c, beta_tau, alpha, beta, lik_tau, x_imputed_missing, likelihood_missing]
 </pre></div>
 </div>
 <div class="output text_html">
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div><div class="output text_html">
 <div>
-    <style>
-        /* Turns off some styling */
-        progress {
-            /* gets rid of default border in Firefox and Opera. */
-            border: none;
-            /* Needs to be in here for Safari polyfill so background images work as expected. */
-            background-size: auto;
-        }
-        .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
-            background: #F44336;
-        }
-    </style>
   <progress value='24000' class='' max='24000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-  100.00% [24000/24000 01:22<00:00 Sampling 4 chains, 23 divergences]
+  100.00% [24000/24000 03:20<00:00 Sampling 4 chains, 7 divergences]
 </div>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc/lib/python3.10/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
-  return _boost._beta_ppf(q, a, b)
-/Users/aaron/mambaforge/envs/pymc/lib/python3.10/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
-  return _boost._beta_ppf(q, a, b)
-/Users/aaron/mambaforge/envs/pymc/lib/python3.10/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
-  return _boost._beta_ppf(q, a, b)
-/Users/aaron/mambaforge/envs/pymc/lib/python3.10/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
-  return _boost._beta_ppf(q, a, b)
-Sampling 4 chains for 1_000 tune and 5_000 draw iterations (4_000 + 20_000 draws total) took 90 seconds.
-There were 6 divergences after tuning. Increase `target_accept` or reparameterize.
-There were 14 divergences after tuning. Increase `target_accept` or reparameterize.
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 5_000 draw iterations (4_000 + 20_000 draws total) took 218 seconds.
+There were 4 divergences after tuning. Increase `target_accept` or reparameterize.
 There was 1 divergence after tuning. Increase `target_accept` or reparameterize.
 There were 2 divergences after tuning. Increase `target_accept` or reparameterize.
 </pre></div>
@@ -1266,45 +1227,45 @@ There were 2 divergences after tuning. Increase `target_accept` or reparameteriz
   <tbody>
     <tr>
       <th>alpha_c</th>
-      <td>101.872</td>
-      <td>2.366</td>
-      <td>97.278</td>
-      <td>106.499</td>
+      <td>101.894</td>
+      <td>2.351</td>
+      <td>97.345</td>
+      <td>106.519</td>
     </tr>
     <tr>
       <th>alpha_tau</th>
-      <td>0.022</td>
-      <td>0.057</td>
+      <td>0.021</td>
+      <td>0.048</td>
       <td>0.004</td>
-      <td>0.042</td>
+      <td>0.043</td>
     </tr>
     <tr>
       <th>beta_c</th>
-      <td>6.507</td>
-      <td>0.169</td>
-      <td>6.187</td>
-      <td>6.853</td>
+      <td>6.509</td>
+      <td>0.168</td>
+      <td>6.181</td>
+      <td>6.840</td>
     </tr>
     <tr>
       <th>beta_tau</th>
-      <td>3.023</td>
-      <td>1.293</td>
-      <td>1.054</td>
-      <td>5.600</td>
+      <td>2.976</td>
+      <td>1.258</td>
+      <td>0.993</td>
+      <td>5.416</td>
     </tr>
     <tr>
       <th>sigma</th>
-      <td>5.974</td>
-      <td>0.657</td>
-      <td>4.799</td>
-      <td>7.356</td>
+      <td>5.963</td>
+      <td>0.653</td>
+      <td>4.825</td>
+      <td>7.332</td>
     </tr>
     <tr>
       <th>x_imputed_missing[0]</th>
-      <td>29.502</td>
+      <td>29.500</td>
       <td>0.389</td>
-      <td>28.751</td>
-      <td>30.274</td>
+      <td>28.726</td>
+      <td>30.261</td>
     </tr>
   </tbody>
 </table>
@@ -1355,13 +1316,9 @@ There were 2 divergences after tuning. Increase `target_accept` or reparameteriz
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/pymc/model.py:1365: ImputationWarning: Data in likelihood contains missing values and will be automatically imputed from the sampling distribution.
   warnings.warn(impute_message, ImputationWarning)
 Auto-assigning NUTS sampler...
-INFO:pymc:Auto-assigning NUTS sampler...
 Initializing NUTS using jitter+adapt_diag...
-INFO:pymc:Initializing NUTS using jitter+adapt_diag...
 Multiprocess sampling (4 chains in 4 jobs)
-INFO:pymc:Multiprocess sampling (4 chains in 4 jobs)
 NUTS: [a, alpha, beta, log_sigma, likelihood_missing]
-INFO:pymc:NUTS: [a, alpha, beta, log_sigma, likelihood_missing]
 </pre></div>
 </div>
 <div class="output text_html">
@@ -1380,32 +1337,15 @@ INFO:pymc:NUTS: [a, alpha, beta, log_sigma, likelihood_missing]
 </div><div class="output text_html">
 <div>
   <progress value='44000' class='' max='44000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-  100.00% [44000/44000 00:19<00:00 Sampling 4 chains, 9,244 divergences]
+  100.00% [44000/44000 00:48<00:00 Sampling 4 chains, 8,342 divergences]
 </div>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
-  return _boost._beta_ppf(q, a, b)
-/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
-  return _boost._beta_ppf(q, a, b)
-/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
-  return _boost._beta_ppf(q, a, b)
-/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
-  return _boost._beta_ppf(q, a, b)
-Sampling 4 chains for 1_000 tune and 10_000 draw iterations (4_000 + 40_000 draws total) took 27 seconds.
-INFO:pymc:Sampling 4 chains for 1_000 tune and 10_000 draw iterations (4_000 + 40_000 draws total) took 27 seconds.
-There were 783 divergences after tuning. Increase `target_accept` or reparameterize.
-ERROR:pymc:There were 783 divergences after tuning. Increase `target_accept` or reparameterize.
-There were 2908 divergences after tuning. Increase `target_accept` or reparameterize.
-ERROR:pymc:There were 2908 divergences after tuning. Increase `target_accept` or reparameterize.
-The acceptance probability does not match the target. It is 0.4936, but should be close to 0.8. Try to increase the number of tuning steps.
-WARNING:pymc:The acceptance probability does not match the target. It is 0.4936, but should be close to 0.8. Try to increase the number of tuning steps.
-There were 4446 divergences after tuning. Increase `target_accept` or reparameterize.
-ERROR:pymc:There were 4446 divergences after tuning. Increase `target_accept` or reparameterize.
-The acceptance probability does not match the target. It is 0.2868, but should be close to 0.8. Try to increase the number of tuning steps.
-WARNING:pymc:The acceptance probability does not match the target. It is 0.2868, but should be close to 0.8. Try to increase the number of tuning steps.
-There were 1107 divergences after tuning. Increase `target_accept` or reparameterize.
-ERROR:pymc:There were 1107 divergences after tuning. Increase `target_accept` or reparameterize.
-The acceptance probability does not match the target. It is 0.7078, but should be close to 0.8. Try to increase the number of tuning steps.
-WARNING:pymc:The acceptance probability does not match the target. It is 0.7078, but should be close to 0.8. Try to increase the number of tuning steps.
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 10_000 draw iterations (4_000 + 40_000 draws total) took 66 seconds.
+There were 4733 divergences after tuning. Increase `target_accept` or reparameterize.
+The acceptance probability does not match the target. It is 0.2438, but should be close to 0.8. Try to increase the number of tuning steps.
+There were 780 divergences after tuning. Increase `target_accept` or reparameterize.
+There were 2180 divergences after tuning. Increase `target_accept` or reparameterize.
+The acceptance probability does not match the target. It is 0.5856, but should be close to 0.8. Try to increase the number of tuning steps.
+There were 649 divergences after tuning. Increase `target_accept` or reparameterize.
 </pre></div>
 </div>
 </div>
@@ -1449,206 +1389,206 @@ WARNING:pymc:The acceptance probability does not match the target. It is 0.7078,
   <tbody>
     <tr>
       <th>a</th>
-      <td>-4.265</td>
-      <td>1.428</td>
-      <td>-7.510</td>
-      <td>-1.594</td>
-      <td>0.100</td>
-      <td>0.082</td>
-      <td>330.0</td>
-      <td>118.0</td>
-      <td>1.01</td>
+      <td>-4.238</td>
+      <td>1.515</td>
+      <td>-7.384</td>
+      <td>-1.426</td>
+      <td>0.068</td>
+      <td>0.053</td>
+      <td>566.0</td>
+      <td>354.0</td>
+      <td>1.00</td>
     </tr>
     <tr>
       <th>alpha</th>
-      <td>111.793</td>
-      <td>17.251</td>
-      <td>86.087</td>
-      <td>137.615</td>
-      <td>0.212</td>
-      <td>0.160</td>
-      <td>3238.0</td>
-      <td>3663.0</td>
+      <td>111.896</td>
+      <td>17.005</td>
+      <td>84.091</td>
+      <td>137.896</td>
+      <td>0.222</td>
+      <td>0.172</td>
+      <td>2245.0</td>
+      <td>3443.0</td>
       <td>1.00</td>
     </tr>
     <tr>
       <th>beta</th>
       <td>8.120</td>
-      <td>0.859</td>
-      <td>6.865</td>
-      <td>9.449</td>
-      <td>0.012</td>
+      <td>0.840</td>
+      <td>6.845</td>
+      <td>9.520</td>
+      <td>0.011</td>
       <td>0.008</td>
-      <td>2907.0</td>
-      <td>3555.0</td>
+      <td>2314.0</td>
+      <td>2632.0</td>
       <td>1.00</td>
     </tr>
     <tr>
       <th>log_sigma</th>
-      <td>1.833</td>
-      <td>0.628</td>
-      <td>0.780</td>
-      <td>3.051</td>
-      <td>0.029</td>
+      <td>1.862</td>
+      <td>0.631</td>
+      <td>0.836</td>
+      <td>3.135</td>
+      <td>0.028</td>
       <td>0.020</td>
-      <td>334.0</td>
-      <td>246.0</td>
-      <td>1.03</td>
+      <td>420.0</td>
+      <td>395.0</td>
+      <td>1.01</td>
     </tr>
     <tr>
       <th>likelihood_missing[0]</th>
-      <td>404.160</td>
-      <td>20.319</td>
-      <td>374.390</td>
-      <td>438.782</td>
-      <td>0.264</td>
-      <td>0.193</td>
-      <td>2991.0</td>
-      <td>4203.0</td>
+      <td>404.408</td>
+      <td>21.363</td>
+      <td>371.830</td>
+      <td>436.906</td>
+      <td>0.244</td>
+      <td>0.175</td>
+      <td>3729.0</td>
+      <td>3914.0</td>
       <td>1.00</td>
     </tr>
     <tr>
       <th>sigma2</th>
-      <td>175.791</td>
-      <td>1772.611</td>
-      <td>2.904</td>
-      <td>428.624</td>
-      <td>23.592</td>
-      <td>16.683</td>
-      <td>334.0</td>
-      <td>246.0</td>
-      <td>1.03</td>
+      <td>198.337</td>
+      <td>1961.210</td>
+      <td>3.291</td>
+      <td>447.499</td>
+      <td>28.591</td>
+      <td>20.218</td>
+      <td>420.0</td>
+      <td>395.0</td>
+      <td>1.01</td>
     </tr>
     <tr>
       <th>tau</th>
-      <td>0.044</td>
-      <td>0.041</td>
+      <td>0.042</td>
+      <td>0.040</td>
       <td>0.000</td>
-      <td>0.132</td>
-      <td>0.003</td>
+      <td>0.124</td>
       <td>0.002</td>
-      <td>334.0</td>
-      <td>245.0</td>
-      <td>1.03</td>
+      <td>0.001</td>
+      <td>420.0</td>
+      <td>397.0</td>
+      <td>1.01</td>
     </tr>
     <tr>
       <th>p[0]</th>
-      <td>0.125</td>
-      <td>0.120</td>
+      <td>0.135</td>
+      <td>0.139</td>
       <td>0.000</td>
-      <td>0.374</td>
+      <td>0.428</td>
+      <td>0.006</td>
       <td>0.004</td>
-      <td>0.003</td>
-      <td>330.0</td>
-      <td>118.0</td>
-      <td>1.01</td>
+      <td>566.0</td>
+      <td>354.0</td>
+      <td>1.00</td>
     </tr>
     <tr>
       <th>p[1]</th>
-      <td>0.191</td>
-      <td>0.160</td>
+      <td>0.202</td>
+      <td>0.179</td>
       <td>0.000</td>
-      <td>0.518</td>
-      <td>0.006</td>
-      <td>0.004</td>
-      <td>330.0</td>
-      <td>118.0</td>
-      <td>1.01</td>
+      <td>0.574</td>
+      <td>0.007</td>
+      <td>0.005</td>
+      <td>566.0</td>
+      <td>354.0</td>
+      <td>1.00</td>
     </tr>
     <tr>
       <th>p[2]</th>
-      <td>0.261</td>
-      <td>0.192</td>
-      <td>0.000</td>
-      <td>0.636</td>
-      <td>0.007</td>
-      <td>0.005</td>
-      <td>330.0</td>
-      <td>118.0</td>
-      <td>1.01</td>
+      <td>0.271</td>
+      <td>0.211</td>
+      <td>0.001</td>
+      <td>0.687</td>
+      <td>0.008</td>
+      <td>0.006</td>
+      <td>566.0</td>
+      <td>354.0</td>
+      <td>1.00</td>
     </tr>
     <tr>
       <th>p[3]</th>
-      <td>0.371</td>
-      <td>0.228</td>
-      <td>0.002</td>
-      <td>0.771</td>
+      <td>0.378</td>
+      <td>0.244</td>
+      <td>0.001</td>
+      <td>0.808</td>
       <td>0.010</td>
       <td>0.007</td>
-      <td>330.0</td>
-      <td>118.0</td>
-      <td>1.01</td>
+      <td>566.0</td>
+      <td>354.0</td>
+      <td>1.00</td>
     </tr>
     <tr>
       <th>p[4]</th>
-      <td>0.028</td>
-      <td>0.036</td>
+      <td>0.031</td>
+      <td>0.045</td>
       <td>0.000</td>
-      <td>0.092</td>
+      <td>0.113</td>
+      <td>0.002</td>
       <td>0.001</td>
-      <td>0.001</td>
-      <td>330.0</td>
-      <td>118.0</td>
-      <td>1.01</td>
+      <td>566.0</td>
+      <td>354.0</td>
+      <td>1.00</td>
     </tr>
     <tr>
       <th>mu[0]</th>
-      <td>176.750</td>
-      <td>11.131</td>
-      <td>160.280</td>
-      <td>194.131</td>
-      <td>0.121</td>
-      <td>0.099</td>
-      <td>3787.0</td>
-      <td>4112.0</td>
-      <td>1.01</td>
+      <td>176.860</td>
+      <td>11.213</td>
+      <td>159.159</td>
+      <td>193.957</td>
+      <td>0.137</td>
+      <td>0.101</td>
+      <td>2324.0</td>
+      <td>3726.0</td>
+      <td>1.00</td>
     </tr>
     <tr>
       <th>mu[1]</th>
-      <td>233.587</td>
-      <td>7.033</td>
-      <td>222.741</td>
-      <td>244.500</td>
-      <td>0.059</td>
-      <td>0.046</td>
-      <td>6195.0</td>
-      <td>5221.0</td>
+      <td>233.703</td>
+      <td>7.544</td>
+      <td>222.970</td>
+      <td>244.908</td>
+      <td>0.072</td>
+      <td>0.053</td>
+      <td>3287.0</td>
+      <td>4764.0</td>
       <td>1.00</td>
     </tr>
     <tr>
       <th>mu[2]</th>
-      <td>290.424</td>
-      <td>6.887</td>
-      <td>279.295</td>
-      <td>301.511</td>
-      <td>0.062</td>
+      <td>290.546</td>
+      <td>7.570</td>
+      <td>278.991</td>
+      <td>301.527</td>
+      <td>0.063</td>
       <td>0.046</td>
-      <td>4652.0</td>
-      <td>5219.0</td>
-      <td>1.01</td>
+      <td>3580.0</td>
+      <td>5452.0</td>
+      <td>1.00</td>
     </tr>
     <tr>
       <th>mu[3]</th>
-      <td>347.262</td>
-      <td>10.854</td>
-      <td>329.820</td>
-      <td>363.651</td>
-      <td>0.132</td>
-      <td>0.096</td>
-      <td>3619.0</td>
-      <td>4624.0</td>
+      <td>347.390</td>
+      <td>11.266</td>
+      <td>330.488</td>
+      <td>365.067</td>
+      <td>0.120</td>
+      <td>0.085</td>
+      <td>2937.0</td>
+      <td>4265.0</td>
       <td>1.00</td>
     </tr>
     <tr>
       <th>mu[4]</th>
-      <td>404.099</td>
-      <td>16.142</td>
-      <td>379.825</td>
-      <td>429.415</td>
-      <td>0.210</td>
-      <td>0.153</td>
-      <td>3175.0</td>
-      <td>4158.0</td>
+      <td>404.233</td>
+      <td>16.303</td>
+      <td>379.679</td>
+      <td>430.262</td>
+      <td>0.193</td>
+      <td>0.137</td>
+      <td>2660.0</td>
+      <td>3328.0</td>
       <td>1.00</td>
     </tr>
   </tbody>
@@ -1666,9 +1606,9 @@ WARNING:pymc:The acceptance probability does not match the target. It is 0.7078,
 Python version       : 3.10.4
 IPython version      : 8.4.0
 
+numpy: 1.22.4
 pymc : 4.0.0
 arviz: 0.12.1
-numpy: 1.22.4
 </pre></div>
 </div>
 </div>

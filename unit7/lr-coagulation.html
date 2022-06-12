@@ -979,8 +979,6 @@ title="Print to PDF"
 <div class="cell_output docutils container">
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Auto-assigning NUTS sampler...
 Initializing NUTS using jitter+adapt_diag...
-/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/pymc/aesaraf.py:996: UserWarning: The parameter &#39;updates&#39; of aesara.function() expects an OrderedDict, got &lt;class &#39;dict&#39;&gt;. Using a standard dictionary here results in non-deterministic behavior. You should use an OrderedDict if you are using Python 2.7 (collections.OrderedDict for older python), or use a list of (shared, update) pairs. Do not just convert your dictionary to this type before the call as the conversion will still be non-deterministic.
-  aesara_function = aesara.function(
 Multiprocess sampling (4 chains in 4 jobs)
 NUTS: [μ0, τ, α4, α3, α2]
 </pre></div>
@@ -1001,18 +999,9 @@ NUTS: [μ0, τ, α4, α3, α2]
 </div><div class="output text_html">
 <div>
   <progress value='24000' class='' max='24000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-  100.00% [24000/24000 00:04<00:00 Sampling 4 chains, 0 divergences]
+  100.00% [24000/24000 00:20<00:00 Sampling 4 chains, 0 divergences]
 </div>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
-  return _boost._beta_ppf(q, a, b)
-/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
-  return _boost._beta_ppf(q, a, b)
-/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
-  return _boost._beta_ppf(q, a, b)
-/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
-  return _boost._beta_ppf(q, a, b)
-Sampling 4 chains for 1_000 tune and 5_000 draw iterations (4_000 + 20_000 draws total) took 11 seconds.
-The acceptance probability does not match the target. It is 0.8802, but should be close to 0.8. Try to increase the number of tuning steps.
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 5_000 draw iterations (4_000 + 20_000 draws total) took 40 seconds.
 </pre></div>
 </div>
 </div>
@@ -1051,73 +1040,73 @@ The acceptance probability does not match the target. It is 0.8802, but should b
   <tbody>
     <tr>
       <th>α4</th>
-      <td>-3.004</td>
-      <td>0.803</td>
-      <td>-4.567</td>
-      <td>-1.520</td>
+      <td>-2.995</td>
+      <td>0.810</td>
+      <td>-4.598</td>
+      <td>-1.532</td>
     </tr>
     <tr>
       <th>α3</th>
-      <td>4.002</td>
-      <td>0.885</td>
-      <td>2.368</td>
-      <td>5.688</td>
+      <td>4.008</td>
+      <td>0.901</td>
+      <td>2.308</td>
+      <td>5.696</td>
     </tr>
     <tr>
       <th>α2</th>
-      <td>1.997</td>
-      <td>0.886</td>
-      <td>0.335</td>
-      <td>3.687</td>
+      <td>1.995</td>
+      <td>0.888</td>
+      <td>0.314</td>
+      <td>3.644</td>
     </tr>
     <tr>
       <th>α1</th>
-      <td>-2.995</td>
-      <td>1.019</td>
-      <td>-4.918</td>
-      <td>-1.066</td>
+      <td>-3.008</td>
+      <td>1.035</td>
+      <td>-4.989</td>
+      <td>-1.071</td>
     </tr>
     <tr>
       <th>α1-α2</th>
-      <td>-4.992</td>
-      <td>1.598</td>
-      <td>-8.007</td>
-      <td>-1.971</td>
+      <td>-5.003</td>
+      <td>1.620</td>
+      <td>-8.073</td>
+      <td>-2.002</td>
     </tr>
     <tr>
       <th>α1-α3</th>
-      <td>-6.997</td>
-      <td>1.603</td>
-      <td>-10.061</td>
-      <td>-4.015</td>
+      <td>-7.017</td>
+      <td>1.636</td>
+      <td>-10.009</td>
+      <td>-3.845</td>
     </tr>
     <tr>
       <th>α1-α4</th>
-      <td>0.009</td>
-      <td>1.511</td>
-      <td>-2.881</td>
+      <td>-0.013</td>
+      <td>1.521</td>
+      <td>-2.871</td>
       <td>2.847</td>
     </tr>
     <tr>
       <th>α2-α3</th>
-      <td>-2.005</td>
-      <td>1.433</td>
-      <td>-4.746</td>
-      <td>0.706</td>
+      <td>-2.013</td>
+      <td>1.435</td>
+      <td>-4.776</td>
+      <td>0.617</td>
     </tr>
     <tr>
       <th>α2-α4</th>
-      <td>5.001</td>
-      <td>1.337</td>
-      <td>2.441</td>
-      <td>7.511</td>
+      <td>4.990</td>
+      <td>1.342</td>
+      <td>2.493</td>
+      <td>7.568</td>
     </tr>
     <tr>
       <th>α3-α4</th>
-      <td>7.006</td>
-      <td>1.328</td>
-      <td>4.528</td>
-      <td>9.548</td>
+      <td>7.003</td>
+      <td>1.357</td>
+      <td>4.499</td>
+      <td>9.567</td>
     </tr>
   </tbody>
 </table>
@@ -1196,8 +1185,6 @@ The acceptance probability does not match the target. It is 0.8802, but should b
 <div class="cell_output docutils container">
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Auto-assigning NUTS sampler...
 Initializing NUTS using jitter+adapt_diag...
-/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/pymc/aesaraf.py:996: UserWarning: The parameter &#39;updates&#39; of aesara.function() expects an OrderedDict, got &lt;class &#39;dict&#39;&gt;. Using a standard dictionary here results in non-deterministic behavior. You should use an OrderedDict if you are using Python 2.7 (collections.OrderedDict for older python), or use a list of (shared, update) pairs. Do not just convert your dictionary to this type before the call as the conversion will still be non-deterministic.
-  aesara_function = aesara.function(
 Multiprocess sampling (4 chains in 4 jobs)
 NUTS: [μ0, τ, α2, α3, α4]
 </pre></div>
@@ -1218,17 +1205,9 @@ NUTS: [μ0, τ, α2, α3, α4]
 </div><div class="output text_html">
 <div>
   <progress value='24000' class='' max='24000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-  100.00% [24000/24000 00:03<00:00 Sampling 4 chains, 0 divergences]
+  100.00% [24000/24000 00:16<00:00 Sampling 4 chains, 0 divergences]
 </div>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
-  return _boost._beta_ppf(q, a, b)
-/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
-  return _boost._beta_ppf(q, a, b)
-/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
-  return _boost._beta_ppf(q, a, b)
-/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
-  return _boost._beta_ppf(q, a, b)
-Sampling 4 chains for 1_000 tune and 5_000 draw iterations (4_000 + 20_000 draws total) took 10 seconds.
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 5_000 draw iterations (4_000 + 20_000 draws total) took 35 seconds.
 </pre></div>
 </div>
 </div>
@@ -1267,73 +1246,73 @@ Sampling 4 chains for 1_000 tune and 5_000 draw iterations (4_000 + 20_000 draws
   <tbody>
     <tr>
       <th>α2</th>
-      <td>2.002</td>
-      <td>0.889</td>
-      <td>0.378</td>
-      <td>3.746</td>
+      <td>1.990</td>
+      <td>0.892</td>
+      <td>0.268</td>
+      <td>3.614</td>
     </tr>
     <tr>
       <th>α3</th>
-      <td>3.997</td>
-      <td>0.889</td>
-      <td>2.333</td>
-      <td>5.680</td>
+      <td>4.004</td>
+      <td>0.901</td>
+      <td>2.315</td>
+      <td>5.714</td>
     </tr>
     <tr>
       <th>α4</th>
-      <td>-3.005</td>
-      <td>0.814</td>
-      <td>-4.552</td>
-      <td>-1.467</td>
+      <td>-2.991</td>
+      <td>0.807</td>
+      <td>-4.464</td>
+      <td>-1.400</td>
     </tr>
     <tr>
       <th>α1</th>
-      <td>-2.994</td>
-      <td>1.014</td>
-      <td>-4.883</td>
-      <td>-1.057</td>
+      <td>-3.003</td>
+      <td>1.024</td>
+      <td>-4.859</td>
+      <td>-0.998</td>
     </tr>
     <tr>
       <th>α1 - α2</th>
-      <td>-4.997</td>
-      <td>1.593</td>
-      <td>-7.949</td>
-      <td>-1.910</td>
+      <td>-4.993</td>
+      <td>1.612</td>
+      <td>-8.111</td>
+      <td>-2.011</td>
     </tr>
     <tr>
       <th>α1 - α3</th>
-      <td>-6.991</td>
-      <td>1.598</td>
-      <td>-9.998</td>
-      <td>-3.986</td>
+      <td>-7.007</td>
+      <td>1.612</td>
+      <td>-10.085</td>
+      <td>-3.980</td>
     </tr>
     <tr>
       <th>α1 - α4</th>
-      <td>0.010</td>
-      <td>1.513</td>
-      <td>-2.891</td>
-      <td>2.824</td>
+      <td>-0.012</td>
+      <td>1.518</td>
+      <td>-2.903</td>
+      <td>2.842</td>
     </tr>
     <tr>
       <th>α2 - α3</th>
-      <td>-1.995</td>
-      <td>1.440</td>
-      <td>-4.705</td>
-      <td>0.749</td>
+      <td>-2.014</td>
+      <td>1.455</td>
+      <td>-4.695</td>
+      <td>0.771</td>
     </tr>
     <tr>
       <th>α2 - α4</th>
-      <td>5.007</td>
-      <td>1.351</td>
-      <td>2.477</td>
-      <td>7.555</td>
+      <td>4.981</td>
+      <td>1.331</td>
+      <td>2.440</td>
+      <td>7.457</td>
     </tr>
     <tr>
       <th>α3 - α4</th>
-      <td>7.002</td>
-      <td>1.345</td>
-      <td>4.500</td>
-      <td>9.541</td>
+      <td>6.995</td>
+      <td>1.355</td>
+      <td>4.527</td>
+      <td>9.661</td>
     </tr>
   </tbody>
 </table>
@@ -1348,12 +1327,11 @@ Sampling 4 chains for 1_000 tune and 5_000 draw iterations (4_000 + 20_000 draws
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Python implementation: CPython
 Python version       : 3.10.4
-IPython version      : 8.3.0
+IPython version      : 8.4.0
 
-numpy : 1.22.3
-pymc  : 4.0.0b5
-arviz : 0.12.1
-pandas: 1.4.2
+arviz: 0.12.1
+numpy: 1.22.4
+pymc : 4.0.0
 </pre></div>
 </div>
 </div>

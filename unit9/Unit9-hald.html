@@ -914,14 +914,6 @@ title="Print to PDF"
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The lab_black extension is already loaded. To reload it, use:
-  %reload_ext lab_black
-The watermark extension is already loaded. To reload it, use:
-  %reload_ext watermark
-</pre></div>
-</div>
-</div>
 </div>
 <section class="tex2jax_ignore mathjax_ignore" id="hald">
 <h1>Hald<a class="headerlink" href="#hald" title="Permalink to this headline">#</a></h1>
@@ -1017,7 +1009,7 @@ Chemistry, 24, 1207†1214.</p>
         <span class="n">h</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">h</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">X</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">h</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="n">X</span><span class="p">[:,</span> <span class="mi">3</span><span class="p">],</span>  <span class="c1"># i03</span>
     <span class="p">]</span>
     <span class="c1"># fmt: on</span>
-    <span class="n">mu</span> <span class="o">=</span> <span class="n">at</span><span class="o">.</span><span class="n">as_tensor_variable</span><span class="p">(</span><span class="n">_mu</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;mu&quot;</span><span class="p">)</span>
+    <span class="n">mu</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">_mu</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;mu&quot;</span><span class="p">)</span>
     <span class="n">lik</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;lik&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="n">tau</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">Y</span><span class="p">)</span>
 
     <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">2000</span><span class="p">)</span>
@@ -1028,13 +1020,9 @@ Chemistry, 24, 1207†1214.</p>
 </div>
 <div class="cell_output docutils container">
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Auto-assigning NUTS sampler...
-INFO:pymc:Auto-assigning NUTS sampler...
 Initializing NUTS using jitter+adapt_diag...
-INFO:pymc:Initializing NUTS using jitter+adapt_diag...
 Multiprocess sampling (4 chains in 4 jobs)
-INFO:pymc:Multiprocess sampling (4 chains in 4 jobs)
 NUTS: [a, b, c, d, e, f, g, h, tau]
-INFO:pymc:NUTS: [a, b, c, d, e, f, g, h, tau]
 </pre></div>
 </div>
 <div class="output text_html">
@@ -1053,26 +1041,13 @@ INFO:pymc:NUTS: [a, b, c, d, e, f, g, h, tau]
 </div><div class="output text_html">
 <div>
   <progress value='12000' class='' max='12000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-  100.00% [12000/12000 03:30<00:00 Sampling 4 chains, 1,468 divergences]
+  100.00% [12000/12000 06:44<00:00 Sampling 4 chains, 1,549 divergences]
 </div>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
-  return _boost._beta_ppf(q, a, b)
-/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
-  return _boost._beta_ppf(q, a, b)
-/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
-  return _boost._beta_ppf(q, a, b)
-/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
-  return _boost._beta_ppf(q, a, b)
-Sampling 4 chains for 1_000 tune and 2_000 draw iterations (4_000 + 8_000 draws total) took 220 seconds.
-INFO:pymc:Sampling 4 chains for 1_000 tune and 2_000 draw iterations (4_000 + 8_000 draws total) took 220 seconds.
-There were 163 divergences after tuning. Increase `target_accept` or reparameterize.
-ERROR:pymc:There were 163 divergences after tuning. Increase `target_accept` or reparameterize.
-There were 68 divergences after tuning. Increase `target_accept` or reparameterize.
-ERROR:pymc:There were 68 divergences after tuning. Increase `target_accept` or reparameterize.
-There were 465 divergences after tuning. Increase `target_accept` or reparameterize.
-ERROR:pymc:There were 465 divergences after tuning. Increase `target_accept` or reparameterize.
-There were 772 divergences after tuning. Increase `target_accept` or reparameterize.
-ERROR:pymc:There were 772 divergences after tuning. Increase `target_accept` or reparameterize.
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 2_000 draw iterations (4_000 + 8_000 draws total) took 431 seconds.
+There were 830 divergences after tuning. Increase `target_accept` or reparameterize.
+There were 74 divergences after tuning. Increase `target_accept` or reparameterize.
+There were 32 divergences after tuning. Increase `target_accept` or reparameterize.
+There were 613 divergences after tuning. Increase `target_accept` or reparameterize.
 </pre></div>
 </div>
 <div class="output text_html">
@@ -1111,8 +1086,8 @@ ERROR:pymc:There were 772 divergences after tuning. Increase `target_accept` or 
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([15.90520618, 15.89574047, 15.98018026, 15.90641954, 16.19778173,
-       36.56936768, 16.67180964, 16.70775651])
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([15.90341627, 15.84237464, 15.97925794, 15.8988387 , 16.18672951,
+       36.64429925, 16.61402571, 16.69703505])
 </pre></div>
 </div>
 </div>
@@ -1120,6 +1095,26 @@ ERROR:pymc:There were 772 divergences after tuning. Increase `target_accept` or 
 </section>
 <section id="model-2-ssvs">
 <h2>Model 2 (SSVS)<a class="headerlink" href="#model-2-ssvs" title="Permalink to this headline">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">watermark</span> --iversions -v
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Python implementation: CPython
+Python version       : 3.10.4
+IPython version      : 8.4.0
+
+arviz : 0.12.1
+numpy : 1.22.4
+aesara: 2.6.6
+pymc  : 4.0.0
+pandas: 1.4.2
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 </section>
 

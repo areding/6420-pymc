@@ -813,7 +813,10 @@ title="Print to PDF"
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">tqdm.auto</span> <span class="kn">import</span> <span class="n">tqdm</span>
+<span class="kn">from</span> <span class="nn">rich.progress</span> <span class="kn">import</span> <span class="n">track</span>
+
+<span class="o">%</span><span class="k">load_ext</span> lab_black
+<span class="o">%</span><span class="k">load_ext</span> watermark
 </pre></div>
 </div>
 </div>
@@ -846,19 +849,21 @@ title="Print to PDF"
 <span class="n">log_unif_alpha</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">rng</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">obs</span><span class="p">))</span>
 <span class="n">log_unif_eta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">rng</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">obs</span><span class="p">))</span>
 
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">obs</span><span class="p">)):</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">track</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">obs</span><span class="p">)):</span>
     <span class="c1"># proposals</span>
     <span class="n">alpha_prop</span> <span class="o">=</span> <span class="o">-</span><span class="n">alpha</span> <span class="o">*</span> <span class="n">log_unif_alpha</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
     <span class="n">eta_prop</span> <span class="o">=</span> <span class="o">-</span><span class="n">eta</span> <span class="o">*</span> <span class="n">log_unif_eta</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
 
     <span class="c1"># prod2 in MATLAB code</span>
-    <span class="n">prop_prod</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">eta</span> <span class="o">*</span> <span class="n">data</span> <span class="o">**</span> <span class="n">alpha</span> <span class="o">-</span> <span class="n">eta_prop</span> <span class="o">*</span> <span class="n">data</span> <span class="o">**</span> <span class="n">alpha_prop</span><span class="p">))</span>
+    <span class="n">prop_prod</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">eta</span> <span class="o">*</span> <span class="n">data</span><span class="o">**</span><span class="n">alpha</span> <span class="o">-</span> <span class="n">eta_prop</span> <span class="o">*</span> <span class="n">data</span><span class="o">**</span><span class="n">alpha_prop</span><span class="p">))</span>
 
     <span class="c1"># acceptance ratio</span>
     <span class="n">rr</span> <span class="o">=</span> <span class="p">(</span>
         <span class="p">(</span><span class="n">eta_prop</span> <span class="o">/</span> <span class="n">eta</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="n">beta</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
         <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">alpha</span> <span class="o">-</span> <span class="n">alpha_prop</span> <span class="o">-</span> <span class="n">xi</span> <span class="o">*</span> <span class="p">(</span><span class="n">eta_prop</span> <span class="o">-</span> <span class="n">eta</span><span class="p">))</span>
-        <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">alpha</span> <span class="o">/</span> <span class="n">alpha_prop</span> <span class="o">-</span> <span class="n">eta</span> <span class="o">/</span> <span class="n">eta_prop</span> <span class="o">+</span> <span class="n">alpha_prop</span> <span class="o">/</span> <span class="n">alpha</span> <span class="o">+</span> <span class="n">eta_prop</span> <span class="o">/</span> <span class="n">eta</span><span class="p">)</span>
+        <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span>
+            <span class="o">-</span><span class="n">alpha</span> <span class="o">/</span> <span class="n">alpha_prop</span> <span class="o">-</span> <span class="n">eta</span> <span class="o">/</span> <span class="n">eta_prop</span> <span class="o">+</span> <span class="n">alpha_prop</span> <span class="o">/</span> <span class="n">alpha</span> <span class="o">+</span> <span class="n">eta_prop</span> <span class="o">/</span> <span class="n">eta</span>
+        <span class="p">)</span>
         <span class="o">*</span> <span class="n">data_prod</span> <span class="o">**</span> <span class="p">(</span><span class="n">alpha_prop</span> <span class="o">-</span> <span class="n">alpha</span><span class="p">)</span>
         <span class="o">*</span> <span class="n">prop_prod</span>
         <span class="o">*</span> <span class="p">((</span><span class="n">alpha_prop</span> <span class="o">*</span> <span class="n">eta_prop</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">alpha</span> <span class="o">*</span> <span class="n">eta</span><span class="p">))</span> <span class="o">**</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
@@ -891,16 +896,36 @@ title="Print to PDF"
 </div>
 </div>
 <div class="cell_output docutils container">
-<script type="application/vnd.jupyter.widget-view+json">
-{"model_id": "8d8ade4f677c4beeb2798a0bdb5acb62", "version_major": 2, "version_minor": 0}
-</script><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>np.mean(alphas)=0.8946068730747929
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Working... <span style="color: #729c1f; text-decoration-color: #729c1f">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</span> <span style="color: #800080; text-decoration-color: #800080">100%</span> <span style="color: #008080; text-decoration-color: #008080">0:00:00</span>
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+</pre>
+</div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>np.mean(alphas)=0.8946068730747929
 np.var(alphas)=0.1362387303239647
 np.mean(etas)=1.8368073523412645
 np.var(etas)=0.7482303084883631
 </pre></div>
 </div>
-<img alt="../_images/Unit5-MetropolisHastings2_2_2.png" src="../_images/Unit5-MetropolisHastings2_2_2.png" />
-<img alt="../_images/Unit5-MetropolisHastings2_2_3.png" src="../_images/Unit5-MetropolisHastings2_2_3.png" />
+<img alt="../_images/Unit5-MetropolisHastings2_2_4.png" src="../_images/Unit5-MetropolisHastings2_2_4.png" />
+<img alt="../_images/Unit5-MetropolisHastings2_2_5.png" src="../_images/Unit5-MetropolisHastings2_2_5.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">watermark</span> --iversions -v
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Python implementation: CPython
+Python version       : 3.10.4
+IPython version      : 8.4.0
+
+matplotlib: 3.5.2
+numpy     : 1.22.4
+</pre></div>
+</div>
 </div>
 </div>
 </section>

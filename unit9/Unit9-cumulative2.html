@@ -858,14 +858,6 @@ title="Print to PDF"
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The lab_black extension is already loaded. To reload it, use:
-  %reload_ext lab_black
-The watermark extension is already loaded. To reload it, use:
-  %reload_ext watermark
-</pre></div>
-</div>
-</div>
 </div>
 <section class="tex2jax_ignore mathjax_ignore" id="priors-as-hidden-mixtures">
 <h1>Priors as hidden mixtures<a class="headerlink" href="#priors-as-hidden-mixtures" title="Permalink to this headline">#</a></h1>
@@ -873,7 +865,7 @@ The watermark extension is already loaded. To reload it, use:
 <p>Adapted from <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/original_examples/Codes4Unit9/cumulative2.odc">unit 9: cumulative2.odc</a>.</p>
 <section id="associated-lecture-video-unit-9-lesson-8">
 <h2>Associated lecture video: Unit 9 Lesson 8<a class="headerlink" href="#associated-lecture-video-unit-9-lesson-8" title="Permalink to this headline">#</a></h2>
-<div class="cell docutils container">
+<div class="cell tag_hide_input docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%html</span>
 <span class="p">&lt;</span><span class="nt">iframe</span> <span class="na">width</span><span class="o">=</span><span class="s">&quot;560&quot;</span> <span class="na">height</span><span class="o">=</span><span class="s">&quot;315&quot;</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;https://www.youtube.com/embed?v=xomK4tcePmc&amp;list=PLv0FeK5oXK4l-RdT6DWJj0_upJOG2WKNO&amp;index=95&quot;</span> <span class="na">frameborder</span><span class="o">=</span><span class="s">&quot;0&quot;</span> <span class="na">allow</span><span class="o">=</span><span class="s">&quot;autoplay; encrypted-media&quot;</span> <span class="na">allowfullscreen</span><span class="p">&gt;&lt;/</span><span class="nt">iframe</span><span class="p">&gt;</span>
@@ -901,7 +893,7 @@ The watermark extension is already loaded. To reload it, use:
 </div>
 </div>
 </div>
-<div class="cell docutils container">
+<div class="cell tag_hide_output docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>with pm.Model() as m:
     theta = pm.Flat(&quot;theta&quot;)
@@ -918,6 +910,29 @@ The watermark extension is already loaded. To reload it, use:
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span>  Input In [4]
+    cuy = pm.Deterministic(&quot;cuy&quot;, ???cumulative)
+                                  ^
+SyntaxError: invalid syntax
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ERROR:root:Cannot parse: 6:33:     cuy = pm.Deterministic(&quot;cuy&quot;, ???cumulative)
+Traceback (most recent call last):
+  File &quot;/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/lab_black.py&quot;, line 218, in format_cell
+    formatted_code = _format_code(cell)
+  File &quot;/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/lab_black.py&quot;, line 29, in _format_code
+    return format_str(src_contents=code, mode=FileMode())
+  File &quot;/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/black/__init__.py&quot;, line 1154, in format_str
+    dst_contents = _format_str_once(src_contents, mode=mode)
+  File &quot;/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/black/__init__.py&quot;, line 1164, in _format_str_once
+    src_node = lib2to3_parse(src_contents.lstrip(), mode.target_versions)
+  File &quot;/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/black/parsing.py&quot;, line 128, in lib2to3_parse
+    raise exc from None
+black.parsing.InvalidInput: Cannot parse: 6:33:     cuy = pm.Deterministic(&quot;cuy&quot;, ???cumulative)
+</pre></div>
+</div>
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -929,17 +944,6 @@ The watermark extension is already loaded. To reload it, use:
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">watermark</span> --iversions -v
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Python implementation: CPython
-Python version       : 3.10.4
-IPython version      : 8.4.0
-
-arviz: 0.12.1
-numpy: 1.22.4
-pymc : 4.0.0
 </pre></div>
 </div>
 </div>

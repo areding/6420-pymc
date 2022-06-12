@@ -807,21 +807,9 @@ title="Print to PDF"
     </div>
     <nav id="bd-toc-nav" aria-label="Page">
         <ul class="visible nav section-nav flex-column">
- <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#">
-   Magnesium for myocardial infarction
-  </a>
-  <ul class="visible nav section-nav flex-column">
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#problem-statement">
-     Problem statement
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#study-deaths-total-deaths-total">
-   Study                    Deaths Total  Deaths Total
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#problem-statement">
+   Problem statement
   </a>
  </li>
 </ul>
@@ -843,21 +831,9 @@ title="Print to PDF"
                         </div>
                         <nav aria-label="Page">
                             <ul class="visible nav section-nav flex-column">
- <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#">
-   Magnesium for myocardial infarction
-  </a>
-  <ul class="visible nav section-nav flex-column">
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#problem-statement">
-     Problem statement
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#study-deaths-total-deaths-total">
-   Study                    Deaths Total  Deaths Total
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#problem-statement">
+   Problem statement
   </a>
  </li>
 </ul>
@@ -897,53 +873,354 @@ between meta-analyses which showed a clear beneficial
 effect of magnesium therapy on mortality (Teo et al, 1991; Horner 1992) and a
 subsequent large trial which showed no effect (ISIS-4).</p>
 <p>Results from 16 trials of intravenous magnesium in acute
-myocardial infarction</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>                        Magnesium   Control 
+myocardial infarction
+Mg.           Control</p>
+<p>Study                    Deaths Total  Deaths Total</p>
+<ul class="simple">
+<li><p>Morton  1984            1   40         2    36</p></li>
+<li><p>Rasmussen  1986     9  135       23   135</p></li>
+<li><p>Smith  1986              2  200        7  200</p></li>
+<li><p>Abraham  1987         1   48         1  46</p></li>
+<li><p>Feldstedt  1988       10  150        8   148</p></li>
+<li><p>Schechter  1989       1   59         9   56</p></li>
+<li><p>Ceremuzynski  1989  1  25         3  23</p></li>
+<li><p>Bertschat  1989          0  22       1  21</p></li>
+<li><p>Singh  &amp;1990 &amp; 6 &amp;76 &amp;11 &amp;75\</p></li>
+<li><p>Pereira &amp;1990 &amp;1 &amp;27 &amp;7 &amp;27\</p></li>
+<li><p>Schechter &amp; Hod 1 &amp;1991 &amp;2 &amp;89 &amp;12 &amp;80\</p></li>
+<li><p>Golf &amp;1991 &amp;5 &amp;23 &amp;13 &amp;33\</p></li>
+<li><p>Thogersen  1991     4  130    8  122</p></li>
+<li><p>LIMIT-2 &amp;1992 &amp;90 &amp;1159&amp; 118 &amp;1157\</p></li>
+<li><p>Schechter 1995    4  107  17 &amp;108</p></li>
+<li><p>ISIS-4  1995  2216 29011  2103  29039</p></li>
+</ul>
+<p>(a) Using a Bayesian model, WinBUGS, and log odds ratio as a study effect,
+conduct a Bayesian meta-analysis. Discuss your findings.</p>
+<p>(b) Read about publication bias and funnel plots. Plot the posterior means for log odds ratios against posterior standard deviations. (A Bayesian version of funnel plot) Discuss your findings.</p>
+<p>Teo, K. K., Yusuf, S., Collins, R., Held, P. H., and Peto, R. (1991). Effects of intravenous magnesium in suspected acute myocardial infarction: overview of randomised trials. {\it Br. Med. J.}, {\bf 303}, 1499–1503.</p>
+<p>Horner S. M. (1992). Efficacy of intravenous magnesium in acute myocardial infarction in reducing arrhythmias and mortality: Meta-analysis of magnesium in acute myocardial infarction. {\it Circulation}, {\bf 86}, 774–779.</p>
+<p>ISIS-4 Collaborative Group. (1995). ISIS-4: A randomised factorial trial assessing early oral captopril, oral mononitrate, and intravenous magnesium sulphate in 58,050 patients with suspected acute myocardial infarction. {\it Lancet}, {\bf 345}, 669–687.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;../data/magnesiumtw.csv&quot;</span><span class="p">)</span>
+<span class="n">data</span>
 </pre></div>
 </div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>D.Magn</th>
+      <th>N.Magn</th>
+      <th>D.Controls</th>
+      <th>N.Controls</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>40</td>
+      <td>2</td>
+      <td>36</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>9</td>
+      <td>135</td>
+      <td>23</td>
+      <td>135</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2</td>
+      <td>200</td>
+      <td>7</td>
+      <td>200</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1</td>
+      <td>48</td>
+      <td>1</td>
+      <td>46</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>10</td>
+      <td>150</td>
+      <td>8</td>
+      <td>148</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>1</td>
+      <td>59</td>
+      <td>9</td>
+      <td>56</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>1</td>
+      <td>25</td>
+      <td>3</td>
+      <td>23</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>0</td>
+      <td>22</td>
+      <td>1</td>
+      <td>21</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>6</td>
+      <td>76</td>
+      <td>11</td>
+      <td>75</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>1</td>
+      <td>27</td>
+      <td>7</td>
+      <td>27</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>2</td>
+      <td>89</td>
+      <td>12</td>
+      <td>80</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>5</td>
+      <td>23</td>
+      <td>13</td>
+      <td>33</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>4</td>
+      <td>130</td>
+      <td>8</td>
+      <td>122</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>90</td>
+      <td>1159</td>
+      <td>118</td>
+      <td>1157</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>4</td>
+      <td>107</td>
+      <td>17</td>
+      <td>108</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>2216</td>
+      <td>29011</td>
+      <td>2103</td>
+      <td>29039</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">d_magn</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;D.Magn&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+<span class="n">d_controls</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;D.Controls&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+<span class="n">n_magn</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;N.Magn&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+<span class="n">n_controls</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;N.Controls&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">m</span><span class="p">:</span>
+    <span class="n">T</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Gamma</span><span class="p">(</span><span class="s2">&quot;T&quot;</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">)</span>
+    <span class="n">mu</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;mu&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">1e-5</span><span class="p">)</span>
+    <span class="c1"># rename these mus, super confusing</span>
+    <span class="n">Mu</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;Mu&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">1e-4</span><span class="p">)</span>
+    <span class="n">effect</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;effect&quot;</span><span class="p">,</span> <span class="n">Mu</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="n">T</span><span class="p">)</span>
+
+    <span class="n">p_magn</span> <span class="o">=</span> <span class="n">mu</span> <span class="o">+</span> <span class="n">effect</span>
+    <span class="n">p_controls</span> <span class="o">=</span> <span class="n">mu</span>
+
+    <span class="n">pm</span><span class="o">.</span><span class="n">Binomial</span><span class="p">(</span><span class="s2">&quot;d_controls&quot;</span><span class="p">,</span> <span class="n">logit_p</span><span class="o">=</span><span class="n">p_controls</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">n_controls</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">d_controls</span><span class="p">)</span>
+    <span class="n">pm</span><span class="o">.</span><span class="n">Binomial</span><span class="p">(</span><span class="s2">&quot;d_magn&quot;</span><span class="p">,</span> <span class="n">logit_p</span><span class="o">=</span><span class="n">p_magn</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">n_magn</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">d_magn</span><span class="p">)</span>
+
+    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">3000</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Auto-assigning NUTS sampler...
+Initializing NUTS using jitter+adapt_diag...
+Multiprocess sampling (4 chains in 4 jobs)
+NUTS: [T, mu, Mu, effect]
+</pre></div>
+</div>
+<div class="output text_html">
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div><div class="output text_html">
+<div>
+  <progress value='16000' class='' max='16000' style='width:300px; height:20px; vertical-align: middle;'></progress>
+  100.00% [16000/16000 00:45<00:00 Sampling 4 chains, 22 divergences]
+</div>
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 3_000 draw iterations (4_000 + 12_000 draws total) took 59 seconds.
+There were 3 divergences after tuning. Increase `target_accept` or reparameterize.
+There were 17 divergences after tuning. Increase `target_accept` or reparameterize.
+There were 2 divergences after tuning. Increase `target_accept` or reparameterize.
+The acceptance probability does not match the target. It is 0.922, but should be close to 0.8. Try to increase the number of tuning steps.
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mean</th>
+      <th>sd</th>
+      <th>hdi_3%</th>
+      <th>hdi_97%</th>
+      <th>mcse_mean</th>
+      <th>mcse_sd</th>
+      <th>ess_bulk</th>
+      <th>ess_tail</th>
+      <th>r_hat</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>mu</th>
+      <td>-2.514</td>
+      <td>0.020</td>
+      <td>-2.553</td>
+      <td>-2.476</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>5988.0</td>
+      <td>6452.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>Mu</th>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>-0.000</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>7336.0</td>
+      <td>6983.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>effect</th>
+      <td>0.004</td>
+      <td>0.027</td>
+      <td>-0.048</td>
+      <td>0.056</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>6074.0</td>
+      <td>6844.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>T</th>
+      <td>400.800</td>
+      <td>582.932</td>
+      <td>0.000</td>
+      <td>1454.410</td>
+      <td>6.077</td>
+      <td>4.297</td>
+      <td>5031.0</td>
+      <td>3755.0</td>
+      <td>1.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">watermark</span> --iversions -v
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Python implementation: CPython
+Python version       : 3.10.4
+IPython version      : 8.4.0
+
+pymc  : 4.0.0
+arviz : 0.12.1
+pandas: 1.4.2
+numpy : 1.22.4
+</pre></div>
+</div>
+</div>
+</div>
 </section>
-</section>
-<section class="tex2jax_ignore mathjax_ignore" id="study-deaths-total-deaths-total">
-<h1>Study                    Deaths Total  Deaths Total<a class="headerlink" href="#study-deaths-total-deaths-total" title="Permalink to this headline">#</a></h1>
-<p>Morton  1984            1   40         2    36
-Rasmussen  1986     9  135       23   135
-Smith  1986              2  200        7  200
-Abraham  1987         1   48         1  46
-Feldstedt  1988       10  150        8   148
-Schechter  1989       1   59         9   56
-Ceremuzynski  1989  1  25         3  23
-Bertschat  1989          0  22       1  21
-Singh  &amp;1990 &amp; 6 &amp;76 &amp;11 &amp;75\
-Pereira &amp;1990 &amp;1 &amp;27 &amp;7 &amp;27\
-Schechter &amp; Hod 1 &amp;1991 &amp;2 &amp;89 &amp;12 &amp;80\
-Golf &amp;1991 &amp;5 &amp;23 &amp;13 &amp;33\
-Thogersen  1991     4  130    8  122
-LIMIT-2 &amp;1992 &amp;90 &amp;1159&amp; 118 &amp;1157\
-Schechter 1995    4  107  17 &amp;108
-ISIS-4  1995  2216 29011  2103  29039
-\hline
-\end{tabular}
-\end{table}</p>
-<p>(a) Using a Bayesian model, WinBUGS, and log odds ratio  as a study effect,
-conduct a Bayesian meta-analysis. Discuss your findings.</p>
-<p>(b) Read about publication bias and funnel plots.
-Plot the posterior means for log odds ratios against  posterior
-standard deviations. (A Bayesian version of funnel plot)
-Discuss your findings.</p>
-<p>\vspace*{0.1in}</p>
-<p>{\footnotesize
-Teo, K. K., Yusuf, S., Collins, R., Held, P. H., and Peto, R. (1991).
-Effects of intravenous
-magnesium in suspected acute myocardial infarction: overview of
-randomised trials. {\it Br. Med. J.}, {\bf 303}, 1499–1503.</p>
-<p>Horner S. M. (1992). Efficacy of intravenous magnesium in acute myocardial
-infarction in reducing arrhythmias and mortality: Meta-analysis of magnesium
-in acute myocardial infarction. {\it Circulation}, {\bf 86},  774–779.</p>
-<p>ISIS-4 Collaborative Group. (1995). ISIS-4: A randomised factorial trial assessing
-early oral captopril, oral mononitrate, and intravenous magnesium
-sulphate in 58,050 patients with suspected acute myocardial infarction.
-{\it Lancet}, {\bf 345}, 669–687.
-}</p>
 </section>
 
     <script type="text/x-thebe-config">

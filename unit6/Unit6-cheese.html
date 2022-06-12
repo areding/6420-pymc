@@ -895,14 +895,6 @@ title="Print to PDF"
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The watermark extension is already loaded. To reload it, use:
-  %reload_ext watermark
-The lab_black extension is already loaded. To reload it, use:
-  %reload_ext lab_black
-</pre></div>
-</div>
-</div>
 </div>
 <section class="tex2jax_ignore mathjax_ignore" id="taste-of-cheese">
 <h1>Taste of Cheese<a class="headerlink" href="#taste-of-cheese" title="Permalink to this headline">#</a></h1>
@@ -989,8 +981,6 @@ The lab_black extension is already loaded. To reload it, use:
 <div class="cell_output docutils container">
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Auto-assigning NUTS sampler...
 Initializing NUTS using jitter+adapt_diag...
-/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/pymc/aesaraf.py:996: UserWarning: The parameter &#39;updates&#39; of aesara.function() expects an OrderedDict, got &lt;class &#39;dict&#39;&gt;. Using a standard dictionary here results in non-deterministic behavior. You should use an OrderedDict if you are using Python 2.7 (collections.OrderedDict for older python), or use a list of (shared, update) pairs. Do not just convert your dictionary to this type before the call as the conversion will still be non-deterministic.
-  aesara_function = aesara.function(
 Multiprocess sampling (4 chains in 4 jobs)
 NUTS: [beta, tau]
 </pre></div>
@@ -1011,17 +1001,9 @@ NUTS: [beta, tau]
 </div><div class="output text_html">
 <div>
   <progress value='44000' class='' max='44000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-  100.00% [44000/44000 00:37<00:00 Sampling 4 chains, 0 divergences]
+  100.00% [44000/44000 00:51<00:00 Sampling 4 chains, 0 divergences]
 </div>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
-  return _boost._beta_ppf(q, a, b)
-/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
-  return _boost._beta_ppf(q, a, b)
-/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
-  return _boost._beta_ppf(q, a, b)
-/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
-  return _boost._beta_ppf(q, a, b)
-Sampling 4 chains for 1_000 tune and 10_000 draw iterations (4_000 + 40_000 draws total) took 48 seconds.
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 10_000 draw iterations (4_000 + 40_000 draws total) took 61 seconds.
 </pre></div>
 </div>
 </div>
@@ -1065,50 +1047,50 @@ Sampling 4 chains for 1_000 tune and 10_000 draw iterations (4_000 + 40_000 draw
   <tbody>
     <tr>
       <th>beta[0]</th>
-      <td>-28.527</td>
-      <td>20.481</td>
-      <td>-68.219</td>
-      <td>12.413</td>
-      <td>0.163</td>
-      <td>0.116</td>
-      <td>15869.0</td>
-      <td>19558.0</td>
+      <td>-29.022</td>
+      <td>20.578</td>
+      <td>-68.934</td>
+      <td>11.950</td>
+      <td>0.168</td>
+      <td>0.119</td>
+      <td>15158.0</td>
+      <td>19043.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>beta[1]</th>
-      <td>0.250</td>
-      <td>4.623</td>
-      <td>-8.726</td>
-      <td>9.412</td>
-      <td>0.038</td>
-      <td>0.027</td>
-      <td>14841.0</td>
-      <td>18474.0</td>
+      <td>0.364</td>
+      <td>4.659</td>
+      <td>-8.976</td>
+      <td>9.429</td>
+      <td>0.039</td>
+      <td>0.028</td>
+      <td>14710.0</td>
+      <td>17446.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>beta[2]</th>
-      <td>3.924</td>
-      <td>1.310</td>
-      <td>1.300</td>
-      <td>6.450</td>
-      <td>0.010</td>
+      <td>3.914</td>
+      <td>1.299</td>
+      <td>1.271</td>
+      <td>6.407</td>
+      <td>0.009</td>
       <td>0.007</td>
-      <td>18611.0</td>
-      <td>19948.0</td>
+      <td>19291.0</td>
+      <td>20318.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>beta[3]</th>
-      <td>19.686</td>
-      <td>8.985</td>
-      <td>1.830</td>
-      <td>37.229</td>
-      <td>0.066</td>
-      <td>0.047</td>
-      <td>18515.0</td>
-      <td>20252.0</td>
+      <td>19.619</td>
+      <td>8.952</td>
+      <td>1.585</td>
+      <td>36.823</td>
+      <td>0.061</td>
+      <td>0.044</td>
+      <td>21401.0</td>
+      <td>22094.0</td>
       <td>1.0</td>
     </tr>
     <tr>
@@ -1119,8 +1101,8 @@ Sampling 4 chains for 1_000 tune and 10_000 draw iterations (4_000 + 40_000 draw
       <td>0.015</td>
       <td>0.000</td>
       <td>0.000</td>
-      <td>22571.0</td>
-      <td>22588.0</td>
+      <td>20895.0</td>
+      <td>21727.0</td>
       <td>1.0</td>
     </tr>
   </tbody>
@@ -1223,7 +1205,7 @@ Sampling 4 chains for 1_000 tune and 10_000 draw iterations (4_000 + 40_000 draw
 </div><div class="output text_html">
 <div>
   <progress value='40000' class='' max='40000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-  100.00% [40000/40000 00:00<00:00]
+  100.00% [40000/40000 00:05<00:00]
 </div>
 </div></div>
 </div>
@@ -1270,14 +1252,14 @@ Sampling 4 chains for 1_000 tune and 10_000 draw iterations (4_000 + 40_000 draw
   <tbody>
     <tr>
       <th>taste_score[0]</th>
-      <td>30.173</td>
-      <td>11.274</td>
-      <td>7.594</td>
-      <td>52.081</td>
-      <td>0.061</td>
-      <td>0.043</td>
-      <td>34149.0</td>
-      <td>37075.0</td>
+      <td>30.036</td>
+      <td>11.162</td>
+      <td>8.851</td>
+      <td>52.868</td>
+      <td>0.06</td>
+      <td>0.042</td>
+      <td>34888.0</td>
+      <td>33913.0</td>
       <td>1.0</td>
     </tr>
   </tbody>
@@ -1293,12 +1275,12 @@ Sampling 4 chains for 1_000 tune and 10_000 draw iterations (4_000 + 40_000 draw
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Python implementation: CPython
 Python version       : 3.10.4
-IPython version      : 8.3.0
+IPython version      : 8.4.0
 
-arviz     : 0.12.1
-numpy     : 1.22.3
 matplotlib: 3.5.2
-pymc      : 4.0.0b5
+numpy     : 1.22.4
+arviz     : 0.12.1
+pymc      : 4.0.0
 pandas    : 1.4.2
 </pre></div>
 </div>

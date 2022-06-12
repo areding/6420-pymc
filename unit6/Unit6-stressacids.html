@@ -993,8 +993,6 @@ title="Print to PDF"
 <div class="cell_output docutils container">
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Auto-assigning NUTS sampler...
 Initializing NUTS using jitter+adapt_diag...
-/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/pymc/aesaraf.py:996: UserWarning: The parameter &#39;updates&#39; of aesara.function() expects an OrderedDict, got &lt;class &#39;dict&#39;&gt;. Using a standard dictionary here results in non-deterministic behavior. You should use an OrderedDict if you are using Python 2.7 (collections.OrderedDict for older python), or use a list of (shared, update) pairs. Do not just convert your dictionary to this type before the call as the conversion will still be non-deterministic.
-  aesara_function = aesara.function(
 Multiprocess sampling (4 chains in 4 jobs)
 NUTS: [tau_nonsmokers, mu_nonsmokers, tau_smokers, mu_smokers]
 </pre></div>
@@ -1015,17 +1013,9 @@ NUTS: [tau_nonsmokers, mu_nonsmokers, tau_smokers, mu_smokers]
 </div><div class="output text_html">
 <div>
   <progress value='24000' class='' max='24000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-  100.00% [24000/24000 00:02<00:00 Sampling 4 chains, 0 divergences]
+  100.00% [24000/24000 00:19<00:00 Sampling 4 chains, 0 divergences]
 </div>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
-  return _boost._beta_ppf(q, a, b)
-/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
-  return _boost._beta_ppf(q, a, b)
-/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
-  return _boost._beta_ppf(q, a, b)
-/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
-  return _boost._beta_ppf(q, a, b)
-Sampling 4 chains for 1_000 tune and 5_000 draw iterations (4_000 + 20_000 draws total) took 11 seconds.
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 5_000 draw iterations (4_000 + 20_000 draws total) took 45 seconds.
 </pre></div>
 </div>
 </div>
@@ -1071,72 +1061,72 @@ Sampling 4 chains for 1_000 tune and 5_000 draw iterations (4_000 + 20_000 draws
       <th>mu_nonsmokers</th>
       <td>0.912</td>
       <td>0.045</td>
-      <td>0.825</td>
+      <td>0.826</td>
       <td>1.002</td>
       <td>0.000</td>
       <td>0.000</td>
-      <td>14845.0</td>
-      <td>12149.0</td>
+      <td>15002.0</td>
+      <td>12894.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>mu_smokers</th>
-      <td>0.975</td>
-      <td>0.163</td>
-      <td>0.650</td>
-      <td>1.302</td>
+      <td>0.973</td>
+      <td>0.164</td>
+      <td>0.645</td>
+      <td>1.297</td>
+      <td>0.002</td>
       <td>0.001</td>
-      <td>0.001</td>
-      <td>15011.0</td>
-      <td>11351.0</td>
+      <td>12671.0</td>
+      <td>10681.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>tau_nonsmokers</th>
-      <td>22.683</td>
-      <td>6.699</td>
-      <td>10.624</td>
-      <td>36.013</td>
-      <td>0.054</td>
-      <td>0.038</td>
-      <td>15415.0</td>
-      <td>13428.0</td>
+      <td>22.606</td>
+      <td>6.701</td>
+      <td>10.369</td>
+      <td>35.864</td>
+      <td>0.050</td>
+      <td>0.036</td>
+      <td>17430.0</td>
+      <td>13742.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>tau_smokers</th>
-      <td>6.542</td>
-      <td>3.479</td>
-      <td>0.917</td>
-      <td>13.304</td>
-      <td>0.027</td>
-      <td>0.019</td>
-      <td>14547.0</td>
-      <td>11739.0</td>
+      <td>6.582</td>
+      <td>3.512</td>
+      <td>0.896</td>
+      <td>13.430</td>
+      <td>0.028</td>
+      <td>0.020</td>
+      <td>14142.0</td>
+      <td>10991.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>test_mu</th>
-      <td>0.662</td>
-      <td>0.473</td>
+      <td>0.661</td>
+      <td>0.474</td>
       <td>0.000</td>
       <td>1.000</td>
       <td>0.004</td>
       <td>0.003</td>
-      <td>16454.0</td>
-      <td>16454.0</td>
+      <td>15849.0</td>
+      <td>15849.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>prec_ratio</th>
-      <td>4.857</td>
-      <td>4.208</td>
-      <td>0.677</td>
-      <td>12.076</td>
-      <td>0.040</td>
+      <td>4.816</td>
+      <td>4.300</td>
+      <td>0.580</td>
+      <td>11.774</td>
+      <td>0.041</td>
       <td>0.029</td>
-      <td>14510.0</td>
-      <td>12162.0</td>
+      <td>13889.0</td>
+      <td>12449.0</td>
       <td>1.0</td>
     </tr>
   </tbody>
@@ -1152,11 +1142,11 @@ Sampling 4 chains for 1_000 tune and 5_000 draw iterations (4_000 + 20_000 draws
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Python implementation: CPython
 Python version       : 3.10.4
-IPython version      : 8.3.0
+IPython version      : 8.4.0
 
+pymc      : 4.0.0
+numpy     : 1.22.4
 arviz     : 0.12.1
-numpy     : 1.22.3
-pymc      : 4.0.0b5
 matplotlib: 3.5.2
 </pre></div>
 </div>

@@ -899,7 +899,7 @@ title="Print to PDF"
 <span class="n">μ</span> <span class="o">=</span> <span class="mi">110</span>
 <span class="n">σ</span> <span class="o">=</span> <span class="mf">8.944272</span>
 <span class="n">τ</span> <span class="o">=</span> <span class="mf">10.954451</span>
-<span class="n">constant</span> <span class="o">=</span> <span class="mi">1000</span> <span class="c1"># can&#39;t let lambda be lower than zero</span>
+<span class="n">constant</span> <span class="o">=</span> <span class="mi">1000</span>  <span class="c1"># can&#39;t let lambda be lower than zero</span>
 
 <span class="n">inits</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;θ&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">}</span>
 </pre></div>
@@ -953,17 +953,9 @@ NUTS: [θ]
 </div><div class="output text_html">
 <div>
   <progress value='44000' class='' max='44000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-  100.00% [44000/44000 00:03<00:00 Sampling 4 chains, 0 divergences]
+  100.00% [44000/44000 00:26<00:00 Sampling 4 chains, 0 divergences]
 </div>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
-  return _boost._beta_ppf(q, a, b)
-/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
-  return _boost._beta_ppf(q, a, b)
-/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
-  return _boost._beta_ppf(q, a, b)
-/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
-  return _boost._beta_ppf(q, a, b)
-Sampling 4 chains for 1_000 tune and 10_000 draw iterations (4_000 + 40_000 draws total) took 9 seconds.
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 10_000 draw iterations (4_000 + 40_000 draws total) took 50 seconds.
 </pre></div>
 </div>
 </div>
@@ -1007,38 +999,38 @@ Sampling 4 chains for 1_000 tune and 10_000 draw iterations (4_000 + 40_000 draw
   <tbody>
     <tr>
       <th>θ</th>
-      <td>102.740</td>
-      <td>6.992</td>
-      <td>89.332</td>
-      <td>116.583</td>
-      <td>0.058</td>
-      <td>0.041</td>
-      <td>14393.0</td>
-      <td>22941.0</td>
+      <td>102.858</td>
+      <td>6.877</td>
+      <td>89.180</td>
+      <td>116.074</td>
+      <td>0.055</td>
+      <td>0.039</td>
+      <td>15651.0</td>
+      <td>24485.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>λ1</th>
-      <td>1002.637</td>
-      <td>0.597</td>
+      <td>1002.634</td>
+      <td>0.583</td>
       <td>1002.191</td>
-      <td>1003.847</td>
-      <td>0.005</td>
+      <td>1003.838</td>
+      <td>0.004</td>
       <td>0.003</td>
-      <td>17220.0</td>
-      <td>23150.0</td>
+      <td>17395.0</td>
+      <td>25055.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>λ2</th>
-      <td>1002.817</td>
-      <td>0.512</td>
+      <td>1002.803</td>
+      <td>0.498</td>
       <td>1002.394</td>
-      <td>1003.862</td>
+      <td>1003.827</td>
       <td>0.004</td>
       <td>0.003</td>
-      <td>15742.0</td>
-      <td>23355.0</td>
+      <td>16709.0</td>
+      <td>25368.0</td>
       <td>1.0</td>
     </tr>
   </tbody>
@@ -1056,12 +1048,12 @@ Sampling 4 chains for 1_000 tune and 10_000 draw iterations (4_000 + 40_000 draw
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Python implementation: CPython
 Python version       : 3.10.4
-IPython version      : 8.3.0
+IPython version      : 8.4.0
 
-pymc      : 4.0.0b5
-arviz     : 0.12.1
 matplotlib: 3.5.2
-numpy     : 1.22.3
+numpy     : 1.22.4
+arviz     : 0.12.1
+pymc      : 4.0.0
 </pre></div>
 </div>
 </div>

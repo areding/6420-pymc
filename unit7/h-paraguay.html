@@ -988,8 +988,6 @@ memory usage: 214.1 KB
 <div class="cell_output docutils container">
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Auto-assigning NUTS sampler...
 Initializing NUTS using jitter+adapt_diag...
-/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/pymc/aesaraf.py:996: UserWarning: The parameter &#39;updates&#39; of aesara.function() expects an OrderedDict, got &lt;class &#39;dict&#39;&gt;. Using a standard dictionary here results in non-deterministic behavior. You should use an OrderedDict if you are using Python 2.7 (collections.OrderedDict for older python), or use a list of (shared, update) pairs. Do not just convert your dictionary to this type before the call as the conversion will still be non-deterministic.
-  aesara_function = aesara.function(
 Multiprocess sampling (4 chains in 4 jobs)
 NUTS: [cluster_tau, beta, cluster_effect]
 </pre></div>
@@ -1010,19 +1008,9 @@ NUTS: [cluster_tau, beta, cluster_effect]
 </div><div class="output text_html">
 <div>
   <progress value='16000' class='' max='16000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-  100.00% [16000/16000 00:18<00:00 Sampling 4 chains, 0 divergences]
+  100.00% [16000/16000 03:47<00:00 Sampling 4 chains, 0 divergences]
 </div>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
-  return _boost._beta_ppf(q, a, b)
-/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
-  return _boost._beta_ppf(q, a, b)
-/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
-  return _boost._beta_ppf(q, a, b)
-/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
-  return _boost._beta_ppf(q, a, b)
-Sampling 4 chains for 1_000 tune and 3_000 draw iterations (4_000 + 12_000 draws total) took 30 seconds.
-/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/pymc/backends/arviz.py:58: UserWarning: Could not extract data from symbolic observation likelihood
-  warnings.warn(f&quot;Could not extract data from symbolic observation {obs}&quot;)
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 3_000 draw iterations (4_000 + 12_000 draws total) took 243 seconds.
 </pre></div>
 </div>
 </div>
@@ -1063,59 +1051,59 @@ Sampling 4 chains for 1_000 tune and 3_000 draw iterations (4_000 + 12_000 draws
   <tbody>
     <tr>
       <th>beta[0]</th>
-      <td>1.446</td>
-      <td>0.131</td>
-      <td>1.201</td>
-      <td>1.697</td>
+      <td>1.445</td>
+      <td>0.133</td>
+      <td>1.198</td>
+      <td>1.695</td>
     </tr>
     <tr>
       <th>beta[1]</th>
-      <td>-0.071</td>
+      <td>-0.070</td>
       <td>0.015</td>
       <td>-0.098</td>
-      <td>-0.043</td>
+      <td>-0.042</td>
     </tr>
     <tr>
       <th>beta[2]</th>
-      <td>-0.565</td>
-      <td>0.204</td>
-      <td>-0.952</td>
+      <td>-0.563</td>
+      <td>0.206</td>
+      <td>-0.954</td>
       <td>-0.180</td>
     </tr>
     <tr>
       <th>beta[3]</th>
-      <td>-0.195</td>
-      <td>0.098</td>
-      <td>-0.376</td>
-      <td>-0.009</td>
+      <td>-0.196</td>
+      <td>0.097</td>
+      <td>-0.384</td>
+      <td>-0.019</td>
     </tr>
     <tr>
       <th>beta[4]</th>
-      <td>-0.693</td>
-      <td>0.131</td>
-      <td>-0.941</td>
-      <td>-0.455</td>
+      <td>-0.692</td>
+      <td>0.136</td>
+      <td>-0.943</td>
+      <td>-0.432</td>
     </tr>
     <tr>
       <th>beta[5]</th>
       <td>-0.284</td>
       <td>0.110</td>
-      <td>-0.484</td>
-      <td>-0.071</td>
+      <td>-0.485</td>
+      <td>-0.075</td>
     </tr>
     <tr>
       <th>beta[6]</th>
       <td>-0.620</td>
-      <td>0.097</td>
-      <td>-0.805</td>
+      <td>0.100</td>
+      <td>-0.810</td>
       <td>-0.440</td>
     </tr>
     <tr>
       <th>cluster_variance</th>
       <td>0.530</td>
-      <td>0.094</td>
-      <td>0.359</td>
-      <td>0.705</td>
+      <td>0.095</td>
+      <td>0.362</td>
+      <td>0.712</td>
     </tr>
   </tbody>
 </table>
@@ -1133,7 +1121,14 @@ Sampling 4 chains for 1_000 tune and 3_000 draw iterations (4_000 + 12_000 draws
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>UsageError: Line magic function `%watermark` not found.
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Python implementation: CPython
+Python version       : 3.10.4
+IPython version      : 8.4.0
+
+pandas: 1.4.2
+numpy : 1.22.4
+pymc  : 4.0.0
+arviz : 0.12.1
 </pre></div>
 </div>
 </div>
