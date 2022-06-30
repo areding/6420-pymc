@@ -923,8 +923,8 @@ title="Print to PDF"
 
     <span class="n">mu</span> <span class="o">=</span> <span class="n">alpha</span> <span class="o">+</span> <span class="n">beta</span> <span class="o">*</span> <span class="p">(</span><span class="n">X</span> <span class="o">-</span> <span class="n">x_bar</span><span class="p">)</span>
 
-    <span class="c1"># note that the likelihood uses the observed parameter to incorporate your target data</span>
-    <span class="c1"># also note that the Normal dist can be specified with tau instead of sigma</span>
+    <span class="c1"># likelihood uses observed parameter to incorporate target data</span>
+    <span class="c1"># the Normal dist can be specified with tau instead of sigma</span>
     <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;likelihood&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="n">tau</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
 
     <span class="c1"># start sampling and save results to trace variable</span>
@@ -1003,7 +1003,7 @@ The acceptance probability does not match the target. It is 0.9076, but should b
 <section id="arviz-for-visualization-and-summary-statistics">
 <h2>ArViz for visualization and summary statistics<a class="headerlink" href="#arviz-for-visualization-and-summary-statistics" title="Permalink to this headline">#</a></h2>
 <p>For visualization and summarization of your trace, use <a class="reference external" href="https://arviz-devs.github.io/arviz/">ArViz</a>.</p>
-<p>Arviz has a variety of functions to view the results of the model. One of the most useful is az.summary. Professor Vidakovic arbitrarily asks for the 95% credible set (also called the highest density interval), so we can specify hdi_prob=.95 to get that. This is the HPD, or minimum-width, credible set.</p>
+<p>Arviz has a variety of functions to view the results of the model. One of the most useful is <code class="docutils literal notranslate"><span class="pre">az.summary</span></code>. Professor Vidakovic arbitrarily asks for the 95% credible set (also called the highest density interval), so we can specify hdi_prob=.95 to get that. This is the HPD, or minimum-width, credible set.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace_burned</span><span class="p">,</span> <span class="n">hdi_prob</span><span class="o">=</span><span class="mf">0.95</span><span class="p">)</span>
