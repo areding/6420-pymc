@@ -37,3 +37,4 @@ Right now I'm working on redoing the "Codes for Unit X" files from the [Supporti
 - [ ] Add solutions to the optional exercises.
 
 - [ ] Add more explanation/content related to MCMC algorithms
+- [ ] add Unit 11, with next steps and links to further reading
