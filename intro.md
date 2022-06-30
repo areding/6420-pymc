@@ -6,7 +6,11 @@ PyMC often has more than one way to do the same thing. I'm also learning as I go
 
 ## Future plans
 
-Right now I'm working on redoing the "Codes for Unit X" files from the [Supporting material page](https://www2.isye.gatech.edu/isye6420/supporting.html). The remaining incomplete files are:
+Right now I'm working on redoing the "Codes for Unit X" files from the [supporting material page](https://www2.isye.gatech.edu/isye6420/supporting.html). The remaining incomplete files are:
+
+### Unit 4
+
+- [ ] eBay example broke with the PyMC v4 update. Need to look at it again.
 
 ### Unit 5
 
