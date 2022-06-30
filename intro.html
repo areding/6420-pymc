@@ -55,7 +55,7 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="shortcut icon" href="_static/favicon.ico"/>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="About this course" href="unit1/about-this-course.html" />
+    <link rel="next" title="About this course and website" href="unit1/about-this-course.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -123,7 +123,7 @@ const thebe_selector_output = ".output, .cell_output"
 <ul class="nav bd-sidenav">
  <li class="toctree-l1 has-children">
   <a class="reference internal" href="unit1/about-this-course.html">
-   About this course
+   About this course and website
   </a>
   <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
   <label for="toctree-checkbox-1">
@@ -760,14 +760,41 @@ title="Print to PDF"
     <nav id="bd-toc-nav" aria-label="Page">
         <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#current-status">
-   Current status
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#future-plans">
    Future plans
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#unit-4">
+     Unit 4
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#unit-5">
+     Unit 5
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#unit-8">
+     Unit 8
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#unit-9">
+     Unit 9
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#unit-10">
+     Unit 10
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#other-things-to-do">
+     Other things to do:
+    </a>
+   </li>
+  </ul>
  </li>
 </ul>
 
@@ -789,14 +816,41 @@ title="Print to PDF"
                         <nav aria-label="Page">
                             <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#current-status">
-   Current status
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#future-plans">
    Future plans
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#unit-4">
+     Unit 4
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#unit-5">
+     Unit 5
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#unit-8">
+     Unit 8
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#unit-9">
+     Unit 9
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#unit-10">
+     Unit 10
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#other-things-to-do">
+     Other things to do:
+    </a>
+   </li>
+  </ul>
  </li>
 </ul>
 
@@ -810,24 +864,55 @@ title="Print to PDF"
                 
   <section class="tex2jax_ignore mathjax_ignore" id="introduction">
 <h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">#</a></h1>
-<p>This repository contains Python translations of the examples from Georgia Tech’s online version of <a class="reference external" href="https://www2.isye.gatech.edu/isye6420/">ISYE 6420: Bayesian Statistics</a>, created by Professor Brani Vidakovic and currently taught by Professor Roshan Joseph. I plan to redo most BUGS examples in <a class="reference external" href="https://docs.pymc.io/">PyMC3</a>, except for Bayesian network problems, which will use <a class="reference external" href="https://pgmpy.org/">pgmpy</a>. There’s also some miscellaneous MATLAB scripts that I’ll translate.</p>
-<p>I’d like to make it easy for students to use PyMC instead of BUGS to finish the course. This will take a while because of other commitments, but hopefully students taking the class in Spring 2022 will be able to get some use out of it.</p>
-<p>PyMC often has more than one way to do the same thing, plus it’s under active development. I’m also learning as I go, so these solutions will not be perfect! Please feel free to contribute if you have a better way to code something. You can file an issue on Github, make a post on the class forums, email me, or submit a pull request.</p>
-<section id="current-status">
-<h2>Current status<a class="headerlink" href="#current-status" title="Permalink to this headline">#</a></h2>
-<p>Right now I’m working on redoing the “Codes for Unit X” files on the <a class="reference external" href="https://www2.isye.gatech.edu/isye6420/supporting.html">Supporting material page</a> with minimal changes.</p>
-</section>
+<p>This repository contains Python translations of the examples from Georgia Tech’s online version of <a class="reference external" href="https://www2.isye.gatech.edu/isye6420/">ISYE 6420: Bayesian Statistics</a>, created by Professor Brani Vidakovic and currently taught by Professor Roshan Joseph. Most of the BUGS examples have been ported to <a class="reference external" href="https://docs.pymc.io/">PyMC</a>, except for several Bayesian network problems, which use <a class="reference external" href="https://pgmpy.org/">pgmpy</a>. There are also some miscellaneous MATLAB scripts redone using NumPy.</p>
+<p>PyMC often has more than one way to do the same thing. I’m also learning as I go, so these solutions will not be perfect! Everyone is welcome to contribute if you have a better way to code something. You can file an issue on Github, make a post on the class forums, email me, or submit a pull request.</p>
 <section id="future-plans">
 <h2>Future plans<a class="headerlink" href="#future-plans" title="Permalink to this headline">#</a></h2>
+<p>Right now I’m working on redoing the “Codes for Unit X” files from the <a class="reference external" href="https://www2.isye.gatech.edu/isye6420/supporting.html">supporting material page</a>. The remaining incomplete files are:</p>
+<section id="unit-4">
+<h3>Unit 4<a class="headerlink" href="#unit-4" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
-<li><p>Add more explanations/notes.</p></li>
-<li><p>Fix markdown table sizes.</p></li>
-<li><p>Update TOC/sidebar to make it easier to navigate.</p></li>
-<li><p>Add FAQs based on student questions.</p></li>
-<li><p>Add solutions to the optional exercises.</p></li>
-<li><p>Update all examples to PyMC 4.0.</p></li>
-<li><p>Add more explanation/content related to MCMC algorithms.</p></li>
+<li><p>[ ] eBay example broke with the PyMC v4 update. Need to look at it again.</p></li>
 </ul>
+</section>
+<section id="unit-5">
+<h3>Unit 5<a class="headerlink" href="#unit-5" title="Permalink to this headline">#</a></h3>
+<ul class="simple">
+<li><p>[ ] Many redundant MATLAB MCMC examples. Not sure if we need to finish them.</p></li>
+</ul>
+</section>
+<section id="unit-8">
+<h3>Unit 8<a class="headerlink" href="#unit-8" title="Permalink to this headline">#</a></h3>
+<ul class="simple">
+<li><p>[ ] ratsinformative.odc model needs to be added to the rats notebook.</p></li>
+</ul>
+</section>
+<section id="unit-9">
+<h3>Unit 9<a class="headerlink" href="#unit-9" title="Permalink to this headline">#</a></h3>
+<ul class="simple">
+<li><p>[ ] haldsvss.odc needs to be added to the Hald notebook.</p></li>
+<li><p>[ ] gesell.odc is still incomplete.</p></li>
+</ul>
+</section>
+<section id="unit-10">
+<h3>Unit 10<a class="headerlink" href="#unit-10" title="Permalink to this headline">#</a></h3>
+<ul class="simple">
+<li><p>[ ] growth.odc</p></li>
+<li><p>[ ] lister.odc</p></li>
+<li><p>[ ] italywines123.odc is working but getting different coefficients than BUGS</p></li>
+<li><p>[ ] sunspots.odc AR model is working, but ARMA hasn’t been added. PyMC team is working on adding ARMA this summer, so will revisit that later rather than manually coding it.</p></li>
+</ul>
+</section>
+<section id="other-things-to-do">
+<h3>Other things to do:<a class="headerlink" href="#other-things-to-do" title="Permalink to this headline">#</a></h3>
+<ul class="simple">
+<li><p>[ ] Fix markdown table sizes.</p></li>
+<li><p>[ ] Add FAQs based on student questions.</p></li>
+<li><p>[ ] Add solutions to the optional exercises.</p></li>
+<li><p>[ ] Add more explanation/content related to MCMC algorithms</p></li>
+<li><p>[ ] add Unit 11, with next steps and links to further reading</p></li>
+</ul>
+</section>
 </section>
 <div class="toctree-wrapper compound">
 </div>
@@ -881,7 +966,7 @@ title="Print to PDF"
     <a class='right-next' id="next-link" href="unit1/about-this-course.html" title="next page">
     <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">About this course</p>
+        <p class="prev-next-title">About this course and website</p>
     </div>
     <i class="fas fa-angle-right"></i>
     </a>

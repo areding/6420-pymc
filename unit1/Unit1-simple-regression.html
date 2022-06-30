@@ -56,7 +56,7 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Why learn Bayesian statistics?" href="../unit2/why-bayesian-statistics.html" />
-    <link rel="prev" title="About this course" href="about-this-course.html" />
+    <link rel="prev" title="About this course and website" href="about-this-course.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -124,7 +124,7 @@ const thebe_selector_output = ".output, .cell_output"
 <ul class="current nav bd-sidenav">
  <li class="toctree-l1 current active has-children">
   <a class="reference internal" href="about-this-course.html">
-   About this course
+   About this course and website
   </a>
   <input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
   <label for="toctree-checkbox-1">
@@ -785,12 +785,51 @@ title="Print to PDF"
     </ul>
   </div>
 </div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
 
     </div>
 </div>
 
 <!-- Table of contents -->
 <div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#initial-values">
+   Initial values
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#visualize-your-model-structure">
+   Visualize your model structure
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#tuning-and-burning-samples">
+   Tuning and burning samples
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#arviz-for-visualization-and-summary-statistics">
+   ArViz for visualization and summary statistics
+  </a>
+ </li>
+</ul>
+
+    </nav>
 </div>
     </div>
     <div class="article row">
@@ -802,6 +841,34 @@ title="Print to PDF"
                 <div id="print-main-content">
                     <div id="jb-print-toc">
                         
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#initial-values">
+   Initial values
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#visualize-your-model-structure">
+   Visualize your model structure
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#tuning-and-burning-samples">
+   Tuning and burning samples
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#arviz-for-visualization-and-summary-statistics">
+   ArViz for visualization and summary statistics
+  </a>
+ </li>
+</ul>
+
+                        </nav>
                     </div>
                 </div>
             </div>
@@ -811,9 +878,7 @@ title="Print to PDF"
                 
   <div class="cell tag_hide_output docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">warnings</span> <span class="kn">import</span> <span class="n">filterwarnings</span>
-
-<span class="kn">import</span> <span class="nn">arviz</span> <span class="k">as</span> <span class="nn">az</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">arviz</span> <span class="k">as</span> <span class="nn">az</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pymc</span> <span class="k">as</span> <span class="nn">pm</span>
@@ -825,53 +890,51 @@ title="Print to PDF"
 </div>
 </div>
 </div>
-<div class="cell tag_hide_cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
 <section class="tex2jax_ignore mathjax_ignore" id="a-simple-regression">
 <h1>A Simple Regression<a class="headerlink" href="#a-simple-regression" title="Permalink to this headline">#</a></h1>
-<p>From <a class="reference external" href="https://www2.isye.gatech.edu/isye6420/supporting.html">Codes for Unit 1</a>.</p>
-<p>Associated lecture video: Unit 1 Lesson 4</p>
-<p>You don’t usually need to set inits in PyMC. The default method of generating inits is ‘jitter+adapt_diag’, which chooses them based on the model and input data while adding some randomness.</p>
-<p>If you do want to set an initial value, pass a dictionary to the start parameter of pm.sample.</p>
+<p>Adapted from <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/original_examples/Codes4Unit1/Regression.odc">unit 1: Regression.odc</a> and <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/original_examples/Codes4Unit1/Regression.m">unit 1: Regression.m</a>.</p>
+<p>Associated lecture video: Unit 1 Lesson 4.</p>
+<section id="initial-values">
+<h2>Initial values<a class="headerlink" href="#initial-values" title="Permalink to this headline">#</a></h2>
+<p>The professor often sets the initial values manually in BUGS because the generated initial values can be really crazy if you use wide priors.</p>
+<p>Setting inits manually is generally not necessary in PyMC, where the generated values are probably always going to be better than what you would have chosen. If a model is not running in PyMC and you suspect it is because of the initial values, instead of manually entering them try one of the <a class="reference external" href="https://www.pymc.io/projects/docs/en/stable/api/generated/pymc.init_nuts.html">many other methods</a> for generating them using the <code class="docutils literal notranslate"><span class="pre">init</span></code> parameter with <code class="docutils literal notranslate"><span class="pre">pm.sample</span></code>. I’ve found the new <code class="docutils literal notranslate"><span class="pre">&quot;jitter+adapt_diag_grad&quot;</span></code> option really helpful here for certain models.</p>
+<p>If you really do want to set an initial value, pass a dictionary with the keys as variable names to the <code class="docutils literal notranslate"><span class="pre">initvals</span></code> parameter of <code class="docutils literal notranslate"><span class="pre">pm.sample</span></code>, like this:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">inits</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s2">&quot;alpha&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="mf">0.0</span><span class="p">),</span>
     <span class="s2">&quot;beta&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span>
 <span class="p">}</span>
 
-<span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">2000</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="n">inits</span><span class="p">)</span>
+<span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">2000</span><span class="p">,</span> <span class="n">initvals</span><span class="o">=</span><span class="n">inits</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="cell tag_hide_output docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># data</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
 <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
 <span class="n">x_bar</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
 
-<span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">m</span><span class="p">:</span>
+<span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">m</span><span class="p">:</span>  <span class="c1"># context manager with pm.Model class</span>
     <span class="c1"># priors</span>
     <span class="n">alpha</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;alpha&quot;</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
     <span class="n">beta</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;beta&quot;</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
     <span class="c1"># using precision for direct comparison with BUGS output</span>
     <span class="n">tau</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Gamma</span><span class="p">(</span><span class="s2">&quot;tau&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span>
-    <span class="n">sigma</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">pm</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">tau</span><span class="p">)</span>
 
     <span class="n">mu</span> <span class="o">=</span> <span class="n">alpha</span> <span class="o">+</span> <span class="n">beta</span> <span class="o">*</span> <span class="p">(</span><span class="n">X</span> <span class="o">-</span> <span class="n">x_bar</span><span class="p">)</span>
-    <span class="n">likelihood</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;likelihood&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
 
-    <span class="c1"># start sampling</span>
+    <span class="c1"># note that the likelihood uses the observed parameter to incorporate your target data</span>
+    <span class="c1"># also note that the Normal dist can be specified with tau instead of sigma</span>
+    <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;likelihood&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="n">tau</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
+
+    <span class="c1"># start sampling and save results to trace variable</span>
     <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span>
-        <span class="mi">3000</span><span class="p">,</span>  <span class="c1"># samples</span>
-        <span class="n">chains</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+        <span class="n">draws</span><span class="o">=</span><span class="mi">3000</span><span class="p">,</span>
+        <span class="n">chains</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>  <span class="c1"># independent runs of the sampling process</span>
         <span class="n">tune</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span>
         <span class="n">init</span><span class="o">=</span><span class="s2">&quot;jitter+adapt_diag&quot;</span><span class="p">,</span>
         <span class="n">random_seed</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
         <span class="n">cores</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>  <span class="c1"># parallel processing of chains</span>
-        <span class="n">return_inferencedata</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>  <span class="c1"># return arviz inferencedata object</span>
     <span class="p">)</span>
 </pre></div>
 </div>
@@ -899,23 +962,34 @@ NUTS: [alpha, beta, tau]
 </div><div class="output text_html">
 <div>
   <progress value='14000' class='' max='14000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-  100.00% [14000/14000 00:01<00:00 Sampling 4 chains, 0 divergences]
+  100.00% [14000/14000 00:02<00:00 Sampling 4 chains, 5 divergences]
 </div>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
-  return _boost._beta_ppf(q, a, b)
-/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
-  return _boost._beta_ppf(q, a, b)
-/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
-  return _boost._beta_ppf(q, a, b)
-/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/scipy/stats/_continuous_distns.py:624: RuntimeWarning: overflow encountered in _beta_ppf
-  return _boost._beta_ppf(q, a, b)
-Sampling 4 chains for 500 tune and 3_000 draw iterations (2_000 + 12_000 draws total) took 11 seconds.
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 500 tune and 3_000 draw iterations (2_000 + 12_000 draws total) took 8 seconds.
+There were 5 divergences after tuning. Increase `target_accept` or reparameterize.
+The acceptance probability does not match the target. It is 0.6604, but should be close to 0.8. Try to increase the number of tuning steps.
+The acceptance probability does not match the target. It is 0.9076, but should be close to 0.8. Try to increase the number of tuning steps.
 </pre></div>
 </div>
 </div>
 </div>
-<p>PyMC3 uses the tuning step specified in the pm.sample call to adjust various parameters in the No-U-Turn Sampler <a class="reference external" href="https://arxiv.org/abs/1111.4246">(NUTS) algorithm</a>, which is a form of Hamiltonian Monte Carlo. BUGS also silently uses different types of tuning depending on the algorithm it <a class="reference external" href="https://www.york.ac.uk/depts/maths/histstat/pml1/bayes/winbugsinfo/cowles_winbugs.pdf">chooses</a>. The professor often burns some number of samples in his examples. Note that this is separate from the tuning phase for both programs!</p>
-<p>For some more detail on tuning, see <a class="reference external" href="https://colcarroll.github.io/hmc_tuning_talk/">this post</a>.</p>
+</section>
+<section id="visualize-your-model-structure">
+<h2>Visualize your model structure<a class="headerlink" href="#visualize-your-model-structure" title="Permalink to this headline">#</a></h2>
+<p>PyMC has a built-in method to visualize the structure of your model. It’s really useful for making sure your code is doing what you intended.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pm</span><span class="o">.</span><span class="n">model_to_graphviz</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">m</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/Unit1-simple-regression_5_0.svg" src="../_images/Unit1-simple-regression_5_0.svg" /></div>
+</div>
+</section>
+<section id="tuning-and-burning-samples">
+<h2>Tuning and burning samples<a class="headerlink" href="#tuning-and-burning-samples" title="Permalink to this headline">#</a></h2>
+<p>PyMC uses the tuning step specified in the pm.sample call to adjust various parameters in the No-U-Turn Sampler <a class="reference external" href="https://arxiv.org/abs/1111.4246">(NUTS) algorithm</a>, which is a form of Hamiltonian Monte Carlo. BUGS also silently uses different types of tuning depending on the algorithm it <a class="reference external" href="https://www.york.ac.uk/depts/maths/histstat/pml1/bayes/winbugsinfo/cowles_winbugs.pdf">chooses</a>. The professor also usually burns some number of samples in his examples. Note that this is separate from the tuning phase for both programs!</p>
+<p>We will not require students to burn PyMC samples separately from the tuning phase. So if a homework or exam problem specifies that you must burn 1000 samples, you can just set <code class="docutils literal notranslate"><span class="pre">tune=1000</span></code> in your <code class="docutils literal notranslate"><span class="pre">pm.sample</span></code> call and be done with it. That said, if for some reason you needed to burn samples from a PyMC trace after sampling, you could slice the trace (which is based on <a class="reference external" href="https://docs.xarray.dev/en/stable/index.html">xarray</a>) like so:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># this burns the first 500 samples</span>
@@ -924,6 +998,11 @@ Sampling 4 chains for 500 tune and 3_000 draw iterations (2_000 + 12_000 draws t
 </div>
 </div>
 </div>
+<p>For some more detail on tuning, see <a class="reference external" href="https://colcarroll.github.io/hmc_tuning_talk/">this post</a>.</p>
+</section>
+<section id="arviz-for-visualization-and-summary-statistics">
+<h2>ArViz for visualization and summary statistics<a class="headerlink" href="#arviz-for-visualization-and-summary-statistics" title="Permalink to this headline">#</a></h2>
+<p>For visualization and summarization of your trace, use</p>
 <p>Arviz has a variety of functions to view the results of the model. One of the most useful is az.summary. Professor Vidakovic arbitrarily asks for the 95% credible set (also called the highest density interval), so we can specify hdi_prob=.95 to get that. This is the HPD, or minimum-width, credible set.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -965,44 +1044,44 @@ Sampling 4 chains for 500 tune and 3_000 draw iterations (2_000 + 12_000 draws t
     <tr>
       <th>alpha</th>
       <td>2.999</td>
-      <td>0.571</td>
-      <td>2.034</td>
-      <td>4.025</td>
-      <td>0.011</td>
-      <td>0.008</td>
-      <td>4736.0</td>
-      <td>2978.0</td>
-      <td>1.0</td>
+      <td>0.537</td>
+      <td>2.069</td>
+      <td>4.047</td>
+      <td>0.009</td>
+      <td>0.006</td>
+      <td>4703.0</td>
+      <td>3016.0</td>
+      <td>1.00</td>
     </tr>
     <tr>
       <th>beta</th>
-      <td>0.797</td>
-      <td>0.424</td>
-      <td>0.031</td>
-      <td>1.452</td>
-      <td>0.007</td>
-      <td>0.008</td>
-      <td>4786.0</td>
-      <td>2239.0</td>
-      <td>1.0</td>
+      <td>0.800</td>
+      <td>0.362</td>
+      <td>0.045</td>
+      <td>1.454</td>
+      <td>0.005</td>
+      <td>0.005</td>
+      <td>5153.0</td>
+      <td>3907.0</td>
+      <td>1.00</td>
     </tr>
     <tr>
       <th>tau</th>
-      <td>1.927</td>
-      <td>1.501</td>
-      <td>0.002</td>
-      <td>4.949</td>
-      <td>0.029</td>
-      <td>0.021</td>
-      <td>2005.0</td>
-      <td>2045.0</td>
-      <td>1.0</td>
+      <td>1.970</td>
+      <td>1.591</td>
+      <td>0.006</td>
+      <td>5.270</td>
+      <td>0.032</td>
+      <td>0.023</td>
+      <td>2051.0</td>
+      <td>2893.0</td>
+      <td>1.01</td>
     </tr>
   </tbody>
 </table>
 </div></div></div>
 </div>
-<p>You can also get the HDIs directly:</p>
+<p>You can also get the HDI directly:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">hdi</span><span class="p">(</span><span class="n">trace_burned</span><span class="p">,</span> <span class="n">hdi_prob</span><span class="o">=</span><span class="mf">0.95</span><span class="p">)[</span><span class="s2">&quot;beta&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
@@ -1010,12 +1089,12 @@ Sampling 4 chains for 500 tune and 3_000 draw iterations (2_000 + 12_000 draws t
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([0.03111968, 1.4524115 ])
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([0.04543128, 1.45407647])
 </pre></div>
 </div>
 </div>
 </div>
-<p>There are a variety of plots available. Commonly used to diagnose problems are the trace (see <a class="reference external" href="https://jpreszler.rbind.io/post/2019-09-28-bad-traceplots/">When Traceplots go Bad</a>) and rank plots (see the Maybe it’s time to let traceplots die section from <a class="reference external" href="https://statmodeling.stat.columbia.edu/2019/03/19/maybe-its-time-to-let-the-old-ways-die-or-we-broke-r-hat-so-now-we-have-to-fix-it/">this post</a>).</p>
+<p>There are a variety of plots available. Commonly used to diagnose problems are the trace (see <a class="reference external" href="https://jpreszler.rbind.io/post/2019-09-28-bad-traceplots/">When Traceplots go Bad</a>) and rank plots (see “Maybe it’s time to let traceplots die” from <a class="reference external" href="https://statmodeling.stat.columbia.edu/2019/03/19/maybe-its-time-to-let-the-old-ways-die-or-we-broke-r-hat-so-now-we-have-to-fix-it/">this post</a>).</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">plot_trace</span><span class="p">(</span><span class="n">trace_burned</span><span class="p">)</span>
@@ -1024,7 +1103,7 @@ Sampling 4 chains for 500 tune and 3_000 draw iterations (2_000 + 12_000 draws t
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/Unit1-simple-regression_11_0.png" src="../_images/Unit1-simple-regression_11_0.png" />
+<img alt="../_images/Unit1-simple-regression_14_0.png" src="../_images/Unit1-simple-regression_14_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1035,7 +1114,7 @@ Sampling 4 chains for 500 tune and 3_000 draw iterations (2_000 + 12_000 draws t
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/Unit1-simple-regression_12_0.png" src="../_images/Unit1-simple-regression_12_0.png" />
+<img alt="../_images/Unit1-simple-regression_15_0.png" src="../_images/Unit1-simple-regression_15_0.png" />
 </div>
 </div>
 <p>There are many ways to manipulate Arviz <a class="reference external" href="https://arviz-devs.github.io/arviz/api/generated/arviz.InferenceData.html">InferenceData</a> objects to calculate statistics after sampling is complete.</p>
@@ -1050,12 +1129,12 @@ Sampling 4 chains for 500 tune and 3_000 draw iterations (2_000 + 12_000 draws t
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array(0.60808387)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array(0.600454)
 </pre></div>
 </div>
 </div>
 </div>
-<p>OpenBugs results:</p>
+<p>OpenBugs results from the lecture:</p>
 <table class="colwidths-auto table">
 <thead>
 <tr class="row-odd"><th class="head"><p></p></th>
@@ -1102,7 +1181,7 @@ Sampling 4 chains for 500 tune and 3_000 draw iterations (2_000 + 12_000 draws t
 </tr>
 </tbody>
 </table>
-<p>Sometimes you might want to do a sanity check with classical regression. If your Bayesian regression has noninformative priors, the results should be close.</p>
+<p>Sometimes you might want to do a sanity check with classical regression. If your Bayesian regression has non-informative priors, the results should be close.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">reg</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">y</span><span class="p">)</span>
@@ -1128,14 +1207,15 @@ Sampling 4 chains for 500 tune and 3_000 draw iterations (2_000 + 12_000 draws t
 Python version       : 3.10.4
 IPython version      : 8.4.0
 
+pymc      : 4.0.1
+numpy     : 1.22.4
 arviz     : 0.12.1
 matplotlib: 3.5.2
-numpy     : 1.22.4
-pymc      : 4.0.0
 </pre></div>
 </div>
 </div>
 </div>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -1169,7 +1249,7 @@ pymc      : 4.0.0
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">About this course</p>
+            <p class="prev-next-title">About this course and website</p>
         </div>
     </a>
     <a class='right-next' id="next-link" href="../unit2/why-bayesian-statistics.html" title="next page">
