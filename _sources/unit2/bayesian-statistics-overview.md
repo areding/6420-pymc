@@ -1,4 +1,4 @@
-# Bayesian statistics historic overview, comparison with frequentist statistics
+# Bayesian statistics
 
 Professor Vidakovic already has a Python implementation available for the only code in this chapter. See [Codes for Unit 2](https://raw.githubusercontent.com/areding/6420-pymc/main/original_examples/Codes4Unit2/coin.py). 
 
