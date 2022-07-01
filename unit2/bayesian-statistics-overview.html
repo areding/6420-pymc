@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Code for Unit 2 &#8212; ISYE 6420 - BUGS to PyMC</title>
+    <title>Bayesian statistics historic overview, comparison with frequentist statistics &#8212; ISYE 6420 - BUGS to PyMC</title>
     
   <!-- Loaded before other Sphinx assets -->
   <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
@@ -56,7 +56,7 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Bayes’ theorem" href="../unit3/bayes-theorem.html" />
-    <link rel="prev" title="Why learn Bayesian statistics?" href="why-bayesian-statistics.html" />
+    <link rel="prev" title="A Simple Regression" href="../unit1/Unit1-simple-regression.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -147,20 +147,15 @@ const thebe_selector_output = ".output, .cell_output"
 </p>
 <ul class="current nav bd-sidenav">
  <li class="toctree-l1 current active has-children">
-  <a class="reference internal" href="why-bayesian-statistics.html">
-   Why learn Bayesian statistics?
+  <a class="current reference internal" href="#">
+   Bayesian statistics historic overview, comparison with frequentist statistics
   </a>
   <input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
   <label for="toctree-checkbox-2">
    <i class="fas fa-chevron-down">
    </i>
   </label>
-  <ul class="current">
-   <li class="toctree-l2 current active">
-    <a class="current reference internal" href="#">
-     Code for Unit 2
-    </a>
-   </li>
+  <ul class="simple">
   </ul>
  </li>
 </ul>
@@ -673,7 +668,7 @@ title="Source repository"
       </li>
       
       <li>
-        <a href="https://github.com/areding/6420-pymc/issues/new?title=Issue%20on%20page%20%2Funit2/Unit2.html&body=Your%20issue%20content%20here."
+        <a href="https://github.com/areding/6420-pymc/issues/new?title=Issue%20on%20page%20%2Funit2/bayesian-statistics-overview.html&body=Your%20issue%20content%20here."
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -701,7 +696,7 @@ title="Open an issue"
   <div class="menu-dropdown__content">
     <ul>
       <li>
-        <a href="../_sources/unit2/Unit2.md"
+        <a href="../_sources/unit2/bayesian-statistics-overview.md"
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -738,23 +733,80 @@ title="Print to PDF"
     </ul>
   </div>
 </div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
 
     </div>
 </div>
 
 <!-- Table of contents -->
 <div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#historic-overview-links">
+   Historic overview links
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#bayesian-vs-frequentist">
+   Bayesian vs. frequentist
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#fda-recommendations">
+   FDA recommendations
+  </a>
+ </li>
+</ul>
+
+    </nav>
 </div>
     </div>
     <div class="article row">
         <div class="col pl-md-3 pl-lg-5 content-container">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>Code for Unit 2</h1>
+                <h1>Bayesian statistics historic overview, comparison with frequentist statistics</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
                         
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#historic-overview-links">
+   Historic overview links
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#bayesian-vs-frequentist">
+   Bayesian vs. frequentist
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#fda-recommendations">
+   FDA recommendations
+  </a>
+ </li>
+</ul>
+
+                        </nav>
                     </div>
                 </div>
             </div>
@@ -762,9 +814,26 @@ title="Print to PDF"
                 
               <div>
                 
-  <section class="tex2jax_ignore mathjax_ignore" id="code-for-unit-2">
-<h1>Code for Unit 2<a class="headerlink" href="#code-for-unit-2" title="Permalink to this headline">#</a></h1>
-<p>Professor Vidakovic already has a Python implementation available for the only code in this chapter. See <a class="reference external" href="https://www2.isye.gatech.edu/isye6420/supporting.html">Codes for Unit 2</a>.</p>
+  <section class="tex2jax_ignore mathjax_ignore" id="bayesian-statistics-historic-overview-comparison-with-frequentist-statistics">
+<h1>Bayesian statistics historic overview, comparison with frequentist statistics<a class="headerlink" href="#bayesian-statistics-historic-overview-comparison-with-frequentist-statistics" title="Permalink to this headline">#</a></h1>
+<p>Professor Vidakovic already has a Python implementation available for the only code in this chapter. See <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/original_examples/Codes4Unit2/coin.py">Codes for Unit 2</a>.</p>
+<section id="historic-overview-links">
+<h2>Historic overview links<a class="headerlink" href="#historic-overview-links" title="Permalink to this headline">#</a></h2>
+<p><a class="reference external" href="https://en.wikipedia.org/wiki/The_Doctrine_of_Chances">Wikipedia page for <em>The Doctrine of Chances</em></a> by Abraham de Moivre.</p>
+<p><a class="reference external" href="https://www.ias.ac.in/article/fulltext/reso/008/04/0080-0088">An Essay Towards Solving a Problem in the Doctrine of Chances (abridged version)</a> by Thomas Bayes.</p>
+</section>
+<section id="bayesian-vs-frequentist">
+<h2>Bayesian vs. frequentist<a class="headerlink" href="#bayesian-vs-frequentist" title="Permalink to this headline">#</a></h2>
+<p><a class="reference external" href="https://stats.stackexchange.com/questions/2272/whats-the-difference-between-a-confidence-interval-and-a-credible-interval">What’s the difference between a confidence interval and a credible interval?</a> - a great Stack Exchange discussion.</p>
+<p><a class="reference external" href="http://www.scholarpedia.org/article/Bayesian_statistics">Scholarpedia overview of Bayesian statistics</a>.</p>
+</section>
+<section id="fda-recommendations">
+<h2>FDA recommendations<a class="headerlink" href="#fda-recommendations" title="Permalink to this headline">#</a></h2>
+<p>The link in the lecture slides is dead, <a class="reference external" href="https://www.fda.gov/media/71512/download">here’s the updated link</a>.</p>
+<p><a class="reference external" href="https://www.nature.com/articles/s41562-021-01177-7">Here’s a more recent Nature article</a> with a similar subject by John K. Kruschke, author of <a class="reference external" href="https://sites.google.com/site/doingbayesiandataanalysis/">Doing Bayesian Data Analysis</a>.</p>
+</section>
+<div class="toctree-wrapper compound">
+</div>
 </section>
 
     <script type="text/x-thebe-config">
@@ -794,11 +863,11 @@ title="Print to PDF"
                 
     <!-- Previous / next buttons -->
 <div class='prev-next-area'>
-    <a class='left-prev' id="prev-link" href="why-bayesian-statistics.html" title="previous page">
+    <a class='left-prev' id="prev-link" href="../unit1/Unit1-simple-regression.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">Why learn Bayesian statistics?</p>
+            <p class="prev-next-title">A Simple Regression</p>
         </div>
     </a>
     <a class='right-next' id="next-link" href="../unit3/bayes-theorem.html" title="next page">
