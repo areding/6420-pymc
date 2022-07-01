@@ -1,6 +1,6 @@
-# Bayesian statistics historic overview, comparison with frequentist statistics
+# Bayesian statistics
 
-Professor Vidakovic already has a Python implementation available for the only code in this chapter. See [Codes for Unit 2](https://raw.githubusercontent.com/areding/6420-pymc/main/original_examples/Codes4Unit2/coin.py). 
+Professor Vidakovic already has a Python implementation available for the only code in this chapter. See [unit 2 - coin.py](https://raw.githubusercontent.com/areding/6420-pymc/main/original_examples/Codes4Unit2/coin.py). 
 
 ## Historic overview links
 
@@ -18,4 +18,4 @@ Professor Vidakovic already has a Python implementation available for the only c
 
 The link in the lecture slides is dead, [here's the updated link](https://www.fda.gov/media/71512/download).
 
-[Here's a more recent Nature article](https://www.nature.com/articles/s41562-021-01177-7) with a similar subject by John K. Kruschke, author of [Doing Bayesian Data Analysis](https://sites.google.com/site/doingbayesiandataanalysis/).
+[Bayesian Analysis Reporting Guidelines](https://www.nature.com/articles/s41562-021-01177-7), a more recent article in Nature with a similar subject. By John K. Kruschke, author of [Doing Bayesian Data Analysis](https://sites.google.com/site/doingbayesiandataanalysis/).
