@@ -8,37 +8,33 @@ PyMC often has more than one way to do the same thing. I'm also learning as I go
 
 Right now I'm working on redoing the "Codes for Unit X" files from the [supporting material page](https://www2.isye.gatech.edu/isye6420/supporting.html). The remaining incomplete files are:
 
-### Unit 4
-
-- [ ] eBay example broke with the PyMC v4 update. Need to look at it again.
-
 ### Unit 5
 
-- [ ] Many redundant MATLAB MCMC examples. Not sure if we need to finish them.
+- Many redundant MATLAB MCMC examples. Not sure if we need to finish them.
 
 ### Unit 8
 
-- [ ] ratsinformative.odc model needs to be added to the rats notebook.
+- ratsinformative.odc model needs to be added to the rats notebook.
 
 ### Unit 9
 
-- [ ] haldsvss.odc needs to be added to the Hald notebook.
-- [ ] gesell.odc is still incomplete.
+- haldsvss.odc needs to be added to the Hald notebook.
+- gesell.odc is still incomplete.
 
 ### Unit 10
 
-- [ ] growth.odc
-- [ ] lister.odc
-- [ ] italywines123.odc is working but getting different coefficients than BUGS
-- [ ] sunspots.odc AR model is working, but ARMA hasn't been added. PyMC team is working on adding ARMA this summer, so will revisit that later rather than manually coding it.
+- growth.odc
+- lister.odc
+- italywines123.odc is working but getting different coefficients than BUGS
+- sunspots.odc AR model is working, but ARMA hasn't been added. PyMC team is working on adding ARMA this summer, so will revisit that later rather than manually coding it.
 
 ### Other things to do:
 
-- [ ] Fix markdown table sizes.
+- Fix markdown table sizes.
 
-- [ ] Add FAQs based on student questions.
+- Add FAQs.
 
-- [ ] Add solutions to the optional exercises.
+- Add solutions to the optional exercises.
 
-- [ ] Add more explanation/content related to MCMC algorithms
-- [ ] add Unit 11, with next steps and links to further reading
+- Add more explanation/content related to MCMC algorithms
+- add Unit 11, with next steps and links to further reading
