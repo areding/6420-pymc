@@ -18,7 +18,6 @@ Right now I'm working on redoing the "Codes for Unit X" files from the [supporti
 
 ### Unit 9
 
-- haldsvss.odc needs to be added to the Hald notebook.
 - gesell.odc is still incomplete.
 
 ### Unit 10
