@@ -4,9 +4,11 @@ This repository contains Python translations of the examples from Georgia Tech's
 
 PyMC often has more than one way to do the same thing. I'm also learning as I go, so these solutions will not be perfect! Everyone is welcome to contribute if you have a better way to code something. You can file an issue on Github, make a post on the class forums, email me, or submit a pull request.
 
-## Future plans
+## Current progress
 
-Right now I'm working on redoing the "Codes for Unit X" files from the [supporting material page](https://www2.isye.gatech.edu/isye6420/supporting.html). The remaining incomplete files are:
+Right now I'm working on redoing the "Codes for Unit X" files from the [supporting material page](https://www2.isye.gatech.edu/isye6420/supporting.html). For this first pass, I'm mostly just recreating the models as closely as possible to the professor's original examples, vectorizing them where possible. Eventually, I'd like to go through and update them with current best practices, because PyMC complains about a lot of these models and some reparameterization could help. Prior and posterior predictive checks, which were barely talked about in the original course, could help guide the reparameterizations.
+
+The remaining incomplete files are:
 
 ### Unit 5
 
@@ -23,13 +25,11 @@ Right now I'm working on redoing the "Codes for Unit X" files from the [supporti
 - italywines123.odc is working but getting different coefficients than BUGS
 - sunspots.odc AR model is working, but ARMA hasn't been added. PyMC team is working on adding ARMA this summer, so will revisit that later rather than manually coding it.
 
-### Other things to do:
+## Future plans
 
+- Update model parameterizations, add posterior/prior predictive checks, more plotting.
 - Fix markdown table sizes.
-
 - Add FAQs.
-
 - Add solutions to the optional exercises.
-
 - Add more explanation/content related to MCMC algorithms
 - add Unit 11, with next steps and links to further reading
