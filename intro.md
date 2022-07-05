@@ -16,10 +16,6 @@ Right now I'm working on redoing the "Codes for Unit X" files from the [supporti
 
 - ratsinformative.odc model needs to be added to the rats notebook.
 
-### Unit 9
-
-- gesell.odc is still incomplete.
-
 ### Unit 10
 
 - growth.odc
