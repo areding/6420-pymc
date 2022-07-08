@@ -12,8 +12,6 @@ https://arxiv.org/abs/1603.00788
 
 Thanks to [Rob McAdam](https://www.robpmcadam.com/), a student in the Fall 2021 class, for the tip!
 
-
-
 https://arxiv.org/abs/2107.10731
 
 https://arxiv.org/abs/1608.04471
