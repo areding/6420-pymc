@@ -4,6 +4,8 @@ This repository contains Python translations of the examples from Georgia Tech's
 
 PyMC often has more than one way to do the same thing. I'm also learning as I go, so these solutions will not be perfect! Everyone is welcome to contribute if you have a better way to code something. You can file an issue on Github, make a post on the class forums, email me, or submit a pull request.
 
+I'm also going through and adding links to other related resources that I've found helpful.
+
 ## Current progress
 
 Right now I'm working on redoing the "Codes for Unit X" files from the [supporting material page](https://www2.isye.gatech.edu/isye6420/supporting.html). For this first pass, I'm mostly just recreating the models as closely as possible to the professor's original examples, vectorizing them where possible. Eventually, I'd like to go through and update them with current best practices, because PyMC complains about a lot of these models and some reparameterization could help. Prior and posterior predictive checks, which were barely talked about in the original course, could help guide the reparameterizations.
