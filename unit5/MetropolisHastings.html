@@ -308,7 +308,12 @@ const thebe_selector_output = ".output, .cell_output"
    <i class="fas fa-chevron-down">
    </i>
   </label>
-  <ul class="simple">
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ham-example1.html">
+     Hamiltonian Monte Carlo example 1
+    </a>
+   </li>
   </ul>
  </li>
  <li class="toctree-l1 has-children">
@@ -863,14 +868,19 @@ title="Print to PDF"
 <h1>Metropolis-Hastings Example 1<a class="headerlink" href="#metropolis-hastings-example-1" title="Permalink to this headline">#</a></h1>
 <p>Adapted from <a class="reference external" href="https://www2.isye.gatech.edu/isye6420/supporting.html">Codes for Unit 5: norcaumet.m</a>.</p>
 <p>Associated lecture video: Unit 5 Lesson 7</p>
-<p>Let <span class="math notranslate nohighlight">\(f(x)\)</span> be proportional to the target pdf. <span class="math notranslate nohighlight">\(x_j\)</span> is the current value and <span class="math notranslate nohighlight">\(q(x|x_j)\)</span> is a proposal distribution.</p>
+<div class="proof algorithm admonition" id="metropolis-hastings">
+<p class="admonition-title"><span class="caption-number">Algorithm 1 </span> (Ford–Fulkerson)</p>
+<section class="algorithm-content" id="proof-content">
+<p><strong>Inputs</strong> Let <span class="math notranslate nohighlight">\(f(x)\)</span> be proportional to the target pdf. <span class="math notranslate nohighlight">\(x_j\)</span> is the current value and <span class="math notranslate nohighlight">\(q(x|x_j)\)</span> is a proposal distribution.</p>
+<p><strong>Output</strong> An array of samples representing the target pdf.</p>
 <ol class="simple">
 <li><p>Sample <span class="math notranslate nohighlight">\(x_* ∼ q(x|x_j)\)</span>.</p></li>
 <li><p>Calculate the acceptance probability:
 <span class="math notranslate nohighlight">\(ρ(x_j, x_*) = min\left\{1, \frac{f(x_*)}{f(x_j)}\frac{q(x_j|x_*)}{q(x_*|x_j)}\right\}\)</span></p></li>
 <li><p>Update <span class="math notranslate nohighlight">\(x_{j+1} = x_*\)</span> with probability <span class="math notranslate nohighlight">\(ρ(x_j, x_*)\)</span>, otherwise <span class="math notranslate nohighlight">\(x_{j+1}\)</span> remains equal to <span class="math notranslate nohighlight">\(x_j\)</span>.</p></li>
 </ol>
-<p>There are different variations on the algorithm. They differ when calculating <span class="math notranslate nohighlight">\(ρ\)</span>.</p>
+</section>
+</div><p>There are different variations on the algorithm. They differ when calculating <span class="math notranslate nohighlight">\(ρ\)</span>.</p>
 <ul class="simple">
 <li><p>Random-walk Metropolis:</p>
 <ul>
@@ -885,6 +895,10 @@ title="Print to PDF"
 </ul>
 <p>For this example:</p>
 <p><span class="math notranslate nohighlight">\(X|\theta~\sim{N}(\theta, 1)\)</span> and <span class="math notranslate nohighlight">\(\theta~\sim {\rm Cauchy}(0, 1)\)</span></p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>I often pre-generate arrays of random numbers (see <code class="docutils literal notranslate"><span class="pre">theta_prop</span></code> and <code class="docutils literal notranslate"><span class="pre">unif</span></code> variables in the below cell) because it’s significantly faster. However, that only works when those numbers don’t depend on the previous step in the sampling loop!</p>
+</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
@@ -927,7 +941,7 @@ title="Print to PDF"
 np.var(thetas)=0.8634250986236365
 </pre></div>
 </div>
-<img alt="../_images/MetropolisHastings_3_4.png" src="../_images/MetropolisHastings_3_4.png" />
+<img alt="../_images/MetropolisHastings_4_4.png" src="../_images/MetropolisHastings_4_4.png" />
 </div>
 </div>
 <div class="cell docutils container">
