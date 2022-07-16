@@ -15,3 +15,7 @@ Thanks to [Rob McAdam](https://www.robpmcadam.com/), a student in the Fall 2021 
 https://arxiv.org/abs/2107.10731
 
 https://arxiv.org/abs/1608.04471
+
+## Integrated Nested Laplace Approximation (INLA)
+
+[Advanced Spatial Modeling with Stochastic Partial Differential Equations Using R and INLA](https://becarioprecario.bitbucket.io/spde-gitbook/ch-INLA.html)
