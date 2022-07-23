@@ -2,9 +2,9 @@
 
 These are not currently part of the course, but I would love to dive into them eventually!
 
-https://www.pymc.io/projects/docs/en/stable/api/vi.html
-
 ## Variational inference
+
+https://www.pymc.io/projects/docs/en/stable/api/vi.html
 
 https://arxiv.org/abs/1603.00788
 
