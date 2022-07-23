@@ -47,4 +47,4 @@ These are not required for the class, but they might be helpful. Prof. Vidakovic
 
 - I don't use Stan at all, but I still reference the [Stan User's Guide](https://mc-stan.org/docs/2_29/stan-users-guide/index.html) often.
 
-- A Bayesian [Twitter list](https://twitter.com/i/lists/1519851206675296256) I made.
+- A Bayesian-themed [Twitter list](https://twitter.com/i/lists/1519851206675296256) I made.

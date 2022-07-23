@@ -16,9 +16,17 @@ The remaining incomplete files are:
 
 - Many redundant MATLAB MCMC examples. Not sure if we need to finish them.
 
+### Unit 7
+
+- Paraguay example finished, but want to add paraguaynocluster.odc as well.
+
 ### Unit 8
 
 - ratsinformative.odc model needs to be added to the rats notebook.
+
+### Unit 9
+
+- cumulative2 example incomplete.
 
 ### Unit 10
 

@@ -1,6 +1,6 @@
 # Bayesian inference
 
-For now, this is just a list of what I consider the most important parts of the unit.
+For now, this is just a list of what I consider the most important parts of the unit. This is a lot of stuff, so don't worry if you don't understand it all right away. It will sink in as we go through the course.
 
 ## Distributions
 
@@ -15,7 +15,7 @@ The most commonly used distributions in this class:
 - Exponential
 - Gamma
 - Beta
-- Multivariate Normal
+- Multivariate normal
 - Weibull
 - Student's *t*-distribution
 
@@ -28,7 +28,7 @@ The most commonly used distributions in this class:
 
 There's no need to memorize individual CDFs and PDFs, but understand the difference between the two and how they relate.
 
-Understand that there are different ways to parameterize distributions and what those parameters mean for different distributions (keywords: shape, rate, scale, location). Probably the most-common mistake in this course is mistaking precision for variance in the Normal distribution!
+Understand that there are different ways to parameterize distributions and what those parameters mean for different distributions (keywords: shape, rate, scale, location). Probably the most-common mistake in this course is mistaking precision for variance in the normal distribution!
 
 Joint distributions and conditional distributions will be important for Units 4 and 5.
 
@@ -44,11 +44,12 @@ This chapter should really be called "Communicating information about the poster
 
 ### Point estimates
 
+Mean, median, MAP.
 
 
 ### Credible intervals (aka credible sets)
 
-
+See the Gamma Gamma example.
 
 ### Bayes' risk and estimation
 
@@ -59,19 +60,11 @@ This chapter should really be called "Communicating information about the poster
 
 
 
-
 ## Prior elicitation
 
 ### Priors
 
-
-
-
 ### Non-informative priors
-
-
-
-
 
 ## Empirical Bayes
 
