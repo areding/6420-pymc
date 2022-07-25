@@ -16,13 +16,13 @@ These are not required for the class, but they might be helpful. Prof. Vidakovic
 
 ### Textbooks and courses
 
-*Statistical Rethinking* by Richard McElreath is a great book for gaining intuition into Bayesian modeling. It's not super math-heavy and is extremely well written.
+*Statistical Rethinking* by Richard McElreath is a great book for gaining intuition about Bayesian inference and modeling in general.
 
 - [main site](https://xcelab.net/rm/statistical-rethinking/)
 - [lecture videos](https://www.youtube.com/playlist?list=PLDcUM9US4XdMROZ57-OIRtIK0aOynbgZN)
 - [PyMC3 code examples](https://github.com/pymc-devs/pymc-resources/tree/main/Rethinking_2). These should be easy to adapt to PyMC v4.
 
-*Bayesian Data Analysis* by Gelman, Carlin, Stern, Dunson, Vehtari, and Rubin goes into more of the mathematical theory than *Statistical Rethinking*. I use it as a reference - not planning to try reading this one all the way through.
+*Bayesian Data Analysis* by Gelman, Carlin, Stern, Dunson, Vehtari, and Rubin goes into more mathematical theory than *Statistical Rethinking*. I use it as a reference - not planning to try reading this one all the way through.
 
 - [main site](http://www.stat.columbia.edu/~gelman/book/)
 
