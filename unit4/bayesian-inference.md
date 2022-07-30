@@ -2,6 +2,8 @@
 
 For now, this is just a list of what I consider the most important parts of the unit. This is a lot of stuff, so don't worry if you don't understand it all right away. It will sink in as we go through the course.
 
+This is unfinished at the moment! I hope to add more as we go through the unit together in Fall 2022.
+
 ## Distributions
 
 Understand what a random variable is.
@@ -46,7 +48,6 @@ This chapter should really be called "Communicating information about the poster
 
 Mean, median, MAP.
 
-
 ### Credible intervals (aka credible sets)
 
 See the Gamma Gamma example.
@@ -66,7 +67,12 @@ See the Gamma Gamma example.
 
 ### Non-informative priors
 
+The professor uses tons of non-informative priors throughout the course. My impression is that  use of these priors has fallen out of favor. There's no such thing as a completely non-informative prior!
+
+That said, the priors in this lecture (Unit 4 lession 15) come up often later on. No need to memorize anything, but it's worth making a note for later reference.
+
 ## Empirical Bayes
+
 
 ### Parametric
 
