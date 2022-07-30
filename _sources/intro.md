@@ -26,7 +26,7 @@ The remaining incomplete files are:
 
 ### Unit 9
 
-- cumulative2 example incomplete.
+- cumulative2 example incomplete - right now it's using different methods to look at outliers.
 
 ### Unit 10
 
