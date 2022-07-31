@@ -16,21 +16,13 @@ The remaining incomplete files are:
 
 - Many redundant MATLAB MCMC examples. Not sure if we need to finish them.
 
-### Unit 7
-
-- Paraguay example finished, but want to add paraguaynocluster.odc as well.
-
-### Unit 8
-
-- ratsinformative.odc model needs to be added to the rats notebook.
-
 ### Unit 9
 
 - cumulative2 example incomplete - right now it's using different methods to look at outliers.
 
 ### Unit 10
 
-- growth.odc
+- growth.odc is working but getting slighty different results
 - lister.odc
 - italywines123.odc is working but getting different coefficients than BUGS
 - sunspots.odc AR model is working, but ARMA hasn't been added. PyMC team is working on adding ARMA this summer, so will revisit that later rather than manually coding it.

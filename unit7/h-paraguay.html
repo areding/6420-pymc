@@ -853,6 +853,16 @@ title="Print to PDF"
    Problem statement
   </a>
  </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#notes">
+   Notes
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#no-clusters">
+   No clusters
+  </a>
+ </li>
 </ul>
 
     </nav>
@@ -875,6 +885,16 @@ title="Print to PDF"
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#problem-statement">
    Problem statement
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#notes">
+   Notes
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#no-clusters">
+   No clusters
   </a>
  </li>
 </ul>
@@ -903,7 +923,7 @@ title="Print to PDF"
 <section class="tex2jax_ignore mathjax_ignore" id="paraguay-vaccination-status">
 <h1>Paraguay vaccination status<a class="headerlink" href="#paraguay-vaccination-status" title="Permalink to this headline">#</a></h1>
 <p>This example goes over a multilevel, or hierarchical, logistic regression model. It also shows how to use the PyMC coordinate system.</p>
-<p>Adapted from <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/original_examples/Codes4Unit7/paraguay.odc">Unit 7: paraguay.odc</a></p>
+<p>Adapted from <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/original_examples/Codes4Unit7/paraguay.odc">Unit 7: paraguay.odc</a> and <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/original_examples/Codes4Unit7/paraguaynocluster.odc">paraguaynocluster.odc</a></p>
 <p>Data can be found <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/data/paraguay.csv">here</a>.</p>
 <p>Associated lecture video: Unit 7 lesson 19</p>
 <section id="problem-statement">
@@ -919,7 +939,9 @@ title="Print to PDF"
 <li><p>PR.SPOC1:  spouse unskilled laborer = 1, otherwise = 0</p></li>
 <li><p>SPANISH2:  Spanish not hh language = 1, otherwise = 0</p></li>
 </ul>
-<hr class="docutils" />
+</section>
+<section id="notes">
+<h2>Notes<a class="headerlink" href="#notes" title="Permalink to this headline">#</a></h2>
 <p>We need to add a random effect by cluster. This is a good use case for the PyMC coordinates system.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1018,6 +1040,9 @@ NUTS: [cluster_tau, beta, cluster_effect]
         /* Needs to be in here for Safari polyfill so background images work as expected. */
         background-size: auto;
     }
+    progress:not([value]), progress:not([value])::-webkit-progress-bar {
+        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
+    }
     .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
         background: #F44336;
     }
@@ -1025,9 +1050,9 @@ NUTS: [cluster_tau, beta, cluster_effect]
 </div><div class="output text_html">
 <div>
   <progress value='16000' class='' max='16000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-  100.00% [16000/16000 03:47<00:00 Sampling 4 chains, 0 divergences]
+  100.00% [16000/16000 00:47&lt;00:00 Sampling 4 chains, 0 divergences]
 </div>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 3_000 draw iterations (4_000 + 12_000 draws total) took 243 seconds.
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 3_000 draw iterations (4_000 + 12_000 draws total) took 53 seconds.
 </pre></div>
 </div>
 </div>
@@ -1069,68 +1094,204 @@ NUTS: [cluster_tau, beta, cluster_effect]
     <tr>
       <th>beta[0]</th>
       <td>1.445</td>
-      <td>0.133</td>
+      <td>0.132</td>
       <td>1.198</td>
-      <td>1.695</td>
+      <td>1.687</td>
     </tr>
     <tr>
       <th>beta[1]</th>
-      <td>-0.070</td>
+      <td>-0.071</td>
       <td>0.015</td>
-      <td>-0.098</td>
-      <td>-0.042</td>
+      <td>-0.099</td>
+      <td>-0.043</td>
     </tr>
     <tr>
       <th>beta[2]</th>
-      <td>-0.563</td>
+      <td>-0.564</td>
       <td>0.206</td>
-      <td>-0.954</td>
-      <td>-0.180</td>
+      <td>-0.963</td>
+      <td>-0.196</td>
     </tr>
     <tr>
       <th>beta[3]</th>
-      <td>-0.196</td>
-      <td>0.097</td>
-      <td>-0.384</td>
-      <td>-0.019</td>
+      <td>-0.195</td>
+      <td>0.094</td>
+      <td>-0.376</td>
+      <td>-0.027</td>
     </tr>
     <tr>
       <th>beta[4]</th>
-      <td>-0.692</td>
-      <td>0.136</td>
-      <td>-0.943</td>
-      <td>-0.432</td>
+      <td>-0.691</td>
+      <td>0.133</td>
+      <td>-0.937</td>
+      <td>-0.436</td>
     </tr>
     <tr>
       <th>beta[5]</th>
-      <td>-0.284</td>
-      <td>0.110</td>
-      <td>-0.485</td>
-      <td>-0.075</td>
+      <td>-0.285</td>
+      <td>0.111</td>
+      <td>-0.501</td>
+      <td>-0.086</td>
     </tr>
     <tr>
       <th>beta[6]</th>
-      <td>-0.620</td>
-      <td>0.100</td>
-      <td>-0.810</td>
-      <td>-0.440</td>
+      <td>-0.619</td>
+      <td>0.099</td>
+      <td>-0.805</td>
+      <td>-0.434</td>
     </tr>
     <tr>
       <th>cluster_variance</th>
-      <td>0.530</td>
-      <td>0.095</td>
-      <td>0.362</td>
-      <td>0.712</td>
+      <td>0.529</td>
+      <td>0.094</td>
+      <td>0.357</td>
+      <td>0.705</td>
     </tr>
   </tbody>
 </table>
 </div></div></div>
 </div>
-<p>Links on coordinates:</p>
-<ul class="simple">
-<li><p><a class="reference external" href="https://oriolabrilpla.cat/python/arviz/pymc3/xarray/2020/09/22/pymc3-arviz.html">https://oriolabrilpla.cat/python/arviz/pymc3/xarray/2020/09/22/pymc3-arviz.html</a></p></li>
-<li></li>
-</ul>
+<p>Based on this coordinates example:</p>
+<p><a class="reference external" href="https://oriolabrilpla.cat/python/arviz/pymc3/xarray/2020/09/22/pymc3-arviz.html">https://oriolabrilpla.cat/python/arviz/pymc3/xarray/2020/09/22/pymc3-arviz.html</a></p>
+</section>
+<section id="no-clusters">
+<h2>No clusters<a class="headerlink" href="#no-clusters" title="Permalink to this headline">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">m_nc</span><span class="p">:</span>
+    <span class="n">X_data</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Data</span><span class="p">(</span><span class="s2">&quot;X_data&quot;</span><span class="p">,</span> <span class="n">X_aug</span><span class="p">,</span> <span class="n">mutable</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">y_data</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Data</span><span class="p">(</span><span class="s2">&quot;y_data&quot;</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">mutable</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">beta</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;beta&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="n">cols</span><span class="p">)</span>
+
+    <span class="n">p</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">X_data</span><span class="p">,</span> <span class="n">beta</span><span class="p">)</span>
+
+    <span class="n">pm</span><span class="o">.</span><span class="n">Bernoulli</span><span class="p">(</span><span class="s2">&quot;likelihood&quot;</span><span class="p">,</span> <span class="n">logit_p</span><span class="o">=</span><span class="n">p</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">y_data</span><span class="p">)</span>
+
+    <span class="n">trace_nc</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">3000</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Auto-assigning NUTS sampler...
+Initializing NUTS using jitter+adapt_diag...
+Multiprocess sampling (4 chains in 4 jobs)
+NUTS: [beta]
+</pre></div>
+</div>
+<div class="output text_html">
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    progress:not([value]), progress:not([value])::-webkit-progress-bar {
+        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div><div class="output text_html">
+<div>
+  <progress value='16000' class='' max='16000' style='width:300px; height:20px; vertical-align: middle;'></progress>
+  100.00% [16000/16000 00:31&lt;00:00 Sampling 4 chains, 0 divergences]
+</div>
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 3_000 draw iterations (4_000 + 12_000 draws total) took 39 seconds.
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span>
+    <span class="n">trace_nc</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;beta&quot;</span><span class="p">,</span> <span class="s2">&quot;cluster_variance&quot;</span><span class="p">],</span> <span class="n">filter_vars</span><span class="o">=</span><span class="s2">&quot;like&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;stats&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mean</th>
+      <th>sd</th>
+      <th>hdi_3%</th>
+      <th>hdi_97%</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>beta[0]</th>
+      <td>1.428</td>
+      <td>0.108</td>
+      <td>1.229</td>
+      <td>1.637</td>
+    </tr>
+    <tr>
+      <th>beta[1]</th>
+      <td>-0.064</td>
+      <td>0.014</td>
+      <td>-0.089</td>
+      <td>-0.038</td>
+    </tr>
+    <tr>
+      <th>beta[2]</th>
+      <td>-0.566</td>
+      <td>0.190</td>
+      <td>-0.924</td>
+      <td>-0.212</td>
+    </tr>
+    <tr>
+      <th>beta[3]</th>
+      <td>-0.189</td>
+      <td>0.086</td>
+      <td>-0.343</td>
+      <td>-0.024</td>
+    </tr>
+    <tr>
+      <th>beta[4]</th>
+      <td>-0.715</td>
+      <td>0.116</td>
+      <td>-0.931</td>
+      <td>-0.496</td>
+    </tr>
+    <tr>
+      <th>beta[5]</th>
+      <td>-0.452</td>
+      <td>0.089</td>
+      <td>-0.621</td>
+      <td>-0.284</td>
+    </tr>
+    <tr>
+      <th>beta[6]</th>
+      <td>-0.606</td>
+      <td>0.085</td>
+      <td>-0.769</td>
+      <td>-0.451</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">watermark</span> -n -u -v -iv -p aesara,aeppl

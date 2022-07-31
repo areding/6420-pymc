@@ -853,6 +853,11 @@ title="Print to PDF"
    Problem statement
   </a>
  </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#notes">
+   Notes
+  </a>
+ </li>
 </ul>
 
     </nav>
@@ -875,6 +880,11 @@ title="Print to PDF"
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#problem-statement">
    Problem statement
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#notes">
+   Notes
   </a>
  </li>
 </ul>
@@ -912,17 +922,18 @@ title="Print to PDF"
 <p>1864–1866     No       Treated   34 patients, 15 died and 19 recovered</p>
 <p>1867–1870     Yes     Treated   40 patients,   6 died and 34 recovered</p>
 <p>Estimate and interpret the risk difference,  risk ratio, and   odds ratio</p>
-<p>notes:</p>
+</section>
+<section id="notes">
+<h2>Notes<a class="headerlink" href="#notes" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
-<li><p>Wishart!</p></li>
-<li><p>instead use LKJ distribution</p></li>
+<li><p>Wishart! I’ve tried both WishartBartlett and LKJ, can’t get a similar result to the professor’s yet.</p></li>
 <li><p>possibly useful paper:</p>
 <ul>
 <li><p><a class="reference external" href="https://arxiv.org/pdf/1809.04746.pdf">https://arxiv.org/pdf/1809.04746.pdf</a></p></li>
 </ul>
 </li>
 </ul>
-<p>Unfinished! This is not working correctly right now.</p>
+<p>Unfinished! This is not working correctly right now, assuming because of the different tau prior.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">n1</span> <span class="o">=</span> <span class="mi">34</span>
@@ -938,12 +949,9 @@ title="Print to PDF"
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">m</span><span class="p">:</span>
-    <span class="n">sd_dist</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-    <span class="n">chol</span><span class="p">,</span> <span class="n">corr</span><span class="p">,</span> <span class="n">stds</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">LKJCholeskyCov</span><span class="p">(</span>
-        <span class="s2">&quot;chol&quot;</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">eta</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">sd_dist</span><span class="o">=</span><span class="n">sd_dist</span><span class="p">,</span> <span class="n">compute_corr</span><span class="o">=</span><span class="kc">True</span>
-    <span class="p">)</span>
-
-    <span class="n">mu</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">MvNormal</span><span class="p">(</span><span class="s2">&quot;mu&quot;</span><span class="p">,</span> <span class="n">mu0</span><span class="p">,</span> <span class="n">chol</span><span class="o">=</span><span class="n">chol</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">tau</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">WishartBartlett</span><span class="p">(</span><span class="s2">&quot;tau&quot;</span><span class="p">,</span> <span class="n">S</span><span class="o">=</span><span class="n">S</span><span class="p">,</span> <span class="n">nu</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+    <span class="n">sigma</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;sigma&quot;</span><span class="p">,</span> <span class="n">pm</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">matrix_inverse</span><span class="p">(</span><span class="n">tau</span><span class="p">))</span>
+    <span class="n">mu</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">MvNormal</span><span class="p">(</span><span class="s2">&quot;mu&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu0</span><span class="p">,</span> <span class="n">cov</span><span class="o">=</span><span class="n">tau</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 
     <span class="n">p1</span> <span class="o">=</span> <span class="n">mu</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">p2</span> <span class="o">=</span> <span class="n">mu</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
@@ -960,14 +968,12 @@ title="Print to PDF"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Auto-assigning NUTS sampler...
-INFO:pymc:Auto-assigning NUTS sampler...
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Added new variable tau_c to model diagonal of Wishart.
+Added new variable tau_z to model off-diagonals of Wishart.
+Auto-assigning NUTS sampler...
 Initializing NUTS using jitter+adapt_diag...
-INFO:pymc:Initializing NUTS using jitter+adapt_diag...
 Multiprocess sampling (4 chains in 4 jobs)
-INFO:pymc:Multiprocess sampling (4 chains in 4 jobs)
-NUTS: [chol, mu]
-INFO:pymc:NUTS: [chol, mu]
+NUTS: [tau_c, tau_z, mu]
 </pre></div>
 </div>
 <div class="output text_html">
@@ -979,6 +985,9 @@ INFO:pymc:NUTS: [chol, mu]
         /* Needs to be in here for Safari polyfill so background images work as expected. */
         background-size: auto;
     }
+    progress:not([value]), progress:not([value])::-webkit-progress-bar {
+        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
+    }
     .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
         background: #F44336;
     }
@@ -986,32 +995,13 @@ INFO:pymc:NUTS: [chol, mu]
 </div><div class="output text_html">
 <div>
   <progress value='16000' class='' max='16000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-  100.00% [16000/16000 00:24<00:00 Sampling 4 chains, 2,234 divergences]
+  100.00% [16000/16000 00:13&lt;00:00 Sampling 4 chains, 41 divergences]
 </div>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/aesara/compile/function/types.py:975: RuntimeWarning: invalid value encountered in accumulate
-  self.vm()
-/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/aesara/compile/function/types.py:975: RuntimeWarning: invalid value encountered in accumulate
-  self.vm()
-/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/aesara/compile/function/types.py:975: RuntimeWarning: invalid value encountered in accumulate
-  self.vm()
-/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/aesara/compile/function/types.py:975: RuntimeWarning: invalid value encountered in accumulate
-  self.vm()
-Sampling 4 chains for 1_000 tune and 3_000 draw iterations (4_000 + 12_000 draws total) took 33 seconds.
-INFO:pymc:Sampling 4 chains for 1_000 tune and 3_000 draw iterations (4_000 + 12_000 draws total) took 33 seconds.
-There were 390 divergences after tuning. Increase `target_accept` or reparameterize.
-ERROR:pymc:There were 390 divergences after tuning. Increase `target_accept` or reparameterize.
-There were 547 divergences after tuning. Increase `target_accept` or reparameterize.
-ERROR:pymc:There were 547 divergences after tuning. Increase `target_accept` or reparameterize.
-The acceptance probability does not match the target. It is 0.6947, but should be close to 0.8. Try to increase the number of tuning steps.
-WARNING:pymc:The acceptance probability does not match the target. It is 0.6947, but should be close to 0.8. Try to increase the number of tuning steps.
-There were 668 divergences after tuning. Increase `target_accept` or reparameterize.
-ERROR:pymc:There were 668 divergences after tuning. Increase `target_accept` or reparameterize.
-The acceptance probability does not match the target. It is 0.638, but should be close to 0.8. Try to increase the number of tuning steps.
-WARNING:pymc:The acceptance probability does not match the target. It is 0.638, but should be close to 0.8. Try to increase the number of tuning steps.
-There were 629 divergences after tuning. Increase `target_accept` or reparameterize.
-ERROR:pymc:There were 629 divergences after tuning. Increase `target_accept` or reparameterize.
-The acceptance probability does not match the target. It is 0.5864, but should be close to 0.8. Try to increase the number of tuning steps.
-WARNING:pymc:The acceptance probability does not match the target. It is 0.5864, but should be close to 0.8. Try to increase the number of tuning steps.
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 3_000 draw iterations (4_000 + 12_000 draws total) took 21 seconds.
+There were 12 divergences after tuning. Increase `target_accept` or reparameterize.
+There were 13 divergences after tuning. Increase `target_accept` or reparameterize.
+There were 10 divergences after tuning. Increase `target_accept` or reparameterize.
+There were 6 divergences after tuning. Increase `target_accept` or reparameterize.
 </pre></div>
 </div>
 </div>
@@ -1023,10 +1013,6 @@ WARNING:pymc:The acceptance probability does not match the target. It is 0.5864,
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/arviz/stats/diagnostics.py:586: RuntimeWarning: invalid value encountered in double_scalars
-  (between_chain_variance / within_chain_variance + num_samples - 1) / (num_samples)
-</pre></div>
-</div>
 <div class="output text_html"><div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
@@ -1058,172 +1044,196 @@ WARNING:pymc:The acceptance probability does not match the target. It is 0.5864,
   </thead>
   <tbody>
     <tr>
+      <th>tau_z[0]</th>
+      <td>-0.044</td>
+      <td>0.960</td>
+      <td>-1.910</td>
+      <td>1.683</td>
+      <td>0.009</td>
+      <td>0.009</td>
+      <td>11300.0</td>
+      <td>8101.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
       <th>mu[0]</th>
-      <td>-0.313</td>
-      <td>0.319</td>
-      <td>-0.870</td>
-      <td>0.304</td>
-      <td>0.011</td>
-      <td>0.008</td>
-      <td>805.0</td>
-      <td>1342.0</td>
-      <td>1.01</td>
+      <td>-0.303</td>
+      <td>0.308</td>
+      <td>-0.889</td>
+      <td>0.272</td>
+      <td>0.003</td>
+      <td>0.002</td>
+      <td>10143.0</td>
+      <td>7973.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>mu[1]</th>
-      <td>-1.737</td>
+      <td>-1.690</td>
+      <td>0.365</td>
+      <td>-2.377</td>
+      <td>-1.016</td>
+      <td>0.004</td>
+      <td>0.003</td>
+      <td>10761.0</td>
+      <td>8102.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>tau_c[0]</th>
+      <td>5.366</td>
+      <td>3.182</td>
+      <td>0.482</td>
+      <td>11.026</td>
+      <td>0.030</td>
+      <td>0.021</td>
+      <td>8755.0</td>
+      <td>5604.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>tau_c[1]</th>
+      <td>4.498</td>
+      <td>2.934</td>
+      <td>0.301</td>
+      <td>9.739</td>
+      <td>0.026</td>
+      <td>0.019</td>
+      <td>10816.0</td>
+      <td>6379.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>tau[0, 0]</th>
+      <td>0.537</td>
+      <td>0.318</td>
+      <td>0.048</td>
+      <td>1.103</td>
+      <td>0.003</td>
+      <td>0.002</td>
+      <td>8755.0</td>
+      <td>5604.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>tau[0, 1]</th>
+      <td>-0.009</td>
+      <td>0.223</td>
+      <td>-0.449</td>
       <td>0.414</td>
-      <td>-2.489</td>
-      <td>-0.964</td>
-      <td>0.015</td>
-      <td>0.011</td>
-      <td>709.0</td>
-      <td>3397.0</td>
-      <td>1.02</td>
+      <td>0.002</td>
+      <td>0.002</td>
+      <td>10677.0</td>
+      <td>8929.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
-      <th>chol[0]</th>
-      <td>3.486</td>
-      <td>4.049</td>
-      <td>0.032</td>
-      <td>11.328</td>
-      <td>0.100</td>
-      <td>0.071</td>
-      <td>465.0</td>
-      <td>312.0</td>
-      <td>1.01</td>
+      <th>tau[1, 0]</th>
+      <td>-0.009</td>
+      <td>0.223</td>
+      <td>-0.449</td>
+      <td>0.414</td>
+      <td>0.002</td>
+      <td>0.002</td>
+      <td>10677.0</td>
+      <td>8929.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
-      <th>chol[1]</th>
-      <td>-0.015</td>
-      <td>3.817</td>
-      <td>-7.870</td>
-      <td>7.987</td>
-      <td>0.061</td>
-      <td>0.054</td>
-      <td>4495.0</td>
-      <td>3169.0</td>
-      <td>1.03</td>
+      <th>tau[1, 1]</th>
+      <td>0.542</td>
+      <td>0.322</td>
+      <td>0.053</td>
+      <td>1.126</td>
+      <td>0.003</td>
+      <td>0.002</td>
+      <td>9832.0</td>
+      <td>7299.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
-      <th>chol[2]</th>
-      <td>2.780</td>
-      <td>3.391</td>
-      <td>0.083</td>
-      <td>9.223</td>
-      <td>0.102</td>
-      <td>0.072</td>
-      <td>89.0</td>
-      <td>18.0</td>
-      <td>1.04</td>
+      <th>sigma[0, 0]</th>
+      <td>3.749</td>
+      <td>3.860</td>
+      <td>0.546</td>
+      <td>9.484</td>
+      <td>0.053</td>
+      <td>0.038</td>
+      <td>8291.0</td>
+      <td>6200.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
-      <th>chol_corr[0, 0]</th>
-      <td>1.000</td>
-      <td>0.000</td>
-      <td>1.000</td>
-      <td>1.000</td>
-      <td>0.000</td>
-      <td>0.000</td>
-      <td>12000.0</td>
-      <td>12000.0</td>
-      <td>NaN</td>
+      <th>sigma[0, 1]</th>
+      <td>0.141</td>
+      <td>2.663</td>
+      <td>-4.034</td>
+      <td>4.373</td>
+      <td>0.035</td>
+      <td>0.034</td>
+      <td>9893.0</td>
+      <td>7794.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
-      <th>chol_corr[0, 1]</th>
-      <td>-0.038</td>
-      <td>0.618</td>
-      <td>-0.999</td>
-      <td>0.913</td>
-      <td>0.016</td>
-      <td>0.012</td>
-      <td>2431.0</td>
-      <td>2367.0</td>
-      <td>1.00</td>
+      <th>sigma[1, 0]</th>
+      <td>0.141</td>
+      <td>2.663</td>
+      <td>-4.034</td>
+      <td>4.373</td>
+      <td>0.035</td>
+      <td>0.034</td>
+      <td>9893.0</td>
+      <td>7794.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
-      <th>chol_corr[1, 0]</th>
-      <td>-0.038</td>
-      <td>0.618</td>
-      <td>-0.999</td>
-      <td>0.913</td>
-      <td>0.016</td>
-      <td>0.012</td>
-      <td>2431.0</td>
-      <td>2367.0</td>
-      <td>1.00</td>
-    </tr>
-    <tr>
-      <th>chol_corr[1, 1]</th>
-      <td>1.000</td>
-      <td>0.000</td>
-      <td>1.000</td>
-      <td>1.000</td>
-      <td>0.000</td>
-      <td>0.000</td>
-      <td>459.0</td>
-      <td>301.0</td>
-      <td>1.01</td>
-    </tr>
-    <tr>
-      <th>chol_stds[0]</th>
-      <td>3.486</td>
-      <td>4.049</td>
-      <td>0.032</td>
-      <td>11.328</td>
-      <td>0.100</td>
-      <td>0.071</td>
-      <td>465.0</td>
-      <td>312.0</td>
-      <td>1.01</td>
-    </tr>
-    <tr>
-      <th>chol_stds[1]</th>
-      <td>3.909</td>
-      <td>4.303</td>
-      <td>0.085</td>
-      <td>12.240</td>
-      <td>0.151</td>
-      <td>0.107</td>
-      <td>115.0</td>
-      <td>28.0</td>
-      <td>1.04</td>
+      <th>sigma[1, 1]</th>
+      <td>3.711</td>
+      <td>3.820</td>
+      <td>0.534</td>
+      <td>9.307</td>
+      <td>0.052</td>
+      <td>0.043</td>
+      <td>10816.0</td>
+      <td>6379.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>rd</th>
-      <td>1.423</td>
-      <td>0.540</td>
-      <td>0.327</td>
-      <td>2.366</td>
-      <td>0.025</td>
-      <td>0.018</td>
-      <td>476.0</td>
-      <td>129.0</td>
-      <td>1.01</td>
+      <td>1.386</td>
+      <td>0.479</td>
+      <td>0.506</td>
+      <td>2.308</td>
+      <td>0.005</td>
+      <td>0.004</td>
+      <td>10197.0</td>
+      <td>8317.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>rr</th>
-      <td>0.195</td>
-      <td>0.214</td>
-      <td>-0.241</td>
-      <td>0.602</td>
-      <td>0.011</td>
-      <td>0.010</td>
-      <td>491.0</td>
-      <td>156.0</td>
-      <td>1.01</td>
+      <td>0.189</td>
+      <td>0.201</td>
+      <td>-0.181</td>
+      <td>0.577</td>
+      <td>0.002</td>
+      <td>0.001</td>
+      <td>10156.0</td>
+      <td>8902.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>or</th>
       <td>0.288</td>
-      <td>0.558</td>
-      <td>-0.521</td>
-      <td>0.858</td>
-      <td>0.014</td>
-      <td>0.010</td>
-      <td>524.0</td>
-      <td>155.0</td>
-      <td>1.01</td>
+      <td>0.459</td>
+      <td>-0.431</td>
+      <td>0.852</td>
+      <td>0.005</td>
+      <td>0.003</td>
+      <td>10172.0</td>
+      <td>8623.0</td>
+      <td>1.0</td>
     </tr>
   </tbody>
 </table>
@@ -1236,22 +1246,25 @@ WARNING:pymc:The acceptance probability does not match the target. It is 0.5864,
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Mon Jul 25 2022
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Sun Jul 31 2022
 
 Python implementation: CPython
 Python version       : 3.10.5
 IPython version      : 8.4.0
 
-aesara: 2.7.3
-aeppl : 0.0.31
+aesara: 2.7.7
+aeppl : 0.0.32
 
 arviz: 0.12.1
-pymc : 4.0.1
-numpy: 1.23.0
+pymc : 4.1.3
+numpy: 1.23.1
 </pre></div>
 </div>
 </div>
 </div>
+<p>or ~ 2.8
+rd ~ 0.2
+rr ~2.1</p>
 </section>
 </section>
 
