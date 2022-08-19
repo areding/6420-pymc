@@ -33,5 +33,4 @@ The remaining incomplete files are:
 - Fix markdown table sizes.
 - Add FAQs.
 - Add solutions to the optional exercises.
-- Add more explanation/content related to MCMC algorithms
-- add Unit 11, with next steps and links to further reading
+- Add more explanation/content related to MCMC algorithms, esp. Hamiltonian MC example
