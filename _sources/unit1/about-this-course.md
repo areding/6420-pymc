@@ -4,6 +4,7 @@ The course was originally developed at Georgia Tech in 2004 by Professor Brani V
 
 :::{seealso}
 Professor Vidakovic's [publication history](https://scholar.google.com/citations?user=mjLdzMAAAAAJ).
+[Professor Joseph's.](https://scholar.google.com/citations?hl=en&user=-XDlRfAAAAAJ)
 :::
 
 This site mostly follows the original [course outline](https://www2.isye.gatech.edu/isye6420/plan.html). Each example lists the corresponding lecture video and contains a download link to the original code file(s). Only the lecture video where the professor goes over the example code will be listed, but there may be other relevant lectures that you'll need to watch. Any necessary data will either have a download link or, if the data is compact enough, will be included in the code.
