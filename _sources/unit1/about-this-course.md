@@ -4,6 +4,7 @@ The course was originally developed at Georgia Tech in 2004 by Professor Brani V
 
 :::{seealso}
 Professor Vidakovic's [publication history](https://scholar.google.com/citations?user=mjLdzMAAAAAJ).
+
 [Professor Joseph's.](https://scholar.google.com/citations?hl=en&user=-XDlRfAAAAAJ)
 :::
 
