@@ -864,6 +864,14 @@ title="Print to PDF"
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The lab_black extension is already loaded. To reload it, use:
+  %reload_ext lab_black
+The watermark extension is already loaded. To reload it, use:
+  %reload_ext watermark
+</pre></div>
+</div>
+</div>
 </div>
 <section class="tex2jax_ignore mathjax_ignore" id="brozek-index-prediction">
 <h1>Brozek index prediction<a class="headerlink" href="#brozek-index-prediction" title="Permalink to this headline">#</a></h1>
@@ -964,7 +972,7 @@ NUTS: [tau, beta0_intercept, beta1_abdomen]
   100.00% [12000/12000 00:04&lt;00:00 Sampling 4 chains, 0 divergences]
 </div>
 </div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 2_000 draw iterations (4_000 + 8_000 draws total) took 16 seconds.
-The acceptance probability does not match the target. It is 0.8849, but should be close to 0.8. Try to increase the number of tuning steps.
+The acceptance probability does not match the target. It is 0.8851, but should be close to 0.8. Try to increase the number of tuning steps.
 </pre></div>
 </div>
 <div class="output text_html">
@@ -1029,62 +1037,62 @@ The acceptance probability does not match the target. It is 0.8849, but should b
   <tbody>
     <tr>
       <th>beta0_intercept</th>
-      <td>-34.996</td>
-      <td>2.465</td>
-      <td>-39.989</td>
-      <td>-30.284</td>
-      <td>0.047</td>
-      <td>0.033</td>
-      <td>2744.0</td>
-      <td>3032.0</td>
+      <td>-34.943</td>
+      <td>2.428</td>
+      <td>-39.645</td>
+      <td>-30.152</td>
+      <td>0.048</td>
+      <td>0.034</td>
+      <td>2538.0</td>
+      <td>2942.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>beta1_abdomen</th>
-      <td>0.583</td>
+      <td>0.582</td>
       <td>0.026</td>
       <td>0.530</td>
-      <td>0.634</td>
+      <td>0.631</td>
       <td>0.001</td>
       <td>0.000</td>
-      <td>2753.0</td>
-      <td>2952.0</td>
+      <td>2543.0</td>
+      <td>2805.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>tau</th>
       <td>0.049</td>
       <td>0.004</td>
-      <td>0.041</td>
+      <td>0.040</td>
       <td>0.058</td>
       <td>0.000</td>
       <td>0.000</td>
-      <td>3852.0</td>
-      <td>3859.0</td>
+      <td>3538.0</td>
+      <td>3308.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>variance</th>
-      <td>20.524</td>
-      <td>1.840</td>
-      <td>17.079</td>
-      <td>24.191</td>
-      <td>0.030</td>
-      <td>0.021</td>
-      <td>3852.0</td>
-      <td>3859.0</td>
+      <td>20.561</td>
+      <td>1.899</td>
+      <td>17.021</td>
+      <td>24.314</td>
+      <td>0.032</td>
+      <td>0.023</td>
+      <td>3538.0</td>
+      <td>3308.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>br2</th>
-      <td>0.660</td>
+      <td>0.659</td>
       <td>0.031</td>
-      <td>0.599</td>
-      <td>0.717</td>
+      <td>0.597</td>
+      <td>0.718</td>
+      <td>0.001</td>
       <td>0.000</td>
-      <td>0.000</td>
-      <td>3852.0</td>
-      <td>3859.0</td>
+      <td>3538.0</td>
+      <td>3308.0</td>
       <td>1.0</td>
     </tr>
   </tbody>
@@ -1095,22 +1103,20 @@ The acceptance probability does not match the target. It is 0.8849, but should b
 <p>Another way to calculate the <span class="math notranslate nohighlight">\(R^2\)</span> using a posterior predictive check (keeping in mind that there is no standard “Bayesian <span class="math notranslate nohighlight">\(R^2\)</span>”). The results will be slightly different:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># get the mean y_pred across all chains</span>
-<span class="n">y_pred</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">ppc</span><span class="o">.</span><span class="n">posterior_predictive</span><span class="o">.</span><span class="n">likelihood</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)))</span>
-
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># updated based on the arviz docs</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">ppc</span><span class="o">.</span><span class="n">posterior_predictive</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">sample</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;chain&quot;</span><span class="p">,</span> <span class="s2">&quot;draw&quot;</span><span class="p">))[</span><span class="s2">&quot;likelihood&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">T</span>
 <span class="n">az</span><span class="o">.</span><span class="n">r2_score</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>r2        0.660282
-r2_std    0.000000
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>r2        0.594607
+r2_std    0.026141
 dtype: float64
 </pre></div>
 </div>
 </div>
 </div>
-<p>In this case they agree, but that won’t always be true.</p>
 </section>
 <section id="multinomial-regression-with-all-predictors">
 <h2>Multinomial regression with all predictors<a class="headerlink" href="#multinomial-regression-with-all-predictors" title="Permalink to this headline">#</a></h2>
@@ -1185,9 +1191,13 @@ dtype: float64
 </div>
 <div class="cell_output docutils container">
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Auto-assigning NUTS sampler...
+INFO:pymc:Auto-assigning NUTS sampler...
 Initializing NUTS using jitter+adapt_diag...
+INFO:pymc:Initializing NUTS using jitter+adapt_diag...
 Multiprocess sampling (4 chains in 4 jobs)
+INFO:pymc:Multiprocess sampling (4 chains in 4 jobs)
 NUTS: [tau, beta]
+INFO:pymc:NUTS: [tau, beta]
 </pre></div>
 </div>
 <div class="output text_html">
@@ -1209,9 +1219,10 @@ NUTS: [tau, beta]
 </div><div class="output text_html">
 <div>
   <progress value='8000' class='' max='8000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-  100.00% [8000/8000 11:23&lt;00:00 Sampling 4 chains, 0 divergences]
+  100.00% [8000/8000 15:17&lt;00:00 Sampling 4 chains, 0 divergences]
 </div>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws total) took 694 seconds.
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws total) took 928 seconds.
+INFO:pymc:Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws total) took 928 seconds.
 </pre></div>
 </div>
 <div class="output text_html">
@@ -1276,230 +1287,230 @@ NUTS: [tau, beta]
   <tbody>
     <tr>
       <th>beta[0]</th>
-      <td>-14.800</td>
-      <td>16.532</td>
-      <td>-46.372</td>
-      <td>18.975</td>
-      <td>0.376</td>
-      <td>0.268</td>
-      <td>1926.0</td>
-      <td>2198.0</td>
+      <td>-14.949</td>
+      <td>17.101</td>
+      <td>-48.607</td>
+      <td>18.114</td>
+      <td>0.422</td>
+      <td>0.299</td>
+      <td>1646.0</td>
+      <td>2196.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>beta[1]</th>
       <td>0.056</td>
       <td>0.031</td>
-      <td>-0.006</td>
-      <td>0.113</td>
+      <td>-0.001</td>
+      <td>0.117</td>
       <td>0.001</td>
       <td>0.000</td>
-      <td>3057.0</td>
-      <td>2687.0</td>
+      <td>2651.0</td>
+      <td>2655.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>beta[2]</th>
-      <td>-0.080</td>
-      <td>0.051</td>
-      <td>-0.177</td>
-      <td>0.024</td>
+      <td>-0.081</td>
+      <td>0.053</td>
+      <td>-0.190</td>
+      <td>0.019</td>
       <td>0.001</td>
       <td>0.001</td>
-      <td>1864.0</td>
-      <td>2074.0</td>
+      <td>1598.0</td>
+      <td>2156.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>beta[3]</th>
-      <td>-0.054</td>
-      <td>0.107</td>
-      <td>-0.262</td>
-      <td>0.162</td>
+      <td>-0.055</td>
+      <td>0.108</td>
+      <td>-0.268</td>
+      <td>0.157</td>
       <td>0.002</td>
       <td>0.002</td>
-      <td>2807.0</td>
-      <td>2607.0</td>
+      <td>2587.0</td>
+      <td>2526.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>beta[4]</th>
-      <td>0.055</td>
-      <td>0.284</td>
-      <td>-0.484</td>
-      <td>0.630</td>
+      <td>0.056</td>
+      <td>0.283</td>
+      <td>-0.541</td>
+      <td>0.571</td>
       <td>0.005</td>
       <td>0.004</td>
-      <td>3169.0</td>
-      <td>2751.0</td>
+      <td>2770.0</td>
+      <td>2555.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>beta[5]</th>
-      <td>-0.446</td>
-      <td>0.225</td>
-      <td>-0.902</td>
-      <td>-0.022</td>
+      <td>-0.444</td>
+      <td>0.222</td>
+      <td>-0.862</td>
+      <td>0.005</td>
       <td>0.004</td>
       <td>0.003</td>
-      <td>3643.0</td>
-      <td>2980.0</td>
+      <td>3208.0</td>
+      <td>2962.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>beta[6]</th>
-      <td>-0.032</td>
+      <td>-0.031</td>
       <td>0.102</td>
-      <td>-0.240</td>
-      <td>0.162</td>
+      <td>-0.224</td>
+      <td>0.179</td>
       <td>0.002</td>
       <td>0.002</td>
-      <td>3183.0</td>
-      <td>2763.0</td>
+      <td>2482.0</td>
+      <td>2583.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>beta[7]</th>
-      <td>0.878</td>
-      <td>0.087</td>
-      <td>0.709</td>
-      <td>1.050</td>
+      <td>0.875</td>
+      <td>0.088</td>
+      <td>0.699</td>
+      <td>1.045</td>
       <td>0.002</td>
       <td>0.001</td>
-      <td>2984.0</td>
-      <td>2321.0</td>
+      <td>3100.0</td>
+      <td>2957.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>beta[8]</th>
-      <td>-0.205</td>
-      <td>0.140</td>
-      <td>-0.486</td>
-      <td>0.068</td>
+      <td>-0.200</td>
+      <td>0.137</td>
+      <td>-0.465</td>
+      <td>0.077</td>
       <td>0.003</td>
       <td>0.002</td>
-      <td>2404.0</td>
-      <td>2692.0</td>
+      <td>2431.0</td>
+      <td>2020.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>beta[9]</th>
-      <td>0.222</td>
+      <td>0.221</td>
       <td>0.138</td>
-      <td>-0.036</td>
-      <td>0.504</td>
+      <td>-0.051</td>
+      <td>0.482</td>
+      <td>0.003</td>
       <td>0.002</td>
-      <td>0.002</td>
-      <td>3154.0</td>
-      <td>2882.0</td>
+      <td>2625.0</td>
+      <td>2841.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>beta[10]</th>
-      <td>0.003</td>
-      <td>0.235</td>
-      <td>-0.456</td>
-      <td>0.449</td>
+      <td>0.002</td>
+      <td>0.242</td>
+      <td>-0.435</td>
+      <td>0.501</td>
       <td>0.004</td>
-      <td>0.003</td>
-      <td>3707.0</td>
-      <td>3097.0</td>
+      <td>0.004</td>
+      <td>3024.0</td>
+      <td>2751.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>beta[11]</th>
-      <td>0.159</td>
+      <td>0.155</td>
       <td>0.215</td>
-      <td>-0.277</td>
-      <td>0.563</td>
+      <td>-0.279</td>
+      <td>0.559</td>
+      <td>0.004</td>
       <td>0.003</td>
-      <td>0.003</td>
-      <td>4053.0</td>
-      <td>2746.0</td>
+      <td>3733.0</td>
+      <td>2642.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>beta[12]</th>
-      <td>0.153</td>
-      <td>0.163</td>
-      <td>-0.174</td>
-      <td>0.450</td>
+      <td>0.152</td>
+      <td>0.164</td>
+      <td>-0.149</td>
+      <td>0.488</td>
       <td>0.003</td>
       <td>0.002</td>
-      <td>3547.0</td>
-      <td>2802.0</td>
+      <td>3888.0</td>
+      <td>2930.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>beta[13]</th>
-      <td>0.425</td>
-      <td>0.190</td>
-      <td>0.043</td>
-      <td>0.784</td>
+      <td>0.427</td>
+      <td>0.192</td>
+      <td>0.042</td>
+      <td>0.788</td>
       <td>0.003</td>
-      <td>0.002</td>
-      <td>4301.0</td>
-      <td>3207.0</td>
+      <td>0.003</td>
+      <td>3457.0</td>
+      <td>2276.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>beta[14]</th>
-      <td>-1.470</td>
-      <td>0.519</td>
-      <td>-2.496</td>
-      <td>-0.475</td>
+      <td>-1.475</td>
+      <td>0.515</td>
+      <td>-2.513</td>
+      <td>-0.530</td>
       <td>0.009</td>
-      <td>0.006</td>
-      <td>3605.0</td>
-      <td>3019.0</td>
+      <td>0.007</td>
+      <td>3047.0</td>
+      <td>2923.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>tau</th>
-      <td>0.060</td>
+      <td>0.059</td>
       <td>0.005</td>
-      <td>0.050</td>
+      <td>0.049</td>
       <td>0.070</td>
       <td>0.000</td>
       <td>0.000</td>
-      <td>4176.0</td>
-      <td>3142.0</td>
+      <td>4457.0</td>
+      <td>2989.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>variance</th>
-      <td>16.928</td>
-      <td>1.501</td>
-      <td>14.104</td>
-      <td>19.782</td>
+      <td>16.948</td>
+      <td>1.546</td>
+      <td>13.973</td>
+      <td>20.016</td>
       <td>0.023</td>
       <td>0.017</td>
-      <td>4176.0</td>
-      <td>3142.0</td>
+      <td>4457.0</td>
+      <td>2989.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>br2</th>
       <td>0.734</td>
       <td>0.024</td>
-      <td>0.689</td>
-      <td>0.778</td>
+      <td>0.685</td>
+      <td>0.780</td>
       <td>0.000</td>
       <td>0.000</td>
-      <td>4176.0</td>
-      <td>3142.0</td>
+      <td>4457.0</td>
+      <td>2989.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>br2_adj</th>
       <td>0.718</td>
-      <td>0.025</td>
-      <td>0.671</td>
-      <td>0.765</td>
+      <td>0.026</td>
+      <td>0.667</td>
+      <td>0.767</td>
       <td>0.000</td>
       <td>0.000</td>
-      <td>4176.0</td>
-      <td>3142.0</td>
+      <td>4457.0</td>
+      <td>2989.0</td>
       <td>1.0</td>
     </tr>
   </tbody>
@@ -1508,25 +1519,26 @@ NUTS: [tau, beta]
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y_pred</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">ppc</span><span class="o">.</span><span class="n">posterior_predictive</span><span class="o">.</span><span class="n">likelihood</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)))</span>
-
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y_pred</span> <span class="o">=</span> <span class="n">ppc</span><span class="o">.</span><span class="n">posterior_predictive</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">sample</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;chain&quot;</span><span class="p">,</span> <span class="s2">&quot;draw&quot;</span><span class="p">))[</span><span class="s2">&quot;likelihood&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">T</span>
 <span class="n">az</span><span class="o">.</span><span class="n">r2_score</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>r2        0.746982
-r2_std    0.000000
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>r2        0.653794
+r2_std    0.024371
 dtype: float64
 </pre></div>
 </div>
 </div>
 </div>
 <p>Need to do some more reading on g-priors:</p>
-<p><a class="reference external" href="https://arxiv.org/abs/1702.01201">https://arxiv.org/abs/1702.01201</a>
-<a class="reference external" href="https://towardsdatascience.com/linear-regression-model-selection-through-zellners-g-prior-da5f74635a03">https://towardsdatascience.com/linear-regression-model-selection-through-zellners-g-prior-da5f74635a03</a>
-<a class="reference external" href="https://en.wikipedia.org/wiki/G-prior%5C">https://en.wikipedia.org/wiki/G-prior\</a></p>
-<p>original paper:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://arxiv.org/abs/1702.01201">https://arxiv.org/abs/1702.01201</a></p></li>
+<li><p><a class="reference external" href="https://towardsdatascience.com/linear-regression-model-selection-through-zellners-g--prior-da5f74635a03">https://towardsdatascience.com/linear-regression-model-selection-through-zellners-g–prior-da5f74635a03</a></p></li>
+<li><p><a class="reference external" href="https://en.wikipedia.org/wiki/G-prior%5C">https://en.wikipedia.org/wiki/G-prior\</a></p></li>
+</ul>
+<p>Original paper:</p>
 <p>Zellner, A. (1986). “On Assessing Prior Distributions and Bayesian Regression Analysis with g Prior Distributions”. In Goel, P.; Zellner, A. (eds.). Bayesian Inference and Decision Techniques: Essays in Honor of Bruno de Finetti. Studies in Bayesian Econometrics and Statistics. Vol. 6. New York: Elsevier. pp. 233–243. ISBN 978-0-444-87712-3.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1535,20 +1547,20 @@ dtype: float64
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Thu Aug 11 2022
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Wed Oct 26 2022
 
 Python implementation: CPython
-Python version       : 3.10.5
-IPython version      : 8.4.0
+Python version       : 3.10.6
+IPython version      : 8.5.0
 
 aesara: 2.7.7
 aeppl : 0.0.32
 
-pymc  : 4.1.3
-pandas: 1.4.3
-numpy : 1.23.1
-aesara: 2.7.7
+numpy : 1.23.4
 arviz : 0.12.1
+aesara: 2.7.7
+pymc  : 4.1.3
+pandas: 1.5.1
 </pre></div>
 </div>
 </div>
