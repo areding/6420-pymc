@@ -21,7 +21,7 @@
     href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=62ba249389abaaa9ffc34bf36a076bdc1d65ee18" type="text/css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
@@ -39,7 +39,7 @@
     <script src="../_static/doctools.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
-    <script src="../_static/scripts/sphinx-book-theme.js?digest=f31d14ad54b65d19161ba51d4ffff3a77ae00456"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
@@ -52,8 +52,6 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
-    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
-    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -846,8 +844,7 @@ title="Print to PDF"
 </div>
 <section class="tex2jax_ignore mathjax_ignore" id="taste-of-cheese">
 <h1>Taste of cheese<a class="headerlink" href="#taste-of-cheese" title="Permalink to this headline">#</a></h1>
-<p>This example introduces prediction, divergences, and Bayesian <span class="math notranslate nohighlight">\(R^2\)</span> (not added yet).</p>
-<p>It is adapted from <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/original_examples/Codes4Unit6/cheese.odc">Unit 6: cheese.odc</a>.</p>
+<p>Adapted from <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/original_examples/Codes4Unit6/cheese.odc">Unit 6: cheese.odc</a>.</p>
 <p>The link in the original .odc file is dead. I downloaded the data from <a class="reference external" href="https://www3.nd.edu/~busiforc/handouts/Data%20and%20Stories/multicollinearity/Cheese%20Taste/Cheddar%20Cheese%20Data.html">here</a> and have a copy <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/data/cheese.csv">here</a>.</p>
 <p>Associated lecture videos
 Unit 6 lesson 5</p>
@@ -886,7 +883,7 @@ Unit 6 lesson 5</p>
 
     <span class="c1"># start sampling</span>
     <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span>
-        <span class="mi">10000</span><span class="p">,</span>  <span class="c1"># samples</span>
+        <span class="mi">5000</span><span class="p">,</span>  <span class="c1"># samples</span>
         <span class="n">chains</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
         <span class="n">tune</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
         <span class="n">init</span><span class="o">=</span><span class="s2">&quot;jitter+adapt_diag&quot;</span><span class="p">,</span>
@@ -914,16 +911,19 @@ NUTS: [beta, tau]
         /* Needs to be in here for Safari polyfill so background images work as expected. */
         background-size: auto;
     }
+    progress:not([value]), progress:not([value])::-webkit-progress-bar {
+        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
+    }
     .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
         background: #F44336;
     }
 </style>
 </div><div class="output text_html">
 <div>
-  <progress value='44000' class='' max='44000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-  100.00% [44000/44000 00:51<00:00 Sampling 4 chains, 0 divergences]
+  <progress value='24000' class='' max='24000' style='width:300px; height:20px; vertical-align: middle;'></progress>
+  100.00% [24000/24000 00:19&lt;00:00 Sampling 4 chains, 0 divergences]
 </div>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 10_000 draw iterations (4_000 + 40_000 draws total) took 61 seconds.
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 5_000 draw iterations (4_000 + 20_000 draws total) took 26 seconds.
 </pre></div>
 </div>
 </div>
@@ -967,50 +967,50 @@ NUTS: [beta, tau]
   <tbody>
     <tr>
       <th>beta[0]</th>
-      <td>-29.022</td>
-      <td>20.578</td>
-      <td>-68.934</td>
-      <td>11.950</td>
-      <td>0.168</td>
-      <td>0.119</td>
-      <td>15158.0</td>
-      <td>19043.0</td>
+      <td>-28.992</td>
+      <td>20.360</td>
+      <td>-70.973</td>
+      <td>9.987</td>
+      <td>0.246</td>
+      <td>0.174</td>
+      <td>6846.0</td>
+      <td>9625.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>beta[1]</th>
-      <td>0.364</td>
-      <td>4.659</td>
-      <td>-8.976</td>
-      <td>9.429</td>
-      <td>0.039</td>
-      <td>0.028</td>
-      <td>14710.0</td>
-      <td>17446.0</td>
+      <td>0.368</td>
+      <td>4.604</td>
+      <td>-8.545</td>
+      <td>9.665</td>
+      <td>0.058</td>
+      <td>0.041</td>
+      <td>6363.0</td>
+      <td>8688.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>beta[2]</th>
-      <td>3.914</td>
-      <td>1.299</td>
-      <td>1.271</td>
-      <td>6.407</td>
-      <td>0.009</td>
-      <td>0.007</td>
-      <td>19291.0</td>
-      <td>20318.0</td>
+      <td>3.912</td>
+      <td>1.303</td>
+      <td>1.265</td>
+      <td>6.402</td>
+      <td>0.014</td>
+      <td>0.010</td>
+      <td>9069.0</td>
+      <td>10989.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>beta[3]</th>
-      <td>19.619</td>
-      <td>8.952</td>
-      <td>1.585</td>
-      <td>36.823</td>
-      <td>0.061</td>
-      <td>0.044</td>
-      <td>21401.0</td>
-      <td>22094.0</td>
+      <td>19.589</td>
+      <td>8.935</td>
+      <td>1.944</td>
+      <td>37.349</td>
+      <td>0.089</td>
+      <td>0.063</td>
+      <td>10099.0</td>
+      <td>10269.0</td>
       <td>1.0</td>
     </tr>
     <tr>
@@ -1021,8 +1021,8 @@ NUTS: [beta, tau]
       <td>0.015</td>
       <td>0.000</td>
       <td>0.000</td>
-      <td>20895.0</td>
-      <td>21727.0</td>
+      <td>10787.0</td>
+      <td>11989.0</td>
       <td>1.0</td>
     </tr>
   </tbody>
@@ -1101,14 +1101,17 @@ NUTS: [beta, tau]
 <p>It looks like there are multiple ways to get predictions on out-of-sample data in PyMC. The easiest way is to set up a shared variable using pm.Data in the original model, then using pm.set_data to change to the new observations before calling pm.sample_posterior_predictive.</p>
 <div class="cell tag_hide_output docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># prediction</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># single prediction on out-of-sample data</span>
 <span class="n">new_obs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mf">7.1</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">]])</span>
 <span class="n">pm</span><span class="o">.</span><span class="n">set_data</span><span class="p">({</span><span class="s2">&quot;X&quot;</span><span class="p">:</span> <span class="n">new_obs</span><span class="p">},</span> <span class="n">model</span><span class="o">=</span><span class="n">m</span><span class="p">)</span>
-<span class="n">ppc</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample_posterior_predictive</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">m</span><span class="p">)</span>
+<span class="n">ppc</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample_posterior_predictive</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">m</span><span class="p">,</span> <span class="n">predictions</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling: [taste_score]
+</pre></div>
+</div>
 <div class="output text_html">
 <style>
     /* Turns off some styling */
@@ -1118,73 +1121,36 @@ NUTS: [beta, tau]
         /* Needs to be in here for Safari polyfill so background images work as expected. */
         background-size: auto;
     }
+    progress:not([value]), progress:not([value])::-webkit-progress-bar {
+        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
+    }
     .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
         background: #F44336;
     }
 </style>
 </div><div class="output text_html">
 <div>
-  <progress value='40000' class='' max='40000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-  100.00% [40000/40000 00:05<00:00]
+  <progress value='20000' class='' max='20000' style='width:300px; height:20px; vertical-align: middle;'></progress>
+  100.00% [20000/20000 00:00&lt;00:00]
 </div>
 </div></div>
 </div>
+<p>The default behavior now is to give one prediction per y-value. The professor often asks for a single prediction based on the new data; the equivalent here would be to take the mean of the predicted values.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">ppc</span><span class="p">,</span> <span class="n">hdi_prob</span><span class="o">=</span><span class="mf">0.95</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">ppc</span><span class="o">.</span><span class="n">predictions</span><span class="p">,</span> <span class="n">hdi_prob</span><span class="o">=</span><span class="mf">0.95</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;stats&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/arviz/stats/stats.py:1366: UserWarning: Selecting first found group: posterior_predictive
-  warnings.warn(f&quot;Selecting first found group: {data.groups()[0]}&quot;)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>mean         30.004467
+sd           11.210800
+hdi_2.5%      7.865600
+hdi_97.5%    52.085867
+dtype: float64
 </pre></div>
 </div>
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>mean</th>
-      <th>sd</th>
-      <th>hdi_2.5%</th>
-      <th>hdi_97.5%</th>
-      <th>mcse_mean</th>
-      <th>mcse_sd</th>
-      <th>ess_bulk</th>
-      <th>ess_tail</th>
-      <th>r_hat</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>taste_score[0]</th>
-      <td>30.036</td>
-      <td>11.162</td>
-      <td>8.851</td>
-      <td>52.868</td>
-      <td>0.06</td>
-      <td>0.042</td>
-      <td>34888.0</td>
-      <td>33913.0</td>
-      <td>1.0</td>
-    </tr>
-  </tbody>
-</table>
-</div></div></div>
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1193,15 +1159,20 @@ NUTS: [beta, tau]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Python implementation: CPython
-Python version       : 3.10.4
-IPython version      : 8.4.0
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Sat Oct 29 2022
 
-matplotlib: 3.5.2
-numpy     : 1.22.4
-arviz     : 0.12.1
-pymc      : 4.0.0
-pandas    : 1.4.2
+Python implementation: CPython
+Python version       : 3.10.6
+IPython version      : 8.5.0
+
+aesara: 2.8.7
+aeppl : 0.0.38
+
+arviz     : 0.13.0
+numpy     : 1.23.4
+matplotlib: 3.6.1
+pandas    : 1.5.1
+pymc      : 4.2.2
 </pre></div>
 </div>
 </div>
