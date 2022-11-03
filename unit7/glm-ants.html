@@ -923,6 +923,9 @@ NUTS: [beta0_intercept, beta1_habitat, beta2_elevation]
         /* Needs to be in here for Safari polyfill so background images work as expected. */
         background-size: auto;
     }
+    progress:not([value]), progress:not([value])::-webkit-progress-bar {
+        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
+    }
     .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
         background: #F44336;
     }
@@ -930,10 +933,9 @@ NUTS: [beta0_intercept, beta1_habitat, beta2_elevation]
 </div><div class="output text_html">
 <div>
   <progress value='28000' class='' max='28000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-  100.00% [28000/28000 00:14<00:00 Sampling 4 chains, 1 divergences]
+  100.00% [28000/28000 00:06&lt;00:00 Sampling 4 chains, 0 divergences]
 </div>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 2_000 tune and 5_000 draw iterations (8_000 + 20_000 draws total) took 25 seconds.
-There was 1 divergence after tuning. Increase `target_accept` or reparameterize.
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 2_000 tune and 5_000 draw iterations (8_000 + 20_000 draws total) took 16 seconds.
 </pre></div>
 </div>
 </div>
@@ -977,26 +979,26 @@ There was 1 divergence after tuning. Increase `target_accept` or reparameterize.
   <tbody>
     <tr>
       <th>beta0_intercept</th>
-      <td>3.166</td>
-      <td>0.188</td>
-      <td>2.806</td>
-      <td>3.517</td>
+      <td>3.174</td>
+      <td>0.185</td>
+      <td>2.823</td>
+      <td>3.521</td>
       <td>0.002</td>
       <td>0.002</td>
-      <td>6738.0</td>
-      <td>7259.0</td>
+      <td>7161.0</td>
+      <td>7799.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>beta1_habitat</th>
-      <td>-0.635</td>
-      <td>0.122</td>
-      <td>-0.862</td>
-      <td>-0.402</td>
+      <td>-0.640</td>
+      <td>0.121</td>
+      <td>-0.858</td>
+      <td>-0.405</td>
       <td>0.001</td>
       <td>0.001</td>
-      <td>7382.0</td>
-      <td>7025.0</td>
+      <td>7259.0</td>
+      <td>8373.0</td>
       <td>1.0</td>
     </tr>
     <tr>
@@ -1007,8 +1009,8 @@ There was 1 divergence after tuning. Increase `target_accept` or reparameterize.
       <td>-0.001</td>
       <td>0.000</td>
       <td>0.000</td>
-      <td>8687.0</td>
-      <td>8736.0</td>
+      <td>9833.0</td>
+      <td>10017.0</td>
       <td>1.0</td>
     </tr>
   </tbody>
@@ -1020,13 +1022,14 @@ There was 1 divergence after tuning. Increase `target_accept` or reparameterize.
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># prediction</span>
 <span class="k">with</span> <span class="n">m</span><span class="p">:</span>
     <span class="n">pm</span><span class="o">.</span><span class="n">set_data</span><span class="p">({</span><span class="s2">&quot;habitat&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;elevation&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">100</span><span class="p">]})</span>
-    <span class="n">ppc</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample_posterior_predictive</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>
-
-<span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">ppc</span><span class="p">)</span>
+    <span class="n">ppc</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample_posterior_predictive</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">predictions</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling: [y]
+</pre></div>
+</div>
 <div class="output text_html">
 <style>
     /* Turns off some styling */
@@ -1036,6 +1039,9 @@ There was 1 divergence after tuning. Increase `target_accept` or reparameterize.
         /* Needs to be in here for Safari polyfill so background images work as expected. */
         background-size: auto;
     }
+    progress:not([value]), progress:not([value])::-webkit-progress-bar {
+        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
+    }
     .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
         background: #F44336;
     }
@@ -1043,12 +1049,17 @@ There was 1 divergence after tuning. Increase `target_accept` or reparameterize.
 </div><div class="output text_html">
 <div>
   <progress value='20000' class='' max='20000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-  100.00% [20000/20000 00:01<00:00]
+  100.00% [20000/20000 00:00&lt;00:00]
 </div>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/arviz/stats/stats.py:1366: UserWarning: Selecting first found group: posterior_predictive
-  warnings.warn(f&quot;Selecting first found group: {data.groups()[0]}&quot;)
+</div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">ppc</span><span class="o">.</span><span class="n">predictions</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="s2">&quot;y_dim_0&quot;</span><span class="p">))</span>
 </pre></div>
 </div>
+</div>
+<div class="cell_output docutils container">
 <div class="output text_html"><div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
@@ -1080,15 +1091,15 @@ There was 1 divergence after tuning. Increase `target_accept` or reparameterize.
   </thead>
   <tbody>
     <tr>
-      <th>y[0]</th>
-      <td>10.868</td>
-      <td>3.387</td>
-      <td>5.0</td>
-      <td>17.0</td>
-      <td>0.025</td>
-      <td>0.017</td>
-      <td>19024.0</td>
-      <td>19243.0</td>
+      <th>y</th>
+      <td>10.899</td>
+      <td>0.99</td>
+      <td>9.091</td>
+      <td>12.795</td>
+      <td>0.009</td>
+      <td>0.007</td>
+      <td>11409.0</td>
+      <td>14752.0</td>
       <td>1.0</td>
     </tr>
   </tbody>
@@ -1102,14 +1113,19 @@ There was 1 divergence after tuning. Increase `target_accept` or reparameterize.
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Python implementation: CPython
-Python version       : 3.10.4
-IPython version      : 8.4.0
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Thu Nov 03 2022
 
-numpy : 1.22.4
-pandas: 1.4.2
-pymc  : 4.0.0
-arviz : 0.12.1
+Python implementation: CPython
+Python version       : 3.10.6
+IPython version      : 8.5.0
+
+aesara: 2.8.7
+aeppl : 0.0.38
+
+pymc  : 4.2.2
+pandas: 1.5.1
+numpy : 1.23.4
+arviz : 0.13.0
 </pre></div>
 </div>
 </div>
