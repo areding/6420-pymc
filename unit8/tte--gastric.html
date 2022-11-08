@@ -922,7 +922,7 @@ title="Print to PDF"
 </section>
 <section id="method-1-pm-censored">
 <h2>Method 1: <code class="docutils literal notranslate"><span class="pre">pm.Censored</span></code><a class="headerlink" href="#method-1-pm-censored" title="Permalink to this headline">#</a></h2>
-<p>The way PyMC censoring works is described in some detail in <a class="reference external" href="https://docs.pymc.io/projects/examples/en/latest/generalized_linear_models/GLM-truncated-censored-regression.html#censored-regression-model">this notebook</a> by <a class="reference external" href="https://github.com/drbenvincent">Dr. Benjamin T. Vincent</a>. This is accomplished in the source code <a class="reference external" href="https://github.com/aesara-devs/aeppl/blob/751979802f1aef5478fdbf7cc1839df07df60825/aeppl/truncation.py#L79">here</a> if you want to take a look. For right-censoring, try this: <code class="docutils literal notranslate"><span class="pre">pm.Censored(&quot;name&quot;,</span> <span class="pre">dist,</span> <span class="pre">lower=None,</span> <span class="pre">upper=censored,</span> <span class="pre">observed=y)</span></code>. The censored values can be an array of the same shape as the y values.</p>
+<p>The way PyMC censoring works is described in some detail in <a class="reference external" href="https://www.pymc.io/projects/examples/en/latest/generalized_linear_models/GLM-truncated-censored-regression.html#censored-regression-model">this notebook</a> by <a class="reference external" href="https://github.com/drbenvincent">Dr. Benjamin T. Vincent</a>. This is accomplished in the source code <a class="reference external" href="https://github.com/aesara-devs/aeppl/blob/751979802f1aef5478fdbf7cc1839df07df60825/aeppl/truncation.py#L79">here</a> if you want to take a look. For right-censoring, try this: <code class="docutils literal notranslate"><span class="pre">pm.Censored(&quot;name&quot;,</span> <span class="pre">dist,</span> <span class="pre">lower=None,</span> <span class="pre">upper=censored,</span> <span class="pre">observed=y)</span></code>. The censored values can be an array of the same shape as the y values.</p>
 <p>If the y value equals the right-censored value, <a class="reference external" href="https://docs.pymc.io/en/latest/api/distributions/generated/pymc.Censored.html#pymc.Censored"><code class="docutils literal notranslate"><span class="pre">pm.Censored</span></code></a> returns the complement to the CDF evaluated at the censored value. If the y value is greater than the censored value, it returns <code class="docutils literal notranslate"><span class="pre">-np.inf</span></code>. Otherwise, the distribution you passed to the <code class="docutils literal notranslate"><span class="pre">dist</span></code> parameter works as normal. What I’ve been doing is setting the values in the censored array to <code class="docutils literal notranslate"><span class="pre">np.inf</span></code> if the corresponding y value is not censored, and equal to the y value if it should be censored.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -1070,9 +1070,11 @@ NUTS: [beta0, beta1, α]
 </div><div class="output text_html">
 <div>
   <progress value='48000' class='' max='48000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-  100.00% [48000/48000 00:14&lt;00:00 Sampling 4 chains, 0 divergences]
+  100.00% [48000/48000 00:14&lt;00:00 Sampling 4 chains, 1 divergences]
 </div>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 2_000 tune and 10_000 draw iterations (8_000 + 40_000 draws total) took 25 seconds.
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 2_000 tune and 10_000 draw iterations (8_000 + 40_000 draws total) took 24 seconds.
+The acceptance probability does not match the target. It is 0.8957, but should be close to 0.8. Try to increase the number of tuning steps.
+There was 1 divergence after tuning. Increase `target_accept` or reparameterize.
 </pre></div>
 </div>
 </div>
@@ -1111,38 +1113,38 @@ NUTS: [beta0, beta1, α]
   <tbody>
     <tr>
       <th>beta0</th>
-      <td>-6.529</td>
-      <td>0.648</td>
-      <td>-7.623</td>
-      <td>-5.497</td>
+      <td>-6.527</td>
+      <td>0.652</td>
+      <td>-7.609</td>
+      <td>-5.479</td>
     </tr>
     <tr>
       <th>beta1</th>
-      <td>0.256</td>
-      <td>0.230</td>
-      <td>-0.121</td>
-      <td>0.635</td>
+      <td>0.254</td>
+      <td>0.233</td>
+      <td>-0.127</td>
+      <td>0.636</td>
     </tr>
     <tr>
       <th>α</th>
       <td>0.988</td>
       <td>0.095</td>
-      <td>0.832</td>
-      <td>1.144</td>
+      <td>0.831</td>
+      <td>1.143</td>
     </tr>
     <tr>
       <th>median0</th>
-      <td>515.876</td>
-      <td>89.336</td>
-      <td>375.217</td>
-      <td>659.573</td>
+      <td>515.526</td>
+      <td>90.306</td>
+      <td>371.411</td>
+      <td>659.033</td>
     </tr>
     <tr>
       <th>median1</th>
-      <td>397.707</td>
-      <td>70.871</td>
-      <td>283.705</td>
-      <td>510.656</td>
+      <td>398.197</td>
+      <td>71.489</td>
+      <td>284.688</td>
+      <td>514.198</td>
     </tr>
   </tbody>
 </table>
@@ -1151,7 +1153,7 @@ NUTS: [beta0, beta1, α]
 </section>
 <section id="method-2-imputed-censoring">
 <h2>Method 2: Imputed Censoring<a class="headerlink" href="#method-2-imputed-censoring" title="Permalink to this headline">#</a></h2>
-<p>This method is from <a class="reference external" href="https://docs.pymc.io/projects/examples/en/latest/survival_analysis/censored_data.html#censored-data-model1">this notebook</a> by <a class="reference external" href="https://github.com/domenzain">Luis Mario Domenzain</a>, <a class="reference external" href="https://github.com/eigenfoo">George Ho</a>, and <a class="reference external" href="https://github.com/drbenvincent">Dr. Ben Vincent</a>. This method imputes the values using what is almost another likelihood (not sure if it actually meets the definition of one, so I’m calling the variable <code class="docutils literal notranslate"><span class="pre">impute_censored</span></code>) in the model, with the right-censored values as lower bounds. Since the two likelihoods share the same priors, this ends up working nearly as well as the previous method.</p>
+<p>This method is from <a class="reference external" href="https://www.pymc.io/projects/examples/en/latest/survival_analysis/censored_data.html#censored-data-model1">this notebook</a> by <a class="reference external" href="https://github.com/domenzain">Luis Mario Domenzain</a>, <a class="reference external" href="https://github.com/eigenfoo">George Ho</a>, and <a class="reference external" href="https://github.com/drbenvincent">Dr. Ben Vincent</a>. This method imputes the values using what is almost another likelihood (not sure if it actually meets the definition of one, so I’m calling the variable <code class="docutils literal notranslate"><span class="pre">impute_censored</span></code>) in the model, with the right-censored values as lower bounds. Since the two likelihoods share the same priors, this ends up working nearly as well as the previous method.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="s2">&quot;../data/gastric.txt&quot;</span><span class="p">)</span>
@@ -1235,13 +1237,12 @@ NUTS: [beta0, beta1, α, impute_censored]
 </div><div class="output text_html">
 <div>
   <progress value='48000' class='' max='48000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-  100.00% [48000/48000 00:29&lt;00:00 Sampling 4 chains, 48 divergences]
+  100.00% [48000/48000 00:30&lt;00:00 Sampling 4 chains, 47 divergences]
 </div>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 2_000 tune and 10_000 draw iterations (8_000 + 40_000 draws total) took 38 seconds.
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 2_000 tune and 10_000 draw iterations (8_000 + 40_000 draws total) took 40 seconds.
+There were 43 divergences after tuning. Increase `target_accept` or reparameterize.
 There were 2 divergences after tuning. Increase `target_accept` or reparameterize.
-There were 24 divergences after tuning. Increase `target_accept` or reparameterize.
-There were 3 divergences after tuning. Increase `target_accept` or reparameterize.
-There were 19 divergences after tuning. Increase `target_accept` or reparameterize.
+There were 2 divergences after tuning. Increase `target_accept` or reparameterize.
 </pre></div>
 </div>
 </div>
@@ -1280,150 +1281,150 @@ There were 19 divergences after tuning. Increase `target_accept` or reparameteri
   <tbody>
     <tr>
       <th>beta0</th>
-      <td>-6.612</td>
-      <td>0.659</td>
-      <td>-7.681</td>
-      <td>-5.518</td>
+      <td>-6.615</td>
+      <td>0.658</td>
+      <td>-7.690</td>
+      <td>-5.527</td>
     </tr>
     <tr>
       <th>beta1</th>
-      <td>0.263</td>
-      <td>0.233</td>
-      <td>-0.112</td>
-      <td>0.659</td>
+      <td>0.261</td>
+      <td>0.236</td>
+      <td>-0.141</td>
+      <td>0.635</td>
     </tr>
     <tr>
       <th>α</th>
-      <td>1.000</td>
+      <td>1.001</td>
       <td>0.096</td>
-      <td>0.844</td>
-      <td>1.160</td>
+      <td>0.842</td>
+      <td>1.158</td>
     </tr>
     <tr>
       <th>impute_censored[0]</th>
-      <td>1468.449</td>
-      <td>635.338</td>
-      <td>882.014</td>
-      <td>2235.462</td>
+      <td>1472.688</td>
+      <td>620.980</td>
+      <td>882.037</td>
+      <td>2241.922</td>
     </tr>
     <tr>
       <th>impute_censored[1]</th>
-      <td>1483.271</td>
-      <td>634.537</td>
-      <td>892.026</td>
-      <td>2265.716</td>
+      <td>1481.702</td>
+      <td>640.666</td>
+      <td>892.039</td>
+      <td>2255.888</td>
     </tr>
     <tr>
       <th>impute_censored[2]</th>
-      <td>1621.790</td>
-      <td>641.049</td>
-      <td>1031.034</td>
-      <td>2402.083</td>
+      <td>1617.287</td>
+      <td>628.492</td>
+      <td>1031.007</td>
+      <td>2394.596</td>
     </tr>
     <tr>
       <th>impute_censored[3]</th>
-      <td>1622.810</td>
-      <td>637.306</td>
-      <td>1033.011</td>
-      <td>2396.223</td>
+      <td>1622.950</td>
+      <td>644.131</td>
+      <td>1033.036</td>
+      <td>2403.177</td>
     </tr>
     <tr>
       <th>impute_censored[4]</th>
-      <td>1899.196</td>
-      <td>645.214</td>
-      <td>1306.034</td>
-      <td>2681.431</td>
+      <td>1902.553</td>
+      <td>640.618</td>
+      <td>1306.051</td>
+      <td>2695.188</td>
     </tr>
     <tr>
       <th>impute_censored[5]</th>
-      <td>1926.430</td>
-      <td>647.327</td>
-      <td>1335.023</td>
-      <td>2715.879</td>
+      <td>1930.897</td>
+      <td>650.949</td>
+      <td>1335.024</td>
+      <td>2724.434</td>
     </tr>
     <tr>
       <th>impute_censored[6]</th>
-      <td>2045.473</td>
-      <td>637.880</td>
-      <td>1452.006</td>
-      <td>2817.581</td>
+      <td>2048.775</td>
+      <td>648.069</td>
+      <td>1452.026</td>
+      <td>2819.411</td>
     </tr>
     <tr>
       <th>impute_censored[7]</th>
-      <td>2068.052</td>
-      <td>640.302</td>
-      <td>1472.003</td>
-      <td>2850.510</td>
+      <td>2070.060</td>
+      <td>642.349</td>
+      <td>1472.050</td>
+      <td>2849.971</td>
     </tr>
     <tr>
       <th>impute_censored[8]</th>
-      <td>1146.158</td>
-      <td>816.093</td>
-      <td>381.049</td>
-      <td>2137.660</td>
+      <td>1148.859</td>
+      <td>812.578</td>
+      <td>381.022</td>
+      <td>2139.519</td>
     </tr>
     <tr>
       <th>impute_censored[9]</th>
-      <td>1296.693</td>
-      <td>831.861</td>
-      <td>529.119</td>
-      <td>2306.122</td>
+      <td>1297.348</td>
+      <td>821.796</td>
+      <td>529.054</td>
+      <td>2296.652</td>
     </tr>
     <tr>
       <th>impute_censored[10]</th>
-      <td>1711.882</td>
-      <td>840.332</td>
-      <td>945.040</td>
-      <td>2722.031</td>
+      <td>1714.985</td>
+      <td>823.929</td>
+      <td>945.044</td>
+      <td>2719.331</td>
     </tr>
     <tr>
       <th>impute_censored[11]</th>
-      <td>1949.575</td>
-      <td>843.551</td>
-      <td>1180.007</td>
-      <td>2956.034</td>
+      <td>1947.693</td>
+      <td>825.302</td>
+      <td>1180.022</td>
+      <td>2953.211</td>
     </tr>
     <tr>
       <th>impute_censored[12]</th>
-      <td>2058.122</td>
-      <td>843.315</td>
-      <td>1277.037</td>
-      <td>3083.248</td>
+      <td>2053.920</td>
+      <td>836.466</td>
+      <td>1277.011</td>
+      <td>3062.251</td>
     </tr>
     <tr>
       <th>impute_censored[13]</th>
-      <td>2169.587</td>
-      <td>846.313</td>
-      <td>1397.072</td>
-      <td>3184.273</td>
+      <td>2166.013</td>
+      <td>828.697</td>
+      <td>1397.005</td>
+      <td>3183.538</td>
     </tr>
     <tr>
       <th>impute_censored[14]</th>
-      <td>2285.247</td>
-      <td>837.805</td>
-      <td>1512.118</td>
-      <td>3296.346</td>
+      <td>2284.007</td>
+      <td>836.391</td>
+      <td>1512.048</td>
+      <td>3304.662</td>
     </tr>
     <tr>
       <th>impute_censored[15]</th>
-      <td>2298.622</td>
-      <td>843.872</td>
-      <td>1519.014</td>
-      <td>3319.636</td>
+      <td>2292.430</td>
+      <td>835.736</td>
+      <td>1519.036</td>
+      <td>3308.460</td>
     </tr>
     <tr>
       <th>median0</th>
-      <td>519.793</td>
-      <td>90.271</td>
-      <td>373.034</td>
-      <td>661.083</td>
+      <td>519.583</td>
+      <td>90.516</td>
+      <td>372.943</td>
+      <td>663.304</td>
     </tr>
     <tr>
       <th>median1</th>
-      <td>399.263</td>
-      <td>70.709</td>
-      <td>285.522</td>
-      <td>511.767</td>
+      <td>399.900</td>
+      <td>71.044</td>
+      <td>282.195</td>
+      <td>509.638</td>
     </tr>
   </tbody>
 </table>
@@ -1436,18 +1437,18 @@ There were 19 divergences after tuning. Increase `target_accept` or reparameteri
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Fri Aug 12 2022
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Tue Nov 08 2022
 
 Python implementation: CPython
-Python version       : 3.10.5
-IPython version      : 8.4.0
+Python version       : 3.10.6
+IPython version      : 8.5.0
 
-aesara: 2.7.7
-aeppl : 0.0.32
+aesara: 2.7.9
+aeppl : 0.0.34
 
-numpy: 1.23.1
-pymc : 4.1.3
+numpy: 1.23.4
 arviz: 0.12.1
+pymc : 4.1.5
 </pre></div>
 </div>
 </div>
