@@ -189,6 +189,11 @@ const thebe_selector_output = ".output, .cell_output"
   </a>
  </li>
  <li class="toctree-l1">
+  <a class="reference internal" href="../unit4/Unit4-AlphaParticles.html">
+   Counts of Alpha Particles
+  </a>
+ </li>
+ <li class="toctree-l1">
   <a class="reference internal" href="../unit4/Unit4-BetaPriors.html">
    Beta plots
   </a>
@@ -874,7 +879,6 @@ title="Print to PDF"
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pymc</span> <span class="k">as</span> <span class="nn">pm</span>
-<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LinearRegression</span>
 
 <span class="o">%</span><span class="k">load_ext</span> lab_black
 <span class="o">%</span><span class="k">load_ext</span> watermark
@@ -889,7 +893,7 @@ title="Print to PDF"
 <section id="initial-values">
 <h2>Initial values<a class="headerlink" href="#initial-values" title="Permalink to this headline">#</a></h2>
 <p>The professor often sets the initial values manually because BUGS will auto-generate really crazy initial values if you use wide priors.</p>
-<p>Setting inits manually is not necessary in PyMC. The generated values are probably always going to be better than what you would have chosen. If a model is not running in PyMC and you suspect it is because of the initial values, instead of manually entering new ones select one of the <a class="reference external" href="https://www.pymc.io/projects/docs/en/stable/api/generated/pymc.init_nuts.html">many other methods</a> for generating them by using the <code class="docutils literal notranslate"><span class="pre">init</span></code> parameter of <code class="docutils literal notranslate"><span class="pre">pm.sample</span></code>. I’ve found the new <code class="docutils literal notranslate"><span class="pre">&quot;jitter+adapt_diag_grad&quot;</span></code> option really helpful here for certain models.</p>
+<p>This is not necessary in PyMC. The generated values are probably always going to be better than what you would have chosen. If a model is not running in PyMC and you suspect it is because of the initial values, instead of manually entering new ones select one of the <a class="reference external" href="https://www.pymc.io/projects/docs/en/stable/api/generated/pymc.init_nuts.html">many other methods</a> for generating them by using the <code class="docutils literal notranslate"><span class="pre">init</span></code> parameter of <code class="docutils literal notranslate"><span class="pre">pm.sample</span></code>. I’ve found the new <code class="docutils literal notranslate"><span class="pre">&quot;jitter+adapt_diag_grad&quot;</span></code> option really helpful here for certain models.</p>
 <p>If you really do want to set initial values, pass a dictionary with the keys as variable names to the <code class="docutils literal notranslate"><span class="pre">initvals</span></code> parameter of <code class="docutils literal notranslate"><span class="pre">pm.sample</span></code>, like this:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">inits</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s2">&quot;alpha&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="mf">0.0</span><span class="p">),</span>
@@ -905,7 +909,7 @@ title="Print to PDF"
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># data</span>
 <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
 <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
-<span class="n">x_bar</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="n">x_bar</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>  <span class="c1"># for mean-centering</span>
 
 <span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">m</span><span class="p">:</span>  <span class="c1"># context manager with pm.Model class</span>
     <span class="c1"># priors</span>
@@ -928,7 +932,7 @@ title="Print to PDF"
         <span class="n">draws</span><span class="o">=</span><span class="mi">3000</span><span class="p">,</span>
         <span class="n">chains</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>  <span class="c1"># independent runs of the sampling process</span>
         <span class="n">tune</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span>
-        <span class="n">init</span><span class="o">=</span><span class="s2">&quot;jitter+adapt_diag&quot;</span><span class="p">,</span>
+        <span class="n">init</span><span class="o">=</span><span class="s2">&quot;jitter+adapt_diag&quot;</span><span class="p">,</span>  <span class="c1"># method for choosing initial values</span>
         <span class="n">random_seed</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
         <span class="n">cores</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>  <span class="c1"># parallel processing of chains</span>
     <span class="p">)</span>
@@ -945,6 +949,9 @@ title="Print to PDF"
         /* Needs to be in here for Safari polyfill so background images work as expected. */
         background-size: auto;
     }
+    progress:not([value]), progress:not([value])::-webkit-progress-bar {
+        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
+    }
     .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
         background: #F44336;
     }
@@ -952,7 +959,7 @@ title="Print to PDF"
 </div><div class="output text_html">
 <div>
   <progress value='14000' class='' max='14000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-  100.00% [14000/14000 00:01<00:00 Sampling 4 chains, 5 divergences]
+  100.00% [14000/14000 00:01&lt;00:00 Sampling 4 chains, 0 divergences]
 </div>
 </div></div>
 </div>
@@ -1027,51 +1034,51 @@ title="Print to PDF"
   <tbody>
     <tr>
       <th>alpha</th>
-      <td>2.999</td>
-      <td>0.537</td>
-      <td>2.069</td>
-      <td>4.047</td>
-      <td>0.009</td>
-      <td>0.006</td>
-      <td>4703.0</td>
-      <td>3016.0</td>
-      <td>1.00</td>
+      <td>3.015</td>
+      <td>0.580</td>
+      <td>1.971</td>
+      <td>4.071</td>
+      <td>0.010</td>
+      <td>0.008</td>
+      <td>4460.0</td>
+      <td>2911.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>beta</th>
-      <td>0.800</td>
-      <td>0.362</td>
-      <td>0.045</td>
-      <td>1.454</td>
-      <td>0.005</td>
-      <td>0.005</td>
-      <td>5153.0</td>
-      <td>3907.0</td>
-      <td>1.00</td>
+      <td>0.805</td>
+      <td>0.452</td>
+      <td>0.030</td>
+      <td>1.572</td>
+      <td>0.007</td>
+      <td>0.007</td>
+      <td>6038.0</td>
+      <td>3423.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>tau</th>
-      <td>1.970</td>
-      <td>1.591</td>
-      <td>0.006</td>
-      <td>5.270</td>
-      <td>0.032</td>
-      <td>0.023</td>
-      <td>2051.0</td>
-      <td>2893.0</td>
-      <td>1.01</td>
+      <td>1.843</td>
+      <td>1.465</td>
+      <td>0.003</td>
+      <td>4.728</td>
+      <td>0.031</td>
+      <td>0.022</td>
+      <td>1852.0</td>
+      <td>1959.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>sigma</th>
-      <td>0.969</td>
-      <td>0.649</td>
-      <td>0.324</td>
-      <td>2.034</td>
+      <td>1.017</td>
+      <td>0.756</td>
+      <td>0.352</td>
+      <td>2.170</td>
+      <td>0.021</td>
       <td>0.015</td>
-      <td>0.011</td>
-      <td>2051.0</td>
-      <td>2893.0</td>
-      <td>1.01</td>
+      <td>1852.0</td>
+      <td>1959.0</td>
+      <td>1.0</td>
     </tr>
   </tbody>
 </table>
@@ -1085,7 +1092,7 @@ title="Print to PDF"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([0.04543128, 1.45407647])
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([0.0303993 , 1.57201328])
 </pre></div>
 </div>
 </div>
@@ -1128,7 +1135,7 @@ title="Print to PDF"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array(0.600454)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array(0.60115617)
 </pre></div>
 </div>
 </div>
@@ -1181,9 +1188,12 @@ title="Print to PDF"
 </tbody>
 </table>
 <p>Sometimes you might want to do a sanity check with classical regression. If your Bayesian regression has non-informative priors, the results should be close.</p>
+<p>The two most well-known libraries for this in Python are <a class="reference external" href="https://scikit-learn.org/stable/index.html">Scikit-learn</a> and <a class="reference external" href="https://www.statsmodels.org/">Statsmodels</a>. Sklearn is more focused on predictive modeling. If you’re looking for nice summary printouts like <code class="docutils literal notranslate"><span class="pre">lm()</span></code> in R, Statsmodels will be more familiar.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">reg</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">y</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LinearRegression</span>
+
+<span class="n">reg</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">y</span><span class="p">)</span>
 <span class="c1"># compare with intercept and beta from above</span>
 <span class="n">reg</span><span class="o">.</span><span class="n">intercept_</span><span class="p">,</span> <span class="n">reg</span><span class="o">.</span><span class="n">coef_</span>
 </pre></div>
@@ -1197,24 +1207,97 @@ title="Print to PDF"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">statsmodels.api</span> <span class="k">as</span> <span class="nn">sm</span>
+
+<span class="n">X</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">add_constant</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>  <span class="c1"># add intercept column</span>
+
+<span class="n">results</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">OLS</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="n">results</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc_env2/lib/python3.11/site-packages/statsmodels/stats/stattools.py:74: ValueWarning: omni_normtest is not valid with less than 8 observations; 5 samples were given.
+  warn(&quot;omni_normtest is not valid with less than 8 observations; %i &quot;
+</pre></div>
+</div>
+<div class="output text_html"><table class="simpletable">
+<caption>OLS Regression Results</caption>
+<tr>
+  <th>Dep. Variable:</th>            <td>y</td>        <th>  R-squared:         </th> <td>   0.800</td>
+</tr>
+<tr>
+  <th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th> <td>   0.733</td>
+</tr>
+<tr>
+  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   12.00</td>
+</tr>
+<tr>
+  <th>Date:</th>             <td>Thu, 15 Dec 2022</td> <th>  Prob (F-statistic):</th>  <td>0.0405</td> 
+</tr>
+<tr>
+  <th>Time:</th>                 <td>18:49:52</td>     <th>  Log-Likelihood:    </th> <td> -4.2461</td>
+</tr>
+<tr>
+  <th>No. Observations:</th>      <td>     5</td>      <th>  AIC:               </th> <td>   12.49</td>
+</tr>
+<tr>
+  <th>Df Residuals:</th>          <td>     3</td>      <th>  BIC:               </th> <td>   11.71</td>
+</tr>
+<tr>
+  <th>Df Model:</th>              <td>     1</td>      <th>                     </th>     <td> </td>   
+</tr>
+<tr>
+  <th>Covariance Type:</th>      <td>nonrobust</td>    <th>                     </th>     <td> </td>   
+</tr>
+</table>
+<table class="simpletable">
+<tr>
+    <td></td>       <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P>|t|</th>  <th>[0.025</th>    <th>0.975]</th>  
+</tr>
+<tr>
+  <th>const</th> <td>    0.6000</td> <td>    0.766</td> <td>    0.783</td> <td> 0.491</td> <td>   -1.838</td> <td>    3.038</td>
+</tr>
+<tr>
+  <th>x1</th>    <td>    0.8000</td> <td>    0.231</td> <td>    3.464</td> <td> 0.041</td> <td>    0.065</td> <td>    1.535</td>
+</tr>
+</table>
+<table class="simpletable">
+<tr>
+  <th>Omnibus:</th>       <td>   nan</td> <th>  Durbin-Watson:     </th> <td>   2.600</td>
+</tr>
+<tr>
+  <th>Prob(Omnibus):</th> <td>   nan</td> <th>  Jarque-Bera (JB):  </th> <td>   0.352</td>
+</tr>
+<tr>
+  <th>Skew:</th>          <td> 0.000</td> <th>  Prob(JB):          </th> <td>   0.839</td>
+</tr>
+<tr>
+  <th>Kurtosis:</th>      <td> 1.700</td> <th>  Cond. No.          </th> <td>    8.37</td>
+</tr>
+</table><br/><br/>Notes:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.</div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">watermark</span> -n -u -v -iv -p aesara,aeppl
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Sat Jul 30 2022
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Thu Dec 15 2022
 
 Python implementation: CPython
-Python version       : 3.10.5
-IPython version      : 8.4.0
+Python version       : 3.11.0
+IPython version      : 8.6.0
 
-aesara: 2.7.3
-aeppl : 0.0.31
+aesara: 2.8.7
+aeppl : 0.0.38
 
-pymc      : 4.0.1
-matplotlib: 3.5.2
-numpy     : 1.23.0
-arviz     : 0.12.1
+matplotlib : 3.6.2
+statsmodels: 0.13.5
+arviz      : 0.13.0
+pymc       : 4.3.0
+numpy      : 1.23.4
 </pre></div>
 </div>
 </div>

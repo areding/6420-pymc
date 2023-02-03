@@ -189,6 +189,11 @@ const thebe_selector_output = ".output, .cell_output"
   </a>
  </li>
  <li class="toctree-l1">
+  <a class="reference internal" href="../unit4/Unit4-AlphaParticles.html">
+   Counts of Alpha Particles
+  </a>
+ </li>
+ <li class="toctree-l1">
   <a class="reference internal" href="../unit4/Unit4-BetaPriors.html">
    Beta plots
   </a>
@@ -924,7 +929,7 @@ NUTS: [theta, log_sigma]
   <progress value='12000' class='' max='12000' style='width:300px; height:20px; vertical-align: middle;'></progress>
   100.00% [12000/12000 00:01&lt;00:00 Sampling 4 chains, 0 divergences]
 </div>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 2_000 draw iterations (4_000 + 8_000 draws total) took 12 seconds.
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 2_000 draw iterations (4_000 + 8_000 draws total) took 9 seconds.
 </pre></div>
 </div>
 <div class="output text_html">
@@ -989,38 +994,38 @@ NUTS: [theta, log_sigma]
   <tbody>
     <tr>
       <th>theta</th>
-      <td>0.057</td>
-      <td>0.509</td>
-      <td>-0.943</td>
-      <td>0.966</td>
+      <td>0.052</td>
+      <td>0.497</td>
+      <td>-0.863</td>
+      <td>0.991</td>
+      <td>0.007</td>
       <td>0.006</td>
-      <td>0.006</td>
-      <td>6599.0</td>
-      <td>4914.0</td>
+      <td>5175.0</td>
+      <td>4495.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>log_sigma</th>
-      <td>0.760</td>
-      <td>0.171</td>
-      <td>0.445</td>
-      <td>1.083</td>
+      <td>0.754</td>
+      <td>0.169</td>
+      <td>0.434</td>
+      <td>1.062</td>
       <td>0.002</td>
       <td>0.002</td>
-      <td>5306.0</td>
-      <td>4912.0</td>
+      <td>4799.0</td>
+      <td>4509.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>tau</th>
-      <td>0.231</td>
+      <td>0.234</td>
       <td>0.077</td>
-      <td>0.100</td>
-      <td>0.376</td>
+      <td>0.101</td>
+      <td>0.380</td>
       <td>0.001</td>
       <td>0.001</td>
-      <td>5306.0</td>
-      <td>4912.0</td>
+      <td>4799.0</td>
+      <td>4509.0</td>
       <td>1.0</td>
     </tr>
   </tbody>
@@ -1080,11 +1085,7 @@ NUTS: [theta, log_sigma]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/numpy/lib/shape_base.py:1270: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify &#39;dtype=object&#39; when creating the ndarray.
-  c = _nx.array(A, copy=False, subok=True, ndmin=d)
-</pre></div>
-</div>
-<img alt="../_images/Unit9-cumulative2_11_1.png" src="../_images/Unit9-cumulative2_11_1.png" />
+<img alt="../_images/Unit9-cumulative2_11_0.png" src="../_images/Unit9-cumulative2_11_0.png" />
 </div>
 </div>
 <p>You can see the last two datapoints at indices 18 and 19 are not predicted well by the posterior. If it was fitting well, you would see the observed data close to the center of the posterior predictive values at all indices.</p>
@@ -1095,20 +1096,20 @@ NUTS: [theta, log_sigma]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Mon Nov 07 2022
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Sat Jul 30 2022
 
 Python implementation: CPython
-Python version       : 3.10.6
-IPython version      : 8.5.0
+Python version       : 3.10.5
+IPython version      : 8.4.0
 
-aesara: 2.7.9
-aeppl : 0.0.34
+aesara: 2.7.3
+aeppl : 0.0.31
 
-matplotlib: 3.6.1
-numpy     : 1.23.4
-xarray    : 2022.10.0
+pymc      : 4.0.1
 arviz     : 0.12.1
-pymc      : 4.1.5
+matplotlib: 3.5.2
+numpy     : 1.23.1
+xarray    : 2022.6.0
 </pre></div>
 </div>
 </div>
