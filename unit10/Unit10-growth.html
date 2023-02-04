@@ -849,7 +849,7 @@ title="Print to PDF"
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">arviz</span> <span class="k">as</span> <span class="nn">az</span>
 <span class="kn">from</span> <span class="nn">pymc.math</span> <span class="kn">import</span> <span class="n">matrix_inverse</span><span class="p">,</span> <span class="n">extract_diag</span><span class="p">,</span> <span class="n">sqrt</span>
-<span class="kn">import</span> <span class="nn">aesara.tensor</span> <span class="k">as</span> <span class="nn">at</span>
+<span class="kn">import</span> <span class="nn">pytensor.tensor</span> <span class="k">as</span> <span class="nn">pt</span>
 
 <span class="o">%</span><span class="k">load_ext</span> lab_black
 <span class="o">%</span><span class="k">load_ext</span> watermark
@@ -911,13 +911,33 @@ title="Print to PDF"
 </div>
 <div class="cell_output docutils container">
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Auto-assigning NUTS sampler...
-INFO:pymc:Auto-assigning NUTS sampler...
 Initializing NUTS using jitter+adapt_diag...
-INFO:pymc:Initializing NUTS using jitter+adapt_diag...
+/Users/aaron/mambaforge/envs/pymc_env2/lib/python3.11/site-packages/multipledispatch/dispatcher.py:27: AmbiguityWarning: 
+Ambiguities exist in dispatched function _unify
+
+The following signatures may result in ambiguous behavior:
+	[object, ConstrainedVar, Mapping], [ConstrainedVar, object, Mapping]
+	[ConstrainedVar, object, Mapping], [object, ConstrainedVar, Mapping]
+	[object, ConstrainedVar, Mapping], [ConstrainedVar, Var, Mapping]
+	[object, ConstrainedVar, Mapping], [ConstrainedVar, Var, Mapping]
+
+
+Consider making the following additions:
+
+@dispatch(ConstrainedVar, ConstrainedVar, Mapping)
+def _unify(...)
+
+@dispatch(ConstrainedVar, ConstrainedVar, Mapping)
+def _unify(...)
+
+@dispatch(ConstrainedVar, ConstrainedVar, Mapping)
+def _unify(...)
+
+@dispatch(ConstrainedVar, ConstrainedVar, Mapping)
+def _unify(...)
+  warn(warning_text(dispatcher.name, ambiguities), AmbiguityWarning)
 Multiprocess sampling (4 chains in 4 jobs)
-INFO:pymc:Multiprocess sampling (4 chains in 4 jobs)
 NUTS: [beta1, beta2, T]
-INFO:pymc:NUTS: [beta1, beta2, T]
 </pre></div>
 </div>
 <div class="output text_html">
@@ -929,6 +949,9 @@ INFO:pymc:NUTS: [beta1, beta2, T]
         /* Needs to be in here for Safari polyfill so background images work as expected. */
         background-size: auto;
     }
+    progress:not([value]), progress:not([value])::-webkit-progress-bar {
+        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
+    }
     .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
         background: #F44336;
     }
@@ -936,10 +959,9 @@ INFO:pymc:NUTS: [beta1, beta2, T]
 </div><div class="output text_html">
 <div>
   <progress value='8000' class='' max='8000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-  100.00% [8000/8000 00:50<00:00 Sampling 4 chains, 0 divergences]
+  100.00% [8000/8000 01:39&lt;00:00 Sampling 4 chains, 0 divergences]
 </div>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws total) took 58 seconds.
-INFO:pymc:Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws total) took 58 seconds.
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws total) took 107 seconds.
 </pre></div>
 </div>
 </div>
@@ -983,50 +1005,50 @@ INFO:pymc:Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_
   <tbody>
     <tr>
       <th>beta1[0]</th>
-      <td>23.044</td>
-      <td>0.481</td>
-      <td>22.113</td>
-      <td>23.913</td>
+      <td>23.059</td>
+      <td>0.491</td>
+      <td>22.109</td>
+      <td>23.939</td>
       <td>0.008</td>
       <td>0.006</td>
-      <td>3690.0</td>
-      <td>2900.0</td>
+      <td>3915.0</td>
+      <td>2805.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>beta1[1]</th>
-      <td>25.164</td>
-      <td>0.464</td>
-      <td>24.318</td>
-      <td>26.056</td>
+      <td>25.179</td>
+      <td>0.469</td>
+      <td>24.356</td>
+      <td>26.113</td>
       <td>0.008</td>
       <td>0.006</td>
-      <td>3388.0</td>
-      <td>2558.0</td>
+      <td>3392.0</td>
+      <td>2822.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>beta2[0]</th>
-      <td>0.523</td>
+      <td>0.527</td>
       <td>0.110</td>
-      <td>0.304</td>
-      <td>0.721</td>
+      <td>0.328</td>
+      <td>0.739</td>
       <td>0.002</td>
       <td>0.001</td>
-      <td>3505.0</td>
-      <td>2709.0</td>
+      <td>4271.0</td>
+      <td>2583.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>beta2[1]</th>
-      <td>0.784</td>
-      <td>0.111</td>
-      <td>0.570</td>
-      <td>0.982</td>
+      <td>0.786</td>
+      <td>0.114</td>
+      <td>0.554</td>
+      <td>0.978</td>
       <td>0.002</td>
       <td>0.001</td>
-      <td>3199.0</td>
-      <td>2508.0</td>
+      <td>2999.0</td>
+      <td>3028.0</td>
       <td>1.0</td>
     </tr>
   </tbody>
@@ -1040,7 +1062,7 @@ INFO:pymc:Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/arviz/stats/diagnostics.py:586: RuntimeWarning: invalid value encountered in double_scalars
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc_env2/lib/python3.11/site-packages/arviz/stats/diagnostics.py:584: RuntimeWarning: invalid value encountered in scalar divide
   (between_chain_variance / within_chain_variance + num_samples - 1) / (num_samples)
 </pre></div>
 </div>
@@ -1088,50 +1110,50 @@ INFO:pymc:Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_
     </tr>
     <tr>
       <th>corr[0, 1]</th>
-      <td>0.474</td>
-      <td>0.139</td>
-      <td>0.207</td>
-      <td>0.710</td>
+      <td>0.475</td>
+      <td>0.138</td>
+      <td>0.221</td>
+      <td>0.724</td>
       <td>0.003</td>
       <td>0.002</td>
-      <td>2128.0</td>
-      <td>2233.0</td>
+      <td>2625.0</td>
+      <td>2392.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>corr[0, 2]</th>
-      <td>0.619</td>
-      <td>0.111</td>
-      <td>0.419</td>
-      <td>0.814</td>
-      <td>0.003</td>
+      <td>0.618</td>
+      <td>0.112</td>
+      <td>0.402</td>
+      <td>0.801</td>
       <td>0.002</td>
-      <td>1917.0</td>
-      <td>1840.0</td>
+      <td>0.002</td>
+      <td>2096.0</td>
+      <td>2360.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>corr[0, 3]</th>
-      <td>0.405</td>
-      <td>0.148</td>
+      <td>0.404</td>
+      <td>0.146</td>
       <td>0.129</td>
-      <td>0.669</td>
+      <td>0.656</td>
       <td>0.003</td>
       <td>0.002</td>
-      <td>2218.0</td>
-      <td>2594.0</td>
+      <td>2412.0</td>
+      <td>2195.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>corr[1, 0]</th>
-      <td>0.474</td>
-      <td>0.139</td>
-      <td>0.207</td>
-      <td>0.710</td>
+      <td>0.475</td>
+      <td>0.138</td>
+      <td>0.221</td>
+      <td>0.724</td>
       <td>0.003</td>
       <td>0.002</td>
-      <td>2128.0</td>
-      <td>2233.0</td>
+      <td>2625.0</td>
+      <td>2392.0</td>
       <td>1.0</td>
     </tr>
     <tr>
@@ -1142,56 +1164,56 @@ INFO:pymc:Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_
       <td>1.000</td>
       <td>0.000</td>
       <td>0.000</td>
-      <td>3923.0</td>
-      <td>3798.0</td>
+      <td>4065.0</td>
+      <td>3783.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>corr[1, 2]</th>
-      <td>0.721</td>
-      <td>0.086</td>
-      <td>0.562</td>
-      <td>0.865</td>
+      <td>0.725</td>
+      <td>0.085</td>
+      <td>0.564</td>
+      <td>0.864</td>
       <td>0.002</td>
       <td>0.001</td>
-      <td>2653.0</td>
-      <td>2698.0</td>
+      <td>2861.0</td>
+      <td>3041.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>corr[1, 3]</th>
-      <td>0.547</td>
-      <td>0.129</td>
-      <td>0.301</td>
-      <td>0.764</td>
+      <td>0.555</td>
+      <td>0.121</td>
+      <td>0.330</td>
+      <td>0.773</td>
       <td>0.003</td>
       <td>0.002</td>
-      <td>2315.0</td>
-      <td>2274.0</td>
+      <td>2334.0</td>
+      <td>2835.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>corr[2, 0]</th>
-      <td>0.619</td>
-      <td>0.111</td>
-      <td>0.419</td>
-      <td>0.814</td>
-      <td>0.003</td>
+      <td>0.618</td>
+      <td>0.112</td>
+      <td>0.402</td>
+      <td>0.801</td>
       <td>0.002</td>
-      <td>1917.0</td>
-      <td>1840.0</td>
+      <td>0.002</td>
+      <td>2096.0</td>
+      <td>2360.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>corr[2, 1]</th>
-      <td>0.721</td>
-      <td>0.086</td>
-      <td>0.562</td>
-      <td>0.865</td>
+      <td>0.725</td>
+      <td>0.085</td>
+      <td>0.564</td>
+      <td>0.864</td>
       <td>0.002</td>
       <td>0.001</td>
-      <td>2653.0</td>
-      <td>2698.0</td>
+      <td>2861.0</td>
+      <td>3041.0</td>
       <td>1.0</td>
     </tr>
     <tr>
@@ -1202,56 +1224,56 @@ INFO:pymc:Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_
       <td>1.000</td>
       <td>0.000</td>
       <td>0.000</td>
-      <td>3922.0</td>
-      <td>3640.0</td>
+      <td>3999.0</td>
+      <td>3659.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>corr[2, 3]</th>
-      <td>0.802</td>
+      <td>0.803</td>
       <td>0.067</td>
-      <td>0.672</td>
-      <td>0.911</td>
+      <td>0.669</td>
+      <td>0.906</td>
       <td>0.001</td>
       <td>0.001</td>
-      <td>3084.0</td>
-      <td>2999.0</td>
+      <td>2670.0</td>
+      <td>3034.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>corr[3, 0]</th>
-      <td>0.405</td>
-      <td>0.148</td>
+      <td>0.404</td>
+      <td>0.146</td>
       <td>0.129</td>
-      <td>0.669</td>
+      <td>0.656</td>
       <td>0.003</td>
       <td>0.002</td>
-      <td>2218.0</td>
-      <td>2594.0</td>
+      <td>2412.0</td>
+      <td>2195.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>corr[3, 1]</th>
-      <td>0.547</td>
-      <td>0.129</td>
-      <td>0.301</td>
-      <td>0.764</td>
+      <td>0.555</td>
+      <td>0.121</td>
+      <td>0.330</td>
+      <td>0.773</td>
       <td>0.003</td>
       <td>0.002</td>
-      <td>2315.0</td>
-      <td>2274.0</td>
+      <td>2334.0</td>
+      <td>2835.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>corr[3, 2]</th>
-      <td>0.802</td>
+      <td>0.803</td>
       <td>0.067</td>
-      <td>0.672</td>
-      <td>0.911</td>
+      <td>0.669</td>
+      <td>0.906</td>
       <td>0.001</td>
       <td>0.001</td>
-      <td>3084.0</td>
-      <td>2999.0</td>
+      <td>2670.0</td>
+      <td>3034.0</td>
       <td>1.0</td>
     </tr>
     <tr>
@@ -1262,8 +1284,8 @@ INFO:pymc:Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_
       <td>1.000</td>
       <td>0.000</td>
       <td>0.000</td>
-      <td>3598.0</td>
-      <td>3577.0</td>
+      <td>3971.0</td>
+      <td>3847.0</td>
       <td>1.0</td>
     </tr>
   </tbody>
@@ -1309,98 +1331,98 @@ INFO:pymc:Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_
   <tbody>
     <tr>
       <th>mu_male[0]</th>
-      <td>21.477</td>
-      <td>0.525</td>
-      <td>20.498</td>
-      <td>22.486</td>
+      <td>21.478</td>
+      <td>0.522</td>
+      <td>20.462</td>
+      <td>22.427</td>
       <td>0.008</td>
-      <td>0.006</td>
-      <td>4318.0</td>
-      <td>2621.0</td>
+      <td>0.005</td>
+      <td>4550.0</td>
+      <td>2833.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>mu_male[1]</th>
-      <td>22.522</td>
-      <td>0.471</td>
-      <td>21.615</td>
-      <td>23.402</td>
+      <td>22.532</td>
+      <td>0.477</td>
+      <td>21.602</td>
+      <td>23.378</td>
       <td>0.007</td>
       <td>0.005</td>
-      <td>3942.0</td>
-      <td>2888.0</td>
+      <td>4126.0</td>
+      <td>2953.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>mu_male[2]</th>
-      <td>23.567</td>
-      <td>0.515</td>
-      <td>22.606</td>
-      <td>24.532</td>
+      <td>23.586</td>
+      <td>0.528</td>
+      <td>22.628</td>
+      <td>24.596</td>
       <td>0.009</td>
       <td>0.006</td>
-      <td>3511.0</td>
-      <td>2852.0</td>
+      <td>3848.0</td>
+      <td>2886.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>mu_male[3]</th>
-      <td>24.612</td>
-      <td>0.636</td>
-      <td>23.386</td>
-      <td>25.732</td>
-      <td>0.011</td>
-      <td>0.008</td>
-      <td>3301.0</td>
-      <td>2336.0</td>
+      <td>24.641</td>
+      <td>0.654</td>
+      <td>23.408</td>
+      <td>25.859</td>
+      <td>0.010</td>
+      <td>0.007</td>
+      <td>3992.0</td>
+      <td>2770.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>mu_female[0]</th>
-      <td>22.811</td>
-      <td>0.503</td>
-      <td>21.946</td>
-      <td>23.829</td>
+      <td>22.822</td>
+      <td>0.521</td>
+      <td>21.899</td>
+      <td>23.851</td>
       <td>0.008</td>
       <td>0.006</td>
-      <td>3936.0</td>
-      <td>3159.0</td>
+      <td>4152.0</td>
+      <td>2791.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>mu_female[1]</th>
-      <td>24.380</td>
-      <td>0.451</td>
-      <td>23.496</td>
-      <td>25.178</td>
+      <td>24.393</td>
+      <td>0.460</td>
+      <td>23.577</td>
+      <td>25.291</td>
       <td>0.008</td>
       <td>0.005</td>
-      <td>3599.0</td>
-      <td>2761.0</td>
+      <td>3704.0</td>
+      <td>3172.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>mu_female[2]</th>
-      <td>25.948</td>
-      <td>0.501</td>
-      <td>25.028</td>
-      <td>26.894</td>
+      <td>25.965</td>
+      <td>0.505</td>
+      <td>25.065</td>
+      <td>26.963</td>
       <td>0.009</td>
       <td>0.006</td>
-      <td>3133.0</td>
-      <td>2443.0</td>
+      <td>3154.0</td>
+      <td>2687.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>mu_female[3]</th>
-      <td>27.517</td>
-      <td>0.630</td>
-      <td>26.343</td>
-      <td>28.706</td>
+      <td>27.536</td>
+      <td>0.634</td>
+      <td>26.378</td>
+      <td>28.774</td>
       <td>0.012</td>
       <td>0.008</td>
-      <td>2863.0</td>
-      <td>2413.0</td>
+      <td>2951.0</td>
+      <td>2721.0</td>
       <td>1.0</td>
     </tr>
   </tbody>
@@ -1414,20 +1436,19 @@ INFO:pymc:Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Mon Jul 25 2022
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Fri Feb 03 2023
 
 Python implementation: CPython
-Python version       : 3.10.5
-IPython version      : 8.4.0
+Python version       : 3.11.0
+IPython version      : 8.9.0
 
-aesara: 2.7.3
-aeppl : 0.0.31
+aesara: 2.8.10
+aeppl : 0.1.1
 
-pandas: 1.4.3
-numpy : 1.23.0
-aesara: 2.7.3
-pymc  : 4.0.1
-arviz : 0.12.1
+numpy   : 1.24.1
+pytensor: 2.8.11
+arviz   : 0.14.0
+pymc    : 5.0.1
 </pre></div>
 </div>
 </div>

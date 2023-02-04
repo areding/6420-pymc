@@ -1064,7 +1064,31 @@ conduct a Bayesian meta-analysis. Discuss your findings.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Auto-assigning NUTS sampler...
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc_env2/lib/python3.11/site-packages/multipledispatch/dispatcher.py:27: AmbiguityWarning: 
+Ambiguities exist in dispatched function _unify
+
+The following signatures may result in ambiguous behavior:
+	[ConstrainedVar, object, Mapping], [object, ConstrainedVar, Mapping]
+	[ConstrainedVar, Var, Mapping], [object, ConstrainedVar, Mapping]
+	[object, ConstrainedVar, Mapping], [ConstrainedVar, Var, Mapping]
+	[ConstrainedVar, object, Mapping], [object, ConstrainedVar, Mapping]
+
+
+Consider making the following additions:
+
+@dispatch(ConstrainedVar, ConstrainedVar, Mapping)
+def _unify(...)
+
+@dispatch(ConstrainedVar, ConstrainedVar, Mapping)
+def _unify(...)
+
+@dispatch(ConstrainedVar, ConstrainedVar, Mapping)
+def _unify(...)
+
+@dispatch(ConstrainedVar, ConstrainedVar, Mapping)
+def _unify(...)
+  warn(warning_text(dispatcher.name, ambiguities), AmbiguityWarning)
+Auto-assigning NUTS sampler...
 Initializing NUTS using jitter+adapt_diag...
 Multiprocess sampling (4 chains in 4 jobs)
 NUTS: [T, mu, Mu, effect]
@@ -1079,6 +1103,9 @@ NUTS: [T, mu, Mu, effect]
         /* Needs to be in here for Safari polyfill so background images work as expected. */
         background-size: auto;
     }
+    progress:not([value]), progress:not([value])::-webkit-progress-bar {
+        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
+    }
     .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
         background: #F44336;
     }
@@ -1086,13 +1113,9 @@ NUTS: [T, mu, Mu, effect]
 </div><div class="output text_html">
 <div>
   <progress value='16000' class='' max='16000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-  100.00% [16000/16000 00:45<00:00 Sampling 4 chains, 22 divergences]
+  100.00% [16000/16000 00:20&lt;00:00 Sampling 4 chains, 4 divergences]
 </div>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 3_000 draw iterations (4_000 + 12_000 draws total) took 59 seconds.
-There were 3 divergences after tuning. Increase `target_accept` or reparameterize.
-There were 17 divergences after tuning. Increase `target_accept` or reparameterize.
-There were 2 divergences after tuning. Increase `target_accept` or reparameterize.
-The acceptance probability does not match the target. It is 0.922, but should be close to 0.8. Try to increase the number of tuning steps.
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 3_000 draw iterations (4_000 + 12_000 draws total) took 21 seconds.
 </pre></div>
 </div>
 </div>
@@ -1138,48 +1161,48 @@ The acceptance probability does not match the target. It is 0.922, but should be
       <th>mu</th>
       <td>-2.514</td>
       <td>0.020</td>
-      <td>-2.553</td>
+      <td>-2.552</td>
       <td>-2.476</td>
       <td>0.000</td>
       <td>0.000</td>
-      <td>5988.0</td>
-      <td>6452.0</td>
+      <td>6277.0</td>
+      <td>7334.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>Mu</th>
-      <td>0.000</td>
+      <td>-0.000</td>
       <td>0.000</td>
       <td>-0.000</td>
       <td>0.000</td>
       <td>0.000</td>
       <td>0.000</td>
-      <td>7336.0</td>
-      <td>6983.0</td>
+      <td>7560.0</td>
+      <td>7409.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>effect</th>
       <td>0.004</td>
       <td>0.027</td>
-      <td>-0.048</td>
-      <td>0.056</td>
+      <td>-0.050</td>
+      <td>0.053</td>
       <td>0.000</td>
       <td>0.000</td>
-      <td>6074.0</td>
-      <td>6844.0</td>
+      <td>6434.0</td>
+      <td>6818.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>T</th>
-      <td>400.800</td>
-      <td>582.932</td>
+      <td>400.456</td>
+      <td>574.290</td>
       <td>0.000</td>
-      <td>1454.410</td>
-      <td>6.077</td>
-      <td>4.297</td>
-      <td>5031.0</td>
-      <td>3755.0</td>
+      <td>1431.240</td>
+      <td>5.877</td>
+      <td>4.409</td>
+      <td>5240.0</td>
+      <td>3489.0</td>
       <td>1.0</td>
     </tr>
   </tbody>
@@ -1193,14 +1216,19 @@ The acceptance probability does not match the target. It is 0.922, but should be
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Python implementation: CPython
-Python version       : 3.10.4
-IPython version      : 8.4.0
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Fri Feb 03 2023
 
-pymc  : 4.0.0
-arviz : 0.12.1
-pandas: 1.4.2
-numpy : 1.22.4
+Python implementation: CPython
+Python version       : 3.11.0
+IPython version      : 8.9.0
+
+aesara: 2.8.10
+aeppl : 0.1.1
+
+pandas: 1.5.3
+pymc  : 5.0.1
+numpy : 1.24.1
+arviz : 0.14.0
 </pre></div>
 </div>
 </div>

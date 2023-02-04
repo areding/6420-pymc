@@ -916,6 +916,30 @@ title="Print to PDF"
 <div class="cell_output docutils container">
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Added new variable tau_c to model diagonal of Wishart.
 Added new variable tau_z to model off-diagonals of Wishart.
+/Users/aaron/mambaforge/envs/pymc_env2/lib/python3.11/site-packages/multipledispatch/dispatcher.py:27: AmbiguityWarning: 
+Ambiguities exist in dispatched function _unify
+
+The following signatures may result in ambiguous behavior:
+	[ConstrainedVar, Var, Mapping], [object, ConstrainedVar, Mapping]
+	[object, ConstrainedVar, Mapping], [ConstrainedVar, object, Mapping]
+	[ConstrainedVar, object, Mapping], [object, ConstrainedVar, Mapping]
+	[ConstrainedVar, Var, Mapping], [object, ConstrainedVar, Mapping]
+
+
+Consider making the following additions:
+
+@dispatch(ConstrainedVar, ConstrainedVar, Mapping)
+def _unify(...)
+
+@dispatch(ConstrainedVar, ConstrainedVar, Mapping)
+def _unify(...)
+
+@dispatch(ConstrainedVar, ConstrainedVar, Mapping)
+def _unify(...)
+
+@dispatch(ConstrainedVar, ConstrainedVar, Mapping)
+def _unify(...)
+  warn(warning_text(dispatcher.name, ambiguities), AmbiguityWarning)
 Auto-assigning NUTS sampler...
 Initializing NUTS using jitter+adapt_diag...
 Multiprocess sampling (4 chains in 4 jobs)
@@ -941,13 +965,9 @@ NUTS: [tau_c, tau_z, mu]
 </div><div class="output text_html">
 <div>
   <progress value='16000' class='' max='16000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-  100.00% [16000/16000 00:13&lt;00:00 Sampling 4 chains, 41 divergences]
+  100.00% [16000/16000 00:52&lt;00:00 Sampling 4 chains, 36 divergences]
 </div>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 3_000 draw iterations (4_000 + 12_000 draws total) took 21 seconds.
-There were 12 divergences after tuning. Increase `target_accept` or reparameterize.
-There were 13 divergences after tuning. Increase `target_accept` or reparameterize.
-There were 10 divergences after tuning. Increase `target_accept` or reparameterize.
-There were 6 divergences after tuning. Increase `target_accept` or reparameterize.
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 3_000 draw iterations (4_000 + 12_000 draws total) took 56 seconds.
 </pre></div>
 </div>
 </div>
@@ -991,194 +1011,194 @@ There were 6 divergences after tuning. Increase `target_accept` or reparameteriz
   <tbody>
     <tr>
       <th>tau_z[0]</th>
-      <td>-0.044</td>
-      <td>0.960</td>
-      <td>-1.910</td>
-      <td>1.683</td>
+      <td>-0.024</td>
+      <td>0.979</td>
+      <td>-1.817</td>
+      <td>1.836</td>
+      <td>0.010</td>
       <td>0.009</td>
-      <td>0.009</td>
-      <td>11300.0</td>
-      <td>8101.0</td>
+      <td>10389.0</td>
+      <td>8397.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>mu[0]</th>
-      <td>-0.303</td>
-      <td>0.308</td>
-      <td>-0.889</td>
-      <td>0.272</td>
+      <td>-0.315</td>
+      <td>0.303</td>
+      <td>-0.892</td>
+      <td>0.252</td>
       <td>0.003</td>
       <td>0.002</td>
-      <td>10143.0</td>
-      <td>7973.0</td>
+      <td>10089.0</td>
+      <td>8621.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>mu[1]</th>
-      <td>-1.690</td>
-      <td>0.365</td>
-      <td>-2.377</td>
-      <td>-1.016</td>
+      <td>-1.676</td>
+      <td>0.357</td>
+      <td>-2.375</td>
+      <td>-1.036</td>
       <td>0.004</td>
       <td>0.003</td>
-      <td>10761.0</td>
-      <td>8102.0</td>
+      <td>9791.0</td>
+      <td>8006.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>tau_c[0]</th>
-      <td>5.366</td>
-      <td>3.182</td>
-      <td>0.482</td>
-      <td>11.026</td>
-      <td>0.030</td>
+      <td>5.368</td>
+      <td>3.166</td>
+      <td>0.612</td>
+      <td>11.142</td>
+      <td>0.028</td>
       <td>0.021</td>
-      <td>8755.0</td>
-      <td>5604.0</td>
+      <td>11607.0</td>
+      <td>7042.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>tau_c[1]</th>
-      <td>4.498</td>
-      <td>2.934</td>
-      <td>0.301</td>
-      <td>9.739</td>
+      <td>4.446</td>
+      <td>2.902</td>
+      <td>0.339</td>
+      <td>9.803</td>
       <td>0.026</td>
       <td>0.019</td>
-      <td>10816.0</td>
-      <td>6379.0</td>
+      <td>9364.0</td>
+      <td>5255.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>tau[0, 0]</th>
       <td>0.537</td>
-      <td>0.318</td>
-      <td>0.048</td>
-      <td>1.103</td>
+      <td>0.317</td>
+      <td>0.061</td>
+      <td>1.114</td>
       <td>0.003</td>
       <td>0.002</td>
-      <td>8755.0</td>
-      <td>5604.0</td>
+      <td>11607.0</td>
+      <td>7042.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>tau[0, 1]</th>
-      <td>-0.009</td>
-      <td>0.223</td>
-      <td>-0.449</td>
-      <td>0.414</td>
+      <td>-0.005</td>
+      <td>0.229</td>
+      <td>-0.435</td>
+      <td>0.443</td>
       <td>0.002</td>
       <td>0.002</td>
-      <td>10677.0</td>
-      <td>8929.0</td>
+      <td>10130.0</td>
+      <td>8368.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>tau[1, 0]</th>
-      <td>-0.009</td>
-      <td>0.223</td>
-      <td>-0.449</td>
-      <td>0.414</td>
+      <td>-0.005</td>
+      <td>0.229</td>
+      <td>-0.435</td>
+      <td>0.443</td>
       <td>0.002</td>
       <td>0.002</td>
-      <td>10677.0</td>
-      <td>8929.0</td>
+      <td>10130.0</td>
+      <td>8368.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>tau[1, 1]</th>
-      <td>0.542</td>
+      <td>0.541</td>
       <td>0.322</td>
-      <td>0.053</td>
-      <td>1.126</td>
+      <td>0.064</td>
+      <td>1.131</td>
       <td>0.003</td>
       <td>0.002</td>
-      <td>9832.0</td>
-      <td>7299.0</td>
+      <td>9458.0</td>
+      <td>6711.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>sigma[0, 0]</th>
-      <td>3.749</td>
-      <td>3.860</td>
-      <td>0.546</td>
-      <td>9.484</td>
-      <td>0.053</td>
-      <td>0.038</td>
-      <td>8291.0</td>
-      <td>6200.0</td>
+      <td>3.735</td>
+      <td>3.753</td>
+      <td>0.518</td>
+      <td>9.382</td>
+      <td>0.047</td>
+      <td>0.034</td>
+      <td>10270.0</td>
+      <td>6860.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>sigma[0, 1]</th>
-      <td>0.141</td>
-      <td>2.663</td>
-      <td>-4.034</td>
-      <td>4.373</td>
-      <td>0.035</td>
-      <td>0.034</td>
-      <td>9893.0</td>
-      <td>7794.0</td>
+      <td>0.097</td>
+      <td>2.537</td>
+      <td>-4.474</td>
+      <td>4.280</td>
+      <td>0.032</td>
+      <td>0.026</td>
+      <td>8994.0</td>
+      <td>7364.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>sigma[1, 0]</th>
-      <td>0.141</td>
-      <td>2.663</td>
-      <td>-4.034</td>
-      <td>4.373</td>
-      <td>0.035</td>
-      <td>0.034</td>
-      <td>9893.0</td>
-      <td>7794.0</td>
+      <td>0.097</td>
+      <td>2.537</td>
+      <td>-4.474</td>
+      <td>4.280</td>
+      <td>0.032</td>
+      <td>0.026</td>
+      <td>8994.0</td>
+      <td>7364.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>sigma[1, 1]</th>
-      <td>3.711</td>
-      <td>3.820</td>
+      <td>3.790</td>
+      <td>4.167</td>
       <td>0.534</td>
-      <td>9.307</td>
-      <td>0.052</td>
-      <td>0.043</td>
-      <td>10816.0</td>
-      <td>6379.0</td>
+      <td>9.529</td>
+      <td>0.073</td>
+      <td>0.065</td>
+      <td>9364.0</td>
+      <td>5255.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>rd</th>
-      <td>1.386</td>
-      <td>0.479</td>
-      <td>0.506</td>
-      <td>2.308</td>
+      <td>1.361</td>
+      <td>0.474</td>
+      <td>0.477</td>
+      <td>2.254</td>
       <td>0.005</td>
-      <td>0.004</td>
-      <td>10197.0</td>
-      <td>8317.0</td>
+      <td>0.003</td>
+      <td>10237.0</td>
+      <td>9261.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>rr</th>
-      <td>0.189</td>
-      <td>0.201</td>
-      <td>-0.181</td>
-      <td>0.577</td>
+      <td>0.198</td>
+      <td>0.202</td>
+      <td>-0.173</td>
+      <td>0.584</td>
       <td>0.002</td>
-      <td>0.001</td>
-      <td>10156.0</td>
-      <td>8902.0</td>
+      <td>0.002</td>
+      <td>10297.0</td>
+      <td>8961.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>or</th>
-      <td>0.288</td>
-      <td>0.459</td>
-      <td>-0.431</td>
-      <td>0.852</td>
-      <td>0.005</td>
+      <td>0.308</td>
+      <td>0.420</td>
+      <td>-0.337</td>
+      <td>0.878</td>
+      <td>0.004</td>
       <td>0.003</td>
-      <td>10172.0</td>
-      <td>8623.0</td>
+      <td>10294.0</td>
+      <td>9140.0</td>
       <td>1.0</td>
     </tr>
   </tbody>
@@ -1192,25 +1212,22 @@ There were 6 divergences after tuning. Increase `target_accept` or reparameteriz
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Sun Jul 31 2022
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Fri Feb 03 2023
 
 Python implementation: CPython
-Python version       : 3.10.5
-IPython version      : 8.4.0
+Python version       : 3.11.0
+IPython version      : 8.9.0
 
-aesara: 2.7.7
-aeppl : 0.0.32
+aesara: 2.8.10
+aeppl : 0.1.1
 
-arviz: 0.12.1
-pymc : 4.1.3
-numpy: 1.23.1
+pymc : 5.0.1
+arviz: 0.14.0
+numpy: 1.24.1
 </pre></div>
 </div>
 </div>
 </div>
-<p>or ~ 2.8
-rd ~ 0.2
-rr ~2.1</p>
 </section>
 </section>
 

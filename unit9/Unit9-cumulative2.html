@@ -850,7 +850,6 @@ title="Print to PDF"
 <span class="kn">import</span> <span class="nn">arviz</span> <span class="k">as</span> <span class="nn">az</span>
 <span class="kn">from</span> <span class="nn">pymc.math</span> <span class="kn">import</span> <span class="n">logit</span><span class="p">,</span> <span class="n">exp</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">gaussian_kde</span>
 <span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
 
 <span class="o">%</span><span class="k">load_ext</span> lab_black
@@ -904,6 +903,30 @@ title="Print to PDF"
 <div class="cell_output docutils container">
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Auto-assigning NUTS sampler...
 Initializing NUTS using jitter+adapt_diag...
+/Users/aaron/mambaforge/envs/pymc_env2/lib/python3.11/site-packages/multipledispatch/dispatcher.py:27: AmbiguityWarning: 
+Ambiguities exist in dispatched function _unify
+
+The following signatures may result in ambiguous behavior:
+	[ConstrainedVar, Var, Mapping], [object, ConstrainedVar, Mapping]
+	[object, ConstrainedVar, Mapping], [ConstrainedVar, Var, Mapping]
+	[object, ConstrainedVar, Mapping], [ConstrainedVar, object, Mapping]
+	[ConstrainedVar, object, Mapping], [object, ConstrainedVar, Mapping]
+
+
+Consider making the following additions:
+
+@dispatch(ConstrainedVar, ConstrainedVar, Mapping)
+def _unify(...)
+
+@dispatch(ConstrainedVar, ConstrainedVar, Mapping)
+def _unify(...)
+
+@dispatch(ConstrainedVar, ConstrainedVar, Mapping)
+def _unify(...)
+
+@dispatch(ConstrainedVar, ConstrainedVar, Mapping)
+def _unify(...)
+  warn(warning_text(dispatcher.name, ambiguities), AmbiguityWarning)
 Multiprocess sampling (4 chains in 4 jobs)
 NUTS: [theta, log_sigma]
 </pre></div>
@@ -927,9 +950,10 @@ NUTS: [theta, log_sigma]
 </div><div class="output text_html">
 <div>
   <progress value='12000' class='' max='12000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-  100.00% [12000/12000 00:01&lt;00:00 Sampling 4 chains, 0 divergences]
+  100.00% [12000/12000 00:00&lt;00:00 Sampling 4 chains, 0 divergences]
 </div>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 2_000 draw iterations (4_000 + 8_000 draws total) took 9 seconds.
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 2_000 draw iterations (4_000 + 8_000 draws total) took 1 seconds.
+Sampling: [y]
 </pre></div>
 </div>
 <div class="output text_html">
@@ -994,38 +1018,38 @@ NUTS: [theta, log_sigma]
   <tbody>
     <tr>
       <th>theta</th>
-      <td>0.052</td>
-      <td>0.497</td>
-      <td>-0.863</td>
-      <td>0.991</td>
-      <td>0.007</td>
+      <td>0.050</td>
+      <td>0.493</td>
+      <td>-0.852</td>
+      <td>0.993</td>
       <td>0.006</td>
-      <td>5175.0</td>
-      <td>4495.0</td>
+      <td>0.006</td>
+      <td>6344.0</td>
+      <td>5145.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>log_sigma</th>
-      <td>0.754</td>
-      <td>0.169</td>
-      <td>0.434</td>
-      <td>1.062</td>
+      <td>0.758</td>
+      <td>0.170</td>
+      <td>0.443</td>
+      <td>1.076</td>
       <td>0.002</td>
       <td>0.002</td>
-      <td>4799.0</td>
-      <td>4509.0</td>
+      <td>5848.0</td>
+      <td>5204.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>tau</th>
-      <td>0.234</td>
+      <td>0.232</td>
       <td>0.077</td>
-      <td>0.101</td>
-      <td>0.380</td>
+      <td>0.097</td>
+      <td>0.379</td>
       <td>0.001</td>
       <td>0.001</td>
-      <td>4799.0</td>
-      <td>4509.0</td>
+      <td>5848.0</td>
+      <td>5204.0</td>
       <td>1.0</td>
     </tr>
   </tbody>
@@ -1066,6 +1090,7 @@ NUTS: [theta, log_sigma]
 <img alt="../_images/Unit9-cumulative2_10_0.png" src="../_images/Unit9-cumulative2_10_0.png" />
 </div>
 </div>
+<p>The below code is not working for me since PyMC 5, and neither is the <code class="docutils literal notranslate"><span class="pre">plot_lm</span></code> <a class="reference external" href="https://python.arviz.org/en/0.14.0/api/generated/arviz.plot_lm.html">example code</a>. I’ll keep an eye out for when it gets fixed.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">idx</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">20</span><span class="p">))</span>
@@ -1084,11 +1109,7 @@ NUTS: [theta, log_sigma]
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<img alt="../_images/Unit9-cumulative2_11_0.png" src="../_images/Unit9-cumulative2_11_0.png" />
 </div>
-</div>
-<p>You can see the last two datapoints at indices 18 and 19 are not predicted well by the posterior. If it was fitting well, you would see the observed data close to the center of the posterior predictive values at all indices.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">watermark</span> -n -u -v -iv -p aesara,aeppl
@@ -1096,20 +1117,20 @@ NUTS: [theta, log_sigma]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Sat Jul 30 2022
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Fri Feb 03 2023
 
 Python implementation: CPython
-Python version       : 3.10.5
-IPython version      : 8.4.0
+Python version       : 3.11.0
+IPython version      : 8.9.0
 
-aesara: 2.7.3
-aeppl : 0.0.31
+aesara: 2.8.10
+aeppl : 0.1.1
 
-pymc      : 4.0.1
-arviz     : 0.12.1
-matplotlib: 3.5.2
-numpy     : 1.23.1
-xarray    : 2022.6.0
+matplotlib: 3.6.3
+arviz     : 0.14.0
+numpy     : 1.24.1
+pymc      : 5.0.1
+xarray    : 2023.1.0
 </pre></div>
 </div>
 </div>

@@ -922,6 +922,30 @@ title="Print to PDF"
 <div class="cell_output docutils container">
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Auto-assigning NUTS sampler...
 Initializing NUTS using jitter+adapt_diag...
+/Users/aaron/mambaforge/envs/pymc_env2/lib/python3.11/site-packages/multipledispatch/dispatcher.py:27: AmbiguityWarning: 
+Ambiguities exist in dispatched function _unify
+
+The following signatures may result in ambiguous behavior:
+	[ConstrainedVar, object, Mapping], [object, ConstrainedVar, Mapping]
+	[object, ConstrainedVar, Mapping], [ConstrainedVar, Var, Mapping]
+	[object, ConstrainedVar, Mapping], [ConstrainedVar, object, Mapping]
+	[object, ConstrainedVar, Mapping], [ConstrainedVar, Var, Mapping]
+
+
+Consider making the following additions:
+
+@dispatch(ConstrainedVar, ConstrainedVar, Mapping)
+def _unify(...)
+
+@dispatch(ConstrainedVar, ConstrainedVar, Mapping)
+def _unify(...)
+
+@dispatch(ConstrainedVar, ConstrainedVar, Mapping)
+def _unify(...)
+
+@dispatch(ConstrainedVar, ConstrainedVar, Mapping)
+def _unify(...)
+  warn(warning_text(dispatcher.name, ambiguities), AmbiguityWarning)
 Multiprocess sampling (4 chains in 4 jobs)
 NUTS: [tau, b]
 </pre></div>
@@ -935,6 +959,9 @@ NUTS: [tau, b]
         /* Needs to be in here for Safari polyfill so background images work as expected. */
         background-size: auto;
     }
+    progress:not([value]), progress:not([value])::-webkit-progress-bar {
+        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
+    }
     .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
         background: #F44336;
     }
@@ -942,9 +969,9 @@ NUTS: [tau, b]
 </div><div class="output text_html">
 <div>
   <progress value='44000' class='' max='44000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-  100.00% [44000/44000 00:23<00:00 Sampling 4 chains, 0 divergences]
+  100.00% [44000/44000 00:19&lt;00:00 Sampling 4 chains, 0 divergences]
 </div>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 10_000 draw iterations (4_000 + 40_000 draws total) took 33 seconds.
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 10_000 draw iterations (4_000 + 40_000 draws total) took 20 seconds.
 </pre></div>
 </div>
 </div>
@@ -996,255 +1023,255 @@ NUTS: [tau, b]
   <tbody>
     <tr>
       <th>icpo[0]</th>
-      <td>28.48666</td>
-      <td>4.75295</td>
-      <td>20.20139</td>
-      <td>37.34861</td>
-      <td>0.03951</td>
-      <td>0.02828</td>
-      <td>15107.79395</td>
-      <td>18032.10753</td>
-      <td>1.00020</td>
-    </tr>
-    <tr>
-      <th>icpo[1]</th>
-      <td>47.91952</td>
-      <td>24.17496</td>
-      <td>22.41976</td>
-      <td>86.30776</td>
-      <td>0.17027</td>
-      <td>0.12170</td>
-      <td>21532.39322</td>
-      <td>24745.01173</td>
-      <td>1.00017</td>
-    </tr>
-    <tr>
-      <th>icpo[2]</th>
-      <td>92.92425</td>
-      <td>51.72831</td>
-      <td>35.15217</td>
-      <td>174.70416</td>
-      <td>0.37219</td>
-      <td>0.26318</td>
-      <td>19689.56047</td>
-      <td>23110.55477</td>
-      <td>1.00016</td>
-    </tr>
-    <tr>
-      <th>icpo[3]</th>
-      <td>40.55830</td>
-      <td>10.52069</td>
-      <td>25.27057</td>
-      <td>59.74774</td>
-      <td>0.07838</td>
-      <td>0.05574</td>
-      <td>19200.10257</td>
-      <td>22358.59371</td>
+      <td>28.49252</td>
+      <td>4.79883</td>
+      <td>20.22630</td>
+      <td>37.39362</td>
+      <td>0.04013</td>
+      <td>0.02904</td>
+      <td>15402.75882</td>
+      <td>16354.92217</td>
       <td>1.00005</td>
     </tr>
     <tr>
-      <th>icpo[4]</th>
-      <td>40.82864</td>
-      <td>8.73963</td>
-      <td>26.88384</td>
-      <td>57.21255</td>
-      <td>0.05018</td>
-      <td>0.03662</td>
-      <td>32769.55339</td>
-      <td>24108.99653</td>
+      <th>icpo[1]</th>
+      <td>48.15250</td>
+      <td>25.65207</td>
+      <td>22.43135</td>
+      <td>87.06060</td>
+      <td>0.17364</td>
+      <td>0.12278</td>
+      <td>22258.37282</td>
+      <td>25279.19437</td>
+      <td>1.00003</td>
+    </tr>
+    <tr>
+      <th>icpo[2]</th>
+      <td>92.68060</td>
+      <td>50.43700</td>
+      <td>37.18320</td>
+      <td>174.94619</td>
+      <td>0.34648</td>
+      <td>0.24500</td>
+      <td>19756.34715</td>
+      <td>23498.46900</td>
+      <td>1.00028</td>
+    </tr>
+    <tr>
+      <th>icpo[3]</th>
+      <td>40.55863</td>
+      <td>10.54957</td>
+      <td>24.90041</td>
+      <td>59.54200</td>
+      <td>0.08012</td>
+      <td>0.05665</td>
+      <td>18132.83162</td>
+      <td>23275.09662</td>
       <td>1.00018</td>
+    </tr>
+    <tr>
+      <th>icpo[4]</th>
+      <td>40.82201</td>
+      <td>8.62304</td>
+      <td>27.08866</td>
+      <td>56.88327</td>
+      <td>0.04957</td>
+      <td>0.03706</td>
+      <td>34540.14826</td>
+      <td>26037.10808</td>
+      <td>1.00007</td>
     </tr>
     <tr>
       <th>icpo[5]</th>
-      <td>28.33616</td>
-      <td>4.88503</td>
-      <td>20.20764</td>
-      <td>37.65274</td>
-      <td>0.04207</td>
-      <td>0.03016</td>
-      <td>14260.17643</td>
-      <td>17465.07218</td>
-      <td>1.00015</td>
+      <td>28.35416</td>
+      <td>4.95485</td>
+      <td>20.11566</td>
+      <td>37.65425</td>
+      <td>0.04289</td>
+      <td>0.03101</td>
+      <td>14453.53955</td>
+      <td>15544.56368</td>
+      <td>1.00009</td>
     </tr>
     <tr>
       <th>icpo[6]</th>
-      <td>29.65547</td>
-      <td>5.14496</td>
-      <td>21.01779</td>
-      <td>39.50509</td>
-      <td>0.04093</td>
-      <td>0.02931</td>
-      <td>16604.65317</td>
-      <td>19681.52195</td>
-      <td>1.00021</td>
+      <td>29.66543</td>
+      <td>5.18721</td>
+      <td>20.99113</td>
+      <td>39.42179</td>
+      <td>0.04159</td>
+      <td>0.03006</td>
+      <td>16901.49990</td>
+      <td>17924.92998</td>
+      <td>0.99999</td>
     </tr>
     <tr>
       <th>icpo[7]</th>
-      <td>28.91757</td>
-      <td>4.93592</td>
-      <td>20.49599</td>
-      <td>38.15588</td>
-      <td>0.04112</td>
-      <td>0.02941</td>
-      <td>15064.13031</td>
-      <td>17959.46568</td>
-      <td>1.00021</td>
+      <td>28.93442</td>
+      <td>4.98993</td>
+      <td>20.55201</td>
+      <td>38.30049</td>
+      <td>0.04186</td>
+      <td>0.03030</td>
+      <td>15391.33197</td>
+      <td>16437.96768</td>
+      <td>1.00004</td>
     </tr>
     <tr>
       <th>icpo[8]</th>
-      <td>29.78635</td>
-      <td>5.54458</td>
-      <td>20.57100</td>
-      <td>40.03234</td>
-      <td>0.04704</td>
-      <td>0.03372</td>
-      <td>14747.72818</td>
-      <td>17436.35497</td>
-      <td>1.00021</td>
+      <td>29.82527</td>
+      <td>5.61253</td>
+      <td>20.57707</td>
+      <td>40.09568</td>
+      <td>0.04789</td>
+      <td>0.03465</td>
+      <td>15100.17290</td>
+      <td>16558.27920</td>
+      <td>1.00009</td>
     </tr>
     <tr>
       <th>icpo[9]</th>
-      <td>34.93561</td>
-      <td>7.72395</td>
-      <td>22.69570</td>
-      <td>48.92397</td>
-      <td>0.05208</td>
-      <td>0.03736</td>
-      <td>23508.39543</td>
-      <td>23344.19333</td>
-      <td>1.00021</td>
+      <td>34.95297</td>
+      <td>7.73802</td>
+      <td>22.80536</td>
+      <td>49.01526</td>
+      <td>0.05294</td>
+      <td>0.03866</td>
+      <td>24268.30824</td>
+      <td>23598.83146</td>
+      <td>1.00001</td>
     </tr>
     <tr>
       <th>icpo[10]</th>
-      <td>51.88592</td>
-      <td>20.33337</td>
-      <td>25.86421</td>
-      <td>86.71631</td>
-      <td>0.15616</td>
-      <td>0.11043</td>
-      <td>17321.90082</td>
-      <td>21099.40152</td>
-      <td>1.00008</td>
+      <td>52.01200</td>
+      <td>20.40309</td>
+      <td>25.49270</td>
+      <td>86.73881</td>
+      <td>0.16058</td>
+      <td>0.11355</td>
+      <td>15995.87103</td>
+      <td>22233.86505</td>
+      <td>1.00030</td>
     </tr>
     <tr>
       <th>icpo[11]</th>
-      <td>30.16250</td>
-      <td>5.49227</td>
-      <td>20.94683</td>
-      <td>40.44785</td>
-      <td>0.04554</td>
-      <td>0.03270</td>
-      <td>15493.79235</td>
-      <td>17903.39378</td>
-      <td>1.00007</td>
-    </tr>
-    <tr>
-      <th>icpo[12]</th>
-      <td>92.92425</td>
-      <td>51.72831</td>
-      <td>35.15217</td>
-      <td>174.70416</td>
-      <td>0.37219</td>
-      <td>0.26318</td>
-      <td>19689.56047</td>
-      <td>23110.55477</td>
-      <td>1.00016</td>
-    </tr>
-    <tr>
-      <th>icpo[13]</th>
-      <td>67.04662</td>
-      <td>26.57370</td>
-      <td>33.24266</td>
-      <td>112.57565</td>
-      <td>0.18236</td>
-      <td>0.13169</td>
-      <td>22554.25363</td>
-      <td>24496.80676</td>
-      <td>1.00010</td>
-    </tr>
-    <tr>
-      <th>icpo[14]</th>
-      <td>30.87020</td>
-      <td>5.49069</td>
-      <td>21.65214</td>
-      <td>41.26949</td>
-      <td>0.04344</td>
-      <td>0.03105</td>
-      <td>16754.23428</td>
-      <td>19878.20495</td>
+      <td>30.18090</td>
+      <td>5.55961</td>
+      <td>20.84143</td>
+      <td>40.42821</td>
+      <td>0.04627</td>
+      <td>0.03329</td>
+      <td>15531.56877</td>
+      <td>16835.11311</td>
       <td>1.00018</td>
     </tr>
     <tr>
+      <th>icpo[12]</th>
+      <td>92.68060</td>
+      <td>50.43700</td>
+      <td>37.18320</td>
+      <td>174.94619</td>
+      <td>0.34648</td>
+      <td>0.24500</td>
+      <td>19756.34715</td>
+      <td>23498.46900</td>
+      <td>1.00028</td>
+    </tr>
+    <tr>
+      <th>icpo[13]</th>
+      <td>66.90809</td>
+      <td>25.96809</td>
+      <td>32.87280</td>
+      <td>111.10240</td>
+      <td>0.17062</td>
+      <td>0.12064</td>
+      <td>21839.61515</td>
+      <td>25693.77410</td>
+      <td>1.00024</td>
+    </tr>
+    <tr>
+      <th>icpo[14]</th>
+      <td>30.88892</td>
+      <td>5.52901</td>
+      <td>21.25108</td>
+      <td>40.73676</td>
+      <td>0.04434</td>
+      <td>0.03209</td>
+      <td>17010.55156</td>
+      <td>18262.98801</td>
+      <td>1.00012</td>
+    </tr>
+    <tr>
       <th>icpo[15]</th>
-      <td>28.42415</td>
-      <td>4.85041</td>
-      <td>20.07271</td>
-      <td>37.45094</td>
-      <td>0.04130</td>
-      <td>0.02956</td>
-      <td>14446.94538</td>
-      <td>17201.94631</td>
-      <td>1.00021</td>
+      <td>28.44500</td>
+      <td>4.91342</td>
+      <td>19.89157</td>
+      <td>37.35208</td>
+      <td>0.04197</td>
+      <td>0.03036</td>
+      <td>14787.20023</td>
+      <td>15802.00984</td>
+      <td>1.00006</td>
     </tr>
     <tr>
       <th>icpo[16]</th>
-      <td>39.69840</td>
-      <td>8.57851</td>
-      <td>26.12381</td>
-      <td>55.71260</td>
-      <td>0.05607</td>
-      <td>0.04013</td>
-      <td>24448.35857</td>
-      <td>23534.09444</td>
-      <td>1.00011</td>
+      <td>39.71093</td>
+      <td>8.53419</td>
+      <td>26.11461</td>
+      <td>55.57966</td>
+      <td>0.05816</td>
+      <td>0.04176</td>
+      <td>23476.15982</td>
+      <td>24916.58153</td>
+      <td>1.00020</td>
     </tr>
     <tr>
       <th>icpo[17]</th>
-      <td>63.98277</td>
-      <td>245.31339</td>
-      <td>18.76752</td>
-      <td>134.24994</td>
-      <td>1.64504</td>
-      <td>1.16323</td>
-      <td>16363.46563</td>
-      <td>20458.65790</td>
-      <td>1.00029</td>
-    </tr>
-    <tr>
-      <th>icpo[18]</th>
-      <td>6362.54924</td>
-      <td>52676.15671</td>
-      <td>85.56409</td>
-      <td>16387.32581</td>
-      <td>343.53740</td>
-      <td>242.92064</td>
-      <td>18047.79051</td>
-      <td>21920.85544</td>
+      <td>66.38431</td>
+      <td>231.29471</td>
+      <td>18.34641</td>
+      <td>140.29555</td>
+      <td>1.50623</td>
+      <td>1.06508</td>
+      <td>17079.98557</td>
+      <td>21597.38242</td>
       <td>1.00007</td>
     </tr>
     <tr>
+      <th>icpo[18]</th>
+      <td>5918.08154</td>
+      <td>32938.90177</td>
+      <td>69.71405</td>
+      <td>16909.67632</td>
+      <td>224.57389</td>
+      <td>158.79988</td>
+      <td>18360.23590</td>
+      <td>19620.45691</td>
+      <td>1.00013</td>
+    </tr>
+    <tr>
       <th>icpo[19]</th>
-      <td>52.36391</td>
-      <td>16.13696</td>
-      <td>29.55744</td>
-      <td>80.63964</td>
-      <td>0.10918</td>
-      <td>0.07905</td>
-      <td>23445.81512</td>
-      <td>25346.95475</td>
-      <td>1.00008</td>
+      <td>52.29254</td>
+      <td>15.86985</td>
+      <td>29.95895</td>
+      <td>80.65539</td>
+      <td>0.10569</td>
+      <td>0.07473</td>
+      <td>21574.16160</td>
+      <td>26763.70261</td>
+      <td>1.00022</td>
     </tr>
     <tr>
       <th>icpo[20]</th>
-      <td>28.42415</td>
-      <td>4.85041</td>
-      <td>20.07271</td>
-      <td>37.45094</td>
-      <td>0.04130</td>
-      <td>0.02956</td>
-      <td>14446.94538</td>
-      <td>17201.94631</td>
-      <td>1.00021</td>
+      <td>28.44500</td>
+      <td>4.91342</td>
+      <td>19.89157</td>
+      <td>37.35208</td>
+      <td>0.04197</td>
+      <td>0.03036</td>
+      <td>14787.20023</td>
+      <td>15802.00984</td>
+      <td>1.00006</td>
     </tr>
   </tbody>
 </table>
@@ -1258,11 +1285,11 @@ NUTS: [tau, b]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([0.03510415, 0.02086832, 0.01076145, 0.02465587, 0.02449261,
-       0.0352906 , 0.03372059, 0.03458105, 0.03357242, 0.02862409,
-       0.01927305, 0.03315375, 0.01076145, 0.01491499, 0.0323937 ,
-       0.03518135, 0.02518993, 0.01562921, 0.00015717, 0.01909712,
-       0.03518135])
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([0.03509693, 0.02076735, 0.01078974, 0.02465567, 0.02449659,
+       0.03526819, 0.03370927, 0.03456091, 0.03352862, 0.02860987,
+       0.01922633, 0.03313354, 0.01078974, 0.01494588, 0.03237407,
+       0.03515556, 0.02518198, 0.0150638 , 0.00016897, 0.01912319,
+       0.03515556])
 </pre></div>
 </div>
 </div>
@@ -1294,7 +1321,7 @@ NUTS: [tau, b]
 
     <span class="n">g1</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;g1&quot;</span><span class="p">,</span> <span class="n">c</span> <span class="o">*</span> <span class="n">pm</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">c</span><span class="p">))</span>
     <span class="n">g2</span> <span class="o">=</span> <span class="o">-</span><span class="n">pm</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
-    <span class="n">g3</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">pm</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">abs_</span><span class="p">(</span><span class="n">c</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">g3</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">absolute</span><span class="p">((</span><span class="n">c</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
     <span class="n">g4</span> <span class="o">=</span> <span class="p">(</span><span class="n">c</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
 
     <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;s_g1&quot;</span><span class="p">,</span> <span class="n">pm</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">g1</span><span class="p">))</span>
@@ -1304,7 +1331,7 @@ NUTS: [tau, b]
 
     <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;likelihood&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">m</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="n">tau</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
 
-    <span class="n">traceb</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">2000</span><span class="p">,</span> <span class="n">target_accept</span><span class="o">=</span><span class="mf">0.95</span><span class="p">)</span>
+    <span class="n">traceb</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">2000</span><span class="p">,</span> <span class="n">target_accept</span><span class="o">=</span><span class="mf">0.95</span><span class="p">,</span> <span class="n">idata_kwargs</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">log_likelihood</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -1324,6 +1351,9 @@ NUTS: [tau, b]
         /* Needs to be in here for Safari polyfill so background images work as expected. */
         background-size: auto;
     }
+    progress:not([value]), progress:not([value])::-webkit-progress-bar {
+        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
+    }
     .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
         background: #F44336;
     }
@@ -1331,9 +1361,9 @@ NUTS: [tau, b]
 </div><div class="output text_html">
 <div>
   <progress value='12000' class='' max='12000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-  100.00% [12000/12000 00:04<00:00 Sampling 4 chains, 0 divergences]
+  100.00% [12000/12000 00:02&lt;00:00 Sampling 4 chains, 0 divergences]
 </div>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 2_000 draw iterations (4_000 + 8_000 draws total) took 13 seconds.
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 2_000 draw iterations (4_000 + 8_000 draws total) took 2 seconds.
 </pre></div>
 </div>
 </div>
@@ -1372,150 +1402,150 @@ NUTS: [tau, b]
   <tbody>
     <tr>
       <th>c[0]</th>
-      <td>0.999</td>
-      <td>0.170</td>
-      <td>0.714</td>
-      <td>1.319</td>
+      <td>1.000</td>
+      <td>0.166</td>
+      <td>0.711</td>
+      <td>1.312</td>
     </tr>
     <tr>
       <th>c[1]</th>
-      <td>0.990</td>
-      <td>0.481</td>
-      <td>0.491</td>
-      <td>1.757</td>
+      <td>0.999</td>
+      <td>0.565</td>
+      <td>0.465</td>
+      <td>1.804</td>
     </tr>
     <tr>
       <th>c[2]</th>
-      <td>0.999</td>
-      <td>0.532</td>
-      <td>0.388</td>
-      <td>1.881</td>
+      <td>0.998</td>
+      <td>0.527</td>
+      <td>0.374</td>
+      <td>1.844</td>
     </tr>
     <tr>
       <th>c[3]</th>
-      <td>0.999</td>
-      <td>0.254</td>
-      <td>0.627</td>
-      <td>1.479</td>
+      <td>1.000</td>
+      <td>0.261</td>
+      <td>0.633</td>
+      <td>1.485</td>
     </tr>
     <tr>
       <th>c[4]</th>
-      <td>1.000</td>
-      <td>0.209</td>
-      <td>0.663</td>
-      <td>1.375</td>
+      <td>1.002</td>
+      <td>0.214</td>
+      <td>0.671</td>
+      <td>1.409</td>
     </tr>
     <tr>
       <th>c[5]</th>
-      <td>0.998</td>
-      <td>0.175</td>
-      <td>0.701</td>
-      <td>1.322</td>
+      <td>1.000</td>
+      <td>0.172</td>
+      <td>0.699</td>
+      <td>1.318</td>
     </tr>
     <tr>
       <th>c[6]</th>
-      <td>0.999</td>
-      <td>0.177</td>
-      <td>0.719</td>
-      <td>1.339</td>
+      <td>1.000</td>
+      <td>0.174</td>
+      <td>0.702</td>
+      <td>1.318</td>
     </tr>
     <tr>
       <th>c[7]</th>
-      <td>0.999</td>
-      <td>0.174</td>
-      <td>0.716</td>
-      <td>1.334</td>
+      <td>1.000</td>
+      <td>0.170</td>
+      <td>0.706</td>
+      <td>1.314</td>
     </tr>
     <tr>
       <th>c[8]</th>
-      <td>0.999</td>
-      <td>0.189</td>
-      <td>0.685</td>
-      <td>1.337</td>
+      <td>1.000</td>
+      <td>0.187</td>
+      <td>0.684</td>
+      <td>1.338</td>
     </tr>
     <tr>
       <th>c[9]</th>
-      <td>1.000</td>
-      <td>0.224</td>
-      <td>0.664</td>
-      <td>1.403</td>
+      <td>1.001</td>
+      <td>0.222</td>
+      <td>0.648</td>
+      <td>1.401</td>
     </tr>
     <tr>
       <th>c[10]</th>
-      <td>1.000</td>
-      <td>0.392</td>
-      <td>0.512</td>
-      <td>1.659</td>
+      <td>1.001</td>
+      <td>0.399</td>
+      <td>0.505</td>
+      <td>1.691</td>
     </tr>
     <tr>
       <th>c[11]</th>
-      <td>0.999</td>
-      <td>0.182</td>
-      <td>0.698</td>
-      <td>1.345</td>
+      <td>1.000</td>
+      <td>0.184</td>
+      <td>0.680</td>
+      <td>1.333</td>
     </tr>
     <tr>
       <th>c[12]</th>
-      <td>0.999</td>
-      <td>0.532</td>
-      <td>0.388</td>
-      <td>1.881</td>
+      <td>0.998</td>
+      <td>0.527</td>
+      <td>0.374</td>
+      <td>1.844</td>
     </tr>
     <tr>
       <th>c[13]</th>
-      <td>0.998</td>
-      <td>0.382</td>
-      <td>0.494</td>
-      <td>1.658</td>
+      <td>0.999</td>
+      <td>0.381</td>
+      <td>0.493</td>
+      <td>1.653</td>
     </tr>
     <tr>
       <th>c[14]</th>
       <td>1.000</td>
-      <td>0.181</td>
-      <td>0.690</td>
-      <td>1.324</td>
+      <td>0.178</td>
+      <td>0.712</td>
+      <td>1.340</td>
     </tr>
     <tr>
       <th>c[15]</th>
-      <td>0.999</td>
-      <td>0.173</td>
-      <td>0.711</td>
-      <td>1.330</td>
+      <td>1.000</td>
+      <td>0.170</td>
+      <td>0.702</td>
+      <td>1.313</td>
     </tr>
     <tr>
       <th>c[16]</th>
-      <td>1.000</td>
-      <td>0.214</td>
-      <td>0.643</td>
-      <td>1.379</td>
+      <td>1.001</td>
+      <td>0.217</td>
+      <td>0.666</td>
+      <td>1.419</td>
     </tr>
     <tr>
       <th>c[17]</th>
-      <td>0.941</td>
-      <td>2.307</td>
-      <td>0.279</td>
-      <td>2.035</td>
+      <td>1.265</td>
+      <td>15.656</td>
+      <td>0.281</td>
+      <td>2.082</td>
     </tr>
     <tr>
       <th>c[18]</th>
-      <td>0.938</td>
-      <td>5.014</td>
-      <td>0.013</td>
-      <td>2.485</td>
+      <td>0.950</td>
+      <td>3.622</td>
+      <td>0.015</td>
+      <td>2.942</td>
     </tr>
     <tr>
       <th>c[19]</th>
-      <td>0.998</td>
-      <td>0.298</td>
-      <td>0.566</td>
-      <td>1.518</td>
+      <td>1.000</td>
+      <td>0.301</td>
+      <td>0.570</td>
+      <td>1.542</td>
     </tr>
     <tr>
       <th>c[20]</th>
-      <td>0.999</td>
-      <td>0.173</td>
-      <td>0.711</td>
-      <td>1.330</td>
+      <td>1.000</td>
+      <td>0.170</td>
+      <td>0.702</td>
+      <td>1.313</td>
     </tr>
   </tbody>
 </table>
@@ -1555,31 +1585,31 @@ NUTS: [tau, b]
   <tbody>
     <tr>
       <th>s_g1</th>
-      <td>2.647</td>
-      <td>26.319</td>
-      <td>-2.720</td>
-      <td>8.963</td>
+      <td>4.634</td>
+      <td>107.366</td>
+      <td>-2.695</td>
+      <td>9.572</td>
     </tr>
     <tr>
       <th>s_g2</th>
-      <td>2.344</td>
-      <td>1.209</td>
-      <td>0.121</td>
-      <td>3.835</td>
+      <td>2.285</td>
+      <td>1.227</td>
+      <td>0.080</td>
+      <td>3.804</td>
     </tr>
     <tr>
       <th>s_g3</th>
-      <td>2.776</td>
-      <td>3.038</td>
-      <td>1.153</td>
-      <td>5.255</td>
+      <td>2.949</td>
+      <td>8.248</td>
+      <td>1.138</td>
+      <td>5.396</td>
     </tr>
     <tr>
       <th>s_g4</th>
-      <td>32.141</td>
-      <td>1055.466</td>
-      <td>0.565</td>
-      <td>14.389</td>
+      <td>260.023</td>
+      <td>15907.269</td>
+      <td>0.561</td>
+      <td>17.380</td>
     </tr>
   </tbody>
 </table>
@@ -1619,150 +1649,150 @@ NUTS: [tau, b]
   <tbody>
     <tr>
       <th>g1[0]</th>
-      <td>0.013</td>
-      <td>0.181</td>
-      <td>-0.259</td>
-      <td>0.346</td>
+      <td>0.014</td>
+      <td>0.175</td>
+      <td>-0.253</td>
+      <td>0.339</td>
     </tr>
     <tr>
       <th>g1[1]</th>
-      <td>0.079</td>
-      <td>0.726</td>
-      <td>-0.367</td>
-      <td>0.923</td>
+      <td>0.104</td>
+      <td>1.061</td>
+      <td>-0.362</td>
+      <td>1.029</td>
     </tr>
     <tr>
       <th>g1[2]</th>
-      <td>0.110</td>
-      <td>0.791</td>
+      <td>0.107</td>
+      <td>0.784</td>
       <td>-0.368</td>
-      <td>1.165</td>
+      <td>1.122</td>
     </tr>
     <tr>
       <th>g1[3]</th>
-      <td>0.028</td>
-      <td>0.295</td>
-      <td>-0.311</td>
+      <td>0.031</td>
+      <td>0.309</td>
+      <td>-0.317</td>
       <td>0.545</td>
     </tr>
     <tr>
       <th>g1[4]</th>
-      <td>0.021</td>
-      <td>0.233</td>
-      <td>-0.286</td>
-      <td>0.418</td>
+      <td>0.023</td>
+      <td>0.238</td>
+      <td>-0.288</td>
+      <td>0.446</td>
     </tr>
     <tr>
       <th>g1[5]</th>
-      <td>0.013</td>
-      <td>0.187</td>
-      <td>-0.264</td>
-      <td>0.348</td>
+      <td>0.014</td>
+      <td>0.184</td>
+      <td>-0.262</td>
+      <td>0.344</td>
     </tr>
     <tr>
       <th>g1[6]</th>
       <td>0.015</td>
-      <td>0.190</td>
-      <td>-0.269</td>
-      <td>0.349</td>
+      <td>0.186</td>
+      <td>-0.256</td>
+      <td>0.352</td>
     </tr>
     <tr>
       <th>g1[7]</th>
       <td>0.014</td>
-      <td>0.186</td>
-      <td>-0.272</td>
-      <td>0.341</td>
+      <td>0.180</td>
+      <td>-0.260</td>
+      <td>0.338</td>
     </tr>
     <tr>
       <th>g1[8]</th>
-      <td>0.016</td>
-      <td>0.206</td>
+      <td>0.017</td>
+      <td>0.203</td>
       <td>-0.274</td>
       <td>0.370</td>
     </tr>
     <tr>
       <th>g1[9]</th>
       <td>0.024</td>
-      <td>0.261</td>
-      <td>-0.298</td>
-      <td>0.431</td>
+      <td>0.254</td>
+      <td>-0.303</td>
+      <td>0.442</td>
     </tr>
     <tr>
       <th>g1[10]</th>
-      <td>0.063</td>
-      <td>0.537</td>
-      <td>-0.356</td>
-      <td>0.792</td>
+      <td>0.067</td>
+      <td>0.544</td>
+      <td>-0.354</td>
+      <td>0.866</td>
     </tr>
     <tr>
       <th>g1[11]</th>
-      <td>0.015</td>
-      <td>0.196</td>
-      <td>-0.274</td>
-      <td>0.367</td>
+      <td>0.016</td>
+      <td>0.199</td>
+      <td>-0.279</td>
+      <td>0.365</td>
     </tr>
     <tr>
       <th>g1[12]</th>
-      <td>0.110</td>
-      <td>0.791</td>
+      <td>0.107</td>
+      <td>0.784</td>
       <td>-0.368</td>
-      <td>1.165</td>
+      <td>1.122</td>
     </tr>
     <tr>
       <th>g1[13]</th>
-      <td>0.060</td>
-      <td>0.501</td>
-      <td>-0.359</td>
-      <td>0.812</td>
+      <td>0.062</td>
+      <td>0.495</td>
+      <td>-0.356</td>
+      <td>0.818</td>
     </tr>
     <tr>
       <th>g1[14]</th>
-      <td>0.015</td>
-      <td>0.194</td>
-      <td>-0.263</td>
-      <td>0.363</td>
+      <td>0.016</td>
+      <td>0.190</td>
+      <td>-0.250</td>
+      <td>0.383</td>
     </tr>
     <tr>
       <th>g1[15]</th>
       <td>0.014</td>
-      <td>0.185</td>
-      <td>-0.251</td>
-      <td>0.366</td>
+      <td>0.180</td>
+      <td>-0.262</td>
+      <td>0.338</td>
     </tr>
     <tr>
       <th>g1[16]</th>
-      <td>0.021</td>
-      <td>0.239</td>
-      <td>-0.289</td>
-      <td>0.437</td>
+      <td>0.024</td>
+      <td>0.243</td>
+      <td>-0.292</td>
+      <td>0.464</td>
     </tr>
     <tr>
       <th>g1[17]</th>
-      <td>0.521</td>
-      <td>8.745</td>
+      <td>2.655</td>
+      <td>105.609</td>
       <td>-0.368</td>
-      <td>1.446</td>
+      <td>1.518</td>
     </tr>
     <tr>
       <th>g1[18]</th>
-      <td>1.445</td>
-      <td>24.461</td>
+      <td>1.257</td>
+      <td>15.135</td>
       <td>-0.368</td>
-      <td>2.262</td>
+      <td>3.175</td>
     </tr>
     <tr>
       <th>g1[19]</th>
-      <td>0.037</td>
-      <td>0.362</td>
-      <td>-0.334</td>
-      <td>0.613</td>
+      <td>0.040</td>
+      <td>0.364</td>
+      <td>-0.326</td>
+      <td>0.652</td>
     </tr>
     <tr>
       <th>g1[20]</th>
       <td>0.014</td>
-      <td>0.185</td>
-      <td>-0.251</td>
-      <td>0.366</td>
+      <td>0.180</td>
+      <td>-0.262</td>
+      <td>0.338</td>
     </tr>
   </tbody>
 </table>
@@ -1770,21 +1800,21 @@ NUTS: [tau, b]
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">waic</span><span class="p">(</span><span class="n">traceb</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="s2">&quot;deviance&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">waic</span><span class="p">(</span><span class="n">traceb</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/arviz/stats/stats.py:1661: UserWarning: For one or more samples the posterior variance of the log predictive densities exceeds 0.4. This could be indication of WAIC starting to fail. 
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc_env2/lib/python3.11/site-packages/arviz/stats/stats.py:1645: UserWarning: For one or more samples the posterior variance of the log predictive densities exceeds 0.4. This could be indication of WAIC starting to fail. 
 See http://arxiv.org/abs/1507.04544 for details
   warnings.warn(
 </pre></div>
 </div>
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Computed from 8000 posterior samples and 21 observations log-likelihood matrix.
 
-              Estimate       SE
-deviance_waic   165.11    10.02
-p_waic            3.27        -
+          Estimate       SE
+elpd_waic   -82.67     5.03
+p_waic        3.38        -
 
 There has been a warning during the calculation. Please check the results.
 </pre></div>
@@ -1798,13 +1828,18 @@ There has been a warning during the calculation. Please check the results.
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Python implementation: CPython
-Python version       : 3.10.4
-IPython version      : 8.4.0
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Fri Feb 03 2023
 
-numpy: 1.22.4
-pymc : 4.0.1
-arviz: 0.12.1
+Python implementation: CPython
+Python version       : 3.11.0
+IPython version      : 8.9.0
+
+aesara: 2.8.10
+aeppl : 0.1.1
+
+pymc : 5.0.1
+arviz: 0.14.0
+numpy: 1.24.1
 </pre></div>
 </div>
 </div>

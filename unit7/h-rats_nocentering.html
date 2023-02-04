@@ -891,6 +891,30 @@ title="Print to PDF"
 <div class="cell_output docutils container">
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Auto-assigning NUTS sampler...
 Initializing NUTS using jitter+adapt_diag...
+/Users/aaron/mambaforge/envs/pymc_env2/lib/python3.11/site-packages/multipledispatch/dispatcher.py:27: AmbiguityWarning: 
+Ambiguities exist in dispatched function _unify
+
+The following signatures may result in ambiguous behavior:
+	[object, ConstrainedVar, Mapping], [ConstrainedVar, object, Mapping]
+	[ConstrainedVar, Var, Mapping], [object, ConstrainedVar, Mapping]
+	[ConstrainedVar, object, Mapping], [object, ConstrainedVar, Mapping]
+	[object, ConstrainedVar, Mapping], [ConstrainedVar, Var, Mapping]
+
+
+Consider making the following additions:
+
+@dispatch(ConstrainedVar, ConstrainedVar, Mapping)
+def _unify(...)
+
+@dispatch(ConstrainedVar, ConstrainedVar, Mapping)
+def _unify(...)
+
+@dispatch(ConstrainedVar, ConstrainedVar, Mapping)
+def _unify(...)
+
+@dispatch(ConstrainedVar, ConstrainedVar, Mapping)
+def _unify(...)
+  warn(warning_text(dispatcher.name, ambiguities), AmbiguityWarning)
 Multiprocess sampling (4 chains in 4 jobs)
 NUTS: [mu_alpha, tau_alpha, mu_beta, tau_beta, tau, alpha, beta]
 </pre></div>
@@ -904,6 +928,9 @@ NUTS: [mu_alpha, tau_alpha, mu_beta, tau_beta, tau, alpha, beta]
         /* Needs to be in here for Safari polyfill so background images work as expected. */
         background-size: auto;
     }
+    progress:not([value]), progress:not([value])::-webkit-progress-bar {
+        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
+    }
     .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
         background: #F44336;
     }
@@ -911,9 +938,9 @@ NUTS: [mu_alpha, tau_alpha, mu_beta, tau_beta, tau, alpha, beta]
 </div><div class="output text_html">
 <div>
   <progress value='16000' class='' max='16000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-  100.00% [16000/16000 00:41<00:00 Sampling 4 chains, 0 divergences]
+  100.00% [16000/16000 00:56&lt;00:00 Sampling 4 chains, 0 divergences]
 </div>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 3_000 draw iterations (4_000 + 12_000 draws total) took 61 seconds.
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 3_000 draw iterations (4_000 + 12_000 draws total) took 59 seconds.
 </pre></div>
 </div>
 </div>
@@ -957,26 +984,26 @@ NUTS: [mu_alpha, tau_alpha, mu_beta, tau_beta, tau, alpha, beta]
   <tbody>
     <tr>
       <th>mu_alpha</th>
-      <td>106.555</td>
-      <td>2.298</td>
-      <td>102.345</td>
-      <td>110.896</td>
-      <td>0.023</td>
-      <td>0.017</td>
-      <td>9715.0</td>
-      <td>8861.0</td>
+      <td>106.557</td>
+      <td>2.309</td>
+      <td>102.251</td>
+      <td>111.082</td>
+      <td>0.021</td>
+      <td>0.015</td>
+      <td>12241.0</td>
+      <td>9045.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>mu_beta</th>
-      <td>6.187</td>
+      <td>6.186</td>
       <td>0.105</td>
-      <td>5.983</td>
-      <td>6.379</td>
+      <td>5.984</td>
+      <td>6.383</td>
       <td>0.001</td>
       <td>0.001</td>
-      <td>10933.0</td>
-      <td>8863.0</td>
+      <td>13216.0</td>
+      <td>9888.0</td>
       <td>1.0</td>
     </tr>
     <tr>
@@ -984,23 +1011,23 @@ NUTS: [mu_alpha, tau_alpha, mu_beta, tau_beta, tau, alpha, beta]
       <td>0.010</td>
       <td>0.004</td>
       <td>0.004</td>
-      <td>0.018</td>
+      <td>0.017</td>
       <td>0.000</td>
       <td>0.000</td>
-      <td>6847.0</td>
-      <td>7829.0</td>
+      <td>9160.0</td>
+      <td>8303.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>tau_beta</th>
-      <td>4.323</td>
-      <td>1.500</td>
-      <td>1.866</td>
-      <td>7.116</td>
-      <td>0.016</td>
-      <td>0.012</td>
-      <td>9683.0</td>
-      <td>8481.0</td>
+      <td>4.325</td>
+      <td>1.504</td>
+      <td>1.919</td>
+      <td>7.176</td>
+      <td>0.014</td>
+      <td>0.010</td>
+      <td>12104.0</td>
+      <td>9434.0</td>
       <td>1.0</td>
     </tr>
     <tr>
@@ -1011,20 +1038,20 @@ NUTS: [mu_alpha, tau_alpha, mu_beta, tau_beta, tau, alpha, beta]
       <td>0.035</td>
       <td>0.000</td>
       <td>0.000</td>
-      <td>7258.0</td>
-      <td>8444.0</td>
+      <td>7472.0</td>
+      <td>8684.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>sigma</th>
-      <td>6.149</td>
-      <td>0.461</td>
-      <td>5.301</td>
-      <td>7.015</td>
+      <td>6.159</td>
+      <td>0.470</td>
+      <td>5.260</td>
+      <td>7.000</td>
       <td>0.005</td>
       <td>0.004</td>
-      <td>7258.0</td>
-      <td>8444.0</td>
+      <td>7472.0</td>
+      <td>8684.0</td>
       <td>1.0</td>
     </tr>
   </tbody>
@@ -1038,13 +1065,18 @@ NUTS: [mu_alpha, tau_alpha, mu_beta, tau_beta, tau, alpha, beta]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Python implementation: CPython
-Python version       : 3.10.4
-IPython version      : 8.4.0
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Fri Feb 03 2023
 
-numpy: 1.22.4
-pymc : 4.0.0
-arviz: 0.12.1
+Python implementation: CPython
+Python version       : 3.11.0
+IPython version      : 8.9.0
+
+aesara: 2.8.10
+aeppl : 0.1.1
+
+arviz: 0.14.0
+pymc : 5.0.1
+numpy: 1.24.1
 </pre></div>
 </div>
 </div>

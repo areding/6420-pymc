@@ -886,7 +886,31 @@ title="Print to PDF"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Auto-assigning NUTS sampler...
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc_env2/lib/python3.11/site-packages/multipledispatch/dispatcher.py:27: AmbiguityWarning: 
+Ambiguities exist in dispatched function _unify
+
+The following signatures may result in ambiguous behavior:
+	[object, ConstrainedVar, Mapping], [ConstrainedVar, Var, Mapping]
+	[ConstrainedVar, Var, Mapping], [object, ConstrainedVar, Mapping]
+	[ConstrainedVar, object, Mapping], [object, ConstrainedVar, Mapping]
+	[ConstrainedVar, object, Mapping], [object, ConstrainedVar, Mapping]
+
+
+Consider making the following additions:
+
+@dispatch(ConstrainedVar, ConstrainedVar, Mapping)
+def _unify(...)
+
+@dispatch(ConstrainedVar, ConstrainedVar, Mapping)
+def _unify(...)
+
+@dispatch(ConstrainedVar, ConstrainedVar, Mapping)
+def _unify(...)
+
+@dispatch(ConstrainedVar, ConstrainedVar, Mapping)
+def _unify(...)
+  warn(warning_text(dispatcher.name, ambiguities), AmbiguityWarning)
+Auto-assigning NUTS sampler...
 Initializing NUTS using jitter+adapt_diag...
 Multiprocess sampling (4 chains in 4 jobs)
 NUTS: [mu1, prec, mu2]
@@ -901,6 +925,9 @@ NUTS: [mu1, prec, mu2]
         /* Needs to be in here for Safari polyfill so background images work as expected. */
         background-size: auto;
     }
+    progress:not([value]), progress:not([value])::-webkit-progress-bar {
+        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
+    }
     .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
         background: #F44336;
     }
@@ -908,9 +935,9 @@ NUTS: [mu1, prec, mu2]
 </div><div class="output text_html">
 <div>
   <progress value='16000' class='' max='16000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-  100.00% [16000/16000 00:06<00:00 Sampling 4 chains, 0 divergences]
+  100.00% [16000/16000 00:04&lt;00:00 Sampling 4 chains, 0 divergences]
 </div>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 3_000 draw iterations (4_000 + 12_000 draws total) took 27 seconds.
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 3_000 draw iterations (4_000 + 12_000 draws total) took 5 seconds.
 </pre></div>
 </div>
 </div>
@@ -954,38 +981,38 @@ NUTS: [mu1, prec, mu2]
   <tbody>
     <tr>
       <th>mu1</th>
-      <td>9.828</td>
-      <td>0.326</td>
-      <td>9.222</td>
-      <td>10.439</td>
+      <td>9.826</td>
+      <td>0.320</td>
+      <td>9.258</td>
+      <td>10.461</td>
       <td>0.003</td>
       <td>0.002</td>
-      <td>12324.0</td>
-      <td>7695.0</td>
+      <td>14798.0</td>
+      <td>8971.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>mu2</th>
-      <td>9.910</td>
-      <td>0.321</td>
-      <td>9.321</td>
-      <td>10.515</td>
-      <td>0.003</td>
+      <td>9.912</td>
+      <td>0.317</td>
+      <td>9.313</td>
+      <td>10.499</td>
       <td>0.002</td>
-      <td>12792.0</td>
-      <td>8633.0</td>
+      <td>0.002</td>
+      <td>16325.0</td>
+      <td>9445.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>prec</th>
-      <td>0.234</td>
+      <td>0.232</td>
       <td>0.125</td>
-      <td>0.030</td>
-      <td>0.456</td>
+      <td>0.033</td>
+      <td>0.460</td>
       <td>0.001</td>
       <td>0.001</td>
-      <td>12733.0</td>
-      <td>8216.0</td>
+      <td>13439.0</td>
+      <td>8511.0</td>
       <td>1.0</td>
     </tr>
   </tbody>
@@ -1046,6 +1073,9 @@ NUTS: [d, theta]
         /* Needs to be in here for Safari polyfill so background images work as expected. */
         background-size: auto;
     }
+    progress:not([value]), progress:not([value])::-webkit-progress-bar {
+        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
+    }
     .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
         background: #F44336;
     }
@@ -1053,10 +1083,9 @@ NUTS: [d, theta]
 </div><div class="output text_html">
 <div>
   <progress value='16000' class='' max='16000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-  100.00% [16000/16000 00:08<00:00 Sampling 4 chains, 0 divergences]
+  100.00% [16000/16000 00:07&lt;00:00 Sampling 4 chains, 0 divergences]
 </div>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 3_000 draw iterations (4_000 + 12_000 draws total) took 24 seconds.
-The acceptance probability does not match the target. It is 0.8961, but should be close to 0.8. Try to increase the number of tuning steps.
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 3_000 draw iterations (4_000 + 12_000 draws total) took 10 seconds.
 Auto-assigning NUTS sampler...
 Initializing NUTS using jitter+adapt_diag...
 Multiprocess sampling (4 chains in 4 jobs)
@@ -1072,6 +1101,9 @@ NUTS: [d, theta]
         /* Needs to be in here for Safari polyfill so background images work as expected. */
         background-size: auto;
     }
+    progress:not([value]), progress:not([value])::-webkit-progress-bar {
+        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
+    }
     .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
         background: #F44336;
     }
@@ -1079,10 +1111,9 @@ NUTS: [d, theta]
 </div><div class="output text_html">
 <div>
   <progress value='16000' class='' max='16000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-  100.00% [16000/16000 00:06<00:00 Sampling 4 chains, 1 divergences]
+  100.00% [16000/16000 00:06&lt;00:00 Sampling 4 chains, 0 divergences]
 </div>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 3_000 draw iterations (4_000 + 12_000 draws total) took 22 seconds.
-There was 1 divergence after tuning. Increase `target_accept` or reparameterize.
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 3_000 draw iterations (4_000 + 12_000 draws total) took 7 seconds.
 Auto-assigning NUTS sampler...
 Initializing NUTS using jitter+adapt_diag...
 Multiprocess sampling (4 chains in 4 jobs)
@@ -1098,6 +1129,9 @@ NUTS: [d, theta]
         /* Needs to be in here for Safari polyfill so background images work as expected. */
         background-size: auto;
     }
+    progress:not([value]), progress:not([value])::-webkit-progress-bar {
+        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
+    }
     .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
         background: #F44336;
     }
@@ -1105,10 +1139,9 @@ NUTS: [d, theta]
 </div><div class="output text_html">
 <div>
   <progress value='16000' class='' max='16000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-  100.00% [16000/16000 00:10<00:00 Sampling 4 chains, 0 divergences]
+  100.00% [16000/16000 00:08&lt;00:00 Sampling 4 chains, 0 divergences]
 </div>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 3_000 draw iterations (4_000 + 12_000 draws total) took 29 seconds.
-The acceptance probability does not match the target. It is 0.8801, but should be close to 0.8. Try to increase the number of tuning steps.
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 3_000 draw iterations (4_000 + 12_000 draws total) took 10 seconds.
 </pre></div>
 </div>
 </div>
@@ -1125,20 +1158,20 @@ The acceptance probability does not match the target. It is 0.8801, but should b
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>s=0.5
           mean     sd  hdi_3%  hdi_97%
-d        5.230  4.305   0.010   12.975
-theta  101.044  7.830  86.227  115.789
+d        5.371  4.430   0.008   13.327
+theta  100.843  7.653  86.061  114.692
 
 
 s=1
           mean     sd  hdi_3%  hdi_97%
-d        2.867  2.268   0.003    6.894
-theta  102.775  6.987  89.561  116.179
+d        2.844  2.264   0.016    6.981
+theta  102.803  6.929  89.582  115.632
 
 
 s=2
           mean     sd  hdi_3%  hdi_97%
-d        1.513  1.191   0.014    3.633
-theta  104.782  5.935  93.807  116.035
+d        1.521  1.186   0.002    3.679
+theta  104.791  5.841  93.827  115.692
 </pre></div>
 </div>
 </div>
@@ -1150,13 +1183,18 @@ theta  104.782  5.935  93.807  116.035
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Python implementation: CPython
-Python version       : 3.10.4
-IPython version      : 8.4.0
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Fri Feb 03 2023
 
-numpy: 1.22.4
-arviz: 0.12.1
-pymc : 4.0.0
+Python implementation: CPython
+Python version       : 3.11.0
+IPython version      : 8.9.0
+
+aesara: 2.8.10
+aeppl : 0.1.1
+
+arviz: 0.14.0
+pymc : 5.0.1
+numpy: 1.24.1
 </pre></div>
 </div>
 </div>

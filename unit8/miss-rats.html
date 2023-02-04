@@ -934,10 +934,34 @@ title="Print to PDF"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/pymc/model.py:1431: ImputationWarning: Data in likelihood contains missing values and will be automatically imputed from the sampling distribution.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc_env2/lib/python3.11/site-packages/pymc/model.py:1400: ImputationWarning: Data in likelihood contains missing values and will be automatically imputed from the sampling distribution.
   warnings.warn(impute_message, ImputationWarning)
 Auto-assigning NUTS sampler...
 Initializing NUTS using jitter+adapt_diag_grad...
+/Users/aaron/mambaforge/envs/pymc_env2/lib/python3.11/site-packages/multipledispatch/dispatcher.py:27: AmbiguityWarning: 
+Ambiguities exist in dispatched function _unify
+
+The following signatures may result in ambiguous behavior:
+	[object, ConstrainedVar, Mapping], [ConstrainedVar, Var, Mapping]
+	[object, ConstrainedVar, Mapping], [ConstrainedVar, object, Mapping]
+	[object, ConstrainedVar, Mapping], [ConstrainedVar, object, Mapping]
+	[object, ConstrainedVar, Mapping], [ConstrainedVar, Var, Mapping]
+
+
+Consider making the following additions:
+
+@dispatch(ConstrainedVar, ConstrainedVar, Mapping)
+def _unify(...)
+
+@dispatch(ConstrainedVar, ConstrainedVar, Mapping)
+def _unify(...)
+
+@dispatch(ConstrainedVar, ConstrainedVar, Mapping)
+def _unify(...)
+
+@dispatch(ConstrainedVar, ConstrainedVar, Mapping)
+def _unify(...)
+  warn(warning_text(dispatcher.name, ambiguities), AmbiguityWarning)
 Multiprocess sampling (4 chains in 4 jobs)
 NUTS: [alpha_c, alpha_tau, beta_c, beta_tau, alpha, beta, lik_tau, likelihood_missing]
 </pre></div>
@@ -961,10 +985,9 @@ NUTS: [alpha_c, alpha_tau, beta_c, beta_tau, alpha, beta, lik_tau, likelihood_mi
 </div><div class="output text_html">
 <div>
   <progress value='24000' class='' max='24000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-  100.00% [24000/24000 02:23&lt;00:00 Sampling 4 chains, 14 divergences]
+  100.00% [24000/24000 13:24&lt;00:00 Sampling 4 chains, 9 divergences]
 </div>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 5_000 draw iterations (4_000 + 20_000 draws total) took 153 seconds.
-There were 14 divergences after tuning. Increase `target_accept` or reparameterize.
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 5_000 draw iterations (4_000 + 20_000 draws total) took 820 seconds.
 </pre></div>
 </div>
 </div>
@@ -1008,38 +1031,38 @@ There were 14 divergences after tuning. Increase `target_accept` or reparameteri
   <tbody>
     <tr>
       <th>alpha_c</th>
-      <td>101.237</td>
-      <td>2.297</td>
-      <td>96.749</td>
-      <td>105.752</td>
+      <td>101.179</td>
+      <td>2.291</td>
+      <td>96.793</td>
+      <td>105.822</td>
     </tr>
     <tr>
       <th>alpha_tau</th>
-      <td>0.034</td>
-      <td>0.151</td>
+      <td>7.566</td>
+      <td>77.385</td>
       <td>0.003</td>
-      <td>0.052</td>
+      <td>0.383</td>
     </tr>
     <tr>
       <th>beta_c</th>
-      <td>6.566</td>
-      <td>0.164</td>
-      <td>6.244</td>
-      <td>6.880</td>
+      <td>6.569</td>
+      <td>0.166</td>
+      <td>6.247</td>
+      <td>6.897</td>
     </tr>
     <tr>
       <th>beta_tau</th>
-      <td>2.884</td>
-      <td>1.245</td>
-      <td>0.966</td>
-      <td>5.276</td>
+      <td>2.806</td>
+      <td>1.198</td>
+      <td>0.967</td>
+      <td>5.220</td>
     </tr>
     <tr>
       <th>sigma</th>
-      <td>6.031</td>
-      <td>0.680</td>
-      <td>4.761</td>
-      <td>7.381</td>
+      <td>6.057</td>
+      <td>0.695</td>
+      <td>4.752</td>
+      <td>7.415</td>
     </tr>
   </tbody>
 </table>
@@ -1099,18 +1122,14 @@ There were 14 divergences after tuning. Increase `target_accept` or reparameteri
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/pymc/model.py:1431: ImputationWarning: Data in x_imputed contains missing values and will be automatically imputed from the sampling distribution.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc_env2/lib/python3.11/site-packages/pymc/model.py:1400: ImputationWarning: Data in x_imputed contains missing values and will be automatically imputed from the sampling distribution.
   warnings.warn(impute_message, ImputationWarning)
-/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/pymc/model.py:1431: ImputationWarning: Data in likelihood contains missing values and will be automatically imputed from the sampling distribution.
+/Users/aaron/mambaforge/envs/pymc_env2/lib/python3.11/site-packages/pymc/model.py:1400: ImputationWarning: Data in likelihood contains missing values and will be automatically imputed from the sampling distribution.
   warnings.warn(impute_message, ImputationWarning)
 Auto-assigning NUTS sampler...
-INFO:pymc:Auto-assigning NUTS sampler...
 Initializing NUTS using jitter+adapt_diag_grad...
-INFO:pymc:Initializing NUTS using jitter+adapt_diag_grad...
 Multiprocess sampling (4 chains in 4 jobs)
-INFO:pymc:Multiprocess sampling (4 chains in 4 jobs)
 NUTS: [alpha_c, alpha_tau, beta_c, beta_tau, alpha, beta, lik_tau, x_imputed_missing, likelihood_missing]
-INFO:pymc:NUTS: [alpha_c, alpha_tau, beta_c, beta_tau, alpha, beta, lik_tau, x_imputed_missing, likelihood_missing]
 </pre></div>
 </div>
 <div class="output text_html">
@@ -1132,16 +1151,9 @@ INFO:pymc:NUTS: [alpha_c, alpha_tau, beta_c, beta_tau, alpha, beta, lik_tau, x_i
 </div><div class="output text_html">
 <div>
   <progress value='24000' class='' max='24000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-  100.00% [24000/24000 01:48&lt;00:00 Sampling 4 chains, 7 divergences]
+  100.00% [24000/24000 02:24&lt;00:00 Sampling 4 chains, 16 divergences]
 </div>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 5_000 draw iterations (4_000 + 20_000 draws total) took 117 seconds.
-INFO:pymc:Sampling 4 chains for 1_000 tune and 5_000 draw iterations (4_000 + 20_000 draws total) took 117 seconds.
-There were 2 divergences after tuning. Increase `target_accept` or reparameterize.
-ERROR:pymc:There were 2 divergences after tuning. Increase `target_accept` or reparameterize.
-There were 4 divergences after tuning. Increase `target_accept` or reparameterize.
-ERROR:pymc:There were 4 divergences after tuning. Increase `target_accept` or reparameterize.
-There was 1 divergence after tuning. Increase `target_accept` or reparameterize.
-ERROR:pymc:There was 1 divergence after tuning. Increase `target_accept` or reparameterize.
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 5_000 draw iterations (4_000 + 20_000 draws total) took 145 seconds.
 </pre></div>
 </div>
 </div>
@@ -1185,55 +1197,84 @@ ERROR:pymc:There was 1 divergence after tuning. Increase `target_accept` or repa
   <tbody>
     <tr>
       <th>alpha_c</th>
-      <td>101.876</td>
-      <td>2.358</td>
-      <td>97.235</td>
+      <td>101.897</td>
+      <td>2.350</td>
+      <td>97.277</td>
       <td>106.482</td>
     </tr>
     <tr>
       <th>beta_c</th>
-      <td>6.509</td>
-      <td>0.167</td>
-      <td>6.179</td>
-      <td>6.833</td>
+      <td>6.507</td>
+      <td>0.168</td>
+      <td>6.175</td>
+      <td>6.834</td>
     </tr>
     <tr>
       <th>alpha_tau</th>
-      <td>0.021</td>
-      <td>0.052</td>
-      <td>0.004</td>
-      <td>0.042</td>
+      <td>0.030</td>
+      <td>0.137</td>
+      <td>0.003</td>
+      <td>0.045</td>
     </tr>
     <tr>
       <th>beta_tau</th>
-      <td>3.001</td>
-      <td>1.278</td>
-      <td>0.932</td>
-      <td>5.438</td>
+      <td>3.004</td>
+      <td>1.308</td>
+      <td>0.998</td>
+      <td>5.560</td>
     </tr>
     <tr>
       <th>lik_tau</th>
       <td>0.029</td>
       <td>0.006</td>
       <td>0.017</td>
-      <td>0.041</td>
+      <td>0.042</td>
     </tr>
     <tr>
-      <th>x_imputed_missing[0]</th>
-      <td>29.500</td>
-      <td>0.385</td>
-      <td>28.754</td>
-      <td>30.267</td>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
     </tr>
     <tr>
-      <th>sigma</th>
-      <td>5.970</td>
-      <td>0.654</td>
-      <td>4.791</td>
-      <td>7.307</td>
+      <th>likelihood[29, 0]</th>
+      <td>153.000</td>
+      <td>0.000</td>
+      <td>153.000</td>
+      <td>153.000</td>
+    </tr>
+    <tr>
+      <th>likelihood[29, 1]</th>
+      <td>198.652</td>
+      <td>9.472</td>
+      <td>179.722</td>
+      <td>216.815</td>
+    </tr>
+    <tr>
+      <th>likelihood[29, 2]</th>
+      <td>244.035</td>
+      <td>12.129</td>
+      <td>221.067</td>
+      <td>268.865</td>
+    </tr>
+    <tr>
+      <th>likelihood[29, 3]</th>
+      <td>292.506</td>
+      <td>15.797</td>
+      <td>262.473</td>
+      <td>324.892</td>
+    </tr>
+    <tr>
+      <th>likelihood[29, 4]</th>
+      <td>334.755</td>
+      <td>19.055</td>
+      <td>297.609</td>
+      <td>372.444</td>
     </tr>
   </tbody>
 </table>
+<p>162 rows × 4 columns</p>
 </div></div></div>
 </div>
 </section>
@@ -1276,16 +1317,12 @@ ERROR:pymc:There was 1 divergence after tuning. Increase `target_accept` or repa
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/pymc/model.py:1431: ImputationWarning: Data in likelihood contains missing values and will be automatically imputed from the sampling distribution.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc_env2/lib/python3.11/site-packages/pymc/model.py:1400: ImputationWarning: Data in likelihood contains missing values and will be automatically imputed from the sampling distribution.
   warnings.warn(impute_message, ImputationWarning)
 Auto-assigning NUTS sampler...
-INFO:pymc:Auto-assigning NUTS sampler...
 Initializing NUTS using jitter+adapt_diag_grad...
-INFO:pymc:Initializing NUTS using jitter+adapt_diag_grad...
 Multiprocess sampling (4 chains in 4 jobs)
-INFO:pymc:Multiprocess sampling (4 chains in 4 jobs)
 NUTS: [a, alpha, beta, log_sigma, likelihood_missing]
-INFO:pymc:NUTS: [a, alpha, beta, log_sigma, likelihood_missing]
 </pre></div>
 </div>
 <div class="output text_html">
@@ -1307,24 +1344,9 @@ INFO:pymc:NUTS: [a, alpha, beta, log_sigma, likelihood_missing]
 </div><div class="output text_html">
 <div>
   <progress value='24000' class='' max='24000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-  100.00% [24000/24000 00:13&lt;00:00 Sampling 4 chains, 333 divergences]
+  100.00% [24000/24000 00:12&lt;00:00 Sampling 4 chains, 3,423 divergences]
 </div>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 2_000 tune and 4_000 draw iterations (8_000 + 16_000 draws total) took 22 seconds.
-INFO:pymc:Sampling 4 chains for 2_000 tune and 4_000 draw iterations (8_000 + 16_000 draws total) took 22 seconds.
-There were 3 divergences after tuning. Increase `target_accept` or reparameterize.
-ERROR:pymc:There were 3 divergences after tuning. Increase `target_accept` or reparameterize.
-There were 168 divergences after tuning. Increase `target_accept` or reparameterize.
-ERROR:pymc:There were 168 divergences after tuning. Increase `target_accept` or reparameterize.
-The acceptance probability does not match the target. It is 0.5763, but should be close to 0.8. Try to increase the number of tuning steps.
-WARNING:pymc:The acceptance probability does not match the target. It is 0.5763, but should be close to 0.8. Try to increase the number of tuning steps.
-There were 86 divergences after tuning. Increase `target_accept` or reparameterize.
-ERROR:pymc:There were 86 divergences after tuning. Increase `target_accept` or reparameterize.
-The acceptance probability does not match the target. It is 0.6707, but should be close to 0.8. Try to increase the number of tuning steps.
-WARNING:pymc:The acceptance probability does not match the target. It is 0.6707, but should be close to 0.8. Try to increase the number of tuning steps.
-There were 76 divergences after tuning. Increase `target_accept` or reparameterize.
-ERROR:pymc:There were 76 divergences after tuning. Increase `target_accept` or reparameterize.
-The acceptance probability does not match the target. It is 0.6872, but should be close to 0.8. Try to increase the number of tuning steps.
-WARNING:pymc:The acceptance probability does not match the target. It is 0.6872, but should be close to 0.8. Try to increase the number of tuning steps.
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 2_000 tune and 4_000 draw iterations (8_000 + 16_000 draws total) took 14 seconds.
 </pre></div>
 </div>
 </div>
@@ -1363,122 +1385,157 @@ WARNING:pymc:The acceptance probability does not match the target. It is 0.6872,
   <tbody>
     <tr>
       <th>a</th>
-      <td>-4.861</td>
-      <td>1.447</td>
-      <td>-7.748</td>
-      <td>-2.315</td>
+      <td>-4.630</td>
+      <td>1.357</td>
+      <td>-7.432</td>
+      <td>-2.461</td>
     </tr>
     <tr>
       <th>alpha</th>
-      <td>111.743</td>
-      <td>37.921</td>
-      <td>81.477</td>
-      <td>139.499</td>
+      <td>110.460</td>
+      <td>25.817</td>
+      <td>81.420</td>
+      <td>135.832</td>
     </tr>
     <tr>
       <th>beta</th>
-      <td>8.173</td>
-      <td>1.543</td>
-      <td>6.797</td>
-      <td>9.617</td>
+      <td>8.211</td>
+      <td>1.326</td>
+      <td>6.840</td>
+      <td>9.547</td>
     </tr>
     <tr>
       <th>log_sigma</th>
-      <td>1.857</td>
-      <td>0.708</td>
-      <td>0.776</td>
-      <td>3.238</td>
+      <td>1.803</td>
+      <td>0.682</td>
+      <td>0.834</td>
+      <td>3.107</td>
     </tr>
     <tr>
       <th>likelihood_missing[0]</th>
-      <td>408.372</td>
-      <td>52.684</td>
-      <td>367.884</td>
-      <td>440.877</td>
+      <td>406.941</td>
+      <td>34.115</td>
+      <td>375.358</td>
+      <td>440.485</td>
     </tr>
     <tr>
       <th>sigma2</th>
-      <td>1261.074</td>
-      <td>31508.011</td>
-      <td>3.312</td>
-      <td>569.541</td>
+      <td>254.218</td>
+      <td>2921.850</td>
+      <td>2.254</td>
+      <td>441.676</td>
     </tr>
     <tr>
       <th>tau</th>
+      <td>0.050</td>
       <td>0.046</td>
-      <td>0.045</td>
-      <td>0.000</td>
-      <td>0.133</td>
+      <td>0.001</td>
+      <td>0.136</td>
     </tr>
     <tr>
       <th>mu[0]</th>
-      <td>177.124</td>
-      <td>29.071</td>
-      <td>155.395</td>
-      <td>193.343</td>
+      <td>176.147</td>
+      <td>15.842</td>
+      <td>158.079</td>
+      <td>193.091</td>
     </tr>
     <tr>
       <th>mu[1]</th>
-      <td>234.333</td>
-      <td>24.006</td>
-      <td>220.789</td>
-      <td>244.858</td>
+      <td>233.624</td>
+      <td>8.483</td>
+      <td>222.348</td>
+      <td>244.786</td>
     </tr>
     <tr>
       <th>mu[2]</th>
-      <td>291.542</td>
-      <td>23.254</td>
-      <td>279.611</td>
-      <td>304.347</td>
+      <td>291.101</td>
+      <td>8.078</td>
+      <td>279.725</td>
+      <td>301.914</td>
     </tr>
     <tr>
       <th>mu[3]</th>
-      <td>348.751</td>
-      <td>27.174</td>
-      <td>329.561</td>
-      <td>367.307</td>
+      <td>348.577</td>
+      <td>15.194</td>
+      <td>331.342</td>
+      <td>365.613</td>
     </tr>
     <tr>
       <th>mu[4]</th>
-      <td>405.960</td>
-      <td>34.197</td>
-      <td>378.053</td>
-      <td>433.150</td>
+      <td>406.054</td>
+      <td>23.849</td>
+      <td>382.924</td>
+      <td>433.884</td>
+    </tr>
+    <tr>
+      <th>likelihood[0, 0]</th>
+      <td>177.000</td>
+      <td>0.000</td>
+      <td>177.000</td>
+      <td>177.000</td>
+    </tr>
+    <tr>
+      <th>likelihood[0, 1]</th>
+      <td>236.000</td>
+      <td>0.000</td>
+      <td>236.000</td>
+      <td>236.000</td>
+    </tr>
+    <tr>
+      <th>likelihood[0, 2]</th>
+      <td>285.000</td>
+      <td>0.000</td>
+      <td>285.000</td>
+      <td>285.000</td>
+    </tr>
+    <tr>
+      <th>likelihood[0, 3]</th>
+      <td>350.000</td>
+      <td>0.000</td>
+      <td>350.000</td>
+      <td>350.000</td>
+    </tr>
+    <tr>
+      <th>likelihood[0, 4]</th>
+      <td>406.941</td>
+      <td>34.115</td>
+      <td>375.358</td>
+      <td>440.485</td>
     </tr>
     <tr>
       <th>p[0, 0]</th>
-      <td>0.079</td>
+      <td>0.091</td>
       <td>0.087</td>
       <td>0.000</td>
-      <td>0.259</td>
+      <td>0.264</td>
     </tr>
     <tr>
       <th>p[0, 1]</th>
-      <td>0.126</td>
-      <td>0.123</td>
+      <td>0.144</td>
+      <td>0.124</td>
       <td>0.000</td>
-      <td>0.386</td>
+      <td>0.392</td>
     </tr>
     <tr>
       <th>p[0, 2]</th>
-      <td>0.179</td>
-      <td>0.157</td>
+      <td>0.203</td>
+      <td>0.159</td>
       <td>0.000</td>
-      <td>0.506</td>
+      <td>0.512</td>
     </tr>
     <tr>
       <th>p[0, 3]</th>
-      <td>0.269</td>
-      <td>0.201</td>
-      <td>0.000</td>
-      <td>0.662</td>
+      <td>0.303</td>
+      <td>0.204</td>
+      <td>0.009</td>
+      <td>0.675</td>
     </tr>
     <tr>
       <th>p[0, 4]</th>
-      <td>0.365</td>
+      <td>0.404</td>
       <td>0.233</td>
-      <td>0.000</td>
-      <td>0.775</td>
+      <td>0.013</td>
+      <td>0.786</td>
     </tr>
   </tbody>
 </table>
@@ -1491,18 +1548,18 @@ WARNING:pymc:The acceptance probability does not match the target. It is 0.6872,
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Sun Jul 31 2022
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Fri Feb 03 2023
 
 Python implementation: CPython
-Python version       : 3.10.5
-IPython version      : 8.4.0
+Python version       : 3.11.0
+IPython version      : 8.9.0
 
-aesara: 2.7.7
-aeppl : 0.0.32
+aesara: 2.8.10
+aeppl : 0.1.1
 
-pymc : 4.1.3
-numpy: 1.23.1
-arviz: 0.12.1
+numpy: 1.24.1
+pymc : 5.0.1
+arviz: 0.14.0
 </pre></div>
 </div>
 </div>

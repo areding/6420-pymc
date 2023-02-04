@@ -943,6 +943,30 @@ title="Print to PDF"
 Initializing NUTS using jitter+adapt_diag...
 Multiprocess sampling (4 chains in 4 jobs)
 NUTS: [μ0, τ, α4, α3, α2]
+/Users/aaron/mambaforge/envs/pymc_env2/lib/python3.11/site-packages/multipledispatch/dispatcher.py:27: AmbiguityWarning: 
+Ambiguities exist in dispatched function _unify
+
+The following signatures may result in ambiguous behavior:
+	[ConstrainedVar, object, Mapping], [object, ConstrainedVar, Mapping]
+	[object, ConstrainedVar, Mapping], [ConstrainedVar, object, Mapping]
+	[ConstrainedVar, Var, Mapping], [object, ConstrainedVar, Mapping]
+	[object, ConstrainedVar, Mapping], [ConstrainedVar, Var, Mapping]
+
+
+Consider making the following additions:
+
+@dispatch(ConstrainedVar, ConstrainedVar, Mapping)
+def _unify(...)
+
+@dispatch(ConstrainedVar, ConstrainedVar, Mapping)
+def _unify(...)
+
+@dispatch(ConstrainedVar, ConstrainedVar, Mapping)
+def _unify(...)
+
+@dispatch(ConstrainedVar, ConstrainedVar, Mapping)
+def _unify(...)
+  warn(warning_text(dispatcher.name, ambiguities), AmbiguityWarning)
 </pre></div>
 </div>
 <div class="output text_html">
@@ -954,6 +978,9 @@ NUTS: [μ0, τ, α4, α3, α2]
         /* Needs to be in here for Safari polyfill so background images work as expected. */
         background-size: auto;
     }
+    progress:not([value]), progress:not([value])::-webkit-progress-bar {
+        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
+    }
     .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
         background: #F44336;
     }
@@ -961,9 +988,9 @@ NUTS: [μ0, τ, α4, α3, α2]
 </div><div class="output text_html">
 <div>
   <progress value='24000' class='' max='24000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-  100.00% [24000/24000 00:20<00:00 Sampling 4 chains, 0 divergences]
+  100.00% [24000/24000 00:16&lt;00:00 Sampling 4 chains, 0 divergences]
 </div>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 5_000 draw iterations (4_000 + 20_000 draws total) took 40 seconds.
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 5_000 draw iterations (4_000 + 20_000 draws total) took 21 seconds.
 </pre></div>
 </div>
 </div>
@@ -1003,72 +1030,72 @@ NUTS: [μ0, τ, α4, α3, α2]
     <tr>
       <th>α4</th>
       <td>-2.995</td>
-      <td>0.810</td>
-      <td>-4.598</td>
-      <td>-1.532</td>
+      <td>0.812</td>
+      <td>-4.545</td>
+      <td>-1.451</td>
     </tr>
     <tr>
       <th>α3</th>
-      <td>4.008</td>
-      <td>0.901</td>
-      <td>2.308</td>
-      <td>5.696</td>
+      <td>4.001</td>
+      <td>0.898</td>
+      <td>2.313</td>
+      <td>5.725</td>
     </tr>
     <tr>
       <th>α2</th>
       <td>1.995</td>
-      <td>0.888</td>
-      <td>0.314</td>
-      <td>3.644</td>
+      <td>0.892</td>
+      <td>0.281</td>
+      <td>3.648</td>
     </tr>
     <tr>
       <th>α1</th>
-      <td>-3.008</td>
-      <td>1.035</td>
-      <td>-4.989</td>
-      <td>-1.071</td>
+      <td>-3.002</td>
+      <td>1.028</td>
+      <td>-4.900</td>
+      <td>-1.009</td>
     </tr>
     <tr>
       <th>α1-α2</th>
-      <td>-5.003</td>
-      <td>1.620</td>
-      <td>-8.073</td>
-      <td>-2.002</td>
+      <td>-4.998</td>
+      <td>1.616</td>
+      <td>-8.063</td>
+      <td>-1.993</td>
     </tr>
     <tr>
       <th>α1-α3</th>
-      <td>-7.017</td>
-      <td>1.636</td>
-      <td>-10.009</td>
-      <td>-3.845</td>
+      <td>-7.004</td>
+      <td>1.619</td>
+      <td>-9.995</td>
+      <td>-3.856</td>
     </tr>
     <tr>
       <th>α1-α4</th>
-      <td>-0.013</td>
-      <td>1.521</td>
-      <td>-2.871</td>
-      <td>2.847</td>
+      <td>-0.008</td>
+      <td>1.522</td>
+      <td>-2.940</td>
+      <td>2.815</td>
     </tr>
     <tr>
       <th>α2-α3</th>
-      <td>-2.013</td>
-      <td>1.435</td>
-      <td>-4.776</td>
-      <td>0.617</td>
+      <td>-2.006</td>
+      <td>1.445</td>
+      <td>-4.692</td>
+      <td>0.802</td>
     </tr>
     <tr>
       <th>α2-α4</th>
       <td>4.990</td>
-      <td>1.342</td>
-      <td>2.493</td>
-      <td>7.568</td>
+      <td>1.344</td>
+      <td>2.494</td>
+      <td>7.572</td>
     </tr>
     <tr>
       <th>α3-α4</th>
-      <td>7.003</td>
-      <td>1.357</td>
-      <td>4.499</td>
-      <td>9.567</td>
+      <td>6.996</td>
+      <td>1.354</td>
+      <td>4.448</td>
+      <td>9.569</td>
     </tr>
   </tbody>
 </table>
@@ -1081,7 +1108,7 @@ NUTS: [μ0, τ, α4, α3, α2]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([&lt;AxesSubplot:title={&#39;center&#39;:&#39;94.0% HDI&#39;}&gt;], dtype=object)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([&lt;AxesSubplot: title={&#39;center&#39;: &#39;94.0% HDI&#39;}&gt;], dtype=object)
 </pre></div>
 </div>
 <img alt="../_images/lr-coagulation_7_1.png" src="../_images/lr-coagulation_7_1.png" />
@@ -1094,7 +1121,7 @@ NUTS: [μ0, τ, α4, α3, α2]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([&lt;AxesSubplot:title={&#39;center&#39;:&#39;94.0% HDI&#39;}&gt;], dtype=object)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([&lt;AxesSubplot: title={&#39;center&#39;: &#39;94.0% HDI&#39;}&gt;], dtype=object)
 </pre></div>
 </div>
 <img alt="../_images/lr-coagulation_8_1.png" src="../_images/lr-coagulation_8_1.png" />
@@ -1160,6 +1187,9 @@ NUTS: [μ0, τ, α2, α3, α4]
         /* Needs to be in here for Safari polyfill so background images work as expected. */
         background-size: auto;
     }
+    progress:not([value]), progress:not([value])::-webkit-progress-bar {
+        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
+    }
     .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
         background: #F44336;
     }
@@ -1167,9 +1197,9 @@ NUTS: [μ0, τ, α2, α3, α4]
 </div><div class="output text_html">
 <div>
   <progress value='24000' class='' max='24000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-  100.00% [24000/24000 00:16<00:00 Sampling 4 chains, 0 divergences]
+  100.00% [24000/24000 00:10&lt;00:00 Sampling 4 chains, 0 divergences]
 </div>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 5_000 draw iterations (4_000 + 20_000 draws total) took 35 seconds.
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 5_000 draw iterations (4_000 + 20_000 draws total) took 27 seconds.
 </pre></div>
 </div>
 </div>
@@ -1208,73 +1238,73 @@ NUTS: [μ0, τ, α2, α3, α4]
   <tbody>
     <tr>
       <th>α2</th>
-      <td>1.990</td>
-      <td>0.892</td>
-      <td>0.268</td>
-      <td>3.614</td>
+      <td>1.993</td>
+      <td>0.893</td>
+      <td>0.262</td>
+      <td>3.612</td>
     </tr>
     <tr>
       <th>α3</th>
-      <td>4.004</td>
-      <td>0.901</td>
-      <td>2.315</td>
-      <td>5.714</td>
+      <td>4.002</td>
+      <td>0.887</td>
+      <td>2.364</td>
+      <td>5.706</td>
     </tr>
     <tr>
       <th>α4</th>
-      <td>-2.991</td>
-      <td>0.807</td>
-      <td>-4.464</td>
-      <td>-1.400</td>
+      <td>-3.000</td>
+      <td>0.822</td>
+      <td>-4.540</td>
+      <td>-1.431</td>
     </tr>
     <tr>
       <th>α1</th>
-      <td>-3.003</td>
-      <td>1.024</td>
-      <td>-4.859</td>
-      <td>-0.998</td>
+      <td>-2.995</td>
+      <td>1.040</td>
+      <td>-4.914</td>
+      <td>-0.979</td>
     </tr>
     <tr>
       <th>α1 - α2</th>
-      <td>-4.993</td>
-      <td>1.612</td>
-      <td>-8.111</td>
-      <td>-2.011</td>
+      <td>-4.988</td>
+      <td>1.627</td>
+      <td>-8.166</td>
+      <td>-2.008</td>
     </tr>
     <tr>
       <th>α1 - α3</th>
-      <td>-7.007</td>
-      <td>1.612</td>
-      <td>-10.085</td>
-      <td>-3.980</td>
+      <td>-6.997</td>
+      <td>1.627</td>
+      <td>-9.994</td>
+      <td>-3.866</td>
     </tr>
     <tr>
       <th>α1 - α4</th>
-      <td>-0.012</td>
-      <td>1.518</td>
-      <td>-2.903</td>
-      <td>2.842</td>
+      <td>0.005</td>
+      <td>1.541</td>
+      <td>-2.954</td>
+      <td>2.839</td>
     </tr>
     <tr>
       <th>α2 - α3</th>
-      <td>-2.014</td>
-      <td>1.455</td>
-      <td>-4.695</td>
-      <td>0.771</td>
+      <td>-2.009</td>
+      <td>1.424</td>
+      <td>-4.701</td>
+      <td>0.701</td>
     </tr>
     <tr>
       <th>α2 - α4</th>
-      <td>4.981</td>
-      <td>1.331</td>
-      <td>2.440</td>
-      <td>7.457</td>
+      <td>4.993</td>
+      <td>1.363</td>
+      <td>2.390</td>
+      <td>7.527</td>
     </tr>
     <tr>
       <th>α3 - α4</th>
-      <td>6.995</td>
-      <td>1.355</td>
-      <td>4.527</td>
-      <td>9.661</td>
+      <td>7.002</td>
+      <td>1.348</td>
+      <td>4.442</td>
+      <td>9.526</td>
     </tr>
   </tbody>
 </table>
@@ -1287,13 +1317,18 @@ NUTS: [μ0, τ, α2, α3, α4]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Python implementation: CPython
-Python version       : 3.10.4
-IPython version      : 8.4.0
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Fri Feb 03 2023
 
-arviz: 0.12.1
-numpy: 1.22.4
-pymc : 4.0.0
+Python implementation: CPython
+Python version       : 3.11.0
+IPython version      : 8.9.0
+
+aesara: 2.8.10
+aeppl : 0.1.1
+
+numpy: 1.24.1
+pymc : 5.0.1
+arviz: 0.14.0
 </pre></div>
 </div>
 </div>

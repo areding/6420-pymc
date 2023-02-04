@@ -895,7 +895,31 @@ title="Print to PDF"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Auto-assigning NUTS sampler...
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc_env2/lib/python3.11/site-packages/multipledispatch/dispatcher.py:27: AmbiguityWarning: 
+Ambiguities exist in dispatched function _unify
+
+The following signatures may result in ambiguous behavior:
+	[object, ConstrainedVar, Mapping], [ConstrainedVar, object, Mapping]
+	[object, ConstrainedVar, Mapping], [ConstrainedVar, object, Mapping]
+	[object, ConstrainedVar, Mapping], [ConstrainedVar, Var, Mapping]
+	[ConstrainedVar, Var, Mapping], [object, ConstrainedVar, Mapping]
+
+
+Consider making the following additions:
+
+@dispatch(ConstrainedVar, ConstrainedVar, Mapping)
+def _unify(...)
+
+@dispatch(ConstrainedVar, ConstrainedVar, Mapping)
+def _unify(...)
+
+@dispatch(ConstrainedVar, ConstrainedVar, Mapping)
+def _unify(...)
+
+@dispatch(ConstrainedVar, ConstrainedVar, Mapping)
+def _unify(...)
+  warn(warning_text(dispatcher.name, ambiguities), AmbiguityWarning)
+Auto-assigning NUTS sampler...
 Initializing NUTS using jitter+adapt_diag...
 Multiprocess sampling (4 chains in 4 jobs)
 NUTS: [θ]
@@ -910,6 +934,9 @@ NUTS: [θ]
         /* Needs to be in here for Safari polyfill so background images work as expected. */
         background-size: auto;
     }
+    progress:not([value]), progress:not([value])::-webkit-progress-bar {
+        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
+    }
     .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
         background: #F44336;
     }
@@ -917,9 +944,9 @@ NUTS: [θ]
 </div><div class="output text_html">
 <div>
   <progress value='44000' class='' max='44000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-  100.00% [44000/44000 00:26<00:00 Sampling 4 chains, 0 divergences]
+  100.00% [44000/44000 00:09&lt;00:00 Sampling 4 chains, 0 divergences]
 </div>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 10_000 draw iterations (4_000 + 40_000 draws total) took 50 seconds.
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 10_000 draw iterations (4_000 + 40_000 draws total) took 12 seconds.
 </pre></div>
 </div>
 </div>
@@ -963,38 +990,38 @@ NUTS: [θ]
   <tbody>
     <tr>
       <th>θ</th>
-      <td>102.858</td>
-      <td>6.877</td>
-      <td>89.180</td>
-      <td>116.074</td>
-      <td>0.055</td>
-      <td>0.039</td>
-      <td>15651.0</td>
-      <td>24485.0</td>
+      <td>102.781</td>
+      <td>6.932</td>
+      <td>89.442</td>
+      <td>116.391</td>
+      <td>0.057</td>
+      <td>0.040</td>
+      <td>14915.0</td>
+      <td>22114.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>λ1</th>
       <td>1002.634</td>
-      <td>0.583</td>
+      <td>0.584</td>
       <td>1002.191</td>
-      <td>1003.838</td>
+      <td>1003.836</td>
       <td>0.004</td>
       <td>0.003</td>
-      <td>17395.0</td>
-      <td>25055.0</td>
+      <td>17998.0</td>
+      <td>22701.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>λ2</th>
-      <td>1002.803</td>
-      <td>0.498</td>
+      <td>1002.811</td>
+      <td>0.505</td>
       <td>1002.394</td>
-      <td>1003.827</td>
+      <td>1003.846</td>
       <td>0.004</td>
       <td>0.003</td>
-      <td>16709.0</td>
-      <td>25368.0</td>
+      <td>16323.0</td>
+      <td>22175.0</td>
       <td>1.0</td>
     </tr>
   </tbody>
@@ -1010,14 +1037,19 @@ NUTS: [θ]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Python implementation: CPython
-Python version       : 3.10.4
-IPython version      : 8.4.0
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Fri Feb 03 2023
 
-matplotlib: 3.5.2
-numpy     : 1.22.4
-arviz     : 0.12.1
-pymc      : 4.0.0
+Python implementation: CPython
+Python version       : 3.11.0
+IPython version      : 8.9.0
+
+aesara: 2.8.10
+aeppl : 0.1.1
+
+numpy     : 1.24.1
+matplotlib: 3.6.3
+arviz     : 0.14.0
+pymc      : 5.0.1
 </pre></div>
 </div>
 </div>

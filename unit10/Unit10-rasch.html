@@ -897,7 +897,31 @@ title="Print to PDF"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Auto-assigning NUTS sampler...
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc_env2/lib/python3.11/site-packages/multipledispatch/dispatcher.py:27: AmbiguityWarning: 
+Ambiguities exist in dispatched function _unify
+
+The following signatures may result in ambiguous behavior:
+	[ConstrainedVar, Var, Mapping], [object, ConstrainedVar, Mapping]
+	[ConstrainedVar, object, Mapping], [object, ConstrainedVar, Mapping]
+	[ConstrainedVar, Var, Mapping], [object, ConstrainedVar, Mapping]
+	[object, ConstrainedVar, Mapping], [ConstrainedVar, object, Mapping]
+
+
+Consider making the following additions:
+
+@dispatch(ConstrainedVar, ConstrainedVar, Mapping)
+def _unify(...)
+
+@dispatch(ConstrainedVar, ConstrainedVar, Mapping)
+def _unify(...)
+
+@dispatch(ConstrainedVar, ConstrainedVar, Mapping)
+def _unify(...)
+
+@dispatch(ConstrainedVar, ConstrainedVar, Mapping)
+def _unify(...)
+  warn(warning_text(dispatcher.name, ambiguities), AmbiguityWarning)
+Auto-assigning NUTS sampler...
 Initializing NUTS using jitter+adapt_diag...
 Multiprocess sampling (4 chains in 4 jobs)
 NUTS: [tau_alpha, tau_delta, mu_delta, delta, alpha]
@@ -912,6 +936,9 @@ NUTS: [tau_alpha, tau_delta, mu_delta, delta, alpha]
         /* Needs to be in here for Safari polyfill so background images work as expected. */
         background-size: auto;
     }
+    progress:not([value]), progress:not([value])::-webkit-progress-bar {
+        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
+    }
     .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
         background: #F44336;
     }
@@ -919,9 +946,9 @@ NUTS: [tau_alpha, tau_delta, mu_delta, delta, alpha]
 </div><div class="output text_html">
 <div>
   <progress value='16000' class='' max='16000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-  100.00% [16000/16000 00:40<00:00 Sampling 4 chains, 0 divergences]
+  100.00% [16000/16000 01:14&lt;00:00 Sampling 4 chains, 0 divergences]
 </div>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 3_000 draw iterations (4_000 + 12_000 draws total) took 64 seconds.
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 3_000 draw iterations (4_000 + 12_000 draws total) took 77 seconds.
 </pre></div>
 </div>
 </div>
@@ -965,398 +992,398 @@ NUTS: [tau_alpha, tau_delta, mu_delta, delta, alpha]
   <tbody>
     <tr>
       <th>delta[0, 0]</th>
-      <td>0.941</td>
-      <td>0.233</td>
-      <td>0.509</td>
-      <td>1.386</td>
+      <td>0.946</td>
+      <td>0.228</td>
+      <td>0.523</td>
+      <td>1.384</td>
       <td>0.005</td>
       <td>0.003</td>
-      <td>2219.0</td>
-      <td>4540.0</td>
+      <td>2434.0</td>
+      <td>5000.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>delta[0, 1]</th>
-      <td>0.564</td>
-      <td>0.225</td>
-      <td>0.136</td>
-      <td>0.985</td>
-      <td>0.005</td>
+      <td>0.571</td>
+      <td>0.226</td>
+      <td>0.153</td>
+      <td>1.004</td>
       <td>0.004</td>
-      <td>1939.0</td>
-      <td>4750.0</td>
+      <td>0.003</td>
+      <td>2736.0</td>
+      <td>5145.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>delta[0, 2]</th>
-      <td>0.244</td>
-      <td>0.223</td>
-      <td>-0.163</td>
-      <td>0.672</td>
+      <td>0.249</td>
+      <td>0.221</td>
+      <td>-0.164</td>
+      <td>0.671</td>
       <td>0.005</td>
-      <td>0.004</td>
-      <td>1890.0</td>
-      <td>4057.0</td>
+      <td>0.003</td>
+      <td>2313.0</td>
+      <td>6263.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>delta[0, 3]</th>
-      <td>1.442</td>
-      <td>0.244</td>
-      <td>0.988</td>
-      <td>1.896</td>
+      <td>1.450</td>
+      <td>0.245</td>
+      <td>0.991</td>
+      <td>1.908</td>
       <td>0.005</td>
-      <td>0.004</td>
-      <td>2392.0</td>
-      <td>4637.0</td>
+      <td>0.003</td>
+      <td>2674.0</td>
+      <td>5891.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>delta[0, 4]</th>
-      <td>-1.028</td>
-      <td>0.228</td>
-      <td>-1.456</td>
-      <td>-0.598</td>
-      <td>0.005</td>
+      <td>-1.026</td>
+      <td>0.224</td>
+      <td>-1.435</td>
+      <td>-0.594</td>
       <td>0.004</td>
-      <td>1999.0</td>
-      <td>4511.0</td>
+      <td>0.003</td>
+      <td>2595.0</td>
+      <td>5627.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>delta[0, 5]</th>
-      <td>0.676</td>
-      <td>0.229</td>
+      <td>0.680</td>
+      <td>0.230</td>
       <td>0.236</td>
-      <td>1.098</td>
+      <td>1.094</td>
       <td>0.005</td>
-      <td>0.004</td>
-      <td>1861.0</td>
-      <td>4624.0</td>
+      <td>0.003</td>
+      <td>2424.0</td>
+      <td>5771.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>delta[0, 6]</th>
-      <td>0.942</td>
-      <td>0.232</td>
-      <td>0.521</td>
-      <td>1.387</td>
+      <td>0.945</td>
+      <td>0.233</td>
+      <td>0.514</td>
+      <td>1.392</td>
       <td>0.005</td>
-      <td>0.004</td>
-      <td>2129.0</td>
-      <td>4727.0</td>
+      <td>0.003</td>
+      <td>2557.0</td>
+      <td>5452.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>delta[0, 7]</th>
-      <td>0.748</td>
+      <td>0.752</td>
       <td>0.231</td>
-      <td>0.331</td>
-      <td>1.199</td>
-      <td>0.005</td>
+      <td>0.332</td>
+      <td>1.193</td>
       <td>0.004</td>
-      <td>1997.0</td>
-      <td>4743.0</td>
+      <td>0.003</td>
+      <td>2720.0</td>
+      <td>5772.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>delta[0, 8]</th>
-      <td>0.637</td>
-      <td>0.229</td>
-      <td>0.208</td>
-      <td>1.069</td>
-      <td>0.005</td>
+      <td>0.645</td>
+      <td>0.228</td>
+      <td>0.225</td>
+      <td>1.085</td>
       <td>0.004</td>
-      <td>1964.0</td>
-      <td>4958.0</td>
+      <td>0.003</td>
+      <td>2679.0</td>
+      <td>5763.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>delta[0, 9]</th>
-      <td>1.672</td>
-      <td>0.258</td>
-      <td>1.210</td>
-      <td>2.171</td>
-      <td>0.005</td>
+      <td>1.679</td>
+      <td>0.252</td>
+      <td>1.200</td>
+      <td>2.142</td>
       <td>0.004</td>
-      <td>2355.0</td>
-      <td>5561.0</td>
+      <td>0.003</td>
+      <td>3426.0</td>
+      <td>5664.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>delta[0, 10]</th>
-      <td>1.139</td>
-      <td>0.237</td>
-      <td>0.684</td>
-      <td>1.569</td>
-      <td>0.005</td>
+      <td>1.147</td>
+      <td>0.234</td>
+      <td>0.705</td>
+      <td>1.576</td>
       <td>0.004</td>
-      <td>2162.0</td>
-      <td>4322.0</td>
+      <td>0.003</td>
+      <td>2801.0</td>
+      <td>5721.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>delta[0, 11]</th>
-      <td>-1.213</td>
-      <td>0.231</td>
-      <td>-1.656</td>
-      <td>-0.796</td>
-      <td>0.005</td>
+      <td>-1.206</td>
+      <td>0.229</td>
+      <td>-1.627</td>
+      <td>-0.771</td>
       <td>0.004</td>
-      <td>2038.0</td>
-      <td>4335.0</td>
+      <td>0.003</td>
+      <td>2779.0</td>
+      <td>5718.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>delta[0, 12]</th>
-      <td>-0.201</td>
-      <td>0.222</td>
-      <td>-0.616</td>
-      <td>0.215</td>
-      <td>0.005</td>
+      <td>-0.196</td>
+      <td>0.219</td>
+      <td>-0.617</td>
+      <td>0.208</td>
       <td>0.004</td>
-      <td>1878.0</td>
-      <td>4110.0</td>
+      <td>0.003</td>
+      <td>2506.0</td>
+      <td>6415.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>delta[0, 13]</th>
-      <td>-0.098</td>
-      <td>0.220</td>
-      <td>-0.521</td>
-      <td>0.306</td>
-      <td>0.005</td>
+      <td>-0.093</td>
+      <td>0.221</td>
+      <td>-0.508</td>
+      <td>0.323</td>
       <td>0.004</td>
-      <td>1958.0</td>
-      <td>4599.0</td>
+      <td>0.003</td>
+      <td>2718.0</td>
+      <td>5442.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>delta[0, 14]</th>
-      <td>0.863</td>
-      <td>0.233</td>
-      <td>0.439</td>
-      <td>1.306</td>
-      <td>0.005</td>
+      <td>0.868</td>
+      <td>0.227</td>
+      <td>0.429</td>
+      <td>1.280</td>
       <td>0.004</td>
-      <td>2147.0</td>
-      <td>4540.0</td>
+      <td>0.003</td>
+      <td>2694.0</td>
+      <td>5783.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>delta[0, 15]</th>
-      <td>2.262</td>
-      <td>0.278</td>
-      <td>1.728</td>
-      <td>2.772</td>
+      <td>2.267</td>
+      <td>0.275</td>
+      <td>1.770</td>
+      <td>2.809</td>
       <td>0.005</td>
-      <td>0.004</td>
-      <td>3068.0</td>
-      <td>5652.0</td>
+      <td>0.003</td>
+      <td>3237.0</td>
+      <td>6375.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>delta[0, 16]</th>
-      <td>1.534</td>
-      <td>0.251</td>
-      <td>1.078</td>
-      <td>2.017</td>
-      <td>0.005</td>
+      <td>1.538</td>
+      <td>0.245</td>
+      <td>1.081</td>
+      <td>2.004</td>
       <td>0.004</td>
-      <td>2287.0</td>
-      <td>4676.0</td>
+      <td>0.003</td>
+      <td>3131.0</td>
+      <td>6052.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>delta[0, 17]</th>
-      <td>-0.301</td>
-      <td>0.219</td>
-      <td>-0.710</td>
-      <td>0.118</td>
-      <td>0.005</td>
+      <td>-0.295</td>
+      <td>0.222</td>
+      <td>-0.716</td>
+      <td>0.115</td>
       <td>0.004</td>
-      <td>1873.0</td>
-      <td>4326.0</td>
+      <td>0.003</td>
+      <td>2552.0</td>
+      <td>4986.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>delta[0, 18]</th>
-      <td>0.039</td>
-      <td>0.221</td>
-      <td>-0.371</td>
-      <td>0.455</td>
-      <td>0.005</td>
+      <td>0.044</td>
+      <td>0.223</td>
+      <td>-0.379</td>
+      <td>0.452</td>
       <td>0.004</td>
-      <td>1795.0</td>
-      <td>4337.0</td>
+      <td>0.003</td>
+      <td>2723.0</td>
+      <td>5773.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>delta[0, 19]</th>
-      <td>-1.325</td>
-      <td>0.233</td>
-      <td>-1.752</td>
-      <td>-0.876</td>
-      <td>0.005</td>
+      <td>-1.321</td>
+      <td>0.231</td>
+      <td>-1.754</td>
+      <td>-0.886</td>
       <td>0.004</td>
-      <td>2016.0</td>
-      <td>4318.0</td>
+      <td>0.003</td>
+      <td>3054.0</td>
+      <td>5926.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>delta[0, 20]</th>
-      <td>2.800</td>
-      <td>0.306</td>
-      <td>2.231</td>
-      <td>3.380</td>
+      <td>2.802</td>
+      <td>0.310</td>
+      <td>2.245</td>
+      <td>3.407</td>
       <td>0.005</td>
-      <td>0.004</td>
-      <td>3558.0</td>
-      <td>6302.0</td>
+      <td>0.003</td>
+      <td>4234.0</td>
+      <td>6517.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>delta[0, 21]</th>
-      <td>-0.471</td>
-      <td>0.220</td>
-      <td>-0.884</td>
-      <td>-0.054</td>
-      <td>0.005</td>
+      <td>-0.464</td>
+      <td>0.221</td>
+      <td>-0.879</td>
+      <td>-0.045</td>
       <td>0.004</td>
-      <td>1896.0</td>
-      <td>4472.0</td>
+      <td>0.003</td>
+      <td>2581.0</td>
+      <td>5880.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>delta[0, 22]</th>
-      <td>0.564</td>
-      <td>0.227</td>
-      <td>0.137</td>
-      <td>0.983</td>
-      <td>0.005</td>
+      <td>0.569</td>
+      <td>0.225</td>
+      <td>0.173</td>
+      <td>1.014</td>
       <td>0.004</td>
-      <td>1989.0</td>
-      <td>4565.0</td>
+      <td>0.003</td>
+      <td>2751.0</td>
+      <td>5613.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>delta[0, 23]</th>
-      <td>0.349</td>
-      <td>0.224</td>
-      <td>-0.057</td>
-      <td>0.784</td>
-      <td>0.005</td>
+      <td>0.354</td>
+      <td>0.223</td>
+      <td>-0.040</td>
+      <td>0.798</td>
       <td>0.004</td>
-      <td>1932.0</td>
-      <td>4735.0</td>
+      <td>0.003</td>
+      <td>2591.0</td>
+      <td>5168.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>delta[0, 24]</th>
-      <td>-1.776</td>
-      <td>0.247</td>
-      <td>-2.241</td>
-      <td>-1.321</td>
-      <td>0.005</td>
+      <td>-1.770</td>
+      <td>0.243</td>
+      <td>-2.244</td>
+      <td>-1.333</td>
       <td>0.004</td>
-      <td>2315.0</td>
-      <td>4897.0</td>
+      <td>0.003</td>
+      <td>3081.0</td>
+      <td>5937.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>delta[0, 25]</th>
-      <td>-1.483</td>
-      <td>0.236</td>
-      <td>-1.910</td>
-      <td>-1.023</td>
-      <td>0.005</td>
+      <td>-1.479</td>
+      <td>0.238</td>
+      <td>-1.921</td>
+      <td>-1.033</td>
       <td>0.004</td>
-      <td>1959.0</td>
-      <td>4597.0</td>
+      <td>0.003</td>
+      <td>3180.0</td>
+      <td>5617.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>delta[0, 26]</th>
-      <td>0.865</td>
-      <td>0.232</td>
-      <td>0.451</td>
-      <td>1.311</td>
-      <td>0.005</td>
+      <td>0.866</td>
+      <td>0.233</td>
+      <td>0.421</td>
+      <td>1.299</td>
       <td>0.004</td>
-      <td>2095.0</td>
-      <td>4823.0</td>
+      <td>0.003</td>
+      <td>2727.0</td>
+      <td>5576.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>delta[0, 27]</th>
-      <td>0.071</td>
-      <td>0.224</td>
-      <td>-0.322</td>
-      <td>0.512</td>
+      <td>0.077</td>
+      <td>0.220</td>
+      <td>-0.337</td>
+      <td>0.482</td>
       <td>0.005</td>
-      <td>0.004</td>
-      <td>1907.0</td>
-      <td>4733.0</td>
+      <td>0.003</td>
+      <td>2293.0</td>
+      <td>4817.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>delta[0, 28]</th>
-      <td>1.310</td>
-      <td>0.241</td>
-      <td>0.848</td>
-      <td>1.749</td>
-      <td>0.005</td>
+      <td>1.317</td>
+      <td>0.239</td>
+      <td>0.883</td>
+      <td>1.785</td>
       <td>0.004</td>
-      <td>2228.0</td>
-      <td>4357.0</td>
+      <td>0.003</td>
+      <td>3065.0</td>
+      <td>6393.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>delta[0, 29]</th>
-      <td>-0.405</td>
-      <td>0.220</td>
-      <td>-0.836</td>
-      <td>-0.015</td>
-      <td>0.005</td>
+      <td>-0.395</td>
+      <td>0.218</td>
+      <td>-0.813</td>
+      <td>0.017</td>
       <td>0.004</td>
-      <td>1921.0</td>
-      <td>3631.0</td>
+      <td>0.003</td>
+      <td>2384.0</td>
+      <td>4982.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>delta[0, 30]</th>
-      <td>0.386</td>
-      <td>0.223</td>
-      <td>-0.029</td>
-      <td>0.802</td>
-      <td>0.005</td>
+      <td>0.391</td>
+      <td>0.222</td>
+      <td>-0.007</td>
+      <td>0.821</td>
       <td>0.004</td>
-      <td>1947.0</td>
-      <td>4683.0</td>
+      <td>0.003</td>
+      <td>2584.0</td>
+      <td>5853.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>delta[0, 31]</th>
-      <td>-0.886</td>
+      <td>-0.880</td>
       <td>0.223</td>
-      <td>-1.310</td>
-      <td>-0.480</td>
-      <td>0.005</td>
+      <td>-1.299</td>
+      <td>-0.462</td>
       <td>0.004</td>
-      <td>2000.0</td>
-      <td>4420.0</td>
+      <td>0.003</td>
+      <td>2613.0</td>
+      <td>5861.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>delta[0, 32]</th>
-      <td>0.711</td>
+      <td>0.715</td>
       <td>0.229</td>
-      <td>0.264</td>
-      <td>1.127</td>
-      <td>0.005</td>
+      <td>0.261</td>
+      <td>1.122</td>
       <td>0.004</td>
-      <td>2084.0</td>
-      <td>4405.0</td>
+      <td>0.003</td>
+      <td>2751.0</td>
+      <td>5665.0</td>
       <td>1.0</td>
     </tr>
   </tbody>
@@ -1366,6 +1393,22 @@ NUTS: [tau_alpha, tau_delta, mu_delta, delta, alpha]
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">watermark</span> -n -u -v -iv -p aesara,aeppl
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Fri Feb 03 2023
+
+Python implementation: CPython
+Python version       : 3.11.0
+IPython version      : 8.9.0
+
+aesara: 2.8.10
+aeppl : 0.1.1
+
+pymc : 5.0.1
+numpy: 1.24.1
+arviz: 0.14.0
 </pre></div>
 </div>
 </div>

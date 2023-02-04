@@ -912,6 +912,30 @@ title="Print to PDF"
 <div class="cell_output docutils container">
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Auto-assigning NUTS sampler...
 Initializing NUTS using jitter+adapt_diag...
+/Users/aaron/mambaforge/envs/pymc_env2/lib/python3.11/site-packages/multipledispatch/dispatcher.py:27: AmbiguityWarning: 
+Ambiguities exist in dispatched function _unify
+
+The following signatures may result in ambiguous behavior:
+	[object, ConstrainedVar, Mapping], [ConstrainedVar, object, Mapping]
+	[object, ConstrainedVar, Mapping], [ConstrainedVar, Var, Mapping]
+	[object, ConstrainedVar, Mapping], [ConstrainedVar, object, Mapping]
+	[object, ConstrainedVar, Mapping], [ConstrainedVar, Var, Mapping]
+
+
+Consider making the following additions:
+
+@dispatch(ConstrainedVar, ConstrainedVar, Mapping)
+def _unify(...)
+
+@dispatch(ConstrainedVar, ConstrainedVar, Mapping)
+def _unify(...)
+
+@dispatch(ConstrainedVar, ConstrainedVar, Mapping)
+def _unify(...)
+
+@dispatch(ConstrainedVar, ConstrainedVar, Mapping)
+def _unify(...)
+  warn(warning_text(dispatcher.name, ambiguities), AmbiguityWarning)
 Multiprocess sampling (4 chains in 4 jobs)
 NUTS: [mu, prec]
 </pre></div>
@@ -925,6 +949,9 @@ NUTS: [mu, prec]
         /* Needs to be in here for Safari polyfill so background images work as expected. */
         background-size: auto;
     }
+    progress:not([value]), progress:not([value])::-webkit-progress-bar {
+        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
+    }
     .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
         background: #F44336;
     }
@@ -932,9 +959,9 @@ NUTS: [mu, prec]
 </div><div class="output text_html">
 <div>
   <progress value='42000' class='' max='42000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-  100.00% [42000/42000 00:28<00:00 Sampling 4 chains, 0 divergences]
+  100.00% [42000/42000 00:06&lt;00:00 Sampling 4 chains, 0 divergences]
 </div>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 500 tune and 10_000 draw iterations (2_000 + 40_000 draws total) took 51 seconds.
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 500 tune and 10_000 draw iterations (2_000 + 40_000 draws total) took 7 seconds.
 </pre></div>
 </div>
 </div>
@@ -946,7 +973,7 @@ NUTS: [mu, prec]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/arviz/stats/diagnostics.py:586: RuntimeWarning: invalid value encountered in double_scalars
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc_env2/lib/python3.11/site-packages/arviz/stats/diagnostics.py:584: RuntimeWarning: invalid value encountered in scalar divide
   (between_chain_variance / within_chain_variance + num_samples - 1) / (num_samples)
 </pre></div>
 </div>
@@ -982,26 +1009,26 @@ NUTS: [mu, prec]
   <tbody>
     <tr>
       <th>mu</th>
-      <td>6.355</td>
-      <td>1.187</td>
-      <td>4.056</td>
-      <td>8.700</td>
+      <td>6.348</td>
+      <td>1.155</td>
+      <td>4.073</td>
+      <td>8.654</td>
       <td>0.007</td>
       <td>0.005</td>
-      <td>27411.0</td>
-      <td>23143.0</td>
+      <td>30917.0</td>
+      <td>24883.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>sigma</th>
-      <td>5.139</td>
-      <td>0.896</td>
-      <td>3.592</td>
-      <td>6.927</td>
-      <td>0.006</td>
+      <td>5.138</td>
+      <td>0.882</td>
+      <td>3.612</td>
+      <td>6.908</td>
+      <td>0.005</td>
       <td>0.004</td>
-      <td>28343.0</td>
-      <td>25294.0</td>
+      <td>30678.0</td>
+      <td>26152.0</td>
       <td>1.0</td>
     </tr>
     <tr>
@@ -1084,14 +1111,19 @@ NUTS: [mu, prec]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Python implementation: CPython
-Python version       : 3.10.4
-IPython version      : 8.4.0
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Fri Feb 03 2023
 
-matplotlib: 3.5.2
-pymc      : 4.0.0
-arviz     : 0.12.1
-numpy     : 1.22.4
+Python implementation: CPython
+Python version       : 3.11.0
+IPython version      : 8.9.0
+
+aesara: 2.8.10
+aeppl : 0.1.1
+
+pymc      : 5.0.1
+numpy     : 1.24.1
+arviz     : 0.14.0
+matplotlib: 3.6.3
 </pre></div>
 </div>
 </div>

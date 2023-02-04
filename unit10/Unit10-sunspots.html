@@ -868,8 +868,8 @@ title="Print to PDF"
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">arviz</span> <span class="k">as</span> <span class="nn">az</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">from</span> <span class="nn">aesara.tensor.subtensor</span> <span class="kn">import</span> <span class="n">set_subtensor</span>
-<span class="kn">import</span> <span class="nn">aesara.tensor</span> <span class="k">as</span> <span class="nn">at</span>
+<span class="kn">from</span> <span class="nn">pytensor.tensor.subtensor</span> <span class="kn">import</span> <span class="n">set_subtensor</span>
+<span class="kn">import</span> <span class="nn">pytensor.tensor</span> <span class="k">as</span> <span class="nn">pt</span>
 
 <span class="o">%</span><span class="k">load_ext</span> lab_black
 <span class="o">%</span><span class="k">load_ext</span> watermark
@@ -919,7 +919,7 @@ title="Print to PDF"
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">))</span>
-<span class="n">yr</span> <span class="o">=</span> <span class="n">t</span> <span class="o">+</span> <span class="mi">1770</span>  <span class="c1"># where is the professor using this?</span>
+<span class="n">yr</span> <span class="o">=</span> <span class="n">t</span> <span class="o">+</span> <span class="mi">1770</span>
 </pre></div>
 </div>
 </div>
@@ -937,7 +937,7 @@ title="Print to PDF"
     <span class="n">sigma</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Uniform</span><span class="p">(</span><span class="s2">&quot;sigma&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
     <span class="n">tau</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="n">sigma</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
 
-    <span class="n">_m</span> <span class="o">=</span> <span class="n">c</span> <span class="o">+</span> <span class="n">theta</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">shift</span><span class="o">=-</span><span class="mi">1</span><span class="p">)[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">_m</span> <span class="o">=</span> <span class="n">c</span> <span class="o">+</span> <span class="n">theta</span> <span class="o">*</span> <span class="n">pt</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">shift</span><span class="o">=-</span><span class="mi">1</span><span class="p">)[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
     <span class="n">m</span> <span class="o">=</span> <span class="n">set_subtensor</span><span class="p">(</span><span class="n">_m</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">eps_0</span><span class="p">)</span>
 
     <span class="n">_eps</span> <span class="o">=</span> <span class="n">y</span> <span class="o">-</span> <span class="n">m</span>
@@ -950,14 +950,34 @@ title="Print to PDF"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Auto-assigning NUTS sampler...
-INFO:pymc:Auto-assigning NUTS sampler...
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc_env2/lib/python3.11/site-packages/multipledispatch/dispatcher.py:27: AmbiguityWarning: 
+Ambiguities exist in dispatched function _unify
+
+The following signatures may result in ambiguous behavior:
+	[ConstrainedVar, object, Mapping], [object, ConstrainedVar, Mapping]
+	[ConstrainedVar, object, Mapping], [object, ConstrainedVar, Mapping]
+	[ConstrainedVar, Var, Mapping], [object, ConstrainedVar, Mapping]
+	[object, ConstrainedVar, Mapping], [ConstrainedVar, Var, Mapping]
+
+
+Consider making the following additions:
+
+@dispatch(ConstrainedVar, ConstrainedVar, Mapping)
+def _unify(...)
+
+@dispatch(ConstrainedVar, ConstrainedVar, Mapping)
+def _unify(...)
+
+@dispatch(ConstrainedVar, ConstrainedVar, Mapping)
+def _unify(...)
+
+@dispatch(ConstrainedVar, ConstrainedVar, Mapping)
+def _unify(...)
+  warn(warning_text(dispatcher.name, ambiguities), AmbiguityWarning)
+Auto-assigning NUTS sampler...
 Initializing NUTS using jitter+adapt_diag...
-INFO:pymc:Initializing NUTS using jitter+adapt_diag...
 Multiprocess sampling (4 chains in 4 jobs)
-INFO:pymc:Multiprocess sampling (4 chains in 4 jobs)
 NUTS: [eps_0, theta, c, sigma]
-INFO:pymc:NUTS: [eps_0, theta, c, sigma]
 </pre></div>
 </div>
 <div class="output text_html">
@@ -969,6 +989,9 @@ INFO:pymc:NUTS: [eps_0, theta, c, sigma]
         /* Needs to be in here for Safari polyfill so background images work as expected. */
         background-size: auto;
     }
+    progress:not([value]), progress:not([value])::-webkit-progress-bar {
+        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
+    }
     .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
         background: #F44336;
     }
@@ -976,10 +999,9 @@ INFO:pymc:NUTS: [eps_0, theta, c, sigma]
 </div><div class="output text_html">
 <div>
   <progress value='16000' class='' max='16000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-  100.00% [16000/16000 00:03<00:00 Sampling 4 chains, 0 divergences]
+  100.00% [16000/16000 00:02&lt;00:00 Sampling 4 chains, 0 divergences]
 </div>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 3_000 draw iterations (4_000 + 12_000 draws total) took 12 seconds.
-INFO:pymc:Sampling 4 chains for 1_000 tune and 3_000 draw iterations (4_000 + 12_000 draws total) took 12 seconds.
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 3_000 draw iterations (4_000 + 12_000 draws total) took 3 seconds.
 </pre></div>
 </div>
 </div>
@@ -1023,50 +1045,50 @@ INFO:pymc:Sampling 4 chains for 1_000 tune and 3_000 draw iterations (4_000 + 12
   <tbody>
     <tr>
       <th>eps_0</th>
-      <td>0.077</td>
-      <td>21.726</td>
-      <td>-38.571</td>
-      <td>43.524</td>
-      <td>0.222</td>
-      <td>0.203</td>
-      <td>9621.0</td>
-      <td>7797.0</td>
+      <td>-0.203</td>
+      <td>21.658</td>
+      <td>-39.561</td>
+      <td>41.919</td>
+      <td>0.213</td>
+      <td>0.206</td>
+      <td>10360.0</td>
+      <td>7863.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>theta</th>
-      <td>0.817</td>
+      <td>0.819</td>
       <td>0.060</td>
-      <td>0.709</td>
-      <td>0.932</td>
+      <td>0.710</td>
+      <td>0.936</td>
       <td>0.001</td>
       <td>0.000</td>
-      <td>7825.0</td>
-      <td>7267.0</td>
+      <td>9097.0</td>
+      <td>8125.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>c</th>
-      <td>8.506</td>
-      <td>3.528</td>
-      <td>1.995</td>
-      <td>15.239</td>
-      <td>0.040</td>
-      <td>0.028</td>
-      <td>7951.0</td>
-      <td>7430.0</td>
+      <td>8.417</td>
+      <td>3.580</td>
+      <td>1.724</td>
+      <td>15.117</td>
+      <td>0.038</td>
+      <td>0.027</td>
+      <td>9066.0</td>
+      <td>7970.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>sigma</th>
-      <td>21.966</td>
-      <td>1.626</td>
-      <td>19.051</td>
-      <td>25.030</td>
-      <td>0.017</td>
-      <td>0.012</td>
-      <td>9027.0</td>
-      <td>7453.0</td>
+      <td>21.960</td>
+      <td>1.629</td>
+      <td>19.040</td>
+      <td>25.046</td>
+      <td>0.016</td>
+      <td>0.011</td>
+      <td>10473.0</td>
+      <td>6730.0</td>
       <td>1.0</td>
     </tr>
   </tbody>
@@ -1076,7 +1098,7 @@ INFO:pymc:Sampling 4 chains for 1_000 tune and 3_000 draw iterations (4_000 + 12
 </section>
 <section id="model-1-using-built-in-ar">
 <h2>Model 1 using built in AR<a class="headerlink" href="#model-1-using-built-in-ar" title="Permalink to this headline">#</a></h2>
-<p>docs are a little lacking here. will write up better instructions. how do you incorporate eps, or is it even necessary? I think eps is controlled by sigma, but why is it separate in the original BUGS model?</p>
+<p>Docs are a little lacking here.</p>
 <p>further reading:</p>
 <ul class="simple">
 <li><p><a class="reference external" href="https://github.com/pymc-devs/pymc4/issues/198">https://github.com/pymc-devs/pymc4/issues/198</a></p></li>
@@ -1093,21 +1115,17 @@ INFO:pymc:Sampling 4 chains for 1_000 tune and 3_000 draw iterations (4_000 + 12
     <span class="c1"># constant=True means rho[0] is the constant term (c from BUGS model)</span>
     <span class="n">pm</span><span class="o">.</span><span class="n">AR</span><span class="p">(</span><span class="s2">&quot;likelihood&quot;</span><span class="p">,</span> <span class="n">rho</span><span class="o">=</span><span class="n">rho</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">,</span> <span class="n">constant</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
 
-    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">3000</span><span class="p">,</span> <span class="n">chains</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">cores</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># getting an error in multiprocessing</span>
+    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">3000</span><span class="p">,</span> <span class="n">chains</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">cores</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># multiprocessing error</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/pymc/distributions/timeseries.py:465: UserWarning: Initial distribution not specified, defaulting to `Normal.dist(0, 100, shape=...)`. You can specify an init_dist manually to suppress this warning.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc_env2/lib/python3.11/site-packages/pymc/distributions/timeseries.py:557: UserWarning: Initial distribution not specified, defaulting to `Normal.dist(0, 100, shape=...)`. You can specify an init_dist manually to suppress this warning.
   warnings.warn(
 Auto-assigning NUTS sampler...
-INFO:pymc:Auto-assigning NUTS sampler...
 Initializing NUTS using jitter+adapt_diag...
-INFO:pymc:Initializing NUTS using jitter+adapt_diag...
 Sequential sampling (4 chains in 1 job)
-INFO:pymc:Sequential sampling (4 chains in 1 job)
 NUTS: [rho, sigma]
-INFO:pymc:NUTS: [rho, sigma]
 </pre></div>
 </div>
 <div class="output text_html">
@@ -1119,6 +1137,9 @@ INFO:pymc:NUTS: [rho, sigma]
         /* Needs to be in here for Safari polyfill so background images work as expected. */
         background-size: auto;
     }
+    progress:not([value]), progress:not([value])::-webkit-progress-bar {
+        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
+    }
     .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
         background: #F44336;
     }
@@ -1126,7 +1147,7 @@ INFO:pymc:NUTS: [rho, sigma]
 </div><div class="output text_html">
 <div>
   <progress value='4000' class='' max='4000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-  100.00% [4000/4000 00:01<00:00 Sampling chain 0, 0 divergences]
+  100.00% [4000/4000 00:01&lt;00:00 Sampling chain 0, 0 divergences]
 </div>
 </div><div class="output text_html">
 <style>
@@ -1137,6 +1158,9 @@ INFO:pymc:NUTS: [rho, sigma]
         /* Needs to be in here for Safari polyfill so background images work as expected. */
         background-size: auto;
     }
+    progress:not([value]), progress:not([value])::-webkit-progress-bar {
+        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
+    }
     .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
         background: #F44336;
     }
@@ -1144,7 +1168,7 @@ INFO:pymc:NUTS: [rho, sigma]
 </div><div class="output text_html">
 <div>
   <progress value='4000' class='' max='4000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-  100.00% [4000/4000 00:01<00:00 Sampling chain 1, 0 divergences]
+  100.00% [4000/4000 00:01&lt;00:00 Sampling chain 1, 0 divergences]
 </div>
 </div><div class="output text_html">
 <style>
@@ -1155,6 +1179,9 @@ INFO:pymc:NUTS: [rho, sigma]
         /* Needs to be in here for Safari polyfill so background images work as expected. */
         background-size: auto;
     }
+    progress:not([value]), progress:not([value])::-webkit-progress-bar {
+        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
+    }
     .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
         background: #F44336;
     }
@@ -1162,7 +1189,7 @@ INFO:pymc:NUTS: [rho, sigma]
 </div><div class="output text_html">
 <div>
   <progress value='4000' class='' max='4000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-  100.00% [4000/4000 00:01<00:00 Sampling chain 2, 0 divergences]
+  100.00% [4000/4000 00:01&lt;00:00 Sampling chain 2, 0 divergences]
 </div>
 </div><div class="output text_html">
 <style>
@@ -1173,6 +1200,9 @@ INFO:pymc:NUTS: [rho, sigma]
         /* Needs to be in here for Safari polyfill so background images work as expected. */
         background-size: auto;
     }
+    progress:not([value]), progress:not([value])::-webkit-progress-bar {
+        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
+    }
     .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
         background: #F44336;
     }
@@ -1180,10 +1210,9 @@ INFO:pymc:NUTS: [rho, sigma]
 </div><div class="output text_html">
 <div>
   <progress value='4000' class='' max='4000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-  100.00% [4000/4000 00:01<00:00 Sampling chain 3, 0 divergences]
+  100.00% [4000/4000 00:01&lt;00:00 Sampling chain 3, 0 divergences]
 </div>
 </div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 3_000 draw iterations (4_000 + 12_000 draws total) took 7 seconds.
-INFO:pymc:Sampling 4 chains for 1_000 tune and 3_000 draw iterations (4_000 + 12_000 draws total) took 7 seconds.
 </pre></div>
 </div>
 </div>
@@ -1227,38 +1256,38 @@ INFO:pymc:Sampling 4 chains for 1_000 tune and 3_000 draw iterations (4_000 + 12
   <tbody>
     <tr>
       <th>rho[0]</th>
-      <td>8.597</td>
-      <td>3.644</td>
-      <td>1.814</td>
-      <td>15.283</td>
-      <td>0.048</td>
-      <td>0.035</td>
-      <td>5720.0</td>
-      <td>5465.0</td>
+      <td>8.537</td>
+      <td>3.539</td>
+      <td>1.805</td>
+      <td>15.147</td>
+      <td>0.043</td>
+      <td>0.030</td>
+      <td>6901.0</td>
+      <td>7305.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>rho[1]</th>
-      <td>0.810</td>
-      <td>0.061</td>
-      <td>0.702</td>
-      <td>0.928</td>
+      <td>0.811</td>
+      <td>0.059</td>
+      <td>0.695</td>
+      <td>0.917</td>
       <td>0.001</td>
-      <td>0.001</td>
-      <td>5943.0</td>
-      <td>5972.0</td>
+      <td>0.000</td>
+      <td>7119.0</td>
+      <td>7317.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>sigma</th>
-      <td>21.795</td>
-      <td>1.605</td>
-      <td>18.972</td>
-      <td>24.943</td>
-      <td>0.019</td>
+      <td>21.847</td>
+      <td>1.638</td>
+      <td>18.817</td>
+      <td>24.869</td>
+      <td>0.020</td>
       <td>0.014</td>
-      <td>6732.0</td>
-      <td>5947.0</td>
+      <td>6768.0</td>
+      <td>6153.0</td>
       <td>1.0</td>
     </tr>
   </tbody>
@@ -1291,322 +1320,28 @@ INFO:pymc:Sampling 4 chains for 1_000 tune and 3_000 draw iterations (4_000 + 12
 </section>
 <section id="model-2-arma-2-1">
 <h2>Model 2: ARMA(2,1)<a class="headerlink" href="#model-2-arma-2-1" title="Permalink to this headline">#</a></h2>
-<p>hold off on this for now - they are adding pm.ARMA this summer!</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">m2_ar</span><span class="p">:</span>
-    <span class="n">rho</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;rho&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>  <span class="c1"># shape of rho determines AR order</span>
-    <span class="n">sigma</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Uniform</span><span class="p">(</span><span class="s2">&quot;sigma&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
-
-    <span class="c1"># constant=True means rho[0] is the constant term (c from BUGS model)</span>
-    <span class="n">pm</span><span class="o">.</span><span class="n">AR</span><span class="p">(</span><span class="s2">&quot;likelihood&quot;</span><span class="p">,</span> <span class="n">rho</span><span class="o">=</span><span class="n">rho</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">,</span> <span class="n">constant</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
-
-    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">3000</span><span class="p">,</span> <span class="n">chains</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">cores</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># getting an error in multiprocessing</span>
-
-    <span class="n">ppc</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample_posterior_predictive</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/pymc/distributions/timeseries.py:465: UserWarning: Initial distribution not specified, defaulting to `Normal.dist(0, 100, shape=...)`. You can specify an init_dist manually to suppress this warning.
-  warnings.warn(
-Auto-assigning NUTS sampler...
-INFO:pymc:Auto-assigning NUTS sampler...
-Initializing NUTS using jitter+adapt_diag...
-INFO:pymc:Initializing NUTS using jitter+adapt_diag...
-Sequential sampling (4 chains in 1 job)
-INFO:pymc:Sequential sampling (4 chains in 1 job)
-NUTS: [rho, sigma]
-INFO:pymc:NUTS: [rho, sigma]
-</pre></div>
-</div>
-<div class="output text_html">
-<style>
-    /* Turns off some styling */
-    progress {
-        /* gets rid of default border in Firefox and Opera. */
-        border: none;
-        /* Needs to be in here for Safari polyfill so background images work as expected. */
-        background-size: auto;
-    }
-    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
-        background: #F44336;
-    }
-</style>
-</div><div class="output text_html">
-<div>
-  <progress value='4000' class='' max='4000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-  100.00% [4000/4000 00:02<00:00 Sampling chain 0, 0 divergences]
-</div>
-</div><div class="output text_html">
-<style>
-    /* Turns off some styling */
-    progress {
-        /* gets rid of default border in Firefox and Opera. */
-        border: none;
-        /* Needs to be in here for Safari polyfill so background images work as expected. */
-        background-size: auto;
-    }
-    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
-        background: #F44336;
-    }
-</style>
-</div><div class="output text_html">
-<div>
-  <progress value='4000' class='' max='4000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-  100.00% [4000/4000 00:02<00:00 Sampling chain 1, 0 divergences]
-</div>
-</div><div class="output text_html">
-<style>
-    /* Turns off some styling */
-    progress {
-        /* gets rid of default border in Firefox and Opera. */
-        border: none;
-        /* Needs to be in here for Safari polyfill so background images work as expected. */
-        background-size: auto;
-    }
-    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
-        background: #F44336;
-    }
-</style>
-</div><div class="output text_html">
-<div>
-  <progress value='4000' class='' max='4000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-  100.00% [4000/4000 00:02<00:00 Sampling chain 2, 0 divergences]
-</div>
-</div><div class="output text_html">
-<style>
-    /* Turns off some styling */
-    progress {
-        /* gets rid of default border in Firefox and Opera. */
-        border: none;
-        /* Needs to be in here for Safari polyfill so background images work as expected. */
-        background-size: auto;
-    }
-    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
-        background: #F44336;
-    }
-</style>
-</div><div class="output text_html">
-<div>
-  <progress value='4000' class='' max='4000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-  100.00% [4000/4000 00:02<00:00 Sampling chain 3, 0 divergences]
-</div>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 3_000 draw iterations (4_000 + 12_000 draws total) took 11 seconds.
-INFO:pymc:Sampling 4 chains for 1_000 tune and 3_000 draw iterations (4_000 + 12_000 draws total) took 11 seconds.
-The acceptance probability does not match the target. It is 0.906, but should be close to 0.8. Try to increase the number of tuning steps.
-WARNING:pymc:The acceptance probability does not match the target. It is 0.906, but should be close to 0.8. Try to increase the number of tuning steps.
-</pre></div>
-</div>
-<div class="output text_html">
-<style>
-    /* Turns off some styling */
-    progress {
-        /* gets rid of default border in Firefox and Opera. */
-        border: none;
-        /* Needs to be in here for Safari polyfill so background images work as expected. */
-        background-size: auto;
-    }
-    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
-        background: #F44336;
-    }
-</style>
-</div><div class="output text_html">
-<div>
-  <progress value='0' class='' max='12000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-  0.00% [0/12000 00:00<00:00]
-</div>
-</div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Unexpected exception formatting exception. Falling back to standard exception
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Traceback (most recent call last):
-  File &quot;/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/aesara/compile/function/types.py&quot;, line 962, in __call__
-    raise TypeError(
-  File &quot;/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/aesara/scan/op.py&quot;, line 1540, in rval
-  File &quot;/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/aesara/scan/op.py&quot;, line 1471, in p
-    profile=profile,
-  File &quot;scan_perform.pyx&quot;, line 76, in aesara.scan.scan_perform.perform
-TypeError: perform() takes exactly 27 positional arguments (26 given)
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File &quot;/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/IPython/core/interactiveshell.py&quot;, line 3398, in run_code
-    exec(code_obj, self.user_global_ns, self.user_ns)
-  File &quot;/var/folders/pm/9z29qnf508bc1v6q8fksblm40000gn/T/ipykernel_54460/535758216.py&quot;, line 10, in &lt;cell line: 1&gt;
-    ppc = pm.sample_posterior_predictive(trace)
-  File &quot;/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/pymc/sampling.py&quot;, line 1957, in sample_posterior_predictive
-    values = sampler_fn(**param)
-  File &quot;/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/pymc/util.py&quot;, line 363, in wrapped
-    return core_function(**input_point)
-  File &quot;/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/aesara/compile/function/types.py&quot;, line 975, in __call__
-    self.vm()
-  File &quot;/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/aesara/link/utils.py&quot;, line 538, in raise_with_op
-    &quot;&quot;&quot;
-  File &quot;/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/aesara/compile/function/types.py&quot;, line 962, in __call__
-    raise TypeError(
-  File &quot;/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/aesara/scan/op.py&quot;, line 1540, in rval
-  File &quot;/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/aesara/scan/op.py&quot;, line 1471, in p
-    profile=profile,
-  File &quot;scan_perform.pyx&quot;, line 76, in aesara.scan.scan_perform.perform
-TypeError: perform() takes exactly 27 positional arguments (26 given)
-Apply node that caused the error: forall_inplace,cpu,scan_fn}(TensorConstant{98}, IncSubtensor{InplaceSet;:int64:}.0, RandomGeneratorSharedVariable(&lt;Generator(PCG64) at 0x16996C4A0&gt;), sigma, Subtensor{int64:int64:int64}.0, Subtensor{int64}.0)
-Toposort index: 6
-Inputs types: [TensorType(int32, ()), TensorType(float64, (None,)), RandomGeneratorType, TensorType(float64, ()), TensorType(float64, (None,)), TensorType(float64, ())]
-Inputs shapes: [(), (98,), &#39;No shapes&#39;, (), (2,), ()]
-Inputs strides: [(), (8,), &#39;No strides&#39;, (), (-8,), ()]
-Inputs values: [array(98, dtype=int32), &#39;not shown&#39;, Generator(PCG64) at 0x16996C4A0, array(13.76281857), array([-0.56773854,  1.30662475]), array(13.74356845)]
-Outputs clients: [[Join(TensorConstant{0}, normal_rv{0, (0, 0), floatX, True}.out, forall_inplace,cpu,scan_fn}.0)], [&#39;output&#39;]]
-
-HINT: Re-running with most Aesara optimizations disabled could provide a back-trace showing when this node was created. This can be done by setting the Aesara flag &#39;optimizer=fast_compile&#39;. If that does not work, Aesara optimizations can be disabled with &#39;optimizer=None&#39;.
-HINT: Use the Aesara flag `exception_verbosity=high` for a debug print-out and storage map footprint of this Apply node.
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File &quot;/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/IPython/core/interactiveshell.py&quot;, line 1993, in showtraceback
-    stb = self.InteractiveTB.structured_traceback(
-  File &quot;/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/IPython/core/ultratb.py&quot;, line 1118, in structured_traceback
-    return FormattedTB.structured_traceback(
-  File &quot;/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/IPython/core/ultratb.py&quot;, line 1012, in structured_traceback
-    return VerboseTB.structured_traceback(
-  File &quot;/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/IPython/core/ultratb.py&quot;, line 865, in structured_traceback
-    formatted_exception = self.format_exception_as_a_whole(etype, evalue, etb, number_of_lines_of_context,
-  File &quot;/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/IPython/core/ultratb.py&quot;, line 818, in format_exception_as_a_whole
-    frames.append(self.format_record(r))
-  File &quot;/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/IPython/core/ultratb.py&quot;, line 736, in format_record
-    result += &#39;&#39;.join(_format_traceback_lines(frame_info.lines, Colors, self.has_colors, lvals))
-  File &quot;/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/stack_data/utils.py&quot;, line 145, in cached_property_wrapper
-    value = obj.__dict__[self.func.__name__] = self.func(obj)
-  File &quot;/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/stack_data/core.py&quot;, line 698, in lines
-    pieces = self.included_pieces
-  File &quot;/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/stack_data/utils.py&quot;, line 145, in cached_property_wrapper
-    value = obj.__dict__[self.func.__name__] = self.func(obj)
-  File &quot;/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/stack_data/core.py&quot;, line 649, in included_pieces
-    pos = scope_pieces.index(self.executing_piece)
-  File &quot;/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/stack_data/utils.py&quot;, line 145, in cached_property_wrapper
-    value = obj.__dict__[self.func.__name__] = self.func(obj)
-  File &quot;/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/stack_data/core.py&quot;, line 628, in executing_piece
-    return only(
-  File &quot;/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/executing/executing.py&quot;, line 164, in only
-    raise NotOneValueFound(&#39;Expected one value, found 0&#39;)
-executing.executing.NotOneValueFound: Expected one value, found 0
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>mean</th>
-      <th>sd</th>
-      <th>hdi_3%</th>
-      <th>hdi_97%</th>
-      <th>mcse_mean</th>
-      <th>mcse_sd</th>
-      <th>ess_bulk</th>
-      <th>ess_tail</th>
-      <th>r_hat</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>rho[0]</th>
-      <td>14.536</td>
-      <td>2.614</td>
-      <td>9.943</td>
-      <td>19.717</td>
-      <td>0.031</td>
-      <td>0.022</td>
-      <td>7117.0</td>
-      <td>6448.0</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>rho[1]</th>
-      <td>1.404</td>
-      <td>0.074</td>
-      <td>1.271</td>
-      <td>1.549</td>
-      <td>0.001</td>
-      <td>0.001</td>
-      <td>6029.0</td>
-      <td>6403.0</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>rho[2]</th>
-      <td>-0.711</td>
-      <td>0.074</td>
-      <td>-0.849</td>
-      <td>-0.574</td>
-      <td>0.001</td>
-      <td>0.001</td>
-      <td>5892.0</td>
-      <td>5901.0</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>sigma</th>
-      <td>15.520</td>
-      <td>1.132</td>
-      <td>13.453</td>
-      <td>17.689</td>
-      <td>0.013</td>
-      <td>0.009</td>
-      <td>7488.0</td>
-      <td>5981.0</td>
-      <td>1.0</td>
-    </tr>
-  </tbody>
-</table>
-</div></div></div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">plot_ts</span><span class="p">(</span><span class="n">idata</span><span class="o">=</span><span class="n">trace</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;likelihood&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/arviz/plots/tsplot.py:201: UserWarning: posterior_predictive not found in idata
-  warnings.warn(&quot;posterior_predictive not found in idata&quot;, UserWarning)
-/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/numpy/lib/shape_base.py:1250: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify &#39;dtype=object&#39; when creating the ndarray.
-  c = _nx.array(A, copy=False, subok=True, ndmin=d)
-</pre></div>
-</div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[&lt;AxesSubplot:xlabel=&#39;likelihood_dim_0&#39;, ylabel=&#39;likelihood&#39;&gt;]],
-      dtype=object)
-</pre></div>
-</div>
-<img alt="../_images/Unit10-sunspots_16_2.png" src="../_images/Unit10-sunspots_16_2.png" />
-</div>
-</div>
+<p>Holding off on this for now - supposedly they are working on adding more time series stuff and it looks like a pain to do manually.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">watermark</span> -n -u -v -iv -p aesara,aeppl
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Fri Feb 03 2023
+
+Python implementation: CPython
+Python version       : 3.11.0
+IPython version      : 8.9.0
+
+aesara: 2.8.10
+aeppl : 0.1.1
+
+pytensor: 2.8.11
+pandas  : 1.5.3
+pymc    : 5.0.1
+numpy   : 1.24.1
+arviz   : 0.14.0
 </pre></div>
 </div>
 </div>

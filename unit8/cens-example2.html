@@ -877,6 +877,9 @@ NUTS: [λ]
         /* Needs to be in here for Safari polyfill so background images work as expected. */
         background-size: auto;
     }
+    progress:not([value]), progress:not([value])::-webkit-progress-bar {
+        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
+    }
     .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
         background: #F44336;
     }
@@ -884,9 +887,9 @@ NUTS: [λ]
 </div><div class="output text_html">
 <div>
   <progress value='8000' class='' max='8000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-  100.00% [8000/8000 00:02<00:00 Sampling 4 chains, 0 divergences]
+  100.00% [8000/8000 00:00&lt;00:00 Sampling 4 chains, 0 divergences]
 </div>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws total) took 19 seconds.
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws total) took 1 seconds.
 </pre></div>
 </div>
 <div class="output text_html"><div>
@@ -923,12 +926,12 @@ NUTS: [λ]
       <th>λ</th>
       <td>0.237</td>
       <td>0.106</td>
-      <td>0.063</td>
-      <td>0.435</td>
+      <td>0.07</td>
+      <td>0.446</td>
       <td>0.002</td>
       <td>0.002</td>
-      <td>1761.0</td>
-      <td>1980.0</td>
+      <td>1629.0</td>
+      <td>1806.0</td>
       <td>1.0</td>
     </tr>
   </tbody>
@@ -942,15 +945,20 @@ NUTS: [λ]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Python implementation: CPython
-Python version       : 3.10.4
-IPython version      : 8.4.0
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Fri Feb 03 2023
 
-pymc      : 4.0.0
-matplotlib: 3.5.2
-pandas    : 1.4.2
-numpy     : 1.22.4
-arviz     : 0.12.1
+Python implementation: CPython
+Python version       : 3.11.0
+IPython version      : 8.9.0
+
+aesara: 2.8.10
+aeppl : 0.1.1
+
+numpy     : 1.24.1
+matplotlib: 3.6.3
+pymc      : 5.0.1
+pandas    : 1.5.3
+arviz     : 0.14.0
 </pre></div>
 </div>
 </div>

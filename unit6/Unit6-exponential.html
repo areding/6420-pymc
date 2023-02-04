@@ -1026,6 +1026,9 @@ NUTS: [λ]
         /* Needs to be in here for Safari polyfill so background images work as expected. */
         background-size: auto;
     }
+    progress:not([value]), progress:not([value])::-webkit-progress-bar {
+        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
+    }
     .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
         background: #F44336;
     }
@@ -1033,9 +1036,9 @@ NUTS: [λ]
 </div><div class="output text_html">
 <div>
   <progress value='440000' class='' max='440000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-  100.00% [440000/440000 01:02<00:00 Sampling 4 chains, 0 divergences]
+  100.00% [440000/440000 00:43&lt;00:00 Sampling 4 chains, 0 divergences]
 </div>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 10_000 tune and 100_000 draw iterations (40_000 + 400_000 draws total) took 87 seconds.
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 10_000 tune and 100_000 draw iterations (40_000 + 400_000 draws total) took 46 seconds.
 </pre></div>
 </div>
 </div>
@@ -1085,20 +1088,20 @@ NUTS: [λ]
       <td>0.040</td>
       <td>0.000</td>
       <td>0.00</td>
-      <td>174540.0</td>
-      <td>221610.0</td>
+      <td>179821.0</td>
+      <td>220085.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>μ</th>
-      <td>51.281</td>
-      <td>22.991</td>
-      <td>19.143</td>
-      <td>95.522</td>
-      <td>0.057</td>
+      <td>51.253</td>
+      <td>22.961</td>
+      <td>19.073</td>
+      <td>95.122</td>
+      <td>0.056</td>
       <td>0.04</td>
-      <td>174540.0</td>
-      <td>221610.0</td>
+      <td>179821.0</td>
+      <td>220085.0</td>
       <td>1.0</td>
     </tr>
   </tbody>
@@ -1180,14 +1183,19 @@ NUTS: [λ]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Python implementation: CPython
-Python version       : 3.10.4
-IPython version      : 8.4.0
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Fri Feb 03 2023
 
-arviz     : 0.12.1
-matplotlib: 3.5.2
-numpy     : 1.22.4
-pymc      : 4.0.0
+Python implementation: CPython
+Python version       : 3.11.0
+IPython version      : 8.9.0
+
+aesara: 2.8.10
+aeppl : 0.1.1
+
+numpy     : 1.24.1
+arviz     : 0.14.0
+matplotlib: 3.6.3
+pymc      : 5.0.1
 </pre></div>
 </div>
 </div>

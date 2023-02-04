@@ -860,7 +860,7 @@ title="Print to PDF"
 <span class="kn">import</span> <span class="nn">arviz</span> <span class="k">as</span> <span class="nn">az</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">aesara.tensor</span> <span class="k">as</span> <span class="nn">at</span>
-<span class="kn">from</span> <span class="nn">aesara.tensor.subtensor</span> <span class="kn">import</span> <span class="n">set_subtensor</span> <span class="k">as</span> <span class="n">set_st</span>
+<span class="kn">from</span> <span class="nn">pytensor.tensor.subtensor</span> <span class="kn">import</span> <span class="n">set_subtensor</span> <span class="k">as</span> <span class="n">set_st</span>
 <span class="kn">from</span> <span class="nn">pymc.math</span> <span class="kn">import</span> <span class="n">eq</span>
 <span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
@@ -961,6 +961,9 @@ NUTS: [a, b, c, d, e, f, g, tau]
         /* Needs to be in here for Safari polyfill so background images work as expected. */
         background-size: auto;
     }
+    progress:not([value]), progress:not([value])::-webkit-progress-bar {
+        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
+    }
     .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
         background: #F44336;
     }
@@ -968,9 +971,10 @@ NUTS: [a, b, c, d, e, f, g, tau]
 </div><div class="output text_html">
 <div>
   <progress value='24000' class='' max='24000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-  100.00% [24000/24000 15:56<00:00 Sampling 4 chains, 0 divergences]
+  100.00% [24000/24000 18:55&lt;00:00 Sampling 4 chains, 0 divergences]
 </div>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 5_000 draw iterations (4_000 + 20_000 draws total) took 967 seconds.
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 5_000 draw iterations (4_000 + 20_000 draws total) took 1135 seconds.
+Sampling: [likelihood]
 </pre></div>
 </div>
 <div class="output text_html">
@@ -982,6 +986,9 @@ NUTS: [a, b, c, d, e, f, g, tau]
         /* Needs to be in here for Safari polyfill so background images work as expected. */
         background-size: auto;
     }
+    progress:not([value]), progress:not([value])::-webkit-progress-bar {
+        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
+    }
     .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
         background: #F44336;
     }
@@ -989,7 +996,7 @@ NUTS: [a, b, c, d, e, f, g, tau]
 </div><div class="output text_html">
 <div>
   <progress value='20000' class='' max='20000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-  100.00% [20000/20000 00:01<00:00]
+  100.00% [20000/20000 00:01&lt;00:00]
 </div>
 </div></div>
 </div>
@@ -1050,7 +1057,31 @@ NUTS: [a, b, c, d, e, f, g, tau]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Multiprocess sampling (4 chains in 4 jobs)
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc_env2/lib/python3.11/site-packages/multipledispatch/dispatcher.py:27: AmbiguityWarning: 
+Ambiguities exist in dispatched function _unify
+
+The following signatures may result in ambiguous behavior:
+	[ConstrainedVar, object, Mapping], [object, ConstrainedVar, Mapping]
+	[ConstrainedVar, object, Mapping], [object, ConstrainedVar, Mapping]
+	[ConstrainedVar, Var, Mapping], [object, ConstrainedVar, Mapping]
+	[object, ConstrainedVar, Mapping], [ConstrainedVar, Var, Mapping]
+
+
+Consider making the following additions:
+
+@dispatch(ConstrainedVar, ConstrainedVar, Mapping)
+def _unify(...)
+
+@dispatch(ConstrainedVar, ConstrainedVar, Mapping)
+def _unify(...)
+
+@dispatch(ConstrainedVar, ConstrainedVar, Mapping)
+def _unify(...)
+
+@dispatch(ConstrainedVar, ConstrainedVar, Mapping)
+def _unify(...)
+  warn(warning_text(dispatcher.name, ambiguities), AmbiguityWarning)
+Multiprocess sampling (4 chains in 4 jobs)
 CompoundStep
 &gt;BinaryGibbsMetropolis: [delta]
 &gt;NUTS: [alpha, tau, intercept]
@@ -1065,6 +1096,9 @@ CompoundStep
         /* Needs to be in here for Safari polyfill so background images work as expected. */
         background-size: auto;
     }
+    progress:not([value]), progress:not([value])::-webkit-progress-bar {
+        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
+    }
     .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
         background: #F44336;
     }
@@ -1072,9 +1106,9 @@ CompoundStep
 </div><div class="output text_html">
 <div>
   <progress value='44000' class='' max='44000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-  100.00% [44000/44000 00:37<00:00 Sampling 4 chains, 0 divergences]
+  100.00% [44000/44000 00:33&lt;00:00 Sampling 4 chains, 0 divergences]
 </div>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 10_000 draw iterations (4_000 + 40_000 draws total) took 47 seconds.
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 10_000 draw iterations (4_000 + 40_000 draws total) took 33 seconds.
 </pre></div>
 </div>
 </div>
@@ -1114,14 +1148,14 @@ CompoundStep
     <tr>
       <th>delta[0]</th>
       <td>0.999</td>
-      <td>0.030</td>
+      <td>0.024</td>
       <td>1.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>delta[1]</th>
-      <td>0.928</td>
-      <td>0.259</td>
+      <td>0.929</td>
+      <td>0.257</td>
       <td>0.0</td>
       <td>1.0</td>
     </tr>
@@ -1134,9 +1168,9 @@ CompoundStep
     </tr>
     <tr>
       <th>delta[3]</th>
-      <td>0.944</td>
-      <td>0.230</td>
-      <td>1.0</td>
+      <td>0.940</td>
+      <td>0.238</td>
+      <td>0.0</td>
       <td>1.0</td>
     </tr>
   </tbody>
@@ -1183,6 +1217,7 @@ CompoundStep
 }
 
 html[theme=dark],
+body[data-theme=dark],
 body.vscode-dark {
   --xr-font-color0: rgba(255, 255, 255, 1);
   --xr-font-color2: rgba(255, 255, 255, 0.54);
@@ -1412,6 +1447,11 @@ body.vscode-dark {
   grid-column: 4;
 }
 
+.xr-index-preview {
+  grid-column: 2 / 5;
+  color: var(--xr-font-color2);
+}
+
 .xr-var-name,
 .xr-var-dims,
 .xr-var-dtype,
@@ -1433,14 +1473,16 @@ body.vscode-dark {
 }
 
 .xr-var-attrs,
-.xr-var-data {
+.xr-var-data,
+.xr-index-data {
   display: none;
   background-color: var(--xr-background-color) !important;
   padding-bottom: 5px !important;
 }
 
 .xr-var-attrs-in:checked ~ .xr-var-attrs,
-.xr-var-data-in:checked ~ .xr-var-data {
+.xr-var-data-in:checked ~ .xr-var-data,
+.xr-index-data-in:checked ~ .xr-index-data {
   display: block;
 }
 
@@ -1450,13 +1492,16 @@ body.vscode-dark {
 
 .xr-var-name span,
 .xr-var-data,
+.xr-index-name div,
+.xr-index-data,
 .xr-attrs {
   padding-left: 25px !important;
 }
 
 .xr-attrs,
 .xr-var-attrs,
-.xr-var-data {
+.xr-var-data,
+.xr-index-data {
   grid-column: 1 / -1;
 }
 
@@ -1494,7 +1539,8 @@ dl.xr-attrs {
 }
 
 .xr-icon-database,
-.xr-icon-file-text2 {
+.xr-icon-file-text2,
+.xr-no-icon {
   display: inline-block;
   vertical-align: middle;
   width: 1em;
@@ -1504,71 +1550,74 @@ dl.xr-attrs {
   fill: currentColor;
 }
 </style><pre class='xr-text-repr-fallback'>&lt;xarray.DataArray &#x27;delta&#x27; (chain: 4, draw: 10000, delta_dim_0: 4)&gt;
-array([[[1, 1, 0, 1],
+array([[[1, 1, 1, 1],
         [1, 1, 0, 1],
         [1, 1, 0, 1],
         ...,
         [1, 1, 0, 1],
-        [1, 1, 1, 1],
+        [1, 1, 1, 0],
+        [1, 1, 1, 0]],
+
+       [[1, 1, 0, 1],
+        [1, 1, 0, 1],
+        [1, 1, 0, 1],
+        ...,
+        [1, 1, 0, 1],
+        [1, 1, 0, 1],
         [1, 1, 0, 1]],
 
-       [[1, 1, 1, 0],
-        [1, 1, 1, 1],
-        [1, 1, 1, 1],
-        ...,
-        [1, 1, 1, 1],
+       [[1, 1, 0, 1],
         [1, 1, 0, 1],
-        [1, 1, 0, 1]],
+        [1, 1, 0, 1],
+        ...,
+        [1, 1, 0, 0],
+        [1, 1, 0, 0],
+        [1, 1, 0, 0]],
 
        [[1, 1, 0, 1],
         [1, 1, 1, 1],
         [1, 1, 1, 1],
         ...,
         [1, 1, 0, 1],
-        [1, 1, 1, 1],
-        [1, 1, 1, 1]],
-
-       [[1, 1, 1, 0],
-        [1, 1, 0, 0],
-        [1, 1, 0, 0],
-        ...,
-        [1, 1, 1, 1],
-        [1, 1, 1, 1],
+        [1, 1, 0, 1],
         [1, 1, 0, 1]]])
 Coordinates:
   * chain        (chain) int64 0 1 2 3
   * draw         (draw) int64 0 1 2 3 4 5 6 ... 9994 9995 9996 9997 9998 9999
-  * delta_dim_0  (delta_dim_0) int64 0 1 2 3</pre><div class='xr-wrap' style='display:none'><div class='xr-header'><div class='xr-obj-type'>xarray.DataArray</div><div class='xr-array-name'>'delta'</div><ul class='xr-dim-list'><li><span class='xr-has-index'>chain</span>: 4</li><li><span class='xr-has-index'>draw</span>: 10000</li><li><span class='xr-has-index'>delta_dim_0</span>: 4</li></ul></div><ul class='xr-sections'><li class='xr-section-item'><div class='xr-array-wrap'><input id='section-82bb8de2-d0ee-48fc-ba60-baa702032802' class='xr-array-in' type='checkbox' checked><label for='section-82bb8de2-d0ee-48fc-ba60-baa702032802' title='Show/hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-array-preview xr-preview'><span>1 1 0 1 1 1 0 1 1 1 0 1 1 1 0 1 1 ... 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1</span></div><div class='xr-array-data'><pre>array([[[1, 1, 0, 1],
+  * delta_dim_0  (delta_dim_0) int64 0 1 2 3</pre><div class='xr-wrap' style='display:none'><div class='xr-header'><div class='xr-obj-type'>xarray.DataArray</div><div class='xr-array-name'>'delta'</div><ul class='xr-dim-list'><li><span class='xr-has-index'>chain</span>: 4</li><li><span class='xr-has-index'>draw</span>: 10000</li><li><span class='xr-has-index'>delta_dim_0</span>: 4</li></ul></div><ul class='xr-sections'><li class='xr-section-item'><div class='xr-array-wrap'><input id='section-5afe0ee2-517b-4154-a010-8cda4cf60df5' class='xr-array-in' type='checkbox' checked><label for='section-5afe0ee2-517b-4154-a010-8cda4cf60df5' title='Show/hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-array-preview xr-preview'><span>1 1 1 1 1 1 0 1 1 1 0 1 1 1 0 1 1 ... 1 1 0 1 1 1 0 1 1 1 0 1 1 1 0 1</span></div><div class='xr-array-data'><pre>array([[[1, 1, 1, 1],
         [1, 1, 0, 1],
         [1, 1, 0, 1],
         ...,
         [1, 1, 0, 1],
-        [1, 1, 1, 1],
+        [1, 1, 1, 0],
+        [1, 1, 1, 0]],
+
+       [[1, 1, 0, 1],
+        [1, 1, 0, 1],
+        [1, 1, 0, 1],
+        ...,
+        [1, 1, 0, 1],
+        [1, 1, 0, 1],
         [1, 1, 0, 1]],
 
-       [[1, 1, 1, 0],
-        [1, 1, 1, 1],
-        [1, 1, 1, 1],
-        ...,
-        [1, 1, 1, 1],
+       [[1, 1, 0, 1],
         [1, 1, 0, 1],
-        [1, 1, 0, 1]],
+        [1, 1, 0, 1],
+        ...,
+        [1, 1, 0, 0],
+        [1, 1, 0, 0],
+        [1, 1, 0, 0]],
 
        [[1, 1, 0, 1],
         [1, 1, 1, 1],
         [1, 1, 1, 1],
         ...,
         [1, 1, 0, 1],
-        [1, 1, 1, 1],
-        [1, 1, 1, 1]],
-
-       [[1, 1, 1, 0],
-        [1, 1, 0, 0],
-        [1, 1, 0, 0],
-        ...,
-        [1, 1, 1, 1],
-        [1, 1, 1, 1],
-        [1, 1, 0, 1]]])</pre></div></div></li><li class='xr-section-item'><input id='section-910dc383-1adb-4ed0-877d-0f3f33ba1c83' class='xr-section-summary-in' type='checkbox'  checked><label for='section-910dc383-1adb-4ed0-877d-0f3f33ba1c83' class='xr-section-summary' >Coordinates: <span>(3)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>chain</span></div><div class='xr-var-dims'>(chain)</div><div class='xr-var-dtype'>int64</div><div class='xr-var-preview xr-preview'>0 1 2 3</div><input id='attrs-c79ea859-9451-4d66-b8af-2effb2ee86b9' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-c79ea859-9451-4d66-b8af-2effb2ee86b9' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-c07953b4-55a5-4e03-b3b0-ff4e9e4553e4' class='xr-var-data-in' type='checkbox'><label for='data-c07953b4-55a5-4e03-b3b0-ff4e9e4553e4' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([0, 1, 2, 3])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>draw</span></div><div class='xr-var-dims'>(draw)</div><div class='xr-var-dtype'>int64</div><div class='xr-var-preview xr-preview'>0 1 2 3 4 ... 9996 9997 9998 9999</div><input id='attrs-9668bfd1-7ee0-4fd8-89f7-040f4a2d5675' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-9668bfd1-7ee0-4fd8-89f7-040f4a2d5675' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-7f4a2bf9-f118-4806-b4f6-b0c1d7178df2' class='xr-var-data-in' type='checkbox'><label for='data-7f4a2bf9-f118-4806-b4f6-b0c1d7178df2' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([   0,    1,    2, ..., 9997, 9998, 9999])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>delta_dim_0</span></div><div class='xr-var-dims'>(delta_dim_0)</div><div class='xr-var-dtype'>int64</div><div class='xr-var-preview xr-preview'>0 1 2 3</div><input id='attrs-996576e9-1027-494f-b7cd-645df2a92a15' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-996576e9-1027-494f-b7cd-645df2a92a15' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-8c8ece67-ba68-4c7e-b93d-b1a6da7ed7e6' class='xr-var-data-in' type='checkbox'><label for='data-8c8ece67-ba68-4c7e-b93d-b1a6da7ed7e6' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([0, 1, 2, 3])</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-d6c10c42-3e79-4573-9bc3-d739359e4b33' class='xr-section-summary-in' type='checkbox' disabled ><label for='section-d6c10c42-3e79-4573-9bc3-d739359e4b33' class='xr-section-summary'  title='Expand/collapse section'>Attributes: <span>(0)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><dl class='xr-attrs'></dl></div></li></ul></div></div></div></div>
+        [1, 1, 0, 1],
+        [1, 1, 0, 1]]])</pre></div></div></li><li class='xr-section-item'><input id='section-8d9f6519-7321-4de0-b1e7-44f2e0f449d5' class='xr-section-summary-in' type='checkbox'  checked><label for='section-8d9f6519-7321-4de0-b1e7-44f2e0f449d5' class='xr-section-summary' >Coordinates: <span>(3)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>chain</span></div><div class='xr-var-dims'>(chain)</div><div class='xr-var-dtype'>int64</div><div class='xr-var-preview xr-preview'>0 1 2 3</div><input id='attrs-88cc841c-7ab2-4745-9aed-42f14f2a73a3' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-88cc841c-7ab2-4745-9aed-42f14f2a73a3' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-4f63e409-0dc6-4d95-87a9-6e7a8c52cdbc' class='xr-var-data-in' type='checkbox'><label for='data-4f63e409-0dc6-4d95-87a9-6e7a8c52cdbc' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([0, 1, 2, 3])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>draw</span></div><div class='xr-var-dims'>(draw)</div><div class='xr-var-dtype'>int64</div><div class='xr-var-preview xr-preview'>0 1 2 3 4 ... 9996 9997 9998 9999</div><input id='attrs-d643761f-0df6-452e-b97d-1687c461046e' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-d643761f-0df6-452e-b97d-1687c461046e' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-88b92a2e-22cb-40c5-95c6-e9c8656f2968' class='xr-var-data-in' type='checkbox'><label for='data-88b92a2e-22cb-40c5-95c6-e9c8656f2968' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([   0,    1,    2, ..., 9997, 9998, 9999])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>delta_dim_0</span></div><div class='xr-var-dims'>(delta_dim_0)</div><div class='xr-var-dtype'>int64</div><div class='xr-var-preview xr-preview'>0 1 2 3</div><input id='attrs-9ca00693-db8f-4fbb-aa31-2f477305fb0b' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-9ca00693-db8f-4fbb-aa31-2f477305fb0b' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-68ea8689-ff45-4038-baa3-4568ecf3c249' class='xr-var-data-in' type='checkbox'><label for='data-68ea8689-ff45-4038-baa3-4568ecf3c249' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([0, 1, 2, 3])</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-f5ea9e19-3b80-425c-a689-8260164912da' class='xr-section-summary-in' type='checkbox'  ><label for='section-f5ea9e19-3b80-425c-a689-8260164912da' class='xr-section-summary' >Indexes: <span>(3)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-index-name'><div>chain</div></div><div class='xr-index-preview'>PandasIndex</div><div></div><input id='index-6e994f16-6135-4d7b-926b-5e66e65ded2d' class='xr-index-data-in' type='checkbox'/><label for='index-6e994f16-6135-4d7b-926b-5e66e65ded2d' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(Int64Index([0, 1, 2, 3], dtype=&#x27;int64&#x27;, name=&#x27;chain&#x27;))</pre></div></li><li class='xr-var-item'><div class='xr-index-name'><div>draw</div></div><div class='xr-index-preview'>PandasIndex</div><div></div><input id='index-59f64e11-3bf6-4522-9dea-ef96cd360017' class='xr-index-data-in' type='checkbox'/><label for='index-59f64e11-3bf6-4522-9dea-ef96cd360017' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(Int64Index([   0,    1,    2,    3,    4,    5,    6,    7,    8,    9,
+            ...
+            9990, 9991, 9992, 9993, 9994, 9995, 9996, 9997, 9998, 9999],
+           dtype=&#x27;int64&#x27;, name=&#x27;draw&#x27;, length=10000))</pre></div></li><li class='xr-var-item'><div class='xr-index-name'><div>delta_dim_0</div></div><div class='xr-index-preview'>PandasIndex</div><div></div><input id='index-7a8bcdbf-b697-4bab-a418-93fef9b1ef12' class='xr-index-data-in' type='checkbox'/><label for='index-7a8bcdbf-b697-4bab-a418-93fef9b1ef12' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(Int64Index([0, 1, 2, 3], dtype=&#x27;int64&#x27;, name=&#x27;delta_dim_0&#x27;))</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-1a971bd4-8427-4d75-8ab8-31bfaef98737' class='xr-section-summary-in' type='checkbox' disabled ><label for='section-1a971bd4-8427-4d75-8ab8-31bfaef98737' class='xr-section-summary'  title='Expand/collapse section'>Attributes: <span>(0)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><dl class='xr-attrs'></dl></div></li></ul></div></div></div></div>
 </div>
 <p>We just need a way to count each unique combination of predictors. I didn’t see an obvious way to do that in xarray, so I’m copying the delta values to a NumPy array, then reshaping to include all draws for each chain along dimension 0, and finally getting the unique vectors of length p along with their counts, which we can use to calculate the probability of each model being selected.</p>
 <div class="cell docutils container">
@@ -1584,18 +1633,14 @@ Coordinates:
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[0 0 1 0]: prob=5e-05
-[0 0 1 1]: prob=0.000225
-[0 1 1 0]: prob=0.0001
-[0 1 1 1]: prob=0.0005
-[1 0 0 0]: prob=2.5e-05
-[1 0 0 1]: prob=0.0147
-[1 0 1 0]: prob=2.5e-05
-[1 0 1 1]: prob=0.0573
-[1 1 0 0]: prob=0.04
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[0 0 1 1]: prob=0.00025
+[0 1 1 1]: prob=0.00035
+[1 0 0 1]: prob=0.0128
+[1 0 1 1]: prob=0.0581
+[1 1 0 0]: prob=0.0419
 [1 1 0 1]: prob=0.52
-[1 1 1 0]: prob=0.0157
-[1 1 1 1]: prob=0.351
+[1 1 1 0]: prob=0.0184
+[1 1 1 1]: prob=0.348
 </pre></div>
 </div>
 </div>
@@ -1608,17 +1653,22 @@ Coordinates:
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Python implementation: CPython
-Python version       : 3.10.4
-IPython version      : 8.4.0
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Fri Feb 03 2023
 
-seaborn   : 0.11.2
-pandas    : 1.4.2
-pymc      : 4.0.1
-matplotlib: 3.5.2
-numpy     : 1.22.4
-arviz     : 0.12.1
-aesara    : 2.7.3
+Python implementation: CPython
+Python version       : 3.11.0
+IPython version      : 8.9.0
+
+aesara: 2.8.10
+aeppl : 0.1.1
+
+pandas    : 1.5.3
+matplotlib: 3.6.3
+arviz     : 0.14.0
+seaborn   : 0.12.2
+numpy     : 1.24.1
+pymc      : 5.0.1
+aesara    : 2.8.10
 </pre></div>
 </div>
 </div>

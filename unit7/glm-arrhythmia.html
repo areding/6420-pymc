@@ -934,8 +934,32 @@ memory usage: 7.1 KB
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/pymc/data.py:667: FutureWarning: The `mutable` kwarg was not specified. Currently it defaults to `pm.Data(mutable=True)`, which is equivalent to using `pm.MutableData()`. In v4.1.0 the default will change to `pm.Data(mutable=False)`, equivalent to `pm.ConstantData`. Set `pm.Data(..., mutable=False/True)`, or use `pm.ConstantData`/`pm.MutableData`.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc_env2/lib/python3.11/site-packages/pymc/data.py:406: UserWarning: The `mutable` kwarg was not specified. Before v4.1.0 it defaulted to `pm.Data(mutable=True)`, which is equivalent to using `pm.MutableData()`. In v4.1.0 the default changed to `pm.Data(mutable=False)`, equivalent to `pm.ConstantData`. Use `pm.ConstantData`/`pm.MutableData` or pass `pm.Data(..., mutable=False/True)` to avoid this warning.
   warnings.warn(
+/Users/aaron/mambaforge/envs/pymc_env2/lib/python3.11/site-packages/multipledispatch/dispatcher.py:27: AmbiguityWarning: 
+Ambiguities exist in dispatched function _unify
+
+The following signatures may result in ambiguous behavior:
+	[object, ConstrainedVar, Mapping], [ConstrainedVar, Var, Mapping]
+	[ConstrainedVar, object, Mapping], [object, ConstrainedVar, Mapping]
+	[object, ConstrainedVar, Mapping], [ConstrainedVar, object, Mapping]
+	[ConstrainedVar, Var, Mapping], [object, ConstrainedVar, Mapping]
+
+
+Consider making the following additions:
+
+@dispatch(ConstrainedVar, ConstrainedVar, Mapping)
+def _unify(...)
+
+@dispatch(ConstrainedVar, ConstrainedVar, Mapping)
+def _unify(...)
+
+@dispatch(ConstrainedVar, ConstrainedVar, Mapping)
+def _unify(...)
+
+@dispatch(ConstrainedVar, ConstrainedVar, Mapping)
+def _unify(...)
+  warn(warning_text(dispatcher.name, ambiguities), AmbiguityWarning)
 Auto-assigning NUTS sampler...
 Initializing NUTS using jitter+adapt_diag...
 Multiprocess sampling (4 chains in 4 jobs)
@@ -951,6 +975,9 @@ NUTS: [beta]
         /* Needs to be in here for Safari polyfill so background images work as expected. */
         background-size: auto;
     }
+    progress:not([value]), progress:not([value])::-webkit-progress-bar {
+        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
+    }
     .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
         background: #F44336;
     }
@@ -958,9 +985,9 @@ NUTS: [beta]
 </div><div class="output text_html">
 <div>
   <progress value='42000' class='' max='42000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-  100.00% [42000/42000 01:20<00:00 Sampling 4 chains, 0 divergences]
+  100.00% [42000/42000 00:45&lt;00:00 Sampling 4 chains, 0 divergences]
 </div>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 500 tune and 10_000 draw iterations (2_000 + 40_000 draws total) took 92 seconds.
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 500 tune and 10_000 draw iterations (2_000 + 40_000 draws total) took 45 seconds.
 </pre></div>
 </div>
 </div>
@@ -1004,14 +1031,14 @@ NUTS: [beta]
   <tbody>
     <tr>
       <th>beta[0]</th>
-      <td>-13.023</td>
-      <td>4.894</td>
-      <td>-22.508</td>
-      <td>-3.429</td>
-      <td>0.038</td>
-      <td>0.027</td>
-      <td>16609.0</td>
-      <td>21883.0</td>
+      <td>-13.048</td>
+      <td>4.964</td>
+      <td>-23.140</td>
+      <td>-3.746</td>
+      <td>0.042</td>
+      <td>0.030</td>
+      <td>14312.0</td>
+      <td>19109.0</td>
       <td>1.0</td>
     </tr>
     <tr>
@@ -1019,119 +1046,119 @@ NUTS: [beta]
       <td>0.188</td>
       <td>0.050</td>
       <td>0.095</td>
-      <td>0.288</td>
+      <td>0.287</td>
       <td>0.000</td>
       <td>0.000</td>
-      <td>24380.0</td>
-      <td>24247.0</td>
+      <td>21353.0</td>
+      <td>21984.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>beta[2]</th>
       <td>0.033</td>
-      <td>0.025</td>
-      <td>-0.014</td>
-      <td>0.086</td>
+      <td>0.026</td>
+      <td>-0.016</td>
+      <td>0.085</td>
       <td>0.000</td>
       <td>0.000</td>
-      <td>17851.0</td>
-      <td>22892.0</td>
+      <td>17598.0</td>
+      <td>22163.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>beta[3]</th>
       <td>-0.023</td>
       <td>0.016</td>
-      <td>-0.056</td>
-      <td>0.007</td>
+      <td>-0.057</td>
+      <td>0.006</td>
       <td>0.000</td>
       <td>0.000</td>
-      <td>18807.0</td>
-      <td>23149.0</td>
+      <td>18693.0</td>
+      <td>23929.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>beta[4]</th>
-      <td>-0.154</td>
+      <td>-0.155</td>
       <td>0.096</td>
-      <td>-0.344</td>
-      <td>0.032</td>
-      <td>0.001</td>
+      <td>-0.349</td>
+      <td>0.029</td>
       <td>0.000</td>
-      <td>33092.0</td>
-      <td>26041.0</td>
+      <td>0.000</td>
+      <td>41345.0</td>
+      <td>29473.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>beta[5]</th>
       <td>0.006</td>
-      <td>0.031</td>
-      <td>-0.054</td>
-      <td>0.069</td>
+      <td>0.032</td>
+      <td>-0.055</td>
+      <td>0.070</td>
       <td>0.000</td>
       <td>0.000</td>
-      <td>24147.0</td>
-      <td>26118.0</td>
+      <td>21622.0</td>
+      <td>25470.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>beta[6]</th>
-      <td>0.024</td>
+      <td>0.025</td>
       <td>0.028</td>
-      <td>-0.031</td>
-      <td>0.080</td>
+      <td>-0.033</td>
+      <td>0.079</td>
       <td>0.000</td>
       <td>0.000</td>
-      <td>25153.0</td>
-      <td>26291.0</td>
+      <td>25561.0</td>
+      <td>27443.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>beta[7]</th>
-      <td>-0.655</td>
-      <td>0.675</td>
-      <td>-1.970</td>
-      <td>0.683</td>
+      <td>-0.652</td>
+      <td>0.667</td>
+      <td>-1.943</td>
+      <td>0.660</td>
       <td>0.004</td>
       <td>0.003</td>
-      <td>33643.0</td>
-      <td>26703.0</td>
+      <td>36306.0</td>
+      <td>28271.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>beta[8]</th>
-      <td>-0.330</td>
-      <td>0.688</td>
-      <td>-1.671</td>
-      <td>1.033</td>
+      <td>-0.323</td>
+      <td>0.690</td>
+      <td>-1.681</td>
+      <td>1.022</td>
+      <td>0.004</td>
       <td>0.003</td>
-      <td>0.003</td>
-      <td>39163.0</td>
-      <td>28282.0</td>
+      <td>34897.0</td>
+      <td>27656.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>beta[9]</th>
-      <td>1.308</td>
-      <td>0.691</td>
-      <td>-0.016</td>
-      <td>2.698</td>
+      <td>1.315</td>
+      <td>0.700</td>
+      <td>-0.018</td>
+      <td>2.719</td>
       <td>0.004</td>
       <td>0.003</td>
-      <td>26892.0</td>
-      <td>24877.0</td>
+      <td>25057.0</td>
+      <td>26796.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>beta[10]</th>
-      <td>0.387</td>
-      <td>0.696</td>
-      <td>-1.003</td>
-      <td>1.735</td>
+      <td>0.404</td>
+      <td>0.702</td>
+      <td>-1.004</td>
+      <td>1.758</td>
       <td>0.004</td>
       <td>0.003</td>
-      <td>28759.0</td>
-      <td>27554.0</td>
+      <td>28424.0</td>
+      <td>28540.0</td>
       <td>1.0</td>
     </tr>
   </tbody>
@@ -1145,14 +1172,19 @@ NUTS: [beta]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Python implementation: CPython
-Python version       : 3.10.4
-IPython version      : 8.4.0
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Fri Feb 03 2023
 
-numpy : 1.22.4
-pandas: 1.4.2
-arviz : 0.12.1
-pymc  : 4.0.0
+Python implementation: CPython
+Python version       : 3.11.0
+IPython version      : 8.9.0
+
+aesara: 2.8.10
+aeppl : 0.1.1
+
+pandas: 1.5.3
+pymc  : 5.0.1
+numpy : 1.24.1
+arviz : 0.14.0
 </pre></div>
 </div>
 </div>
