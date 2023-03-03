@@ -12,11 +12,11 @@ This site mostly follows the original [course outline](https://www2.isye.gatech.
 
 ## Other recommended resources
 
-These are not required for the class, but they might be helpful. Prof. Vidakovic's lectures often assume that the student has a certain amount of background knowledge, so if you feel lost or if you just want to dive deeper into the subject check them out.
+These are not required for the class, but they might be helpful. Prof. Vidakovic's lectures often assume that the student has a certain amount of background knowledge, so if you feel lost, or just want to dive deeper into the subject, check them out.
 
 ### Textbooks and courses
 
-- *[Statistical Rethinking](https://xcelab.net/rm/statistical-rethinking/)* by Richard McElreath is a great book for gaining intuition about Bayesian inference and modeling in general. It's aimed at non-statisticians, so you may find it more accessible 
+- *[Statistical Rethinking](https://xcelab.net/rm/statistical-rethinking/)* by Richard McElreath is a great book for gaining intuition about Bayesian inference and modeling in general. It's aimed at non-statisticians, so I find it more accessible.
 
 - [*Bayesian Data Analysis*](http://www.stat.columbia.edu/~gelman/book/) by Gelman, Carlin, Stern, Dunson, Vehtari, and Rubin goes into more mathematical theory than *Statistical Rethinking*. I mostly use it as a reference. It's freely available on the linked site.
 
