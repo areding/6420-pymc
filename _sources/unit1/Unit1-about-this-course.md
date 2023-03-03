@@ -10,7 +10,7 @@ Professor Vidakovic's [publication history](https://scholar.google.com/citations
 
 This site mostly follows the original [course outline](https://www2.isye.gatech.edu/isye6420/plan.html). Each example lists the corresponding lecture video and contains a download link to the original code file(s). Any necessary data will either have a download link or, if the data is compact enough, will be included in the code.
 
-## Other recommended resourcesc
+## Other recommended resources
 
 These are not required for the class, but they might be helpful. Prof. Vidakovic's lectures often assume that the student has a certain amount of background knowledge, so if you feel lost or if you just want to dive deeper into the subject check them out.
 
