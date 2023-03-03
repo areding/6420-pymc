@@ -24,7 +24,7 @@ These are not required for the class, but they might be helpful. Prof. Vidakovic
 
 - *Probability Theory: The Logic of Science* by E.T. Jaynes is a classic that builds up to Bayesian inference from logical first principles. I usually dip into it when students ask more philosophical questions.
 
-- [*Probabilistic Machine Learning: An Introduction*](https://probml.github.io/pml-book/) by Kevin P. Murphy is one I haven't looked at too much yet. It seems incredibly broad, containing just about everything we've got in this class along with half the OMSA program, all viewed in a probabilistic and decision theoretical basis. The second book in the series is supposed to come out this year.
+- [*Probabilistic Machine Learning: An Introduction*](https://probml.github.io/pml-book/) by Kevin P. Murphy is one I haven't looked at too much yet. It seems incredibly broad, containing just about everything we've got in this class along with half the OMSA program, all viewed through a probabilistic and decision theoretical lense. The second book in the series is supposed to come out this year.
 
 ### Blogs
 
