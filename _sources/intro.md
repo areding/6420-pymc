@@ -4,9 +4,9 @@ This repository contains Python translations of the examples from Georgia Tech's
 
 ## Why?
 
-I took this class in the Spring 2020 semester as my fourth course in [OMSA](https://pe.gatech.edu/degrees/analytics) after the three intro classes. I was unprepared; the professor assumed a deep understanding of probability and statistics, an assumption that left me scrambling to catch up each week. I never felt like I deeply grasped the material.
+During my second semester as a TA, I created this site to address the most common student complaints and questions. At the time, the most frequent grievance centered on the course's use of outdated software, namely WinBUGS/OpenBUGS. A close second was the lectures - some students said they were too dense, some said they didn't delve deeply enough into the underlying theory, and still others said they wanted to see more step-by-step examples of problems like the homework worked out.
 
-So, when I applied to TA for OMSA, this class was my top choice. I saw it as an opportunity to improve my understanding and help fix some of the flaws in the course. As I entered my second semester as a TA, I began to create this site to address the most common student complaints. At the time, the most frequent grievance centered on the course's use of outdated software, namely WinBUGS/OpenBUGS. A close second was the lectures - some students said they were too dense, some said they didn't delve deeply enough into the underlying theory, and still others said they wanted to see more step-by-step examples of problems like the homework worked out.
+As someone who originally took the class a little light on the necessary math and statistics knowledge, I hope my perspective helps other people coming in with similar backgrounds. 
 
 ## Site structure
 
