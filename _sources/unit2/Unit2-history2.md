@@ -1,4 +1,4 @@
-# Historic overview links
+# Historic Overview Links
 
 Here are links to the book and essay the professor references in this lecture:
 
