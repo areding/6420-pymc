@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Bayesian statistics &#8212; ISYE 6420 - BUGS to PyMC</title>
+    <title>2.4: Software Demo�10 Coin Flips &#8212; ISYE 6420 - BUGS to PyMC</title>
     
   <!-- Loaded before other Sphinx assets -->
   <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
@@ -52,11 +52,13 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Bayes’ theorem" href="../unit3/Bayes-theorem.html" />
-    <link rel="prev" title="1.4: Software Demo: A Simple Regression" href="../unit1/Unit1-simple-regression.html" />
+    <link rel="next" title="2.5: FDA recommendations" href="Unit2-fda.html" />
+    <link rel="prev" title="2.3: Bayesian vs. Classical" href="Unit2-bayesianvsclassical.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -139,7 +141,7 @@ const thebe_selector_output = ".output, .cell_output"
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="../unit1/Unit1-simple-regression.html">
-   1.4: Software Demo: A Simple Regression
+   1.4: Software Demo�A Simple Regression
   </a>
  </li>
 </ul>
@@ -149,9 +151,28 @@ const thebe_selector_output = ".output, .cell_output"
  </span>
 </p>
 <ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="Unit2-history.html">
+   2.1
+   <span class="math notranslate nohighlight">
+    \(--\)
+   </span>
+   2: History of Bayesian statistics
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Unit2-bayesianvsclassical.html">
+   2.3: Bayesian vs. Classical
+  </a>
+ </li>
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
-   Bayesian statistics
+   2.4: Software Demo�10 Coin Flips
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Unit2-fda.html">
+   2.5: FDA recommendations
   </a>
  </li>
 </ul>
@@ -631,6 +652,53 @@ title="Toggle navigation"
         
     </div>
     <div class="header-article__right">
+<div class="menu-dropdown menu-dropdown-launch-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Launch interactive content">
+      <i class="fas fa-rocket"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://mybinder.org/v2/gh/areding/6420-pymc/main?urlpath=tree/unit2/Unit2-10flips.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Binder"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="../_static/images/logo_binder.svg">
+  </span>
+<span class="headerbtn__text-container">Binder</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://colab.research.google.com/github/areding/6420-pymc/blob/main/unit2/Unit2-10flips.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Colab"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="../_static/images/logo_colab.png">
+  </span>
+<span class="headerbtn__text-container">Colab</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
 <button onclick="toggleFullScreen()"
   class="headerbtn"
   data-toggle="tooltip"
@@ -670,7 +738,7 @@ title="Source repository"
       </li>
       
       <li>
-        <a href="https://github.com/areding/6420-pymc/issues/new?title=Issue%20on%20page%20%2Funit2/bayesian-statistics-overview.html&body=Your%20issue%20content%20here."
+        <a href="https://github.com/areding/6420-pymc/issues/new?title=Issue%20on%20page%20%2Funit2/Unit2-10flips.html&body=Your%20issue%20content%20here."
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -698,7 +766,7 @@ title="Open an issue"
   <div class="menu-dropdown__content">
     <ul>
       <li>
-        <a href="../_sources/unit2/bayesian-statistics-overview.md"
+        <a href="../_sources/unit2/Unit2-10flips.ipynb"
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -709,7 +777,7 @@ title="Download source file"
 <span class="headerbtn__icon-container">
   <i class="fas fa-file"></i>
   </span>
-<span class="headerbtn__text-container">.md</span>
+<span class="headerbtn__text-container">.ipynb</span>
 </a>
 
       </li>
@@ -758,18 +826,13 @@ title="Print to PDF"
     <nav id="bd-toc-nav" aria-label="Page">
         <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#historic-overview-links">
-   Historic overview links
+  <a class="reference internal nav-link" href="#motivating-example">
+   Motivating Example
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#bayesian-vs-frequentist">
-   Bayesian vs. frequentist
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#fda-recommendations">
-   FDA recommendations
+  <a class="reference internal nav-link" href="#demo">
+   Demo
   </a>
  </li>
 </ul>
@@ -781,7 +844,7 @@ title="Print to PDF"
         <div class="col pl-md-3 pl-lg-5 content-container">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>Bayesian statistics</h1>
+                <h1>2.4: Software Demo�10 Coin Flips</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
@@ -792,18 +855,13 @@ title="Print to PDF"
                         <nav aria-label="Page">
                             <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#historic-overview-links">
-   Historic overview links
+  <a class="reference internal nav-link" href="#motivating-example">
+   Motivating Example
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#bayesian-vs-frequentist">
-   Bayesian vs. frequentist
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#fda-recommendations">
-   FDA recommendations
+  <a class="reference internal nav-link" href="#demo">
+   Demo
   </a>
  </li>
 </ul>
@@ -816,23 +874,192 @@ title="Print to PDF"
                 
               <div>
                 
-  <section class="tex2jax_ignore mathjax_ignore" id="bayesian-statistics">
-<h1>Bayesian statistics<a class="headerlink" href="#bayesian-statistics" title="Permalink to this headline">#</a></h1>
-<p>Professor Vidakovic already has a Python implementation available for the only code in this chapter. See <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/original_examples/Codes4Unit2/coin.py">unit 2 - coin.py</a>.</p>
-<section id="historic-overview-links">
-<h2>Historic overview links<a class="headerlink" href="#historic-overview-links" title="Permalink to this headline">#</a></h2>
-<p><a class="reference external" href="https://en.wikipedia.org/wiki/The_Doctrine_of_Chances">Wikipedia page for <em>The Doctrine of Chances</em></a> by Abraham de Moivre.</p>
-<p><a class="reference external" href="https://www.ias.ac.in/article/fulltext/reso/008/04/0080-0088">An Essay Towards Solving a Problem in the Doctrine of Chances (abridged version)</a> by Thomas Bayes.</p>
+  <section class="tex2jax_ignore mathjax_ignore" id="software-demo10-coin-flips">
+<h1>2.4: Software Demo�10 Coin Flips<a class="headerlink" href="#software-demo10-coin-flips" title="Permalink to this headline">#</a></h1>
+<section id="motivating-example">
+<h2>Motivating Example<a class="headerlink" href="#motivating-example" title="Permalink to this headline">#</a></h2>
+<p>Professor Vidakovic gives a simple motivating example: say you flip a coin ten times and it comes up tails each time.</p>
+<p>A frequentist statistician might estimate the probability of heads as:</p>
+<div class="math notranslate nohighlight">
+\[\hat{p} = \frac{x}{n} = \frac{0}{10} = 0\]</div>
+<p>where <span class="math notranslate nohighlight">\(x\)</span> is the number of successes. Or they might try to maximize the binomial likelihood:</p>
+<div class="math notranslate nohighlight">
+\[\hat{p} = arg \max_p \left[ {n \choose{k}} p^{k}(1 - p)^{n - k} \right] = arg \max_p \left[(1 - p)^{10}\right] = 0\]</div>
+<p>With a Bayesian approach, we can incorporate a prior probability. Say we have no reason to believe that this is a trick coin. We might say we think <span class="math notranslate nohighlight">\(p\)</span> has an equal probability of being anything from 0 to 1: a continuous uniform prior.</p>
+<div class="math notranslate nohighlight">
+\[\pi(x|p) = \frac{L_x(p) \pi(x)}{\int_p L_x(p) \pi(x) dp} = \frac{(1 - p)^{10} \cdot \mathbf{1}(0 \le p \le 1)}{\int_0^1 (1 - p)^{10} dp} = 11(1-p)^{10} \mathbf{1}(0 \le p \le 1)\]</div>
+<p><span class="math notranslate nohighlight">\(\mathbf{1}(0 \le p \le 1)\)</span> is an indicator function, meaning it is equal to 1 if the given condition is true and 0 otherwise.</p>
+<p>The mean of a univariate continuous random variable is</p>
+<div class="math notranslate nohighlight">
+\[E[X] =  \int_{p} xf(x)dx\]</div>
+<p>In this case we’re looking at:</p>
+<div class="math notranslate nohighlight">
+\[ \int_{0}^{1} p\cdot 11(1-p)^{10} dp = \frac{1}{12}\]</div>
+<p>Don’t worry too much about the details here for now. We’ll discuss Bayes’ theorem more in Units 3 and 4. The professor is just trying to say that by adding this prior to our model, we get a much more reasonable probability: a <span class="math notranslate nohighlight">\(1/12\)</span> chance of heads on the next flip.</p>
 </section>
-<section id="bayesian-vs-frequentist">
-<h2>Bayesian vs. frequentist<a class="headerlink" href="#bayesian-vs-frequentist" title="Permalink to this headline">#</a></h2>
-<p><a class="reference external" href="https://stats.stackexchange.com/questions/2272/whats-the-difference-between-a-confidence-interval-and-a-credible-interval">What’s the difference between a confidence interval and a credible interval?</a> - a great Stack Exchange discussion.</p>
-<p><a class="reference external" href="http://www.scholarpedia.org/article/Bayesian_statistics">Scholarpedia overview of Bayesian statistics</a>.</p>
-</section>
-<section id="fda-recommendations">
-<h2>FDA recommendations<a class="headerlink" href="#fda-recommendations" title="Permalink to this headline">#</a></h2>
-<p>The link in the lecture slides is dead, <a class="reference external" href="https://www.fda.gov/media/71512/download">here’s the updated link</a>.</p>
-<p><a class="reference external" href="https://www.nature.com/articles/s41562-021-01177-7">Bayesian Analysis Reporting Guidelines</a>, a more recent article in Nature with a similar subject. By John K. Kruschke, author of <a class="reference external" href="https://sites.google.com/site/doingbayesiandataanalysis/">Doing Bayesian Data Analysis</a>.</p>
+<section id="demo">
+<h2>Demo<a class="headerlink" href="#demo" title="Permalink to this headline">#</a></h2>
+<p>The professor provides some Python code related to the above calculations, along with some simple plots. I’m going to clean up some of this code and use this as an excuse to introduce some SciPy features and other stuff.</p>
+<p>I like to use <a class="reference external" href="https://black.readthedocs.io/en/stable/">Black</a> to automatically format my Python code for readability. In Jupyter Lab, you can use the extension <a class="reference external" href="https://github.com/dnanhkhoa/nb_black">nb_black</a> to handle it.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">load_ext</span> lab_black
+</pre></div>
+</div>
+</div>
+</div>
+<p>First, he plots our posterior. Generally to plot a probability density function (PDF), you create a range of values as input, then plot that versus the output of your PDF.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+
+<span class="k">def</span> <span class="nf">posterior</span><span class="p">(</span><span class="n">p</span><span class="p">):</span>
+    <span class="k">return</span> <span class="mi">11</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">p</span><span class="p">)</span> <span class="o">**</span> <span class="mi">10</span>
+
+
+<span class="n">p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">posterior</span><span class="p">(</span><span class="n">p</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;grey&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;$11(1-p)^</span><span class="si">{10}</span><span class="s2">$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;p&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;density&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/Unit2-10flips_4_0.png" src="../_images/Unit2-10flips_4_0.png" />
+</div>
+</div>
+<p>Next, he checks that this density integrates to 1 using numerical integration:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy.integrate</span> <span class="kn">import</span> <span class="n">quad</span>
+
+<span class="n">quad</span><span class="p">(</span><span class="n">posterior</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(1.0000000000000002, 1.1102230246251569e-14)
+</pre></div>
+</div>
+</div>
+</div>
+<p>The <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.quad.html"><code class="docutils literal notranslate"><span class="pre">scipy.integrate.quad</span></code></a> function returns the value of the definite integral along with the absolute error.</p>
+<p>Find the mean:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mean</span> <span class="o">=</span> <span class="n">quad</span><span class="p">(</span><span class="k">lambda</span> <span class="n">p</span><span class="p">:</span> <span class="n">p</span> <span class="o">*</span> <span class="n">posterior</span><span class="p">(</span><span class="n">p</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">mean</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.08333333333333336
+</pre></div>
+</div>
+</div>
+</div>
+<p>Find the median, which will be:</p>
+<div class="math notranslate nohighlight">
+\[\int_0^m 11(1-p)^{10} dp = .5\]</div>
+<p>We can use <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.fsolve.html"><code class="docutils literal notranslate"><span class="pre">scipy.optimization.fsolve</span></code></a> to solve for the median <span class="math notranslate nohighlight">\(m\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="kn">import</span> <span class="n">fsolve</span>
+
+
+<span class="k">def</span> <span class="nf">median_func</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">scipy</span><span class="o">.</span><span class="n">integrate</span><span class="o">.</span><span class="n">quad</span><span class="p">(</span><span class="n">posterior</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">m</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mf">0.5</span>
+
+
+<span class="n">median</span> <span class="o">=</span> <span class="n">fsolve</span><span class="p">(</span><span class="n">median_func</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">median</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.06106908933829364
+</pre></div>
+</div>
+</div>
+</div>
+<p>The mode or maximum a posteriori probability (MAP) is equal to:</p>
+<div class="math notranslate nohighlight">
+\[arg \max_p \left[ 11(1-p)^{10} \mathbf{1}(0 \le p \le 1) \right]\]</div>
+<p>which we already know is 0. But if we wanted to calculate it we could use <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html#scipy.optimize.minimize"><code class="docutils literal notranslate"><span class="pre">scipy.optimize.minimize</span></code></a>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="kn">import</span> <span class="n">minimize</span>
+
+<span class="n">bounds</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)]</span>
+
+<span class="n">minimize_dict</span> <span class="o">=</span> <span class="n">minimize</span><span class="p">(</span>
+    <span class="k">lambda</span> <span class="n">p</span><span class="p">:</span> <span class="o">-</span><span class="n">posterior</span><span class="p">(</span><span class="n">p</span><span class="p">),</span> <span class="n">x0</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;L-BFGS-B&quot;</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="n">bounds</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">minimize_dict</span><span class="p">)</span>
+
+<span class="n">mode</span> <span class="o">=</span> <span class="n">minimize_dict</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  message: CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_&lt;=_PGTOL
+  success: True
+   status: 0
+      fun: -11.0
+        x: [ 0.000e+00]
+      nit: 0
+      jac: [ 1.100e+02]
+     nfev: 2
+     njev: 1
+ hess_inv: &lt;1x1 LbfgsInvHessProduct with dtype=float64&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<p>The mode is x in the above output.</p>
+<p>Finally, we can plot our PDF with the mean, median, and mode.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">add_dots</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">label</span><span class="p">):</span>
+    <span class="n">annotation</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">x</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span>
+        <span class="n">annotation</span><span class="p">,</span>
+        <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span>
+        <span class="n">xytext</span><span class="o">=</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="mf">0.05</span><span class="p">,</span> <span class="n">y</span> <span class="o">+</span> <span class="mf">0.05</span><span class="p">),</span>
+        <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">posterior</span><span class="p">(</span><span class="n">p</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;grey&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;$11(1-p)^</span><span class="si">{10}</span><span class="s2">$&quot;</span><span class="p">)</span>
+
+<span class="n">add_dots</span><span class="p">(</span><span class="n">mean</span><span class="p">,</span> <span class="n">posterior</span><span class="p">(</span><span class="n">mean</span><span class="p">),</span> <span class="s2">&quot;mean&quot;</span><span class="p">)</span>
+<span class="n">add_dots</span><span class="p">(</span><span class="n">median</span><span class="p">,</span> <span class="n">posterior</span><span class="p">(</span><span class="n">median</span><span class="p">),</span> <span class="s2">&quot;median&quot;</span><span class="p">)</span>
+<span class="n">add_dots</span><span class="p">(</span><span class="n">mode</span><span class="p">,</span> <span class="n">posterior</span><span class="p">(</span><span class="n">mode</span><span class="p">),</span> <span class="s2">&quot;mode&quot;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;p&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;density&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/Unit2-10flips_15_0.png" src="../_images/Unit2-10flips_15_0.png" />
+</div>
+</div>
 </section>
 </section>
 
@@ -863,17 +1090,17 @@ title="Print to PDF"
                 
     <!-- Previous / next buttons -->
 <div class='prev-next-area'>
-    <a class='left-prev' id="prev-link" href="../unit1/Unit1-simple-regression.html" title="previous page">
+    <a class='left-prev' id="prev-link" href="Unit2-bayesianvsclassical.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">1.4: Software Demo: A Simple Regression</p>
+            <p class="prev-next-title">2.3: Bayesian vs. Classical</p>
         </div>
     </a>
-    <a class='right-next' id="next-link" href="../unit3/Bayes-theorem.html" title="next page">
+    <a class='right-next' id="next-link" href="Unit2-fda.html" title="next page">
     <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Bayes’ theorem</p>
+        <p class="prev-next-title">2.5: FDA recommendations</p>
     </div>
     <i class="fas fa-angle-right"></i>
     </a>
