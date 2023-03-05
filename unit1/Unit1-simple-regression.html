@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>1.4: Software Demo�A Simple Regression &#8212; ISYE 6420 - BUGS to PyMC</title>
+    <title>4. Software Demo—A Simple Regression &#8212; ISYE 6420 - BUGS to PyMC</title>
     
   <!-- Loaded before other Sphinx assets -->
   <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
@@ -55,8 +55,8 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="2.1\(--\)2: History of Bayesian statistics" href="../unit2/Unit2-history.html" />
-    <link rel="prev" title="1.3: Software" href="Unit1-software.html" />
+    <link rel="next" title="1. History of Bayesian statistics" href="../unit2/Unit2-history.html" />
+    <link rel="prev" title="3. Software" href="Unit1-software.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -124,22 +124,22 @@ const thebe_selector_output = ".output, .cell_output"
 <ul class="current nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="Unit1-about-this-course.html">
-   1.1: About this course and website
+   1. About This Course and Website
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="Unit1-topics.html">
-   1.2: Topics Covered
+   2. Topics Covered
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="Unit1-software.html">
-   1.3: Software
+   3. Software
   </a>
  </li>
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
-   1.4: Software Demo�A Simple Regression
+   4. Software Demo—A Simple Regression
   </a>
  </li>
 </ul>
@@ -151,26 +151,27 @@ const thebe_selector_output = ".output, .cell_output"
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="../unit2/Unit2-history.html">
-   2.1
-   <span class="math notranslate nohighlight">
-    \(--\)
-   </span>
-   2: History of Bayesian statistics
+   1. History of Bayesian statistics
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../unit2/Unit2-history2.html">
+   2. Historic overview links
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="../unit2/Unit2-bayesianvsclassical.html">
-   2.3: Bayesian vs. Classical
+   3. Bayesian vs. Classical
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="../unit2/Unit2-10flips.html">
-   2.4: Software Demo�10 Coin Flips
+   4. Software Demo—10 Coin Flips
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="../unit2/Unit2-fda.html">
-   2.5: FDA recommendations
+   5. FDA recommendations
   </a>
  </li>
 </ul>
@@ -825,27 +826,27 @@ title="Print to PDF"
         <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#initial-values">
-   Initial values
+   4.1. Initial values
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#visualize-your-model-structure">
-   Visualize your model structure
+   4.2. Visualize your model structure
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#tuning-and-burning-samples">
-   Tuning and burning samples
+   4.3. Tuning and burning samples
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#arviz-for-visualization-and-summary-statistics">
-   ArViz for visualization and summary statistics
+   4.4. ArViz for visualization and summary statistics
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#comparison-with-a-standard-regression">
-   Comparison with a standard regression
+   4.5. Comparison with a standard regression
   </a>
  </li>
 </ul>
@@ -857,7 +858,7 @@ title="Print to PDF"
         <div class="col pl-md-3 pl-lg-5 content-container">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>1.4: Software Demo�A Simple Regression</h1>
+                <h1>Software Demo—A Simple Regression</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
@@ -869,27 +870,27 @@ title="Print to PDF"
                             <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#initial-values">
-   Initial values
+   4.1. Initial values
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#visualize-your-model-structure">
-   Visualize your model structure
+   4.2. Visualize your model structure
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#tuning-and-burning-samples">
-   Tuning and burning samples
+   4.3. Tuning and burning samples
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#arviz-for-visualization-and-summary-statistics">
-   ArViz for visualization and summary statistics
+   4.4. ArViz for visualization and summary statistics
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#comparison-with-a-standard-regression">
-   Comparison with a standard regression
+   4.5. Comparison with a standard regression
   </a>
  </li>
 </ul>
@@ -916,10 +917,10 @@ title="Print to PDF"
 </div>
 </div>
 <section class="tex2jax_ignore mathjax_ignore" id="software-demoa-simple-regression">
-<h1>1.4: Software Demo�A Simple Regression<a class="headerlink" href="#software-demoa-simple-regression" title="Permalink to this headline">#</a></h1>
+<h1><span class="section-number">4. </span>Software Demo—A Simple Regression<a class="headerlink" href="#software-demoa-simple-regression" title="Permalink to this headline">#</a></h1>
 <p>Adapted from <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/original_examples/Codes4Unit1/Regression.odc">unit 1: Regression.odc</a> and <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/original_examples/Codes4Unit1/Regression.m">unit 1: Regression.m</a>.</p>
 <section id="initial-values">
-<h2>Initial values<a class="headerlink" href="#initial-values" title="Permalink to this headline">#</a></h2>
+<h2><span class="section-number">4.1. </span>Initial values<a class="headerlink" href="#initial-values" title="Permalink to this headline">#</a></h2>
 <p>The professor often sets the initial values manually because BUGS will auto-generate really crazy initial values if you use wide priors.</p>
 <p>This is not necessary in PyMC. The generated values are probably always going to be better than what you would have chosen. If a model is not running in PyMC and you suspect it is because of the initial values, instead of manually entering new ones select one of the <a class="reference external" href="https://www.pymc.io/projects/docs/en/stable/api/generated/pymc.init_nuts.html">many other methods</a> for generating them by using the <code class="docutils literal notranslate"><span class="pre">init</span></code> parameter of <code class="docutils literal notranslate"><span class="pre">pm.sample</span></code>. I’ve found the new <code class="docutils literal notranslate"><span class="pre">&quot;jitter+adapt_diag_grad&quot;</span></code> option really helpful here for certain models.</p>
 <p>If you really do want to set initial values, pass a dictionary with the keys as variable names to the <code class="docutils literal notranslate"><span class="pre">initvals</span></code> parameter of <code class="docutils literal notranslate"><span class="pre">pm.sample</span></code>, like this:</p>
@@ -993,7 +994,7 @@ title="Print to PDF"
 </div>
 </section>
 <section id="visualize-your-model-structure">
-<h2>Visualize your model structure<a class="headerlink" href="#visualize-your-model-structure" title="Permalink to this headline">#</a></h2>
+<h2><span class="section-number">4.2. </span>Visualize your model structure<a class="headerlink" href="#visualize-your-model-structure" title="Permalink to this headline">#</a></h2>
 <p>PyMC has a built-in method to visualize the structure of your model. It’s really useful for making sure your code is doing what you intended.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1006,7 +1007,7 @@ title="Print to PDF"
 </div>
 </section>
 <section id="tuning-and-burning-samples">
-<h2>Tuning and burning samples<a class="headerlink" href="#tuning-and-burning-samples" title="Permalink to this headline">#</a></h2>
+<h2><span class="section-number">4.3. </span>Tuning and burning samples<a class="headerlink" href="#tuning-and-burning-samples" title="Permalink to this headline">#</a></h2>
 <p>PyMC uses the tuning step specified in the pm.sample call to adjust various parameters in the No-U-Turn Sampler <a class="reference external" href="https://arxiv.org/abs/1111.4246">(NUTS) algorithm</a>, which is a form of Hamiltonian Monte Carlo. BUGS also silently uses different types of tuning depending on the algorithm it <a class="reference external" href="https://www.york.ac.uk/depts/maths/histstat/pml1/bayes/winbugsinfo/cowles_winbugs.pdf">chooses</a>. The professor also usually burns some number of samples in his examples. Note that this is separate from the tuning phase for both programs!</p>
 <p>We will not require students to burn PyMC samples separately from the tuning phase. So if a homework or exam problem specifies that you must burn 1000 samples, you can just set <code class="docutils literal notranslate"><span class="pre">tune=1000</span></code> in your <code class="docutils literal notranslate"><span class="pre">pm.sample</span></code> call and be done with it. That said, if for some reason you needed to burn samples from a PyMC trace after sampling, you could slice the trace (which is based on <a class="reference external" href="https://docs.xarray.dev/en/stable/index.html">xarray</a>) like so:</p>
 <div class="cell docutils container">
@@ -1020,7 +1021,7 @@ title="Print to PDF"
 <p>For some more detail on tuning, see <a class="reference external" href="https://colcarroll.github.io/hmc_tuning_talk/">this post</a>.</p>
 </section>
 <section id="arviz-for-visualization-and-summary-statistics">
-<h2>ArViz for visualization and summary statistics<a class="headerlink" href="#arviz-for-visualization-and-summary-statistics" title="Permalink to this headline">#</a></h2>
+<h2><span class="section-number">4.4. </span>ArViz for visualization and summary statistics<a class="headerlink" href="#arviz-for-visualization-and-summary-statistics" title="Permalink to this headline">#</a></h2>
 <p>For visualization and summarization of your trace, use <a class="reference external" href="https://arviz-devs.github.io/arviz/">ArViz</a>.</p>
 <p>Arviz has a variety of functions to view the results of the model. One of the most useful is <code class="docutils literal notranslate"><span class="pre">az.summary</span></code>. Professor Vidakovic arbitrarily asks for the 95% credible set (also called the highest density interval), so we can specify hdi_prob=.95 to get that. This is the HPD, or minimum-width, credible set.</p>
 <div class="cell docutils container">
@@ -1150,7 +1151,7 @@ title="Print to PDF"
 </div>
 </section>
 <section id="comparison-with-a-standard-regression">
-<h2>Comparison with a standard regression<a class="headerlink" href="#comparison-with-a-standard-regression" title="Permalink to this headline">#</a></h2>
+<h2><span class="section-number">4.5. </span>Comparison with a standard regression<a class="headerlink" href="#comparison-with-a-standard-regression" title="Permalink to this headline">#</a></h2>
 <p>There are many ways to manipulate Arviz <a class="reference external" href="https://arviz-devs.github.io/arviz/api/generated/arviz.InferenceData.html">InferenceData</a> objects to calculate statistics after sampling is complete.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1364,13 +1365,13 @@ numpy      : 1.24.1
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">1.3: Software</p>
+            <p class="prev-next-title"><span class="section-number">3. </span>Software</p>
         </div>
     </a>
     <a class='right-next' id="next-link" href="../unit2/Unit2-history.html" title="next page">
     <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">2.1<span class="math notranslate nohighlight">\(--\)</span>2: History of Bayesian statistics</p>
+        <p class="prev-next-title"><span class="section-number">1. </span>History of Bayesian statistics</p>
     </div>
     <i class="fas fa-angle-right"></i>
     </a>

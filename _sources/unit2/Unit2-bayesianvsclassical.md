@@ -1,4 +1,4 @@
-# 2.3: Bayesian vs. Classical
+# Bayesian vs. Classical
 
 Throughout the course, you'll hear Professor Vidakovic use both "classical" and "frequentist" as catch-all terms for "not Bayesian." The reality is a bit more nuanced than that. Greg Ganderburger has a [great series of posts](https://gandenberger.org/2014/07/28/intro-to-statistical-methods-2/) on the differences between frequentist, likelihoodist, and Bayesian methods. I'm linking to the second post in the series for the great Venn diagram at the top, but I recommend the entire thing if you're interested.
 
