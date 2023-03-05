@@ -2,7 +2,7 @@
 
 ## Probabilistic Programming Languages (PPLs)
 
-As the professor says, [BUGS](https://www.mrc-bsu.cam.ac.uk/software/bugs/) (Bayesian Inference using Gibbs Sampling) is actually a pretty good choice for learning the basics of Bayesian inference. There are things that BUGS can do that are still a pain to implement in PyMC. PyMC is also under active development - since Spring 2022 when this site went up, it's already gone through two major version changes (3 to 5). Features I was using for this class are being deprecated! Every semester there's some breaking change to be researched and worked around. Whereas BUGS probably hasn't changed for 15 years. So I understand why the professor stuck with it, even in 2018 when putting this course online.
+As the professor says, [BUGS](https://www.mrc-bsu.cam.ac.uk/software/bugs/) (Bayesian Inference using Gibbs Sampling) is actually a pretty good choice for learning the basics of Bayesian inference. There are things that BUGS can do that are still a pain to implement in PyMC. PyMC is also under active development; since Spring 2022 when this site went up, it's already gone through two major version changes. Features I was using for this class are being deprecated! Every semester there's some breaking change to be researched and worked around. Whereas BUGS probably hasn't changed for 15 years. So I understand why the professor stuck with it, even in 2018 when putting this course online.
 
 But there's a tension there between students who are looking to practice career skills - they tend to want to use something Python or R-based. So I've redone most of the course examples in PyMC and provide Python solutions to any homework or exam problems we ask.
 
