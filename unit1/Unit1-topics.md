@@ -1,4 +1,4 @@
-# 1.2: Topics Covered
+# Topics Covered
 
 This lecture goes over the [topics covered](https://www2.isye.gatech.edu/isye6420/plan.html) in the course. I don't have much to add for this, but I'm going to add some notes about each homework and the corresponding units.
 

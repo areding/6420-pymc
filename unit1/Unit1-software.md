@@ -1,4 +1,4 @@
-# 1.3: Software
+# Software
 
 ## Probabilistic Programming Languages (PPLs)
 
