@@ -1,4 +1,4 @@
-# 2.5: FDA recommendations
+# FDA recommendations
 
 The link in the lecture slides is dead, [here's the updated link](https://www.fda.gov/media/71512/download).
 
