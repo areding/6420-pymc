@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>deMere’s problem &#8212; ISYE 6420 - BUGS to PyMC</title>
+    <title>4. Bayes’ Theorem &#8212; ISYE 6420 - BUGS to PyMC</title>
     
   <!-- Loaded before other Sphinx assets -->
   <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
@@ -55,8 +55,8 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Manufacturing Bayes" href="Unit3-ManufacturingBayes.html" />
-    <link rel="prev" title="Two-headed coin" href="Unit3-TwoHeadedCoin.html" />
+    <link rel="next" title="5. Demo—Manufacturing Bayes" href="Unit3-ManufacturingBayes.html" />
+    <link rel="prev" title="3. Conditioning, Part 2" href="Unit3-conditioning2.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -139,7 +139,7 @@ const thebe_selector_output = ".output, .cell_output"
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="../unit1/Unit1-simple-regression.html">
-   4. Software Demo—A Simple Regression
+   4. Demo—A Simple Regression
   </a>
  </li>
 </ul>
@@ -161,12 +161,12 @@ const thebe_selector_output = ".output, .cell_output"
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="../unit2/Unit2-bayesianvsclassical.html">
-   3. Bayesian vs. Classical
+   3. Bayesian vs. Frequentist
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="../unit2/Unit2-10flips.html">
-   4. Software Demo—10 Coin Flips
+   4. Demo—10 Coin Flips
   </a>
  </li>
  <li class="toctree-l1">
@@ -182,28 +182,48 @@ const thebe_selector_output = ".output, .cell_output"
 </p>
 <ul class="current nav bd-sidenav">
  <li class="toctree-l1">
-  <a class="reference internal" href="Bayes-theorem.html">
-   Bayes’ theorem
+  <a class="reference internal" href="Unit3-NecessaryProbability.html">
+   1. A Review of Necessary Probability
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="Unit3-TwoHeadedCoin.html">
-   Two-headed coin
+  <a class="reference internal" href="Unit3-conditioning1.html">
+   2. Conditioning, Part 1
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Unit3-conditioning2.html">
+   3. Conditioning, Part 2
   </a>
  </li>
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
-   deMere’s problem
+   4. Bayes’ Theorem
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="Unit3-ManufacturingBayes.html">
-   Manufacturing Bayes
+   5. Demo—Manufacturing Bayes
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Unit3-TwoHeadedCoin.html">
+   6. Demo—Two-headed Coin
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Unit3-bayesnetworks.html">
+   7. Bayes Networks
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="Unit3-Alarm.html">
-   Alarm
+   8. Demo—Alarm
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Unit3-Emily.html">
+   9. Supplementary Problem—Emily’s Vacation
   </a>
  </li>
 </ul>
@@ -651,53 +671,6 @@ title="Toggle navigation"
         
     </div>
     <div class="header-article__right">
-<div class="menu-dropdown menu-dropdown-launch-buttons">
-  <button class="headerbtn menu-dropdown__trigger"
-      aria-label="Launch interactive content">
-      <i class="fas fa-rocket"></i>
-  </button>
-  <div class="menu-dropdown__content">
-    <ul>
-      <li>
-        <a href="https://mybinder.org/v2/gh/areding/6420-pymc/main?urlpath=tree/unit3/Unit3-DeMere.ipynb"
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Launch on Binder"
->
-  
-
-<span class="headerbtn__icon-container">
-  
-    <img src="../_static/images/logo_binder.svg">
-  </span>
-<span class="headerbtn__text-container">Binder</span>
-</a>
-
-      </li>
-      
-      <li>
-        <a href="https://colab.research.google.com/github/areding/6420-pymc/blob/main/unit3/Unit3-DeMere.ipynb"
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Launch on Colab"
->
-  
-
-<span class="headerbtn__icon-container">
-  
-    <img src="../_static/images/logo_colab.png">
-  </span>
-<span class="headerbtn__text-container">Colab</span>
-</a>
-
-      </li>
-      
-    </ul>
-  </div>
-</div>
-
 <button onclick="toggleFullScreen()"
   class="headerbtn"
   data-toggle="tooltip"
@@ -737,7 +710,7 @@ title="Source repository"
       </li>
       
       <li>
-        <a href="https://github.com/areding/6420-pymc/issues/new?title=Issue%20on%20page%20%2Funit3/Unit3-DeMere.html&body=Your%20issue%20content%20here."
+        <a href="https://github.com/areding/6420-pymc/issues/new?title=Issue%20on%20page%20%2Funit3/Unit3-Bayes-theorem.html&body=Your%20issue%20content%20here."
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -765,7 +738,7 @@ title="Open an issue"
   <div class="menu-dropdown__content">
     <ul>
       <li>
-        <a href="../_sources/unit3/Unit3-DeMere.ipynb"
+        <a href="../_sources/unit3/Unit3-Bayes-theorem.md"
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -776,7 +749,7 @@ title="Download source file"
 <span class="headerbtn__icon-container">
   <i class="fas fa-file"></i>
   </span>
-<span class="headerbtn__text-container">.ipynb</span>
+<span class="headerbtn__text-container">.md</span>
 </a>
 
       </li>
@@ -814,7 +787,7 @@ title="Print to PDF"
         <div class="col pl-md-3 pl-lg-5 content-container">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>deMere’s problem</h1>
+                <h1>Bayes’ Theorem</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
@@ -826,81 +799,14 @@ title="Print to PDF"
                 
               <div>
                 
-  <div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-
-<span class="o">%</span><span class="k">load_ext</span> lab_black
-<span class="o">%</span><span class="k">load_ext</span> watermark
-</pre></div>
-</div>
-</div>
-</div>
-<section class="tex2jax_ignore mathjax_ignore" id="demeres-problem">
-<h1>deMere’s problem<a class="headerlink" href="#demeres-problem" title="Permalink to this headline">#</a></h1>
-<p>See <a class="reference external" href="https://en.wikipedia.org/wiki/Problem_of_points#Pascal_and_Fermat">Wikipedia on the Problem of Points</a>.</p>
-<p>Adapted from <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/original_examples/Codes4Unit6/DeMere.odc">Unit 6: DeMere.odc</a>.</p>
-<p>Not sure where in the course this is from! The professor doesn’t mention it in lectures that I’ve seen. It was in the Codes4Unit6 archive, but I think it fits better here.</p>
+  <section class="tex2jax_ignore mathjax_ignore" id="bayes-theorem">
+<h1><span class="section-number">4. </span>Bayes’ Theorem<a class="headerlink" href="#bayes-theorem" title="Permalink to this headline">#</a></h1>
+<p>Notes coming.</p>
+<p>Todo:</p>
 <ul class="simple">
-<li><p>What is more likely when rolling 3 fair dice: sum 11 or sum 12?</p></li>
-<li><p>What is more likely when rolling 300 fair dice: sum 1111 or sum 1112?</p></li>
+<li><p>Could go into more detail on Bayes factor, although I think that may happen more in Unit 4 already.</p></li>
+<li><p>Extended notation for prior may make a lot of the early problems less tricky (see Jaynes).</p></li>
 </ul>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">sims</span> <span class="o">=</span> <span class="mi">1000000</span>
-
-
-<span class="k">def</span> <span class="nf">prob_sum</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    return probability of sum s in (sims, dice)-shaped np array</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">sims</span> <span class="o">=</span> <span class="n">arr</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="k">return</span> <span class="p">(</span><span class="n">arr</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="n">sims</span>
-
-
-<span class="c1"># simulate 3 dice rolls</span>
-<span class="n">rolls_3</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">integers</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="p">(</span><span class="n">sims</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">endpoint</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Results with 3 dice&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Simulated probability of rolling 11:&quot;</span><span class="p">,</span> <span class="n">prob_sum</span><span class="p">(</span><span class="n">rolls_3</span><span class="p">,</span> <span class="mi">11</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Simulated probability of rolling 12:&quot;</span><span class="p">,</span> <span class="n">prob_sum</span><span class="p">(</span><span class="n">rolls_3</span><span class="p">,</span> <span class="mi">12</span><span class="p">))</span>
-
-<span class="c1"># simulate 300 dice rolls</span>
-<span class="n">rolls_300</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">integers</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="p">(</span><span class="n">sims</span><span class="p">,</span> <span class="mi">300</span><span class="p">),</span> <span class="n">endpoint</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Results with 300 dice&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Simulated probability of rolls summing to 1111:&quot;</span><span class="p">,</span> <span class="n">prob_sum</span><span class="p">(</span><span class="n">rolls_300</span><span class="p">,</span> <span class="mi">1111</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Simulated probability of rolls summing to 1112:&quot;</span><span class="p">,</span> <span class="n">prob_sum</span><span class="p">(</span><span class="n">rolls_300</span><span class="p">,</span> <span class="mi">1112</span><span class="p">))</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Results with 3 dice
-Simulated probability of rolling 11: 0.124593
-Simulated probability of rolling 12: 0.115399
-
-Results with 300 dice
-Simulated probability of rolls summing to 1111: 0.001628
-Simulated probability of rolls summing to 1112: 0.001478
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">watermark</span> -n -u -v -iv
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Python implementation: CPython
-Python version       : 3.10.4
-IPython version      : 8.4.0
-
-numpy: 1.22.4
-</pre></div>
-</div>
-</div>
-</div>
 </section>
 
     <script type="text/x-thebe-config">
@@ -930,17 +836,17 @@ numpy: 1.22.4
                 
     <!-- Previous / next buttons -->
 <div class='prev-next-area'>
-    <a class='left-prev' id="prev-link" href="Unit3-TwoHeadedCoin.html" title="previous page">
+    <a class='left-prev' id="prev-link" href="Unit3-conditioning2.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">Two-headed coin</p>
+            <p class="prev-next-title"><span class="section-number">3. </span>Conditioning, Part 2</p>
         </div>
     </a>
     <a class='right-next' id="next-link" href="Unit3-ManufacturingBayes.html" title="next page">
     <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Manufacturing Bayes</p>
+        <p class="prev-next-title"><span class="section-number">5. </span>Demo—Manufacturing Bayes</p>
     </div>
     <i class="fas fa-angle-right"></i>
     </a>

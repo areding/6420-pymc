@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>4. Software Demo—A Simple Regression &#8212; ISYE 6420 - BUGS to PyMC</title>
+    <title>4. Demo—A Simple Regression &#8212; ISYE 6420 - BUGS to PyMC</title>
     
   <!-- Loaded before other Sphinx assets -->
   <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
@@ -139,7 +139,7 @@ const thebe_selector_output = ".output, .cell_output"
  </li>
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
-   4. Software Demo—A Simple Regression
+   4. Demo—A Simple Regression
   </a>
  </li>
 </ul>
@@ -161,12 +161,12 @@ const thebe_selector_output = ".output, .cell_output"
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="../unit2/Unit2-bayesianvsclassical.html">
-   3. Bayesian vs. Classical
+   3. Bayesian vs. Frequentist
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="../unit2/Unit2-10flips.html">
-   4. Software Demo—10 Coin Flips
+   4. Demo—10 Coin Flips
   </a>
  </li>
  <li class="toctree-l1">
@@ -182,28 +182,48 @@ const thebe_selector_output = ".output, .cell_output"
 </p>
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
-  <a class="reference internal" href="../unit3/Bayes-theorem.html">
-   Bayes’ theorem
+  <a class="reference internal" href="../unit3/Unit3-NecessaryProbability.html">
+   1. A Review of Necessary Probability
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../unit3/Unit3-TwoHeadedCoin.html">
-   Two-headed coin
+  <a class="reference internal" href="../unit3/Unit3-conditioning1.html">
+   2. Conditioning, Part 1
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../unit3/Unit3-DeMere.html">
-   deMere’s problem
+  <a class="reference internal" href="../unit3/Unit3-conditioning2.html">
+   3. Conditioning, Part 2
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../unit3/Unit3-Bayes-theorem.html">
+   4. Bayes’ Theorem
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="../unit3/Unit3-ManufacturingBayes.html">
-   Manufacturing Bayes
+   5. Demo—Manufacturing Bayes
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../unit3/Unit3-TwoHeadedCoin.html">
+   6. Demo—Two-headed Coin
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../unit3/Unit3-bayesnetworks.html">
+   7. Bayes Networks
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="../unit3/Unit3-Alarm.html">
-   Alarm
+   8. Demo—Alarm
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../unit3/Unit3-Emily.html">
+   9. Supplementary Problem—Emily’s Vacation
   </a>
  </li>
 </ul>
@@ -858,7 +878,7 @@ title="Print to PDF"
         <div class="col pl-md-3 pl-lg-5 content-container">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>Software Demo—A Simple Regression</h1>
+                <h1>Demo—A Simple Regression</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
@@ -916,9 +936,10 @@ title="Print to PDF"
 </div>
 </div>
 </div>
-<section class="tex2jax_ignore mathjax_ignore" id="software-demoa-simple-regression">
-<h1><span class="section-number">4. </span>Software Demo—A Simple Regression<a class="headerlink" href="#software-demoa-simple-regression" title="Permalink to this headline">#</a></h1>
+<section class="tex2jax_ignore mathjax_ignore" id="demoa-simple-regression">
+<h1><span class="section-number">4. </span>Demo—A Simple Regression<a class="headerlink" href="#demoa-simple-regression" title="Permalink to this headline">#</a></h1>
 <p>Adapted from <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/original_examples/Codes4Unit1/Regression.odc">unit 1: Regression.odc</a> and <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/original_examples/Codes4Unit1/Regression.m">unit 1: Regression.m</a>.</p>
+<hr class="docutils" />
 <section id="initial-values">
 <h2><span class="section-number">4.1. </span>Initial values<a class="headerlink" href="#initial-values" title="Permalink to this headline">#</a></h2>
 <p>The professor often sets the initial values manually because BUGS will auto-generate really crazy initial values if you use wide priors.</p>

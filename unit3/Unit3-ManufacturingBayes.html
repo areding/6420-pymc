@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Manufacturing Bayes &#8212; ISYE 6420 - BUGS to PyMC</title>
+    <title>5. Demo—Manufacturing Bayes &#8212; ISYE 6420 - BUGS to PyMC</title>
     
   <!-- Loaded before other Sphinx assets -->
   <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
@@ -52,13 +52,11 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
-    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
-    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Alarm" href="Unit3-Alarm.html" />
-    <link rel="prev" title="deMere’s problem" href="Unit3-DeMere.html" />
+    <link rel="next" title="6. Demo—Two-headed Coin" href="Unit3-TwoHeadedCoin.html" />
+    <link rel="prev" title="4. Bayes’ Theorem" href="Unit3-Bayes-theorem.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -141,7 +139,7 @@ const thebe_selector_output = ".output, .cell_output"
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="../unit1/Unit1-simple-regression.html">
-   4. Software Demo—A Simple Regression
+   4. Demo—A Simple Regression
   </a>
  </li>
 </ul>
@@ -163,12 +161,12 @@ const thebe_selector_output = ".output, .cell_output"
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="../unit2/Unit2-bayesianvsclassical.html">
-   3. Bayesian vs. Classical
+   3. Bayesian vs. Frequentist
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="../unit2/Unit2-10flips.html">
-   4. Software Demo—10 Coin Flips
+   4. Demo—10 Coin Flips
   </a>
  </li>
  <li class="toctree-l1">
@@ -184,28 +182,48 @@ const thebe_selector_output = ".output, .cell_output"
 </p>
 <ul class="current nav bd-sidenav">
  <li class="toctree-l1">
-  <a class="reference internal" href="Bayes-theorem.html">
-   Bayes’ theorem
+  <a class="reference internal" href="Unit3-NecessaryProbability.html">
+   1. A Review of Necessary Probability
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="Unit3-TwoHeadedCoin.html">
-   Two-headed coin
+  <a class="reference internal" href="Unit3-conditioning1.html">
+   2. Conditioning, Part 1
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="Unit3-DeMere.html">
-   deMere’s problem
+  <a class="reference internal" href="Unit3-conditioning2.html">
+   3. Conditioning, Part 2
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Unit3-Bayes-theorem.html">
+   4. Bayes’ Theorem
   </a>
  </li>
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
-   Manufacturing Bayes
+   5. Demo—Manufacturing Bayes
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Unit3-TwoHeadedCoin.html">
+   6. Demo—Two-headed Coin
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Unit3-bayesnetworks.html">
+   7. Bayes Networks
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="Unit3-Alarm.html">
-   Alarm
+   8. Demo—Alarm
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Unit3-Emily.html">
+   9. Supplementary Problem—Emily’s Vacation
   </a>
  </li>
 </ul>
@@ -804,60 +822,23 @@ title="Print to PDF"
     </ul>
   </div>
 </div>
-<label for="__page-toc"
-  class="headerbtn headerbtn-page-toc"
-  
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-list"></i>
-  </span>
-
-</label>
 
     </div>
 </div>
 
 <!-- Table of contents -->
 <div class="col-md-3 bd-toc show noprint">
-    <div class="tocsection onthispage pt-5 pb-3">
-        <i class="fas fa-list"></i> Contents
-    </div>
-    <nav id="bd-toc-nav" aria-label="Page">
-        <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#problem-statement">
-   Problem statement
-  </a>
- </li>
-</ul>
-
-    </nav>
 </div>
     </div>
     <div class="article row">
         <div class="col pl-md-3 pl-lg-5 content-container">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>Manufacturing Bayes</h1>
+                <h1>Demo—Manufacturing Bayes</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
                         
-                        <div>
-                            <h2> Contents </h2>
-                        </div>
-                        <nav aria-label="Page">
-                            <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#problem-statement">
-   Problem statement
-  </a>
- </li>
-</ul>
-
-                        </nav>
                     </div>
                 </div>
             </div>
@@ -879,13 +860,11 @@ title="Print to PDF"
 </div>
 </div>
 </div>
-<section class="tex2jax_ignore mathjax_ignore" id="manufacturing-bayes">
-<h1>Manufacturing Bayes<a class="headerlink" href="#manufacturing-bayes" title="Permalink to this headline">#</a></h1>
+<section class="tex2jax_ignore mathjax_ignore" id="demomanufacturing-bayes">
+<h1><span class="section-number">5. </span>Demo—Manufacturing Bayes<a class="headerlink" href="#demomanufacturing-bayes" title="Permalink to this headline">#</a></h1>
 <p>From <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/original_examples/Codes4Unit3/manufacturingbayes.odc">Unit 3 - manufacturingbayes.odc</a>.</p>
-<p>Associated lecture video: Unit 3 lessons 3 and 5.</p>
-<p>There’s a mistake in lecture 3 at 5:40: <span class="math notranslate nohighlight">\(0.94\times 0.3 + 0.95\times 0.5 + 0.97\times 0.2\)</span> equals <span class="math notranslate nohighlight">\(0.951\)</span>, not <span class="math notranslate nohighlight">\(0.957\)</span>.</p>
-<section id="problem-statement">
-<h2>Problem statement<a class="headerlink" href="#problem-statement" title="Permalink to this headline">#</a></h2>
+<p>Associated lecture videos: Unit 3 lessons 3 and 5.</p>
+<hr class="docutils" />
 <p>Three types of machines produce items. The first type makes 30% of the items, the second 50%, and the third 20%.
 The probability of an item conforming to standards is 0.94 if it comes from a type-1 machine, 0.95 from a type-2 machine, and 0.97 from a type-3 machine.</p>
 <p>An item from the production is selected at random.</p>
@@ -1018,7 +997,6 @@ matplotlib: 3.5.2
 </div>
 </div>
 </section>
-</section>
 
     <script type="text/x-thebe-config">
     {
@@ -1047,17 +1025,17 @@ matplotlib: 3.5.2
                 
     <!-- Previous / next buttons -->
 <div class='prev-next-area'>
-    <a class='left-prev' id="prev-link" href="Unit3-DeMere.html" title="previous page">
+    <a class='left-prev' id="prev-link" href="Unit3-Bayes-theorem.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">deMere’s problem</p>
+            <p class="prev-next-title"><span class="section-number">4. </span>Bayes’ Theorem</p>
         </div>
     </a>
-    <a class='right-next' id="next-link" href="Unit3-Alarm.html" title="next page">
+    <a class='right-next' id="next-link" href="Unit3-TwoHeadedCoin.html" title="next page">
     <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Alarm</p>
+        <p class="prev-next-title"><span class="section-number">6. </span>Demo—Two-headed Coin</p>
     </div>
     <i class="fas fa-angle-right"></i>
     </a>

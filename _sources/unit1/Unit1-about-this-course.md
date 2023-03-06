@@ -34,8 +34,9 @@ These are not required for the class, but they might be helpful. Prof. Vidakovic
 - Michael Betancourt, another Stan developer, has a [series of incredibly in-depth](https://betanalpha.github.io/writing/) posts and notebooks on Bayesian modeling.
 - PyMC developer [Austin Rochford's blog](https://austinrochford.com/posts.html) has a lot of good posts.
 - Another PyMC developer, [Oriol Abril](https://oriolabrilpla.cat/blog/), posts some really helpful PyMC examples.
+- If you're interested in how ideas from the course might be used in a business context, you might enjoy the posts on the [PyMC Labs blog](https://www.pymc-labs.io/blog-posts/).
 
-### Videos and Podcasts
+### Videos and podcasts
 
 - [Learn Bayes Stats](https://learnbayesstats.com/) by Alex Andorra, one of the PyMC developers.
 - [Bayesian Statistics](https://www.youtube.com/watch?v=-1dYY43DRMA&list=PLvcbYUQ5t0UEkf2NUEo7XSsyVTyeEk3Gq) by ritvikmath. Very accessible playlist of videos on a variety of Bayesian topics.

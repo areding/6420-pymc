@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Bayes’ theorem &#8212; ISYE 6420 - BUGS to PyMC</title>
+    <title>2. Conditioning, Part 1 &#8212; ISYE 6420 - BUGS to PyMC</title>
     
   <!-- Loaded before other Sphinx assets -->
   <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
@@ -52,13 +52,11 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
-    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
-    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Two-headed coin" href="Unit3-TwoHeadedCoin.html" />
-    <link rel="prev" title="5. FDA Recommendations" href="../unit2/Unit2-fda.html" />
+    <link rel="next" title="3. Conditioning, Part 2" href="Unit3-conditioning2.html" />
+    <link rel="prev" title="1. A Review of Necessary Probability" href="Unit3-NecessaryProbability.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -141,7 +139,7 @@ const thebe_selector_output = ".output, .cell_output"
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="../unit1/Unit1-simple-regression.html">
-   4. Software Demo—A Simple Regression
+   4. Demo—A Simple Regression
   </a>
  </li>
 </ul>
@@ -163,12 +161,12 @@ const thebe_selector_output = ".output, .cell_output"
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="../unit2/Unit2-bayesianvsclassical.html">
-   3. Bayesian vs. Classical
+   3. Bayesian vs. Frequentist
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="../unit2/Unit2-10flips.html">
-   4. Software Demo—10 Coin Flips
+   4. Demo—10 Coin Flips
   </a>
  </li>
  <li class="toctree-l1">
@@ -183,29 +181,49 @@ const thebe_selector_output = ".output, .cell_output"
  </span>
 </p>
 <ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="Unit3-NecessaryProbability.html">
+   1. A Review of Necessary Probability
+  </a>
+ </li>
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
-   Bayes’ theorem
+   2. Conditioning, Part 1
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="Unit3-TwoHeadedCoin.html">
-   Two-headed coin
+  <a class="reference internal" href="Unit3-conditioning2.html">
+   3. Conditioning, Part 2
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="Unit3-DeMere.html">
-   deMere’s problem
+  <a class="reference internal" href="Unit3-Bayes-theorem.html">
+   4. Bayes’ Theorem
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="Unit3-ManufacturingBayes.html">
-   Manufacturing Bayes
+   5. Demo—Manufacturing Bayes
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Unit3-TwoHeadedCoin.html">
+   6. Demo—Two-headed Coin
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Unit3-bayesnetworks.html">
+   7. Bayes Networks
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="Unit3-Alarm.html">
-   Alarm
+   8. Demo—Alarm
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Unit3-Emily.html">
+   9. Supplementary Problem—Emily’s Vacation
   </a>
  </li>
 </ul>
@@ -692,7 +710,7 @@ title="Source repository"
       </li>
       
       <li>
-        <a href="https://github.com/areding/6420-pymc/issues/new?title=Issue%20on%20page%20%2Funit3/Bayes-theorem.html&body=Your%20issue%20content%20here."
+        <a href="https://github.com/areding/6420-pymc/issues/new?title=Issue%20on%20page%20%2Funit3/Unit3-conditioning1.html&body=Your%20issue%20content%20here."
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -720,7 +738,7 @@ title="Open an issue"
   <div class="menu-dropdown__content">
     <ul>
       <li>
-        <a href="../_sources/unit3/Bayes-theorem.md"
+        <a href="../_sources/unit3/Unit3-conditioning1.md"
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -769,7 +787,7 @@ title="Print to PDF"
         <div class="col pl-md-3 pl-lg-5 content-container">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>Bayes’ theorem</h1>
+                <h1>Conditioning, Part 1</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
@@ -781,11 +799,14 @@ title="Print to PDF"
                 
               <div>
                 
-  <section class="tex2jax_ignore mathjax_ignore" id="bayes-theorem">
-<h1>Bayes’ theorem<a class="headerlink" href="#bayes-theorem" title="Permalink to this headline">#</a></h1>
-<p><span class="math notranslate nohighlight">\(P(A|B)=\frac{P(B|A)P(A)}{P(B)}\)</span></p>
-<p>Your main takeaways from this unit should be Bayes’ theorem and how to use it in conjunction with other basic concepts in probability (you may find the law of total probability especially helpful for the homework).</p>
-<p>Bayes’ networks are fun - I recommend trying to code them by hand first if you’re having trouble understanding them. After that, pgmpy helps with the more complicated networks.</p>
+  <section class="tex2jax_ignore mathjax_ignore" id="conditioning-part-1">
+<h1><span class="section-number">2. </span>Conditioning, Part 1<a class="headerlink" href="#conditioning-part-1" title="Permalink to this headline">#</a></h1>
+<p>Notes coming.</p>
+<p>Todo:</p>
+<ul class="simple">
+<li><p>Add further explanation of Queen of Spades example from notes.</p></li>
+<li><p>Causal independence vs. logical independence.</p></li>
+</ul>
 </section>
 
     <script type="text/x-thebe-config">
@@ -815,17 +836,17 @@ title="Print to PDF"
                 
     <!-- Previous / next buttons -->
 <div class='prev-next-area'>
-    <a class='left-prev' id="prev-link" href="../unit2/Unit2-fda.html" title="previous page">
+    <a class='left-prev' id="prev-link" href="Unit3-NecessaryProbability.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title"><span class="section-number">5. </span>FDA Recommendations</p>
+            <p class="prev-next-title"><span class="section-number">1. </span>A Review of Necessary Probability</p>
         </div>
     </a>
-    <a class='right-next' id="next-link" href="Unit3-TwoHeadedCoin.html" title="next page">
+    <a class='right-next' id="next-link" href="Unit3-conditioning2.html" title="next page">
     <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Two-headed coin</p>
+        <p class="prev-next-title"><span class="section-number">3. </span>Conditioning, Part 2</p>
     </div>
     <i class="fas fa-angle-right"></i>
     </a>
