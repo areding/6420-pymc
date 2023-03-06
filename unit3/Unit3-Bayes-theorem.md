@@ -1,4 +1,4 @@
-# Bayes' theorem
+# Bayes' Theorem
 
 $P(A|B)=\frac{P(B|A)P(A)}{P(B)}$
 
