@@ -16,7 +16,9 @@ These are not required for the class, but they might be helpful. Prof. Vidakovic
 
 ### Textbooks and courses
 
-- *[Statistical Rethinking](https://xcelab.net/rm/statistical-rethinking/)* by Richard McElreath is a great book for gaining intuition about Bayesian inference and modeling in general. It's aimed at non-statisticians, so I find it more accessible.
+- [*Statistical Rethinking*](https://xcelab.net/rm/statistical-rethinking/) by Richard McElreath is a great book for gaining intuition about Bayesian inference and modeling in general. It's aimed at non-statisticians, so I find it more accessible.
+
+- [*Bayesian Modeling and Computation in Python*](https://bayesiancomputationbook.com/welcome.html) by Osvaldo Martin, Ravin Kumar, and Junpeng Lao, as you might guess from the title, has a more computational perspective. All three co-authors are contributors to PyMC. This book is freely available online. If you've taken [ISYE 8803: HDDA](https://omscs.gatech.edu/isye-8803-topics-high-dimensional-data-analytics), you might enjoy Chapter 5: Splines. Chapter 7: Bayesian Additive Regression Trees are another cool model type that we don't cover in this class, but might make for a fun project topic. Chapter 10 is an overview of creating a probabilistic programming language. Not that you need to create one for this class—it, along with Unit 5 of our class, just might help you understand more about what's going on under the hood in these languages.
 
 - [*Bayesian Data Analysis*](http://www.stat.columbia.edu/~gelman/book/) by Gelman, Carlin, Stern, Dunson, Vehtari, and Rubin goes into more mathematical theory than *Statistical Rethinking*. I mostly use it as a reference. It's freely available on the linked site.
 
@@ -35,6 +37,7 @@ These are not required for the class, but they might be helpful. Prof. Vidakovic
 - PyMC developer [Austin Rochford's blog](https://austinrochford.com/posts.html) has a lot of good posts.
 - Another PyMC developer, [Oriol Abril](https://oriolabrilpla.cat/blog/), posts some really helpful PyMC examples.
 - If you're interested in how ideas from the course might be used in a business context, you might enjoy the posts on the [PyMC Labs blog](https://www.pymc-labs.io/blog-posts/).
+
 
 ### Videos and podcasts
 

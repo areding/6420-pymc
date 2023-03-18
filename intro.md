@@ -6,7 +6,7 @@ This repository contains Python translations of the examples from Georgia Tech's
 
 During my second semester as a TA, I created this site to address the most common student complaints and questions. At the time, the most frequent grievance centered on the course's use of outdated software, namely WinBUGS/OpenBUGS. A close second was the lectures&mdash;some students said they were too dense, some said they didn't delve deeply enough into the underlying theory, and still others said they wanted to see more step-by-step examples of problems like the homework worked out.
 
-As someone who originally took the class a little light on the necessary math and statistics knowledge, I hope my perspective helps other people coming in with similar backgrounds. 
+As someone who originally took the class a little light on the necessary math and statistics knowledge, I hope my perspective helps other people coming in with similar backgrounds.
 
 ## Site structure
 
