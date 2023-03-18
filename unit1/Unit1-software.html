@@ -368,43 +368,58 @@ const thebe_selector_output = ".output, .cell_output"
 </p>
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
-  <a class="reference internal" href="../unit6/probabilistic-programming.html">
-   Probabilistic programming languages
+  <a class="reference internal" href="../unit6/Unit6-probabilisticprogramming.html">
+   1. Probabilistic programming languages
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../unit6/Unit6-cheese.html">
-   Taste of cheese
+  <a class="reference internal" href="../unit6/Unit6-doodlebug.html">
+   2. Creating a Graphical Model
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../unit6/Unit6-dugongs.html">
-   Dugongs
+  <a class="reference internal" href="../unit6/Unit6-demo-doodle.html">
+   3. Demo—Manually Compiling a Joint Probability Graph
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../unit6/Unit6-equivalence.html">
-   Equivalence of generic and brand-name drugs
+  <a class="reference internal" href="../unit6/Unit6-moreaboutpymc.html">
+   4. More About PyMC
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../unit6/Unit6-exponential.html">
-   Bartholomew (1957) for type-1 censoring
+  <a class="reference internal" href="../unit6/Unit6-demo-stressacids.html">
+   5. Stress, diet, and plasma acids
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../unit6/Unit6-psoriasis.html">
-   Psoriasis: two-sample problem with paired data
+  <a class="reference internal" href="../unit6/Unit6-demo-dugongs.html">
+   6. Dugongs
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../unit6/Unit6-stressacids.html">
-   Stress, diet, and plasma acids
+  <a class="reference internal" href="../unit6/Unit6-demo-equivalence.html">
+   7. Equivalence of generic and brand-name drugs
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../unit6/Unit6-zerotrickJeremy.html">
-   Zero trick Jeremy
+  <a class="reference internal" href="../unit6/Unit6-demo-psoriasis.html">
+   8. Psoriasis: two-sample problem with paired data
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../unit6/Unit6-demo-cheese.html">
+   9. Taste of cheese
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../unit6/Unit6-demo-bartholomew.html">
+   10. Bartholomew (1957) for type-1 censoring
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../unit6/Unit6-demo-zerotrickJeremy.html">
+   11. Zero trick Jeremy
   </a>
  </li>
 </ul>
@@ -801,6 +816,37 @@ title="Print to PDF"
   <a class="reference internal nav-link" href="#probabilistic-programming-languages">
    3.1. Probabilistic programming languages
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#bugs-and-family">
+     3.1.1. BUGS and family
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#winbugs-and-openbugs">
+       3.1.1.1. WinBUGS and OpenBUGS
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#multibugs-jags-and-nimble">
+       3.1.1.2. MultiBUGS, JAGS, and NIMBLE
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#the-wider-ppl-ecosystem">
+     3.1.2. The wider PPL ecosystem
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#a-note-about-bambi-and-other-higher-level-interfaces">
+       3.1.2.1. A note about BAMBI and other higher-level interfaces
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#general-purpose-programming-languages">
@@ -830,6 +876,37 @@ title="Print to PDF"
   <a class="reference internal nav-link" href="#probabilistic-programming-languages">
    3.1. Probabilistic programming languages
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#bugs-and-family">
+     3.1.1. BUGS and family
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#winbugs-and-openbugs">
+       3.1.1.1. WinBUGS and OpenBUGS
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#multibugs-jags-and-nimble">
+       3.1.1.2. MultiBUGS, JAGS, and NIMBLE
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#the-wider-ppl-ecosystem">
+     3.1.2. The wider PPL ecosystem
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#a-note-about-bambi-and-other-higher-level-interfaces">
+       3.1.2.1. A note about BAMBI and other higher-level interfaces
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#general-purpose-programming-languages">
@@ -850,10 +927,40 @@ title="Print to PDF"
 <h1><span class="section-number">3. </span>Software<a class="headerlink" href="#software" title="Permalink to this headline">#</a></h1>
 <section id="probabilistic-programming-languages">
 <h2><span class="section-number">3.1. </span>Probabilistic programming languages<a class="headerlink" href="#probabilistic-programming-languages" title="Permalink to this headline">#</a></h2>
-<p>As the professor says, <a class="reference external" href="https://www.mrc-bsu.cam.ac.uk/software/bugs/">BUGS</a> (Bayesian Inference using Gibbs Sampling) is actually a pretty good choice for learning the basics of Bayesian inference. There are things that BUGS can do that are still a pain to implement in PyMC. PyMC is also under active development; since Spring 2022 when this site went up, it’s already gone through two major version changes. Features I was using for this class are being deprecated! Every semester there’s some breaking change to be researched and worked around. Whereas BUGS probably hasn’t changed for 15 years. So I understand why the professor stuck with it, even in 2018 when putting this course online.</p>
-<p>But there’s a tension there between students who are looking to practice career skills - they tend to want to use something Python or R-based. So I’ve redone most of the course examples in PyMC and provide Python solutions to any homework or exam problems we ask.</p>
-<p>Students are welcome to use any PPL for our course. If you’re only interested in the underlying theory and don’t want to add learning new software to your workload, you might be happiest sticking with OpenBUGS since it has a GUI and you’ll be able to pick it up easily. If you want something a little more challenging and are comfortable with or interested in learning Python, try <a class="reference external" href="https://www.pymc.io/welcome.html">PyMC</a>. If you want to learn a more stable tool with excellent documentation, try <a class="reference external" href="https://mc-stan.org/">Stan</a>. One of the other TAs working on creating course examples in Stan now, and I’ll link to his repository when he’s ready.</p>
+<p>As the professor says, <a class="reference external" href="https://www.mrc-bsu.cam.ac.uk/software/bugs/">BUGS</a> (Bayesian Inference using Gibbs Sampling) is actually a pretty good choice for learning the basics of Bayesian inference. There are things that BUGS can do that are still a pain to implement in PyMC. PyMC is also under active development; since Spring 2022 when this site went up, it’s already gone through two major version changes. Every semester there are changes to be researched and worked around, whereas BUGS hasn’t changed much for 15 years. So I understand why the professor stuck with it, even in 2018 when putting this course online.</p>
+<p>But there’s a tension there between students who are looking to practice career skills—they tend to want to use something Python or R-based. So I’ve redone most of the course examples in PyMC and provide Python solutions to any homework or exam problems we ask.</p>
+<p>Students are welcome to use any PPL for our course. If you’re only interested in the underlying theory and don’t want to add learning new software to your workload, you might be happiest sticking with OpenBUGS since it has a GUI and you’ll be able to pick it up easily.</p>
+<section id="bugs-and-family">
+<h3><span class="section-number">3.1.1. </span>BUGS and family<a class="headerlink" href="#bugs-and-family" title="Permalink to this headline">#</a></h3>
+<section id="winbugs-and-openbugs">
+<h4><span class="section-number">3.1.1.1. </span>WinBUGS and OpenBUGS<a class="headerlink" href="#winbugs-and-openbugs" title="Permalink to this headline">#</a></h4>
+<p>The professor sometimes references WinBUGS, but all the original course examples are actually written for <a class="reference external" href="https://www.mrc-bsu.cam.ac.uk/software/bugs/openbugs/">OpenBUGS</a>.</p>
+<p>You can also try <a class="reference external" href="https://cran.r-project.org/web/packages/R2OpenBUGS/index.html">R2OpenBUGS</a>, which allows you to call BUGS to evaluate your models from the R language.</p>
+</section>
+<section id="multibugs-jags-and-nimble">
+<h4><span class="section-number">3.1.1.2. </span>MultiBUGS, JAGS, and NIMBLE<a class="headerlink" href="#multibugs-jags-and-nimble" title="Permalink to this headline">#</a></h4>
+<p>Development of BUGS, or at least PPLs that use BUGS scripts, has continued!</p>
+<p><a class="reference external" href="https://www.multibugs.org/">MultiBUGS</a> adds parallelization to BUGS. The last release was in 2020.</p>
+<p><a class="reference external" href="https://mcmc-jags.sourceforge.io/">JAGS</a> is also based on the BUGS scripting language. The latest release was April 2022. Greg has many of the lecture examples in JAGS available for download <a class="reference external" href="https://www2.isye.gatech.edu/isye6420/Bank/rjags_final.zip">here</a>.</p>
+<p>[NIMBLE]<a class="reference external" href="https://r-nimble.org/">https://r-nimble.org/</a>) seems really nice. If, like me, you’re using a ARM-based Mac, this is the easiest way I’ve found to get going with BUGS models since it’s just an R package with no need to download anything separately. The latest release was in December 2022.</p>
+</section>
+</section>
+<section id="the-wider-ppl-ecosystem">
+<h3><span class="section-number">3.1.2. </span>The wider PPL ecosystem<a class="headerlink" href="#the-wider-ppl-ecosystem" title="Permalink to this headline">#</a></h3>
+<p>If you want something a little more challenging and are comfortable with, or interested in, learning Python, try <a class="reference external" href="https://www.pymc.io/welcome.html">PyMC</a> along with the examples on this site.</p>
+<p>If you want to learn a more stable tool with excellent documentation, try <a class="reference external" href="https://mc-stan.org/">Stan</a>. One of the other TAs is working on creating course examples in Stan now, and I’ll link to his repository when they are ready.</p>
 <p>If you’re really adventurous, maybe try <a class="reference external" href="https://github.com/TuringLang/Turing.jl">Turing.jl</a>. If you’re one of those people who needs to try the absolute latest thing and you want to go into completely uncharted territory for this class, try <a class="reference external" href="https://github.com/aesara-devs/aemcmc">AeMCMC</a>, <a class="reference external" href="https://github.com/pyro-ppl/numpyro">NumPyro</a>, <a class="reference external" href="https://github.com/jax-ml/oryx">Oryx</a>, <a class="reference external" href="https://www.tensorflow.org/probability">Tensorflow Probability</a>, or go find something I’ve never heard of!</p>
+<p>If you redo any of the course examples in a new language I would love to hear about it. Even better, if you host your examples somewhere, let me know and I’ll add a link here.</p>
+<section id="a-note-about-bambi-and-other-higher-level-interfaces">
+<h4><span class="section-number">3.1.2.1. </span>A note about BAMBI and other higher-level interfaces<a class="headerlink" href="#a-note-about-bambi-and-other-higher-level-interfaces" title="Permalink to this headline">#</a></h4>
+<p>Please be careful if you choose to use interfaces like <a class="reference external" href="https://github.com/bambinos/bambi">BAMBI</a>. These abstraction layers will add an interface on top of a lower-level PPL. BAMBI, for example, will look very familiar to people who’ve used R’s <code class="docutils literal notranslate"><span class="pre">glm()</span></code> function for general linear models. It uses PyMC under the hood, but you can specify models like this:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">bmb</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="s2">&quot;y ~ x1 + x2&quot;</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+<span class="n">fitted</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>These are really cool packages. But students often run into trouble when using them for the homeworks and exams because this simplicity means making a lot of decisions for you. I don’t want to discourage anyone from using them, but sometimes it can be useful to explicitly write out each part of the model, especially when learning. There have been past exam questions that weren’t possible in BAMBI but were doable in PyMC!</p>
+</section>
+</section>
 </section>
 <section id="general-purpose-programming-languages">
 <h2><span class="section-number">3.2. </span>General purpose programming languages<a class="headerlink" href="#general-purpose-programming-languages" title="Permalink to this headline">#</a></h2>

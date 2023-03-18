@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Dugongs &#8212; ISYE 6420 - BUGS to PyMC</title>
+    <title>11. Zero trick Jeremy &#8212; ISYE 6420 - BUGS to PyMC</title>
     
   <!-- Loaded before other Sphinx assets -->
   <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
@@ -55,8 +55,8 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Equivalence of generic and brand-name drugs" href="Unit6-equivalence.html" />
-    <link rel="prev" title="Taste of cheese" href="Unit6-cheese.html" />
+    <link rel="next" title="Linear regression" href="../unit7/linear-regression.html" />
+    <link rel="prev" title="10. Bartholomew (1957) for type-1 censoring" href="Unit6-demo-bartholomew.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -368,43 +368,58 @@ const thebe_selector_output = ".output, .cell_output"
 </p>
 <ul class="current nav bd-sidenav">
  <li class="toctree-l1">
-  <a class="reference internal" href="probabilistic-programming.html">
-   Probabilistic programming languages
+  <a class="reference internal" href="Unit6-probabilisticprogramming.html">
+   1. Probabilistic programming languages
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="Unit6-cheese.html">
-   Taste of cheese
+  <a class="reference internal" href="Unit6-doodlebug.html">
+   2. Creating a Graphical Model
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Unit6-demo-doodle.html">
+   3. Demo—Manually Compiling a Joint Probability Graph
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Unit6-moreaboutpymc.html">
+   4. More About PyMC
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Unit6-demo-stressacids.html">
+   5. Stress, diet, and plasma acids
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Unit6-demo-dugongs.html">
+   6. Dugongs
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Unit6-demo-equivalence.html">
+   7. Equivalence of generic and brand-name drugs
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Unit6-demo-psoriasis.html">
+   8. Psoriasis: two-sample problem with paired data
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Unit6-demo-cheese.html">
+   9. Taste of cheese
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Unit6-demo-bartholomew.html">
+   10. Bartholomew (1957) for type-1 censoring
   </a>
  </li>
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
-   Dugongs
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="Unit6-equivalence.html">
-   Equivalence of generic and brand-name drugs
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="Unit6-exponential.html">
-   Bartholomew (1957) for type-1 censoring
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="Unit6-psoriasis.html">
-   Psoriasis: two-sample problem with paired data
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="Unit6-stressacids.html">
-   Stress, diet, and plasma acids
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="Unit6-zerotrickJeremy.html">
-   Zero trick Jeremy
+   11. Zero trick Jeremy
   </a>
  </li>
 </ul>
@@ -679,7 +694,7 @@ title="Toggle navigation"
   <div class="menu-dropdown__content">
     <ul>
       <li>
-        <a href="https://mybinder.org/v2/gh/areding/6420-pymc/main?urlpath=tree/unit6/Unit6-dugongs.ipynb"
+        <a href="https://mybinder.org/v2/gh/areding/6420-pymc/main?urlpath=tree/unit6/Unit6-demo-zerotrickJeremy.ipynb"
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -697,7 +712,7 @@ title="Launch on Binder"
       </li>
       
       <li>
-        <a href="https://colab.research.google.com/github/areding/6420-pymc/blob/main/unit6/Unit6-dugongs.ipynb"
+        <a href="https://colab.research.google.com/github/areding/6420-pymc/blob/main/unit6/Unit6-demo-zerotrickJeremy.ipynb"
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -757,7 +772,7 @@ title="Source repository"
       </li>
       
       <li>
-        <a href="https://github.com/areding/6420-pymc/issues/new?title=Issue%20on%20page%20%2Funit6/Unit6-dugongs.html&body=Your%20issue%20content%20here."
+        <a href="https://github.com/areding/6420-pymc/issues/new?title=Issue%20on%20page%20%2Funit6/Unit6-demo-zerotrickJeremy.html&body=Your%20issue%20content%20here."
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -785,7 +800,7 @@ title="Open an issue"
   <div class="menu-dropdown__content">
     <ul>
       <li>
-        <a href="../_sources/unit6/Unit6-dugongs.ipynb"
+        <a href="../_sources/unit6/Unit6-demo-zerotrickJeremy.ipynb"
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -846,15 +861,8 @@ title="Print to PDF"
         <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#problem-statement">
-   Problem statement
+   11.1. Problem statement
   </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#references">
-     References
-    </a>
-   </li>
-  </ul>
  </li>
 </ul>
 
@@ -865,7 +873,7 @@ title="Print to PDF"
         <div class="col pl-md-3 pl-lg-5 content-container">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>Dugongs</h1>
+                <h1>Zero trick Jeremy</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
@@ -877,15 +885,8 @@ title="Print to PDF"
                             <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#problem-statement">
-   Problem statement
+   11.1. Problem statement
   </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#references">
-     References
-    </a>
-   </li>
-  </ul>
  </li>
 </ul>
 
@@ -900,155 +901,84 @@ title="Print to PDF"
   <div class="cell tag_hide_output docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">arviz</span> <span class="k">as</span> <span class="nn">az</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pymc</span> <span class="k">as</span> <span class="nn">pm</span>
+<span class="kn">from</span> <span class="nn">pymc.math</span> <span class="kn">import</span> <span class="n">log</span><span class="p">,</span> <span class="n">sqr</span>
 
-<span class="o">%</span><span class="k">load_ext</span> watermark
 <span class="o">%</span><span class="k">load_ext</span> lab_black
 </pre></div>
 </div>
 </div>
 </div>
-<section class="tex2jax_ignore mathjax_ignore" id="dugongs">
-<h1>Dugongs<a class="headerlink" href="#dugongs" title="Permalink to this headline">#</a></h1>
-<p>This example is the first example of dealing with missing data.</p>
-<p>It is adapted from <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/original_examples/Codes4Unit6/dugongsmissing.odc">Unit 6: dugongsmissing.odc</a>.</p>
-<p>Associated lecture video: Unit 6 lesson 6</p>
+<section class="tex2jax_ignore mathjax_ignore" id="zero-trick-jeremy">
+<h1><span class="section-number">11. </span>Zero trick Jeremy<a class="headerlink" href="#zero-trick-jeremy" title="Permalink to this headline">#</a></h1>
+<p>This introduces the “zero trick”, which I’m still not sure if we’ll ever need. Including for completeness’ sake.</p>
+<p>Adapted from <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/original_examples/Codes4Unit6/zerotrickjeremy.odc">Unit 6: zerotrickjeremy.odc</a>.</p>
+<p>Associated lecture video: Unit 6 lesson 10</p>
 <section id="problem-statement">
-<h2>Problem statement<a class="headerlink" href="#problem-statement" title="Permalink to this headline">#</a></h2>
-<p>Carlin and Gelfand (1991) investigated the age (x) and length (y) of 27 captured dugongs (sea cows). Estimate parameters in a nonlinear growth model.</p>
-<section id="references">
-<h3>References<a class="headerlink" href="#references" title="Permalink to this headline">#</a></h3>
-<p>Data provided by Ratkowsky (1983).</p>
-<p>Carlin, B. and Gelfand, B. (1991). An Iterative Monte Carlo Method for
-Nonconjugate Bayesian Analysis, Statistics and Computing, 1, (2), 119†128.</p>
-<p>Ratkowsky, D. (1983). Nonlinear regression modeling: A unified practical approach. M. Dekker, NY, viii, 276 p.</p>
+<h2><span class="section-number">11.1. </span>Problem statement<a class="headerlink" href="#problem-statement" title="Permalink to this headline">#</a></h2>
+<p>There’s a running example in the lectures about Jeremy testing his IQ. At some point I will track all those down and add links here, but for now I’m just going to port the code.</p>
+<p>I’m not sure what’s going on when the professor sets <code class="docutils literal notranslate"><span class="pre">z1</span></code> as both a deterministic and random variable. I’ll need to test some things out in BUGS once the Citrix virtual machines are back online. For now, here’s a first pass at recreating the model, where I interpret the <code class="docutils literal notranslate"><span class="pre">z</span> <span class="pre">&lt;-</span> <span class="pre">0</span></code> as feeding an observation of zero to the variable.</p>
+<p>That said, I don’t think we will ever need to use the zeros or ones tricks in the homeworks. If we do I will definitely expand this page.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># fmt: off</span>
-<span class="n">X</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mf">7.0</span><span class="p">,</span> <span class="mf">8.0</span><span class="p">,</span> <span class="mf">8.5</span><span class="p">,</span> <span class="mf">9.0</span><span class="p">,</span> <span class="mf">9.5</span><span class="p">,</span> 
-     <span class="mf">9.5</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">,</span> <span class="mf">12.0</span><span class="p">,</span> <span class="mf">12.0</span><span class="p">,</span> <span class="mf">13.0</span><span class="p">,</span> <span class="mf">13.0</span><span class="p">,</span> <span class="mf">14.5</span><span class="p">,</span> <span class="mf">15.5</span><span class="p">,</span> <span class="mf">15.5</span><span class="p">,</span> <span class="mf">16.5</span><span class="p">,</span> <span class="mf">17.0</span><span class="p">,</span>
-     <span class="mf">22.5</span><span class="p">,</span> <span class="mf">29.0</span><span class="p">,</span> <span class="mf">31.5</span><span class="p">]</span>
-<span class="n">y</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.80</span><span class="p">,</span> <span class="mf">1.85</span><span class="p">,</span> <span class="mf">1.87</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mf">2.02</span><span class="p">,</span> <span class="mf">2.27</span><span class="p">,</span> <span class="mf">2.15</span><span class="p">,</span> <span class="mf">2.26</span><span class="p">,</span> <span class="mf">2.47</span><span class="p">,</span> <span class="mf">2.19</span><span class="p">,</span> <span class="mf">2.26</span><span class="p">,</span>
-     <span class="mf">2.40</span><span class="p">,</span> <span class="mf">2.39</span><span class="p">,</span> <span class="mf">2.41</span><span class="p">,</span> <span class="mf">2.50</span><span class="p">,</span> <span class="mf">2.32</span><span class="p">,</span> <span class="mf">2.32</span><span class="p">,</span> <span class="mf">2.43</span><span class="p">,</span> <span class="mf">2.47</span><span class="p">,</span> <span class="mf">2.56</span><span class="p">,</span> <span class="mf">2.65</span><span class="p">,</span> <span class="mf">2.47</span><span class="p">,</span>
-     <span class="mf">2.64</span><span class="p">,</span> <span class="mf">2.56</span><span class="p">,</span> <span class="mf">2.70</span><span class="p">,</span> <span class="mf">2.72</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-<span class="c1"># fmt: on</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y</span> <span class="o">=</span> <span class="mi">98</span>
+<span class="n">μ</span> <span class="o">=</span> <span class="mi">110</span>
+<span class="n">σ</span> <span class="o">=</span> <span class="mf">8.944272</span>
+<span class="n">τ</span> <span class="o">=</span> <span class="mf">10.954451</span>
+<span class="n">constant</span> <span class="o">=</span> <span class="mi">1000</span>  <span class="c1"># can&#39;t let lambda be lower than zero</span>
+
+<span class="n">inits</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;θ&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">}</span>
 </pre></div>
 </div>
 </div>
 </div>
-<p>PyMC imputes missing data automatically, similar to BUGS, but it requires the missing data be input as a NumPy masked array. See the NumPy docs for <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ma.masked_values.html">np.ma.masked_values()</a>. For <code class="docutils literal notranslate"><span class="pre">y</span></code>, above, you can enter whatever number at the missing data positions, then plug it into the <code class="docutils literal notranslate"><span class="pre">value</span></code> parameter below. Just make sure the number you’re using isn’t actually in the data. I chose -1 above.</p>
-<p>Note that this method only works for missing <em>observed</em> data. We’ll learn about missing data in X later.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_values</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">value</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">y</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>masked_array(data=[1.8, 1.85, 1.87, --, 2.02, 2.27, 2.15, 2.26, 2.47,
-                   2.19, 2.26, 2.4, 2.39, 2.41, 2.5, 2.32, 2.32, 2.43,
-                   2.47, 2.56, 2.65, 2.47, 2.64, 2.56, 2.7, 2.72, --],
-             mask=[False, False, False,  True, False, False, False, False,
-                   False, False, False, False, False, False, False, False,
-                   False, False, False, False, False, False, False, False,
-                   False, False,  True],
-       fill_value=-1.0)
-</pre></div>
-</div>
-</div>
-</div>
-<p>Check it out! The array now has a mask attribute.</p>
 <div class="cell tag_hide_output docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">m</span><span class="p">:</span>
-    <span class="c1"># priors</span>
-    <span class="n">alpha</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Uniform</span><span class="p">(</span><span class="s2">&quot;alpha&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
-    <span class="n">beta</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Uniform</span><span class="p">(</span><span class="s2">&quot;beta&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
-    <span class="n">gamma</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Uniform</span><span class="p">(</span><span class="s2">&quot;gamma&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-    <span class="n">sigma</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">pm</span><span class="o">.</span><span class="n">Uniform</span><span class="p">(</span><span class="s2">&quot;sigma&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+    <span class="n">θ</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Flat</span><span class="p">(</span><span class="s2">&quot;θ&quot;</span><span class="p">)</span>
 
-    <span class="n">mu</span> <span class="o">=</span> <span class="n">alpha</span> <span class="o">-</span> <span class="n">beta</span> <span class="o">*</span> <span class="n">gamma</span><span class="o">**</span><span class="n">X</span>
+    <span class="n">λ1</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;λ1&quot;</span><span class="p">,</span> <span class="n">log</span><span class="p">(</span><span class="n">σ</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">sqr</span><span class="p">(((</span><span class="n">y</span> <span class="o">-</span> <span class="n">θ</span><span class="p">)</span> <span class="o">/</span> <span class="n">σ</span><span class="p">))</span> <span class="o">+</span> <span class="n">constant</span><span class="p">)</span>
+    <span class="n">λ2</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;λ2&quot;</span><span class="p">,</span> <span class="n">log</span><span class="p">(</span><span class="n">τ</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">sqr</span><span class="p">(((</span><span class="n">θ</span> <span class="o">-</span> <span class="n">μ</span><span class="p">)</span> <span class="o">/</span> <span class="n">τ</span><span class="p">))</span> <span class="o">+</span> <span class="n">constant</span><span class="p">)</span>
 
-    <span class="n">likelihood</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;likelihood&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
+    <span class="n">z1</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Poisson</span><span class="p">(</span><span class="s2">&quot;z1&quot;</span><span class="p">,</span> <span class="n">λ1</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">z2</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Poisson</span><span class="p">(</span><span class="s2">&quot;z2&quot;</span><span class="p">,</span> <span class="n">λ2</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
-    <span class="c1"># start sampling</span>
-    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span>
-        <span class="mi">10000</span><span class="p">,</span>
-        <span class="n">chains</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
-        <span class="n">tune</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span>
-        <span class="n">cores</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
-        <span class="n">init</span><span class="o">=</span><span class="s2">&quot;jitter+adapt_diag&quot;</span><span class="p">,</span>
-        <span class="n">random_seed</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-        <span class="n">return_inferencedata</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="p">)</span>
+    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">5000</span><span class="p">,</span> <span class="n">tune</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">initvals</span><span class="o">=</span><span class="n">inits</span><span class="p">,</span> <span class="n">target_accept</span><span class="o">=</span><span class="mf">0.88</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc_env2/lib/python3.11/site-packages/pymc/model.py:1400: ImputationWarning: Data in likelihood contains missing values and will be automatically imputed from the sampling distribution.
-  warnings.warn(impute_message, ImputationWarning)
-/Users/aaron/mambaforge/envs/pymc_env2/lib/python3.11/site-packages/multipledispatch/dispatcher.py:27: AmbiguityWarning: 
-Ambiguities exist in dispatched function _unify
-
-The following signatures may result in ambiguous behavior:
-	[ConstrainedVar, Var, Mapping], [object, ConstrainedVar, Mapping]
-	[object, ConstrainedVar, Mapping], [ConstrainedVar, object, Mapping]
-	[object, ConstrainedVar, Mapping], [ConstrainedVar, object, Mapping]
-	[ConstrainedVar, Var, Mapping], [object, ConstrainedVar, Mapping]
-
-
-Consider making the following additions:
-
-@dispatch(ConstrainedVar, ConstrainedVar, Mapping)
-def _unify(...)
-
-@dispatch(ConstrainedVar, ConstrainedVar, Mapping)
-def _unify(...)
-
-@dispatch(ConstrainedVar, ConstrainedVar, Mapping)
-def _unify(...)
-
-@dispatch(ConstrainedVar, ConstrainedVar, Mapping)
-def _unify(...)
-  warn(warning_text(dispatcher.name, ambiguities), AmbiguityWarning)
-Auto-assigning NUTS sampler...
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Auto-assigning NUTS sampler...
+Initializing NUTS using jitter+adapt_diag...
 Initializing NUTS using jitter+adapt_diag...
 Multiprocess sampling (4 chains in 4 jobs)
-NUTS: [alpha, beta, gamma, sigma, likelihood_missing]
+NUTS: [θ]
 </pre></div>
 </div>
-<div class="output text_html">
-<style>
-    /* Turns off some styling */
-    progress {
-        /* gets rid of default border in Firefox and Opera. */
-        border: none;
-        /* Needs to be in here for Safari polyfill so background images work as expected. */
-        background-size: auto;
-    }
-    progress:not([value]), progress:not([value])::-webkit-progress-bar {
-        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
-    }
-    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
-        background: #F44336;
-    }
-</style>
-</div><div class="output text_html">
-<div>
-  <progress value='42000' class='' max='42000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-  100.00% [42000/42000 00:28&lt;00:00 Sampling 4 chains, 28 divergences]
-</div>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 500 tune and 10_000 draw iterations (2_000 + 40_000 draws total) took 30 seconds.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 10_000 draw iterations (4_000 + 40_000 draws total) took 9 seconds.
+Chain &lt;xarray.DataArray &#39;chain&#39; ()&gt;
+array(0)
+Coordinates:
+    chain    int64 0 reached the maximum tree depth. Increase `max_treedepth`, increase `target_accept` or reparameterize.
+Chain &lt;xarray.DataArray &#39;chain&#39; ()&gt;
+array(1)
+Coordinates:
+    chain    int64 1 reached the maximum tree depth. Increase `max_treedepth`, increase `target_accept` or reparameterize.
+Chain &lt;xarray.DataArray &#39;chain&#39; ()&gt;
+array(2)
+Coordinates:
+    chain    int64 2 reached the maximum tree depth. Increase `max_treedepth`, increase `target_accept` or reparameterize.
+Chain &lt;xarray.DataArray &#39;chain&#39; ()&gt;
+array(3)
+Coordinates:
+    chain    int64 3 reached the maximum tree depth. Increase `max_treedepth`, increase `target_accept` or reparameterize.
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">hdi_prob</span><span class="o">=</span><span class="mf">0.95</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="s2">&quot;~likelihood&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">hdi_prob</span><span class="o">=</span><span class="mf">0.95</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1084,270 +1014,71 @@ NUTS: [alpha, beta, gamma, sigma, likelihood_missing]
   </thead>
   <tbody>
     <tr>
-      <th>likelihood_missing[0]</th>
-      <td>1.907</td>
-      <td>0.110</td>
-      <td>1.691</td>
-      <td>2.125</td>
-      <td>0.001</td>
-      <td>0.001</td>
-      <td>22080.0</td>
-      <td>21790.0</td>
+      <th>θ</th>
+      <td>102.781</td>
+      <td>6.932</td>
+      <td>89.442</td>
+      <td>116.391</td>
+      <td>0.057</td>
+      <td>0.040</td>
+      <td>14915.0</td>
+      <td>22114.0</td>
       <td>1.0</td>
     </tr>
     <tr>
-      <th>likelihood_missing[1]</th>
-      <td>2.694</td>
-      <td>0.129</td>
-      <td>2.439</td>
-      <td>2.947</td>
-      <td>0.001</td>
-      <td>0.001</td>
-      <td>11806.0</td>
-      <td>12392.0</td>
+      <th>λ1</th>
+      <td>1002.634</td>
+      <td>0.584</td>
+      <td>1002.191</td>
+      <td>1003.836</td>
+      <td>0.004</td>
+      <td>0.003</td>
+      <td>17998.0</td>
+      <td>22701.0</td>
       <td>1.0</td>
     </tr>
     <tr>
-      <th>alpha</th>
-      <td>2.742</td>
-      <td>0.148</td>
-      <td>2.519</td>
-      <td>3.015</td>
-      <td>0.002</td>
-      <td>0.002</td>
-      <td>7872.0</td>
-      <td>5961.0</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>beta</th>
-      <td>0.994</td>
-      <td>0.122</td>
-      <td>0.790</td>
-      <td>1.217</td>
-      <td>0.002</td>
-      <td>0.001</td>
-      <td>10184.0</td>
-      <td>6771.0</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>gamma</th>
-      <td>0.889</td>
-      <td>0.035</td>
-      <td>0.816</td>
-      <td>0.953</td>
-      <td>0.000</td>
-      <td>0.000</td>
-      <td>8259.0</td>
-      <td>6797.0</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>sigma</th>
-      <td>-2.339</td>
-      <td>0.156</td>
-      <td>-2.641</td>
-      <td>-2.033</td>
-      <td>0.001</td>
-      <td>0.001</td>
-      <td>14593.0</td>
-      <td>17855.0</td>
+      <th>λ2</th>
+      <td>1002.811</td>
+      <td>0.505</td>
+      <td>1002.394</td>
+      <td>1003.846</td>
+      <td>0.004</td>
+      <td>0.003</td>
+      <td>16323.0</td>
+      <td>22175.0</td>
       <td>1.0</td>
     </tr>
   </tbody>
 </table>
 </div></div></div>
 </div>
-<p>This output is very close to the BUGS results if you use the inits labeled Alternative (full) inits (initializing the missing values at 1):</p>
-<table class="colwidths-auto table">
-<thead>
-<tr class="row-odd"><th class="head"><p></p></th>
-<th class="head"><p>mean</p></th>
-<th class="head"><p>sd</p></th>
-<th class="head"><p>MC_error</p></th>
-<th class="head"><p>val2.5pc</p></th>
-<th class="head"><p>median</p></th>
-<th class="head"><p>val97.5pc</p></th>
-<th class="head"><p>start</p></th>
-<th class="head"><p>sample</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p>alpha</p></td>
-<td><p>2.731</p></td>
-<td><p>0.1206</p></td>
-<td><p>0.003167</p></td>
-<td><p>2.551</p></td>
-<td><p>2.711</p></td>
-<td><p>3.025</p></td>
-<td><p>1001</p></td>
-<td><p>100000</p></td>
-</tr>
-<tr class="row-odd"><td><p>beta</p></td>
-<td><p>0.9846</p></td>
-<td><p>0.1021</p></td>
-<td><p>0.002008</p></td>
-<td><p>0.8053</p></td>
-<td><p>0.9773</p></td>
-<td><p>1.212</p></td>
-<td><p>1001</p></td>
-<td><p>100000</p></td>
-</tr>
-<tr class="row-even"><td><p>gamma</p></td>
-<td><p>0.8874</p></td>
-<td><p>0.03381</p></td>
-<td><p>7.64E-04</p></td>
-<td><p>0.8124</p></td>
-<td><p>0.8908</p></td>
-<td><p>0.9427</p></td>
-<td><p>1001</p></td>
-<td><p>100000</p></td>
-</tr>
-<tr class="row-odd"><td><p>log.sigma</p></td>
-<td><p>-2.342</p></td>
-<td><p>0.1543</p></td>
-<td><p>7.83E-04</p></td>
-<td><p>-2.622</p></td>
-<td><p>-2.349</p></td>
-<td><p>-2.018</p></td>
-<td><p>1001</p></td>
-<td><p>100000</p></td>
-</tr>
-<tr class="row-even"><td><p>sigma</p></td>
-<td><p>0.09733</p></td>
-<td><p>0.0155</p></td>
-<td><p>7.96E-05</p></td>
-<td><p>0.07267</p></td>
-<td><p>0.09547</p></td>
-<td><p>0.1329</p></td>
-<td><p>1001</p></td>
-<td><p>100000</p></td>
-</tr>
-<tr class="row-odd"><td><p>y[4]</p></td>
-<td><p>1.906</p></td>
-<td><p>0.1098</p></td>
-<td><p>6.23E-04</p></td>
-<td><p>1.689</p></td>
-<td><p>1.906</p></td>
-<td><p>2.123</p></td>
-<td><p>1001</p></td>
-<td><p>100000</p></td>
-</tr>
-<tr class="row-even"><td><p>y[27]</p></td>
-<td><p>2.69</p></td>
-<td><p>0.1255</p></td>
-<td><p>0.001916</p></td>
-<td><p>2.446</p></td>
-<td><p>2.689</p></td>
-<td><p>2.941</p></td>
-<td><p>1001</p></td>
-<td><p>100000</p></td>
-</tr>
-</tbody>
-</table>
-<p>If you use the first set of inits, as Professor Vidakovic did in the video, BUGS gives the y[4] mean as 2.047 and y[27] as 3.04. All the other variables are very different here, too. This is quite a mystery - as far as I can tell, the only difference is that the missing values use BUGS-generated inits for the following results. If someone figures out what’s going on here, let me know!</p>
-<table class="colwidths-auto table">
-<thead>
-<tr class="row-odd"><th class="head"><p></p></th>
-<th class="head"><p>mean</p></th>
-<th class="head"><p>sd</p></th>
-<th class="head"><p>MC_error</p></th>
-<th class="head"><p>val2.5pc</p></th>
-<th class="head"><p>median</p></th>
-<th class="head"><p>val97.5pc</p></th>
-<th class="head"><p>start</p></th>
-<th class="head"><p>sample</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p>alpha</p></td>
-<td><p>32.54</p></td>
-<td><p>3.698</p></td>
-<td><p>0.2076</p></td>
-<td><p>23.51</p></td>
-<td><p>32.69</p></td>
-<td><p>40.31</p></td>
-<td><p>1001</p></td>
-<td><p>100000</p></td>
-</tr>
-<tr class="row-odd"><td><p>beta</p></td>
-<td><p>30.55</p></td>
-<td><p>3.697</p></td>
-<td><p>0.2076</p></td>
-<td><p>21.52</p></td>
-<td><p>30.69</p></td>
-<td><p>38.31</p></td>
-<td><p>1001</p></td>
-<td><p>100000</p></td>
-</tr>
-<tr class="row-even"><td><p>gamma</p></td>
-<td><p>0.9989</p></td>
-<td><p>2.08E-04</p></td>
-<td><p>8.70E-06</p></td>
-<td><p>0.9984</p></td>
-<td><p>0.9989</p></td>
-<td><p>0.9992</p></td>
-<td><p>1001</p></td>
-<td><p>100000</p></td>
-</tr>
-<tr class="row-odd"><td><p>sigma</p></td>
-<td><p>0.1328</p></td>
-<td><p>0.02071</p></td>
-<td><p>8.17E-05</p></td>
-<td><p>0.09964</p></td>
-<td><p>0.1303</p></td>
-<td><p>0.1805</p></td>
-<td><p>1001</p></td>
-<td><p>100000</p></td>
-</tr>
-<tr class="row-even"><td><p>y[4]</p></td>
-<td><p>2.047</p></td>
-<td><p>0.1424</p></td>
-<td><p>5.18E-04</p></td>
-<td><p>1.766</p></td>
-<td><p>2.046</p></td>
-<td><p>2.329</p></td>
-<td><p>1001</p></td>
-<td><p>100000</p></td>
-</tr>
-<tr class="row-odd"><td><p>y[27]</p></td>
-<td><p>3.04</p></td>
-<td><p>0.1606</p></td>
-<td><p>7.42E-04</p></td>
-<td><p>2.722</p></td>
-<td><p>3.04</p></td>
-<td><p>3.358</p></td>
-<td><p>1001</p></td>
-<td><p>100000</p></td>
-</tr>
-</tbody>
-</table>
+<p>Again, it’s not clear to me what BUGS is doing, but these PyMC results are almost exactly the same as the professor’s results so this must be close. I have also tried passing vectors of zeros to each <code class="docutils literal notranslate"><span class="pre">z</span></code>, putting more weight on the zero “observations.” This ended up reducing the credible interval and standard deviation of theta.</p>
+<p>I found <a class="reference external" href="http://www.medicine.mcgill.ca/epidemiology/Joseph/courses/common/Tricks.html">this page</a> that briefly mentions the same trick. They note that “… this method can be very inefficient and give a very high MC error.”</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">watermark</span> -n -u -v -iv -p aesara,aeppl
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">load_ext</span> watermark
+<span class="o">%</span><span class="k">watermark</span> -n -u -v -iv -p pytensor
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Fri Feb 03 2023
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Sat Mar 18 2023
 
 Python implementation: CPython
 Python version       : 3.11.0
 IPython version      : 8.9.0
 
-aesara: 2.8.10
-aeppl : 0.1.1
+pytensor: 2.10.1
 
-numpy     : 1.24.1
-pymc      : 5.0.1
-matplotlib: 3.6.3
 arviz     : 0.14.0
+numpy     : 1.24.2
+matplotlib: 3.6.3
+pymc      : 5.1.1
 </pre></div>
 </div>
 </div>
 </div>
-</section>
 </section>
 </section>
 
@@ -1378,17 +1109,17 @@ arviz     : 0.14.0
                 
     <!-- Previous / next buttons -->
 <div class='prev-next-area'>
-    <a class='left-prev' id="prev-link" href="Unit6-cheese.html" title="previous page">
+    <a class='left-prev' id="prev-link" href="Unit6-demo-bartholomew.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">Taste of cheese</p>
+            <p class="prev-next-title"><span class="section-number">10. </span>Bartholomew (1957) for type-1 censoring</p>
         </div>
     </a>
-    <a class='right-next' id="next-link" href="Unit6-equivalence.html" title="next page">
+    <a class='right-next' id="next-link" href="../unit7/linear-regression.html" title="next page">
     <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Equivalence of generic and brand-name drugs</p>
+        <p class="prev-next-title">Linear regression</p>
     </div>
     <i class="fas fa-angle-right"></i>
     </a>

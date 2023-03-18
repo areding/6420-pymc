@@ -1,0 +1,1397 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>6. Dugongs &#8212; ISYE 6420 - BUGS to PyMC</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/proof.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/extra.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="7. Equivalence of generic and brand-name drugs" href="Unit6-demo-equivalence.html" />
+    <link rel="prev" title="5. Stress, diet, and plasma acids" href="Unit6-demo-stressacids.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../_static/bayeslogo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">ISYE 6420 - BUGS to PyMC</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Introduction
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Unit 1
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../unit1/Unit1-about-this-course.html">
+   1. About This Course and Website
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../unit1/Unit1-topics.html">
+   2. Topics Covered
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../unit1/Unit1-software.html">
+   3. Software
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../unit1/Unit1-simple-regression.html">
+   4. Demo—A Simple Regression
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Unit 2
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../unit2/Unit2-history.html">
+   1. History of Bayesian Statistics
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../unit2/Unit2-history2.html">
+   2. Historic Overview Links
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../unit2/Unit2-bayesianvsclassical.html">
+   3. Bayesian vs. Frequentist
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../unit2/Unit2-10flips.html">
+   4. Demo—10 Coin Flips
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../unit2/Unit2-fda.html">
+   5. FDA Recommendations
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Unit 3
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../unit3/Unit3-NecessaryProbability.html">
+   1. A Review of Necessary Probability
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../unit3/Unit3-conditioning1.html">
+   2. Conditioning, Part 1
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../unit3/Unit3-conditioning2.html">
+   3. Conditioning, Part 2
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../unit3/Unit3-Bayes-theorem.html">
+   4. Bayes’ Theorem
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../unit3/Unit3-ManufacturingBayes.html">
+   5. Demo—Manufacturing Bayes
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../unit3/Unit3-TwoHeadedCoin.html">
+   6. Demo—Two-headed Coin
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../unit3/Unit3-bayesnetworks.html">
+   7. Bayes Networks
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../unit3/Unit3-Alarm.html">
+   8. Demo—Alarm
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../unit3/Unit3-Emily.html">
+   9. Supplementary Problem—Emily’s Vacation
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Unit 4
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../unit4/bayesian-inference.html">
+   Bayesian inference
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../unit4/Unit4-AlphaParticles.html">
+   Counts of Alpha Particles
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../unit4/Unit4-BetaPriors.html">
+   Beta plots
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../unit4/Unit4-GammaGamma.html">
+   Gamma gamma
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../unit4/Unit4-eBay.html">
+   eBay purchase example
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Unit 5
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../unit5/bayesian-computation.html">
+   Bayesian computation
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../unit5/LaplacesMethod.html">
+     Laplace’s method
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../unit5/metropolis-hastings.html">
+   Metropolis-Hastings algorithm
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../unit5/MetropolisHastings.html">
+     Normal-Cauchy example
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../unit5/MetropolisHastings2.html">
+     Weibull lifetimes
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../unit5/gibbs-sampling.html">
+   Gibbs sampling
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <label for="toctree-checkbox-3">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../unit5/GibbsSampler.html">
+     Normal-Cauchy Gibbs sampler
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../unit5/PumpsMCMC.html">
+     Pumps
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../unit5/Gibbs3.html">
+     Disasters
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../unit5/hamiltonian.html">
+   Hamiltonian Monte Carlo
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+  <label for="toctree-checkbox-4">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../unit5/ham-example1.html">
+     Example 1
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../unit5/other-methods.html">
+   Other methods
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+  <label for="toctree-checkbox-5">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="simple">
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Unit 6
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="Unit6-probabilisticprogramming.html">
+   1. Probabilistic programming languages
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Unit6-doodlebug.html">
+   2. Creating a Graphical Model
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Unit6-demo-doodle.html">
+   3. Demo—Manually Compiling a Joint Probability Graph
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Unit6-moreaboutpymc.html">
+   4. More About PyMC
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Unit6-demo-stressacids.html">
+   5. Stress, diet, and plasma acids
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   6. Dugongs
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Unit6-demo-equivalence.html">
+   7. Equivalence of generic and brand-name drugs
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Unit6-demo-psoriasis.html">
+   8. Psoriasis: two-sample problem with paired data
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Unit6-demo-cheese.html">
+   9. Taste of cheese
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Unit6-demo-bartholomew.html">
+   10. Bartholomew (1957) for type-1 censoring
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Unit6-demo-zerotrickJeremy.html">
+   11. Zero trick Jeremy
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Unit 7
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../unit7/linear-regression.html">
+   Linear regression
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
+  <label for="toctree-checkbox-6">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../unit7/lr-coagulation.html">
+     Coagulation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../unit7/lr-fat.html">
+     Brozek index prediction
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../unit7/lr-insulin.html">
+     Insulin
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../unit7/lr-simvastatin.html">
+     Simvastatin
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../unit7/glm.html">
+   Generalized linear models
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
+  <label for="toctree-checkbox-7">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../unit7/glm-ants.html">
+     Ants
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../unit7/glm-arrhythmia.html">
+     Arrhythmia
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../unit7/glm-nhanesmulti.html">
+     Multinomial regression
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../unit7/hierarchical.html">
+   Hierarchical models
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/>
+  <label for="toctree-checkbox-8">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../unit7/h-paraguay.html">
+     Paraguay vaccination status
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../unit7/h-rats_nocentering.html">
+     Meta-analysis via hierarchical models
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../unit7/h-tasmixture.html">
+     Priors as hidden mixtures
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Unit 8
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../unit8/missing.html">
+   Missing data
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/>
+  <label for="toctree-checkbox-9">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../unit8/miss-rats.html">
+     Rats
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../unit8/timetoevent.html">
+   Time-to-event models
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/>
+  <label for="toctree-checkbox-10">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../unit8/tte--gastric.html">
+     Gastric cancer example
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Unit 9
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../unit9/fit-selection-diagnostics.html">
+   Model fit, selection, and diagnostics
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../unit9/Unit9-cumulative2.html">
+   Priors as hidden mixtures
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../unit9/Unit9-deviances.html">
+   Deviance
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../unit9/Unit9-gessell.html">
+   Gesell
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../unit9/Unit9-hald.html">
+   Hald
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Unit 10
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../unit10/Unit10-disasters.html">
+   Revisiting UK coal mining disasters
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../unit10/Unit10-growth.html">
+   Dental development
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../unit10/Unit10-italywines123.html">
+   Wine classification
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../unit10/Unit10-katla.html">
+   Predicting using censored data
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../unit10/Unit10-lister.html">
+   Lister
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../unit10/Unit10-magnesiumTW.html">
+   Magnesium for myocardial infarction
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../unit10/Unit10-rasch.html">
+   Rasch
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../unit10/Unit10-sunspots.html">
+   Prediction of time series
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<div class="menu-dropdown menu-dropdown-launch-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Launch interactive content">
+      <i class="fas fa-rocket"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://mybinder.org/v2/gh/areding/6420-pymc/main?urlpath=tree/unit6/Unit6-demo-dugongs.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Binder"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="../_static/images/logo_binder.svg">
+  </span>
+<span class="headerbtn__text-container">Binder</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://colab.research.google.com/github/areding/6420-pymc/blob/main/unit6/Unit6-demo-dugongs.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Colab"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="../_static/images/logo_colab.png">
+  </span>
+<span class="headerbtn__text-container">Colab</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/areding/6420-pymc"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/areding/6420-pymc/issues/new?title=Issue%20on%20page%20%2Funit6/Unit6-demo-dugongs.html&body=Your%20issue%20content%20here."
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="headerbtn__text-container">open issue</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="../_sources/unit6/Unit6-demo-dugongs.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.ipynb</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#problem-statement">
+   6.1. Problem statement
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#references">
+     6.1.1. References
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+    </nav>
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Dugongs</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#problem-statement">
+   6.1. Problem statement
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#references">
+     6.1.1. References
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <div class="cell tag_hide_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">arviz</span> <span class="k">as</span> <span class="nn">az</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pymc</span> <span class="k">as</span> <span class="nn">pm</span>
+
+<span class="o">%</span><span class="k">load_ext</span> lab_black
+</pre></div>
+</div>
+</div>
+</div>
+<section class="tex2jax_ignore mathjax_ignore" id="dugongs">
+<h1><span class="section-number">6. </span>Dugongs<a class="headerlink" href="#dugongs" title="Permalink to this headline">#</a></h1>
+<p>This example is the first example of dealing with missing data.</p>
+<p>It is adapted from <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/original_examples/Codes4Unit6/dugongsmissing.odc">Unit 6: dugongsmissing.odc</a>.</p>
+<p>Associated lecture video: Unit 6, Lesson 6.</p>
+<section id="problem-statement">
+<h2><span class="section-number">6.1. </span>Problem statement<a class="headerlink" href="#problem-statement" title="Permalink to this headline">#</a></h2>
+<p>Carlin and Gelfand (1991) investigated the age (x) and length (y) of 27 captured dugongs (sea cows). Estimate parameters in a nonlinear growth model.</p>
+<section id="references">
+<h3><span class="section-number">6.1.1. </span>References<a class="headerlink" href="#references" title="Permalink to this headline">#</a></h3>
+<p>Data provided by Ratkowsky (1983).</p>
+<p>Carlin, B. and Gelfand, B. (1991). An Iterative Monte Carlo Method for
+Nonconjugate Bayesian Analysis, Statistics and Computing, 1, (2), 119†128.</p>
+<p>Ratkowsky, D. (1983). Nonlinear regression modeling: A unified practical approach. M. Dekker, NY, viii, 276 p.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># fmt: off</span>
+<span class="n">X</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mf">7.0</span><span class="p">,</span> <span class="mf">8.0</span><span class="p">,</span> <span class="mf">8.5</span><span class="p">,</span> <span class="mf">9.0</span><span class="p">,</span> <span class="mf">9.5</span><span class="p">,</span> 
+     <span class="mf">9.5</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">,</span> <span class="mf">12.0</span><span class="p">,</span> <span class="mf">12.0</span><span class="p">,</span> <span class="mf">13.0</span><span class="p">,</span> <span class="mf">13.0</span><span class="p">,</span> <span class="mf">14.5</span><span class="p">,</span> <span class="mf">15.5</span><span class="p">,</span> <span class="mf">15.5</span><span class="p">,</span> <span class="mf">16.5</span><span class="p">,</span> <span class="mf">17.0</span><span class="p">,</span>
+     <span class="mf">22.5</span><span class="p">,</span> <span class="mf">29.0</span><span class="p">,</span> <span class="mf">31.5</span><span class="p">]</span>
+<span class="n">y</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.80</span><span class="p">,</span> <span class="mf">1.85</span><span class="p">,</span> <span class="mf">1.87</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mf">2.02</span><span class="p">,</span> <span class="mf">2.27</span><span class="p">,</span> <span class="mf">2.15</span><span class="p">,</span> <span class="mf">2.26</span><span class="p">,</span> <span class="mf">2.47</span><span class="p">,</span> <span class="mf">2.19</span><span class="p">,</span> <span class="mf">2.26</span><span class="p">,</span>
+     <span class="mf">2.40</span><span class="p">,</span> <span class="mf">2.39</span><span class="p">,</span> <span class="mf">2.41</span><span class="p">,</span> <span class="mf">2.50</span><span class="p">,</span> <span class="mf">2.32</span><span class="p">,</span> <span class="mf">2.32</span><span class="p">,</span> <span class="mf">2.43</span><span class="p">,</span> <span class="mf">2.47</span><span class="p">,</span> <span class="mf">2.56</span><span class="p">,</span> <span class="mf">2.65</span><span class="p">,</span> <span class="mf">2.47</span><span class="p">,</span>
+     <span class="mf">2.64</span><span class="p">,</span> <span class="mf">2.56</span><span class="p">,</span> <span class="mf">2.70</span><span class="p">,</span> <span class="mf">2.72</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="c1"># fmt: on</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>PyMC imputes missing data automatically, similar to BUGS, but it requires the missing data be input as a NumPy masked array. See the NumPy docs for <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ma.masked_values.html">np.ma.masked_values()</a>. For <code class="docutils literal notranslate"><span class="pre">y</span></code>, above, you can enter whatever number at the missing data positions, then plug it into the <code class="docutils literal notranslate"><span class="pre">value</span></code> parameter below. Just make sure the number you’re using isn’t actually in the data. I chose -1 above.</p>
+<p>Note that this method only works for missing <em>observed</em> data. We’ll learn about other types of missing data later.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_values</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">value</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">y</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>masked_array(data=[1.8, 1.85, 1.87, --, 2.02, 2.27, 2.15, 2.26, 2.47,
+                   2.19, 2.26, 2.4, 2.39, 2.41, 2.5, 2.32, 2.32, 2.43,
+                   2.47, 2.56, 2.65, 2.47, 2.64, 2.56, 2.7, 2.72, --],
+             mask=[False, False, False,  True, False, False, False, False,
+                   False, False, False, False, False, False, False, False,
+                   False, False, False, False, False, False, False, False,
+                   False, False,  True],
+       fill_value=-1.0)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Check it out! The array now has a mask attribute.</p>
+<div class="cell tag_hide_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">m</span><span class="p">:</span>
+    <span class="c1"># priors</span>
+    <span class="n">alpha</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Uniform</span><span class="p">(</span><span class="s2">&quot;alpha&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+    <span class="n">beta</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Uniform</span><span class="p">(</span><span class="s2">&quot;beta&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+    <span class="n">gamma</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Uniform</span><span class="p">(</span><span class="s2">&quot;gamma&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">sigma</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">pm</span><span class="o">.</span><span class="n">Uniform</span><span class="p">(</span><span class="s2">&quot;sigma&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+
+    <span class="n">mu</span> <span class="o">=</span> <span class="n">alpha</span> <span class="o">-</span> <span class="n">beta</span> <span class="o">*</span> <span class="n">gamma</span><span class="o">**</span><span class="n">X</span>
+
+    <span class="n">likelihood</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;likelihood&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
+
+    <span class="c1"># start sampling</span>
+    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">5000</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc_env2/lib/python3.11/site-packages/pymc/model.py:1402: ImputationWarning: Data in likelihood contains missing values and will be automatically imputed from the sampling distribution.
+  warnings.warn(impute_message, ImputationWarning)
+Auto-assigning NUTS sampler...
+Initializing NUTS using jitter+adapt_diag...
+Multiprocess sampling (4 chains in 4 jobs)
+NUTS: [alpha, beta, gamma, sigma, likelihood_missing]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 500 tune and 10_000 draw iterations (2_000 + 40_000 draws total) took 25 seconds.
+There were 28 divergences after tuning. Increase `target_accept` or reparameterize.
+Chain &lt;xarray.DataArray &#39;chain&#39; ()&gt;
+array(0)
+Coordinates:
+    chain    int64 0 reached the maximum tree depth. Increase `max_treedepth`, increase `target_accept` or reparameterize.
+Chain &lt;xarray.DataArray &#39;chain&#39; ()&gt;
+array(1)
+Coordinates:
+    chain    int64 1 reached the maximum tree depth. Increase `max_treedepth`, increase `target_accept` or reparameterize.
+Chain &lt;xarray.DataArray &#39;chain&#39; ()&gt;
+array(2)
+Coordinates:
+    chain    int64 2 reached the maximum tree depth. Increase `max_treedepth`, increase `target_accept` or reparameterize.
+Chain &lt;xarray.DataArray &#39;chain&#39; ()&gt;
+array(3)
+Coordinates:
+    chain    int64 3 reached the maximum tree depth. Increase `max_treedepth`, increase `target_accept` or reparameterize.
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">hdi_prob</span><span class="o">=</span><span class="mf">0.95</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="s2">&quot;~likelihood&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mean</th>
+      <th>sd</th>
+      <th>hdi_2.5%</th>
+      <th>hdi_97.5%</th>
+      <th>mcse_mean</th>
+      <th>mcse_sd</th>
+      <th>ess_bulk</th>
+      <th>ess_tail</th>
+      <th>r_hat</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>likelihood_missing[0]</th>
+      <td>1.907</td>
+      <td>0.110</td>
+      <td>1.691</td>
+      <td>2.125</td>
+      <td>0.001</td>
+      <td>0.001</td>
+      <td>22080.0</td>
+      <td>21790.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>likelihood_missing[1]</th>
+      <td>2.694</td>
+      <td>0.129</td>
+      <td>2.439</td>
+      <td>2.947</td>
+      <td>0.001</td>
+      <td>0.001</td>
+      <td>11806.0</td>
+      <td>12392.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>alpha</th>
+      <td>2.742</td>
+      <td>0.148</td>
+      <td>2.519</td>
+      <td>3.015</td>
+      <td>0.002</td>
+      <td>0.002</td>
+      <td>7872.0</td>
+      <td>5961.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>beta</th>
+      <td>0.994</td>
+      <td>0.122</td>
+      <td>0.790</td>
+      <td>1.217</td>
+      <td>0.002</td>
+      <td>0.001</td>
+      <td>10184.0</td>
+      <td>6771.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>gamma</th>
+      <td>0.889</td>
+      <td>0.035</td>
+      <td>0.816</td>
+      <td>0.953</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>8259.0</td>
+      <td>6797.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>sigma</th>
+      <td>-2.339</td>
+      <td>0.156</td>
+      <td>-2.641</td>
+      <td>-2.033</td>
+      <td>0.001</td>
+      <td>0.001</td>
+      <td>14593.0</td>
+      <td>17855.0</td>
+      <td>1.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>This output is very close to the BUGS results if you use the inits labeled Alternative (full) inits (initializing the missing values at 1):</p>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>mean</p></th>
+<th class="head"><p>sd</p></th>
+<th class="head"><p>MC_error</p></th>
+<th class="head"><p>val2.5pc</p></th>
+<th class="head"><p>median</p></th>
+<th class="head"><p>val97.5pc</p></th>
+<th class="head"><p>start</p></th>
+<th class="head"><p>sample</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>alpha</p></td>
+<td><p>2.731</p></td>
+<td><p>0.1206</p></td>
+<td><p>0.003167</p></td>
+<td><p>2.551</p></td>
+<td><p>2.711</p></td>
+<td><p>3.025</p></td>
+<td><p>1001</p></td>
+<td><p>100000</p></td>
+</tr>
+<tr class="row-odd"><td><p>beta</p></td>
+<td><p>0.9846</p></td>
+<td><p>0.1021</p></td>
+<td><p>0.002008</p></td>
+<td><p>0.8053</p></td>
+<td><p>0.9773</p></td>
+<td><p>1.212</p></td>
+<td><p>1001</p></td>
+<td><p>100000</p></td>
+</tr>
+<tr class="row-even"><td><p>gamma</p></td>
+<td><p>0.8874</p></td>
+<td><p>0.03381</p></td>
+<td><p>7.64E-04</p></td>
+<td><p>0.8124</p></td>
+<td><p>0.8908</p></td>
+<td><p>0.9427</p></td>
+<td><p>1001</p></td>
+<td><p>100000</p></td>
+</tr>
+<tr class="row-odd"><td><p>log.sigma</p></td>
+<td><p>-2.342</p></td>
+<td><p>0.1543</p></td>
+<td><p>7.83E-04</p></td>
+<td><p>-2.622</p></td>
+<td><p>-2.349</p></td>
+<td><p>-2.018</p></td>
+<td><p>1001</p></td>
+<td><p>100000</p></td>
+</tr>
+<tr class="row-even"><td><p>sigma</p></td>
+<td><p>0.09733</p></td>
+<td><p>0.0155</p></td>
+<td><p>7.96E-05</p></td>
+<td><p>0.07267</p></td>
+<td><p>0.09547</p></td>
+<td><p>0.1329</p></td>
+<td><p>1001</p></td>
+<td><p>100000</p></td>
+</tr>
+<tr class="row-odd"><td><p>y[4]</p></td>
+<td><p>1.906</p></td>
+<td><p>0.1098</p></td>
+<td><p>6.23E-04</p></td>
+<td><p>1.689</p></td>
+<td><p>1.906</p></td>
+<td><p>2.123</p></td>
+<td><p>1001</p></td>
+<td><p>100000</p></td>
+</tr>
+<tr class="row-even"><td><p>y[27]</p></td>
+<td><p>2.69</p></td>
+<td><p>0.1255</p></td>
+<td><p>0.001916</p></td>
+<td><p>2.446</p></td>
+<td><p>2.689</p></td>
+<td><p>2.941</p></td>
+<td><p>1001</p></td>
+<td><p>100000</p></td>
+</tr>
+</tbody>
+</table>
+<p>If you use the first set of inits, as Professor Vidakovic did in the video, BUGS gives the y[4] mean as 2.047 and y[27] as 3.04. All the other variables are very different here, too. This is quite a mystery - as far as I can tell, the only difference is that the missing values use BUGS-generated inits for the following results. If someone figures out what’s going on here, let me know!</p>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>mean</p></th>
+<th class="head"><p>sd</p></th>
+<th class="head"><p>MC_error</p></th>
+<th class="head"><p>val2.5pc</p></th>
+<th class="head"><p>median</p></th>
+<th class="head"><p>val97.5pc</p></th>
+<th class="head"><p>start</p></th>
+<th class="head"><p>sample</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>alpha</p></td>
+<td><p>32.54</p></td>
+<td><p>3.698</p></td>
+<td><p>0.2076</p></td>
+<td><p>23.51</p></td>
+<td><p>32.69</p></td>
+<td><p>40.31</p></td>
+<td><p>1001</p></td>
+<td><p>100000</p></td>
+</tr>
+<tr class="row-odd"><td><p>beta</p></td>
+<td><p>30.55</p></td>
+<td><p>3.697</p></td>
+<td><p>0.2076</p></td>
+<td><p>21.52</p></td>
+<td><p>30.69</p></td>
+<td><p>38.31</p></td>
+<td><p>1001</p></td>
+<td><p>100000</p></td>
+</tr>
+<tr class="row-even"><td><p>gamma</p></td>
+<td><p>0.9989</p></td>
+<td><p>2.08E-04</p></td>
+<td><p>8.70E-06</p></td>
+<td><p>0.9984</p></td>
+<td><p>0.9989</p></td>
+<td><p>0.9992</p></td>
+<td><p>1001</p></td>
+<td><p>100000</p></td>
+</tr>
+<tr class="row-odd"><td><p>sigma</p></td>
+<td><p>0.1328</p></td>
+<td><p>0.02071</p></td>
+<td><p>8.17E-05</p></td>
+<td><p>0.09964</p></td>
+<td><p>0.1303</p></td>
+<td><p>0.1805</p></td>
+<td><p>1001</p></td>
+<td><p>100000</p></td>
+</tr>
+<tr class="row-even"><td><p>y[4]</p></td>
+<td><p>2.047</p></td>
+<td><p>0.1424</p></td>
+<td><p>5.18E-04</p></td>
+<td><p>1.766</p></td>
+<td><p>2.046</p></td>
+<td><p>2.329</p></td>
+<td><p>1001</p></td>
+<td><p>100000</p></td>
+</tr>
+<tr class="row-odd"><td><p>y[27]</p></td>
+<td><p>3.04</p></td>
+<td><p>0.1606</p></td>
+<td><p>7.42E-04</p></td>
+<td><p>2.722</p></td>
+<td><p>3.04</p></td>
+<td><p>3.358</p></td>
+<td><p>1001</p></td>
+<td><p>100000</p></td>
+</tr>
+</tbody>
+</table>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">load_ext</span> watermark
+<span class="o">%</span><span class="k">watermark</span> -n -u -v -iv -p pytensor
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Sat Mar 18 2023
+
+Python implementation: CPython
+Python version       : 3.11.0
+IPython version      : 8.9.0
+
+pytensor: 2.10.1
+
+arviz     : 0.14.0
+numpy     : 1.24.2
+pymc      : 5.1.1
+matplotlib: 3.6.3
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./unit6"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="Unit6-demo-stressacids.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title"><span class="section-number">5. </span>Stress, diet, and plasma acids</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="Unit6-demo-equivalence.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">7. </span>Equivalence of generic and brand-name drugs</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By Aaron Reding<br/>
+  
+      &copy; Copyright 2023.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>

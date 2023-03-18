@@ -370,43 +370,58 @@ const thebe_selector_output = ".output, .cell_output"
 </p>
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
-  <a class="reference internal" href="../unit6/probabilistic-programming.html">
-   Probabilistic programming languages
+  <a class="reference internal" href="../unit6/Unit6-probabilisticprogramming.html">
+   1. Probabilistic programming languages
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../unit6/Unit6-cheese.html">
-   Taste of cheese
+  <a class="reference internal" href="../unit6/Unit6-doodlebug.html">
+   2. Creating a Graphical Model
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../unit6/Unit6-dugongs.html">
-   Dugongs
+  <a class="reference internal" href="../unit6/Unit6-demo-doodle.html">
+   3. Demo—Manually Compiling a Joint Probability Graph
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../unit6/Unit6-equivalence.html">
-   Equivalence of generic and brand-name drugs
+  <a class="reference internal" href="../unit6/Unit6-moreaboutpymc.html">
+   4. More About PyMC
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../unit6/Unit6-exponential.html">
-   Bartholomew (1957) for type-1 censoring
+  <a class="reference internal" href="../unit6/Unit6-demo-stressacids.html">
+   5. Stress, diet, and plasma acids
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../unit6/Unit6-psoriasis.html">
-   Psoriasis: two-sample problem with paired data
+  <a class="reference internal" href="../unit6/Unit6-demo-dugongs.html">
+   6. Dugongs
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../unit6/Unit6-stressacids.html">
-   Stress, diet, and plasma acids
+  <a class="reference internal" href="../unit6/Unit6-demo-equivalence.html">
+   7. Equivalence of generic and brand-name drugs
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../unit6/Unit6-zerotrickJeremy.html">
-   Zero trick Jeremy
+  <a class="reference internal" href="../unit6/Unit6-demo-psoriasis.html">
+   8. Psoriasis: two-sample problem with paired data
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../unit6/Unit6-demo-cheese.html">
+   9. Taste of cheese
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../unit6/Unit6-demo-bartholomew.html">
+   10. Bartholomew (1957) for type-1 censoring
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../unit6/Unit6-demo-zerotrickJeremy.html">
+   11. Zero trick Jeremy
   </a>
  </li>
 </ul>
@@ -928,6 +943,12 @@ title="Print to PDF"
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The lab_black extension is already loaded. To reload it, use:
+  %reload_ext lab_black
+</pre></div>
+</div>
+</div>
 </div>
 <p>First, he plots our posterior. Generally to plot a probability density function (PDF), you create a range of values as input, then plot that versus the output of your PDF.</p>
 <div class="cell docutils container">
@@ -994,7 +1015,7 @@ title="Print to PDF"
 
 
 <span class="k">def</span> <span class="nf">median_func</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">scipy</span><span class="o">.</span><span class="n">integrate</span><span class="o">.</span><span class="n">quad</span><span class="p">(</span><span class="n">posterior</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">m</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mf">0.5</span>
+    <span class="k">return</span> <span class="n">quad</span><span class="p">(</span><span class="n">posterior</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">m</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mf">0.5</span>
 
 
 <span class="n">median</span> <span class="o">=</span> <span class="n">fsolve</span><span class="p">(</span><span class="n">median_func</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
@@ -1079,6 +1100,26 @@ title="Print to PDF"
 </div>
 <div class="cell_output docutils container">
 <img alt="../_images/Unit2-10flips_15_0.png" src="../_images/Unit2-10flips_15_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">load_ext</span> watermark
+<span class="o">%</span><span class="k">watermark</span> -n -u -v -iv
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Sat Mar 18 2023
+
+Python implementation: CPython
+Python version       : 3.11.0
+IPython version      : 8.9.0
+
+matplotlib: 3.6.3
+numpy     : 1.24.2
+</pre></div>
+</div>
 </div>
 </div>
 </section>

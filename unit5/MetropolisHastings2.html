@@ -368,43 +368,58 @@ const thebe_selector_output = ".output, .cell_output"
 </p>
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
-  <a class="reference internal" href="../unit6/probabilistic-programming.html">
-   Probabilistic programming languages
+  <a class="reference internal" href="../unit6/Unit6-probabilisticprogramming.html">
+   1. Probabilistic programming languages
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../unit6/Unit6-cheese.html">
-   Taste of cheese
+  <a class="reference internal" href="../unit6/Unit6-doodlebug.html">
+   2. Creating a Graphical Model
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../unit6/Unit6-dugongs.html">
-   Dugongs
+  <a class="reference internal" href="../unit6/Unit6-demo-doodle.html">
+   3. Demo—Manually Compiling a Joint Probability Graph
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../unit6/Unit6-equivalence.html">
-   Equivalence of generic and brand-name drugs
+  <a class="reference internal" href="../unit6/Unit6-moreaboutpymc.html">
+   4. More About PyMC
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../unit6/Unit6-exponential.html">
-   Bartholomew (1957) for type-1 censoring
+  <a class="reference internal" href="../unit6/Unit6-demo-stressacids.html">
+   5. Stress, diet, and plasma acids
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../unit6/Unit6-psoriasis.html">
-   Psoriasis: two-sample problem with paired data
+  <a class="reference internal" href="../unit6/Unit6-demo-dugongs.html">
+   6. Dugongs
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../unit6/Unit6-stressacids.html">
-   Stress, diet, and plasma acids
+  <a class="reference internal" href="../unit6/Unit6-demo-equivalence.html">
+   7. Equivalence of generic and brand-name drugs
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../unit6/Unit6-zerotrickJeremy.html">
-   Zero trick Jeremy
+  <a class="reference internal" href="../unit6/Unit6-demo-psoriasis.html">
+   8. Psoriasis: two-sample problem with paired data
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../unit6/Unit6-demo-cheese.html">
+   9. Taste of cheese
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../unit6/Unit6-demo-bartholomew.html">
+   10. Bartholomew (1957) for type-1 censoring
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../unit6/Unit6-demo-zerotrickJeremy.html">
+   11. Zero trick Jeremy
   </a>
  </li>
 </ul>
@@ -850,10 +865,9 @@ title="Print to PDF"
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">rich.progress</span> <span class="kn">import</span> <span class="n">track</span>
+<span class="kn">from</span> <span class="nn">tqdm.auto</span> <span class="kn">import</span> <span class="n">tqdm</span>
 
 <span class="o">%</span><span class="k">load_ext</span> lab_black
-<span class="o">%</span><span class="k">load_ext</span> watermark
 </pre></div>
 </div>
 </div>
@@ -886,7 +900,7 @@ title="Print to PDF"
 <span class="n">log_unif_alpha</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">rng</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">obs</span><span class="p">))</span>
 <span class="n">log_unif_eta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">rng</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">obs</span><span class="p">))</span>
 
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">track</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">obs</span><span class="p">)):</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">obs</span><span class="p">)):</span>
     <span class="c1"># proposals</span>
     <span class="n">alpha_prop</span> <span class="o">=</span> <span class="o">-</span><span class="n">alpha</span> <span class="o">*</span> <span class="n">log_unif_alpha</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
     <span class="n">eta_prop</span> <span class="o">=</span> <span class="o">-</span><span class="n">eta</span> <span class="o">*</span> <span class="n">log_unif_eta</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
@@ -934,35 +948,33 @@ title="Print to PDF"
 </div>
 <div class="cell_output docutils container">
 <script type="application/vnd.jupyter.widget-view+json">
-{"model_id": "1756eb9414e6436c8479cba1de1eae8b", "version_major": 2, "version_minor": 0}
-</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
-</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
-</pre>
-</div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>np.mean(alphas)=0.8946068730747929
+{"model_id": "9b95b507b40a4b119d9ff41f1d3a61b7", "version_major": 2, "version_minor": 0}
+</script><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>np.mean(alphas)=0.8946068730747929
 np.var(alphas)=0.1362387303239647
 np.mean(etas)=1.8368073523412645
 np.var(etas)=0.7482303084883631
 </pre></div>
 </div>
-<img alt="../_images/MetropolisHastings2_2_4.png" src="../_images/MetropolisHastings2_2_4.png" />
-<img alt="../_images/MetropolisHastings2_2_5.png" src="../_images/MetropolisHastings2_2_5.png" />
+<img alt="../_images/MetropolisHastings2_2_2.png" src="../_images/MetropolisHastings2_2_2.png" />
+<img alt="../_images/MetropolisHastings2_2_3.png" src="../_images/MetropolisHastings2_2_3.png" />
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">watermark</span> -n -u -v -iv
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">load_ext</span> watermark
+<span class="o">%</span><span class="k">watermark</span> -n -u -v -iv
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Sat Aug 20 2022
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Sat Mar 18 2023
 
 Python implementation: CPython
-Python version       : 3.10.5
-IPython version      : 8.4.0
+Python version       : 3.11.0
+IPython version      : 8.9.0
 
-numpy     : 1.23.1
-matplotlib: 3.5.2
+matplotlib: 3.6.3
+numpy     : 1.24.2
 </pre></div>
 </div>
 </div>

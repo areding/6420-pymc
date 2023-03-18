@@ -368,43 +368,58 @@ const thebe_selector_output = ".output, .cell_output"
 </p>
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
-  <a class="reference internal" href="../unit6/probabilistic-programming.html">
-   Probabilistic programming languages
+  <a class="reference internal" href="../unit6/Unit6-probabilisticprogramming.html">
+   1. Probabilistic programming languages
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../unit6/Unit6-cheese.html">
-   Taste of cheese
+  <a class="reference internal" href="../unit6/Unit6-doodlebug.html">
+   2. Creating a Graphical Model
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../unit6/Unit6-dugongs.html">
-   Dugongs
+  <a class="reference internal" href="../unit6/Unit6-demo-doodle.html">
+   3. Demo—Manually Compiling a Joint Probability Graph
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../unit6/Unit6-equivalence.html">
-   Equivalence of generic and brand-name drugs
+  <a class="reference internal" href="../unit6/Unit6-moreaboutpymc.html">
+   4. More About PyMC
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../unit6/Unit6-exponential.html">
-   Bartholomew (1957) for type-1 censoring
+  <a class="reference internal" href="../unit6/Unit6-demo-stressacids.html">
+   5. Stress, diet, and plasma acids
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../unit6/Unit6-psoriasis.html">
-   Psoriasis: two-sample problem with paired data
+  <a class="reference internal" href="../unit6/Unit6-demo-dugongs.html">
+   6. Dugongs
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../unit6/Unit6-stressacids.html">
-   Stress, diet, and plasma acids
+  <a class="reference internal" href="../unit6/Unit6-demo-equivalence.html">
+   7. Equivalence of generic and brand-name drugs
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../unit6/Unit6-zerotrickJeremy.html">
-   Zero trick Jeremy
+  <a class="reference internal" href="../unit6/Unit6-demo-psoriasis.html">
+   8. Psoriasis: two-sample problem with paired data
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../unit6/Unit6-demo-cheese.html">
+   9. Taste of cheese
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../unit6/Unit6-demo-bartholomew.html">
+   10. Bartholomew (1957) for type-1 censoring
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../unit6/Unit6-demo-zerotrickJeremy.html">
+   11. Zero trick Jeremy
   </a>
  </li>
 </ul>
@@ -850,12 +865,11 @@ title="Print to PDF"
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">rich.progress</span> <span class="kn">import</span> <span class="n">track</span>
+<span class="kn">from</span> <span class="nn">tqdm.auto</span> <span class="kn">import</span> <span class="n">tqdm</span>
 <span class="kn">import</span> <span class="nn">pymc</span> <span class="k">as</span> <span class="nn">pm</span>
 <span class="kn">import</span> <span class="nn">arviz</span> <span class="k">as</span> <span class="nn">az</span>
 
 <span class="o">%</span><span class="k">load_ext</span> lab_black
-<span class="o">%</span><span class="k">load_ext</span> watermark
 </pre></div>
 </div>
 </div>
@@ -888,7 +902,7 @@ title="Print to PDF"
 <span class="n">thetas</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">obs</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
 <span class="n">betas</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">obs</span><span class="p">)</span>
 
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">track</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">obs</span><span class="p">)):</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">obs</span><span class="p">)):</span>
     <span class="n">theta</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">gamma</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="n">X</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="n">beta</span> <span class="o">+</span> <span class="n">t</span><span class="p">),</span> <span class="n">size</span><span class="o">=</span><span class="n">n</span><span class="p">)</span>
     <span class="n">sum_theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>
 
@@ -908,14 +922,11 @@ title="Print to PDF"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Working... <span style="color: #729c1f; text-decoration-color: #729c1f">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</span> <span style="color: #800080; text-decoration-color: #800080">100%</span> <span style="color: #008080; text-decoration-color: #008080">0:00:00</span>
-</pre>
-</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
-</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
-</pre>
-</div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>np.mean(thetas, axis=0)=array([0.06283613, 0.11838764, 0.0934282 , 0.11795504, 0.61044286,
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id": "8fb998da8ea543bd82b72310d9724e34", "version_major": 2, "version_minor": 0}
+</script><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>np.mean(thetas, axis=0)=array([0.06283613, 0.11838764, 0.0934282 , 0.11795504, 0.61044286,
        0.61054294, 0.87096223, 0.87103813, 1.48272156, 1.94964544])
-np.std(thetas)=0.7294065045864947
+np.std(thetas)=0.7294065045864946
 np.mean(betas)=1.3367177163632642
 np.std(betas)=0.4843747815427844
 </pre></div>
@@ -949,20 +960,12 @@ np.std(betas)=0.4843747815427844
     <span class="n">likelihood</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Poisson</span><span class="p">(</span><span class="s2">&quot;likelihood&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">rate</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
 
     <span class="c1"># start sampling</span>
-    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span>
-        <span class="mi">5000</span><span class="p">,</span>
-        <span class="n">chains</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
-        <span class="n">tune</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span>
-        <span class="n">init</span><span class="o">=</span><span class="s2">&quot;jitter+adapt_diag&quot;</span><span class="p">,</span>
-        <span class="n">random_seed</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-        <span class="n">cores</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
-        <span class="n">return_inferencedata</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="p">)</span>
+    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">5000</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc_env/lib/python3.10/site-packages/pymc/data.py:667: FutureWarning: The `mutable` kwarg was not specified. Currently it defaults to `pm.Data(mutable=True)`, which is equivalent to using `pm.MutableData()`. In v4.1.0 the default will change to `pm.Data(mutable=False)`, equivalent to `pm.ConstantData`. Set `pm.Data(..., mutable=False/True)`, or use `pm.ConstantData`/`pm.MutableData`.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc_env2/lib/python3.11/site-packages/pymc/data.py:427: UserWarning: The `mutable` kwarg was not specified. Before v4.1.0 it defaulted to `pm.Data(mutable=True)`, which is equivalent to using `pm.MutableData()`. In v4.1.0 the default changed to `pm.Data(mutable=False)`, equivalent to `pm.ConstantData`. Use `pm.ConstantData`/`pm.MutableData` or pass `pm.Data(..., mutable=False/True)` to avoid this warning.
   warnings.warn(
 Auto-assigning NUTS sampler...
 Initializing NUTS using jitter+adapt_diag...
@@ -970,25 +973,23 @@ Multiprocess sampling (4 chains in 4 jobs)
 NUTS: [beta, theta]
 </pre></div>
 </div>
-<div class="output text_html">
-<style>
-    /* Turns off some styling */
-    progress {
-        /* gets rid of default border in Firefox and Opera. */
-        border: none;
-        /* Needs to be in here for Safari polyfill so background images work as expected. */
-        background-size: auto;
-    }
-    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
-        background: #F44336;
-    }
-</style>
-</div><div class="output text_html">
-<div>
-  <progress value='22000' class='' max='22000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-  100.00% [22000/22000 00:02<00:00 Sampling 4 chains, 0 divergences]
-</div>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 500 tune and 5_000 draw iterations (2_000 + 20_000 draws total) took 14 seconds.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 5_000 draw iterations (4_000 + 20_000 draws total) took 3 seconds.
+Chain &lt;xarray.DataArray &#39;chain&#39; ()&gt;
+array(0)
+Coordinates:
+    chain    int64 0 reached the maximum tree depth. Increase `max_treedepth`, increase `target_accept` or reparameterize.
+Chain &lt;xarray.DataArray &#39;chain&#39; ()&gt;
+array(1)
+Coordinates:
+    chain    int64 1 reached the maximum tree depth. Increase `max_treedepth`, increase `target_accept` or reparameterize.
+Chain &lt;xarray.DataArray &#39;chain&#39; ()&gt;
+array(2)
+Coordinates:
+    chain    int64 2 reached the maximum tree depth. Increase `max_treedepth`, increase `target_accept` or reparameterize.
+Chain &lt;xarray.DataArray &#39;chain&#39; ()&gt;
+array(3)
+Coordinates:
+    chain    int64 3 reached the maximum tree depth. Increase `max_treedepth`, increase `target_accept` or reparameterize.
 </pre></div>
 </div>
 </div>
@@ -1033,133 +1034,133 @@ NUTS: [beta, theta]
     <tr>
       <th>beta</th>
       <td>1.337</td>
-      <td>0.490</td>
-      <td>0.521</td>
-      <td>2.266</td>
+      <td>0.487</td>
+      <td>0.511</td>
+      <td>2.235</td>
       <td>0.003</td>
       <td>0.002</td>
-      <td>23569.0</td>
-      <td>15438.0</td>
+      <td>27853.0</td>
+      <td>17343.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>theta[0]</th>
       <td>0.063</td>
-      <td>0.025</td>
-      <td>0.022</td>
+      <td>0.026</td>
+      <td>0.019</td>
       <td>0.111</td>
       <td>0.000</td>
       <td>0.000</td>
-      <td>27787.0</td>
-      <td>14014.0</td>
+      <td>29657.0</td>
+      <td>14437.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>theta[1]</th>
-      <td>0.119</td>
-      <td>0.084</td>
-      <td>0.006</td>
-      <td>0.273</td>
-      <td>0.001</td>
+      <td>0.118</td>
+      <td>0.083</td>
+      <td>0.004</td>
+      <td>0.269</td>
       <td>0.000</td>
-      <td>21786.0</td>
-      <td>11756.0</td>
+      <td>0.000</td>
+      <td>25205.0</td>
+      <td>12218.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>theta[2]</th>
       <td>0.094</td>
       <td>0.038</td>
-      <td>0.029</td>
-      <td>0.163</td>
+      <td>0.030</td>
+      <td>0.164</td>
       <td>0.000</td>
       <td>0.000</td>
-      <td>28022.0</td>
-      <td>14320.0</td>
+      <td>28528.0</td>
+      <td>13043.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>theta[3]</th>
       <td>0.118</td>
-      <td>0.030</td>
-      <td>0.064</td>
-      <td>0.174</td>
+      <td>0.031</td>
+      <td>0.062</td>
+      <td>0.175</td>
       <td>0.000</td>
       <td>0.000</td>
-      <td>27760.0</td>
-      <td>14196.0</td>
+      <td>31702.0</td>
+      <td>14191.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>theta[4]</th>
-      <td>0.615</td>
-      <td>0.311</td>
-      <td>0.111</td>
-      <td>1.180</td>
+      <td>0.609</td>
+      <td>0.309</td>
+      <td>0.109</td>
+      <td>1.173</td>
       <td>0.002</td>
       <td>0.001</td>
-      <td>26527.0</td>
-      <td>12693.0</td>
+      <td>26039.0</td>
+      <td>12618.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>theta[5]</th>
-      <td>0.610</td>
+      <td>0.611</td>
       <td>0.136</td>
-      <td>0.358</td>
-      <td>0.861</td>
+      <td>0.363</td>
+      <td>0.870</td>
       <td>0.001</td>
       <td>0.001</td>
-      <td>27570.0</td>
-      <td>13759.0</td>
+      <td>31196.0</td>
+      <td>14567.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>theta[6]</th>
       <td>0.871</td>
-      <td>0.643</td>
-      <td>0.016</td>
-      <td>2.013</td>
+      <td>0.653</td>
+      <td>0.017</td>
+      <td>2.031</td>
       <td>0.004</td>
       <td>0.003</td>
-      <td>22155.0</td>
-      <td>12667.0</td>
+      <td>24217.0</td>
+      <td>13140.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>theta[7]</th>
-      <td>0.875</td>
-      <td>0.656</td>
-      <td>0.028</td>
-      <td>2.070</td>
+      <td>0.869</td>
+      <td>0.652</td>
+      <td>0.021</td>
+      <td>2.058</td>
       <td>0.004</td>
       <td>0.003</td>
-      <td>22724.0</td>
-      <td>13098.0</td>
+      <td>25976.0</td>
+      <td>13618.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>theta[8]</th>
-      <td>1.487</td>
-      <td>0.700</td>
-      <td>0.381</td>
-      <td>2.802</td>
+      <td>1.482</td>
+      <td>0.704</td>
+      <td>0.341</td>
+      <td>2.770</td>
       <td>0.004</td>
       <td>0.003</td>
-      <td>24901.0</td>
-      <td>14634.0</td>
+      <td>29738.0</td>
+      <td>13518.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>theta[9]</th>
       <td>1.951</td>
-      <td>0.416</td>
-      <td>1.183</td>
-      <td>2.731</td>
-      <td>0.003</td>
+      <td>0.417</td>
+      <td>1.196</td>
+      <td>2.722</td>
       <td>0.002</td>
-      <td>25762.0</td>
-      <td>13167.0</td>
+      <td>0.002</td>
+      <td>32394.0</td>
+      <td>14667.0</td>
       <td>1.0</td>
     </tr>
   </tbody>
@@ -1295,24 +1296,24 @@ NUTS: [beta, theta]
 </table>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">watermark</span> -n -u -v -iv -p aesara,aeppl
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">load_ext</span> watermark
+<span class="o">%</span><span class="k">watermark</span> -n -u -v -iv -p pytensor
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Tue Jul 05 2022
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Sat Mar 18 2023
 
 Python implementation: CPython
-Python version       : 3.10.5
-IPython version      : 8.4.0
+Python version       : 3.11.0
+IPython version      : 8.9.0
 
-aesara: 2.7.3
-aeppl : 0.0.31
+pytensor: 2.10.1
 
-arviz     : 0.12.1
-matplotlib: 3.5.2
-numpy     : 1.23.0
-pymc      : 4.0.1
+numpy     : 1.24.2
+matplotlib: 3.6.3
+arviz     : 0.14.0
+pymc      : 5.1.1
 </pre></div>
 </div>
 </div>

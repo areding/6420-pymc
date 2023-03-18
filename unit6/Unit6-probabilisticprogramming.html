@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Bartholomew (1957) for type-1 censoring &#8212; ISYE 6420 - BUGS to PyMC</title>
+    <title>1. Probabilistic programming languages &#8212; ISYE 6420 - BUGS to PyMC</title>
     
   <!-- Loaded before other Sphinx assets -->
   <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
@@ -52,13 +52,11 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
-    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
-    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Psoriasis: two-sample problem with paired data" href="Unit6-psoriasis.html" />
-    <link rel="prev" title="Equivalence of generic and brand-name drugs" href="Unit6-equivalence.html" />
+    <link rel="next" title="2. Creating a Graphical Model" href="Unit6-doodlebug.html" />
+    <link rel="prev" title="Other methods" href="../unit5/other-methods.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -369,44 +367,59 @@ const thebe_selector_output = ".output, .cell_output"
  </span>
 </p>
 <ul class="current nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="probabilistic-programming.html">
-   Probabilistic programming languages
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="Unit6-cheese.html">
-   Taste of cheese
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="Unit6-dugongs.html">
-   Dugongs
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="Unit6-equivalence.html">
-   Equivalence of generic and brand-name drugs
-  </a>
- </li>
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
-   Bartholomew (1957) for type-1 censoring
+   1. Probabilistic programming languages
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="Unit6-psoriasis.html">
-   Psoriasis: two-sample problem with paired data
+  <a class="reference internal" href="Unit6-doodlebug.html">
+   2. Creating a Graphical Model
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="Unit6-stressacids.html">
-   Stress, diet, and plasma acids
+  <a class="reference internal" href="Unit6-demo-doodle.html">
+   3. Demo—Manually Compiling a Joint Probability Graph
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="Unit6-zerotrickJeremy.html">
-   Zero trick Jeremy
+  <a class="reference internal" href="Unit6-moreaboutpymc.html">
+   4. More About PyMC
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Unit6-demo-stressacids.html">
+   5. Stress, diet, and plasma acids
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Unit6-demo-dugongs.html">
+   6. Dugongs
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Unit6-demo-equivalence.html">
+   7. Equivalence of generic and brand-name drugs
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Unit6-demo-psoriasis.html">
+   8. Psoriasis: two-sample problem with paired data
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Unit6-demo-cheese.html">
+   9. Taste of cheese
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Unit6-demo-bartholomew.html">
+   10. Bartholomew (1957) for type-1 censoring
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Unit6-demo-zerotrickJeremy.html">
+   11. Zero trick Jeremy
   </a>
  </li>
 </ul>
@@ -673,53 +686,6 @@ title="Toggle navigation"
         
     </div>
     <div class="header-article__right">
-<div class="menu-dropdown menu-dropdown-launch-buttons">
-  <button class="headerbtn menu-dropdown__trigger"
-      aria-label="Launch interactive content">
-      <i class="fas fa-rocket"></i>
-  </button>
-  <div class="menu-dropdown__content">
-    <ul>
-      <li>
-        <a href="https://mybinder.org/v2/gh/areding/6420-pymc/main?urlpath=tree/unit6/Unit6-exponential.ipynb"
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Launch on Binder"
->
-  
-
-<span class="headerbtn__icon-container">
-  
-    <img src="../_static/images/logo_binder.svg">
-  </span>
-<span class="headerbtn__text-container">Binder</span>
-</a>
-
-      </li>
-      
-      <li>
-        <a href="https://colab.research.google.com/github/areding/6420-pymc/blob/main/unit6/Unit6-exponential.ipynb"
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Launch on Colab"
->
-  
-
-<span class="headerbtn__icon-container">
-  
-    <img src="../_static/images/logo_colab.png">
-  </span>
-<span class="headerbtn__text-container">Colab</span>
-</a>
-
-      </li>
-      
-    </ul>
-  </div>
-</div>
-
 <button onclick="toggleFullScreen()"
   class="headerbtn"
   data-toggle="tooltip"
@@ -759,7 +725,7 @@ title="Source repository"
       </li>
       
       <li>
-        <a href="https://github.com/areding/6420-pymc/issues/new?title=Issue%20on%20page%20%2Funit6/Unit6-exponential.html&body=Your%20issue%20content%20here."
+        <a href="https://github.com/areding/6420-pymc/issues/new?title=Issue%20on%20page%20%2Funit6/Unit6-probabilisticprogramming.html&body=Your%20issue%20content%20here."
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -787,7 +753,7 @@ title="Open an issue"
   <div class="menu-dropdown__content">
     <ul>
       <li>
-        <a href="../_sources/unit6/Unit6-exponential.ipynb"
+        <a href="../_sources/unit6/Unit6-probabilisticprogramming.ipynb"
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -847,20 +813,23 @@ title="Print to PDF"
     <nav id="bd-toc-nav" aria-label="Page">
         <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#problem-statement">
-   Problem statement
+  <a class="reference internal nav-link" href="#graphical-models">
+   1.1. Graphical Models
   </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#results-of-a-life-test-on-ten-pieces-of-equipment">
-     Results of a life test on ten pieces of equipment
-    </a>
-   </li>
-  </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#a-bayesian-approach">
-   A Bayesian approach
+  <a class="reference internal nav-link" href="#pymc">
+   1.2. PyMC
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#links">
+   1.3. Links
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#missing-example">
+   1.4. Missing example
   </a>
  </li>
 </ul>
@@ -872,7 +841,7 @@ title="Print to PDF"
         <div class="col pl-md-3 pl-lg-5 content-container">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>Bartholomew (1957) for type-1 censoring</h1>
+                <h1>Probabilistic programming languages</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
@@ -883,20 +852,23 @@ title="Print to PDF"
                         <nav aria-label="Page">
                             <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#problem-statement">
-   Problem statement
+  <a class="reference internal nav-link" href="#graphical-models">
+   1.1. Graphical Models
   </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#results-of-a-life-test-on-ten-pieces-of-equipment">
-     Results of a life test on ten pieces of equipment
-    </a>
-   </li>
-  </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#a-bayesian-approach">
-   A Bayesian approach
+  <a class="reference internal nav-link" href="#pymc">
+   1.2. PyMC
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#links">
+   1.3. Links
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#missing-example">
+   1.4. Missing example
   </a>
  </li>
 </ul>
@@ -909,347 +881,31 @@ title="Print to PDF"
                 
               <div>
                 
-  <div class="cell tag_hide_output docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">arviz</span> <span class="k">as</span> <span class="nn">az</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">pymc</span> <span class="k">as</span> <span class="nn">pm</span>
-
-<span class="o">%</span><span class="k">load_ext</span> lab_black
-<span class="o">%</span><span class="k">load_ext</span> watermark
-</pre></div>
-</div>
-</div>
-</div>
-<section class="tex2jax_ignore mathjax_ignore" id="bartholomew-1957-for-type-1-censoring">
-<h1>Bartholomew (1957) for type-1 censoring<a class="headerlink" href="#bartholomew-1957-for-type-1-censoring" title="Permalink to this headline">#</a></h1>
-<p>This is our first introduction to censoring.</p>
-<p>It is adapted from <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/original_examples/Codes4Unit6/exponential1.odc">Unit 6: exponential1.odc</a>.</p>
-<p>Dataset and table from: <a class="reference external" href="https://www.jstor.org/stable/2280905?seq=1#metadata_info_tab_contents">A Problem in Life Testing (Bartholemew 1957)</a>.</p>
-<p>Associated lecture video: Unit 6 lesson 9</p>
-<section id="problem-statement">
-<h2>Problem statement<a class="headerlink" href="#problem-statement" title="Permalink to this headline">#</a></h2>
-<section id="results-of-a-life-test-on-ten-pieces-of-equipment">
-<h3>Results of a life test on ten pieces of equipment<a class="headerlink" href="#results-of-a-life-test-on-ten-pieces-of-equipment" title="Permalink to this headline">#</a></h3>
-<table class="colwidths-auto table">
-<thead>
-<tr class="row-odd"><th class="head"><p>Item No.</p></th>
-<th class="head"><p>1</p></th>
-<th class="head"><p>2</p></th>
-<th class="head"><p>3</p></th>
-<th class="head"><p>4</p></th>
-<th class="head"><p>5</p></th>
-<th class="head"><p>6</p></th>
-<th class="head"><p>7</p></th>
-<th class="head"><p>8</p></th>
-<th class="head"><p>9</p></th>
-<th class="head"><p>10</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p>Date of installation</p></td>
-<td><p>11 June</p></td>
-<td><p>21 June</p></td>
-<td><p>22 June</p></td>
-<td><p>2 July</p></td>
-<td><p>21 July</p></td>
-<td><p>31 July</p></td>
-<td><p>31 July</p></td>
-<td><p>1 Aug.</p></td>
-<td><p>2 Aug.</p></td>
-<td><p>10 Aug.</p></td>
-</tr>
-<tr class="row-odd"><td><p>Date of Failure</p></td>
-<td><p>13 June</p></td>
-<td><p>-</p></td>
-<td><p>12 Aug.</p></td>
-<td><p>-</p></td>
-<td><p>23 Aug.</p></td>
-<td><p>27 Aug.</p></td>
-<td><p>14 Aug.</p></td>
-<td><p>25 Aug.</p></td>
-<td><p>6 Aug.</p></td>
-<td><p>-</p></td>
-</tr>
-<tr class="row-even"><td><p>Life in Days</p></td>
-<td><p>2</p></td>
-<td><p>(119)</p></td>
-<td><p>51</p></td>
-<td><p>(77)</p></td>
-<td><p>33</p></td>
-<td><p>27</p></td>
-<td><p>14</p></td>
-<td><p>24</p></td>
-<td><p>4</p></td>
-<td><p>(37)</p></td>
-</tr>
-<tr class="row-odd"><td><p>No. Days to End of Period</p></td>
-<td><p>81</p></td>
-<td><p>72</p></td>
-<td><p>70</p></td>
-<td><p>60</p></td>
-<td><p>41</p></td>
-<td><p>31</p></td>
-<td><p>31</p></td>
-<td><p>30</p></td>
-<td><p>29</p></td>
-<td><p>21</p></td>
-</tr>
-</tbody>
-</table>
-<p>The observations above are the result of a test on the lifespan of some piece of equipment. The test had to end on August 31, but items 2, 4, and 10 did not fail by that date (the values in parentheses are the eventual lifespans of those pieces of equipment, but they were not known on August 31). So all we know for the purposes of the experiment is that they worked for 72, 60, and 21 days, respectively, and that they will continue working for some unknown additional time period.</p>
-<p>The goal of the experiment is to provide a lifespan estimate. We could:</p>
-<ol class="simple">
-<li><p>Take the censored data as observed:</p>
-<ul class="simple">
-<li><p>Divide the total observed working time (308 days) and divide by the equipment count (10) to get an average lifetime of 308 for an estimate of 30.8 days.</p></li>
-<li><p>Problem: underestimates actual average lifespan.</p></li>
-</ul>
-</li>
-<li><p>Ignore the equipment that didn’t fail:</p>
-<ul class="simple">
-<li><p>Take mean lifetime of the pieces of equipment that broke within the experiment period for an estimate of 22.1 days.</p></li>
-<li><p>Problems: selection bias, underestimates even more.</p></li>
-</ul>
-</li>
-<li><p>Use the classical method:</p>
-<ul class="simple">
-<li><p>Maximum Likelihood Estimation (MLE) under an exponential model. Total observed lifetime divided by 7 (number of observed failures) for an estimate of 44.0 days.</p></li>
-<li><p>Problem: small sample size.</p></li>
-</ul>
-</li>
-</ol>
-<p>The actual mean lifespan of all pieces of equipment was 38.8 days.</p>
+  <section class="tex2jax_ignore mathjax_ignore" id="probabilistic-programming-languages">
+<h1><span class="section-number">1. </span>Probabilistic programming languages<a class="headerlink" href="#probabilistic-programming-languages" title="Permalink to this headline">#</a></h1>
+<section id="graphical-models">
+<h2><span class="section-number">1.1. </span>Graphical Models<a class="headerlink" href="#graphical-models" title="Permalink to this headline">#</a></h2>
+<p>The original lecture is about thinking of Bayesian models as <a class="reference external" href="https://en.wikipedia.org/wiki/Directed_acyclic_graph">directed acyclic graphs</a> (DAGs). The professor talks a little bit about why they’re a useful way to think about the relationships between random variables, the Markovian property, and independence of nodes. I will add some more details here in the future, but it’s low-priority for now.</p>
+<p>He cites <em>Machine Learning: A Probabilistic Perspective</em>, which is the old version of <a class="reference external" href="https://probml.github.io/pml-book/"><em>Probabilistic Machine Learning: An Introduction</em></a> mentioned in the <a class="reference external" href="../unit1/Unit1-about-this-course.md#other-recommended-resources">other recommended resources</a> section.</p>
+<p>Starting with this unit, we will be using <a class="reference internal" href="../unit1/Unit1-software.html"><span class="doc std std-doc">Probabilistic Programming Languages</span></a> (PPLs) to run our models.</p>
 </section>
+<section id="pymc">
+<h2><span class="section-number">1.2. </span>PyMC<a class="headerlink" href="#pymc" title="Permalink to this headline">#</a></h2>
+<p>This site is currently using <a class="reference external" href="https://www.pymc.io/">PyMC</a> version 5. Please follow the instructions for your OS at the <a class="reference external" href="https://github.com/pymc-devs/pymc#installation">PyMC developers’ GitHub repository</a> when installing.</p>
+<p>I’m going to copy the practice of using the [watermark extension]
+(<a class="reference external" href="https://github.com/rasbt/watermark">https://github.com/rasbt/watermark</a>) as in the <a class="reference external" href="https://www.pymc.io/projects/examples/en/latest/gallery.html">PyMC Example Gallery</a> to show the exact versions I’m using.</p>
 </section>
-<section id="a-bayesian-approach">
-<h2>A Bayesian approach<a class="headerlink" href="#a-bayesian-approach" title="Permalink to this headline">#</a></h2>
-<p>We will right-censor the three machines that still hadn’t failed by August 31, following <a class="reference external" href="https://www.pymc.io/projects/examples/en/latest/generalized_linear_models/GLM-truncated-censored-regression.html">this example</a>.</p>
-<div class="cell tag_hide_output docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># gamma dist parameters</span>
-<span class="n">α</span> <span class="o">=</span> <span class="mf">0.01</span>
-<span class="n">β</span> <span class="o">=</span> <span class="mf">0.1</span>
-
-<span class="c1"># max possible observed life for each piece of equipment (before end of experiment)</span>
-<span class="n">censored</span> <span class="o">=</span> <span class="p">(</span><span class="mi">81</span><span class="p">,</span> <span class="mi">72</span><span class="p">,</span> <span class="mi">70</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">41</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">29</span><span class="p">,</span> <span class="mi">21</span><span class="p">)</span>
-
-<span class="c1"># observed life within experiment dates</span>
-<span class="n">y</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">72</span><span class="p">,</span> <span class="mi">51</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">33</span><span class="p">,</span> <span class="mi">27</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">24</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">21</span><span class="p">)</span>
-
-
-<span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">m</span><span class="p">:</span>
-    <span class="n">λ</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Gamma</span><span class="p">(</span><span class="s2">&quot;λ&quot;</span><span class="p">,</span> <span class="n">α</span><span class="p">,</span> <span class="n">β</span><span class="p">)</span>
-    <span class="n">μ</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;μ&quot;</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">λ</span><span class="p">)</span>
-    <span class="n">obs_latent</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Exponential</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="n">λ</span><span class="p">)</span>
-
-    <span class="n">observed</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Censored</span><span class="p">(</span>
-        <span class="s2">&quot;observed&quot;</span><span class="p">,</span> <span class="n">obs_latent</span><span class="p">,</span> <span class="n">lower</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">upper</span><span class="o">=</span><span class="n">censored</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
-    <span class="p">)</span>
-
-    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span>
-        <span class="mi">100000</span><span class="p">,</span>
-        <span class="n">chains</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
-        <span class="n">tune</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span>
-        <span class="n">cores</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
-        <span class="n">init</span><span class="o">=</span><span class="s2">&quot;jitter+adapt_diag&quot;</span><span class="p">,</span>
-        <span class="n">random_seed</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-        <span class="n">return_inferencedata</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Auto-assigning NUTS sampler...
-Initializing NUTS using jitter+adapt_diag...
-Multiprocess sampling (4 chains in 4 jobs)
-NUTS: [λ]
-</pre></div>
-</div>
-<div class="output text_html">
-<style>
-    /* Turns off some styling */
-    progress {
-        /* gets rid of default border in Firefox and Opera. */
-        border: none;
-        /* Needs to be in here for Safari polyfill so background images work as expected. */
-        background-size: auto;
-    }
-    progress:not([value]), progress:not([value])::-webkit-progress-bar {
-        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
-    }
-    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
-        background: #F44336;
-    }
-</style>
-</div><div class="output text_html">
-<div>
-  <progress value='440000' class='' max='440000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-  100.00% [440000/440000 00:43&lt;00:00 Sampling 4 chains, 0 divergences]
-</div>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 10_000 tune and 100_000 draw iterations (40_000 + 400_000 draws total) took 46 seconds.
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">hdi_prob</span><span class="o">=</span><span class="mf">0.95</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>mean</th>
-      <th>sd</th>
-      <th>hdi_2.5%</th>
-      <th>hdi_97.5%</th>
-      <th>mcse_mean</th>
-      <th>mcse_sd</th>
-      <th>ess_bulk</th>
-      <th>ess_tail</th>
-      <th>r_hat</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>λ</th>
-      <td>0.023</td>
-      <td>0.009</td>
-      <td>0.008</td>
-      <td>0.040</td>
-      <td>0.000</td>
-      <td>0.00</td>
-      <td>179821.0</td>
-      <td>220085.0</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>μ</th>
-      <td>51.253</td>
-      <td>22.961</td>
-      <td>19.073</td>
-      <td>95.122</td>
-      <td>0.056</td>
-      <td>0.04</td>
-      <td>179821.0</td>
-      <td>220085.0</td>
-      <td>1.0</td>
-    </tr>
-  </tbody>
-</table>
-</div></div></div>
-</div>
-<p>BUGS results:</p>
-<table class="colwidths-auto table">
-<thead>
-<tr class="row-odd"><th class="head"><p></p></th>
-<th class="head"><p>mean</p></th>
-<th class="head"><p>sd</p></th>
-<th class="head"><p>MC_error</p></th>
-<th class="head"><p>val2.5pc</p></th>
-<th class="head"><p>median</p></th>
-<th class="head"><p>val97.5pc</p></th>
-<th class="head"><p>start</p></th>
-<th class="head"><p>sample</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p>lambda</p></td>
-<td><p>0.02281</p></td>
-<td><p>0.0086</p></td>
-<td><p>3.66E-05</p></td>
-<td><p>0.009229</p></td>
-<td><p>0.02169</p></td>
-<td><p>0.04248</p></td>
-<td><p>1001</p></td>
-<td><p>100000</p></td>
-</tr>
-<tr class="row-odd"><td><p>mu</p></td>
-<td><p>51.07</p></td>
-<td><p>22.61</p></td>
-<td><p>0.1018</p></td>
-<td><p>23.54</p></td>
-<td><p>46.09</p></td>
-<td><p>108.4</p></td>
-<td><p>1001</p></td>
-<td><p>100000</p></td>
-</tr>
-<tr class="row-even"><td><p>observed[2]</p></td>
-<td><p>122.8</p></td>
-<td><p>60.45</p></td>
-<td><p>0.2442</p></td>
-<td><p>73.12</p></td>
-<td><p>103.5</p></td>
-<td><p>284.5</p></td>
-<td><p>1001</p></td>
-<td><p>100000</p></td>
-</tr>
-<tr class="row-odd"><td><p>observed[4]</p></td>
-<td><p>110.8</p></td>
-<td><p>59.93</p></td>
-<td><p>0.2145</p></td>
-<td><p>61.09</p></td>
-<td><p>91.81</p></td>
-<td><p>269.8</p></td>
-<td><p>1001</p></td>
-<td><p>100000</p></td>
-</tr>
-<tr class="row-even"><td><p>observed[10]</p></td>
-<td><p>72.01</p></td>
-<td><p>60.28</p></td>
-<td><p>0.2155</p></td>
-<td><p>22.13</p></td>
-<td><p>52.89</p></td>
-<td><p>232.6</p></td>
-<td><p>1001</p></td>
-<td><p>100000</p></td>
-</tr>
-</tbody>
-</table>
-<p>Okay, these results are pretty close. We end up with <span class="math notranslate nohighlight">\(1/.023=43.5\)</span> days, compared to <span class="math notranslate nohighlight">\(43.8\)</span> days for BUGS. But we’re missing the imputed values for each censored observation. We could get those using the imputed censoring method in <a class="reference external" href="https://areding.github.io/6420-pymc/unit8/tte--gastric.html#method-2-imputed-censoring">this example</a>.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">watermark</span> -n -u -v -iv -p aesara,aeppl
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Fri Feb 03 2023
-
-Python implementation: CPython
-Python version       : 3.11.0
-IPython version      : 8.9.0
-
-aesara: 2.8.10
-aeppl : 0.1.1
-
-numpy     : 1.24.1
-arviz     : 0.14.0
-matplotlib: 3.6.3
-pymc      : 5.0.1
-</pre></div>
-</div>
-</div>
-</div>
+<section id="links">
+<h2><span class="section-number">1.3. </span>Links<a class="headerlink" href="#links" title="Permalink to this headline">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://danmackinlay.name/notebook/probabilistic_programming.html">An overview of various PPLs</a>, last updated February 2022.</p></li>
+<li><p><a class="reference external" href="https://en.wikipedia.org/wiki/Probabilistic_programming">Wikipedia on PPLs</a>.</p></li>
+<li><p><a class="reference external" href="https://bayesiancomputationbook.com/markdown/chp_10.html">Chapter 10 of <em>Bayesian Modeling and Computation in Python</em></a>: A look at what goes into creating a PPL and the moving parts involved.</p></li>
+</ul>
+</section>
+<section id="missing-example">
+<h2><span class="section-number">1.4. </span>Missing example<a class="headerlink" href="#missing-example" title="Permalink to this headline">#</a></h2>
+<p>In the original unit 6 code archive, there’s a file called <code class="docutils literal notranslate"><span class="pre">DeMere.odc</span></code> that doesn’t seem to have anything to do with the rest of the unit. You can find a Python implementation <a class="reference external" href="https://areding.github.io/6420-pymc/original_examples/stuff/Unit3-DeMere.ipynb">here</a> (right-click and Save Link As…).</p>
 </section>
 </section>
 
@@ -1280,17 +936,17 @@ pymc      : 5.0.1
                 
     <!-- Previous / next buttons -->
 <div class='prev-next-area'>
-    <a class='left-prev' id="prev-link" href="Unit6-equivalence.html" title="previous page">
+    <a class='left-prev' id="prev-link" href="../unit5/other-methods.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">Equivalence of generic and brand-name drugs</p>
+            <p class="prev-next-title">Other methods</p>
         </div>
     </a>
-    <a class='right-next' id="next-link" href="Unit6-psoriasis.html" title="next page">
+    <a class='right-next' id="next-link" href="Unit6-doodlebug.html" title="next page">
     <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Psoriasis: two-sample problem with paired data</p>
+        <p class="prev-next-title"><span class="section-number">2. </span>Creating a Graphical Model</p>
     </div>
     <i class="fas fa-angle-right"></i>
     </a>

@@ -368,43 +368,58 @@ const thebe_selector_output = ".output, .cell_output"
 </p>
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
-  <a class="reference internal" href="../unit6/probabilistic-programming.html">
-   Probabilistic programming languages
+  <a class="reference internal" href="../unit6/Unit6-probabilisticprogramming.html">
+   1. Probabilistic programming languages
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../unit6/Unit6-cheese.html">
-   Taste of cheese
+  <a class="reference internal" href="../unit6/Unit6-doodlebug.html">
+   2. Creating a Graphical Model
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../unit6/Unit6-dugongs.html">
-   Dugongs
+  <a class="reference internal" href="../unit6/Unit6-demo-doodle.html">
+   3. Demo—Manually Compiling a Joint Probability Graph
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../unit6/Unit6-equivalence.html">
-   Equivalence of generic and brand-name drugs
+  <a class="reference internal" href="../unit6/Unit6-moreaboutpymc.html">
+   4. More About PyMC
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../unit6/Unit6-exponential.html">
-   Bartholomew (1957) for type-1 censoring
+  <a class="reference internal" href="../unit6/Unit6-demo-stressacids.html">
+   5. Stress, diet, and plasma acids
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../unit6/Unit6-psoriasis.html">
-   Psoriasis: two-sample problem with paired data
+  <a class="reference internal" href="../unit6/Unit6-demo-dugongs.html">
+   6. Dugongs
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../unit6/Unit6-stressacids.html">
-   Stress, diet, and plasma acids
+  <a class="reference internal" href="../unit6/Unit6-demo-equivalence.html">
+   7. Equivalence of generic and brand-name drugs
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../unit6/Unit6-zerotrickJeremy.html">
-   Zero trick Jeremy
+  <a class="reference internal" href="../unit6/Unit6-demo-psoriasis.html">
+   8. Psoriasis: two-sample problem with paired data
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../unit6/Unit6-demo-cheese.html">
+   9. Taste of cheese
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../unit6/Unit6-demo-bartholomew.html">
+   10. Bartholomew (1957) for type-1 censoring
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../unit6/Unit6-demo-zerotrickJeremy.html">
+   11. Zero trick Jeremy
   </a>
  </li>
 </ul>
@@ -855,7 +870,6 @@ title="Print to PDF"
 <span class="kn">from</span> <span class="nn">pgmpy.models</span> <span class="kn">import</span> <span class="n">BayesianNetwork</span>
 
 <span class="o">%</span><span class="k">load_ext</span> lab_black
-<span class="o">%</span><span class="k">load_ext</span> watermark
 </pre></div>
 </div>
 </div>
@@ -981,17 +995,22 @@ P(M|C) (0-indexed, so Machine 1 is listed as Machine(0) and so on):
 <p>Note that this doesn’t exactly match the BUGS results in U3L5, because BUGS is sampling from random variables rather than performing exact calculations.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">watermark</span> -n -u -v -iv
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">load_ext</span> watermark
+<span class="o">%</span><span class="k">watermark</span> -n -u -v -iv -p pgmpy
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Python implementation: CPython
-Python version       : 3.10.4
-IPython version      : 8.4.0
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Sat Mar 18 2023
 
-networkx  : 2.8.3
-matplotlib: 3.5.2
+Python implementation: CPython
+Python version       : 3.8.16
+IPython version      : 8.11.0
+
+pgmpy: 0.1.21
+
+matplotlib: 3.7.0
+networkx  : 3.0
 </pre></div>
 </div>
 </div>
