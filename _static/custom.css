@@ -1,0 +1,44 @@
+/*
+* @Author: Aaron Reding
+* @Date:   2023-03-18 23:51:32
+* @Last Modified by:   areding
+* @Last Modified time: 2023-03-19 02:16:25
+*/
+
+/* Define light and dark mode colors */
+:root {
+  --table-row-bg-color: #f2f2f2; /* Light mode color */
+}
+
+:root[data-theme='dark'] {
+  --table-row-bg-color: #3a3a3a; /* Dark mode color */
+}
+
+.table td:first-child {
+  font-weight: bold;
+}
+
+.table tr:nth-child(odd) td {
+  background-color: var(--table-row-bg-color);
+}
+
+.table thead th {
+  font-weight: bold;
+  text-align: right;
+  padding: 0.2em 0.5em;
+  border-bottom: 1px solid #000; /* Change this to the desired color and thickness of the black line */
+}
+
+.table tbody td {
+  text-align: right;
+  padding: 0.1em 0.5em; /* Reduce vertical padding */
+  border: none; /* Remove the extra grey line */
+}
+
+.dataframe tbody td {
+  padding: 0.1em 0.5em; /* Reduce vertical padding */
+}
+
+.dataframe {
+  font-size: 95% !important;
+}

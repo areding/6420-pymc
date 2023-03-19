@@ -24,7 +24,7 @@ Development of BUGS, or at least PPLs that use BUGS scripts, has continued!
 
 [JAGS](https://mcmc-jags.sourceforge.io/) is also based on the BUGS scripting language. The latest release was April 2022. Greg has many of the lecture examples in JAGS available for download [here](https://www2.isye.gatech.edu/isye6420/Bank/rjags_final.zip).
 
-[NIMBLE]https://r-nimble.org/) seems really nice. If, like me, you're using a ARM-based Mac, this is the easiest way I've found to get going with BUGS models since it's just an R package with no need to download anything separately. The latest release was in December 2022.
+[NIMBLE](https://r-nimble.org/) seems really nice. If, like me, you're using a ARM-based Mac, this is the easiest way I've found to get going with BUGS models since it's just an R package with no need to download anything separately. The latest release was in December 2022.
 
 ### The wider PPL ecosystem
 
