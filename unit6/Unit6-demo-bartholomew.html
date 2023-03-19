@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>10. Bartholomew (1957) for type-1 censoring &#8212; ISYE 6420 - BUGS to PyMC</title>
+    <title>10. Demo—Bartholomew (1957) for Type-1 Censoring &#8212; ISYE 6420 - BUGS to PyMC</title>
   
   
   
@@ -68,8 +68,8 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="11. Zero trick Jeremy" href="Unit6-demo-zerotrickJeremy.html" />
-    <link rel="prev" title="9. Taste of cheese" href="Unit6-demo-cheese.html" />
+    <link rel="next" title="11. Demo—Zero-trick Jeremy" href="Unit6-demo-zerotrickJeremy.html" />
+    <link rel="prev" title="9. Demo—Taste of Cheese" href="Unit6-demo-cheese.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -222,17 +222,17 @@ const thebe_selector_output = ".output, .cell_output"
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Unit 6</span></p>
 <ul class="current nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="Unit6-probabilisticprogramming.html">1. Probabilistic programming languages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Unit6-probabilisticprogramming.html">1. Probabilistic Programming Languages</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Unit6-doodlebug.html">2. Creating a Graphical Model</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Unit6-demo-doodle.html">3. Demo—Manually Compiling a Joint Probability Graph</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Unit6-moreaboutpymc.html">4. More About PyMC</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Unit6-demo-stressacids.html">5. Stress, diet, and plasma acids</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Unit6-demo-dugongs.html">6. Dugongs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Unit6-demo-equivalence.html">7. Equivalence of generic and brand-name drugs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Unit6-demo-psoriasis.html">8. Psoriasis: two-sample problem with paired data</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Unit6-demo-cheese.html">9. Taste of cheese</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">10. Bartholomew (1957) for type-1 censoring</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Unit6-demo-zerotrickJeremy.html">11. Zero trick Jeremy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Unit6-demo-stressacids.html">5. Demo—Stress, Diet, and Plasma acids</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Unit6-demo-dugongs.html">6. Demo—Dugongs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Unit6-demo-equivalence.html">7. Demo—Equivalence of generic and brand-name drugs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Unit6-demo-psoriasis.html">8. Demo—Psoriasis: Two-sample Problem with Paired Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Unit6-demo-cheese.html">9. Demo—Taste of Cheese</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">10. Demo—Bartholomew (1957) for Type-1 Censoring</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Unit6-demo-zerotrickJeremy.html">11. Demo—Zero-trick Jeremy</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Unit 7</span></p>
 <ul class="nav bd-sidenav">
@@ -499,7 +499,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Bartholomew (1957) for type-1 censoring</h1>
+    <h1>Demo—Bartholomew (1957) for Type-1 Censoring</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -535,8 +535,8 @@ document.write(`
 </div>
 </div>
 </div>
-<section class="tex2jax_ignore mathjax_ignore" id="bartholomew-1957-for-type-1-censoring">
-<h1><span class="section-number">10. </span>Bartholomew (1957) for type-1 censoring<a class="headerlink" href="#bartholomew-1957-for-type-1-censoring" title="Permalink to this headline">#</a></h1>
+<section class="tex2jax_ignore mathjax_ignore" id="demobartholomew-1957-for-type-1-censoring">
+<h1><span class="section-number">10. </span>Demo—Bartholomew (1957) for Type-1 Censoring<a class="headerlink" href="#demobartholomew-1957-for-type-1-censoring" title="Permalink to this headline">#</a></h1>
 <p>This is our first introduction to censoring.</p>
 <p>It is adapted from <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/original_examples/Codes4Unit6/exponential1.odc">Unit 6: exponential1.odc</a>.</p>
 <p>Dataset and table from: <a class="reference external" href="https://www.jstor.org/stable/2280905?seq=1#metadata_info_tab_contents">A Problem in Life Testing (Bartholemew 1957)</a>.</p>
@@ -676,9 +676,7 @@ Initializing NUTS using jitter+adapt_diag...
 Initializing NUTS using jitter+adapt_diag...
 Multiprocess sampling (4 chains in 4 jobs)
 NUTS: [λ]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 5_000 draw iterations (4_000 + 20_000 draws total) took 1 seconds.
+Sampling 4 chains for 1_000 tune and 5_000 draw iterations (4_000 + 20_000 draws total) took 1 seconds.
 Chain &lt;xarray.DataArray &#39;chain&#39; ()&gt;
 array(0)
 Coordinates:
@@ -892,7 +890,7 @@ arviz: 0.14.0
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title"><span class="section-number">9. </span>Taste of cheese</p>
+        <p class="prev-next-title"><span class="section-number">9. </span>Demo—Taste of Cheese</p>
       </div>
     </a>
     <a class="right-next"
@@ -900,7 +898,7 @@ arviz: 0.14.0
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title"><span class="section-number">11. </span>Zero trick Jeremy</p>
+        <p class="prev-next-title"><span class="section-number">11. </span>Demo—Zero-trick Jeremy</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
