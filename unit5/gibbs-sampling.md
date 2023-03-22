@@ -1,2 +1,2 @@
-# Gibbs sampling
+# Gibbs Sampling
 

@@ -1,4 +1,4 @@
-# Other methods
+# 17. Going Further
 
 These are not currently part of the course, but I would love to dive into them eventually!
 

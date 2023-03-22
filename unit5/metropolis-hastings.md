@@ -1,2 +1,2 @@
-# Metropolis-Hastings algorithm
+# The Metropolis Algorithm
 
