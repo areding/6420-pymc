@@ -1,0 +1,1638 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>15. GLM Examples* &#8212; ISYE 6420 - BUGS to PyMC</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/proof.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'unit7/Unit7-arrhythmia';</script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="16. Multinomial Logit" href="Unit7-multinomial.html" />
+    <link rel="prev" title="14. Generalized Linear Models" href="Unit7-other.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo4.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../_static/logo4.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Introduction
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Unit 1</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../unit1/Unit1-about-this-course.html">1. About This Course and Website</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit1/Unit1-topics.html">2. Topics Covered</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit1/Unit1-software.html">3. Software</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit1/Unit1-simple-regression.html">4. A Simple Regression*</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Unit 2</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../unit2/Unit2-history.html">1. History of Bayesian Statistics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit2/Unit2-history2.html">2. Historic Overview Links</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit2/Unit2-bayesianvsclassical.html">3. Bayesian vs. Frequentist</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit2/Unit2-10flips.html">4. 10 Coin Flips*</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit2/Unit2-fda.html">5. FDA Recommendations</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Unit 3</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../unit3/Unit3-NecessaryProbability.html">1. A Review of Necessary Probability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit3/Unit3-conditioning1.html">2. Conditioning, Part 1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit3/Unit3-conditioning2.html">3. Conditioning, Part 2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit3/Unit3-Bayes-theorem.html">4. Bayes’ Theorem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit3/Unit3-ManufacturingBayes.html">5. Manufacturing Bayes*</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit3/Unit3-TwoHeadedCoin.html">6. Two-headed Coin*</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit3/Unit3-bayesnetworks.html">7. Bayes Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit3/Unit3-Alarm.html">8. Alarm*</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit3/Unit3-Emily.html">9. Supplementary Problem—Emily’s Vacation*</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Unit 4</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../unit4/bayesian-inference.html">Bayesian inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit4/Unit4-AlphaParticles.html">Counts of Alpha Particles*</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit4/Unit4-BetaPriors.html">Beta Plots*</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit4/Unit4-GammaGamma.html">Gamma Gamma*</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit4/Unit4-eBay.html">eBay Purchase Example*</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Unit 5</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../unit5/bayesian-computation.html">Bayesian computation</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../unit5/LaplacesMethod.html">Laplace’s method</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../unit5/metropolis-hastings.html">Metropolis-Hastings algorithm</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../unit5/MetropolisHastings.html">Normal-Cauchy example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit5/MetropolisHastings2.html">Weibull lifetimes</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../unit5/gibbs-sampling.html">Gibbs sampling</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../unit5/GibbsSampler.html">Normal-Cauchy Gibbs sampler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit5/PumpsMCMC.html">Pumps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit5/Gibbs3.html">Disasters</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../unit5/hamiltonian.html">Hamiltonian Monte Carlo</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../unit5/ham-example1.html">Example 1</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../unit5/other-methods.html">Other methods</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul class="simple">
+</ul>
+</li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Unit 6</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../unit6/Unit6-probabilisticprogramming.html">1. Probabilistic Programming Languages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit6/Unit6-doodlebug.html">2. Creating a Graphical Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit6/Unit6-demo-doodle.html">3. Demo—Manually Compiling a Joint Probability Graph</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit6/Unit6-moreaboutpymc.html">4. More About PyMC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit6/Unit6-demo-stressacids.html">5. Stress, Diet, and Plasma Acids*</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit6/Unit6-demo-dugongs.html">6. Dugongs*</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit6/Unit6-demo-equivalence.html">7. Equivalence of Generic and Brand-name Drugs*</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit6/Unit6-demo-psoriasis.html">8. Psoriasis: Two-sample Problem with Paired Data*</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit6/Unit6-demo-cheese.html">9. Taste of Cheese*</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit6/Unit6-demo-bartholomew.html">10. Bartholomew (1957) for Type-1 Censoring*</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit6/Unit6-demo-zerotrickJeremy.html">11. Zero-trick Jeremy*</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Unit 7</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="hierarchical.html">Hierarchical Models</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="Unit7-introduction.html">1. Introduction to Hierarchical Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Unit7-why.html">2. Reasons to Use Hierarchical Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Unit7-priors.html">3. Priors with Structural Information</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Unit7-hiddenmixtures.html">4. Priors as Hidden Mixtures*</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Unit7-metaanalysis.html">5. Meta-analysis via Hierarchical Models*</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="linearmodels.html">Linear Models</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="Unit7-anova.html">6. Analysis of Variance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Unit7-coagulation.html">7. Coagulation*</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Unit7-factorial.html">8. Factorial Designs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Unit7-demo-factorial.html">9. Simvastatin*</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Unit7-regression.html">10. Linear Regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Unit7-demo-regression.html">11. Brozek index prediction*</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Unit7-multipleregression.html">12. Multiple Regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Unit7-demo-multiple.html">13. Multiple Regression: Brozek Index Prediction*</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="othermodels.html">Other Models</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="Unit7-other.html">14. Generalized Linear Models</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">15. GLM Examples*</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Unit7-multinomial.html">16. Multinomial Logit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Unit7-demo-multinomial.html">17. Multinomial regression*</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Unit7-multilevel.html">18. Multilevel Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Unit7-demo-multilevel.html">19. Paraguay Vaccination Status*</a></li>
+</ul>
+</li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Unit 8</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../unit8/missing.html">Missing data</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-9"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../unit8/miss-rats.html">Rats</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../unit8/timetoevent.html">Time-to-event models</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-10"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../unit8/tte--gastric.html">Gastric cancer example</a></li>
+</ul>
+</li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Unit 9</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../unit9/fit-selection-diagnostics.html">Model fit, selection, and diagnostics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-cumulative2.html">Priors as hidden mixtures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-deviances.html">Deviance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-gessell.html">Gesell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-hald.html">Hald</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Unit 10</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../unit10/Unit10-disasters.html">Revisiting UK coal mining disasters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit10/Unit10-growth.html">Dental development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit10/Unit10-italywines123.html">Wine classification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit10/Unit10-katla.html">Predicting using censored data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit10/Unit10-lister.html">Lister</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit10/Unit10-magnesiumTW.html">Magnesium for myocardial infarction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit10/Unit10-rasch.html">Rasch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit10/Unit10-sunspots.html">Prediction of time series</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/areding/6420-pymc/blob/main/unit7/Unit7-arrhythmia.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch onColab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img src="../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/areding/6420-pymc" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/areding/6420-pymc/issues/new?title=Issue%20on%20page%20%2Funit7/Unit7-arrhythmia.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/unit7/Unit7-arrhythmia.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>15. GLM Examples*</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#arrhythmia">Arrhythmia</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ants">Ants</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <div class="cell tag_hide-output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">arviz</span> <span class="k">as</span> <span class="nn">az</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pymc</span> <span class="k">as</span> <span class="nn">pm</span>
+<span class="kn">from</span> <span class="nn">pymc.math</span> <span class="kn">import</span> <span class="n">log</span><span class="p">,</span> <span class="n">dot</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="o">%</span><span class="k">load_ext</span> lab_black
+</pre></div>
+</div>
+</div>
+</div>
+<section class="tex2jax_ignore mathjax_ignore" id="glm-examples">
+<h1>15. GLM Examples*<a class="headerlink" href="#glm-examples" title="Permalink to this headline">#</a></h1>
+<section id="arrhythmia">
+<h2>Arrhythmia<a class="headerlink" href="#arrhythmia" title="Permalink to this headline">#</a></h2>
+<p>A logistic regression example.</p>
+<p>Adapted from <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/original_examples/Codes4Unit7/arrhythmia.odc">Unit 7: arrhythmia.odc</a>.</p>
+<p>Data can be found <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/data/arrhythmia.csv">here</a>.</p>
+<p>Patients who undergo Coronary Artery Bypass Graft Surgery (CABG) have an approximate 19-40% chance of developing atrial fibrillation (AF). AF can lead to blood clots forming causing greater in-hospital mortality, strokes, and longer hospital stays. While this can be prevented with drugs, it is very expensive and sometimes dangerous if not warranted. Ideally, several risk factors which would indicate an increased risk of developing AF in this population could save lives and money by indicating which patients need pharmacological intervention. Researchers began collecting data from CABG patients during their hospital stay such as demographics like age and sex, as well as heart rate, cholesterol, operation time, etc… Then, the researchers recorded which patients developed AF during their hospital stay. Researchers now want to find those pieces of data which indicate high risk of AF. In the past, indicators like age, hypertension, and body surface area (BSA) have been good indicators, though these alone have not produced a satisfactory solution.</p>
+<p>Fibrillation occurs when the heart muscle begins a quivering motion instead of a normal, healthy pumping rhythm. Fibrillation can affect the atrium (atrial fibrillation) or the ventricle (ventricular  fibrillation); ventricular fibrillation is imminently life threatening.</p>
+<p>Atrial fibrillation is the quivering, chaotic motion in the upper chambers of the heart, known as the atria. Atrial fibrillation is often due to serious underlying medical conditions, and should be evaluated by a physician. It is not typically a medical emergency.</p>
+<p>Ventricular fibrillation occurs in the ventricles (lower chambers) of the heart; it is always a medical emergency. If left untreated, ventricular fibrillation (VF, or V-fib) can lead to death within minutes. When a heart goes into V-fib, effective pumping of the blood stops. V-fib is considered a form of cardiac arrest, and an individual suffering from it will not survive unless cardiopulmonary resuscitation (CPR) and defibrillation are provided immediately.</p>
+<p>DATA Arrhythmia</p>
+<ul class="simple">
+<li><p>Y = Fibrillation</p></li>
+<li><p>X1 = Age</p></li>
+<li><p>X2 = Aortic Cross Clamp Time</p></li>
+<li><p>X3 = Cardiopulmonary Bypass Time:</p>
+<ul>
+<li><p>Bypass of the heart and lungs as, for example, in open heart surgery. Blood returning to the heart is diverted through a heart-lung machine (a pump-oxygenator) before returning it to the arterial circulation. The machine does the work both of the heart (pump blood) and the lungs (supply oxygen to red blood cells).</p></li>
+</ul>
+</li>
+<li><p>X4 = ICU Time	(Intensive Care Unit)</p></li>
+<li><p>X5 = Avg Heart Rate</p></li>
+<li><p>X6 = Left Ventricle Ejection Fraction</p></li>
+<li><p>X7 = Hypertension</p></li>
+<li><p>X8 = Gender [1 -Female; 0-Male]</p></li>
+<li><p>X9 = Diabetis</p></li>
+<li><p>X10 = Previous MI</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;../data/arrhythmia.csv&quot;</span><span class="p">)</span>
+<span class="n">data_df</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">data_df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+<span class="c1"># add intercept column to X</span>
+<span class="n">X_aug</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">)),</span> <span class="n">X</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">data_df</span><span class="p">[</span><span class="s2">&quot;Fibrillation&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+RangeIndex: 81 entries, 0 to 80
+Data columns (total 11 columns):
+ #   Column                         Non-Null Count  Dtype  
+---  ------                         --------------  -----  
+ 0   Fibrillation                   81 non-null     float64
+ 1   Age                            81 non-null     float64
+ 2   AorticCrossClampTime           81 non-null     float64
+ 3   CardiopulmonaryBypassTime      81 non-null     float64
+ 4   ICUTime                        81 non-null     float64
+ 5   AvgHeartRate                   81 non-null     float64
+ 6   LeftVentricleEjectionFraction  81 non-null     float64
+ 7   Hypertension                   81 non-null     float64
+ 8   Gender                         81 non-null     float64
+ 9   Diabetes                       81 non-null     float64
+ 10  PreviousMI                     81 non-null     float64
+dtypes: float64(11)
+memory usage: 7.1 KB
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_hide-output docutils container">
+<div class="cell_input above-output-prompt docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">m</span><span class="p">:</span>
+    <span class="n">X_data</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Data</span><span class="p">(</span><span class="s2">&quot;X_data&quot;</span><span class="p">,</span> <span class="n">X_aug</span><span class="p">,</span> <span class="n">mutable</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">y_data</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Data</span><span class="p">(</span><span class="s2">&quot;y_data&quot;</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">mutable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="n">betas</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;beta&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">p</span> <span class="o">=</span> <span class="n">dot</span><span class="p">(</span><span class="n">X_data</span><span class="p">,</span> <span class="n">betas</span><span class="p">)</span>
+
+    <span class="n">lik</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Bernoulli</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="n">logit_p</span><span class="o">=</span><span class="n">p</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">y_data</span><span class="p">)</span>
+
+    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">5000</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<details class="hide below-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell output</span>
+<span class="expanded">Hide code cell output</span>
+</summary>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Auto-assigning NUTS sampler...
+Initializing NUTS using jitter+adapt_diag...
+Multiprocess sampling (4 chains in 4 jobs)
+NUTS: [beta]
+</pre></div>
+</div>
+<div class="output text_html">
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    progress:not([value]), progress:not([value])::-webkit-progress-bar {
+        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div><div class="output text_html">
+    <div>
+      <progress value='24000' class='' max='24000' style='width:300px; height:20px; vertical-align: middle;'></progress>
+      100.00% [24000/24000 00:18&lt;00:00 Sampling 4 chains, 0 divergences]
+    </div>
+    </div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 5_000 draw iterations (4_000 + 20_000 draws total) took 18 seconds.
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">hdi_prob</span><span class="o">=</span><span class="mf">0.95</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mean</th>
+      <th>sd</th>
+      <th>hdi_2.5%</th>
+      <th>hdi_97.5%</th>
+      <th>mcse_mean</th>
+      <th>mcse_sd</th>
+      <th>ess_bulk</th>
+      <th>ess_tail</th>
+      <th>r_hat</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>beta[0]</th>
+      <td>-13.133</td>
+      <td>4.970</td>
+      <td>-23.136</td>
+      <td>-3.628</td>
+      <td>0.057</td>
+      <td>0.041</td>
+      <td>7634.0</td>
+      <td>9899.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>beta[1]</th>
+      <td>0.188</td>
+      <td>0.049</td>
+      <td>0.097</td>
+      <td>0.288</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>12150.0</td>
+      <td>11195.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>beta[2]</th>
+      <td>0.033</td>
+      <td>0.026</td>
+      <td>-0.017</td>
+      <td>0.083</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>8683.0</td>
+      <td>11167.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>beta[3]</th>
+      <td>-0.024</td>
+      <td>0.016</td>
+      <td>-0.057</td>
+      <td>0.006</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>9518.0</td>
+      <td>11801.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>beta[4]</th>
+      <td>-0.154</td>
+      <td>0.096</td>
+      <td>-0.341</td>
+      <td>0.033</td>
+      <td>0.001</td>
+      <td>0.001</td>
+      <td>19132.0</td>
+      <td>14358.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>beta[5]</th>
+      <td>0.007</td>
+      <td>0.032</td>
+      <td>-0.055</td>
+      <td>0.070</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>12093.0</td>
+      <td>12380.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>beta[6]</th>
+      <td>0.025</td>
+      <td>0.028</td>
+      <td>-0.029</td>
+      <td>0.080</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>12060.0</td>
+      <td>13797.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>beta[7]</th>
+      <td>-0.655</td>
+      <td>0.674</td>
+      <td>-1.997</td>
+      <td>0.659</td>
+      <td>0.005</td>
+      <td>0.004</td>
+      <td>19381.0</td>
+      <td>14834.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>beta[8]</th>
+      <td>-0.332</td>
+      <td>0.687</td>
+      <td>-1.641</td>
+      <td>1.060</td>
+      <td>0.005</td>
+      <td>0.005</td>
+      <td>20494.0</td>
+      <td>13634.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>beta[9]</th>
+      <td>1.324</td>
+      <td>0.692</td>
+      <td>-0.010</td>
+      <td>2.687</td>
+      <td>0.006</td>
+      <td>0.004</td>
+      <td>13682.0</td>
+      <td>13919.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>beta[10]</th>
+      <td>0.403</td>
+      <td>0.699</td>
+      <td>-0.960</td>
+      <td>1.811</td>
+      <td>0.006</td>
+      <td>0.004</td>
+      <td>14823.0</td>
+      <td>14182.0</td>
+      <td>1.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="ants">
+<h2>Ants<a class="headerlink" href="#ants" title="Permalink to this headline">#</a></h2>
+<p>An example of Poisson regression.</p>
+<p>Data can be found <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/data/ants.csv">here</a>.</p>
+<p>Adapted from <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/original_examples/Codes4Unit7/ants.odc">Unit 7: ants.odc</a>.</p>
+<p>The data discussed in Gotelli and Ellison (2002) provide the ant species richness (number of ant species) found in 64-square-meter sampling grids in 22 forests (coded as 1) and 22 bogs (coded as 2) surrounding the forests in  Connecticut, Massachusetts, and Vermont. The sites span 3Ê• of latitude in New England. There are 44 observations on four variables (columns in data set):</p>
+<ul class="simple">
+<li><p>Ants: number of species,</p></li>
+<li><p>Habitat: forests (1) and bogs (2),</p></li>
+<li><p>Latitude</p></li>
+<li><p>Elevation: in meters above sea level.</p></li>
+</ul>
+<p>(a) Using Poisson regression, model the number of ant species (Ants) with covariates Habitat and Elevation.<br />
+(b) For a sampling grid unit located in a forest at the elevation of 100 m how many species the model from (a) predicts? For the model coefficients and the prediction report 95% credible  sets.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;../data/ants.csv&quot;</span><span class="p">)</span>
+<span class="n">data</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+RangeIndex: 44 entries, 0 to 43
+Data columns (total 3 columns):
+ #   Column     Non-Null Count  Dtype
+---  ------     --------------  -----
+ 0   ants       44 non-null     int64
+ 1   habitat    44 non-null     int64
+ 2   elevation  44 non-null     int64
+dtypes: int64(3)
+memory usage: 1.2 KB
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_hide-output docutils container">
+<div class="cell_input above-output-prompt docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">m</span><span class="p">:</span>
+    <span class="n">ant_species</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Data</span><span class="p">(</span><span class="s2">&quot;ant_species&quot;</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;ants&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(),</span> <span class="n">mutable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">habitat</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Data</span><span class="p">(</span><span class="s2">&quot;habitat&quot;</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;habitat&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(),</span> <span class="n">mutable</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">elevation</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Data</span><span class="p">(</span><span class="s2">&quot;elevation&quot;</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;elevation&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(),</span> <span class="n">mutable</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">beta0</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;beta0_intercept&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">)</span>
+    <span class="n">beta1</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;beta1_habitat&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">)</span>
+    <span class="n">beta2</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;beta2_elevation&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">)</span>
+
+    <span class="n">μ</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">beta0</span> <span class="o">+</span> <span class="n">beta1</span> <span class="o">*</span> <span class="n">habitat</span> <span class="o">+</span> <span class="n">beta2</span> <span class="o">*</span> <span class="n">elevation</span><span class="p">)</span>
+
+    <span class="n">y</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Poisson</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">μ</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">ant_species</span><span class="p">)</span>
+
+    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">5000</span><span class="p">,</span> <span class="n">tune</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="s2">&quot;adapt_diag&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<details class="hide below-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell output</span>
+<span class="expanded">Hide code cell output</span>
+</summary>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Auto-assigning NUTS sampler...
+Initializing NUTS using adapt_diag...
+Multiprocess sampling (4 chains in 4 jobs)
+NUTS: [beta0_intercept, beta1_habitat, beta2_elevation]
+</pre></div>
+</div>
+<div class="output text_html">
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    progress:not([value]), progress:not([value])::-webkit-progress-bar {
+        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div><div class="output text_html">
+    <div>
+      <progress value='28000' class='' max='28000' style='width:300px; height:20px; vertical-align: middle;'></progress>
+      100.00% [28000/28000 00:05&lt;00:00 Sampling 4 chains, 0 divergences]
+    </div>
+    </div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 2_000 tune and 5_000 draw iterations (8_000 + 20_000 draws total) took 5 seconds.
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mean</th>
+      <th>sd</th>
+      <th>hdi_3%</th>
+      <th>hdi_97%</th>
+      <th>mcse_mean</th>
+      <th>mcse_sd</th>
+      <th>ess_bulk</th>
+      <th>ess_tail</th>
+      <th>r_hat</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>beta0_intercept</th>
+      <td>3.168</td>
+      <td>0.186</td>
+      <td>2.808</td>
+      <td>3.511</td>
+      <td>0.002</td>
+      <td>0.001</td>
+      <td>7699.0</td>
+      <td>8786.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>beta1_habitat</th>
+      <td>-0.636</td>
+      <td>0.119</td>
+      <td>-0.858</td>
+      <td>-0.411</td>
+      <td>0.001</td>
+      <td>0.001</td>
+      <td>8088.0</td>
+      <td>8822.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>beta2_elevation</th>
+      <td>-0.001</td>
+      <td>0.000</td>
+      <td>-0.002</td>
+      <td>-0.001</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>10210.0</td>
+      <td>9781.0</td>
+      <td>1.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell tag_hide-output docutils container">
+<div class="cell_input above-output-prompt docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># prediction</span>
+<span class="k">with</span> <span class="n">m</span><span class="p">:</span>
+    <span class="n">pm</span><span class="o">.</span><span class="n">set_data</span><span class="p">({</span><span class="s2">&quot;habitat&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;elevation&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">100</span><span class="p">]})</span>
+    <span class="n">ppc</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample_posterior_predictive</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">predictions</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<details class="hide below-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell output</span>
+<span class="expanded">Hide code cell output</span>
+</summary>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling: [y]
+</pre></div>
+</div>
+<div class="output text_html">
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    progress:not([value]), progress:not([value])::-webkit-progress-bar {
+        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div><div class="output text_html">
+    <div>
+      <progress value='20000' class='' max='20000' style='width:300px; height:20px; vertical-align: middle;'></progress>
+      100.00% [20000/20000 00:00&lt;00:00]
+    </div>
+    </div></div>
+</details>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ppc</span><span class="o">.</span><span class="n">predictions</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div><svg style="position: absolute; width: 0; height: 0; overflow: hidden">
+<defs>
+<symbol id="icon-database" viewBox="0 0 32 32">
+<path d="M16 0c-8.837 0-16 2.239-16 5v4c0 2.761 7.163 5 16 5s16-2.239 16-5v-4c0-2.761-7.163-5-16-5z"></path>
+<path d="M16 17c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
+<path d="M16 26c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
+</symbol>
+<symbol id="icon-file-text2" viewBox="0 0 32 32">
+<path d="M28.681 7.159c-0.694-0.947-1.662-2.053-2.724-3.116s-2.169-2.030-3.116-2.724c-1.612-1.182-2.393-1.319-2.841-1.319h-15.5c-1.378 0-2.5 1.121-2.5 2.5v27c0 1.378 1.122 2.5 2.5 2.5h23c1.378 0 2.5-1.122 2.5-2.5v-19.5c0-0.448-0.137-1.23-1.319-2.841zM24.543 5.457c0.959 0.959 1.712 1.825 2.268 2.543h-4.811v-4.811c0.718 0.556 1.584 1.309 2.543 2.268zM28 29.5c0 0.271-0.229 0.5-0.5 0.5h-23c-0.271 0-0.5-0.229-0.5-0.5v-27c0-0.271 0.229-0.5 0.5-0.5 0 0 15.499-0 15.5 0v7c0 0.552 0.448 1 1 1h7v19.5z"></path>
+<path d="M23 26h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+<path d="M23 22h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+<path d="M23 18h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+</symbol>
+</defs>
+</svg>
+<style>/* CSS stylesheet for displaying xarray objects in jupyterlab.
+ *
+ */
+
+:root {
+  --xr-font-color0: var(--jp-content-font-color0, rgba(0, 0, 0, 1));
+  --xr-font-color2: var(--jp-content-font-color2, rgba(0, 0, 0, 0.54));
+  --xr-font-color3: var(--jp-content-font-color3, rgba(0, 0, 0, 0.38));
+  --xr-border-color: var(--jp-border-color2, #e0e0e0);
+  --xr-disabled-color: var(--jp-layout-color3, #bdbdbd);
+  --xr-background-color: var(--jp-layout-color0, white);
+  --xr-background-color-row-even: var(--jp-layout-color1, white);
+  --xr-background-color-row-odd: var(--jp-layout-color2, #eeeeee);
+}
+
+html[theme=dark],
+body[data-theme=dark],
+body.vscode-dark {
+  --xr-font-color0: rgba(255, 255, 255, 1);
+  --xr-font-color2: rgba(255, 255, 255, 0.54);
+  --xr-font-color3: rgba(255, 255, 255, 0.38);
+  --xr-border-color: #1F1F1F;
+  --xr-disabled-color: #515151;
+  --xr-background-color: #111111;
+  --xr-background-color-row-even: #111111;
+  --xr-background-color-row-odd: #313131;
+}
+
+.xr-wrap {
+  display: block !important;
+  min-width: 300px;
+  max-width: 700px;
+}
+
+.xr-text-repr-fallback {
+  /* fallback to plain text repr when CSS is not injected (untrusted notebook) */
+  display: none;
+}
+
+.xr-header {
+  padding-top: 6px;
+  padding-bottom: 6px;
+  margin-bottom: 4px;
+  border-bottom: solid 1px var(--xr-border-color);
+}
+
+.xr-header > div,
+.xr-header > ul {
+  display: inline;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.xr-obj-type,
+.xr-array-name {
+  margin-left: 2px;
+  margin-right: 10px;
+}
+
+.xr-obj-type {
+  color: var(--xr-font-color2);
+}
+
+.xr-sections {
+  padding-left: 0 !important;
+  display: grid;
+  grid-template-columns: 150px auto auto 1fr 20px 20px;
+}
+
+.xr-section-item {
+  display: contents;
+}
+
+.xr-section-item input {
+  display: none;
+}
+
+.xr-section-item input + label {
+  color: var(--xr-disabled-color);
+}
+
+.xr-section-item input:enabled + label {
+  cursor: pointer;
+  color: var(--xr-font-color2);
+}
+
+.xr-section-item input:enabled + label:hover {
+  color: var(--xr-font-color0);
+}
+
+.xr-section-summary {
+  grid-column: 1;
+  color: var(--xr-font-color2);
+  font-weight: 500;
+}
+
+.xr-section-summary > span {
+  display: inline-block;
+  padding-left: 0.5em;
+}
+
+.xr-section-summary-in:disabled + label {
+  color: var(--xr-font-color2);
+}
+
+.xr-section-summary-in + label:before {
+  display: inline-block;
+  content: '►';
+  font-size: 11px;
+  width: 15px;
+  text-align: center;
+}
+
+.xr-section-summary-in:disabled + label:before {
+  color: var(--xr-disabled-color);
+}
+
+.xr-section-summary-in:checked + label:before {
+  content: '▼';
+}
+
+.xr-section-summary-in:checked + label > span {
+  display: none;
+}
+
+.xr-section-summary,
+.xr-section-inline-details {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+.xr-section-inline-details {
+  grid-column: 2 / -1;
+}
+
+.xr-section-details {
+  display: none;
+  grid-column: 1 / -1;
+  margin-bottom: 5px;
+}
+
+.xr-section-summary-in:checked ~ .xr-section-details {
+  display: contents;
+}
+
+.xr-array-wrap {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 20px auto;
+}
+
+.xr-array-wrap > label {
+  grid-column: 1;
+  vertical-align: top;
+}
+
+.xr-preview {
+  color: var(--xr-font-color3);
+}
+
+.xr-array-preview,
+.xr-array-data {
+  padding: 0 5px !important;
+  grid-column: 2;
+}
+
+.xr-array-data,
+.xr-array-in:checked ~ .xr-array-preview {
+  display: none;
+}
+
+.xr-array-in:checked ~ .xr-array-data,
+.xr-array-preview {
+  display: inline-block;
+}
+
+.xr-dim-list {
+  display: inline-block !important;
+  list-style: none;
+  padding: 0 !important;
+  margin: 0;
+}
+
+.xr-dim-list li {
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+}
+
+.xr-dim-list:before {
+  content: '(';
+}
+
+.xr-dim-list:after {
+  content: ')';
+}
+
+.xr-dim-list li:not(:last-child):after {
+  content: ',';
+  padding-right: 5px;
+}
+
+.xr-has-index {
+  font-weight: bold;
+}
+
+.xr-var-list,
+.xr-var-item {
+  display: contents;
+}
+
+.xr-var-item > div,
+.xr-var-item label,
+.xr-var-item > .xr-var-name span {
+  background-color: var(--xr-background-color-row-even);
+  margin-bottom: 0;
+}
+
+.xr-var-item > .xr-var-name:hover span {
+  padding-right: 5px;
+}
+
+.xr-var-list > li:nth-child(odd) > div,
+.xr-var-list > li:nth-child(odd) > label,
+.xr-var-list > li:nth-child(odd) > .xr-var-name span {
+  background-color: var(--xr-background-color-row-odd);
+}
+
+.xr-var-name {
+  grid-column: 1;
+}
+
+.xr-var-dims {
+  grid-column: 2;
+}
+
+.xr-var-dtype {
+  grid-column: 3;
+  text-align: right;
+  color: var(--xr-font-color2);
+}
+
+.xr-var-preview {
+  grid-column: 4;
+}
+
+.xr-index-preview {
+  grid-column: 2 / 5;
+  color: var(--xr-font-color2);
+}
+
+.xr-var-name,
+.xr-var-dims,
+.xr-var-dtype,
+.xr-preview,
+.xr-attrs dt {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 10px;
+}
+
+.xr-var-name:hover,
+.xr-var-dims:hover,
+.xr-var-dtype:hover,
+.xr-attrs dt:hover {
+  overflow: visible;
+  width: auto;
+  z-index: 1;
+}
+
+.xr-var-attrs,
+.xr-var-data,
+.xr-index-data {
+  display: none;
+  background-color: var(--xr-background-color) !important;
+  padding-bottom: 5px !important;
+}
+
+.xr-var-attrs-in:checked ~ .xr-var-attrs,
+.xr-var-data-in:checked ~ .xr-var-data,
+.xr-index-data-in:checked ~ .xr-index-data {
+  display: block;
+}
+
+.xr-var-data > table {
+  float: right;
+}
+
+.xr-var-name span,
+.xr-var-data,
+.xr-index-name div,
+.xr-index-data,
+.xr-attrs {
+  padding-left: 25px !important;
+}
+
+.xr-attrs,
+.xr-var-attrs,
+.xr-var-data,
+.xr-index-data {
+  grid-column: 1 / -1;
+}
+
+dl.xr-attrs {
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: 125px auto;
+}
+
+.xr-attrs dt,
+.xr-attrs dd {
+  padding: 0;
+  margin: 0;
+  float: left;
+  padding-right: 10px;
+  width: auto;
+}
+
+.xr-attrs dt {
+  font-weight: normal;
+  grid-column: 1;
+}
+
+.xr-attrs dt:hover span {
+  display: inline-block;
+  background: var(--xr-background-color);
+  padding-right: 10px;
+}
+
+.xr-attrs dd {
+  grid-column: 2;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.xr-icon-database,
+.xr-icon-file-text2,
+.xr-no-icon {
+  display: inline-block;
+  vertical-align: middle;
+  width: 1em;
+  height: 1.5em !important;
+  stroke-width: 0;
+  stroke: currentColor;
+  fill: currentColor;
+}
+</style><pre class='xr-text-repr-fallback'>&lt;xarray.Dataset&gt;
+Dimensions:  (chain: 4, draw: 5000, y_dim_2: 44)
+Coordinates:
+  * chain    (chain) int64 0 1 2 3
+  * draw     (draw) int64 0 1 2 3 4 5 6 7 ... 4993 4994 4995 4996 4997 4998 4999
+  * y_dim_2  (y_dim_2) int64 0 1 2 3 4 5 6 7 8 9 ... 35 36 37 38 39 40 41 42 43
+Data variables:
+    y        (chain, draw, y_dim_2) int64 9 7 13 13 13 7 16 ... 10 17 14 3 10 9
+Attributes:
+    created_at:                 2023-03-22T10:39:23.157981
+    arviz_version:              0.14.0
+    inference_library:          pymc
+    inference_library_version:  5.1.2</pre><div class='xr-wrap' style='display:none'><div class='xr-header'><div class='xr-obj-type'>xarray.Dataset</div></div><ul class='xr-sections'><li class='xr-section-item'><input id='section-74044ee5-2c3e-4032-a697-220357e2769c' class='xr-section-summary-in' type='checkbox' disabled ><label for='section-74044ee5-2c3e-4032-a697-220357e2769c' class='xr-section-summary'  title='Expand/collapse section'>Dimensions:</label><div class='xr-section-inline-details'><ul class='xr-dim-list'><li><span class='xr-has-index'>chain</span>: 4</li><li><span class='xr-has-index'>draw</span>: 5000</li><li><span class='xr-has-index'>y_dim_2</span>: 44</li></ul></div><div class='xr-section-details'></div></li><li class='xr-section-item'><input id='section-705da8e4-e7ec-490a-a9f6-9ad219451b21' class='xr-section-summary-in' type='checkbox'  checked><label for='section-705da8e4-e7ec-490a-a9f6-9ad219451b21' class='xr-section-summary' >Coordinates: <span>(3)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>chain</span></div><div class='xr-var-dims'>(chain)</div><div class='xr-var-dtype'>int64</div><div class='xr-var-preview xr-preview'>0 1 2 3</div><input id='attrs-20c25d37-6438-410c-b0aa-751537611e70' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-20c25d37-6438-410c-b0aa-751537611e70' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-1eb2335f-18a3-40dc-bc78-ae3bf310f657' class='xr-var-data-in' type='checkbox'><label for='data-1eb2335f-18a3-40dc-bc78-ae3bf310f657' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([0, 1, 2, 3])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>draw</span></div><div class='xr-var-dims'>(draw)</div><div class='xr-var-dtype'>int64</div><div class='xr-var-preview xr-preview'>0 1 2 3 4 ... 4996 4997 4998 4999</div><input id='attrs-dfb5cb48-006d-441d-8a03-0404d1e568f3' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-dfb5cb48-006d-441d-8a03-0404d1e568f3' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-d852d927-8991-4d77-9473-7e663c68f249' class='xr-var-data-in' type='checkbox'><label for='data-d852d927-8991-4d77-9473-7e663c68f249' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([   0,    1,    2, ..., 4997, 4998, 4999])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>y_dim_2</span></div><div class='xr-var-dims'>(y_dim_2)</div><div class='xr-var-dtype'>int64</div><div class='xr-var-preview xr-preview'>0 1 2 3 4 5 6 ... 38 39 40 41 42 43</div><input id='attrs-33ff0904-8c9f-4b12-a31d-655e612a2c83' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-33ff0904-8c9f-4b12-a31d-655e612a2c83' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-29099329-7584-4131-aa49-6b73756ad244' class='xr-var-data-in' type='checkbox'><label for='data-29099329-7584-4131-aa49-6b73756ad244' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([ 0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14, 15, 16, 17,
+       18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35,
+       36, 37, 38, 39, 40, 41, 42, 43])</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-9bf17057-54e3-47f2-94cc-755408bc8ff6' class='xr-section-summary-in' type='checkbox'  checked><label for='section-9bf17057-54e3-47f2-94cc-755408bc8ff6' class='xr-section-summary' >Data variables: <span>(1)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span>y</span></div><div class='xr-var-dims'>(chain, draw, y_dim_2)</div><div class='xr-var-dtype'>int64</div><div class='xr-var-preview xr-preview'>9 7 13 13 13 7 ... 10 17 14 3 10 9</div><input id='attrs-fecf1353-0df2-4d5f-9e45-fc701208dac4' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-fecf1353-0df2-4d5f-9e45-fc701208dac4' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-311dd3d2-de39-44f2-a0eb-89a6d917f51e' class='xr-var-data-in' type='checkbox'><label for='data-311dd3d2-de39-44f2-a0eb-89a6d917f51e' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([[[ 9,  7, 13, ..., 11,  9, 13],
+        [ 6, 12, 13, ..., 15, 11, 10],
+        [10,  8, 11, ..., 10,  8, 18],
+        ...,
+        [ 7, 13,  6, ..., 10, 15, 10],
+        [12, 13, 14, ..., 10, 13, 14],
+        [ 6, 17,  4, ..., 13, 15,  4]],
+
+       [[10, 14, 15, ...,  7,  7, 13],
+        [11, 12, 14, ..., 12, 15,  4],
+        [14, 11,  6, ..., 14, 13,  7],
+        ...,
+        [ 9, 16, 16, ..., 14,  7,  9],
+        [13, 12,  7, ..., 12, 10, 13],
+        [ 8,  7, 12, ..., 12, 11,  8]],
+
+       [[ 5,  8, 11, ...,  5, 10, 10],
+        [16, 14, 11, ..., 16, 13, 15],
+        [10,  9,  8, ...,  6, 11, 11],
+        ...,
+        [ 7, 16, 21, ..., 13, 14, 16],
+        [16, 16, 11, ..., 15, 11, 13],
+        [10,  9, 10, ..., 17, 10,  6]],
+
+       [[12, 11,  7, ...,  9, 14, 11],
+        [ 6, 12, 10, ..., 15, 18, 10],
+        [12, 19,  6, ...,  9, 17, 12],
+        ...,
+        [ 6,  7,  6, ...,  8, 13, 13],
+        [ 8,  9, 10, ..., 14, 12,  8],
+        [15, 13, 14, ...,  3, 10,  9]]])</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-462b2d4e-2acb-4d21-8d02-a903667dafe2' class='xr-section-summary-in' type='checkbox'  ><label for='section-462b2d4e-2acb-4d21-8d02-a903667dafe2' class='xr-section-summary' >Indexes: <span>(3)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-index-name'><div>chain</div></div><div class='xr-index-preview'>PandasIndex</div><div></div><input id='index-035a5435-a0b5-4989-a369-73098d3f44ff' class='xr-index-data-in' type='checkbox'/><label for='index-035a5435-a0b5-4989-a369-73098d3f44ff' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(Int64Index([0, 1, 2, 3], dtype=&#x27;int64&#x27;, name=&#x27;chain&#x27;))</pre></div></li><li class='xr-var-item'><div class='xr-index-name'><div>draw</div></div><div class='xr-index-preview'>PandasIndex</div><div></div><input id='index-ed7b22d3-2d98-43b9-a228-1c682b1bea23' class='xr-index-data-in' type='checkbox'/><label for='index-ed7b22d3-2d98-43b9-a228-1c682b1bea23' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(Int64Index([   0,    1,    2,    3,    4,    5,    6,    7,    8,    9,
+            ...
+            4990, 4991, 4992, 4993, 4994, 4995, 4996, 4997, 4998, 4999],
+           dtype=&#x27;int64&#x27;, name=&#x27;draw&#x27;, length=5000))</pre></div></li><li class='xr-var-item'><div class='xr-index-name'><div>y_dim_2</div></div><div class='xr-index-preview'>PandasIndex</div><div></div><input id='index-d6c4ef54-6c3e-4103-86d1-c86ae4f6bcae' class='xr-index-data-in' type='checkbox'/><label for='index-d6c4ef54-6c3e-4103-86d1-c86ae4f6bcae' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(Int64Index([ 0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14, 15, 16,
+            17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33,
+            34, 35, 36, 37, 38, 39, 40, 41, 42, 43],
+           dtype=&#x27;int64&#x27;, name=&#x27;y_dim_2&#x27;))</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-ab0a3cba-5ee1-4e29-8066-a14edd6a80ae' class='xr-section-summary-in' type='checkbox'  checked><label for='section-ab0a3cba-5ee1-4e29-8066-a14edd6a80ae' class='xr-section-summary' >Attributes: <span>(4)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><dl class='xr-attrs'><dt><span>created_at :</span></dt><dd>2023-03-22T10:39:23.157981</dd><dt><span>arviz_version :</span></dt><dd>0.14.0</dd><dt><span>inference_library :</span></dt><dd>pymc</dd><dt><span>inference_library_version :</span></dt><dd>5.1.2</dd></dl></div></li></ul></div></div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">ppc</span><span class="o">.</span><span class="n">predictions</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>mean            10.894955
+sd               3.411932
+hdi_3%           5.000000
+hdi_97%         17.000000
+mcse_mean        0.025000
+mcse_sd          0.017773
+ess_bulk     18685.977273
+ess_tail     19295.681818
+r_hat            1.000000
+dtype: float64
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">load_ext</span> watermark
+<span class="o">%</span><span class="k">watermark</span> -n -u -v -iv -p pytensor
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The watermark extension is already loaded. To reload it, use:
+  %reload_ext watermark
+Last updated: Wed Mar 22 2023
+
+Python implementation: CPython
+Python version       : 3.11.0
+IPython version      : 8.9.0
+
+pytensor: 2.10.1
+
+numpy : 1.24.2
+arviz : 0.14.0
+pandas: 1.5.3
+pymc  : 5.1.2
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./unit7"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  <!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="Unit7-other.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">14. Generalized Linear Models</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="Unit7-multinomial.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">16. Multinomial Logit</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#arrhythmia">Arrhythmia</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ants">Ants</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            <div class="bd-footer-content__inner">
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Aaron Reding
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div></div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

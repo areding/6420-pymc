@@ -1,6 +1,6 @@
 # About This Course and Website
 
-The course was originally developed at Georgia Tech in 2004 by Professor Brani Vidakovic, who is now the head of the [Texas A&M Department of Statistics](https://science.tamu.edu/news/2020/07/branislav-vidakovic-named-head-of-texas-am-statistics/). Prof. Vidakovic also wrote the textbook [*Engineering Biostatistics*](https://statbook.gatech.edu/index.html)). That's why many of the examples in the course reference  but the methods are broadly applicable. We'll reference this book often in the course, often as "The Statbook."
+The course was originally developed at Georgia Tech in 2004 by Professor Brani Vidakovic, who is now the head of the [Texas A&M Department of Statistics](https://science.tamu.edu/news/2020/07/branislav-vidakovic-named-head-of-texas-am-statistics/). Prof. Vidakovic also wrote the textbook [*Engineering Biostatistics*](https://statbook.gatech.edu/index.html)). That's why many of the examples in the course reference medical and biological research. Don't worry—the methods are broadly applicable. We'll reference this book often in the course, often as "The Statbook."
 
 :::{seealso}
 Professor Vidakovic's [publication history](https://scholar.google.com/citations?user=mjLdzMAAAAAJ).
