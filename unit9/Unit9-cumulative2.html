@@ -578,6 +578,12 @@ document.write(`
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The lab_black extension is already loaded. To reload it, use:
+  %reload_ext lab_black
+</pre></div>
+</div>
+</div>
 </div>
 <section class="tex2jax_ignore mathjax_ignore" id="cumulative-example">
 <h1><span class="section-number">8. </span>Cumulative Example*<a class="headerlink" href="#cumulative-example" title="Permalink to this headline">#</a></h1>
@@ -717,38 +723,38 @@ Sampling: [y]
   <tbody>
     <tr>
       <th>theta</th>
-      <td>0.049</td>
-      <td>0.493</td>
-      <td>-0.962</td>
-      <td>0.926</td>
+      <td>0.050</td>
+      <td>0.487</td>
+      <td>-0.843</td>
+      <td>1.009</td>
       <td>0.006</td>
       <td>0.006</td>
-      <td>6682.0</td>
-      <td>5522.0</td>
+      <td>5754.0</td>
+      <td>4864.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>log_sigma</th>
-      <td>0.751</td>
-      <td>0.166</td>
-      <td>0.448</td>
-      <td>1.068</td>
+      <td>0.753</td>
+      <td>0.167</td>
+      <td>0.430</td>
+      <td>1.059</td>
       <td>0.002</td>
-      <td>0.001</td>
-      <td>6218.0</td>
-      <td>5521.0</td>
+      <td>0.002</td>
+      <td>6640.0</td>
+      <td>5523.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>tau</th>
-      <td>0.235</td>
-      <td>0.077</td>
-      <td>0.099</td>
-      <td>0.375</td>
+      <td>0.234</td>
+      <td>0.076</td>
+      <td>0.102</td>
+      <td>0.379</td>
       <td>0.001</td>
       <td>0.001</td>
-      <td>6218.0</td>
-      <td>5521.0</td>
+      <td>6640.0</td>
+      <td>5523.0</td>
       <td>1.0</td>
     </tr>
   </tbody>
@@ -763,7 +769,7 @@ Sampling: [y]
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/ca3cb08dd8c4f0c7fcc6595ea35a4c20c53ee7c53eebef4cf2ff8dfc711f8cd0.png" src="../_images/ca3cb08dd8c4f0c7fcc6595ea35a4c20c53ee7c53eebef4cf2ff8dfc711f8cd0.png" />
+<img alt="../_images/b079426a4b66a787e529847b5b45bf1bdd78b90ee19a211aae7053ff9ef18b45.png" src="../_images/b079426a4b66a787e529847b5b45bf1bdd78b90ee19a211aae7053ff9ef18b45.png" />
 </div>
 </div>
 <p>Doesn’t look like our posterior does a good job of fitting the observed data because of the outliers.</p>
@@ -775,7 +781,7 @@ Sampling: [y]
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/37d49969d7cbc3c8a99a2ddbee4ce37606184a9bd16b76af68f7a5777b34f88e.png" src="../_images/37d49969d7cbc3c8a99a2ddbee4ce37606184a9bd16b76af68f7a5777b34f88e.png" />
+<img alt="../_images/2e61aa90348b07c42c51207aa1ca12768c571a05eb956b2461b45324bd065102.png" src="../_images/2e61aa90348b07c42c51207aa1ca12768c571a05eb956b2461b45324bd065102.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -786,14 +792,15 @@ Sampling: [y]
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/420b6c4457134ca9baf987da6e526c23746c2a758c79d03250b42bd10122c3ad.png" src="../_images/420b6c4457134ca9baf987da6e526c23746c2a758c79d03250b42bd10122c3ad.png" />
+<img alt="../_images/15f8c70385b68c1d6179d04e256e1200118147bfbfc10f38b69d118fb38d2487.png" src="../_images/15f8c70385b68c1d6179d04e256e1200118147bfbfc10f38b69d118fb38d2487.png" />
 </div>
 </div>
 <p>The below code is not working for me since PyMC 5. I’m not sure what happened. It should look like the example below, from their <a class="reference external" href="https://python.arviz.org/en/v0.15.1/api/generated/arviz.plot_lm.html">documentation</a>.</p>
 <div class="cell tag_hide-output docutils container">
 <div class="cell_input above-output-prompt docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">20</span><span class="p">))</span>
-<span class="n">az</span><span class="o">.</span><span class="n">plot_lm</span><span class="p">(</span><span class="n">idata</span><span class="o">=</span><span class="n">trace</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pred</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample_posterior_predictive</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">m</span><span class="p">,</span> <span class="n">predictions</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">extend_inferencedata</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">idata_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;log_likelihood&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">})</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">20</span><span class="p">))</span>
+<span class="n">az</span><span class="o">.</span><span class="n">plot_lm</span><span class="p">(</span><span class="n">idata</span><span class="o">=</span><span class="n">pred</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -803,56 +810,47 @@ Sampling: [y]
 <span class="expanded">Hide code cell output</span>
 </summary>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">ValueError</span><span class="g g-Whitespace">                                </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">48</span><span class="p">],</span> <span class="n">line</span> <span class="mi">3</span>
-<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="n">x</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">20</span><span class="p">))</span>
-<span class="ne">----&gt; </span><span class="mi">3</span> <span class="n">az</span><span class="o">.</span><span class="n">plot_lm</span><span class="p">(</span><span class="n">idata</span><span class="o">=</span><span class="n">trace</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">)</span>
-
-<span class="nn">File ~/mambaforge/envs/pymc_env2/lib/python3.11/site-packages/arviz/plots/lmplot.py:351,</span> in <span class="ni">plot_lm</span><span class="nt">(y, idata, x, y_model, y_hat, num_samples, kind_pp, kind_model, xjitter, plot_dim, backend, y_kwargs, y_hat_plot_kwargs, y_hat_fill_kwargs, y_model_plot_kwargs, y_model_fill_kwargs, y_model_mean_kwargs, backend_kwargs, show, figsize, textsize, axes, legend, grid)</span>
-<span class="g g-Whitespace">    </span><span class="mi">348</span> <span class="n">backend</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
-<span class="g g-Whitespace">    </span><span class="mi">350</span> <span class="n">plot</span> <span class="o">=</span> <span class="n">get_plotting_function</span><span class="p">(</span><span class="s2">&quot;plot_lm&quot;</span><span class="p">,</span> <span class="s2">&quot;lmplot&quot;</span><span class="p">,</span> <span class="n">backend</span><span class="p">)</span>
-<span class="ne">--&gt; </span><span class="mi">351</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plot</span><span class="p">(</span><span class="o">**</span><span class="n">lmplot_kwargs</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">352</span> <span class="k">return</span> <span class="n">ax</span>
-
-<span class="nn">File ~/mambaforge/envs/pymc_env2/lib/python3.11/site-packages/arviz/plots/backends/matplotlib/lmplot.py:108,</span> in <span class="ni">plot_lm</span><span class="nt">(x, y, y_model, y_hat, num_samples, kind_pp, kind_model, xjitter, length_plotters, rows, cols, y_kwargs, y_hat_plot_kwargs, y_hat_fill_kwargs, y_model_plot_kwargs, y_model_fill_kwargs, y_model_mean_kwargs, backend_kwargs, show, figsize, textsize, axes, legend, grid)</span>
-<span class="g g-Whitespace">    </span><span class="mi">106</span>             <span class="n">ax_i</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_plotters_jitter</span><span class="p">,</span> <span class="n">y_hat_plotters</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">j</span><span class="p">],</span> <span class="o">**</span><span class="n">y_hat_plot_kwargs</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">107</span>         <span class="k">else</span><span class="p">:</span>
-<span class="ne">--&gt; </span><span class="mi">108</span>             <span class="n">ax_i</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_plotters</span><span class="p">,</span> <span class="n">y_hat_plotters</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">j</span><span class="p">],</span> <span class="o">**</span><span class="n">y_hat_plot_kwargs</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">109</span>     <span class="n">ax_i</span><span class="o">.</span><span class="n">plot</span><span class="p">([],</span> <span class="o">**</span><span class="n">y_hat_plot_kwargs</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Posterior predictive samples&quot;</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">110</span> <span class="k">else</span><span class="p">:</span>
-
-<span class="nn">File ~/mambaforge/envs/pymc_env2/lib/python3.11/site-packages/matplotlib/axes/_axes.py:1668,</span> in <span class="ni">Axes.plot</span><span class="nt">(self, scalex, scaley, data, *args, **kwargs)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1425</span> <span class="sd">&quot;&quot;&quot;</span>
-<span class="g g-Whitespace">   </span><span class="mi">1426</span><span class="sd"> Plot y versus x as lines and/or markers.</span>
-<span class="g g-Whitespace">   </span><span class="mi">1427</span><span class="sd"> </span>
-<span class="sd">   (...)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1665</span><span class="sd"> (``&#39;green&#39;``) or hex strings (``&#39;#008000&#39;``).</span>
-<span class="g g-Whitespace">   </span><span class="mi">1666</span><span class="sd"> &quot;&quot;&quot;</span>
-<span class="g g-Whitespace">   </span><span class="mi">1667</span> <span class="n">kwargs</span> <span class="o">=</span> <span class="n">cbook</span><span class="o">.</span><span class="n">normalize_kwargs</span><span class="p">(</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">mlines</span><span class="o">.</span><span class="n">Line2D</span><span class="p">)</span>
-<span class="ne">-&gt; </span><span class="mi">1668</span> <span class="n">lines</span> <span class="o">=</span> <span class="p">[</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_lines</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)]</span>
-<span class="g g-Whitespace">   </span><span class="mi">1669</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">:</span>
-<span class="g g-Whitespace">   </span><span class="mi">1670</span>     <span class="bp">self</span><span class="o">.</span><span class="n">add_line</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
-
-<span class="nn">File ~/mambaforge/envs/pymc_env2/lib/python3.11/site-packages/matplotlib/axes/_base.py:311,</span> in <span class="ni">_process_plot_var_args.__call__</span><span class="nt">(self, data, *args, **kwargs)</span>
-<span class="g g-Whitespace">    </span><span class="mi">309</span>     <span class="n">this</span> <span class="o">+=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
-<span class="g g-Whitespace">    </span><span class="mi">310</span>     <span class="n">args</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
-<span class="ne">--&gt; </span><span class="mi">311</span> <span class="k">yield from</span> <span class="bp">self</span><span class="o">.</span><span class="n">_plot_args</span><span class="p">(</span>
-<span class="g g-Whitespace">    </span><span class="mi">312</span>     <span class="n">this</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">,</span> <span class="n">ambiguous_fmt_datakey</span><span class="o">=</span><span class="n">ambiguous_fmt_datakey</span><span class="p">)</span>
-
-<span class="nn">File ~/mambaforge/envs/pymc_env2/lib/python3.11/site-packages/matplotlib/axes/_base.py:504,</span> in <span class="ni">_process_plot_var_args._plot_args</span><span class="nt">(self, tup, kwargs, return_kwargs, ambiguous_fmt_datakey)</span>
-<span class="g g-Whitespace">    </span><span class="mi">501</span>     <span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">update_units</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">503</span> <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
-<span class="ne">--&gt; </span><span class="mi">504</span>     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;x and y must have same first dimension, but &quot;</span>
-<span class="g g-Whitespace">    </span><span class="mi">505</span>                      <span class="sa">f</span><span class="s2">&quot;have shapes </span><span class="si">{</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2"> and </span><span class="si">{</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">506</span> <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&gt;</span> <span class="mi">2</span> <span class="ow">or</span> <span class="n">y</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">507</span>     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;x and y can be no greater than 2D, but have &quot;</span>
-<span class="g g-Whitespace">    </span><span class="mi">508</span>                      <span class="sa">f</span><span class="s2">&quot;shapes </span><span class="si">{</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2"> and </span><span class="si">{</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-
-<span class="ne">ValueError</span>: x and y must have same first dimension, but have shapes (20,) and (1,)
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling: [y]
 </pre></div>
 </div>
-<img alt="../_images/7a8856d84abff3c9eb5c18773e6a4234a5f00e0c2d8182e808eca1f08311fe88.png" src="../_images/7a8856d84abff3c9eb5c18773e6a4234a5f00e0c2d8182e808eca1f08311fe88.png" />
+<div class="output text_html">
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    progress:not([value]), progress:not([value])::-webkit-progress-bar {
+        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div><div class="output text_html">
+    <div>
+      <progress value='8000' class='' max='8000' style='width:300px; height:20px; vertical-align: middle;'></progress>
+      100.00% [8000/8000 00:00&lt;00:00]
+    </div>
+    </div><div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">TypeError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">75</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">pred</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample_posterior_predictive</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">m</span><span class="p">,</span> <span class="n">predictions</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">extend_inferencedata</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">idata_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;log_likelihood&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">})</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="n">x</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">20</span><span class="p">))</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="n">az</span><span class="o">.</span><span class="n">plot_lm</span><span class="p">(</span><span class="n">idata</span><span class="o">=</span><span class="n">pred</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">)</span>
+
+<span class="nn">File ~/mambaforge/envs/pymc_env2/lib/python3.11/site-packages/pymc/sampling/forward.py:672,</span> in <span class="ni">sample_posterior_predictive</span><span class="nt">(trace, model, var_names, sample_dims, random_seed, progressbar, return_inferencedata, extend_inferencedata, predictions, idata_kwargs, compile_kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">670</span>         <span class="n">ikwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;idata_orig&quot;</span><span class="p">,</span> <span class="n">idata</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">671</span>         <span class="n">ikwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;inplace&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">672</span>     <span class="k">return</span> <span class="n">pm</span><span class="o">.</span><span class="n">predictions_to_inference_data</span><span class="p">(</span><span class="n">ppc_trace</span><span class="p">,</span> <span class="o">**</span><span class="n">ikwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">673</span> <span class="n">idata_pp</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">to_inference_data</span><span class="p">(</span><span class="n">posterior_predictive</span><span class="o">=</span><span class="n">ppc_trace</span><span class="p">,</span> <span class="o">**</span><span class="n">ikwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">675</span> <span class="k">if</span> <span class="n">extend_inferencedata</span> <span class="ow">and</span> <span class="n">idata</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+
+<span class="ne">TypeError</span>: predictions_to_inference_data() got an unexpected keyword argument &#39;log_likelihood&#39;
+</pre></div>
+</div>
 </div>
 </details>
 </div>
