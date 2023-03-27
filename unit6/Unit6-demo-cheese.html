@@ -566,7 +566,7 @@ document.write(`
                 <article class="bd-article" role="main">
                   
   <div class="cell tag_hide-output docutils container">
-<div class="cell_input above-output-prompt docutils container">
+<div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">arviz</span> <span class="k">as</span> <span class="nn">az</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
@@ -577,18 +577,6 @@ document.write(`
 </pre></div>
 </div>
 </div>
-<details class="hide below-input">
-<summary aria-label="Toggle hidden content">
-<span class="collapsed">Show code cell output</span>
-<span class="expanded">Hide code cell output</span>
-</summary>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The lab_black extension is already loaded. To reload it, use:
-  %reload_ext lab_black
-</pre></div>
-</div>
-</div>
-</details>
 </div>
 <section class="tex2jax_ignore mathjax_ignore" id="taste-of-cheese">
 <h1><span class="section-number">9. </span>Taste of Cheese*<a class="headerlink" href="#taste-of-cheese" title="Permalink to this headline">#</a></h1>
@@ -897,26 +885,6 @@ document.write(`
 </div>
 </div>
 </div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">vals</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">0.001</span><span class="p">),</span> <span class="mi">1000000</span><span class="p">)</span>
-
-<span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">vals</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(array([5.30000e+01, 1.78100e+03, 2.43290e+04, 1.38606e+05, 3.31282e+05,
-        3.33324e+05, 1.43036e+05, 2.55610e+04, 1.96900e+03, 5.90000e+01]),
- array([-15.29248827, -12.2418099 ,  -9.19113153,  -6.14045315,
-         -3.08977478,  -0.03909641,   3.01158197,   6.06226034,
-          9.11293871,  12.16361709,  15.21429546]),
- &lt;BarContainer object of 10 artists&gt;)
-</pre></div>
-</div>
-<img alt="../_images/a657829f4e1f891f6ff6ea7f73f7dcb54dacab3878624650230a0a34098f5f30.png" src="../_images/a657829f4e1f891f6ff6ea7f73f7dcb54dacab3878624650230a0a34098f5f30.png" />
-</div>
-</div>
 <div class="cell tag_hide-output docutils container">
 <div class="cell_input above-output-prompt docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">m</span><span class="p">:</span>
@@ -947,13 +915,9 @@ document.write(`
 </summary>
 <div class="cell_output docutils container">
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Auto-assigning NUTS sampler...
-INFO:pymc:Auto-assigning NUTS sampler...
 Initializing NUTS using jitter+adapt_diag...
-INFO:pymc:Initializing NUTS using jitter+adapt_diag...
 Multiprocess sampling (4 chains in 4 jobs)
-INFO:pymc:Multiprocess sampling (4 chains in 4 jobs)
 NUTS: [beta, tau]
-INFO:pymc:NUTS: [beta, tau]
 </pre></div>
 </div>
 <div class="output text_html">
@@ -975,44 +939,10 @@ INFO:pymc:NUTS: [beta, tau]
 </div><div class="output text_html">
     <div>
       <progress value='24000' class='' max='24000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-      100.00% [24000/24000 00:17&lt;00:00 Sampling 4 chains, 0 divergences]
+      100.00% [24000/24000 00:19&lt;00:00 Sampling 4 chains, 0 divergences]
     </div>
-    </div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 5_000 draw iterations (4_000 + 20_000 draws total) took 18 seconds.
-INFO:pymc:Sampling 4 chains for 1_000 tune and 5_000 draw iterations (4_000 + 20_000 draws total) took 18 seconds.
-Chain &lt;xarray.DataArray &#39;chain&#39; ()&gt;
-array(0)
-Coordinates:
-    chain    int64 0 reached the maximum tree depth. Increase `max_treedepth`, increase `target_accept` or reparameterize.
-WARNING:pymc:Chain &lt;xarray.DataArray &#39;chain&#39; ()&gt;
-array(0)
-Coordinates:
-    chain    int64 0 reached the maximum tree depth. Increase `max_treedepth`, increase `target_accept` or reparameterize.
-Chain &lt;xarray.DataArray &#39;chain&#39; ()&gt;
-array(1)
-Coordinates:
-    chain    int64 1 reached the maximum tree depth. Increase `max_treedepth`, increase `target_accept` or reparameterize.
-WARNING:pymc:Chain &lt;xarray.DataArray &#39;chain&#39; ()&gt;
-array(1)
-Coordinates:
-    chain    int64 1 reached the maximum tree depth. Increase `max_treedepth`, increase `target_accept` or reparameterize.
-Chain &lt;xarray.DataArray &#39;chain&#39; ()&gt;
-array(2)
-Coordinates:
-    chain    int64 2 reached the maximum tree depth. Increase `max_treedepth`, increase `target_accept` or reparameterize.
-WARNING:pymc:Chain &lt;xarray.DataArray &#39;chain&#39; ()&gt;
-array(2)
-Coordinates:
-    chain    int64 2 reached the maximum tree depth. Increase `max_treedepth`, increase `target_accept` or reparameterize.
-Chain &lt;xarray.DataArray &#39;chain&#39; ()&gt;
-array(3)
-Coordinates:
-    chain    int64 3 reached the maximum tree depth. Increase `max_treedepth`, increase `target_accept` or reparameterize.
-WARNING:pymc:Chain &lt;xarray.DataArray &#39;chain&#39; ()&gt;
-array(3)
-Coordinates:
-    chain    int64 3 reached the maximum tree depth. Increase `max_treedepth`, increase `target_accept` or reparameterize.
+    </div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 5_000 draw iterations (4_000 + 20_000 draws total) took 19 seconds.
 Sampling: [taste_score]
-INFO:pymc:Sampling: [taste_score]
 </pre></div>
 </div>
 <div class="output text_html">
@@ -1078,50 +1008,50 @@ INFO:pymc:Sampling: [taste_score]
   <tbody>
     <tr>
       <th>beta[0]</th>
-      <td>-28.975</td>
-      <td>20.013</td>
-      <td>-68.339</td>
-      <td>10.446</td>
-      <td>0.234</td>
-      <td>0.165</td>
-      <td>7342.0</td>
-      <td>9821.0</td>
+      <td>-28.827</td>
+      <td>20.571</td>
+      <td>-68.654</td>
+      <td>12.278</td>
+      <td>0.243</td>
+      <td>0.172</td>
+      <td>7159.0</td>
+      <td>9390.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>beta[1]</th>
-      <td>0.318</td>
-      <td>4.533</td>
-      <td>-8.505</td>
-      <td>9.357</td>
-      <td>0.054</td>
-      <td>0.039</td>
-      <td>7145.0</td>
-      <td>9300.0</td>
+      <td>0.314</td>
+      <td>4.650</td>
+      <td>-8.482</td>
+      <td>9.805</td>
+      <td>0.057</td>
+      <td>0.040</td>
+      <td>6760.0</td>
+      <td>9158.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>beta[2]</th>
-      <td>3.910</td>
-      <td>1.271</td>
-      <td>1.398</td>
-      <td>6.378</td>
-      <td>0.012</td>
-      <td>0.009</td>
-      <td>10419.0</td>
-      <td>11096.0</td>
+      <td>3.921</td>
+      <td>1.303</td>
+      <td>1.371</td>
+      <td>6.535</td>
+      <td>0.014</td>
+      <td>0.010</td>
+      <td>8847.0</td>
+      <td>10720.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>beta[3]</th>
-      <td>19.772</td>
-      <td>8.872</td>
-      <td>2.376</td>
-      <td>37.434</td>
-      <td>0.088</td>
+      <td>19.649</td>
+      <td>8.904</td>
+      <td>1.827</td>
+      <td>36.985</td>
+      <td>0.090</td>
       <td>0.064</td>
-      <td>10138.0</td>
-      <td>11036.0</td>
+      <td>9816.0</td>
+      <td>10632.0</td>
       <td>1.0</td>
     </tr>
     <tr>
@@ -1132,25 +1062,42 @@ INFO:pymc:Sampling: [taste_score]
       <td>0.015</td>
       <td>0.000</td>
       <td>0.000</td>
-      <td>9946.0</td>
-      <td>10006.0</td>
+      <td>10784.0</td>
+      <td>10427.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>sigma</th>
-      <td>10.450</td>
-      <td>1.530</td>
-      <td>7.734</td>
-      <td>13.589</td>
-      <td>0.016</td>
-      <td>0.011</td>
-      <td>9946.0</td>
-      <td>10006.0</td>
+      <td>10.435</td>
+      <td>1.492</td>
+      <td>7.768</td>
+      <td>13.419</td>
+      <td>0.015</td>
+      <td>0.010</td>
+      <td>10784.0</td>
+      <td>10427.0</td>
       <td>1.0</td>
     </tr>
   </tbody>
 </table>
 </div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y_pred</span> <span class="o">=</span> <span class="n">trace</span><span class="o">.</span><span class="n">posterior_predictive</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">sample</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;chain&quot;</span><span class="p">,</span> <span class="s2">&quot;draw&quot;</span><span class="p">))[</span>
+    <span class="s2">&quot;taste_score&quot;</span>
+<span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">T</span>
+<span class="n">az</span><span class="o">.</span><span class="n">r2_score</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>r2        0.576332
+r2_std    0.075839
+dtype: float64
+</pre></div>
+</div>
+</div>
 </div>
 <p>Results are pretty close to OpenBUGS:</p>
 <table class="colwidths-auto table">
@@ -1223,7 +1170,7 @@ INFO:pymc:Sampling: [taste_score]
 <p>For further reading, check out <a class="reference external" href="https://docs.pymc.io/en/v3/pymc-examples/examples/diagnostics_and_criticism/Diagnosing_biased_Inference_with_Divergences.html">Diagnosing Biased Inference with Divergences</a>.</p>
 <p>It looks like there are multiple ways to get predictions on out-of-sample data in PyMC. The easiest way is to set up a shared variable using pm.Data in the original model, then using pm.set_data to change to the new observations before calling pm.sample_posterior_predictive.</p>
 <div class="cell tag_hide-output docutils container">
-<div class="cell_input docutils container">
+<div class="cell_input above-output-prompt docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># single prediction on out-of-sample data</span>
 <span class="n">new_obs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mf">7.1</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">]])</span>
 <span class="n">pm</span><span class="o">.</span><span class="n">set_data</span><span class="p">({</span><span class="s2">&quot;X&quot;</span><span class="p">:</span> <span class="n">new_obs</span><span class="p">},</span> <span class="n">model</span><span class="o">=</span><span class="n">m</span><span class="p">)</span>
@@ -1231,6 +1178,38 @@ INFO:pymc:Sampling: [taste_score]
 </pre></div>
 </div>
 </div>
+<details class="hide below-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell output</span>
+<span class="expanded">Hide code cell output</span>
+</summary>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling: [taste_score]
+</pre></div>
+</div>
+<div class="output text_html">
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    progress:not([value]), progress:not([value])::-webkit-progress-bar {
+        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div><div class="output text_html">
+    <div>
+      <progress value='20000' class='' max='20000' style='width:300px; height:20px; vertical-align: middle;'></progress>
+      100.00% [20000/20000 00:00&lt;00:00]
+    </div>
+    </div></div>
+</details>
 </div>
 <p>The default behavior now is to give one prediction per y-value. The professor often asks for a single prediction based on the new data; the equivalent here would be to take the mean of the predicted values.</p>
 <div class="cell docutils container">
@@ -1240,14 +1219,14 @@ INFO:pymc:Sampling: [taste_score]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>mean            30.017800
-sd              11.217567
-hdi_2.5%         7.822233
-hdi_97.5%       52.016233
-mcse_mean        0.084767
-mcse_sd          0.060000
-ess_bulk     17495.633333
-ess_tail     18667.900000
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>mean            30.068067
+sd              11.205900
+hdi_2.5%         7.859233
+hdi_97.5%       52.049367
+mcse_mean        0.085567
+mcse_sd          0.060533
+ess_bulk     17181.033333
+ess_tail     18564.700000
 r_hat            1.000000
 dtype: float64
 </pre></div>
@@ -1262,7 +1241,7 @@ dtype: float64
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Sat Mar 18 2023
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Sun Mar 26 2023
 
 Python implementation: CPython
 Python version       : 3.11.0
@@ -1270,10 +1249,11 @@ IPython version      : 8.9.0
 
 pytensor: 2.10.1
 
-numpy : 1.24.2
-pandas: 1.5.3
-arviz : 0.14.0
-pymc  : 5.1.1
+pymc      : 5.1.2
+pandas    : 1.5.3
+arviz     : 0.15.1
+matplotlib: 3.6.3
+numpy     : 1.24.2
 </pre></div>
 </div>
 </div>
