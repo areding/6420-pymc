@@ -62,6 +62,8 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'unit3/Unit3-conditioning1';</script>
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -329,6 +331,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="../unit10/Unit10-katla.html">6. Predicting Using Censored Data*</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../unit10/Unit10-sunspots.html">7. Prediction of Time Series*</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../unit10/Unit10-magnesiumTW.html">8. Magnesium for Myocardial Infarction*</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit10/bibliography.html">9. References</a></li>
 </ul>
 
     </div>
@@ -499,7 +502,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
 </div></div>
       
     </div>
@@ -515,6 +520,15 @@ document.write(`
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-queen-of-spades">The queen of spades</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#causal-independence-vs-logical-independence">Causal independence vs. logical independence</a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -526,12 +540,32 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="conditioning-part-1">
 <h1><span class="section-number">2. </span>Conditioning, Part 1<a class="headerlink" href="#conditioning-part-1" title="Permalink to this headline">#</a></h1>
-<p>Notes coming.</p>
-<p>Todo:</p>
-<ul class="simple">
-<li><p>Add further explanation of Queen of Spades example from notes.</p></li>
-<li><p>Causal independence vs. logical independence.</p></li>
-</ul>
+<section id="the-queen-of-spades">
+<h2>The queen of spades<a class="headerlink" href="#the-queen-of-spades" title="Permalink to this headline">#</a></h2>
+<p>Professor Vidakovic uses this example to demonstrate the concept of independence. Remember, by definition, independence means <span class="math notranslate nohighlight">\(P(AB) = P(A)P(B)\)</span>. Here we have a standard deck of 52 cards. There are 13 of each suit and 4 queens. Define Event A as drawing a spade and Event B as drawing a queen. <span class="math notranslate nohighlight">\(P(AB)\)</span> is then the probability of drawing the queen of spades. This card is unique, so it occurs <span class="math notranslate nohighlight">\(1/52\)</span> times.</p>
+<p>If we multiply it out:</p>
+<div class="math notranslate nohighlight">
+\[P(A)P(B) = \frac{13}{52} \times \frac{4}{52} = \frac{1}{52}\]</div>
+<p>So <span class="math notranslate nohighlight">\(P(AB) = P(A)P(B)\)</span> and the two events are independent.</p>
+<p>But are they still independent if we first remove the two of diamonds from the deck? Let’s see:</p>
+<div class="math notranslate nohighlight">
+\[P(AB) = \frac{1}{51}\]</div>
+<div class="math notranslate nohighlight">
+\[P(AB) = P(A)P(B) = \frac{13}{51} \times \frac{4}{51} = \frac{52}{2601}\]</div>
+<div class="math notranslate nohighlight">
+\[ \frac{1}{51} \neq \frac{52}{2601}\]</div>
+<p>They are no longer independent! It’s easy to follow the math, but the intuition sometimes takes time to click. Think about it in terms of the information you have. If there are an equal number of cards left in the deck from each suit, any given suit has the same probability of being a queen.</p>
+<p>In the second case, if you draw a spade, heart, or club, the probability your card is a queen will be different than the probability of a queen given that you drew a diamond. You have slightly more information about diamonds since there are only 12 remaining in the deck.</p>
+<p>So now depending on the suit, a queen might be more likely. In other words, the probability of a queen is no longer independent of the suit.</p>
+</section>
+<section id="causal-independence-vs-logical-independence">
+<h2>Causal independence vs. logical independence<a class="headerlink" href="#causal-independence-vs-logical-independence" title="Permalink to this headline">#</a></h2>
+<blockquote class="epigraph">
+<div><p>Quite generally, as the robot’s state of knowledge represented by H and X changes, probabilities conditional on them may change from independent to dependent or vice versa; yet the real properties of the events remain the same. Then one who attributed the property of dependence or independence to the events would be, in effect, claiming for the robot the power of psychokinesis. We must be vigilant against this confusion between reality and a state of knowledge about reality, which we have called the ‘mind projection fallacy’.</p>
+<p class="attribution">—<span id="id1">Jaynes [<a class="reference internal" href="../unit10/bibliography.html#id5" title="E. T. Jaynes. Probability Theory: The Logic of Science. Cambridge University Press, 2003. doi:10.1017/CBO9780511790423.">2003</a>]</span> p. 92</p>
+</div></blockquote>
+<p>Some students have gotten really hung up on this example in past semesters. I think it may be useful to distinguish between physical, causal independence and logical independence. The suit of a card does not physically affect or cause any change in the probability of a queen. Neither does removing the two of diamonds, except for the fact that there are fewer cards to draw from. What we’re talking about here is logical independence, which is reflected in the state of our knowledge about the cards.</p>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -586,6 +620,21 @@ document.write(`
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-queen-of-spades">The queen of spades</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#causal-independence-vs-logical-independence">Causal independence vs. logical independence</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>

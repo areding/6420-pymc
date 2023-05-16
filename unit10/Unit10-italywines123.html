@@ -329,6 +329,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="Unit10-katla.html">6. Predicting Using Censored Data*</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Unit10-sunspots.html">7. Prediction of Time Series*</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Unit10-magnesiumTW.html">8. Magnesium for Myocardial Infarction*</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bibliography.html">9. References</a></li>
 </ul>
 
     </div>
@@ -561,7 +562,7 @@ document.write(`
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">arviz</span> <span class="k">as</span> <span class="nn">az</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">pytensor.tensor</span> <span class="k">as</span> <span class="nn">at</span>
+<span class="kn">import</span> <span class="nn">pytensor.tensor</span> <span class="k">as</span> <span class="nn">pt</span>
 <span class="kn">from</span> <span class="nn">pytensor.tensor.subtensor</span> <span class="kn">import</span> <span class="n">set_subtensor</span>
 
 <span class="o">%</span><span class="k">load_ext</span> lab_black
@@ -677,7 +678,7 @@ The data below consist of results of a chemical analysis of wines grown in the s
     <span class="n">X_data</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Data</span><span class="p">(</span><span class="s2">&quot;X&quot;</span><span class="p">,</span> <span class="n">X_aug</span><span class="p">,</span> <span class="n">mutable</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">Y_data</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Data</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">mutable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="n">_b</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;_b&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
-    <span class="n">b</span> <span class="o">=</span> <span class="n">at</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">at</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">14</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span> <span class="n">_b</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">pt</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">pt</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">14</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span> <span class="n">_b</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
     <span class="c1"># 178, 14 x 14, 3 -&gt; 178, 3</span>
     <span class="n">phi</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">pm</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">X_data</span><span class="p">,</span> <span class="n">b</span><span class="p">))</span>
@@ -769,338 +770,338 @@ NUTS: [_b]
   <tbody>
     <tr>
       <th>_b[0, 0]</th>
-      <td>3.962</td>
-      <td>4.358</td>
-      <td>-4.010</td>
-      <td>12.311</td>
-      <td>0.045</td>
-      <td>0.039</td>
-      <td>9351.0</td>
-      <td>6517.0</td>
+      <td>3.984</td>
+      <td>4.282</td>
+      <td>-4.306</td>
+      <td>11.886</td>
+      <td>0.044</td>
+      <td>0.038</td>
+      <td>9596.0</td>
+      <td>5813.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>_b[0, 1]</th>
-      <td>-0.538</td>
-      <td>4.428</td>
-      <td>-8.788</td>
-      <td>7.925</td>
-      <td>0.040</td>
-      <td>0.052</td>
-      <td>11962.0</td>
-      <td>5516.0</td>
+      <td>-0.533</td>
+      <td>4.437</td>
+      <td>-8.621</td>
+      <td>8.179</td>
+      <td>0.042</td>
+      <td>0.055</td>
+      <td>11192.0</td>
+      <td>5624.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>_b[1, 0]</th>
-      <td>3.126</td>
-      <td>1.402</td>
-      <td>0.518</td>
-      <td>5.740</td>
-      <td>0.031</td>
-      <td>0.022</td>
-      <td>2109.0</td>
-      <td>3581.0</td>
+      <td>3.105</td>
+      <td>1.372</td>
+      <td>0.636</td>
+      <td>5.704</td>
+      <td>0.029</td>
+      <td>0.021</td>
+      <td>2274.0</td>
+      <td>3188.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>_b[1, 1]</th>
-      <td>0.233</td>
-      <td>1.909</td>
-      <td>-3.338</td>
-      <td>3.789</td>
-      <td>0.037</td>
-      <td>0.026</td>
-      <td>2690.0</td>
-      <td>3520.0</td>
+      <td>0.287</td>
+      <td>1.871</td>
+      <td>-3.230</td>
+      <td>3.837</td>
+      <td>0.034</td>
+      <td>0.024</td>
+      <td>2980.0</td>
+      <td>3655.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>_b[2, 0]</th>
-      <td>-3.671</td>
-      <td>1.670</td>
-      <td>-6.790</td>
-      <td>-0.581</td>
-      <td>0.028</td>
-      <td>0.021</td>
-      <td>3577.0</td>
-      <td>4449.0</td>
+      <td>-3.655</td>
+      <td>1.625</td>
+      <td>-6.781</td>
+      <td>-0.782</td>
+      <td>0.026</td>
+      <td>0.019</td>
+      <td>3995.0</td>
+      <td>4906.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>_b[2, 1]</th>
-      <td>1.003</td>
-      <td>2.203</td>
-      <td>-3.066</td>
-      <td>5.195</td>
-      <td>0.032</td>
+      <td>0.933</td>
+      <td>2.172</td>
+      <td>-3.076</td>
+      <td>5.048</td>
+      <td>0.031</td>
       <td>0.023</td>
-      <td>4623.0</td>
-      <td>4893.0</td>
+      <td>5040.0</td>
+      <td>5290.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>_b[3, 0]</th>
-      <td>-7.831</td>
-      <td>3.102</td>
-      <td>-13.615</td>
-      <td>-2.005</td>
-      <td>0.050</td>
-      <td>0.036</td>
-      <td>3795.0</td>
-      <td>4789.0</td>
+      <td>-7.821</td>
+      <td>3.076</td>
+      <td>-13.558</td>
+      <td>-2.115</td>
+      <td>0.047</td>
+      <td>0.034</td>
+      <td>4273.0</td>
+      <td>5473.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>_b[3, 1]</th>
-      <td>0.624</td>
-      <td>4.016</td>
-      <td>-7.002</td>
-      <td>8.031</td>
+      <td>0.622</td>
+      <td>4.037</td>
+      <td>-7.028</td>
+      <td>8.168</td>
       <td>0.049</td>
-      <td>0.043</td>
-      <td>6760.0</td>
-      <td>5776.0</td>
+      <td>0.044</td>
+      <td>6687.0</td>
+      <td>5576.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>_b[4, 0]</th>
-      <td>1.522</td>
-      <td>0.510</td>
-      <td>0.603</td>
-      <td>2.489</td>
-      <td>0.010</td>
-      <td>0.007</td>
-      <td>2778.0</td>
-      <td>3597.0</td>
+      <td>1.521</td>
+      <td>0.498</td>
+      <td>0.594</td>
+      <td>2.462</td>
+      <td>0.009</td>
+      <td>0.006</td>
+      <td>3075.0</td>
+      <td>4042.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>_b[4, 1]</th>
-      <td>0.913</td>
-      <td>0.892</td>
-      <td>-0.730</td>
-      <td>2.577</td>
+      <td>0.920</td>
+      <td>0.898</td>
+      <td>-0.695</td>
+      <td>2.654</td>
       <td>0.015</td>
       <td>0.011</td>
-      <td>3525.0</td>
-      <td>4419.0</td>
+      <td>3451.0</td>
+      <td>4495.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>_b[5, 0]</th>
-      <td>0.015</td>
-      <td>0.081</td>
-      <td>-0.132</td>
-      <td>0.173</td>
+      <td>0.012</td>
+      <td>0.079</td>
+      <td>-0.143</td>
+      <td>0.155</td>
       <td>0.001</td>
       <td>0.001</td>
-      <td>3663.0</td>
-      <td>4339.0</td>
+      <td>3854.0</td>
+      <td>4781.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>_b[5, 1]</th>
-      <td>0.143</td>
-      <td>0.161</td>
-      <td>-0.146</td>
-      <td>0.458</td>
+      <td>0.136</td>
+      <td>0.156</td>
+      <td>-0.153</td>
+      <td>0.434</td>
       <td>0.003</td>
       <td>0.002</td>
-      <td>2780.0</td>
-      <td>4099.0</td>
+      <td>3269.0</td>
+      <td>4101.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>_b[6, 0]</th>
-      <td>1.038</td>
-      <td>1.992</td>
-      <td>-2.532</td>
-      <td>4.909</td>
-      <td>0.023</td>
-      <td>0.020</td>
-      <td>7287.0</td>
-      <td>6379.0</td>
+      <td>1.045</td>
+      <td>2.009</td>
+      <td>-2.591</td>
+      <td>4.951</td>
+      <td>0.025</td>
+      <td>0.021</td>
+      <td>6548.0</td>
+      <td>5857.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>_b[6, 1]</th>
-      <td>-1.849</td>
-      <td>3.551</td>
-      <td>-8.800</td>
-      <td>4.419</td>
-      <td>0.039</td>
-      <td>0.034</td>
-      <td>8153.0</td>
-      <td>6017.0</td>
+      <td>-1.868</td>
+      <td>3.488</td>
+      <td>-8.585</td>
+      <td>4.529</td>
+      <td>0.038</td>
+      <td>0.033</td>
+      <td>8310.0</td>
+      <td>6345.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>_b[7, 0]</th>
-      <td>-1.600</td>
-      <td>2.451</td>
-      <td>-6.071</td>
-      <td>3.131</td>
-      <td>0.035</td>
+      <td>-1.604</td>
+      <td>2.377</td>
+      <td>-6.074</td>
+      <td>2.799</td>
+      <td>0.036</td>
       <td>0.026</td>
-      <td>5012.0</td>
-      <td>5065.0</td>
+      <td>4371.0</td>
+      <td>4923.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>_b[7, 1]</th>
-      <td>-8.508</td>
-      <td>3.175</td>
-      <td>-14.556</td>
-      <td>-2.623</td>
-      <td>0.038</td>
-      <td>0.028</td>
-      <td>7055.0</td>
-      <td>6319.0</td>
+      <td>-8.488</td>
+      <td>3.132</td>
+      <td>-14.206</td>
+      <td>-2.559</td>
+      <td>0.037</td>
+      <td>0.027</td>
+      <td>7287.0</td>
+      <td>6677.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>_b[8, 0]</th>
-      <td>1.683</td>
-      <td>4.167</td>
-      <td>-6.122</td>
-      <td>9.430</td>
-      <td>0.039</td>
-      <td>0.039</td>
-      <td>11157.0</td>
-      <td>7273.0</td>
+      <td>1.749</td>
+      <td>4.148</td>
+      <td>-5.732</td>
+      <td>9.740</td>
+      <td>0.041</td>
+      <td>0.037</td>
+      <td>10043.0</td>
+      <td>6772.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>_b[8, 1]</th>
-      <td>-1.624</td>
-      <td>4.362</td>
-      <td>-9.895</td>
-      <td>6.393</td>
-      <td>0.042</td>
+      <td>-1.681</td>
+      <td>4.376</td>
+      <td>-9.630</td>
+      <td>6.600</td>
+      <td>0.040</td>
       <td>0.047</td>
-      <td>10726.0</td>
-      <td>5833.0</td>
+      <td>11914.0</td>
+      <td>6167.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>_b[9, 0]</th>
-      <td>2.465</td>
-      <td>2.409</td>
-      <td>-1.942</td>
-      <td>7.001</td>
-      <td>0.034</td>
-      <td>0.025</td>
-      <td>5064.0</td>
-      <td>5349.0</td>
+      <td>2.464</td>
+      <td>2.414</td>
+      <td>-2.194</td>
+      <td>6.881</td>
+      <td>0.033</td>
+      <td>0.024</td>
+      <td>5378.0</td>
+      <td>6124.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>_b[9, 1]</th>
-      <td>-2.822</td>
-      <td>3.402</td>
-      <td>-9.103</td>
-      <td>3.601</td>
+      <td>-2.750</td>
+      <td>3.454</td>
+      <td>-9.382</td>
+      <td>3.513</td>
       <td>0.036</td>
-      <td>0.029</td>
-      <td>8726.0</td>
-      <td>6867.0</td>
+      <td>0.030</td>
+      <td>9179.0</td>
+      <td>6928.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>_b[10, 0]</th>
-      <td>-3.049</td>
-      <td>1.677</td>
-      <td>-6.219</td>
-      <td>0.040</td>
+      <td>-2.990</td>
+      <td>1.674</td>
+      <td>-6.288</td>
+      <td>0.013</td>
       <td>0.030</td>
-      <td>0.021</td>
-      <td>3229.0</td>
-      <td>4324.0</td>
+      <td>0.022</td>
+      <td>3078.0</td>
+      <td>4149.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>_b[10, 1]</th>
-      <td>3.234</td>
-      <td>1.822</td>
-      <td>0.041</td>
-      <td>6.662</td>
-      <td>0.027</td>
+      <td>3.240</td>
+      <td>1.826</td>
+      <td>0.070</td>
+      <td>6.695</td>
+      <td>0.028</td>
       <td>0.020</td>
-      <td>4683.0</td>
-      <td>4449.0</td>
+      <td>4260.0</td>
+      <td>5428.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>_b[11, 0]</th>
-      <td>5.086</td>
-      <td>3.777</td>
-      <td>-1.896</td>
-      <td>12.087</td>
+      <td>5.040</td>
+      <td>3.803</td>
+      <td>-2.111</td>
+      <td>12.227</td>
       <td>0.040</td>
-      <td>0.033</td>
-      <td>8726.0</td>
-      <td>6019.0</td>
+      <td>0.032</td>
+      <td>9066.0</td>
+      <td>6680.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>_b[11, 1]</th>
-      <td>-3.341</td>
-      <td>4.241</td>
-      <td>-11.231</td>
-      <td>4.680</td>
-      <td>0.039</td>
-      <td>0.040</td>
-      <td>11732.0</td>
-      <td>6263.0</td>
+      <td>-3.339</td>
+      <td>4.222</td>
+      <td>-11.266</td>
+      <td>4.586</td>
+      <td>0.037</td>
+      <td>0.038</td>
+      <td>13294.0</td>
+      <td>6124.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>_b[12, 0]</th>
-      <td>-2.316</td>
-      <td>2.375</td>
-      <td>-6.687</td>
-      <td>2.240</td>
+      <td>-2.352</td>
+      <td>2.341</td>
+      <td>-6.562</td>
+      <td>2.127</td>
       <td>0.034</td>
       <td>0.026</td>
-      <td>4926.0</td>
-      <td>5024.0</td>
+      <td>4690.0</td>
+      <td>5113.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>_b[12, 1]</th>
-      <td>-6.151</td>
-      <td>3.593</td>
-      <td>-13.060</td>
-      <td>0.503</td>
-      <td>0.042</td>
-      <td>0.031</td>
-      <td>7313.0</td>
-      <td>5603.0</td>
+      <td>-6.179</td>
+      <td>3.515</td>
+      <td>-12.886</td>
+      <td>0.402</td>
+      <td>0.039</td>
+      <td>0.030</td>
+      <td>8130.0</td>
+      <td>6207.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>_b[13, 0]</th>
-      <td>-0.050</td>
-      <td>0.016</td>
-      <td>-0.079</td>
-      <td>-0.022</td>
+      <td>-0.049</td>
+      <td>0.015</td>
+      <td>-0.077</td>
+      <td>-0.021</td>
       <td>0.000</td>
       <td>0.000</td>
-      <td>2227.0</td>
-      <td>3428.0</td>
+      <td>2533.0</td>
+      <td>3390.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>_b[13, 1]</th>
       <td>-0.023</td>
       <td>0.017</td>
-      <td>-0.057</td>
+      <td>-0.054</td>
       <td>0.008</td>
       <td>0.000</td>
       <td>0.000</td>
-      <td>3211.0</td>
-      <td>4206.0</td>
+      <td>3578.0</td>
+      <td>4895.0</td>
       <td>1.0</td>
     </tr>
   </tbody>
@@ -1154,7 +1155,7 @@ NUTS: [_b]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([0.92029354, 0.07548244, 0.00422402])
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([0.91875632, 0.07775492, 0.00348876])
 </pre></div>
 </div>
 </div>
@@ -1168,19 +1169,19 @@ NUTS: [_b]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Wed Mar 22 2023
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Sun Apr 23 2023
 
 Python implementation: CPython
 Python version       : 3.11.0
 IPython version      : 8.9.0
 
-pytensor: 2.10.1
+pytensor: 2.11.1
 
-pandas  : 1.5.3
-arviz   : 0.15.1
+pytensor: 2.11.1
 numpy   : 1.24.2
-pytensor: 2.10.1
-pymc    : 5.1.2
+arviz   : 0.15.1
+pandas  : 1.5.3
+pymc    : 5.3.0
 </pre></div>
 </div>
 </div>

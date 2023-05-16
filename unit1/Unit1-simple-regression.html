@@ -329,6 +329,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="../unit10/Unit10-katla.html">6. Predicting Using Censored Data*</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../unit10/Unit10-sunspots.html">7. Prediction of Time Series*</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../unit10/Unit10-magnesiumTW.html">8. Magnesium for Myocardial Infarction*</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit10/bibliography.html">9. References</a></li>
 </ul>
 
     </div>
@@ -584,12 +585,13 @@ document.write(`
 <section class="tex2jax_ignore mathjax_ignore" id="a-simple-regression">
 <h1><span class="section-number">4. </span>A Simple Regression*<a class="headerlink" href="#a-simple-regression" title="Permalink to this headline">#</a></h1>
 <p>Adapted from <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/original_examples/Codes4Unit1/Regression.odc">unit 1: Regression.odc</a> and <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/original_examples/Codes4Unit1/Regression.m">unit 1: Regression.m</a>.</p>
+<p>The professor shows an example of Bayesian linear regression in BUGS, and compares it to how you would use MATLAB to perform one-least-squares regression. Don’t worry about the details for now—this is more of a preview of where we’re going in the second half of the class.</p>
 <hr class="docutils" />
 <section id="initial-values">
 <h2>Initial values<a class="headerlink" href="#initial-values" title="Permalink to this headline">#</a></h2>
 <p>The professor often sets the initial values manually because BUGS will auto-generate really crazy initial values if you use wide priors.</p>
-<p>This is not necessary in PyMC. The generated values are probably always going to be better than what you would have chosen. If a model is not running in PyMC and you suspect it is because of the initial values, instead of manually entering new ones select one of the <a class="reference external" href="https://www.pymc.io/projects/docs/en/stable/api/generated/pymc.init_nuts.html">many other methods</a> for generating them by using the <code class="docutils literal notranslate"><span class="pre">init</span></code> parameter of <code class="docutils literal notranslate"><span class="pre">pm.sample</span></code>. I’ve found the new <code class="docutils literal notranslate"><span class="pre">&quot;jitter+adapt_diag_grad&quot;</span></code> option really helpful here for certain models.</p>
-<p>If you really do want to set initial values, pass a dictionary with the keys as variable names to the <code class="docutils literal notranslate"><span class="pre">initvals</span></code> parameter of <code class="docutils literal notranslate"><span class="pre">pm.sample</span></code>, like this:</p>
+<p>This is not usually necessary in PyMC. The generated values are probably always going to be better than what you would have chosen. If a model is not running in PyMC and you suspect it is because of the initial values, instead of manually entering new ones select one of the <a class="reference external" href="https://www.pymc.io/projects/docs/en/stable/api/generated/pymc.init_nuts.html">many other methods</a> for generating them by using the <code class="docutils literal notranslate"><span class="pre">init</span></code> parameter of <code class="docutils literal notranslate"><span class="pre">pm.sample</span></code>. I’ve found the new <code class="docutils literal notranslate"><span class="pre">&quot;jitter+adapt_diag_grad&quot;</span></code> option really helpful here for certain models.</p>
+<p>If you do need to set initial values, one way is to pass a dictionary with the keys as variable names to the <code class="docutils literal notranslate"><span class="pre">initvals</span></code> parameter of <code class="docutils literal notranslate"><span class="pre">pm.sample</span></code>, like this:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">inits</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s2">&quot;alpha&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="mf">0.0</span><span class="p">),</span>
     <span class="s2">&quot;beta&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span>
@@ -604,7 +606,7 @@ document.write(`
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># data</span>
 <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
 <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
-<span class="n">x_bar</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>  <span class="c1"># for mean-centering</span>
+<span class="n">x_bar</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>  <span class="c1"># for mean centering</span>
 
 <span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">m</span><span class="p">:</span>  <span class="c1"># context manager with pm.Model class</span>
     <span class="c1"># priors</span>
@@ -664,6 +666,8 @@ document.write(`
     </div></div>
 </details>
 </div>
+<p>Every semester, someone asks why the professor is mean-centering X. There are a few possible reasons, which are mostly not specific to Bayesian modeling. One might be interpretability—consider how the interpretation of the intercept alpha changes in a mean-centered model. A more Bayesian reason might be to help with sampling efficiency. The prior on the coefficient beta is going to be closer to the posterior if the data is mean-centered.</p>
+<p>But don’t worry about it for now. We go into regression after the midterm.</p>
 </section>
 <section id="visualize-your-model-structure">
 <h2>Visualize your model structure<a class="headerlink" href="#visualize-your-model-structure" title="Permalink to this headline">#</a></h2>
@@ -675,13 +679,13 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/3cf885f4b208dffe6189d6155d42f5ee684f0369db7c7e2d93965914a614b1cc.svg" src="../_images/3cf885f4b208dffe6189d6155d42f5ee684f0369db7c7e2d93965914a614b1cc.svg" /></div>
+<img alt="../_images/64ed001e9795fb5971bf47b8c266772409765d20db356c50c01ec0fecbdf2484.svg" src="../_images/64ed001e9795fb5971bf47b8c266772409765d20db356c50c01ec0fecbdf2484.svg" /></div>
 </div>
 </section>
 <section id="tuning-and-burning-samples">
 <h2>Tuning and burning samples<a class="headerlink" href="#tuning-and-burning-samples" title="Permalink to this headline">#</a></h2>
-<p>PyMC uses the tuning step specified in the pm.sample call to adjust various parameters in the No-U-Turn Sampler <a class="reference external" href="https://arxiv.org/abs/1111.4246">(NUTS) algorithm</a>, which is a form of Hamiltonian Monte Carlo. BUGS also silently uses different types of tuning depending on the algorithm it <a class="reference external" href="https://www.york.ac.uk/depts/maths/histstat/pml1/bayes/winbugsinfo/cowles_winbugs.pdf">chooses</a>. The professor also usually burns some number of samples in his examples. Note that this is separate from the tuning phase for both programs!</p>
-<p>We will not require students to burn PyMC samples separately from the tuning phase. So if a homework or exam problem specifies that you must burn 1000 samples, you can just set <code class="docutils literal notranslate"><span class="pre">tune=1000</span></code> in your <code class="docutils literal notranslate"><span class="pre">pm.sample</span></code> call and be done with it. That said, if for some reason you needed to burn samples from a PyMC trace after sampling, you could slice the trace (which is based on <a class="reference external" href="https://docs.xarray.dev/en/stable/index.html">xarray</a>) like so:</p>
+<p>PyMC uses the tuning step specified in the <code class="docutils literal notranslate"><span class="pre">pm.sample</span></code> call to adjust various parameters in the No-U-Turn Sampler <a class="reference external" href="https://arxiv.org/abs/1111.4246">(NUTS) algorithm</a>, which is a form of Hamiltonian Monte Carlo. BUGS also silently uses different types of tuning depending on the algorithm it <a class="reference external" href="https://www.york.ac.uk/depts/maths/histstat/pml1/bayes/winbugsinfo/cowles_winbugs.pdf">chooses</a>. The professor also usually burns some number of samples in his examples. Note that this is separate from the tuning phase for both programs!</p>
+<p>We usually won’t require students to burn PyMC samples separately from the tuning phase. So if a homework or exam problem specifies that you must burn 1000 samples, you can just set <code class="docutils literal notranslate"><span class="pre">tune=1000</span></code> in your <code class="docutils literal notranslate"><span class="pre">pm.sample</span></code> call and be done with it. That said, if for some reason you needed to burn samples from a PyMC trace after sampling, you could slice the trace (which is based on <a class="reference external" href="https://docs.xarray.dev/en/stable/index.html">xarray</a>) like so:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># this burns the first 500 samples</span>
@@ -735,50 +739,50 @@ document.write(`
   <tbody>
     <tr>
       <th>alpha</th>
-      <td>3.015</td>
-      <td>0.580</td>
-      <td>1.971</td>
-      <td>4.071</td>
-      <td>0.010</td>
-      <td>0.008</td>
-      <td>4460.0</td>
-      <td>2911.0</td>
+      <td>3.003</td>
+      <td>0.553</td>
+      <td>1.933</td>
+      <td>4.002</td>
+      <td>0.009</td>
+      <td>0.007</td>
+      <td>4519.0</td>
+      <td>3418.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>beta</th>
       <td>0.805</td>
-      <td>0.452</td>
-      <td>0.030</td>
-      <td>1.572</td>
-      <td>0.007</td>
-      <td>0.007</td>
-      <td>6038.0</td>
-      <td>3423.0</td>
+      <td>0.391</td>
+      <td>0.129</td>
+      <td>1.590</td>
+      <td>0.006</td>
+      <td>0.006</td>
+      <td>5311.0</td>
+      <td>3434.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>tau</th>
-      <td>1.843</td>
-      <td>1.465</td>
-      <td>0.003</td>
-      <td>4.728</td>
-      <td>0.031</td>
-      <td>0.022</td>
-      <td>1852.0</td>
-      <td>1959.0</td>
+      <td>1.857</td>
+      <td>1.507</td>
+      <td>0.008</td>
+      <td>4.821</td>
+      <td>0.027</td>
+      <td>0.019</td>
+      <td>2293.0</td>
+      <td>1931.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>sigma</th>
-      <td>1.017</td>
-      <td>0.756</td>
-      <td>0.352</td>
-      <td>2.170</td>
-      <td>0.021</td>
-      <td>0.015</td>
-      <td>1852.0</td>
-      <td>1959.0</td>
+      <td>1.013</td>
+      <td>0.752</td>
+      <td>0.336</td>
+      <td>2.156</td>
+      <td>0.018</td>
+      <td>0.013</td>
+      <td>2293.0</td>
+      <td>1931.0</td>
       <td>1.0</td>
     </tr>
   </tbody>
@@ -793,7 +797,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([0.0303993 , 1.57201328])
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([0.1293742 , 1.58985855])
 </pre></div>
 </div>
 </div>
@@ -807,7 +811,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/d26d32a942c0f9e3b997ba5c6e83eca73b1c8d35736201238af4602d22394e22.png" src="../_images/d26d32a942c0f9e3b997ba5c6e83eca73b1c8d35736201238af4602d22394e22.png" />
+<img alt="../_images/53501f52466ea016467f8c0bda43aa518fee2e4309584a27128aef8968221d5e.png" src="../_images/53501f52466ea016467f8c0bda43aa518fee2e4309584a27128aef8968221d5e.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -818,7 +822,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/7850b6bd82ee57a6d32a3d6f89ccd65543de6eda6fdbe760b90f116b5a6ef2ef.png" src="../_images/7850b6bd82ee57a6d32a3d6f89ccd65543de6eda6fdbe760b90f116b5a6ef2ef.png" />
+<img alt="../_images/4575ca2d825003e61a937763b5f2f5bf8e266a180197454b319a9c0657acb623.png" src="../_images/4575ca2d825003e61a937763b5f2f5bf8e266a180197454b319a9c0657acb623.png" />
 </div>
 </div>
 </section>
@@ -836,7 +840,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array(0.60115617)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array(0.58860146)
 </pre></div>
 </div>
 </div>
@@ -934,10 +938,10 @@ document.write(`
   <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   12.00</td>
 </tr>
 <tr>
-  <th>Date:</th>             <td>Thu, 02 Feb 2023</td> <th>  Prob (F-statistic):</th>  <td>0.0405</td> 
+  <th>Date:</th>             <td>Mon, 15 May 2023</td> <th>  Prob (F-statistic):</th>  <td>0.0405</td> 
 </tr>
 <tr>
-  <th>Time:</th>                 <td>23:47:56</td>     <th>  Log-Likelihood:    </th> <td> -4.2461</td>
+  <th>Time:</th>                 <td>22:51:58</td>     <th>  Log-Likelihood:    </th> <td> -4.2461</td>
 </tr>
 <tr>
   <th>No. Observations:</th>      <td>     5</td>      <th>  AIC:               </th> <td>   12.49</td>
@@ -986,20 +990,19 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Thu Feb 02 2023
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Mon May 15 2023
 
 Python implementation: CPython
 Python version       : 3.11.0
 IPython version      : 8.9.0
 
-aesara: 2.8.10
-aeppl : 0.1.1
+pytensor: 2.11.1
 
-pymc       : 5.0.1
-matplotlib : 3.6.3
-arviz      : 0.14.0
 statsmodels: 0.13.5
-numpy      : 1.24.1
+pymc       : 5.3.0
+matplotlib : 3.6.3
+numpy      : 1.24.2
+arviz      : 0.15.1
 </pre></div>
 </div>
 </div>

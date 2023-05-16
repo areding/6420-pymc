@@ -49,4 +49,4 @@ These are really cool packages. But students often run into trouble when using t
 
 ## General purpose programming languages
 
-MATLAB or Octave work fine for the first half of the course. I've never seen them used for the second half. Most people use Python, but quite a few also use R. I've seen a few students try Julia. It's up to you. I'm most comfortable with Python so that's what I'm using for these examples.
+Most people use Python, but quite a few also use R. MATLAB or Octave work fine for the first half of the course. I've almost never seen them used for the second half. A few students have tried Julia. It's up to you. I'm most comfortable with Python so that's what I'm using for these examples.

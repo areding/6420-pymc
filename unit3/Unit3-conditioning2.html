@@ -331,6 +331,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="../unit10/Unit10-katla.html">6. Predicting Using Censored Data*</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../unit10/Unit10-sunspots.html">7. Prediction of Time Series*</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../unit10/Unit10-magnesiumTW.html">8. Magnesium for Myocardial Infarction*</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit10/bibliography.html">9. References</a></li>
 </ul>
 
     </div>
@@ -501,7 +502,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
 </div></div>
       
     </div>
@@ -517,6 +520,15 @@ document.write(`
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-law-of-total-probability">The law of total probability</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lecture-errata">Lecture errata</a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -528,11 +540,19 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="conditioning-part-2">
 <h1><span class="section-number">3. </span>Conditioning, Part 2<a class="headerlink" href="#conditioning-part-2" title="Permalink to this headline">#</a></h1>
-<p>Notes coming.</p>
-<p>Todo:</p>
+<section id="the-law-of-total-probability">
+<h2>The law of total probability<a class="headerlink" href="#the-law-of-total-probability" title="Permalink to this headline">#</a></h2>
+<p>This is a really important formula:</p>
+<div class="math notranslate nohighlight">
+\[P(A) = \sum_{i=1}^{n} P(A \mid H_i) P(H_i)\]</div>
+<p>We use this often in homework problems for finding the marginal probability of some event (<span class="math notranslate nohighlight">\(P(A)\)</span>). You will want to partition your sample space into mutually exclusive, exhaustive hypotheses (<span class="math notranslate nohighlight">\(H_i\)</span>). Try it out on some of the <a class="reference external" href="https://www2.isye.gatech.edu/isye6420/supporting.html">supplementary exercises</a>!</p>
+</section>
+<section id="lecture-errata">
+<h2>Lecture errata<a class="headerlink" href="#lecture-errata" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
 <li><p>There’s a mistake at 5:40: <span class="math notranslate nohighlight">\(0.94\times 0.3 + 0.95\times 0.5 + 0.97\times 0.2\)</span> equals <span class="math notranslate nohighlight">\(0.951\)</span>, not <span class="math notranslate nohighlight">\(0.957\)</span>.</p></li>
 </ul>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -587,6 +607,21 @@ document.write(`
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-law-of-total-probability">The law of total probability</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lecture-errata">Lecture errata</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>

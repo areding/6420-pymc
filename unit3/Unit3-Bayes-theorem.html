@@ -62,6 +62,8 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'unit3/Unit3-Bayes-theorem';</script>
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -329,6 +331,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="../unit10/Unit10-katla.html">6. Predicting Using Censored Data*</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../unit10/Unit10-sunspots.html">7. Prediction of Time Series*</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../unit10/Unit10-magnesiumTW.html">8. Magnesium for Myocardial Infarction*</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit10/bibliography.html">9. References</a></li>
 </ul>
 
     </div>
@@ -499,7 +502,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
 </div></div>
       
     </div>
@@ -515,6 +520,14 @@ document.write(`
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#todo">Todo</a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -526,12 +539,27 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="bayes-theorem">
 <h1><span class="section-number">4. </span>Bayes’ Theorem<a class="headerlink" href="#bayes-theorem" title="Permalink to this headline">#</a></h1>
-<p>Notes coming.</p>
-<p>Todo:</p>
+<p>Say we have hypothesis <span class="math notranslate nohighlight">\(H_i\)</span> and some data <span class="math notranslate nohighlight">\(D\)</span>.</p>
+<div class="math notranslate nohighlight">
+\[P(H_i \mid D) = \frac{P(D \mid H_i)}{P(D)} \times P(H_i)\]</div>
+<p>We’ll update the notation in Unit 4 when we start dealing with continuous distributions, but the structure won’t change. <span class="math notranslate nohighlight">\(P(H_i)\)</span> represents the prior probability of <span class="math notranslate nohighlight">\(H_i\)</span>. <span class="math notranslate nohighlight">\(P(H_i \mid D)\)</span> the posterior probability, which is the prior  updated by <span class="math notranslate nohighlight">\(\frac{P(D \mid H_i)}{P(D)}\)</span>.</p>
+<p>For now, we can call <span class="math notranslate nohighlight">\(P(D \mid H_i)\)</span> the sampling probability. It contains the observed data, which for the moment can be just a number (later it will be the assumed distribution of that data and we’ll call it a likelihood).</p>
+<p>Finally we have <span class="math notranslate nohighlight">\(P(D)\)</span>, which is the marginal probability or normalization factor. This is necessary to normalize the updated sampling probability; otherwise, the posterior will not be limited to between 0 and 1.</p>
+<p>In <span id="id1">Jaynes [<a class="reference internal" href="../unit10/bibliography.html#id5" title="E. T. Jaynes. Probability Theory: The Logic of Science. Cambridge University Press, 2003. doi:10.1017/CBO9780511790423.">2003</a>]</span>, Bayes’ theorem is represented a bit differently:</p>
+<div class="math notranslate nohighlight">
+\[P(H_i \mid DX) = \frac{P(D \mid H_i X)}{P(D \mid X)} \times P(H_i \mid X)\]</div>
+<p>This is the same thing! The reason he adds the additional <span class="math notranslate nohighlight">\(X\)</span> is to represent the prior information more clearly. Sometimes just representing it as <span class="math notranslate nohighlight">\(P(H_i)\)</span> confuses students because it incorrectly gives the impression that it’s something completely different than the posterior.</p>
+<blockquote class="epigraph">
+<div><p>The left-hand side … is generally called a ‘<em>posterior probability</em>’, with the same <em>caveat</em> that this means only ‘logically later in the particular chain of inference being made’, and not necessarily ‘later in time’. And again the distinction is conventional, not fundamental; one man’s prior probability is another man’s posterior probability. There is really only one kind of probability; our different names for them refer only to a particular way of organizing a calculation.</p>
+<p class="attribution">—<span id="id2">Jaynes [<a class="reference internal" href="../unit10/bibliography.html#id5" title="E. T. Jaynes. Probability Theory: The Logic of Science. Cambridge University Press, 2003. doi:10.1017/CBO9780511790423.">2003</a>]</span> p. 89</p>
+</div></blockquote>
+<section id="todo">
+<h2>Todo<a class="headerlink" href="#todo" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
-<li><p>Could go into more detail on Bayes factor, although I think that may happen more in Unit 4 already.</p></li>
-<li><p>Extended notation for prior may make a lot of the early problems less tricky (see Jaynes Ch. 4).</p></li>
+<li><p>Bayes factor? although I think that may be more Unit 4 material.</p></li>
+<li><p>odds formulation of Bayes theorem, link to <a class="reference external" href="https://www.youtube.com/watch?v=lG4VkPoG3ko&amp;list=PLnDGnVHTlzsNJc6WHxYnF-vpSxrEehhTA">3blue1brown video</a>.</p></li>
 </ul>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -586,6 +614,20 @@ document.write(`
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#todo">Todo</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>
