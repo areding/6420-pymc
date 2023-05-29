@@ -1,1 +1,1 @@
-# Conjugate Cases
+# Bayesian Inference in Conjugate Cases
