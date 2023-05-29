@@ -17,7 +17,7 @@ $$P(AB) = \frac{1}{51}$$
 $$P(AB) = P(A)P(B) = \frac{13}{51} \times \frac{4}{51} = \frac{52}{2601}$$
 $$ \frac{1}{51} \neq \frac{52}{2601}$$
 
-They are no longer independent! It's easy to follow the math, but the intuition sometimes takes time to click. Think about it in terms of the information you have. If there are an equal number of cards left in the deck from each suit, any given suit has the same probability of being a queen.
+They are no longer independent! It's easy to follow the math, but the intuition can take time to click. Think about it in terms of the information you have. If there are an equal number of cards left in the deck from each suit, any given suit has the same probability of being a queen.
 
 In the second case, if you draw a spade, heart, or club, the probability your card is a queen will be different than the probability of a queen given that you drew a diamond. You have slightly more information about diamonds since there are only 12 remaining in the deck.
 
