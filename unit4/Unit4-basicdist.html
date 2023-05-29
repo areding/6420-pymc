@@ -62,6 +62,8 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'unit4/Unit4-basicdist';</script>
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -190,7 +192,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="distributions.html">Probability Distributions</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">1. Basic Distributions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Unit4-numericalchar.html">2. Numerical Characteristics of Random Variables</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Unit4-jointconditionals.html">3. Joint Conditionals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Unit4-jointconditionals.html">3. Joint and Conditional Distributions</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="bayestheorem.html">Bayes’ Theorem</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -201,7 +203,8 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l2"><a class="reference internal" href="Unit4-poissongamma.html">8. Poisson–Gamma Model</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="conjugatecases.html">Conjugate Cases</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="conjugatecases.html">Bayesian Inference in Conjugate Cases</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="Unit4-estimation.html">9. Estimation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Unit4-crediblesets.html">10. Credible Intervals</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Unit4-GammaGamma.html">11. Gamma Gamma*</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Unit4-testing.html">12. Bayesian Testing</a></li>
@@ -215,14 +218,19 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l2"><a class="reference internal" href="Unit4-eBay.html">17. eBay Purchase Example*</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="moreexamples.html">More Examples</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="empiricalbayes.html">Empirical Bayes</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="Unit4-parametric.html">18. Parametric</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Unit4-nonpara.html">19. Non-parametric</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="moreexamples.html">More Examples</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="Unit4-AlphaParticles.html">20. Counts of Alpha Particles*</a></li>
 </ul>
 </li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Unit 5</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1 has-children"><a class="reference internal" href="../unit5/bayesian-computation.html">Bayesian Computation</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../unit5/bayesian-computation.html">Bayesian Computation</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-numericalapproaches.html">1. Numerical Approaches</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-norcau1.html">2. Normal–Cauchy Example</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-Laplace.html">3. Laplace’s Method</a></li>
@@ -230,14 +238,14 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-mcmc.html">5. Markov Chain Monte Carlo</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../unit5/metropolis-hastings.html">The Metropolis Algorithm</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../unit5/metropolis-hastings.html">The Metropolis Algorithm</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-Metropolis.html">6. Metropolis</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-Metropolis1.html">7. Metropolis: Normal-Cauchy*</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-MetropolisHastings.html">8. Metropolis–Hastings</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-MetropolisHastings2.html">9. Weibull Lifetimes*</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../unit5/gibbs-sampling.html">Gibbs Sampling</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../unit5/gibbs-sampling.html">Gibbs Sampling</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-9"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-gibbsintro.html">10. Introduction to Gibbs Sampling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-GibbsSampler.html">11. Normal-Cauchy Gibbs Sampler*</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-gibbs2.html">12. Conjugate Gamma-Poisson Model</a></li>
@@ -246,7 +254,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-Gibbs3.html">15. Coal Mining Disasters in the UK*</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../unit5/other.html">Other Algorithms</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-9"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../unit5/other.html">Other Algorithms</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-10"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-hamiltonian.html">16. Hamiltonian Monte Carlo</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-other-methods.html">17. Going Further</a></li>
 </ul>
@@ -268,7 +276,7 @@ const thebe_selector_output = ".output, .cell_output"
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Unit 7</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1 has-children"><a class="reference internal" href="../unit7/hierarchical.html">Hierarchical Models</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-10"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../unit7/hierarchical.html">Hierarchical Models</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-11"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../unit7/Unit7-introduction.html">1. Introduction to Hierarchical Models</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../unit7/Unit7-why.html">2. Reasons to Use Hierarchical Models</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../unit7/Unit7-priors.html">3. Priors with Structural Information</a></li>
@@ -276,7 +284,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l2"><a class="reference internal" href="../unit7/Unit7-metaanalysis.html">5. Meta-analysis via Hierarchical Models*</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../unit7/linearmodels.html">Linear Models</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-11"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../unit7/linearmodels.html">Linear Models</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-12"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../unit7/Unit7-anova.html">6. Analysis of Variance</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../unit7/Unit7-coagulation.html">7. Coagulation*</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../unit7/Unit7-factorial.html">8. Factorial Designs</a></li>
@@ -287,7 +295,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l2"><a class="reference internal" href="../unit7/Unit7-demo-multiple.html">13. Multiple Regression: Brozek Index Prediction*</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../unit7/othermodels.html">Other Models</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-12"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../unit7/othermodels.html">Other Models</a><input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-13"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../unit7/Unit7-other.html">14. Generalized Linear Models</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../unit7/Unit7-arrhythmia.html">15. GLM Examples*</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../unit7/Unit7-multinomial.html">16. Multinomial Logit</a></li>
@@ -531,7 +539,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
 </div></div>
       
     </div>
@@ -547,6 +557,34 @@ document.write(`
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#discrete">Discrete</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#bernoulli-distribution"><strong>Bernoulli Distribution</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#binomial-distribution"><strong>Binomial Distribution</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#poisson-distribution"><strong>Poisson Distribution</strong></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#continuous">Continuous</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#normal-distribution"><strong>Normal Distribution</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#beta-distribution"><strong>Beta Distribution</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cauchy-distribution"><strong>Cauchy Distribution</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exponential-distribution"><strong>Exponential Distribution</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gamma-distribution"><strong>Gamma Distribution</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uniform-distribution"><strong>Uniform Distribution</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#weibull-distribution"><strong>Weibull Distribution</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#bugs">BUGS</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pymc">PyMC</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#other-resources">Other resources</a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -558,6 +596,162 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="basic-distributions">
 <h1>1. Basic Distributions<a class="headerlink" href="#basic-distributions" title="Permalink to this headline">#</a></h1>
+<p>From this lecture, make sure you understand what a random variable is, the difference between discrete and continuous distributions, PDF/PMF vs. CDF, and the different types of parameters (shape, scale, rate, location). I’ll slowly expand this list until I’ve got all the distributions we use in the course.</p>
+<p>Be careful about what parameterization you’re using, as it will change depending on software. I will try to use <span id="id1">Vidakovic [<a class="reference internal" href="../unit10/bibliography.html#id11" title="Brani Vidakovic. Engineering Biostatistics: An Introduction using MATLAB and WinBUGS. Wiley, 2017. ISBN 978-1-119-16896-6.">2017</a>]</span> versions here, but may add alternate parameterizations.</p>
+<section id="discrete">
+<h2>Discrete<a class="headerlink" href="#discrete" title="Permalink to this headline">#</a></h2>
+<section id="bernoulli-distribution">
+<span id="content-bernoulli-dist"></span><h3><strong>Bernoulli Distribution</strong><a class="headerlink" href="#bernoulli-distribution" title="Permalink to this headline">#</a></h3>
+<ul class="simple">
+<li><p><strong>PMF:</strong> <span class="math notranslate nohighlight">\(P(X=k|p) = p^k(1-p)^{1-k}\)</span> for <span class="math notranslate nohighlight">\(k \in \{0, 1\}\)</span></p></li>
+<li><p><strong>CDF:</strong> <span class="math notranslate nohighlight">\(F(k|p) = \begin{cases} 
+    0 &amp; \text{for } k &lt; 0 \\
+    1-p &amp; \text{for } 0 \leq k &lt; 1 \\
+    1 &amp; \text{for } k \geq 1
+ \end{cases}\)</span></p></li>
+<li><p><strong>Mean:</strong> <span class="math notranslate nohighlight">\(p\)</span></p></li>
+<li><p><strong>Variance:</strong> <span class="math notranslate nohighlight">\(p(1-p)\)</span></p></li>
+<li><p><strong>Support:</strong> <span class="math notranslate nohighlight">\(\{0, 1\}\)</span></p></li>
+<li><p><strong>Parameters:</strong> <span class="math notranslate nohighlight">\(p\)</span> (probability of success)</p></li>
+<li><p><strong>Notation:</strong> <span class="math notranslate nohighlight">\(X \sim Bernoulli(p)\)</span></p></li>
+</ul>
+</section>
+<section id="binomial-distribution">
+<span id="content-binomial-dist"></span><h3><strong>Binomial Distribution</strong><a class="headerlink" href="#binomial-distribution" title="Permalink to this headline">#</a></h3>
+<ul class="simple">
+<li><p><strong>PMF:</strong> <span class="math notranslate nohighlight">\(P(X=k|n,p) = \binom{n}{k} p^k(1-p)^{n-k}\)</span> for <span class="math notranslate nohighlight">\(k \in \{0, 1, 2, ..., n\}\)</span></p></li>
+<li><p><strong>CDF:</strong> <span class="math notranslate nohighlight">\(F(k|n,p) = \sum_{i=0}^{k} \binom{n}{i} p^i(1-p)^{n-i}\)</span></p></li>
+<li><p><strong>Mean:</strong> <span class="math notranslate nohighlight">\(np\)</span></p></li>
+<li><p><strong>Variance:</strong> <span class="math notranslate nohighlight">\(np(1-p)\)</span></p></li>
+<li><p><strong>Support:</strong> <span class="math notranslate nohighlight">\(\{0, 1, 2, ..., n\}\)</span></p></li>
+<li><p><strong>Parameters:</strong> <span class="math notranslate nohighlight">\(n\)</span> (number of trials), <span class="math notranslate nohighlight">\(p\)</span> (probability of success)</p></li>
+<li><p><strong>Notation:</strong> <span class="math notranslate nohighlight">\(X \sim Bin(n, p)\)</span></p></li>
+</ul>
+</section>
+<section id="poisson-distribution">
+<span id="content-poisson-dist"></span><h3><strong>Poisson Distribution</strong><a class="headerlink" href="#poisson-distribution" title="Permalink to this headline">#</a></h3>
+<ul class="simple">
+<li><p><strong>PMF:</strong> <span class="math notranslate nohighlight">\(P(X=k|\lambda) = e^{-\lambda}\frac{\lambda^k}{k!}\)</span></p></li>
+<li><p><strong>CDF:</strong> <span class="math notranslate nohighlight">\(F(k|\lambda) = e^{-\lambda}\sum_{i=0}^{k} \frac{\lambda^i}{i!}\)</span></p></li>
+<li><p><strong>Mean:</strong> <span class="math notranslate nohighlight">\(\lambda\)</span></p></li>
+<li><p><strong>Variance:</strong> <span class="math notranslate nohighlight">\(\lambda\)</span></p></li>
+<li><p><strong>Support:</strong> <span class="math notranslate nohighlight">\(\{0, 1, 2, ...\}\)</span></p></li>
+<li><p><strong>Parameters:</strong> <span class="math notranslate nohighlight">\(\lambda\)</span> (rate)</p></li>
+<li><p><strong>Notation:</strong> <span class="math notranslate nohighlight">\(X \sim Poi(\lambda)\)</span></p></li>
+</ul>
+</section>
+</section>
+<section id="continuous">
+<h2>Continuous<a class="headerlink" href="#continuous" title="Permalink to this headline">#</a></h2>
+<section id="normal-distribution">
+<span id="content-normal-dist"></span><h3><strong>Normal Distribution</strong><a class="headerlink" href="#normal-distribution" title="Permalink to this headline">#</a></h3>
+<ul class="simple">
+<li><p><strong>PDF (variance):</strong> <span class="math notranslate nohighlight">\(f(x|\mu,\sigma^2) = \frac{1}{\sqrt{2\pi\sigma^2}} e^{-(x-\mu)^2 / (2\sigma^2)}\)</span></p></li>
+<li><p><strong>PDF (precision):</strong> <span class="math notranslate nohighlight">\(f(x|\mu,\tau) = \sqrt{\frac{\tau}{2\pi}} e^{-(\tau/2) (x-\mu)^2}\)</span></p></li>
+<li><p><strong>CDF:</strong> <span class="math notranslate nohighlight">\(\Phi(x|\mu,\sigma) = \frac{1}{2}[1 + \text{erf}((x-\mu)/(\sigma\sqrt{2}))]\)</span></p></li>
+<li><p><strong>Mean:</strong> <span class="math notranslate nohighlight">\(\mu\)</span></p></li>
+<li><p><strong>Variance:</strong> <span class="math notranslate nohighlight">\(\sigma^2\)</span></p></li>
+<li><p><strong>Support:</strong> <span class="math notranslate nohighlight">\((-\infty, \infty)\)</span></p></li>
+<li><p><strong>Parameters:</strong> <span class="math notranslate nohighlight">\(\mu\)</span> (mean), <span class="math notranslate nohighlight">\(\sigma^2\)</span> (variance), <span class="math notranslate nohighlight">\(\tau\)</span> (precision, defined as <span class="math notranslate nohighlight">\(\tau = 1/\sigma^2\)</span>)</p></li>
+<li><p><strong>Notation:</strong> <span class="math notranslate nohighlight">\(X \sim N(\mu, \sigma^2)\)</span></p></li>
+</ul>
+</section>
+<section id="beta-distribution">
+<span id="content-beta-dist"></span><h3><strong>Beta Distribution</strong><a class="headerlink" href="#beta-distribution" title="Permalink to this headline">#</a></h3>
+<ul class="simple">
+<li><p><strong>PDF:</strong> <span class="math notranslate nohighlight">\(f(x|\alpha,\beta) = \frac{x^{\alpha-1} (1-x)^{\beta-1}}{B(\alpha,\beta)}\)</span></p></li>
+<li><p><strong>CDF:</strong> <span class="math notranslate nohighlight">\(I_x(\alpha,\beta)\)</span></p></li>
+<li><p><strong>Mean:</strong> <span class="math notranslate nohighlight">\(\frac{\alpha}{\alpha+\beta}\)</span></p></li>
+<li><p><strong>Variance:</strong> <span class="math notranslate nohighlight">\(\frac{\alpha \beta}{(\alpha+\beta)^2(\alpha+\beta+1)}\)</span></p></li>
+<li><p><strong>Support:</strong> <span class="math notranslate nohighlight">\((0, 1)\)</span></p></li>
+<li><p><strong>Parameters:</strong> <span class="math notranslate nohighlight">\(\alpha,\beta\)</span> (shape parameters)</p></li>
+<li><p><strong>Notation:</strong> <span class="math notranslate nohighlight">\(X \sim Be(\alpha, \beta)\)</span></p></li>
+</ul>
+</section>
+<section id="cauchy-distribution">
+<span id="content-cauchy-dist"></span><h3><strong>Cauchy Distribution</strong><a class="headerlink" href="#cauchy-distribution" title="Permalink to this headline">#</a></h3>
+<ul class="simple">
+<li><p><strong>PDF:</strong> <span class="math notranslate nohighlight">\(f(x|x_0,\gamma) = \frac{1}{\pi\gamma[1 + ((x-x_0)/\gamma)^2]}\)</span></p></li>
+<li><p><strong>CDF:</strong> <span class="math notranslate nohighlight">\(F(x|x_0,\gamma) = \frac{1}{\pi}\arctan\left(\frac{x-x_0}{\gamma}\right) + \frac{1}{2}\)</span></p></li>
+<li><p><strong>Mean:</strong> undefined</p></li>
+<li><p><strong>Variance:</strong> undefined</p></li>
+<li><p><strong>Support:</strong> <span class="math notranslate nohighlight">\((-\infty, \infty)\)</span></p></li>
+<li><p><strong>Parameters:</strong> <span class="math notranslate nohighlight">\(x_0\)</span> (location), <span class="math notranslate nohighlight">\(\gamma\)</span> (scale)</p></li>
+<li><p><strong>Notation:</strong> <span class="math notranslate nohighlight">\(X \sim Cauchy(x_0, \gamma)\)</span></p></li>
+</ul>
+</section>
+<section id="exponential-distribution">
+<span id="content-exponential-dist"></span><h3><strong>Exponential Distribution</strong><a class="headerlink" href="#exponential-distribution" title="Permalink to this headline">#</a></h3>
+<ul class="simple">
+<li><p><strong>PDF:</strong> <span class="math notranslate nohighlight">\(f(x|\lambda) = \lambda e^{-\lambda x}\)</span></p></li>
+<li><p><strong>CDF:</strong> <span class="math notranslate nohighlight">\(F(x|\lambda) = 1 - e^{-\lambda x}\)</span></p></li>
+<li><p><strong>Mean:</strong> <span class="math notranslate nohighlight">\(\frac{1}{\lambda}\)</span></p></li>
+<li><p><strong>Variance:</strong> <span class="math notranslate nohighlight">\(\frac{1}{\lambda^2}\)</span></p></li>
+<li><p><strong>Support:</strong> <span class="math notranslate nohighlight">\((0, \infty)\)</span></p></li>
+<li><p><strong>Parameters:</strong> <span class="math notranslate nohighlight">\(\lambda\)</span> (rate)</p></li>
+<li><p><strong>Notation:</strong> <span class="math notranslate nohighlight">\(X \sim Exp(\lambda)\)</span></p></li>
+</ul>
+</section>
+<section id="gamma-distribution">
+<span id="content-gamma-dist"></span><h3><strong>Gamma Distribution</strong><a class="headerlink" href="#gamma-distribution" title="Permalink to this headline">#</a></h3>
+<ul class="simple">
+<li><p><strong>PDF:</strong> <span class="math notranslate nohighlight">\(f(x|\alpha,\beta) = \frac{\beta^\alpha}{\Gamma(\alpha)}x^{\alpha-1}e^{-\beta x}\)</span></p></li>
+<li><p><strong>CDF:</strong> <span class="math notranslate nohighlight">\(F(x|\alpha,\beta) = \frac{\gamma(\alpha, \beta x)}{\Gamma(\alpha)}\)</span></p></li>
+<li><p><strong>Mean:</strong> <span class="math notranslate nohighlight">\(\frac{\alpha}{\beta}\)</span></p></li>
+<li><p><strong>Variance:</strong> <span class="math notranslate nohighlight">\(\frac{\alpha}{\beta^2}\)</span></p></li>
+<li><p><strong>Support:</strong> <span class="math notranslate nohighlight">\((0, \infty)\)</span></p></li>
+<li><p><strong>Parameters:</strong> <span class="math notranslate nohighlight">\(\alpha\)</span> (shape), <span class="math notranslate nohighlight">\(\beta\)</span> (rate)</p></li>
+<li><p><strong>Notation:</strong> <span class="math notranslate nohighlight">\(X \sim Ga(\alpha, \beta)\)</span></p></li>
+</ul>
+</section>
+<section id="uniform-distribution">
+<span id="content-uniform-dist"></span><h3><strong>Uniform Distribution</strong><a class="headerlink" href="#uniform-distribution" title="Permalink to this headline">#</a></h3>
+<ul class="simple">
+<li><p><strong>PDF:</strong> <span class="math notranslate nohighlight">\(f(x|a,b) = \frac{1}{b-a}\)</span></p></li>
+<li><p><strong>CDF:</strong> <span class="math notranslate nohighlight">\(F(x|a,b) = \frac{x-a}{b-a}\)</span></p></li>
+<li><p><strong>Mean:</strong> <span class="math notranslate nohighlight">\(\frac{a+b}{2}\)</span></p></li>
+<li><p><strong>Variance:</strong> <span class="math notranslate nohighlight">\(\frac{(b-a)^2}{12}\)</span></p></li>
+<li><p><strong>Support:</strong> <span class="math notranslate nohighlight">\([a, b]\)</span></p></li>
+<li><p><strong>Parameters:</strong> <span class="math notranslate nohighlight">\(a\)</span> (lower bound), <span class="math notranslate nohighlight">\(b\)</span> (upper bound)</p></li>
+<li><p><strong>Notation:</strong> <span class="math notranslate nohighlight">\(X \sim U(a, b)\)</span></p></li>
+</ul>
+</section>
+<section id="weibull-distribution">
+<span id="content-weibull-dist"></span><h3><strong>Weibull Distribution</strong><a class="headerlink" href="#weibull-distribution" title="Permalink to this headline">#</a></h3>
+<section id="bugs">
+<h4>BUGS<a class="headerlink" href="#bugs" title="Permalink to this headline">#</a></h4>
+<ul class="simple">
+<li><p><strong>PDF:</strong> <span class="math notranslate nohighlight">\(f(x|r, \lambda) = \lambda r x^{r-1} e^{-\lambda x^r}\)</span>, for <span class="math notranslate nohighlight">\(x &gt; 0\)</span></p></li>
+<li><p><strong>CDF:</strong> <span class="math notranslate nohighlight">\(F(x|r, \lambda) = 1 - e^{-\lambda x^r}\)</span></p></li>
+<li><p><strong>Mean:</strong> <span class="math notranslate nohighlight">\(\lambda^{-\frac{1}{r}} \Gamma\left(1 + \frac{1}{r}\right)\)</span></p></li>
+<li><p><strong>Variance:</strong> <span class="math notranslate nohighlight">\(\frac{\Gamma(1+2/r) - [\Gamma(1+1/r)]^2}{\lambda^{2/r}}\)</span></p></li>
+<li><p><strong>Parameters:</strong> <span class="math notranslate nohighlight">\(r\)</span> (shape parameter), <span class="math notranslate nohighlight">\(\lambda\)</span> (rate parameter)</p></li>
+<li><p><strong>Support:</strong> <span class="math notranslate nohighlight">\((0, \infty)\)</span></p></li>
+<li><p><strong>Notation:</strong> <span class="math notranslate nohighlight">\(X \sim Weibull(r, \lambda)\)</span></p></li>
+</ul>
+</section>
+<section id="pymc">
+<h4>PyMC<a class="headerlink" href="#pymc" title="Permalink to this headline">#</a></h4>
+<ul class="simple">
+<li><p><strong>PDF:</strong> <span class="math notranslate nohighlight">\(f(x|\alpha, \beta) = \frac{\alpha x^{\alpha - 1} e^{-(x/\beta)^{\alpha}}}{\beta^\alpha}\)</span>, for <span class="math notranslate nohighlight">\(x &gt; 0\)</span></p></li>
+<li><p><strong>CDF:</strong> <span class="math notranslate nohighlight">\(F(x|\alpha, \beta) = 1 - e^{-(x/\beta)^\alpha}\)</span> for <span class="math notranslate nohighlight">\(x &gt; 0\)</span></p></li>
+<li><p><strong>Mean:</strong> <span class="math notranslate nohighlight">\(\beta \Gamma(1 + \frac{1}{\alpha})\)</span></p></li>
+<li><p><strong>Variance:</strong> <span class="math notranslate nohighlight">\(\beta^2 \Gamma(1+2/\alpha - \mu^2/\beta^2)\)</span></p></li>
+<li><p><strong>Parameters:</strong> <span class="math notranslate nohighlight">\(\alpha\)</span> (shape parameter, <span class="math notranslate nohighlight">\(\alpha &gt; 0\)</span>), <span class="math notranslate nohighlight">\(\beta\)</span> (scale parameter, <span class="math notranslate nohighlight">\(\beta &gt; 0\)</span>)</p>
+<ul>
+<li><p><span class="math notranslate nohighlight">\(\alpha = r\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\beta = \lambda^{-1/\alpha}\)</span></p></li>
+</ul>
+</li>
+<li><p><strong>Notation:</strong> <span class="math notranslate nohighlight">\(X \sim Weibull(\alpha, \beta)\)</span></p></li>
+</ul>
+</section>
+</section>
+</section>
+<section id="other-resources">
+<h2>Other resources<a class="headerlink" href="#other-resources" title="Permalink to this headline">#</a></h2>
+<p>I highly recommend <a class="reference external" href="https://betanalpha.github.io/assets/case_studies/probability_densities.html#2_elementary_building_blocks">this overview</a> of probability density functions and families by Michael Betancourt, especially section 2.</p>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -612,6 +806,40 @@ document.write(`
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#discrete">Discrete</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#bernoulli-distribution"><strong>Bernoulli Distribution</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#binomial-distribution"><strong>Binomial Distribution</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#poisson-distribution"><strong>Poisson Distribution</strong></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#continuous">Continuous</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#normal-distribution"><strong>Normal Distribution</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#beta-distribution"><strong>Beta Distribution</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cauchy-distribution"><strong>Cauchy Distribution</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exponential-distribution"><strong>Exponential Distribution</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gamma-distribution"><strong>Gamma Distribution</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uniform-distribution"><strong>Uniform Distribution</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#weibull-distribution"><strong>Weibull Distribution</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#bugs">BUGS</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pymc">PyMC</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#other-resources">Other resources</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>

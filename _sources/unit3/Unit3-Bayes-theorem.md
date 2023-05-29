@@ -21,9 +21,3 @@ The left-hand side . . . is generally called a ‘*posterior probability*’, wi
 
 -- {cite:t}`jaynes2003` p. 89
 ```
-
-
-## Todo
-
-- Bayes factor? although I think that may be more Unit 4 material.
-- odds formulation of Bayes theorem, link to [3blue1brown video](https://www.youtube.com/watch?v=lG4VkPoG3ko&list=PLnDGnVHTlzsNJc6WHxYnF-vpSxrEehhTA).

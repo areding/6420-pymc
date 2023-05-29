@@ -62,6 +62,8 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'unit4/Unit4-conjugatefamilies';</script>
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -190,7 +192,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1 has-children"><a class="reference internal" href="distributions.html">Probability Distributions</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="Unit4-basicdist.html">1. Basic Distributions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Unit4-numericalchar.html">2. Numerical Characteristics of Random Variables</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Unit4-jointconditionals.html">3. Joint Conditionals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Unit4-jointconditionals.html">3. Joint and Conditional Distributions</a></li>
 </ul>
 </li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="bayestheorem.html">Bayes’ Theorem</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
@@ -201,7 +203,8 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l2"><a class="reference internal" href="Unit4-poissongamma.html">8. Poisson–Gamma Model</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="conjugatecases.html">Conjugate Cases</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="conjugatecases.html">Bayesian Inference in Conjugate Cases</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="Unit4-estimation.html">9. Estimation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Unit4-crediblesets.html">10. Credible Intervals</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Unit4-GammaGamma.html">11. Gamma Gamma*</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Unit4-testing.html">12. Bayesian Testing</a></li>
@@ -215,14 +218,19 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l2"><a class="reference internal" href="Unit4-eBay.html">17. eBay Purchase Example*</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="moreexamples.html">More Examples</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="empiricalbayes.html">Empirical Bayes</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="Unit4-parametric.html">18. Parametric</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Unit4-nonpara.html">19. Non-parametric</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="moreexamples.html">More Examples</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="Unit4-AlphaParticles.html">20. Counts of Alpha Particles*</a></li>
 </ul>
 </li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Unit 5</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1 has-children"><a class="reference internal" href="../unit5/bayesian-computation.html">Bayesian Computation</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../unit5/bayesian-computation.html">Bayesian Computation</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-numericalapproaches.html">1. Numerical Approaches</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-norcau1.html">2. Normal–Cauchy Example</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-Laplace.html">3. Laplace’s Method</a></li>
@@ -230,14 +238,14 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-mcmc.html">5. Markov Chain Monte Carlo</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../unit5/metropolis-hastings.html">The Metropolis Algorithm</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../unit5/metropolis-hastings.html">The Metropolis Algorithm</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-Metropolis.html">6. Metropolis</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-Metropolis1.html">7. Metropolis: Normal-Cauchy*</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-MetropolisHastings.html">8. Metropolis–Hastings</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-MetropolisHastings2.html">9. Weibull Lifetimes*</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../unit5/gibbs-sampling.html">Gibbs Sampling</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../unit5/gibbs-sampling.html">Gibbs Sampling</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-9"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-gibbsintro.html">10. Introduction to Gibbs Sampling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-GibbsSampler.html">11. Normal-Cauchy Gibbs Sampler*</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-gibbs2.html">12. Conjugate Gamma-Poisson Model</a></li>
@@ -246,7 +254,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-Gibbs3.html">15. Coal Mining Disasters in the UK*</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../unit5/other.html">Other Algorithms</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-9"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../unit5/other.html">Other Algorithms</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-10"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-hamiltonian.html">16. Hamiltonian Monte Carlo</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-other-methods.html">17. Going Further</a></li>
 </ul>
@@ -268,7 +276,7 @@ const thebe_selector_output = ".output, .cell_output"
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Unit 7</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1 has-children"><a class="reference internal" href="../unit7/hierarchical.html">Hierarchical Models</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-10"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../unit7/hierarchical.html">Hierarchical Models</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-11"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../unit7/Unit7-introduction.html">1. Introduction to Hierarchical Models</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../unit7/Unit7-why.html">2. Reasons to Use Hierarchical Models</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../unit7/Unit7-priors.html">3. Priors with Structural Information</a></li>
@@ -276,7 +284,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l2"><a class="reference internal" href="../unit7/Unit7-metaanalysis.html">5. Meta-analysis via Hierarchical Models*</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../unit7/linearmodels.html">Linear Models</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-11"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../unit7/linearmodels.html">Linear Models</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-12"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../unit7/Unit7-anova.html">6. Analysis of Variance</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../unit7/Unit7-coagulation.html">7. Coagulation*</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../unit7/Unit7-factorial.html">8. Factorial Designs</a></li>
@@ -287,7 +295,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l2"><a class="reference internal" href="../unit7/Unit7-demo-multiple.html">13. Multiple Regression: Brozek Index Prediction*</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../unit7/othermodels.html">Other Models</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-12"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../unit7/othermodels.html">Other Models</a><input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-13"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../unit7/Unit7-other.html">14. Generalized Linear Models</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../unit7/Unit7-arrhythmia.html">15. GLM Examples*</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../unit7/Unit7-multinomial.html">16. Multinomial Logit</a></li>
@@ -531,7 +539,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
 </div></div>
       
     </div>
@@ -547,6 +557,14 @@ document.write(`
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conjugate-table">Conjugate table</a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -558,6 +576,57 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="conjugate-families">
 <h1>5. Conjugate Families<a class="headerlink" href="#conjugate-families" title="Permalink to this headline">#</a></h1>
+<p>One way to avoid needing to calculate the normalizing is to make use of conjugate pairs. These are likelihood-prior pairs where the posterior will be the same family as the prior.</p>
+<section id="conjugate-table">
+<span id="content-conjugate-table"></span><h2>Conjugate table<a class="headerlink" href="#conjugate-table" title="Permalink to this headline">#</a></h2>
+<p>From <span id="id1">Vidakovic [<a class="reference internal" href="../unit10/bibliography.html#id11" title="Brani Vidakovic. Engineering Biostatistics: An Introduction using MATLAB and WinBUGS. Wiley, 2017. ISBN 978-1-119-16896-6.">2017</a>]</span> p. 341. This is not an exhaustive list but it has some of the most common conjugate pairs.</p>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="text-left head"><p>Likelihood</p></th>
+<th class="text-left head"><p>Prior</p></th>
+<th class="text-left head"><p>Posterior</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><span class="math notranslate nohighlight">\(X_i \mid  \theta \sim \mathcal{N} (\theta, \sigma^2)\)</span></p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(\theta \sim\mathcal{N}(\mu, \tau^2)\)</span></p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(\theta\mid X\sim \mathcal{N}\left(\frac{\tau^2}{\tau^2 +\sigma^2/n}\bar{X} + \frac{\sigma^2/n}{\tau^2 + \sigma^2/n}\mu, \frac{\tau^2\sigma^2/n}{\tau^2+ \sigma^2/n}\right)\)</span></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><span class="math notranslate nohighlight">\(X_i\mid \theta \sim Bin(m,\theta)\)</span></p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(\theta \sim Be(\alpha,\beta)\)</span></p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(\theta\mid X \sim Be\left(\alpha + \sum_{i=1}^{n}X_i,\beta + mn - \sum_{i=1}^{n}X_i\right)\)</span></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><span class="math notranslate nohighlight">\(X_i\mid \theta \sim Poi(\theta)\)</span></p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(\theta \sim Ga(\alpha,\beta)\)</span></p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(\theta\mid X \sim Ga\left(\alpha+\sum_{i=1}^{n}X_i,\beta+n\right)\)</span></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><span class="math notranslate nohighlight">\(X_i\mid \theta \sim \mathcal{NB}(m,\theta)\)</span></p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(\theta \sim Be(\alpha,\beta)\)</span></p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(\theta\mid X \sim Be\left(\alpha+mn,\beta+\sum_{i=1}^{n}X_i\right)\)</span></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><span class="math notranslate nohighlight">\(X_i\mid \theta \sim Ga\left(1/2,1/2\theta\right)\)</span></p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(\theta \sim IG(\alpha, \beta)\)</span></p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(\theta \mid  X \sim IG\left(\alpha + n/2, \beta + \frac{1}{2}\sum_{i=1}^{n}X_i\right)\)</span></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><span class="math notranslate nohighlight">\(X_i\mid \theta \sim U(0,\theta)\)</span></p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(\theta \sim Pa(\theta_0,\alpha)\)</span></p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(\theta\mid X \sim Pa\left(\max\{\theta_0,X_1,...,X_n\},\alpha+n\right)\)</span></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><span class="math notranslate nohighlight">\(X_i\mid \theta \sim \mathcal{N}(\mu,\theta)\)</span></p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(\theta \sim IG(\alpha, \beta)\)</span></p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(\theta\mid X \sim IG\left(\alpha+n/2,\beta+\frac{1}{2}\sum_{i=1}^{n}(X_i - \mu)^2\right)\)</span></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><span class="math notranslate nohighlight">\(X_i\mid \theta \sim Ga(\nu,\theta)\)</span></p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(\theta \sim Ga(\alpha,\beta)\)</span></p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(\theta \mid  X \sim Ga\left(\alpha +\mathcal{N}\nu, \beta + \sum_{i=1}^{n}X_i\right)\)</span></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><span class="math notranslate nohighlight">\(X_i\mid \theta \sim Pa(c,\theta)\)</span></p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(\theta \sim Ga(\alpha,\beta)\)</span></p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(\theta \mid  X \sim Ga\left(\alpha + n, \beta + \sum_{i=1}^{n}\log\left(X_i/c\right)\right)\)</span></p></td>
+</tr>
+</tbody>
+</table>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -612,6 +681,20 @@ document.write(`
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conjugate-table">Conjugate table</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>
