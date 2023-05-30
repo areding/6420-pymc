@@ -1,2 +1,4 @@
 # The Metropolis Algorithm
 
+```{tableofcontents}
+```

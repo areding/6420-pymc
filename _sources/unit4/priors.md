@@ -1,1 +1,4 @@
 # Priors
+
+```{tableofcontents}
+```

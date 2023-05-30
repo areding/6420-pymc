@@ -1,1 +1,4 @@
 # Other Algorithms
+
+```{tableofcontents}
+```
