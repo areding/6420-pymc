@@ -62,6 +62,8 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'unit4/Unit4-crediblesets';</script>
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -537,7 +539,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
 </div></div>
       
     </div>
@@ -553,6 +557,15 @@ document.write(`
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#highest-posterior-density-hpd-intervals">Highest Posterior Density (HPD) intervals</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#equitailed-intervals">Equitailed intervals</a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -564,10 +577,125 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="credible-intervals">
 <h1>10. Credible Intervals<a class="headerlink" href="#credible-intervals" title="Permalink to this headline">#</a></h1>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>This page is a stub. It will be updated over summer 2023 with supplementary lecture notes.</p>
+<p>Point estimates are too limited for many purposes. We’ll usually want some more information about what the posterior is telling us. In classical statistics we might use a confidence interval. Credible intervals, or credible sets as Professor Vidakovic usually calls them, are the Bayesian answer.</p>
+<p>The difference between confidence intervals and credible sets is a great entry point into the philosophical differences between frequentist and Bayesian reasoning. This <a class="reference external" href="https://stats.stackexchange.com/questions/2272/whats-the-difference-between-a-confidence-interval-and-a-credible-interval">Stack Exchange</a> post is a great read on the subject.</p>
+<p>For our class, we’ll be learning about HPD-credible sets and equitailed credible sets. Sometimes the homework will ask for one or the other, or both, so make sure you understand the difference. If the homework doesn’t specify, you can use either, but the equitailed credible set is often easier to calculate.</p>
+<p>A credible set on the posterior of parameter <span class="math notranslate nohighlight">\(\theta\)</span>, with credibility <span class="math notranslate nohighlight">\(1 - \alpha\)</span>, is defined as:</p>
+<div class="math notranslate nohighlight">
+\[\int_{C} \pi(\theta | X) d\theta \geq 1 - \alpha\]</div>
+<p>In other words, the probability that the posterior of <span class="math notranslate nohighlight">\(\theta\)</span> is greater than or equal to <span class="math notranslate nohighlight">\(1 - \alpha\)</span> within the bounds of <span class="math notranslate nohighlight">\(C\)</span>.</p>
+<p>This definition is incomplete, as there are an infinite number of credible intervals meeting this definition. Depending on which further constraints we add, we can create different types of credible sets.</p>
+<section id="highest-posterior-density-hpd-intervals">
+<h2>Highest Posterior Density (HPD) intervals<a class="headerlink" href="#highest-posterior-density-hpd-intervals" title="Permalink to this headline">#</a></h2>
+<p>The HPD-credible set is also known as the minimum-width credible interval. Professor Vidakovic defines the the additional constraint by limiting the credible region <span class="math notranslate nohighlight">\(C\)</span> to the subset of the posterior where the density is greater than <span class="math notranslate nohighlight">\(k(\alpha)\)</span>.</p>
+<div class="math notranslate nohighlight">
+\[C = {\theta \in \Theta | \pi(\theta|x) \ge k(\alpha)}\]</div>
+<p>Here <span class="math notranslate nohighlight">\(k(\alpha)\)</span> is a threshold density level chosen such that the probability mass of the portion of the posterior distribution with density greater than <span class="math notranslate nohighlight">\(k(\alpha)\)</span> is <span class="math notranslate nohighlight">\(1-\alpha\)</span>. It’s a cutoff value for the posterior density function used to determine the HPD interval.</p>
+<p>You can think of <span class="math notranslate nohighlight">\(k(\alpha)\)</span> as the level or horizontal line that segments the posterior distribution into regions of higher and lower density, where higher is defined as density greater than <span class="math notranslate nohighlight">\(k(\alpha)\)</span>. Being horizontal guarantees it is the minimum-width region, while selecting the level decides the credibility or width of our set.</p>
+<p>Finding <span class="math notranslate nohighlight">\(k(\alpha)\)</span> is an optimization problem. We’ll go over some different ways to find it in the next lesson.</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">gamma</span>
+
+<span class="o">%</span><span class="k">load_ext</span> lab_black
+
+<span class="n">xx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1000000</span><span class="p">)</span>
+<span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">29</span>
+<span class="n">low</span><span class="p">,</span> <span class="n">high</span> <span class="o">=</span> <span class="mf">0.0246</span><span class="p">,</span> <span class="mf">0.2741</span>
+<span class="n">pdf</span> <span class="o">=</span> <span class="n">gamma</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="n">a</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">1</span> <span class="o">/</span> <span class="n">b</span><span class="p">)</span>
+
+<span class="c1"># density curve</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">pdf</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;PDF&quot;</span><span class="p">)</span>
+
+<span class="c1"># additional markings</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">full_like</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="mf">0.857</span><span class="p">),</span> <span class="s2">&quot;r-&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;$k(</span><span class="se">\\</span><span class="s2">alpha)$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">low</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;dashed&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Set boundaries&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">high</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;dashed&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span>
+    <span class="n">xx</span><span class="p">,</span>
+    <span class="n">pdf</span><span class="p">,</span>
+    <span class="n">where</span><span class="o">=</span><span class="p">(</span><span class="n">low</span> <span class="o">&lt;</span> <span class="n">xx</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">xx</span> <span class="o">&lt;</span> <span class="n">high</span><span class="p">),</span>
+    <span class="n">color</span><span class="o">=</span><span class="s2">&quot;lightgrey&quot;</span><span class="p">,</span>
+    <span class="n">label</span><span class="o">=</span><span class="s2">&quot;HPD-credible region&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;95% HPD credible set of a Gamma(4, 29) distribution&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="n">bottom</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="n">left</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">low</span> <span class="o">+</span> <span class="mf">0.01</span><span class="p">,</span> <span class="mf">6.55</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">low</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">high</span> <span class="o">+</span> <span class="mf">0.01</span><span class="p">,</span> <span class="mf">6.55</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">high</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
 </div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<img alt="../_images/467d58d841a4d679f95d18b0111801520a392232fab7141cace9d0e27a06d298.png" src="../_images/467d58d841a4d679f95d18b0111801520a392232fab7141cace9d0e27a06d298.png" />
+</div>
+</div>
+<p>This works fine for unimodal distributions. Things become more complicated if the posterior is multimodal or a monotonically decreasing function, like an exponential distribution. At that point we will need to use other strategies. Keep in mind that using <span class="math notranslate nohighlight">\(k(\alpha)\)</span> is a means to an end, not our final goal.</p>
+</section>
+<section id="equitailed-intervals">
+<h2>Equitailed intervals<a class="headerlink" href="#equitailed-intervals" title="Permalink to this headline">#</a></h2>
+<p>Equitailed credible sets are exactly what they sound like. Here our second constraint is that each tail, or the area outside the credible region, is equal to <span class="math notranslate nohighlight">\(\alpha/2\)</span>.</p>
+<div class="math notranslate nohighlight">
+\[\int_{-\infty}^{L} \pi(\theta | x) d\theta \leq \frac{\alpha}{2}; \int_{U}^{\infty} \pi(\theta | x) d\theta \leq \frac{\alpha}{2}\]</div>
+<p>Finding the equitailed credible set is simpler than the HPD for known distributions, since you can make use of the inverse CDF or percent-point function of that distribution.</p>
+<p>The plot below is the same distribution as above, but shows the 95% equitailed credible set instead. Notice that the line between the intersection of the set endpoints and the density curve is no longer horizontal, since this is no longer the minimum-width region.</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lower_eqt</span> <span class="o">=</span> <span class="n">gamma</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="mf">0.025</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">1</span> <span class="o">/</span> <span class="n">b</span><span class="p">)</span>
+<span class="n">upper_eqt</span> <span class="o">=</span> <span class="n">gamma</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="mf">0.975</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">1</span> <span class="o">/</span> <span class="n">b</span><span class="p">)</span>
+
+<span class="c1"># density curve</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">pdf</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;PDF&quot;</span><span class="p">)</span>
+
+<span class="c1"># additional markings</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="p">[</span><span class="n">lower_eqt</span><span class="p">,</span> <span class="n">upper_eqt</span><span class="p">],</span>
+    <span class="p">[</span><span class="n">gamma</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">lower_eqt</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">1</span> <span class="o">/</span> <span class="n">b</span><span class="p">),</span> <span class="n">gamma</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">upper_eqt</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">1</span> <span class="o">/</span> <span class="n">b</span><span class="p">)],</span>
+    <span class="s2">&quot;r-&quot;</span><span class="p">,</span>
+    <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">lower_eqt</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;dashed&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Set boundaries&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">upper_eqt</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;dashed&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span>
+    <span class="n">xx</span><span class="p">,</span>
+    <span class="n">pdf</span><span class="p">,</span>
+    <span class="n">where</span><span class="o">=</span><span class="p">(</span><span class="n">lower_eqt</span> <span class="o">&lt;</span> <span class="n">xx</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">xx</span> <span class="o">&lt;</span> <span class="n">upper_eqt</span><span class="p">),</span>
+    <span class="n">color</span><span class="o">=</span><span class="s2">&quot;lightgrey&quot;</span><span class="p">,</span>
+    <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Equitailed credible region&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;95</span><span class="si">% E</span><span class="s2">quitailed credible set of a Gamma(4, 29) distribution&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="n">bottom</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="n">left</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">lower_eqt</span> <span class="o">+</span> <span class="mf">0.01</span><span class="p">,</span> <span class="mf">6.55</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">lower_eqt</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">upper_eqt</span> <span class="o">-</span> <span class="mf">0.055</span><span class="p">,</span> <span class="mf">6.55</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">upper_eqt</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<img alt="../_images/a301739aaa54d292e4e16fa05a8994df681eb07addbd4cadb9561bc450a22b63.png" src="../_images/a301739aaa54d292e4e16fa05a8994df681eb07addbd4cadb9561bc450a22b63.png" />
+</div>
+</div>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -622,6 +750,21 @@ document.write(`
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#highest-posterior-density-hpd-intervals">Highest Posterior Density (HPD) intervals</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#equitailed-intervals">Equitailed intervals</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>
