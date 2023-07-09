@@ -4,7 +4,7 @@ This repository contains Python translations of the examples from Georgia Tech's
 
 ## Why?
 
-During my second semester as a TA, I created this site to address the most common student complaints and questions. At the time, the most frequent source of dissatisfaction was the course's use of outdated software, namely WinBUGS/OpenBUGS. So I redid the lecture examples in Python and PyMC.
+I created this site to address some of the most common student complaints and questions. At the time, the most frequent source of dissatisfaction was the course's use of outdated software, namely WinBUGS/OpenBUGS. So I redid the lecture examples in Python and PyMC.
 
 A close second was the lecture quality—some students said they were too dense, some said they didn't delve deeply enough into the underlying theory, and others said they wanted to see more problems worked out step-by-step. 
 
