@@ -62,6 +62,8 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'unit4/Unit4-prediction';</script>
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -537,7 +539,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
 </div></div>
       
     </div>
@@ -553,6 +557,15 @@ document.write(`
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lecture-errata">Lecture errata</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prior-and-posterior-predictive-distributions">Prior and posterior predictive distributions</a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -564,17 +577,16 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="prediction">
 <h1>13. Prediction<a class="headerlink" href="#prediction" title="Permalink to this headline">#</a></h1>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>This page is a stub. It will be updated over summer 2023 with supplementary lecture notes.</p>
-</div>
-<p>TODO:</p>
-<ul class="simple">
-<li><p>errata: “Example 1: the formula for a Gamma prior is incorrectly specified in lecture; it should be π(λ) = β^αλ^{α−1}/Γ(α) * e^{−βλ}.”</p></li>
-<li><p>Add posterior predictive notes, purpose, example.</p></li>
-<li><p>Prior predictive.</p></li>
-<li><p>Compare with plug-in approximation, since so many students naturally want to do that. see Probabilistic Machine Learning 4.6.2.9 p 129-130</p></li>
-</ul>
+<section id="lecture-errata">
+<h2>Lecture errata<a class="headerlink" href="#lecture-errata" title="Permalink to this headline">#</a></h2>
+<p>The formula for the Gamma prior has a typo, it should be:</p>
+<div class="math notranslate nohighlight">
+\[\pi(\lambda) = \frac{\beta^{\alpha}}{\Gamma(\alpha)}\lambda^{\alpha -1}e^{-\beta \lambda}\]</div>
+</section>
+<section id="prior-and-posterior-predictive-distributions">
+<h2>Prior and posterior predictive distributions<a class="headerlink" href="#prior-and-posterior-predictive-distributions" title="Permalink to this headline">#</a></h2>
+<p>Please see Greg’s notes on the subject, which will be linked under the lecture video on Canvas.</p>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -629,6 +641,21 @@ document.write(`
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lecture-errata">Lecture errata</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prior-and-posterior-predictive-distributions">Prior and posterior predictive distributions</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>
