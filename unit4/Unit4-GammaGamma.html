@@ -564,8 +564,11 @@ document.write(`
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#translation-of-the-lectures-matlab-code">Translation of the lecture’s MATLAB code</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#find-the-hpd-credible-interval-when-you-dont-know-k">Find the HPD credible interval when you don’t know k</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#optimization-methods">Optimization methods</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#better-optimization-method">Better optimization method</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#optimization-methods">Optimization methods</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#brute-force">Brute-force</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#better-optimization-method">Better optimization method</a></li>
+</ul>
+</li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sampling-method">Sampling method</a></li>
 </ul>
 </li>
@@ -719,6 +722,8 @@ length of eqt cs: 0.26473819641779306
 <section id="optimization-methods">
 <h3>Optimization methods<a class="headerlink" href="#optimization-methods" title="Permalink to this headline">#</a></h3>
 <p>If our posterior is a known distribution, we can use optimization to find <span class="math notranslate nohighlight">\(k(\alpha)\)</span>.</p>
+<section id="brute-force">
+<h4>Brute-force<a class="headerlink" href="#brute-force" title="Permalink to this headline">#</a></h4>
 <p>This first one is a brute force method; pretty much just trying lots of values for <span class="math notranslate nohighlight">\(k\)</span> (this was how the head TA did it when I took this course):</p>
 <ol class="arabic simple">
 <li><p>Loop over a bunch of possible k values, each time using a function like <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.fsolve.html"><code class="docutils literal notranslate"><span class="pre">scipy.optimize.fsolve()</span></code></a> on the pdf of your posterior minus k. This will solve for the location that your pdf intersects with k. You need to feed the optimizer an initial guess, near the lower bound of the credible interval, and one near the upper bound.</p></li>
@@ -773,10 +778,10 @@ probability within these bounds: 0.950094289217813
 </div>
 </div>
 </div>
-<p>This brute-force method is really finicky, you might find yourself needing to adjust the tolerance and initial guesses quite a bit. It helps to base your guesses off visual inspection of a plot of the posterior.</p>
+<p>This method is really finicky, you might find yourself needing to adjust the tolerance and initial guesses quite a bit. It helps to base your guesses off visual inspection of a plot of the posterior.</p>
 </section>
 <section id="better-optimization-method">
-<h3>Better optimization method<a class="headerlink" href="#better-optimization-method" title="Permalink to this headline">#</a></h3>
+<h4>Better optimization method<a class="headerlink" href="#better-optimization-method" title="Permalink to this headline">#</a></h4>
 <p>But we can do better! Instead of trying a bunch of different guesses for k, solve for where two conditions are met:</p>
 <ol class="arabic simple">
 <li><p>The pdf must evaluate to the same density at each bound (so k is horizontal).</p></li>
@@ -810,6 +815,7 @@ probability within these bounds: 0.950094289217813
 </div>
 </div>
 </div>
+</section>
 </section>
 <section id="sampling-method">
 <h3>Sampling method<a class="headerlink" href="#sampling-method" title="Permalink to this headline">#</a></h3>
@@ -1192,8 +1198,11 @@ matplotlib: 3.6.3
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#translation-of-the-lectures-matlab-code">Translation of the lecture’s MATLAB code</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#find-the-hpd-credible-interval-when-you-dont-know-k">Find the HPD credible interval when you don’t know k</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#optimization-methods">Optimization methods</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#better-optimization-method">Better optimization method</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#optimization-methods">Optimization methods</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#brute-force">Brute-force</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#better-optimization-method">Better optimization method</a></li>
+</ul>
+</li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sampling-method">Sampling method</a></li>
 </ul>
 </li>
