@@ -62,6 +62,8 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'unit5/Unit5-numericalapproaches';</script>
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -560,7 +562,8 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lecture-errata">Lecture Errata</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lecture-errata">Lecture errata</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#moving-beyond-conjugate-cases">Moving beyond conjugate cases</a></li>
 </ul>
             </nav>
         </div>
@@ -575,11 +578,20 @@ document.write(`
   <section class="tex2jax_ignore mathjax_ignore" id="numerical-approaches">
 <h1>1. Numerical Approaches<a class="headerlink" href="#numerical-approaches" title="Permalink to this headline">#</a></h1>
 <section id="lecture-errata">
-<h2>Lecture Errata<a class="headerlink" href="#lecture-errata" title="Permalink to this headline">#</a></h2>
-<p>Error in exponential terms when sampling from Cauchy</p>
-<p>Once we move past conjugate cases, while we may have the posterior in analytical form as a result of Bayes’ theorem, it won’t be any recognizable distribution no matter how much we manipulate it. Many of the normalizing constants have no closed-form solution. As the professor shows in lessons 2 and 4 of this unit, we can try to approximate them numerically, but this may be imprecise or computationally intractable (with time complexity increasing exponentially with the number of parameters, as in the example from section 2.1 <a class="reference external" href="https://arxiv.org/pdf/1601.00670.pdf">of this paper</a>.</p>
-<p>Also see <a class="reference external" href="https://betanalpha.github.io/assets/case_studies/probabilistic_computation.html">this link from Michael Betancourt for an overview of probabilistic computation</a>.</p>
-<p>The second half of this course focuses more on modeling than on the specific method used to get at the posterior, but in order to do that, we need to choose a method for sampling from or approximating the posterior. There are a lot of ways out there (see <a class="reference external" href="https://areding.github.io/6420-pymc/unit5/other-methods.html">other methods</a>), but we’re going to focus on Markov Chain Monte Carlo (MCMC) methods. They have a lot of advantages, including a relatively easy algorithm to implement and understand.</p>
+<h2>Lecture errata<a class="headerlink" href="#lecture-errata" title="Permalink to this headline">#</a></h2>
+<p>There is an error in the exponential terms when sampling from the Cauchy distribution at slide 7, which appears at 4:46. The exponents in the numerator and denominator were accidentally dropped from the last version of the expression. This is how it should be:</p>
+<div class="math notranslate nohighlight">
+\[\delta_B(x) \approx \frac{\sum_{i=1}^{N} \theta_i e^{-\frac{1}{2}(\theta_i - x)^2}}{\sum_{i=1}^{N} e^{-\frac{1}{2}(\theta_i - x)^2}}\]</div>
+</section>
+<section id="moving-beyond-conjugate-cases">
+<h2>Moving beyond conjugate cases<a class="headerlink" href="#moving-beyond-conjugate-cases" title="Permalink to this headline">#</a></h2>
+<p>When we move beyond conjugate cases, we might possess the posterior in an analytical form due to Bayes’ theorem. However, this will not represent any recognizable distribution, irrespective of how we manipulate it. Many normalizing constants lack a closed-form solution. As illustrated in lessons 2 and 4 of this unit, we can attempt to numerically approximate these constants, but this method can be imprecise or computationally intractable. The time complexity increases exponentially with the number of parameters, as shown in section 2.1 of <span id="id1">[<a class="reference internal" href="../unit10/bibliography.html#id23" title="David M. Blei, Alp Kucukelbir, and Jon D. McAuliffe. Variational inference: a review for statisticians. Journal of the American Statistical Association, 112(518):859–877, apr 2017. URL: https://doi.org/10.1080%2F01621459.2017.1285773, doi:10.1080/01621459.2017.1285773.">Blei <em>et al.</em>, 2017</a>]</span>, linked <a class="reference external" href="https://arxiv.org/pdf/1601.00670.pdf">here</a>.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference external" href="https://betanalpha.github.io/assets/case_studies/probabilistic_computation.html">This article by Michael Betancourt</a> for an overview of probabilistic computation.</p>
+</div>
+<p>The second half of this course concentrates more on modeling rather than the specific method used to get the posterior, but in order to do that, we need to choose a method for sampling from or approximating the posterior.  There are <a class="reference external" href="https://areding.github.io/6420-pymc/unit5/Unit5-other-methods.html">many methods</a> out there, but we’re going to focus on Markov Chain Monte Carlo (MCMC). These algorithms have a lot of advantages, including a relatively easy algorithm to implement and understand.</p>
+<p>Specifically, we will learn the basics of the Metropolis-Hastings and Gibbs sampling algorithms.</p>
 </section>
 </section>
 
@@ -644,7 +656,8 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lecture-errata">Lecture Errata</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lecture-errata">Lecture errata</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#moving-beyond-conjugate-cases">Moving beyond conjugate cases</a></li>
 </ul>
   </nav></div>
 

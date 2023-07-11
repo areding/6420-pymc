@@ -62,6 +62,8 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'unit5/Unit5-norcau1';</script>
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -564,7 +566,48 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="normalcauchy-example">
 <h1>2. Normal–Cauchy Example<a class="headerlink" href="#normalcauchy-example" title="Permalink to this headline">#</a></h1>
-<p>This already has a Python implementation called <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/original_examples/Codes4Unit5/norcau.py">norcau.py</a>. I may update it at some point and add more explanation.</p>
+<p>Professor Vidakovic already has a Python implementation of this available: <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/original_examples/Codes4Unit5/norcau.py">norcau.py</a>. I’ve cleaned it up a bit below to remove some deprecation warnings and unnecessary repetition of some calculations.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy.integrate</span> <span class="kn">import</span> <span class="n">quad</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">exp</span><span class="p">,</span> <span class="n">inf</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="mi">2</span>
+
+<span class="n">num</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">th</span><span class="p">:</span> <span class="n">th</span> <span class="o">*</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">th</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">th</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">denom</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">th</span><span class="p">:</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">th</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">th</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="c1"># quadrature function returns integral and absolute error</span>
+<span class="n">numerator</span><span class="p">,</span> <span class="n">num_err</span> <span class="o">=</span> <span class="n">quad</span><span class="p">(</span><span class="n">num</span><span class="p">,</span> <span class="o">-</span><span class="n">inf</span><span class="p">,</span> <span class="n">inf</span><span class="p">)</span>
+<span class="n">denominator</span><span class="p">,</span> <span class="n">denom_err</span> <span class="o">=</span> <span class="n">quad</span><span class="p">(</span><span class="n">denom</span><span class="p">,</span> <span class="o">-</span><span class="n">inf</span><span class="p">,</span> <span class="n">inf</span><span class="p">)</span>
+
+<span class="n">delta2</span> <span class="o">=</span> <span class="n">numerator</span> <span class="o">/</span> <span class="n">denominator</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;δ(2) = </span><span class="si">{</span><span class="n">delta2</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># computation of relative error: ratio of the absolute error to the value of the integral itself.</span>
+<span class="n">relative_error</span> <span class="o">=</span> <span class="n">delta2</span> <span class="o">*</span> <span class="p">((</span><span class="n">num_err</span> <span class="o">/</span> <span class="n">numerator</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">denom_err</span> <span class="o">/</span> <span class="n">denominator</span><span class="p">))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Relative error: </span><span class="si">{</span><span class="n">relative_error</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>δ(2) = 1.2821951026935339
+Relative error: 2.3036713373086032e-08
+</pre></div>
+</div>
+</div>
+</div>
+<p>Assuming the errors for each individual integral calculation are uncorrelated, the <a class="reference external" href="https://en.wikipedia.org/wiki/Propagation_of_uncertainty">error</a> for <span class="math notranslate nohighlight">\(f\)</span> should be given by:</p>
+<div class="math notranslate nohighlight">
+\[\frac{\Delta f}{f} = \sqrt{\left(\frac{\Delta a}{a}\right)^2 + \left(\frac{\Delta b}{b}\right)^2}\]</div>
+<p>In the code above, <span class="math notranslate nohighlight">\(f\)</span> is <code class="docutils literal notranslate"><span class="pre">delta2</span></code>, <span class="math notranslate nohighlight">\(a\)</span> is <code class="docutils literal notranslate"><span class="pre">numerator</span></code>, and <span class="math notranslate nohighlight">\(b\)</span> is <code class="docutils literal notranslate"><span class="pre">denominator</span></code>. <span class="math notranslate nohighlight">\(\Delta_a\)</span> and <span class="math notranslate nohighlight">\(\Delta_b\)</span> are <code class="docutils literal notranslate"><span class="pre">num_err</span></code> and <code class="docutils literal notranslate"><span class="pre">denom_err</span></code>, respectively.</p>
+<p>However, students have pointed out that instead of using the square root of the sum of squares, the professor used the simpler form:</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\Delta f}{f} = \frac{\Delta a}{a} + \frac{\Delta b}{b}
+\]</div>
+<p>It was probably just a simplification under the assumption that the errors in the numerator and the denominator are small and the terms <span class="math notranslate nohighlight">\((\Delta_a / a)^2\)</span> and <span class="math notranslate nohighlight">\((\Delta_b / b)^2\)</span> are negligible.</p>
 </section>
 
     <script type="text/x-thebe-config">
