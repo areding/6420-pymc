@@ -62,6 +62,8 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'unit5/Unit5-demo-Laplaces-method';</script>
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -537,7 +539,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
 </div></div>
       
     </div>
@@ -553,6 +557,20 @@ document.write(`
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#steps">Steps</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#univariate-example">Univariate example</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mode">Mode</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#variance">Variance</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#compare-the-true-posterior-with-the-approximation">Compare the true posterior with the approximation</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -565,8 +583,13 @@ document.write(`
   <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">gamma</span><span class="p">,</span> <span class="n">norm</span>
+<span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="kn">import</span> <span class="n">minimize_scalar</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s2">&quot;whitegrid&quot;</span><span class="p">)</span>
+<span class="n">colors</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">color_palette</span><span class="p">(</span><span class="s2">&quot;Paired&quot;</span><span class="p">)</span>
 
 <span class="o">%</span><span class="k">load_ext</span> lab_black
 </pre></div>
@@ -575,25 +598,108 @@ document.write(`
 </div>
 <section class="tex2jax_ignore mathjax_ignore" id="laplaces-method-demo">
 <h1>4. Laplace’s Method Demo*<a class="headerlink" href="#laplaces-method-demo" title="Permalink to this headline">#</a></h1>
+<section id="steps">
+<h2>Steps<a class="headerlink" href="#steps" title="Permalink to this headline">#</a></h2>
+<p>As we learned in the last lecture, these are the steps to Laplace approximation:</p>
+<ol class="arabic simple">
+<li><p><strong>Find the mode</strong>.</p></li>
+</ol>
+<p>The mean of the approximating normal distribution will be the mode, or maximum a posteriori probability (MAP) solution, of the posterior.</p>
+<p>We solve for the MAP by maximizing the unnormalized posterior with respect to <span class="math notranslate nohighlight">\(\theta\)</span> or by maximizing the log of the unnormalized posterior:</p>
+<div class="math notranslate nohighlight">
+\[\hat{\theta} = \arg\max_\theta \log(g(\theta))=\arg\max_\theta\log(f(x|\theta)\pi(\theta))\]</div>
+<ol class="arabic simple" start="2">
+<li><p><strong>Find the variance</strong>.</p></li>
+</ol>
+<p>In the lecture notation:</p>
+<div class="math notranslate nohighlight">
+\[Q = - \left[ \frac{\partial^2 \log(g(\theta))}{\partial \theta^2}\right]_{\theta=\hat{\theta}}\]</div>
+<ol class="arabic simple" start="3">
+<li><p><strong>Normal approximation</strong>:</p></li>
+</ol>
+<p>The Laplace approximation to the posterior is a normal distribution with mean <span class="math notranslate nohighlight">\(\hat{\theta}\)</span> and variance <span class="math notranslate nohighlight">\(Q^{-1}\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[g(\theta|x) \approx N(\hat{\theta},Q^{-1})\]</div>
+</section>
+<section id="univariate-example">
+<h2>Univariate example<a class="headerlink" href="#univariate-example" title="Permalink to this headline">#</a></h2>
 <p>From <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/original_examples/Codes4Unit5/laplace.m">Unit 5: laplace.m</a>.</p>
-<p>This is just a direct translation into Python for now. I might add more explanation in the future.</p>
+<p>Here’s our example model:</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+x|\theta &amp; \sim Ga(r, \theta) \\
+\theta &amp; \sim Ga(\alpha, \beta)
+\end{align*}\]</div>
+<p>Since this is a conjugate model, we already know the exact posterior is <span class="math notranslate nohighlight">\(Ga(r+\alpha - 1, \beta +x)\)</span>. We know the mode is <span class="math notranslate nohighlight">\(\frac{r + \alpha - 1}{\beta + x}\)</span>, but let’s pretend we don’t.</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+f(x|\theta)\pi(\theta) &amp;\propto x^{r-1}e^{-\theta x}\theta^{\alpha-1}e^{-\beta \theta} \\
+ &amp;\propto \theta^{r + \alpha -1}e^{-(\beta + x)\theta}
+\end{align*}\]</div>
+<section id="mode">
+<h3>Mode<a class="headerlink" href="#mode" title="Permalink to this headline">#</a></h3>
+<p>In this case it’s not too tough to find the mode analytically.</p>
+<p>The log-likelihood is <span class="math notranslate nohighlight">\(L(\theta) = (r + \alpha - 1)\log(\theta) - (\beta + x)\theta\)</span>, so we can just take the derivative and set it equal to zero, then solve for <span class="math notranslate nohighlight">\(\theta\)</span>:</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\frac{d}{d\theta} L(\theta) &amp;= \frac{d}{d\theta} \left[(r + \alpha - 1)\log(\theta) - (\beta + x)\theta\right] \\
+&amp;= \frac{r + \alpha - 1}{\theta} - (\beta + x) \\
+0 &amp;= \frac{r + \alpha - 1}{\theta} - (\beta + x) \\
+\beta + x &amp;= \frac{r + \alpha - 1}{\theta} \\
+\theta &amp;= \frac{r + \alpha - 1}{\beta + x}
+\end{align*}\]</div>
+<p>For this example our given parameters are <span class="math notranslate nohighlight">\(r=20, \alpha=5, \beta=1, x=2\)</span>, so our mode is equal to <span class="math notranslate nohighlight">\(8\)</span>.</p>
+<p>We could also use optimization:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">xx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">)</span>
-<span class="n">r</span> <span class="o">=</span> <span class="mi">20</span>
-<span class="n">alpha</span> <span class="o">=</span> <span class="mi">5</span>
-<span class="n">beta</span> <span class="o">=</span> <span class="mi">1</span>
-<span class="n">x</span> <span class="o">=</span> <span class="mi">2</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># define our posterior</span>
+<span class="k">def</span> <span class="nf">neg_log_likelihood</span><span class="p">(</span><span class="n">θ</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">α</span><span class="p">,</span> <span class="n">β</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="o">-</span><span class="p">((</span><span class="n">r</span> <span class="o">+</span> <span class="n">α</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">θ</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">β</span> <span class="o">+</span> <span class="n">x</span><span class="p">)</span> <span class="o">*</span> <span class="n">θ</span><span class="p">)</span>
 
-<span class="n">num</span> <span class="o">=</span> <span class="n">r</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">alpha</span>
-<span class="n">denom</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">beta</span>
+
+<span class="n">r</span><span class="p">,</span> <span class="n">α</span><span class="p">,</span> <span class="n">β</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">minimize_scalar</span><span class="p">(</span>
+    <span class="n">neg_log_likelihood</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1e6</span><span class="p">),</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">α</span><span class="p">,</span> <span class="n">β</span><span class="p">,</span> <span class="n">x</span><span class="p">),</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;bounded&quot;</span>
+<span class="p">)</span>
+
+<span class="n">mode</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">x</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Mode: </span><span class="si">{</span><span class="n">mode</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Mode: 8.000001689177818
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="variance">
+<h3>Variance<a class="headerlink" href="#variance" title="Permalink to this headline">#</a></h3>
+<p>The true variance of the posterior is <span class="math notranslate nohighlight">\(\frac{r+\alpha - 1}{(\beta + x)^2}\)</span>.</p>
+<p>The approximation distribution’s variance will be:</p>
+<div class="math notranslate nohighlight">
+\[Q^{-1} = - \left[ \frac{\partial^2 L(\theta)}{\partial\theta^2}\right]^{-1}_{\theta=\hat{\theta}} = \left(\frac{\alpha + r -1}{{\hat\theta}^2}\right)^{-1}\]</div>
+<div class="math notranslate nohighlight">
+\[\]</div>
+</section>
+<section id="compare-the-true-posterior-with-the-approximation">
+<h3>Compare the true posterior with the approximation<a class="headerlink" href="#compare-the-true-posterior-with-the-approximation" title="Permalink to this headline">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">xx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">100000</span><span class="p">)</span>
+
+<span class="n">variance</span> <span class="o">=</span> <span class="p">(</span><span class="n">mode</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">α</span> <span class="o">+</span> <span class="n">r</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
 
 <span class="c1"># normal parameters</span>
-<span class="n">mu</span> <span class="o">=</span> <span class="n">num</span> <span class="o">/</span> <span class="n">denom</span>
-<span class="n">sigma</span> <span class="o">=</span> <span class="n">num</span><span class="o">**</span><span class="mf">0.5</span> <span class="o">/</span> <span class="n">denom</span>
+<span class="n">mu</span> <span class="o">=</span> <span class="n">mode</span>
+<span class="n">sigma</span> <span class="o">=</span> <span class="n">variance</span><span class="o">**</span><span class="mf">0.5</span>
+
 <span class="c1"># gamma parameters</span>
-<span class="n">shape</span> <span class="o">=</span> <span class="n">r</span> <span class="o">+</span> <span class="n">alpha</span>
-<span class="n">scale</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="n">beta</span> <span class="o">+</span> <span class="n">x</span><span class="p">)</span>
+<span class="n">shape</span> <span class="o">=</span> <span class="n">r</span> <span class="o">+</span> <span class="n">α</span>
+<span class="n">scale</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="n">β</span> <span class="o">+</span> <span class="n">x</span><span class="p">)</span>
 
 <span class="n">exact</span> <span class="o">=</span> <span class="n">gamma</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="n">shape</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">scale</span><span class="p">)</span>
 <span class="n">approx</span> <span class="o">=</span> <span class="n">norm</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="p">)</span>
@@ -606,22 +712,48 @@ document.write(`
 
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Exact 95% credible interval: </span><span class="si">{</span><span class="n">exact_ci</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Laplace approximation 95% credible interval: </span><span class="si">{</span><span class="n">approx_ci</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Exact 95% credible interval: (5.392893949276442, 11.903365864584403)
+Laplace approximation 95% credible interval: (4.799393229141485, 11.20061014921415)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># plotting code</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">exact</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Exact&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">approx</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Laplace approx.&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">exact_ci</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Exact CI&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">exact_ci</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">approx_ci</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Approx. CI&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">approx_ci</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">mode</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;-.&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Mode&quot;</span><span class="p">)</span>
 
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">exact</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Exact&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">approx</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Laplace approx.&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Posterior with Laplace Approximation&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Value&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Density&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="n">bottom</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Exact 95% credible interval: (5.392893949276442, 11.903365864584403)
-Laplace approximation 95% credible interval: (4.799392215763127, 11.200607784236873)
-</pre></div>
+<img alt="../_images/311a7b38009340a197cafc3a8985a1cf8e8c7cfb35353909ceccca227d240a7a.png" src="../_images/311a7b38009340a197cafc3a8985a1cf8e8c7cfb35353909ceccca227d240a7a.png" />
 </div>
-<img alt="../_images/c08a79672f65429b0b7d7c3a4c78a064c5b797fc73f526284e5646ce93ab9e90.png" src="../_images/c08a79672f65429b0b7d7c3a4c78a064c5b797fc73f526284e5646ce93ab9e90.png" />
+</details>
 </div>
-</div>
+<p>The exact posterior is a bit skewed to the right, so the normal approximation is a bit off, but it’s not too bad.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">load_ext</span> watermark
@@ -630,7 +762,7 @@ Laplace approximation 95% credible interval: (4.799392215763127, 11.200607784236
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Sat Mar 18 2023
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Fri Jul 14 2023
 
 Python implementation: CPython
 Python version       : 3.11.0
@@ -638,10 +770,13 @@ IPython version      : 8.9.0
 
 matplotlib: 3.6.3
 numpy     : 1.24.2
+seaborn   : 0.12.2
 </pre></div>
 </div>
 </div>
 </div>
+</section>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -696,6 +831,26 @@ numpy     : 1.24.2
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#steps">Steps</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#univariate-example">Univariate example</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mode">Mode</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#variance">Variance</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#compare-the-true-posterior-with-the-approximation">Compare the true posterior with the approximation</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>

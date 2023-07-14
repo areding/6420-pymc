@@ -62,6 +62,8 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'unit5/Unit5-Laplace';</script>
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -561,6 +563,7 @@ document.write(`
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lecture-errata">Lecture errata</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notes">Notes</a></li>
 </ul>
             </nav>
         </div>
@@ -576,11 +579,66 @@ document.write(`
 <h1>3. Laplace’s Method<a class="headerlink" href="#laplaces-method" title="Permalink to this headline">#</a></h1>
 <section id="lecture-errata">
 <h2>Lecture errata<a class="headerlink" href="#lecture-errata" title="Permalink to this headline">#</a></h2>
-<p>Two mistakes in this lecture, see the PDF on Ed Discussion for now.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>This page is a stub. It will be updated over summer 2023 with supplementary lecture notes.</p>
-</div>
+<p>There are two mistakes in the lecture slides, and one extra result (2) is provided:</p>
+<ol class="arabic simple">
+<li><p>In the expression for univariate <span class="math notranslate nohighlight">\(Q\)</span>, we should retain the negative sign: it should be</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[Q=\left[-\frac{\partial^2}{\partial\theta^2}\log\left(g\left(\theta\right)\right)\right] \]</div>
+<p>instead of</p>
+<div class="math notranslate nohighlight">
+\[Q=\left[\frac{\partial^2}{\partial\theta^2}\log\left(g\left(\theta\right)\right)\right]\]</div>
+<ol class="arabic simple" start="2">
+<li><p>We know that <span class="math notranslate nohighlight">\(r+ \alpha -1&gt;0\)</span> because <span class="math notranslate nohighlight">\(\frac{d}{d \theta} \log(g(\theta))=\frac{r+ \alpha -1}{\theta} - (\beta +x) =0\)</span> <span class="math notranslate nohighlight">\(\rightarrow\)</span> <span class="math notranslate nohighlight">\(\frac{r+ \alpha -1}{\theta} =\beta +x\)</span>, and since <span class="math notranslate nohighlight">\(\beta,x,\theta &gt;0\)</span> the result follows.</p></li>
+<li><p>The second derivative of <span class="math notranslate nohighlight">\(\log(g(\theta))\)</span> should be <span class="math notranslate nohighlight">\(-\frac{r+\alpha-1}{\theta^2}\)</span> not <span class="math notranslate nohighlight">\(-\frac{r+\alpha-1}{(x+\beta)^2}\)</span>. The important point is that the second derivative is negative due to (2), so the value obtained for <span class="math notranslate nohighlight">\(\hat{\theta}\)</span> is a maximum.</p></li>
+</ol>
+<p>All credit goes to Head TA Greg for these lecture corrections!</p>
+</section>
+<section id="notes">
+<h2>Notes<a class="headerlink" href="#notes" title="Permalink to this headline">#</a></h2>
+<p>Laplace’s method is another integral approximation technique. This is faster than MCMC, but not as flexible.</p>
+<p>We expand the log of the function around its mode in a second-order <a class="reference external" href="https://www.youtube.com/watch?v=3d6DsjIBzJ4">Taylor expansion</a>. This process results in a quadratic approximation of the function in the log space, which translates to a normal approximation in the original space.</p>
+<p>This method is only useful for unimodal, twice-differentiable distributions that aren’t too skewed. You can extend the concept to apply to more challenging distributions with <a class="reference external" href="https://en.wikipedia.org/wiki/Integrated_nested_Laplace_approximations">Integrated Nested Laplace Approximations (INLA)</a>, but we don’t go into that in this course.</p>
+<p>Say we have an un-normalized posterior <span class="math notranslate nohighlight">\(g(\theta|x)\)</span>. We can’t normalize it for whatever reason, so we’ll try to approximate it using a normal distribution:</p>
+<div class="math notranslate nohighlight">
+\[g(\theta|x) \approx N(\hat{\theta},Q^{-1})\]</div>
+<p>A normal distribution is defined by mean and variance (or precision), so we need to find these parameters.</p>
+<p>From Bayes’ theorem, we know:</p>
+<div class="math notranslate nohighlight">
+\[g(\theta|x) = \frac{f(x|\theta)\pi(\theta)}{\int f(x|\theta)\pi(\theta)d\theta}\]</div>
+<p>We want to approximate the joint log-likelihood, so let’s manipulate the above a bit:</p>
+<div class="math notranslate nohighlight">
+\[g(\theta|x) = \frac{e^{\log\left(f(x|\theta)\pi(\theta)\right)}}{\int e^{\log\left( f(x|\theta)\pi(\theta)\right)}d\theta}\]</div>
+<p>The joint log-likelihood is <span class="math notranslate nohighlight">\(\log\left(f(x|\theta)\pi(\theta)\right)\)</span>. Let’s shorten that to <span class="math notranslate nohighlight">\(h(\theta)\)</span> for now. We’re going to approximate it with the second-order Taylor expansion, which is:</p>
+<div class="math notranslate nohighlight">
+\[h(\theta) \approx h(\hat{\theta}) + (\theta - \hat{\theta})^T \nabla h(\hat{\theta}) + \frac{1}{2}(\theta - \hat{\theta})^T \nabla^2 h(\hat{\theta})(\theta - \hat{\theta})\]</div>
+<p>in the multivariate case, or</p>
+<div class="math notranslate nohighlight">
+\[h(\theta) \approx h(\hat{\theta}) + h'(\hat{\theta})(\theta - \hat{\theta}) + \frac{1}{2}h''(\hat{\theta})(\theta - \hat{\theta})^2\]</div>
+<p>in the univariate case. We can drop the first-order term since it will always evaluate to 0 at the MAP solution, which leaves us with</p>
+<div class="math notranslate nohighlight">
+\[h(\theta) \approx h(\hat{\theta}) + \frac{1}{2}(\theta - \hat{\theta})^T \nabla^2 h(\hat{\theta})(\theta - \hat{\theta})\]</div>
+<p>The first-order term will drop out since it the gradient or slope of the posterior evaluated at the MAP will be zero, leaving us with:</p>
+<div class="math notranslate nohighlight">
+\[h(\theta) \approx h(\hat{\theta}) + \frac{1}{2}(\theta - \hat{\theta})^T \nabla^2 h(\hat{\theta})(\theta - \hat{\theta})\]</div>
+<p>Let’s plug that back in to the equation above:</p>
+<div class="math notranslate nohighlight">
+\[g(\theta|x) = \frac{e^{h(\hat{\theta}) + \frac{1}{2}(\theta - \hat{\theta})^T \nabla^2 h(\hat{\theta})(\theta -\hat{\theta})}}{\int e^{h(\hat{\theta}) + \frac{1}{2}(\theta - \hat{\theta})^T \nabla^2 h(\hat{\theta})(\theta - \hat{\theta})} d\theta}\]</div>
+<p>We can pull out the first term, which is a constant.</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+g(\theta|x) &amp; = \frac{e^{h(\hat{\theta})}e^{\frac{1}{2}(\theta - \hat{\theta})^T \nabla^2 h(\hat{\theta})(\theta -\hat{\theta})}}{e^{h(\hat{\theta})}\int e^{\frac{1}{2}(\theta - \hat{\theta})^T \nabla^2 h(\hat{\theta})(\theta - \hat{\theta})\, }d\theta} \\
+&amp; = \frac{e^{\frac{1}{2}(\theta - \hat{\theta})^T \nabla^2 h(\hat{\theta})(\theta -\hat{\theta})}}{\int e^{\frac{1}{2}(\theta - \hat{\theta})^T \nabla^2 h(\hat{\theta})(\theta - \hat{\theta})\, }d\theta}
+\end{align*}\]</div>
+<p>To make this match up with the lecture notation, let’s let <span class="math notranslate nohighlight">\(Q = -\left(\nabla^2 h(\hat{\theta})\right) = -\left[\nabla^2 \log\left(f(x|\hat{\theta})\pi(\hat{\theta})\right)\right]\)</span>. Then:</p>
+<div class="math notranslate nohighlight">
+\[g(\theta|x) = \frac{1}{\int e^{\frac{1}{2}(\theta - \hat{\theta})^T Q^{-1}(\theta - \hat{\theta})\, }d\theta} e^{\frac{1}{2}(\theta - \hat{\theta})^T Q^{-1}(\theta -\hat{\theta})}\]</div>
+<p>The multivariate normal distribution is specified as:</p>
+<div class="math notranslate nohighlight">
+\[
+f(x | \mu, \Sigma) = \frac{1}{\sqrt{(2\pi)^n |\Sigma|}} e^{-\frac{1}{2}(x-\mu)^T \Sigma^{-1} (x-\mu)}
+\]</div>
+<p>Where <span class="math notranslate nohighlight">\(|\Sigma|\)</span> is the determinant of <span class="math notranslate nohighlight">\(\Sigma\)</span>. We can see that the forms are very similar, with different normalizing constants. We’ll check how well our <span class="math notranslate nohighlight">\(N(\hat{\theta},Q^{-1})\)</span> approximation works with some examples in the next lecture.</p>
 </section>
 </section>
 
@@ -646,6 +704,7 @@ document.write(`
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lecture-errata">Lecture errata</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notes">Notes</a></li>
 </ul>
   </nav></div>
 

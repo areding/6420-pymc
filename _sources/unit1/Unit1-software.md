@@ -24,7 +24,7 @@ Development of BUGS, or at least PPLs that use BUGS scripts, has continued!
 
 [JAGS](https://mcmc-jags.sourceforge.io/) is also based on the BUGS scripting language. The latest release was April 2022. Greg has many of the lecture examples in JAGS available for download [here](https://www2.isye.gatech.edu/isye6420/Bank/rjags_final.zip).
 
-[NIMBLE](https://r-nimble.org/) seems really nice. If, like me, you're using a ARM-based Mac, this is the easiest way I've found to get going with BUGS models since it's just an R package with no need to download anything separately. The latest release was in December 2022.
+[NIMBLE](https://r-nimble.org/) seems really nice. If, like me, you're using a ARM-based Mac, this is the easiest way I've found to get going with BUGS models since it's just an R package with no need to download anything separately. This is still actively developed as of summer 2023.
 
 ### The wider PPL ecosystem
 
@@ -32,7 +32,7 @@ If you want something a little more challenging and are comfortable with, or int
 
 If you want to learn a more stable tool with excellent documentation, try [Stan](https://mc-stan.org/). One of the other TAs is working on creating course examples in Stan now, and I'll link to his repository when they are ready.
 
-If you're really adventurous, maybe try [Turing.jl](https://github.com/TuringLang/Turing.jl). If you're one of those people who needs to try the absolute latest thing and you want to go into completely uncharted territory for this class, try [AeMCMC](https://github.com/aesara-devs/aemcmc), [NumPyro](https://github.com/pyro-ppl/numpyro), [Oryx](https://github.com/jax-ml/oryx), [Tensorflow Probability](https://www.tensorflow.org/probability), or go find something I've never heard of! 
+If you're really adventurous and want to learn Julia, maybe try [Turing.jl](https://github.com/TuringLang/Turing.jl). If you love trying the absolute latest thing and you want to go into completely uncharted territory for this class, you could look at [AeMCMC](https://github.com/aesara-devs/aemcmc), [Blackjax](https://blackjax-devs.github.io/blackjax/examples/quickstart.html#), [NumPyro](https://github.com/pyro-ppl/numpyro), [Oryx](https://github.com/jax-ml/oryx), [Tensorflow Probability](https://www.tensorflow.org/probability), [Distrax](https://github.com/deepmind/distrax), or go find something I've never heard of (and tell me about it)!
 
 If you redo any of the course examples in a new language I would love to hear about it. Even better, if you host your examples somewhere, let me know and I'll add a link here.
 

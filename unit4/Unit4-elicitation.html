@@ -567,7 +567,7 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#beta">Beta</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#principled-prior-elicitation">Principled prior elicitation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#principled-prior-choice">Principled prior choice</a></li>
 </ul>
             </nav>
         </div>
@@ -601,16 +601,16 @@ $<span class="math notranslate nohighlight">\(\frac{\alpha}{\alpha + \beta} = 1/
 <p>And after some algebra, we find our prior is <span class="math notranslate nohighlight">\(Be(1/2, 1/2)\)</span>.</p>
 </section>
 </section>
-<section id="principled-prior-elicitation">
-<span id="id1"></span><h2>Principled prior elicitation<a class="headerlink" href="#principled-prior-elicitation" title="Permalink to this headline">#</a></h2>
+<section id="principled-prior-choice">
+<span id="id1"></span><h2>Principled prior choice<a class="headerlink" href="#principled-prior-choice" title="Permalink to this headline">#</a></h2>
 <p>But how do we choose the prior distribution? This might be students’ single most-asked question in the course. The professor doesn’t go in-depth on this topic in the lectures, so it feels like a blind spot for many. That’s normal, so don’t worry; this subject is big enough for a class on its own.</p>
 <p>There are also practical considerations–we may need to select priors that are conjugate or otherwise play nicely with our model or sampling algorithm. For example, later in the course, the professor uses the Wishart prior on the covariance matrix of a multivariate normal distribution for multiple regression. While this works in OpenBUGS, other probabilistic programming libraries that use different sampling algorithms can’t easily use the Wishart distribution.</p>
-<p>There are lots of methods and philosophies behind prior choice. The professor references <span id="id2">Garthwaite and Dickey [<a class="reference internal" href="../unit10/bibliography.html#id16" title="Paul H. Garthwaite and James M. Dickey. Quantifying expert opinion in linear regression problems. Journal of the Royal Statistical Society: Series B (Methodological), 50(3):462-474, 1988. URL: https://rss.onlinelibrary.wiley.com/doi/abs/10.1111/j.2517-6161.1988.tb01741.x, arXiv:https://rss.onlinelibrary.wiley.com/doi/pdf/10.1111/j.2517-6161.1988.tb01741.x, doi:https://doi.org/10.1111/j.2517-6161.1988.tb01741.x.">1988</a>]</span> in the lecture; they present a detailed procedure for questioning experts and quantifying their opinions in the form of a conjugate prior.</p>
-<p>Michael Betancourt has a great, more general, overview <a class="reference external" href="https://betanalpha.github.io/assets/case_studies/prior_modeling.html">here</a>.</p>
-<p><span id="id3">Jaynes [<a class="reference internal" href="../unit10/bibliography.html#id5" title="E. T. Jaynes. Probability Theory: The Logic of Science. Cambridge University Press, 2003. doi:10.1017/CBO9780511790423.">2003</a>]</span> (Chapters 11 &amp; 12) describes the <a class="reference external" href="https://jbconsulting.substack.com/p/reading-jaynes-fear-not-the-unknown">principle of maximum entropy</a> for choosing priors. He describes these as “ignorance priors” because the idea is that by choosing the distribution of maximum entropy, we add the least information possible to our state of knowledge of the parameter in question.</p>
+<p>There are lots of methods and philosophies behind prior choice. The professor references <span id="id2">Garthwaite and Dickey [<a class="reference internal" href="../unit10/bibliography.html#id16" title="Paul H. Garthwaite and James M. Dickey. Quantifying expert opinion in linear regression problems. Journal of the Royal Statistical Society: Series B (Methodological), 50(3):462-474, 1988. URL: https://rss.onlinelibrary.wiley.com/doi/abs/10.1111/j.2517-6161.1988.tb01741.x, arXiv:https://rss.onlinelibrary.wiley.com/doi/pdf/10.1111/j.2517-6161.1988.tb01741.x, doi:https://doi.org/10.1111/j.2517-6161.1988.tb01741.x.">1988</a>]</span> in the lecture; they present a detailed procedure for questioning experts and quantifying their opinions in the form of a conjugate prior. This is usually what people mean by prior <em>elicitation</em>; it’s specifically the process of turning expert knowledge into a prior distribution. Some of the people involved with PyMC have an new <a class="reference external" href="https://arxiv.org/abs/2112.01380">overview paper</a> on prior elicitation <span id="id3">Mikkola <em>et al.</em> [<a class="reference internal" href="../unit10/bibliography.html#id24" title="Petrus Mikkola, Osvaldo A. Martin, Suyog Chandramouli, Marcelo Hartmann, Oriol Abril Pla, Owen Thomas, Henri Pesonen, Jukka Corander, Aki Vehtari, Samuel Kaski, Paul-Christian Bürkner, and Arto Klami. Prior knowledge elicitation: the past, present, and future. 2023. arXiv:2112.01380.">2023</a>]</span>.</p>
+<p>Michael Betancourt has a great, more general, overview of prior modeling <a class="reference external" href="https://betanalpha.github.io/assets/case_studies/prior_modeling.html">here</a>.</p>
+<p><span id="id4">Jaynes [<a class="reference internal" href="../unit10/bibliography.html#id5" title="E. T. Jaynes. Probability Theory: The Logic of Science. Cambridge University Press, 2003. doi:10.1017/CBO9780511790423.">2003</a>]</span> (Chapters 11 &amp; 12) describes the <a class="reference external" href="https://jbconsulting.substack.com/p/reading-jaynes-fear-not-the-unknown">principle of maximum entropy</a> for choosing priors. He describes these as “ignorance priors” because the idea is that by choosing the distribution of maximum entropy, we add the least information possible to our state of knowledge of the parameter in question.</p>
 <blockquote class="epigraph">
 <div><p>… nothing in the mathematics requires that any random experiment be in fact performed or conceivable; and so we interpret the principle in the broadest sense which gives it the widest range of applicability, i.e. whether or not any random experiment is involved, the maximum entropy distribution still represents the most ‘honest’ description of our state of knowledge.</p>
-<p class="attribution">—<span id="id4">Jaynes [<a class="reference internal" href="../unit10/bibliography.html#id5" title="E. T. Jaynes. Probability Theory: The Logic of Science. Cambridge University Press, 2003. doi:10.1017/CBO9780511790423.">2003</a>]</span> Chapter 12.2</p>
+<p class="attribution">—<span id="id5">Jaynes [<a class="reference internal" href="../unit10/bibliography.html#id5" title="E. T. Jaynes. Probability Theory: The Logic of Science. Cambridge University Press, 2003. doi:10.1017/CBO9780511790423.">2003</a>]</span> Chapter 12.2</p>
 </div></blockquote>
 <p>If you’re sick of theory, the developers of Stan have more practical notes on prior choices <a class="reference external" href="https://github.com/stan-dev/stan/wiki/Prior-Choice-Recommendations">here</a> based on their experience.</p>
 <p>These links are just scratching the surface of the subject. For now, just know that this stuff exists, because we’ll be talking more about prior choice throughout the course.</p>
@@ -683,7 +683,7 @@ $<span class="math notranslate nohighlight">\(\frac{\alpha}{\alpha + \beta} = 1/
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#beta">Beta</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#principled-prior-elicitation">Principled prior elicitation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#principled-prior-choice">Principled prior choice</a></li>
 </ul>
   </nav></div>
 
