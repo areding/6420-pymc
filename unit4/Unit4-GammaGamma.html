@@ -336,8 +336,11 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="../unit10/Unit10-italywines123.html">5. Wine Classification*</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../unit10/Unit10-katla.html">6. Predicting Using Censored Data*</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../unit10/Unit10-sunspots.html">7. Prediction of Time Series*</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../unit10/Unit10-magnesiumTW.html">8. Magnesium for Myocardial Infarction*</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../unit10/bibliography.html">9. References</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Back Matter</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../backmatter/bibliography.html">1. Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../backmatter/latex_reference.html">2. Latex Reference</a></li>
 </ul>
 
     </div>
@@ -821,7 +824,7 @@ probability within these bounds: 0.950094289217813
 <h3>Sampling method<a class="headerlink" href="#sampling-method" title="Permalink to this headline">#</a></h3>
 <blockquote class="epigraph">
 <div><p>Working with samples transforms a problem in calculus into a problem in data summary, into a frequency format problem. An integral in a typical Bayesian context is just the total probability in some interval. That can be a challenging calculus problem. But once you have samples from the probability distribution, it’s just a matter of counting values in the interval.</p>
-<p class="attribution">—<span id="id1">McElreath [<a class="reference internal" href="../unit10/bibliography.html#id7" title="Richard McElreath. Statistical Rethinking: A Bayesian Course with Examples in R and Stan. CRC Press, Boca Raton, FL, 2nd edition, 2020. ISBN 978-0367139919.">2020</a>]</span> Chapter 3, p. 51</p>
+<p class="attribution">—<span id="id1">McElreath [<a class="reference internal" href="../backmatter/bibliography.html#id6" title="Richard McElreath. Statistical Rethinking: A Bayesian Course with Examples in R and Stan. CRC Press, Boca Raton, FL, 2nd edition, 2020. ISBN 978-0367139919.">2020</a>]</span> Chapter 3, p. 51</p>
 </div></blockquote>
 <p>There’s another way that I find simpler, which involves sampling lots of values from the posterior. This is also the way it’s generally done in practice, since using MCMC we’ll only be getting samples from the posterior anyways. See the source code for HPD or HDI functions in many Bayesian libraries like <a class="reference external" href="https://arviz-devs.github.io/arviz/_modules/arviz/stats/stats.html#hdi">Arviz</a> or <a class="reference external" href="https://github.com/TuringLang/MCMCChains.jl/blob/master/src/stats.jl">MCMCChains.jl</a>.</p>
 <p>This method is simplified - it won’t work for as many different cases as the ones in those packages, but it’s easier to understand.</p>

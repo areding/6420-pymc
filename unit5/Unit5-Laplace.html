@@ -336,8 +336,11 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="../unit10/Unit10-italywines123.html">5. Wine Classification*</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../unit10/Unit10-katla.html">6. Predicting Using Censored Data*</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../unit10/Unit10-sunspots.html">7. Prediction of Time Series*</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../unit10/Unit10-magnesiumTW.html">8. Magnesium for Myocardial Infarction*</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../unit10/bibliography.html">9. References</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Back Matter</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../backmatter/bibliography.html">1. Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../backmatter/latex_reference.html">2. Latex Reference</a></li>
 </ul>
 
     </div>
@@ -625,11 +628,13 @@ document.write(`
 <div class="math notranslate nohighlight">
 \[g(\theta|x) = \frac{e^{h(\hat{\theta}) + \frac{1}{2}(\theta - \hat{\theta})^T \nabla^2 h(\hat{\theta})(\theta -\hat{\theta})}}{\int e^{h(\hat{\theta}) + \frac{1}{2}(\theta - \hat{\theta})^T \nabla^2 h(\hat{\theta})(\theta - \hat{\theta})} d\theta}\]</div>
 <p>We can pull out the first term, which is a constant.</p>
-<div class="amsmath math notranslate nohighlight">
-\[\begin{align*}
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
 g(\theta|x) &amp; = \frac{e^{h(\hat{\theta})}e^{\frac{1}{2}(\theta - \hat{\theta})^T \nabla^2 h(\hat{\theta})(\theta -\hat{\theta})}}{e^{h(\hat{\theta})}\int e^{\frac{1}{2}(\theta - \hat{\theta})^T \nabla^2 h(\hat{\theta})(\theta - \hat{\theta})\, }d\theta} \\
 &amp; = \frac{e^{\frac{1}{2}(\theta - \hat{\theta})^T \nabla^2 h(\hat{\theta})(\theta -\hat{\theta})}}{\int e^{\frac{1}{2}(\theta - \hat{\theta})^T \nabla^2 h(\hat{\theta})(\theta - \hat{\theta})\, }d\theta}
-\end{align*}\]</div>
+\end{align*}
+\end{split}\]</div>
 <p>To make this match up with the lecture notation, let’s let <span class="math notranslate nohighlight">\(Q = -\left(\nabla^2 h(\hat{\theta})\right) = -\left[\nabla^2 \log\left(f(x|\hat{\theta})\pi(\hat{\theta})\right)\right]\)</span>. Then:</p>
 <div class="math notranslate nohighlight">
 \[g(\theta|x) = \frac{1}{\int e^{\frac{1}{2}(\theta - \hat{\theta})^T Q^{-1}(\theta - \hat{\theta})\, }d\theta} e^{\frac{1}{2}(\theta - \hat{\theta})^T Q^{-1}(\theta -\hat{\theta})}\]</div>

@@ -62,6 +62,8 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'unit5/Unit5-mcmc';</script>
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -334,8 +336,11 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="../unit10/Unit10-italywines123.html">5. Wine Classification*</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../unit10/Unit10-katla.html">6. Predicting Using Censored Data*</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../unit10/Unit10-sunspots.html">7. Prediction of Time Series*</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../unit10/Unit10-magnesiumTW.html">8. Magnesium for Myocardial Infarction*</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../unit10/bibliography.html">9. References</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Back Matter</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../backmatter/bibliography.html">1. Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../backmatter/latex_reference.html">2. Latex Reference</a></li>
 </ul>
 
     </div>
@@ -537,7 +542,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
 </div></div>
       
     </div>
@@ -553,6 +560,19 @@ document.write(`
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lecture-slides-with-notes">Lecture slides with notes</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#markov-chain-definition">Markov chain definition</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#further-notes">Further notes</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#brief-history-of-metropolis-and-gibbs-algorithms-in-papers">Brief history of Metropolis and Gibbs algorithms in papers</a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -564,10 +584,44 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="markov-chain-monte-carlo">
 <h1>5. Markov Chain Monte Carlo<a class="headerlink" href="#markov-chain-monte-carlo" title="Permalink to this headline">#</a></h1>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>This page is a stub. It will be updated over summer 2023 with supplementary lecture notes.</p>
-</div>
+<p>This is going to be our algorithm of choice for the rest of the course. This unit will give us the very basics of Metropolis-Hastings and Gibbs sampling. The goal is to get us understanding just enough to reason about what’s happening under the hood when we start using libraries like OpenBUGS or PyMC in Unit 6.</p>
+<p>I don’t have a lot to add to the lecture here, but I’ve added some comments to the lecture slides:</p>
+<section id="lecture-slides-with-notes">
+<h2>Lecture slides with notes<a class="headerlink" href="#lecture-slides-with-notes" title="Permalink to this headline">#</a></h2>
+<p>Our algorithm will generate a Markov chain. It’s a sequence of random variables following the Markovian property, where the conditional probability of the next state depends only on the current state, not any of the previous states. After running our algorithm, we’ll have an array of samples from our Markov chain.</p>
+<section id="markov-chain-definition">
+<h3>Markov chain definition<a class="headerlink" href="#markov-chain-definition" title="Permalink to this headline">#</a></h3>
+<ul class="simple">
+<li><p>A sequence <span class="math notranslate nohighlight">\({X_0, X_1, X_2, \dots, X_{n-1}, X_n, X_{n+1}, \dots}\)</span> forms a Markov Chain if:</p>
+<ol class="arabic simple">
+<li><p>The conditional probability <span class="math notranslate nohighlight">\(P\left(X_{n+1} \in A | X_0, X_1, \dots, X_n\right) = P\left(X_{n+1} \in A | X_n\right)\)</span>. This property states that given the present, the future is independent of the past.</p></li>
+<li><p>Given <span class="math notranslate nohighlight">\(X_n\)</span>, the future (events defined on <span class="math notranslate nohighlight">\(X_{n+1}, X_{n+2}, \dots\)</span>) is independent of the past (events defined on <span class="math notranslate nohighlight">\(\dots, X_{n-2}, X_{n-1}\)</span>).</p></li>
+<li><p>The conditional probability <span class="math notranslate nohighlight">\(P\left(X_{n+1} \in A | X_n\right)\)</span> is equivalent to a transition kernel <span class="math notranslate nohighlight">\(Q_{A | X_n}\)</span>.</p></li>
+<li><p>The transition kernel <span class="math notranslate nohighlight">\(Q_{A | X_n} = x\)</span> can be computed as <span class="math notranslate nohighlight">\(\int_A q(x, y) dy\)</span> which represents the probability of transitioning into set A from state x.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\Pi\)</span> is an invariant distribution if <span class="math notranslate nohighlight">\(\Pi(A) = \int Q_{A | x} \Pi dx\)</span>. This means that integrating the transition kernel distribution with respect to the distribution <span class="math notranslate nohighlight">\(\Pi\)</span> yields the same distribution <span class="math notranslate nohighlight">\(\Pi\)</span>, making it invariant.</p></li>
+</ol>
+</li>
+</ul>
+</section>
+<section id="further-notes">
+<h3>Further notes<a class="headerlink" href="#further-notes" title="Permalink to this headline">#</a></h3>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\pi\)</span> is the density for <span class="math notranslate nohighlight">\(\Pi\)</span>. It is stationary if it satisfies the detailed balance equation: <span class="math notranslate nohighlight">\(q(x|y) \pi(y) = q(y|x) \pi(x)\)</span>. The detailed balance condition states that for any two states <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(y\)</span>, the probability of transitioning from <span class="math notranslate nohighlight">\(x\)</span> to <span class="math notranslate nohighlight">\(y\)</span> times the stationary distribution at <span class="math notranslate nohighlight">\(x\)</span> equals the probability of transitioning from <span class="math notranslate nohighlight">\(y\)</span> to <span class="math notranslate nohighlight">\(x\)</span> times the stationary distribution at <span class="math notranslate nohighlight">\(y\)</span>.</p></li>
+<li><p>If <span class="math notranslate nohighlight">\(Q^n_{A|x} = P(X_n \in A | X_0 = x)\)</span>, then as <span class="math notranslate nohighlight">\(n \rightarrow \infty\)</span>, <span class="math notranslate nohighlight">\(Q^n_{A|x} \rightarrow \Pi_A\)</span>. In other words, the <span class="math notranslate nohighlight">\(n\)</span>-step transition probabilities converge to the stationary distribution as <span class="math notranslate nohighlight">\(n\)</span> goes to infinity.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\Pi\)</span> is called the equilibrium distribution of the Markov chain. The idea is to construct the Markov Chain such that this equilibrium distribution corresponds to the desired posterior distribution.</p></li>
+<li><p>The initial condition <span class="math notranslate nohighlight">\(X_0 = x\)</span> is “forgotten” as <span class="math notranslate nohighlight">\(n\)</span> becomes large, meaning that the influence of the initial state diminishes over time. When <span class="math notranslate nohighlight">\(n\)</span> is large enough, each <span class="math notranslate nohighlight">\(X_n\)</span> can be considered as a random variable sampled from the posterior distribution.</p></li>
+</ul>
+</section>
+</section>
+<section id="brief-history-of-metropolis-and-gibbs-algorithms-in-papers">
+<h2>Brief history of Metropolis and Gibbs algorithms in papers<a class="headerlink" href="#brief-history-of-metropolis-and-gibbs-algorithms-in-papers" title="Permalink to this headline">#</a></h2>
+<p>If anyone has more important papers to add to these let me know! This list is probably very incomplete right now.</p>
+<p>1953: <span id="id1">Metropolis <em>et al.</em> [<a class="reference internal" href="../backmatter/bibliography.html#id24" title="Nicholas Metropolis, Arianna W. Rosenbluth, Marshall N. Rosenbluth, Augusta H. Teller, and Edward Teller. Equation of state calculations by fast computing machines. The Journal of Chemical Physics, 21(6):1087–1092, 1953.">1953</a>]</span> publishes the original Metropolis <a class="reference external" href="https://bayes.wustl.edu/Manual/EquationOfState.pdf">paper</a>.</p>
+<p>1970: <span id="id2">Hastings [<a class="reference internal" href="../backmatter/bibliography.html#id25" title="W. K. Hastings. Monte carlo sampling methods using markov chains and their applications. Biometrika, 57(1):97–109, 1970. URL: http://www.jstor.org/stable/2334940 (visited on 2023-07-16).">1970</a>]</span> generalizes the algorithm to handle asymmetric proposal distributions.</p>
+<p>1984: <span id="id3">Geman and Geman [<a class="reference internal" href="../backmatter/bibliography.html#id26" title="Stuart Geman and Donald Geman. Stochastic relaxation, gibbs distributions, and the bayesian restoration of images. IEEE Transactions on Pattern Analysis and Machine Intelligence, PAMI-6(6):721-741, 1984. doi:10.1109/TPAMI.1984.4767596.">1984</a>]</span> use a special case of Metropolis-Hastings for reconstructing images. They name it Gibbs sampling after the Josiah Willard Gibbs, a 19th-century physicist whose ideas inspired the algorithm.</p>
+<p>1987: <span id="id4">Duane <em>et al.</em> [<a class="reference internal" href="../backmatter/bibliography.html#id27" title="Simon Duane, A.D. Kennedy, Brian J. Pendleton, and Duncan Roweth. Hybrid monte carlo. Physics Letters B, 195(2):216-222, 1987. URL: https://www.sciencedirect.com/science/article/pii/037026938791197X, doi:https://doi.org/10.1016/0370-2693(87)91197-X.">1987</a>]</span> propose Hybrid Monte Carlo, which is now usually called Hamiltonian Monte Carlo (HMC).</p>
+<p>2011: <span id="id5">Homan and Gelman [<a class="reference internal" href="../backmatter/bibliography.html#id28" title="Matthew D. Homan and Andrew Gelman. The no-u-turn sampler: adaptively setting path lengths in hamiltonian monte carlo. J. Mach. Learn. Res., 15(1):1593–1623, jan 2014.">2014</a>]</span> propose the NUTS sampler, which <a class="reference external" href="https://arxiv.org/abs/1111.4246">improves</a> on HMC and eventually becomes the default sampling algorithm in Stan and PyMC.</p>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -622,6 +676,25 @@ document.write(`
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lecture-slides-with-notes">Lecture slides with notes</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#markov-chain-definition">Markov chain definition</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#further-notes">Further notes</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#brief-history-of-metropolis-and-gibbs-algorithms-in-papers">Brief history of Metropolis and Gibbs algorithms in papers</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>

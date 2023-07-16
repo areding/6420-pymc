@@ -336,8 +336,11 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="../unit10/Unit10-italywines123.html">5. Wine Classification*</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../unit10/Unit10-katla.html">6. Predicting Using Censored Data*</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../unit10/Unit10-sunspots.html">7. Prediction of Time Series*</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../unit10/Unit10-magnesiumTW.html">8. Magnesium for Myocardial Infarction*</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../unit10/bibliography.html">9. References</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Back Matter</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../backmatter/bibliography.html">1. Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../backmatter/latex_reference.html">2. Latex Reference</a></li>
 </ul>
 
     </div>
@@ -625,11 +628,13 @@ document.write(`
 <h2>Univariate example<a class="headerlink" href="#univariate-example" title="Permalink to this headline">#</a></h2>
 <p>From <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/original_examples/Codes4Unit5/laplace.m">Unit 5: laplace.m</a>.</p>
 <p>Here’s our example model:</p>
-<div class="amsmath math notranslate nohighlight">
-\[\begin{align*}
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
 x|\theta &amp; \sim Ga(r, \theta) \\
 \theta &amp; \sim Ga(\alpha, \beta)
-\end{align*}\]</div>
+\end{align*}
+\end{split}\]</div>
 <p>Since this is a conjugate model, we already know the exact posterior is <span class="math notranslate nohighlight">\(Ga(r+\alpha - 1, \beta +x)\)</span>. We know the mode is <span class="math notranslate nohighlight">\(\frac{r + \alpha - 1}{\beta + x}\)</span>, but let’s pretend we don’t.</p>
 <div class="amsmath math notranslate nohighlight">
 \[\begin{align*}
@@ -640,14 +645,16 @@ f(x|\theta)\pi(\theta) &amp;\propto x^{r-1}e^{-\theta x}\theta^{\alpha-1}e^{-\be
 <h3>Mode<a class="headerlink" href="#mode" title="Permalink to this headline">#</a></h3>
 <p>In this case it’s not too tough to find the mode analytically.</p>
 <p>The log-likelihood is <span class="math notranslate nohighlight">\(L(\theta) = (r + \alpha - 1)\log(\theta) - (\beta + x)\theta\)</span>, so we can just take the derivative and set it equal to zero, then solve for <span class="math notranslate nohighlight">\(\theta\)</span>:</p>
-<div class="amsmath math notranslate nohighlight">
-\[\begin{align*}
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
 \frac{d}{d\theta} L(\theta) &amp;= \frac{d}{d\theta} \left[(r + \alpha - 1)\log(\theta) - (\beta + x)\theta\right] \\
 &amp;= \frac{r + \alpha - 1}{\theta} - (\beta + x) \\
 0 &amp;= \frac{r + \alpha - 1}{\theta} - (\beta + x) \\
 \beta + x &amp;= \frac{r + \alpha - 1}{\theta} \\
 \theta &amp;= \frac{r + \alpha - 1}{\beta + x}
-\end{align*}\]</div>
+\end{align*}
+\end{split}\]</div>
 <p>For this example our given parameters are <span class="math notranslate nohighlight">\(r=20, \alpha=5, \beta=1, x=2\)</span>, so our mode is equal to <span class="math notranslate nohighlight">\(8\)</span>.</p>
 <p>We could also use optimization:</p>
 <div class="cell docutils container">
