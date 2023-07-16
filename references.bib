@@ -25,15 +25,6 @@
   journal = {PeerJ Computer Science}
 }
 
-@article{hoffman2011nouturn,
-  title = {The No-U-Turn Sampler: Adaptively Setting Path Lengths in Hamiltonian Monte Carlo}, 
-  author = {Matthew D. Hoffman and Andrew Gelman},
-  year = {2011},
-  eprint = {1111.4246},
-  archivePrefix = {arXiv},
-  primaryClass = {stat.CO}
-}
-
 @book{jaynes2003, 
   place = {Cambridge}, 
   title = {Probability Theory: The Logic of Science}, 
@@ -304,7 +295,7 @@ year = {1988}
   pages={721-741},
   doi={10.1109/TPAMI.1984.4767596}}
 
-  @article{DUANE1987216,
+@article{DUANE1987216,
 title = {Hybrid Monte Carlo},
 journal = {Physics Letters B},
 volume = {195},
@@ -318,11 +309,19 @@ author = {Simon Duane and A.D. Kennedy and Brian J. Pendleton and Duncan Roweth}
 abstract = {We present a new method for the numerical simulation of lattice field theory. A hybrid (molecular dynamics/Langevin) algorithm is used to guide a Monte Carlo simulation. There are no discretization errors even for large step sizes. The method is especially efficient for systems such as quantum chromodynamics which contain fermionic degrees of freedom. Detailed results are presented for four-dimensional compact quantum electrodynamics including the dynamical effects of electrons.}
 }
 
-@misc{hoffman2011nouturn,
-      title={The No-U-Turn Sampler: Adaptively Setting Path Lengths in Hamiltonian Monte Carlo}, 
-      author={Matthew D. Hoffman and Andrew Gelman},
-      year={2011},
-      eprint={1111.4246},
-      archivePrefix={arXiv},
-      primaryClass={stat.CO}
+@article{hoffman2011nouturn,
+author = {Homan, Matthew D. and Gelman, Andrew},
+title = {The No-U-Turn Sampler: Adaptively Setting Path Lengths in Hamiltonian Monte Carlo},
+year = {2014},
+issue_date = {January 2014},
+publisher = {JMLR.org},
+volume = {15},
+number = {1},
+issn = {1532-4435},
+abstract = {Hamiltonian Monte Carlo (HMC) is a Markov chain Monte Carlo (MCMC) algorithm that avoids the random walk behavior and sensitivity to correlated parameters that plague many MCMC methods by taking a series of steps informed by first-order gradient information. These features allow it to converge to high-dimensional target distributions much more quickly than simpler methods such as random walk Metropolis or Gibbs sampling. However, HMC's performance is highly sensitive to two user-specified parameters: a step size ε and a desired number of steps L. In particular, if L is too small then the algorithm exhibits undesirable random walk behavior, while if L is too large the algorithm wastes computation. We introduce the No-U-Turn Sampler (NUTS), an extension to HMC that eliminates the need to set a number of steps L. NUTS uses a recursive algorithm to build a set of likely candidate points that spans a wide swath of the target distribution, stopping automatically when it starts to double back and retrace its steps. Empirically, NUTS performs at least as efficiently as (and sometimes more effciently than) a well tuned standard HMC method, without requiring user intervention or costly tuning runs. We also derive a method for adapting the step size parameter ε on the fly based on primal-dual averaging. NUTS can thus be used with no hand-tuning at all, making it suitable for applications such as BUGS-style automatic inference engines that require efficient "turnkey" samplers.},
+journal = {J. Mach. Learn. Res.},
+month = {jan},
+pages = {1593–1623},
+numpages = {31},
+keywords = {dual averaging, Hamiltonian Monte Carlo, adaptive Monte Carlo, Bayesian inference, Markov chain Monte Carlo}
 }
