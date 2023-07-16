@@ -1,13 +1,13 @@
 # Latex Reference
 
-I'm going to experiment with this auto-generated Latex reference based on all the macros used in this Jupyter Book. You can see the code used to generate it at [this Github repo](). To use any of the macros below, just put a backslash ("\\") in front of them. One other useful thing I want to add is the align environment for aligning equations. Here's an example:
+I'm going to experiment with this auto-generated Latex reference based on all the macros used in this Jupyter Book. You can see the code used to generate it at [this Github repo](https://github.com/areding/latexref). To use any of the macros below, just put a backslash (```\```) in front of them. One other useful thing I want to add is the align environment for aligning equations. Here's an example:
 
 ```latex
 \begin{align*}
 	y_i | \theta, X &\sim \text{Poisson}(\lambda_i) \\
-	lambda_i &= g^{-1}(\eta_i) \\\
-	eta_i &= \beta_0 + \sum_{j=1}^p \beta_j x_{ij} \\
-	beta &\sim \mathcal{N}\left(0, \sigma^2\right)
+	\lambda_i &= g^{-1}(\eta_i) \\
+	\eta_i &= \beta_0 + \sum_{j=1}^p \beta_j x_{ij} \\
+	\beta &\sim \mathcal{N}\left(0, \sigma^2\right)
 \end{align*}					
 ```
 
@@ -16,9 +16,9 @@ This displays:
 $$
 \begin{align*}
 y_i | \theta, X &\sim \text{Poisson}(\lambda_i) \\
-lambda_i &= g^{-1}(\eta_i) \\\
-eta_i &= \beta_0 + \sum_{j=1}^p \beta_j x_{ij} \\
-beta &\sim \mathcal{N}\left(0, \sigma^2\right)
+\lambda_i &= g^{-1}(\eta_i) \\
+\eta_i &= \beta_0 + \sum_{j=1}^p \beta_j x_{ij} \\
+\beta &\sim \mathcal{N}\left(0, \sigma^2\right)
 \end{align*}
 $$
 
