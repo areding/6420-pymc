@@ -583,7 +583,7 @@ document.write(`
 <h1>7. Metropolis: Normal-Cauchy*<a class="headerlink" href="#metropolis-normal-cauchy" title="Permalink to this headline">#</a></h1>
 <p>Adapted from <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/original_examples/Codes4Unit5/norcaumet.m">Unit 5: norcaumet.m</a>.</p>
 <div class="proof algorithm admonition" id="metropolis-hastings">
-<p class="admonition-title"><span class="caption-number">Algorithm 1 </span> (Metropolis-Hastings)</p>
+<p class="admonition-title"><span class="caption-number">Algorithm 2 </span> (Metropolis-Hastings)</p>
 <section class="algorithm-content" id="proof-content">
 <p><strong>Inputs</strong> Let <span class="math notranslate nohighlight">\(f(x)\)</span> be proportional to the target pdf. <span class="math notranslate nohighlight">\(x_j\)</span> is the current value and <span class="math notranslate nohighlight">\(q(x|x_j)\)</span> is a proposal distribution.</p>
 <p><strong>Output</strong> An array of samples representing the target pdf.</p>
@@ -594,23 +594,10 @@ document.write(`
 <li><p>Update <span class="math notranslate nohighlight">\(x_{j+1} = x_*\)</span> with probability <span class="math notranslate nohighlight">\(ρ(x_j, x_*)\)</span>, otherwise <span class="math notranslate nohighlight">\(x_{j+1}\)</span> remains equal to <span class="math notranslate nohighlight">\(x_j\)</span>.</p></li>
 </ol>
 </section>
-</div><p>There are different variations on the algorithm. They differ when calculating <span class="math notranslate nohighlight">\(ρ\)</span>.</p>
-<ul class="simple">
-<li><p>Random-walk Metropolis:</p>
-<ul>
-<li><p>If <span class="math notranslate nohighlight">\(q\)</span> is symmetric, then you can simplify the acceptance probability to <span class="math notranslate nohighlight">\(ρ(x_j, x_*) = min\left\{1, \frac{f(x_*)}{f(x_j)}\right\}\)</span></p></li>
-</ul>
-</li>
-<li><p>Independent Metropolis-Hastings:</p>
-<ul>
-<li><p>If <span class="math notranslate nohighlight">\(q\)</span> is independent, then the acceptance probability is <span class="math notranslate nohighlight">\(ρ(x_j, x_*) = min\left\{1, \frac{f(x_*)}{f(x_j)}\frac{q(x_j)}{q(x_*)}\right\}\)</span></p></li>
-</ul>
-</li>
-</ul>
-<p>For this example:</p>
+</div><p>For this example:</p>
 <p><span class="math notranslate nohighlight">\(X|\theta~\sim{N}(\theta, 1)\)</span> and <span class="math notranslate nohighlight">\(\theta~\sim {\rm Cauchy}(0, 1)\)</span></p>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
 <p>I often pre-generate arrays of random numbers (see <code class="docutils literal notranslate"><span class="pre">theta_prop</span></code> and <code class="docutils literal notranslate"><span class="pre">unif</span></code> variables in the below cell) because it’s significantly faster. However, that only works when those numbers don’t depend on the previous step in the sampling loop!</p>
 </div>
 <div class="cell docutils container">
