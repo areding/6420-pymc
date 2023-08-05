@@ -571,6 +571,7 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#metropolis-hastings">Metropolis-Hastings</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#other-resources">Other resources</a></li>
 </ul>
             </nav>
         </div>
@@ -605,6 +606,8 @@ document.write(`
 </ol>
 </section>
 </div><p>This is also known as random-walk Metropolis. The proposal distribution is a perturbation of the current location of the chain. It must be symmetrical in this version of the algorithm, which can be considered a specific case of the more general Metropolis-Hastings algorithm. You can control the “step size” of the algorithm by reducing the variance of your proposal.</p>
+<p>The most important step is the acceptance probability. If the acceptance ratio comes out greater than 1, great! We definitely want that new proposed value because it is more likely than the previous value. That’s why we take the minimum of 1 and <span class="math notranslate nohighlight">\(\frac{\pi(x_*)}{\pi(x_j)}\)</span>.</p>
+<p>If the ratio is less than 1, then we might accept it. We want to accept it based on that probability, so if it’s .8 then we will take it 80% of the time, if it’s .1 then we’ll accept it 10% of the time. This allows the sampler to get unlikely values as well, but keeps it within a representative area of the target distribution.</p>
 <section id="metropolis-example">
 <h3>Metropolis example<a class="headerlink" href="#metropolis-example" title="Permalink to this headline">#</a></h3>
 <p>Let our model be a Gamma-Gamma conjugate model, where:</p>
@@ -620,12 +623,7 @@ X_i | \beta &amp;\sim \text{Ga}(v, \theta) \\
 <div class="math notranslate nohighlight">
 \[\pi(\theta|x) \propto \theta^{vn + \alpha - 1} e^{-\theta(\beta + \sum_{i=1}^{n}X_i)}\]</div>
 <p>We’ll use a <span class="math notranslate nohighlight">\(N(0, (.4)^2)\)</span> proposal. Don’t worry about the code for now. We’ll go over that on the next page.</p>
-<div class="cell tag_hide-input docutils container">
-<details class="hide above-input">
-<summary aria-label="Toggle hidden content">
-<span class="collapsed">Show code cell source</span>
-<span class="expanded">Hide code cell source</span>
-</summary>
+<div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">HTML</span>
 <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
@@ -656,12 +654,7 @@ X_i | \beta &amp;\sim \text{Ga}(v, \theta) \\
 </pre></div>
 </div>
 </div>
-</details>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The lab_black extension is already loaded. To reload it, use:
-  %reload_ext lab_black
-</pre></div>
-</div>
 <div class="output text_html">
 <div class="video-container">
   <video id="video" muted controls>
@@ -672,17 +665,18 @@ X_i | \beta &amp;\sim \text{Ga}(v, \theta) \\
   .video-container {
     text-align: center;
     width: 100%;
-    max-width: fit-content; /* Make the container fit the content */
-    margin: auto; /* Center the container */
+    max-width: fit-content;
+    margin: auto;
   }
 </style>
 <script>
   var video = document.getElementById('video');
-  video.playbackRate = 0.25; // Set default playback rate
+  video.playbackRate = 0.25;
 </script>
 </div></div>
 </div>
-<p>This visualization shows the first 1,000 draws of the Metropolis algorithm. You can modify and try it out yourself using the <a class="reference external" href="http://RWMetropolis.py">RWMetropolis.py</a> script in <a class="reference external" href="https://github.com/areding/bayesvisualizations">this repository</a>.</p>
+<p>This visualization shows the first 1,000 draws of the Metropolis algorithm. You can modify and try it out yourself using the files in <a class="reference external" href="https://github.com/areding/bayesvisualizations">this repository</a>. If you generate the animation yourself you can step through it frame-by-frame. I’m working on a little web app to run it but it’s not ready yet.</p>
+<p>The visualization was inspired by this excellent <a class="reference external" href="https://www.youtube.com/watch?v=oX2wIGSn4jY">video</a> and <a class="reference external" href="https://colindcarroll.com/2018/11/24/animated-mcmc-with-matplotlib/">this notebook</a> by Colin Carroll.</p>
 </section>
 </section>
 <section id="metropolis-hastings">
@@ -702,6 +696,14 @@ X_i | \beta &amp;\sim \text{Ga}(v, \theta) \\
 </ol>
 </section>
 </div><p>There’s another simplified variant that the professor calls “Independence Metropolis,” where we select a proposal distribution that doesn’t depend on the current state of x. In other words, step 2 becomes <span class="math notranslate nohighlight">\(x_* ∼ q(x)\)</span> and <span class="math notranslate nohighlight">\(\rho(x_j, x_*) = min\left\{1, \frac{\pi(x_*)}{\pi(x_j)}\frac{q(x_j)}{q(x_*)}\right\}\)</span>. We’ll look at an example of this in the next lecture.</p>
+</section>
+<section id="other-resources">
+<h2>Other resources<a class="headerlink" href="#other-resources" title="Permalink to this headline">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://betanalpha.github.io/assets/case_studies/markov_chain_monte_carlo_basics.html">Markov Chain Monte Carlo Basics</a> by Michael Betancourt.</p></li>
+<li><p>Statistical Rethinking <span id="id3">McElreath [<a class="reference internal" href="../backmatter/bibliography.html#id6" title="Richard McElreath. Statistical Rethinking: A Bayesian Course with Examples in R and Stan. CRC Press, Boca Raton, FL, 2nd edition, 2020. ISBN 978-0367139919.">2020</a>]</span> Chapter 9 and the <a class="reference external" href="https://www.youtube.com/watch?v=Qqz5AJjyugM&amp;list=PLDcUM9US4XdMROZ57-OIRtIK0aOynbgZN&amp;index=10&amp;t=1s">corresponding video</a>.</p></li>
+<li><p><a class="reference external" href="https://www.youtube.com/watch?v=yApmR-c_hKU&amp;list=PLvcbYUQ5t0UEkf2NUEo7XSsyVTyeEk3Gq&amp;index=4">Markov Chain Monte Carlo</a> by ritvikmath.</p></li>
+</ul>
 </section>
 </section>
 
@@ -772,6 +774,7 @@ X_i | \beta &amp;\sim \text{Ga}(v, \theta) \\
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#metropolis-hastings">Metropolis-Hastings</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#other-resources">Other resources</a></li>
 </ul>
   </nav></div>
 
