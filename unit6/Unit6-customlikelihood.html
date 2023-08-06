@@ -605,15 +605,18 @@ X_i \mid \theta &amp;\sim N(\theta, 80) \\
 <p>Of course, BUGS can handle this model just fine. But, let’s pretend for a moment that there is no built-in normal distribution. The zero trick takes advantages of some properties of the Poisson distribution to recreate an arbitrary likelihood.</p>
 <p>Given a log-likelihood of the form <span class="math notranslate nohighlight">\(l_i = \log f(y; \theta)\)</span>,</p>
 <div class="math notranslate nohighlight">
-\[ \begin{align}\begin{aligned}\begin{split}
+\[\begin{split}
 \begin{align*}
 f(y | \theta) &amp;= \prod_{i=1}^{n} e^{l_i} &amp;&amp; \text{Log-likelihood to likelihood.}\\
 &amp;= \prod_{i=1}^{n} \frac{e^{-(-l_i)}(-l_i)^0}{0!} &amp;&amp; \text{Matching the form of the Poisson PMF.} \\
 &amp;= \prod_{i=1}^{n} f_P(0; -l_i) &amp;&amp; \text{Poisson evaluated at zero with mean $-l_i$.}
 \end{align*}
-$${cite:t}```ntzoufras2009bayesian``` page 276\end{split}\\But the rate, $\lambda$, can't be negative. So we need to add a constant, C, to keep that from happening.
- 
-The normal log-likelihood is:\\$$l_i = -0.5 \log(2\pi) - \log(\sigma^2) - \frac{(y_i - \mu_i)^2}{2\sigma^2}\end{aligned}\end{align} \]</div>
+\end{split}\]</div>
+<p><span id="id2">Ntzoufras [<a class="reference internal" href="../backmatter/bibliography.html#id29" title="Ioannis Ntzoufras. Bayesian Modeling Using WinBUGS. John Wiley &amp; Sons, Inc., Hoboken, New Jersey, 1 edition, 2009. ISBN 978-0-470-14114-4.">2009</a>]</span> page 276</p>
+<p>But the rate, <span class="math notranslate nohighlight">\(\lambda\)</span>, can’t be negative. So we need to add a constant, C, to keep that from happening.</p>
+<p>The normal log-likelihood is:</p>
+<div class="math notranslate nohighlight">
+\[l_i = -0.5 \log(2\pi) - \log(\sigma^2) - \frac{(y_i - \mu_i)^2}{2\sigma^2}\]</div>
 <p>But the constant terms won’t affect the posterior.</p>
 <p>Here’s the model in PyMC:</p>
 <div class="cell docutils container">
@@ -729,7 +732,7 @@ NUTS: [θ]
 </section>
 <section id="custom-likelihoods-in-pymc">
 <h2>Custom likelihoods in PyMC<a class="headerlink" href="#custom-likelihoods-in-pymc" title="Permalink to this headline">#</a></h2>
-<p>PyMC is a lot more flexible. For one, many more built-in <a class="reference external" href="https://www.pymc.io/projects/docs/en/stable/api/distributions.html">distributions</a> are available, including mixtures and zero-inflated models, which is where I’ve seen the zero trick used most often (<span id="id2">Karlis and Ntzoufras [<a class="reference internal" href="../backmatter/bibliography.html#id30" title="Dimitris Karlis and Ioannis Ntzoufras. Bayesian modelling of football outcomes: using the Skellam's distribution for the goal difference. IMA Journal of Management Mathematics, 20(2):133-145, 09 2008. URL: https://doi.org/10.1093/imaman/dpn026, arXiv:https://academic.oup.com/imaman/article-pdf/20/2/133/2118878/dpn026.pdf, doi:10.1093/imaman/dpn026.">2008</a>]</span>, <span id="id3">Ntzoufras [<a class="reference internal" href="../backmatter/bibliography.html#id29" title="Ioannis Ntzoufras. Bayesian Modeling Using WinBUGS. John Wiley &amp; Sons, Inc., Hoboken, New Jersey, 1 edition, 2009. ISBN 978-0-470-14114-4.">2009</a>]</span> page 288).</p>
+<p>PyMC is a lot more flexible. For one, many more built-in <a class="reference external" href="https://www.pymc.io/projects/docs/en/stable/api/distributions.html">distributions</a> are available, including mixtures and zero-inflated models, which is where I’ve seen the zero trick used most often (<span id="id3">Karlis and Ntzoufras [<a class="reference internal" href="../backmatter/bibliography.html#id30" title="Dimitris Karlis and Ioannis Ntzoufras. Bayesian modelling of football outcomes: using the Skellam's distribution for the goal difference. IMA Journal of Management Mathematics, 20(2):133-145, 09 2008. URL: https://doi.org/10.1093/imaman/dpn026, arXiv:https://academic.oup.com/imaman/article-pdf/20/2/133/2118878/dpn026.pdf, doi:10.1093/imaman/dpn026.">2008</a>]</span>, <span id="id4">Ntzoufras [<a class="reference internal" href="../backmatter/bibliography.html#id29" title="Ioannis Ntzoufras. Bayesian Modeling Using WinBUGS. John Wiley &amp; Sons, Inc., Hoboken, New Jersey, 1 edition, 2009. ISBN 978-0-470-14114-4.">2009</a>]</span> page 288).</p>
 <p>If you need a custom likelihood, take a look at the <a class="reference external" href="https://www.pymc.io/projects/docs/en/stable/api/generated/pymc.Potential.html">pm.Potential</a> or <a class="reference external" href="https://www.pymc.io/projects/docs/en/stable/api/distributions/generated/pymc.CustomDist.html">pm.CustomDist</a> classes.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
