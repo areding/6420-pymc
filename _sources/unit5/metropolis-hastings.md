@@ -1,4 +1,0 @@
-# The Metropolis Algorithm
-
-```{tableofcontents}
-```

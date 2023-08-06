@@ -1,4 +1,0 @@
-# Gibbs Sampling
-
-```{tableofcontents}
-```
