@@ -1,0 +1,4 @@
+# Empirical Bayes
+
+```{tableofcontents}
+```

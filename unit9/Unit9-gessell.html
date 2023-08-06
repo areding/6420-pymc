@@ -1,0 +1,1665 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>6. Gesell* &#8212; ISYE 6420 - BUGS to PyMC</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/proof.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'unit9/Unit9-gessell';</script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="7. Cumulative" href="Unit9-cumulative.html" />
+    <link rel="prev" title="5. Conditional Predictive Ordinate" href="Unit9-cpo.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo2.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../_static/logo2.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Introduction
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Unit 1</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../unit1/Unit1-about-this-course.html">1. About This Course and Website</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit1/Unit1-topics.html">2. Topics Covered</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit1/Unit1-software.html">3. Software</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit1/Unit1-simple-regression.html">4. A Simple Regression*</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Unit 2</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../unit2/Unit2-history.html">1. History of Bayesian Statistics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit2/Unit2-history2.html">2. Historic Overview Links</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit2/Unit2-bayesianvsclassical.html">3. Bayesian vs. Frequentist</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit2/Unit2-10flips.html">4. Ten Coin Flips*</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit2/Unit2-fda.html">5. FDA Recommendations</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Unit 3</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../unit3/Unit3-NecessaryProbability.html">1. A Review of Necessary Probability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit3/Unit3-conditioning1.html">2. Conditioning, Part 1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit3/Unit3-conditioning2.html">3. Conditioning, Part 2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit3/Unit3-Bayes-theorem.html">4. Bayes’ Theorem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit3/Unit3-ManufacturingBayes.html">5. Manufacturing Bayes*</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit3/Unit3-TwoHeadedCoin.html">6. Two-headed Coin*</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit3/Unit3-bayesnetworks.html">7. Bayes Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit3/Unit3-Alarm.html">8. Alarm*</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit3/Unit3-Emily.html">9. Supplementary Problem: Emily’s Vacation*</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Unit 4</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../unit4/distributions.html">Probability Distributions</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../unit4/Unit4-basicdist.html">1. Basic Distributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit4/Unit4-numericalchar.html">2. Numerical Characteristics of Random Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit4/Unit4-jointconditionals.html">3. Joint and Conditional Distributions</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../unit4/bayestheorem.html">Bayes’ Theorem</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../unit4/Unit4-ingredients.html">4. Ingredients for Bayesian Inference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit4/Unit4-conjugatefamilies.html">5. Conjugate Families</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit4/Unit4-IQexample.html">6. Example: Jeremy’s IQ</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit4/Unit4-BetaPriors.html">7. Ten Coin Flips Revisited: Beta Plots*</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit4/Unit4-poissongamma.html">8. Poisson–Gamma Model</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../unit4/conjugatecases.html">Bayesian Inference in Conjugate Cases</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../unit4/Unit4-estimation.html">9. Estimation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit4/Unit4-crediblesets.html">10. Credible Intervals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit4/Unit4-GammaGamma.html">11. Gamma Gamma*</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit4/Unit4-testing.html">12. Bayesian Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit4/Unit4-prediction.html">13. Prediction</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../unit4/priors.html">Priors</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../unit4/Unit4-elicitation.html">14. Prior Elicitation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit4/Unit4-noninform.html">15. Non-informative Priors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit4/Unit4-samplesize.html">16. Prior Sample Size</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit4/Unit4-eBay.html">17. eBay Purchase Example*</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../unit4/empiricalbayes.html">Empirical Bayes</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../unit4/Unit4-parametric.html">18. Parametric</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit4/Unit4-nonpara.html">19. Non-parametric</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../unit4/moreexamples.html">More Examples</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../unit4/Unit4-AlphaParticles.html">20. Counts of Alpha Particles*</a></li>
+</ul>
+</li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Unit 5</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../unit5/bayesian-computation.html">Bayesian Computation</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-numericalapproaches.html">1. Numerical Approaches</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-norcau1.html">2. Normal–Cauchy Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-Laplace.html">3. Laplace’s Method</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-demo-Laplaces-method.html">4. Laplace’s Method Demo*</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-mcmc.html">5. Markov Chain Monte Carlo</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../unit5/metropolis-hastings.html">The Metropolis Algorithm</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-Metropolis.html">6. Metropolis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-Metropolis1.html">7. Metropolis: Normal-Cauchy*</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-MetropolisHastings.html">8. Metropolis–Hastings: Weibull-Exponential Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-MetropolisHastings2.html">9. Weibull Lifetimes*</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../unit5/gibbs-sampling.html">Gibbs Sampling</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-9"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-gibbsintro.html">10. Introduction to Gibbs Sampling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-GibbsSampler.html">11. Normal-Cauchy Gibbs Sampler*</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-gibbs2.html">12. Conjugate Gamma-Poisson Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-PumpsMCMC.html">13. Pumps*</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-gibbsex3math.html">14. Change Point Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-Gibbs3.html">15. Coal Mining Disasters in the UK*</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../unit5/other.html">Other Algorithms</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-10"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-hamiltonian.html">16. Hamiltonian Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-other-methods.html">17. Going Further</a></li>
+</ul>
+</li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Unit 6</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../unit6/Unit6-probabilisticprogramming.html">1. Probabilistic Programming Languages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit6/Unit6-doodlebug.html">2. Creating a Graphical Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit6/Unit6-demo-doodle.html">3. Joint Probability Graphs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit6/Unit6-moreaboutpymc.html">4. More About PyMC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit6/Unit6-loadingdata.html">5. Loading Data, Step Function, and Deterministic Variables*</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit6/Unit6-missingdata.html">6. Missing Data*</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit6/Unit6-htesting.html">7. Hypothesis Testing*</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit6/Unit6-prediction.html">8. Prediction*</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit6/Unit6-censoring.html">9. Type-1 Censoring*</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit6/Unit6-customlikelihood.html">10. The Zero Trick and Custom Likelihoods*</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Unit 7</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../unit7/hierarchical.html">Hierarchical Models</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-11"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../unit7/Unit7-introduction.html">1. Introduction to Hierarchical Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit7/Unit7-why.html">2. Reasons to Use Hierarchical Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit7/Unit7-priors.html">3. Priors with Structural Information</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit7/Unit7-hiddenmixtures.html">4. Priors as Hidden Mixtures*</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit7/Unit7-metaanalysis.html">5. Meta-analysis via Hierarchical Models*</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../unit7/linearmodels.html">Linear Models</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-12"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../unit7/Unit7-anova.html">6. Analysis of Variance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit7/Unit7-coagulation.html">7. Coagulation*</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit7/Unit7-factorial.html">8. Factorial Designs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit7/Unit7-demo-factorial.html">9. Simvastatin*</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit7/Unit7-regression.html">10. Linear Regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit7/Unit7-demo-regression.html">11. Brozek index prediction*</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit7/Unit7-multipleregression.html">12. Multiple Regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit7/Unit7-demo-multiple.html">13. Multiple Regression: Brozek Index Prediction*</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../unit7/othermodels.html">Other Models</a><input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-13"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../unit7/Unit7-other.html">14. Generalized Linear Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit7/Unit7-arrhythmia.html">15. GLM Examples*</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit7/Unit7-multinomial.html">16. Multinomial Logit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit7/Unit7-demo-multinomial.html">17. Multinomial regression*</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit7/Unit7-multilevel.html">18. Multilevel Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit7/Unit7-demo-multilevel.html">19. Paraguay Vaccination Status*</a></li>
+</ul>
+</li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Unit 8</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../unit8/Unit8-missing.html">1. Missing Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit8/Unit8-missrats.html">2. Rats Example with Missing Data*</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit8/Unit8-timetoevent.html">3. Time-to-event Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit8/Unit8-tteex1.html">4. Time-to-event Models: Example 1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit8/Unit8-tteex2.html">5. Time-to-event Models: Example 2*</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit8/Unit8-tte-gastric.html">6. Time-to-event Models: Gastric Cancer*</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Unit 9</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="Unit9-fit-selection-diagnostics.html">1. Model Fit, Selection, and Diagnostics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Unit9-dic.html">2. Deviance Information Criterion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Unit9-fitsel.html">3. Model Fit and Selection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Unit9-hald.html">4. Hald*</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Unit9-cpo.html">5. Conditional Predictive Ordinate</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">6. Gesell*</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Unit9-cumulative.html">7. Cumulative</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Unit9-cumulative2.html">8. Cumulative Example*</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Unit9-ssvs.html">9. Stochastic Search Variable Selection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Unit9-hald2.html">10. SSVS: Hald*</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Unit 10</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../unit10/Unit10-lister.html">1. Lister*</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit10/Unit10-growth.html">2. Dental Development*</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit10/Unit10-disasters.html">3. Revisiting UK Coal Mining Disasters*</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit10/Unit10-rasch.html">4. Rasch*</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit10/Unit10-italywines123.html">5. Wine Classification*</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit10/Unit10-katla.html">6. Predicting Using Censored Data*</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit10/Unit10-sunspots.html">7. Prediction of Time Series*</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Back Matter</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../backmatter/bibliography.html">1. Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../backmatter/latex_reference.html">2. Latex Reference</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/areding/6420-pymc/blob/main/unit9/Unit9-gessell.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch onColab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img src="../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/areding/6420-pymc" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/areding/6420-pymc/issues/new?title=Issue%20on%20page%20%2Funit9/Unit9-gessell.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/unit9/Unit9-gessell.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Gesell*</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#part-a">Part A</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#part-b">Part B</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pymc</span> <span class="k">as</span> <span class="nn">pm</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">arviz</span> <span class="k">as</span> <span class="nn">az</span>
+
+<span class="o">%</span><span class="k">load_ext</span> lab_black
+</pre></div>
+</div>
+</div>
+</div>
+<section class="tex2jax_ignore mathjax_ignore" id="gesell">
+<h1><span class="section-number">6. </span>Gesell*<a class="headerlink" href="#gesell" title="Permalink to this headline">#</a></h1>
+<p>Adapted from <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/original_examples/Codes4Unit9/Gesell.odc">Unit 9: Gesell.odc</a>.</p>
+<p>Gesell Developmental Schedules  measure  child development. The scoring is devised by the American child psychologist and pediatrician Arnold Gesell who founded the Clinic of Child Development at Yale in 1911 and directed it for many years.  The Gesell Developmental Schedules are a gauge of the status of a child’s motor and language development and personal-social and adaptive behaviors.</p>
+<p>For 21 children the age in months at which they first spoke and their Gesell Adaptive Score, which is the result of an aptitude test taken much later was recorded.  These data were originally collected by L. M. Linde of UCLA but were first published by M. R. Mickey, O. J. Dunn, and V. Clark, †Note on the use of stepwise regression in detecting outliers,† Computers and Biomedical Research, 1 (1967), pp. 105†111.</p>
+<p>The data have been used by several authors, e.g.,  N. R. Draper and J. A. John, †Influential observations and outliers in regression,† Technometrics, 23 (1981), pp. 21†26.</p>
+<p>Let X be the age in in months a child speaks his/her first word and let Y be the Gesell adaptive score, a measure of a child†s aptitude (observed later on).</p>
+<p>Correlation of r = ¢0.640 indicates a  moderately strong negative relationship between age at first word spoken and Gesell score. How does the child†s aptitude change with how long it takes them to speak?</p>
+<p>Are there any influential observations/potential outliers?</p>
+<p>The solution follows a two-stage model:</p>
+<p>a. Obtain mean ICPOs. Outside BUGS take reciprocal of mean ICPOs (these are CPOs) and consder them as an input for model B.</p>
+<p>b. Read in and calibrate CPOs with posterior ordinates.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># fmt: off</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+    <span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">26</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">42</span><span class="p">,</span> <span class="mi">17</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="p">)</span>
+
+<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+    <span class="p">(</span><span class="mi">95</span><span class="p">,</span> <span class="mi">71</span><span class="p">,</span> <span class="mi">83</span><span class="p">,</span> <span class="mi">91</span><span class="p">,</span> <span class="mi">102</span><span class="p">,</span> <span class="mi">87</span><span class="p">,</span> <span class="mi">93</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">104</span><span class="p">,</span> <span class="mi">94</span><span class="p">,</span> <span class="mi">113</span><span class="p">,</span> <span class="mi">96</span><span class="p">,</span> <span class="mi">83</span><span class="p">,</span> <span class="mi">84</span><span class="p">,</span> <span class="mi">102</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">105</span><span class="p">,</span> <span class="mi">57</span><span class="p">,</span> <span class="mi">121</span><span class="p">,</span> <span class="mi">86</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="c1"># fmt: on</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="part-a">
+<h2>Part A<a class="headerlink" href="#part-a" title="Permalink to this headline">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">model_a</span><span class="p">:</span>
+    <span class="c1"># couldn&#39;t get .001 working, answers are pretty close with .003</span>
+    <span class="n">tau</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Gamma</span><span class="p">(</span><span class="s2">&quot;tau&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.003</span><span class="p">)</span>
+    <span class="n">s2</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;s2&quot;</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">tau</span><span class="p">)</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">0.00001</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="n">m</span> <span class="o">=</span> <span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">x</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">y</span> <span class="o">-</span> <span class="n">m</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span>
+        <span class="s2">&quot;cpo&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">tau</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">))</span> <span class="o">**</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">pm</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">tau</span> <span class="o">*</span> <span class="n">r</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="c1"># what is the point of this when we want cpo anyways?</span>
+    <span class="n">icpo</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;icpo&quot;</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">f</span><span class="p">)</span>
+    <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;likelihood&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">m</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="n">tau</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
+
+    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">10000</span><span class="p">,</span> <span class="n">target_accept</span><span class="o">=</span><span class="mf">0.99</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Auto-assigning NUTS sampler...
+Initializing NUTS using jitter+adapt_diag...
+Multiprocess sampling (4 chains in 4 jobs)
+NUTS: [tau, b]
+</pre></div>
+</div>
+<div class="output text_html">
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    progress:not([value]), progress:not([value])::-webkit-progress-bar {
+        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div><div class="output text_html">
+    <div>
+      <progress value='44000' class='' max='44000' style='width:300px; height:20px; vertical-align: middle;'></progress>
+      100.00% [44000/44000 00:12&lt;00:00 Sampling 4 chains, 0 divergences]
+    </div>
+    </div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 10_000 draw iterations (4_000 + 40_000 draws total) took 12 seconds.
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">icpo_df</span> <span class="o">=</span> <span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="s2">&quot;icpo&quot;</span><span class="p">,</span> <span class="n">round_to</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">filter_vars</span><span class="o">=</span><span class="s2">&quot;like&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>ICPO results match BUGS.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">icpo_df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mean</th>
+      <th>sd</th>
+      <th>hdi_3%</th>
+      <th>hdi_97%</th>
+      <th>mcse_mean</th>
+      <th>mcse_sd</th>
+      <th>ess_bulk</th>
+      <th>ess_tail</th>
+      <th>r_hat</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>icpo[0]</th>
+      <td>28.41121</td>
+      <td>4.72845</td>
+      <td>20.47770</td>
+      <td>37.47112</td>
+      <td>0.03871</td>
+      <td>0.02782</td>
+      <td>15659.18205</td>
+      <td>18080.97067</td>
+      <td>1.00025</td>
+    </tr>
+    <tr>
+      <th>icpo[1]</th>
+      <td>47.99006</td>
+      <td>25.25222</td>
+      <td>22.45428</td>
+      <td>86.80183</td>
+      <td>0.16691</td>
+      <td>0.11803</td>
+      <td>24147.00691</td>
+      <td>27144.47489</td>
+      <td>1.00002</td>
+    </tr>
+    <tr>
+      <th>icpo[2]</th>
+      <td>92.74176</td>
+      <td>50.16799</td>
+      <td>36.13296</td>
+      <td>174.04703</td>
+      <td>0.34291</td>
+      <td>0.24714</td>
+      <td>20603.45565</td>
+      <td>24329.10258</td>
+      <td>1.00002</td>
+    </tr>
+    <tr>
+      <th>icpo[3]</th>
+      <td>40.43944</td>
+      <td>10.35050</td>
+      <td>25.06100</td>
+      <td>59.23434</td>
+      <td>0.07383</td>
+      <td>0.05275</td>
+      <td>20882.59211</td>
+      <td>24124.73361</td>
+      <td>1.00011</td>
+    </tr>
+    <tr>
+      <th>icpo[4]</th>
+      <td>40.79267</td>
+      <td>8.65556</td>
+      <td>26.98754</td>
+      <td>56.65844</td>
+      <td>0.04918</td>
+      <td>0.03630</td>
+      <td>35476.06045</td>
+      <td>25721.99214</td>
+      <td>1.00020</td>
+    </tr>
+    <tr>
+      <th>icpo[5]</th>
+      <td>28.25061</td>
+      <td>4.82800</td>
+      <td>20.19374</td>
+      <td>37.55486</td>
+      <td>0.04028</td>
+      <td>0.02886</td>
+      <td>15011.41745</td>
+      <td>16641.73097</td>
+      <td>1.00024</td>
+    </tr>
+    <tr>
+      <th>icpo[6]</th>
+      <td>29.57640</td>
+      <td>5.10526</td>
+      <td>21.10853</td>
+      <td>39.38356</td>
+      <td>0.03996</td>
+      <td>0.02868</td>
+      <td>17227.04521</td>
+      <td>20263.02467</td>
+      <td>1.00029</td>
+    </tr>
+    <tr>
+      <th>icpo[7]</th>
+      <td>28.85189</td>
+      <td>4.92518</td>
+      <td>20.58232</td>
+      <td>38.16269</td>
+      <td>0.04046</td>
+      <td>0.02918</td>
+      <td>15689.37653</td>
+      <td>17820.85901</td>
+      <td>1.00026</td>
+    </tr>
+    <tr>
+      <th>icpo[8]</th>
+      <td>29.73159</td>
+      <td>5.54447</td>
+      <td>20.46714</td>
+      <td>39.87133</td>
+      <td>0.04674</td>
+      <td>0.03423</td>
+      <td>15531.08248</td>
+      <td>16684.26037</td>
+      <td>1.00012</td>
+    </tr>
+    <tr>
+      <th>icpo[9]</th>
+      <td>34.85221</td>
+      <td>7.58887</td>
+      <td>22.65502</td>
+      <td>48.60123</td>
+      <td>0.05036</td>
+      <td>0.03646</td>
+      <td>24925.54890</td>
+      <td>25441.97958</td>
+      <td>1.00029</td>
+    </tr>
+    <tr>
+      <th>icpo[10]</th>
+      <td>51.98607</td>
+      <td>20.45696</td>
+      <td>26.47904</td>
+      <td>86.94689</td>
+      <td>0.15323</td>
+      <td>0.10835</td>
+      <td>18600.37825</td>
+      <td>23899.58560</td>
+      <td>1.00022</td>
+    </tr>
+    <tr>
+      <th>icpo[11]</th>
+      <td>30.07400</td>
+      <td>5.48479</td>
+      <td>21.34334</td>
+      <td>40.68441</td>
+      <td>0.04466</td>
+      <td>0.03232</td>
+      <td>16205.68697</td>
+      <td>19463.49205</td>
+      <td>1.00028</td>
+    </tr>
+    <tr>
+      <th>icpo[12]</th>
+      <td>92.74176</td>
+      <td>50.16799</td>
+      <td>36.13296</td>
+      <td>174.04703</td>
+      <td>0.34291</td>
+      <td>0.24714</td>
+      <td>20603.45565</td>
+      <td>24329.10258</td>
+      <td>1.00002</td>
+    </tr>
+    <tr>
+      <th>icpo[13]</th>
+      <td>66.90891</td>
+      <td>25.82705</td>
+      <td>33.93229</td>
+      <td>112.22439</td>
+      <td>0.16693</td>
+      <td>0.12028</td>
+      <td>23979.48913</td>
+      <td>25991.43371</td>
+      <td>1.00000</td>
+    </tr>
+    <tr>
+      <th>icpo[14]</th>
+      <td>30.81508</td>
+      <td>5.47764</td>
+      <td>21.38196</td>
+      <td>40.76289</td>
+      <td>0.04312</td>
+      <td>0.03136</td>
+      <td>17492.07762</td>
+      <td>19548.03039</td>
+      <td>1.00014</td>
+    </tr>
+    <tr>
+      <th>icpo[15]</th>
+      <td>28.35557</td>
+      <td>4.84480</td>
+      <td>19.98556</td>
+      <td>37.36930</td>
+      <td>0.04058</td>
+      <td>0.02926</td>
+      <td>15048.80258</td>
+      <td>17249.29806</td>
+      <td>1.00025</td>
+    </tr>
+    <tr>
+      <th>icpo[16]</th>
+      <td>39.67949</td>
+      <td>8.56248</td>
+      <td>26.03851</td>
+      <td>55.23164</td>
+      <td>0.05547</td>
+      <td>0.04009</td>
+      <td>26168.71713</td>
+      <td>24969.61763</td>
+      <td>1.00010</td>
+    </tr>
+    <tr>
+      <th>icpo[17]</th>
+      <td>69.22087</td>
+      <td>680.03534</td>
+      <td>18.49164</td>
+      <td>134.81628</td>
+      <td>4.82859</td>
+      <td>3.41438</td>
+      <td>18597.96049</td>
+      <td>21892.85609</td>
+      <td>1.00005</td>
+    </tr>
+    <tr>
+      <th>icpo[18]</th>
+      <td>6420.92323</td>
+      <td>41067.00099</td>
+      <td>81.53965</td>
+      <td>17103.15954</td>
+      <td>252.18793</td>
+      <td>178.32576</td>
+      <td>19089.13567</td>
+      <td>21192.00256</td>
+      <td>1.00004</td>
+    </tr>
+    <tr>
+      <th>icpo[19]</th>
+      <td>52.23689</td>
+      <td>15.70697</td>
+      <td>30.16757</td>
+      <td>80.84616</td>
+      <td>0.09984</td>
+      <td>0.07145</td>
+      <td>25294.32863</td>
+      <td>27260.16938</td>
+      <td>1.00003</td>
+    </tr>
+    <tr>
+      <th>icpo[20]</th>
+      <td>28.35557</td>
+      <td>4.84480</td>
+      <td>19.98556</td>
+      <td>37.36930</td>
+      <td>0.04058</td>
+      <td>0.02926</td>
+      <td>15048.80258</td>
+      <td>17249.29806</td>
+      <td>1.00025</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cpo_means</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">icpo_df</span><span class="p">[</span><span class="s2">&quot;mean&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+<span class="n">cpo_means</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([0.03519737, 0.02083765, 0.01078263, 0.02472833, 0.02451421,
+       0.03539747, 0.03381074, 0.03465977, 0.03363426, 0.02869259,
+       0.01923592, 0.03325131, 0.01078263, 0.01494569, 0.03245164,
+       0.03526644, 0.02520194, 0.01444651, 0.00015574, 0.01914356,
+       0.03526644])
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="part-b">
+<h2>Part B<a class="headerlink" href="#part-b" title="Permalink to this headline">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mlcpo</span> <span class="o">=</span> <span class="o">-</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">cpo_means</span><span class="p">)</span>
+<span class="n">MPQ</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">mlcpo</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_hide-output docutils container">
+<div class="cell_input above-output-prompt docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">model_b</span><span class="p">:</span>
+    <span class="n">tau</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Gamma</span><span class="p">(</span><span class="s2">&quot;tau&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.002</span><span class="p">)</span>
+    <span class="n">s2</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;s2&quot;</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">tau</span><span class="p">)</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">0.00001</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="n">m</span> <span class="o">=</span> <span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">x</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">y</span> <span class="o">-</span> <span class="n">m</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span>
+        <span class="s2">&quot;f&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">tau</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">))</span> <span class="o">**</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">pm</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">tau</span> <span class="o">*</span> <span class="n">r</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="n">cpo_means</span> <span class="o">/</span> <span class="n">f</span><span class="p">)</span>
+
+    <span class="n">g1</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;g1&quot;</span><span class="p">,</span> <span class="n">c</span> <span class="o">*</span> <span class="n">pm</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">c</span><span class="p">))</span>
+    <span class="n">g2</span> <span class="o">=</span> <span class="o">-</span><span class="n">pm</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+    <span class="n">g3</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">absolute</span><span class="p">((</span><span class="n">c</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="n">g4</span> <span class="o">=</span> <span class="p">(</span><span class="n">c</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+
+    <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;s_g1&quot;</span><span class="p">,</span> <span class="n">pm</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">g1</span><span class="p">))</span>
+    <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;s_g2&quot;</span><span class="p">,</span> <span class="n">pm</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">g2</span><span class="p">))</span>
+    <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;s_g3&quot;</span><span class="p">,</span> <span class="n">pm</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">g3</span><span class="p">))</span>
+    <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;s_g4&quot;</span><span class="p">,</span> <span class="n">pm</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">g4</span><span class="p">))</span>
+
+    <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;likelihood&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">m</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="n">tau</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
+
+    <span class="n">traceb</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">2000</span><span class="p">,</span> <span class="n">target_accept</span><span class="o">=</span><span class="mf">0.95</span><span class="p">,</span> <span class="n">idata_kwargs</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">log_likelihood</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<details class="hide below-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell output</span>
+<span class="expanded">Hide code cell output</span>
+</summary>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Auto-assigning NUTS sampler...
+Initializing NUTS using jitter+adapt_diag...
+Multiprocess sampling (4 chains in 4 jobs)
+NUTS: [tau, b]
+</pre></div>
+</div>
+<div class="output text_html">
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    progress:not([value]), progress:not([value])::-webkit-progress-bar {
+        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div><div class="output text_html">
+    <div>
+      <progress value='12000' class='' max='12000' style='width:300px; height:20px; vertical-align: middle;'></progress>
+      100.00% [12000/12000 00:02&lt;00:00 Sampling 4 chains, 0 divergences]
+    </div>
+    </div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 2_000 draw iterations (4_000 + 8_000 draws total) took 3 seconds.
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">traceb</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="n">filter_vars</span><span class="o">=</span><span class="s2">&quot;like&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;stats&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mean</th>
+      <th>sd</th>
+      <th>hdi_3%</th>
+      <th>hdi_97%</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>c[0]</th>
+      <td>0.999</td>
+      <td>0.167</td>
+      <td>0.722</td>
+      <td>1.321</td>
+    </tr>
+    <tr>
+      <th>c[1]</th>
+      <td>1.008</td>
+      <td>0.506</td>
+      <td>0.484</td>
+      <td>1.851</td>
+    </tr>
+    <tr>
+      <th>c[2]</th>
+      <td>1.010</td>
+      <td>0.560</td>
+      <td>0.402</td>
+      <td>1.932</td>
+    </tr>
+    <tr>
+      <th>c[3]</th>
+      <td>1.002</td>
+      <td>0.264</td>
+      <td>0.617</td>
+      <td>1.478</td>
+    </tr>
+    <tr>
+      <th>c[4]</th>
+      <td>0.998</td>
+      <td>0.220</td>
+      <td>0.652</td>
+      <td>1.386</td>
+    </tr>
+    <tr>
+      <th>c[5]</th>
+      <td>1.000</td>
+      <td>0.173</td>
+      <td>0.711</td>
+      <td>1.329</td>
+    </tr>
+    <tr>
+      <th>c[6]</th>
+      <td>0.998</td>
+      <td>0.177</td>
+      <td>0.691</td>
+      <td>1.312</td>
+    </tr>
+    <tr>
+      <th>c[7]</th>
+      <td>0.998</td>
+      <td>0.169</td>
+      <td>0.710</td>
+      <td>1.309</td>
+    </tr>
+    <tr>
+      <th>c[8]</th>
+      <td>0.998</td>
+      <td>0.183</td>
+      <td>0.696</td>
+      <td>1.338</td>
+    </tr>
+    <tr>
+      <th>c[9]</th>
+      <td>0.998</td>
+      <td>0.231</td>
+      <td>0.638</td>
+      <td>1.396</td>
+    </tr>
+    <tr>
+      <th>c[10]</th>
+      <td>1.001</td>
+      <td>0.390</td>
+      <td>0.516</td>
+      <td>1.667</td>
+    </tr>
+    <tr>
+      <th>c[11]</th>
+      <td>0.999</td>
+      <td>0.182</td>
+      <td>0.698</td>
+      <td>1.346</td>
+    </tr>
+    <tr>
+      <th>c[12]</th>
+      <td>1.010</td>
+      <td>0.560</td>
+      <td>0.402</td>
+      <td>1.932</td>
+    </tr>
+    <tr>
+      <th>c[13]</th>
+      <td>1.008</td>
+      <td>0.401</td>
+      <td>0.487</td>
+      <td>1.683</td>
+    </tr>
+    <tr>
+      <th>c[14]</th>
+      <td>0.998</td>
+      <td>0.177</td>
+      <td>0.700</td>
+      <td>1.322</td>
+    </tr>
+    <tr>
+      <th>c[15]</th>
+      <td>0.998</td>
+      <td>0.169</td>
+      <td>0.706</td>
+      <td>1.304</td>
+    </tr>
+    <tr>
+      <th>c[16]</th>
+      <td>0.999</td>
+      <td>0.219</td>
+      <td>0.665</td>
+      <td>1.414</td>
+    </tr>
+    <tr>
+      <th>c[17]</th>
+      <td>0.900</td>
+      <td>3.238</td>
+      <td>0.262</td>
+      <td>1.932</td>
+    </tr>
+    <tr>
+      <th>c[18]</th>
+      <td>1.108</td>
+      <td>8.071</td>
+      <td>0.015</td>
+      <td>2.747</td>
+    </tr>
+    <tr>
+      <th>c[19]</th>
+      <td>1.006</td>
+      <td>0.313</td>
+      <td>0.573</td>
+      <td>1.563</td>
+    </tr>
+    <tr>
+      <th>c[20]</th>
+      <td>0.998</td>
+      <td>0.169</td>
+      <td>0.706</td>
+      <td>1.304</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">traceb</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="s2">&quot;s_g&quot;</span><span class="p">,</span> <span class="n">filter_vars</span><span class="o">=</span><span class="s2">&quot;like&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;stats&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mean</th>
+      <th>sd</th>
+      <th>hdi_3%</th>
+      <th>hdi_97%</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>s_g1</th>
+      <td>3.623</td>
+      <td>46.797</td>
+      <td>-2.704</td>
+      <td>9.321</td>
+    </tr>
+    <tr>
+      <th>s_g2</th>
+      <td>2.377</td>
+      <td>1.228</td>
+      <td>0.168</td>
+      <td>3.888</td>
+    </tr>
+    <tr>
+      <th>s_g3</th>
+      <td>2.892</td>
+      <td>4.585</td>
+      <td>1.173</td>
+      <td>5.369</td>
+    </tr>
+    <tr>
+      <th>s_g4</th>
+      <td>77.429</td>
+      <td>2428.328</td>
+      <td>0.574</td>
+      <td>16.297</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">traceb</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="s2">&quot;g1&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;stats&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mean</th>
+      <th>sd</th>
+      <th>hdi_3%</th>
+      <th>hdi_97%</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>g1[0]</th>
+      <td>0.012</td>
+      <td>0.177</td>
+      <td>-0.256</td>
+      <td>0.333</td>
+    </tr>
+    <tr>
+      <th>g1[1]</th>
+      <td>0.105</td>
+      <td>0.779</td>
+      <td>-0.363</td>
+      <td>1.070</td>
+    </tr>
+    <tr>
+      <th>g1[2]</th>
+      <td>0.128</td>
+      <td>0.883</td>
+      <td>-0.368</td>
+      <td>1.223</td>
+    </tr>
+    <tr>
+      <th>g1[3]</th>
+      <td>0.034</td>
+      <td>0.313</td>
+      <td>-0.314</td>
+      <td>0.553</td>
+    </tr>
+    <tr>
+      <th>g1[4]</th>
+      <td>0.021</td>
+      <td>0.250</td>
+      <td>-0.287</td>
+      <td>0.441</td>
+    </tr>
+    <tr>
+      <th>g1[5]</th>
+      <td>0.014</td>
+      <td>0.185</td>
+      <td>-0.264</td>
+      <td>0.343</td>
+    </tr>
+    <tr>
+      <th>g1[6]</th>
+      <td>0.013</td>
+      <td>0.190</td>
+      <td>-0.258</td>
+      <td>0.353</td>
+    </tr>
+    <tr>
+      <th>g1[7]</th>
+      <td>0.012</td>
+      <td>0.179</td>
+      <td>-0.260</td>
+      <td>0.331</td>
+    </tr>
+    <tr>
+      <th>g1[8]</th>
+      <td>0.014</td>
+      <td>0.199</td>
+      <td>-0.270</td>
+      <td>0.364</td>
+    </tr>
+    <tr>
+      <th>g1[9]</th>
+      <td>0.022</td>
+      <td>0.270</td>
+      <td>-0.301</td>
+      <td>0.450</td>
+    </tr>
+    <tr>
+      <th>g1[10]</th>
+      <td>0.064</td>
+      <td>0.524</td>
+      <td>-0.352</td>
+      <td>0.813</td>
+    </tr>
+    <tr>
+      <th>g1[11]</th>
+      <td>0.015</td>
+      <td>0.196</td>
+      <td>-0.268</td>
+      <td>0.371</td>
+    </tr>
+    <tr>
+      <th>g1[12]</th>
+      <td>0.128</td>
+      <td>0.883</td>
+      <td>-0.368</td>
+      <td>1.223</td>
+    </tr>
+    <tr>
+      <th>g1[13]</th>
+      <td>0.075</td>
+      <td>0.544</td>
+      <td>-0.357</td>
+      <td>0.864</td>
+    </tr>
+    <tr>
+      <th>g1[14]</th>
+      <td>0.013</td>
+      <td>0.189</td>
+      <td>-0.254</td>
+      <td>0.364</td>
+    </tr>
+    <tr>
+      <th>g1[15]</th>
+      <td>0.012</td>
+      <td>0.178</td>
+      <td>-0.258</td>
+      <td>0.331</td>
+    </tr>
+    <tr>
+      <th>g1[16]</th>
+      <td>0.021</td>
+      <td>0.247</td>
+      <td>-0.301</td>
+      <td>0.441</td>
+    </tr>
+    <tr>
+      <th>g1[17]</th>
+      <td>0.528</td>
+      <td>16.013</td>
+      <td>-0.368</td>
+      <td>1.271</td>
+    </tr>
+    <tr>
+      <th>g1[18]</th>
+      <td>2.330</td>
+      <td>43.596</td>
+      <td>-0.368</td>
+      <td>2.773</td>
+    </tr>
+    <tr>
+      <th>g1[19]</th>
+      <td>0.049</td>
+      <td>0.390</td>
+      <td>-0.337</td>
+      <td>0.663</td>
+    </tr>
+    <tr>
+      <th>g1[20]</th>
+      <td>0.012</td>
+      <td>0.178</td>
+      <td>-0.258</td>
+      <td>0.331</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">waic</span><span class="p">(</span><span class="n">traceb</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc_env2/lib/python3.11/site-packages/arviz/stats/stats.py:1645: UserWarning: For one or more samples the posterior variance of the log predictive densities exceeds 0.4. This could be indication of WAIC starting to fail. 
+See http://arxiv.org/abs/1507.04544 for details
+  warnings.warn(
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Computed from 8000 posterior samples and 21 observations log-likelihood matrix.
+
+          Estimate       SE
+elpd_waic   -82.67     5.08
+p_waic        3.39        -
+
+There has been a warning during the calculation. Please check the results.
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">load_ext</span> watermark
+<span class="o">%</span><span class="k">watermark</span> -n -u -v -iv -p pytensor
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Wed Mar 22 2023
+
+Python implementation: CPython
+Python version       : 3.11.0
+IPython version      : 8.9.0
+
+pytensor: 2.10.1
+
+numpy: 1.24.2
+arviz: 0.14.0
+pymc : 5.1.2
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./unit9"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  <!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="Unit9-cpo.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">5. </span>Conditional Predictive Ordinate</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="Unit9-cumulative.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">7. </span>Cumulative</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#part-a">Part A</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#part-b">Part B</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            <div class="bd-footer-content__inner">
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Aaron Reding
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div></div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
