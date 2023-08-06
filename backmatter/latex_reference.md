@@ -22,7 +22,27 @@ y_i | \theta, X &\sim \text{Poisson}(\lambda_i) \\
 \end{align*}
 $$
 
-Once you've opened align, you just put an ```&``` symbol before the character you want to align on. Then end each line with two slashes: ```\\```.
+Once you've opened align, you just put an ```&``` symbol before the character you want to align on. Then end each line with two slashes: ```\\```. The * after align suppresses line numbering.
+
+You can also add a second aligned item per-line. Say you wanted to add comments to your equation to explain each step:
+
+```latex
+\begin{align*}
+f(y | \theta) &= \prod_{i=1}^{n} e^{l_i} && \text{Log-likelihood to likelihood.}\\
+&= \prod_{i=1}^{n} \frac{e^{-(-l_i)}(-l_i)^0}{0!} && \text{Matching the form of the Poisson PMF.} \\
+&= \prod_{i=1}^{n} f_P(0; -l_i) && \text{Poisson evaluated at zero with mean $-l_i$.}
+\end{align*}
+```
+
+This displays:
+
+$$
+\begin{align*}
+f(y | \theta) &= \prod_{i=1}^{n} e^{l_i} && \text{Log-likelihood to likelihood.}\\
+&= \prod_{i=1}^{n} \frac{e^{-(-l_i)}(-l_i)^0}{0!} && \text{Matching the form of the Poisson PMF.} \\
+&= \prod_{i=1}^{n} f_P(0; -l_i) && \text{Poisson evaluated at zero with mean $-l_i$.}
+\end{align*}
+$$
 
 
 The remainder of this document was automatically created by OpenAI's GPT-4 on July 15, 2023. 
