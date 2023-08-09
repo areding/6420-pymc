@@ -6,11 +6,9 @@ This repository contains Python translations of the examples from Georgia Tech's
 
 I created this site to address some of the most common student complaints and questions. At the time, the most frequent source of dissatisfaction was the course's use of outdated software, namely WinBUGS/OpenBUGS. So I redid the lecture examples in Python and PyMC.
 
-A close second was the lecture quality—some students said they were too dense, some said they didn't delve deeply enough into the underlying theory, and others said they wanted to see more problems worked out step-by-step. 
+A close second was the lecture quality—some students said the lectures were too dense, some said they didn't delve deeply enough into the underlying theory, and others requested more problems worked out step-by-step. 
 
-I think the main problem with the lectures comes from the professor assuming a bit too much background knowledge for many of us in the program. The course is also a very broad overview, so it's tough to go too deep when covering any individual subject. These two combine to cause another problem, which is that it can be tough to judge the importance of any given bit of information in each lecture.
-
-To help with this, I've added notes that provide context to the lectures and address the most common questions we get about each one. As someone who originally took the class a little light on the necessary math and statistics knowledge, I hope my perspective helps other people coming in with similar backgrounds.
+Keep in mind that the course is a very broad overview of the subject, so it's tough to go too deep when covering any individual part. But to help with this, I've added notes and further references that provide context to the lectures and address the most common questions we get about each one. As a relative newcomer to Bayesian statistics, I hope my perspective helps other people coming in with similar backgrounds.
 
 ## Site structure
 
@@ -22,8 +20,10 @@ Any necessary data will either have a download link or, if the data is compact e
 
 ```{warning}
 I'm working on converting the site structure to match the lecture numbering. That means right now lots of pages are blank, just placeholders for that lecture. All the pages with code are marked with a star for now so you can find them.
+
+As of August, 2023, I've got the essential lecture code examples translated to Python/[PyMC](https://www.pymc.io/welcome.html) and updated to v5. Now I'm working on the notes and references for each lecture; currently up to [Unit 5, Lesson 9](https://areding.github.io/6420-pymc/unit5/Unit5-MetropolisHastings2.html).
 ```
 
 ## Plans
 
-As of February 2023, I've got most of the lecture examples translated to Python/[PyMC](https://www.pymc.io/welcome.html) and updated to v5. Now I'm working on adding notes and more explanation for each lecture and some of the [supplementary exercises](https://www2.isye.gatech.edu/isye6420/supporting.html).
+As of February 2023, I've got most of the lecture code examples translated to Python/[PyMC](https://www.pymc.io/welcome.html) and updated to v5. Now I'm working on adding notes and more explanation for each lecture and some of the [supplementary exercises](https://www2.isye.gatech.edu/isye6420/supporting.html).
