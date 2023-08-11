@@ -18,12 +18,8 @@ All pages match a corresponding lecture on Canvas, except when there are more pa
 
 Any necessary data will either have a download link or, if the data is compact enough, will be included in the code.
 
-```{warning}
+```{note}
 I'm working on converting the site structure to match the lecture numbering. That means right now lots of pages are blank, just placeholders for that lecture. All the pages with code are marked with a star for now so you can find them.
 
 As of August, 2023, I've got the essential lecture code examples translated to Python/[PyMC](https://www.pymc.io/welcome.html) and updated to v5. Now I'm working on the notes and references for each lecture; currently up to [Unit 5, Lesson 9](https://areding.github.io/6420-pymc/unit5/Unit5-MetropolisHastings2.html).
 ```
-
-## Plans
-
-As of February 2023, I've got most of the lecture code examples translated to Python/[PyMC](https://www.pymc.io/welcome.html) and updated to v5. Now I'm working on adding notes and more explanation for each lecture and some of the [supplementary exercises](https://www2.isye.gatech.edu/isye6420/supporting.html).
