@@ -2,5 +2,5 @@
 
 
 ```{note}
-This page is a stub. It will be updated over summer 2023 with supplementary lecture notes.
+This page is a stub. I will try to update it over the semester with supplementary lecture notes—if you would like to request a certain page be finished first, please make an Ed Discussion post with your questions about the lecture.
 ```
