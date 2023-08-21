@@ -62,6 +62,8 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'unit5/Unit5-gibbsintro';</script>
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -539,7 +541,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
 </div></div>
       
     </div>
@@ -555,6 +559,21 @@ document.write(`
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gibbs-sampling-with-a-metropolis-hastings-step">Gibbs sampling with a Metropolis-Hastings step</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#finding-the-joint-distribution">Finding the joint distribution</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#finding-the-conditionals">Finding the conditionals</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#metropolis-step">Metropolis step</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#code">Code</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#check-results-with-pymc">Check results with PyMC</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -566,10 +585,497 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="introduction-to-gibbs-sampling">
 <h1>10. Introduction to Gibbs Sampling<a class="headerlink" href="#introduction-to-gibbs-sampling" title="Permalink to this headline">#</a></h1>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>This page is a stub. It will be updated over summer 2023 with supplementary lecture notes.</p>
+<p>Gibbs sampling ({cite:t}gehmanbros1984) is a special case of Metropolis-Hastings where our proposal distribution comes from the full conditional distribution of the parameter. This allows us to remove the acceptance ratio calculation. The detailed balance property is satisfied because we are sampling exactly from the conditional distribution of each parameter in turn. The transition from one state to another and back has the same probability.</p>
+<p>This makes Gibbs sampling very efficient, which is why BUGS (Bayesian inference Using Gibbs Sampling, {cite:t}BUGSoriginal) tries to use this algorithm as a first resort. But it only works if we can find these full conditionals. The lecture has some simple examples. You can also check out the <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/original_examples/Codes4Unit5/GIBBS.zip">Gibbs handout</a> created by Professor Vidakovic.</p>
+<p>I’m going to jump into a slightly more complicated example here, where we can only get the full conditionals for some of the parameters and have to include a Metropolis-Hastings step for one of them.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This page contains the answer to a supplementary exercise, specifically the 5.4 problem <em>Georgia Deaths from Kidney Cancer 1985-1989 by Counties.</em> If you want to try it yourself first, hold off on reading the rest of this page.</p>
 </div>
+<section id="gibbs-sampling-with-a-metropolis-hastings-step">
+<h2>Gibbs sampling with a Metropolis-Hastings step<a class="headerlink" href="#gibbs-sampling-with-a-metropolis-hastings-step" title="Permalink to this headline">#</a></h2>
+<p>The dataset (available <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/data/cheese.csv">here</a>) has the deaths from kidney cancer by Georgia county along with the population of each county. We’re going to estimate the death rate for each county along with the all-Georgia death rate. This is our model:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+y_i &amp;\sim Poi(\lambda_i n_i), i = 1, ..., m \\
+\lambda_i &amp;\sim Ga(\alpha, \beta), i = 1, ..., m \\
+\alpha &amp; \sim U(0, A) \\
+\beta &amp; \sim U(0, B)
+\end{align*}
+\end{split}\]</div>
+<p><span class="math notranslate nohighlight">\(m = 159\)</span> (number of counties)</p>
+<p>The original answer has a typo here, 169 is not the correct number of counties.</p>
+<p><span class="math notranslate nohighlight">\(n = \sum_{i=1}^{k}\)</span> (total Georgia population/100k)</p>
+<p>We’ll talk more about these kinds of hierarchical models in Unit 7—for now, let’s focus on the the sampling algorithm.</p>
+<section id="finding-the-joint-distribution">
+<h3>Finding the joint distribution<a class="headerlink" href="#finding-the-joint-distribution" title="Permalink to this headline">#</a></h3>
+<p>The Poisson PDF is:</p>
+<div class="math notranslate nohighlight">
+\[\frac{\lambda^{y_i}_i \exp(-\lambda_i n_i)}{y_i!}\]</div>
+<p>We’re looking for the number of deaths per county, so <span class="math notranslate nohighlight">\(y_i\)</span> is our “<span class="math notranslate nohighlight">\(k\)</span>” in the Poisson distribution, the number of occurences. The original example used <span class="math notranslate nohighlight">\(k\)</span> to mean the number of counties, but I’ve replaced that with <span class="math notranslate nohighlight">\(m\)</span> to avoid confusion here.</p>
+<p>The Gamma PDF:</p>
+<div class="math notranslate nohighlight">
+\[\frac{\beta^\alpha}{\Gamma(\alpha)} \lambda_i^{\alpha - 1} \exp(-\beta \lambda_i)\]</div>
+<p>The shape and rate parameters will be fit by the algorithm here; we aren’t specifying them like we’ve done in the past. We will sample them from the uniform distribution with bounds of 0 to A or B. We constrain them to be greater than 0, because that’s is required for both Gamma parameters.</p>
+<p>Uniform PDFs on alpha and beta:</p>
+<div class="math notranslate nohighlight">
+\[\frac{1}{A} \mathbf{1}(0 \le \alpha \le A) , \frac{1}{B} \mathbf{1}(0 \le \beta \le B)\]</div>
+<p>Then our joint distribution is:</p>
+<div class="math notranslate nohighlight">
+\[f(y, \lambda, \alpha, \beta) = \prod_{i=1}^{m} \left[ \frac{\lambda^{y_i}_i \exp(-\lambda_i n_i)}{y_i!} \right] \prod_{i=1}^{m} \left[ \frac{\beta^\alpha}{\Gamma(\alpha)} \lambda_i^{\alpha - 1} \exp(-\beta \lambda_i) \right] \cdot \frac{1}{A} \mathbf{1}(0 \le \alpha \le A) \cdot \frac{1}{B} \mathbf{1}(0 \le \beta \le B)\]</div>
+</section>
+<section id="finding-the-conditionals">
+<h3>Finding the conditionals<a class="headerlink" href="#finding-the-conditionals" title="Permalink to this headline">#</a></h3>
+<p>First up is lambda.</p>
+<p>The original answers had some weird notation (<span class="math notranslate nohighlight">\(\lambda_{\ne i}\)</span>?), but what I think they’re trying to get across is we want to find the Gamma distribution for each lambda/y combo, not an overall one. These individual Gamma distributions are IID—there’s no interaction between them at all, but they all share the same priors. The only difference will be the y and lambdas. So let’s pretend that <span class="math notranslate nohighlight">\(m=1\)</span> to get one of them so we can get rid of those products.</p>
+<div class="math notranslate nohighlight">
+\[\pi(\lambda_i|y, \alpha, \beta) \propto  \left[ \frac{\lambda^{y_i}_i \exp(-\lambda_i n_i)}{y_i!} \right] \cdot \left[ \frac{\beta^\alpha}{\Gamma(\alpha)} \lambda_i^{\alpha - 1} \exp(-\beta \lambda_i) \right] \cdot \frac{1}{A} \mathbf{1}(0 \le \alpha \le A) \cdot \frac{1}{B} \mathbf{1}(0 \le \beta \le B)\]</div>
+<p>Drop anything without lambda involved.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+\pi(\lambda_i|y, \alpha, \beta) &amp; \propto  \lambda^{y_i}_i \exp(-\lambda_i n_i) \cdot \lambda_i^{\alpha - 1} \exp(-\beta \lambda_i) \\
+&amp;\propto  \lambda^{y_i + \alpha - 1}_i \exp(-\lambda_i n_i -\beta \lambda_i) \\
+&amp; \propto  \lambda^{(y_i + \alpha) - 1}_i \exp(-(n_i + \beta) \lambda_i ) \\
+&amp; = Ga(y_i + \alpha, n_i + \beta)
+\end{align*}
+\end{split}\]</div>
+<p>Next up is alpha. In this case the shared prior needs to be taken into account.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+\pi(\alpha|y, \lambda_i, \beta) &amp; \propto  \prod_{i=1}^{m} \left[ \frac{\beta^\alpha}{\Gamma(\alpha)} \lambda_i^{\alpha - 1} \right] \cdot \frac{1}{A} \mathbf{1}(0 \le \alpha \le A) \\
+&amp;\propto  \frac{\beta^{\alpha m}}{\Gamma(\alpha)^m} \left(\prod_{i=1}^{m} \lambda_i^{\alpha - 1} \right) \mathbf{1}(0 \le \alpha \le A) \\
+&amp; = \space ???
+\end{align*}
+\end{split}\]</div>
+<p>Hmmm…</p>
+<p>Finally, beta.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align}
+\pi(\beta|y, \alpha, \lambda_i) &amp; \propto  \prod_{i=1}^{m} \left[ \beta^\alpha \exp(-\beta \lambda_i) \right] \frac{1}{B} \mathbf{1}(0 \le \beta \le B) \\
+&amp;\propto \beta^{\alpha m} \exp(-\beta \sum_{i=1}^{m} \lambda_i) \mathbf{1}(0 \le \beta \le B) \\
+&amp; \propto  \beta^{(\alpha m + 1) - 1} \exp(-(\sum_{i=1}^{m}\lambda_i)\beta ) \mathbf{1}(0 \le \beta \le B) \\
+&amp; = Ga(\alpha m + 1, \sum_{i=1}^{m}\lambda_i)\mathbf{1}(0 \le \beta \le B)
+\end{align}
+\end{split}\]</div>
+</section>
+<section id="metropolis-step">
+<h3>Metropolis step<a class="headerlink" href="#metropolis-step" title="Permalink to this headline">#</a></h3>
+<p>We only have two out of three necessary conditionals. We can calculate the remaining parameter, alpha, with a Metropolis step within our sampler.</p>
+<p>Let our target distribution for this step, f(x), be:</p>
+<div class="math notranslate nohighlight">
+\[ f(x) = \frac{\beta^{\alpha m}}{\Gamma(\alpha)^m} \left(\prod_{i=1}^{m} \lambda_i^{\alpha - 1} \right) \mathbf{1}(0 \le \alpha \le A)\]</div>
+<div class="math notranslate nohighlight">
+\[ρ(x_j, x_*) = min\left\{1, \frac{f(\alpha^\prime)}{f(\alpha)}\frac{q(\alpha|\alpha^\prime)}{q(\alpha^\prime|\alpha)}\right\}\]</div>
+<p>We could try to play with some different proposals but we’ll start with <span class="math notranslate nohighlight">\(N(\alpha, \sigma^2)\)</span>. To deal with the indicator variable on alpha, we will just add some logic to reject any proposals outside of our bounds, <span class="math notranslate nohighlight">\([0, A]\)</span>. It would be better and more efficient to come up with a different proposal—can you come up with one? Let me know in the discussion forums. Remember, if your proposal is not symmetric, you will need to find <span class="math notranslate nohighlight">\(q(\alpha)\)</span>.</p>
+<p>For beta, Scipy doesn’t have a truncated Gamma distribution. We can use inverse transform theorem and the CDF and inverse CDF functions to create our own (see the code, below).</p>
+</section>
+<section id="code">
+<h3>Code<a class="headerlink" href="#code" title="Permalink to this headline">#</a></h3>
+<div class="cell tag_hide-output tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input above-output-prompt docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">gamma</span>
+<span class="kn">from</span> <span class="nn">scipy.special</span> <span class="kn">import</span> <span class="n">gamma</span> <span class="k">as</span> <span class="n">gamma_func</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
+<span class="kn">import</span> <span class="nn">polars</span> <span class="k">as</span> <span class="nn">pl</span>
+
+<span class="n">np</span><span class="o">.</span><span class="n">seterr</span><span class="p">(</span><span class="nb">all</span><span class="o">=</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<details class="hide below-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell output</span>
+<span class="expanded">Hide code cell output</span>
+</summary>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;divide&#39;: &#39;ignore&#39;, &#39;over&#39;: &#39;ignore&#39;, &#39;under&#39;: &#39;ignore&#39;, &#39;invalid&#39;: &#39;ignore&#39;}
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;../data/georgiakcd.csv&quot;</span><span class="p">)</span>
+
+<span class="n">n</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;population&quot;</span><span class="p">)</span> <span class="o">/</span> <span class="mf">1e5</span><span class="p">)</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;deaths&quot;</span><span class="p">)</span> <span class="o">/</span> <span class="n">n</span><span class="p">)</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">data</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span> <span class="n">data</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(shape: (5, 4)
+ ┌──────────┬──────┬────────┬────────────┐
+ │ county   ┆ code ┆ deaths ┆ population │
+ │ ---      ┆ ---  ┆ ---    ┆ ---        │
+ │ str      ┆ i64  ┆ i64    ┆ i64        │
+ ╞══════════╪══════╪════════╪════════════╡
+ │ ROCKDALE ┆ 122  ┆ 8      ┆ 107037     │
+ │ FLOYD    ┆ 57   ┆ 5      ┆ 165095     │
+ │ COFFEE   ┆ 34   ┆ 1      ┆ 52434      │
+ │ DADE     ┆ 41   ┆ 1      ┆ 30488      │
+ │ TIFT     ┆ 137  ┆ 2      ┆ 62105      │
+ └──────────┴──────┴────────┴────────────┘,
+ shape: (9, 5)
+ ┌────────────┬─────────┬───────────┬──────────┬───────────────┐
+ │ describe   ┆ county  ┆ code      ┆ deaths   ┆ population    │
+ │ ---        ┆ ---     ┆ ---       ┆ ---      ┆ ---           │
+ │ str        ┆ str     ┆ f64       ┆ f64      ┆ f64           │
+ ╞════════════╪═════════╪═══════════╪══════════╪═══════════════╡
+ │ count      ┆ 159     ┆ 159.0     ┆ 159.0    ┆ 159.0         │
+ │ null_count ┆ 0       ┆ 0.0       ┆ 0.0      ┆ 0.0           │
+ │ mean       ┆ null    ┆ 80.09434  ┆ 2.811321 ┆ 68786.949686  │
+ │ std        ┆ null    ┆ 46.192606 ┆ 5.170718 ┆ 129317.349102 │
+ │ min        ┆ APPLING ┆ 1.0       ┆ 0.0      ┆ 1688.0        │
+ │ max        ┆ WORTH   ┆ 160.0     ┆ 34.0     ┆ 902837.0      │
+ │ median     ┆ null    ┆ 80.0      ┆ 1.0      ┆ 30293.0       │
+ │ 25%        ┆ null    ┆ 40.0      ┆ 0.0      ┆ 13965.0       │
+ │ 75%        ┆ null    ┆ 120.0     ┆ 3.0      ┆ 65644.0       │
+ └────────────┴─────────┴───────────┴──────────┴───────────────┘)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_hide-output docutils container">
+<div class="cell_input above-output-prompt docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">samples</span> <span class="o">=</span> <span class="mi">50000</span>
+<span class="n">burn</span> <span class="o">=</span> <span class="mi">500</span>
+
+<span class="n">A</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">B</span> <span class="o">=</span> <span class="mi">10</span>
+
+<span class="n">m</span> <span class="o">=</span> <span class="mi">159</span>
+
+<span class="c1"># inits</span>
+<span class="n">alpha</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">beta</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">lam</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+
+<span class="n">lambdas</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">m</span><span class="p">,</span> <span class="n">samples</span><span class="p">))</span>
+<span class="n">alphas</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span>
+<span class="n">betas</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span>
+
+<span class="n">unif</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">samples</span><span class="p">)</span>
+<span class="n">unif_beta</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">samples</span><span class="p">)</span>
+
+<span class="c1"># proposal distribution</span>
+<span class="n">sigma</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="n">stdnorm</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">standard_normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">samples</span><span class="p">)</span>
+
+
+<span class="c1"># f(alpha) propto</span>
+<span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">lam</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">((</span><span class="n">beta</span><span class="o">**</span><span class="n">alpha</span><span class="p">)</span> <span class="o">/</span> <span class="n">gamma_func</span><span class="p">(</span><span class="n">alpha</span><span class="p">))</span> <span class="o">**</span> <span class="n">m</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">lam</span> <span class="o">**</span> <span class="p">(</span><span class="n">alpha</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+
+
+<span class="c1"># inverse transform function for truncated gamma (beta proposal)</span>
+<span class="k">def</span> <span class="nf">trunc_gamma</span><span class="p">(</span><span class="n">unif_val</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">lam</span><span class="p">):</span>
+    <span class="n">lower</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">dist</span> <span class="o">=</span> <span class="n">gamma</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="p">(</span><span class="n">alpha</span> <span class="o">*</span> <span class="n">m</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">scale</span><span class="o">=</span><span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">lam</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">dist</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="n">unif_val</span> <span class="o">*</span> <span class="p">(</span><span class="n">dist</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">B</span><span class="p">)))</span>
+
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">samples</span><span class="p">)):</span>
+    <span class="c1"># Gibbs step for lambda</span>
+    <span class="n">lam</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">gamma</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="n">y</span> <span class="o">+</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="n">beta</span><span class="p">))</span>
+    <span class="n">lambdas</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">lam</span>
+
+    <span class="c1"># Metropolis time!</span>
+    <span class="n">alpha_prop</span> <span class="o">=</span> <span class="n">alpha</span> <span class="o">+</span> <span class="n">sigma</span> <span class="o">*</span> <span class="n">stdnorm</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+    <span class="c1"># reject outside of 0, A</span>
+    <span class="k">if</span> <span class="n">alpha_prop</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">alpha_prop</span> <span class="o">&lt;</span> <span class="n">A</span><span class="p">:</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">alpha_prop</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">lam</span><span class="p">)</span> <span class="o">/</span> <span class="n">f</span><span class="p">(</span><span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">lam</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="n">rho</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">unif</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">rho</span><span class="p">:</span>
+        <span class="n">alpha</span> <span class="o">=</span> <span class="n">alpha_prop</span>
+
+    <span class="n">alphas</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">alpha</span>
+
+    <span class="c1"># Back to Gibbs for beta</span>
+    <span class="n">beta</span> <span class="o">=</span> <span class="n">trunc_gamma</span><span class="p">(</span><span class="n">unif_beta</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">B</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">lam</span><span class="p">)</span>
+    <span class="n">betas</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">beta</span>
+
+<span class="c1"># burn samples</span>
+<span class="n">lambdas</span> <span class="o">=</span> <span class="n">lambdas</span><span class="p">[:,</span> <span class="n">burn</span><span class="p">:]</span>
+<span class="n">alphas</span> <span class="o">=</span> <span class="n">alphas</span><span class="p">[</span><span class="n">burn</span><span class="p">:]</span>
+<span class="n">betas</span> <span class="o">=</span> <span class="n">betas</span><span class="p">[</span><span class="n">burn</span><span class="p">:]</span>
+</pre></div>
+</div>
+</div>
+<details class="hide below-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell output</span>
+<span class="expanded">Hide code cell output</span>
+</summary>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|███████████████████████████████████| 50000/50000 [00:17&lt;00:00, 2883.61it/s]
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># posterior densities</span>
+<span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">))</span>
+
+<span class="n">ax1</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">alphas</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;lightgreen&quot;</span><span class="p">,</span> <span class="n">density</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;α&quot;</span><span class="p">)</span>
+
+<span class="n">ax2</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">betas</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;lightblue&quot;</span><span class="p">,</span> <span class="n">density</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;β&quot;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<img alt="../_images/19d8e1bb9efc735d04b565d94a0ba0e6799c271116b94382c2f6f4d96064eb83.png" src="../_images/19d8e1bb9efc735d04b565d94a0ba0e6799c271116b94382c2f6f4d96064eb83.png" />
+</div>
+</div>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">lambdas</span><span class="p">)</span><span class="si">=:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">alphas</span><span class="p">)</span><span class="si">=:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">betas</span><span class="p">)</span><span class="si">=:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>np.mean(lambdas)=29.205
+np.mean(alphas)=0.312
+np.mean(betas)=0.011
+</pre></div>
+</div>
+</div>
+</div>
+<p>I didn’t visualize the deaths by county, may add that later.</p>
+</section>
+<section id="check-results-with-pymc">
+<h3>Check results with PyMC<a class="headerlink" href="#check-results-with-pymc" title="Permalink to this headline">#</a></h3>
+<div class="cell tag_hide-output tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">arviz</span> <span class="k">as</span> <span class="nn">az</span>
+<span class="kn">import</span> <span class="nn">pymc</span> <span class="k">as</span> <span class="nn">pm</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<div class="cell tag_hide-output docutils container">
+<div class="cell_input above-output-prompt docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">m</span><span class="p">:</span>
+    <span class="n">alpha</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Uniform</span><span class="p">(</span><span class="s2">&quot;alpha&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">A</span><span class="p">)</span>
+    <span class="n">beta</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Uniform</span><span class="p">(</span><span class="s2">&quot;beta&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">B</span><span class="p">)</span>
+
+    <span class="n">lam</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Gamma</span><span class="p">(</span><span class="s2">&quot;lam&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">pm</span><span class="o">.</span><span class="n">Poisson</span><span class="p">(</span><span class="s2">&quot;likelihood&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">lam</span> <span class="o">*</span> <span class="n">n</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
+
+    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">3000</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<details class="hide below-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell output</span>
+<span class="expanded">Hide code cell output</span>
+</summary>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Auto-assigning NUTS sampler...
+Initializing NUTS using jitter+adapt_diag...
+Multiprocess sampling (4 chains in 4 jobs)
+NUTS: [alpha, beta, lam]
+</pre></div>
+</div>
+<div class="output text_html">
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    progress:not([value]), progress:not([value])::-webkit-progress-bar {
+        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div><div class="output text_html">
+    <div>
+      <progress value='16000' class='' max='16000' style='width:300px; height:20px; vertical-align: middle;'></progress>
+      100.00% [16000/16000 00:08&lt;00:00 Sampling 4 chains, 0 divergences]
+    </div>
+    </div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 3_000 draw iterations (4_000 + 12_000 draws total) took 8 seconds.
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">hdi_prob</span><span class="o">=</span><span class="mf">0.95</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;alpha&quot;</span><span class="p">,</span> <span class="s2">&quot;beta&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mean</th>
+      <th>sd</th>
+      <th>hdi_2.5%</th>
+      <th>hdi_97.5%</th>
+      <th>mcse_mean</th>
+      <th>mcse_sd</th>
+      <th>ess_bulk</th>
+      <th>ess_tail</th>
+      <th>r_hat</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>alpha</th>
+      <td>0.304</td>
+      <td>0.037</td>
+      <td>0.235</td>
+      <td>0.377</td>
+      <td>0.001</td>
+      <td>0.0</td>
+      <td>4705.0</td>
+      <td>7311.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>beta</th>
+      <td>0.011</td>
+      <td>0.002</td>
+      <td>0.007</td>
+      <td>0.016</td>
+      <td>0.000</td>
+      <td>0.0</td>
+      <td>7468.0</td>
+      <td>8732.0</td>
+      <td>1.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">plot_trace</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<img alt="../_images/8e5b0dd01b29d1398d5b39c386ee816da2caf09e93526595543e6a12fbeccdcc.png" src="../_images/8e5b0dd01b29d1398d5b39c386ee816da2caf09e93526595543e6a12fbeccdcc.png" />
+</div>
+</div>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pm</span><span class="o">.</span><span class="n">model_to_graphviz</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">m</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<img alt="../_images/de3e08e10b2a477d8ded7dcb6d234e7531f48097435b0c624d00de17dd9b0681.svg" src="../_images/de3e08e10b2a477d8ded7dcb6d234e7531f48097435b0c624d00de17dd9b0681.svg" /></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">load_ext</span> watermark
+<span class="o">%</span><span class="k">watermark</span> -n -u -v -iv
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Sun Aug 20 2023
+
+Python implementation: CPython
+Python version       : 3.11.4
+IPython version      : 8.14.0
+
+pymc      : 5.7.1
+polars    : 0.18.11
+arviz     : 0.16.1
+numpy     : 1.24.4
+matplotlib: 3.7.2
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -624,6 +1130,27 @@ document.write(`
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gibbs-sampling-with-a-metropolis-hastings-step">Gibbs sampling with a Metropolis-Hastings step</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#finding-the-joint-distribution">Finding the joint distribution</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#finding-the-conditionals">Finding the conditionals</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#metropolis-step">Metropolis step</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#code">Code</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#check-results-with-pymc">Check results with PyMC</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>
