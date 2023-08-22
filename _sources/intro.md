@@ -21,5 +21,5 @@ Any necessary data will either have a download link or, if the data is compact e
 ```{note}
 I'm working on converting the site structure to match the lecture numbering. That means right now lots of pages are blank, just placeholders for that lecture. All the pages with code are marked with a star for now so you can find them.
 
-As of August, 2023, I've got the essential lecture code examples translated to Python/[PyMC](https://www.pymc.io/welcome.html) and updated to v5. Now I'm working on the notes and references for each lecture; currently up to [Unit 5, Lesson 9](https://areding.github.io/6420-pymc/unit5/Unit5-MetropolisHastings2.html).
+As of August, 2023, I've got the essential lecture code examples translated to Python/[PyMC](https://www.pymc.io/welcome.html) and updated to v5. Now I'm working on the notes and references for each lecture; currently up to [Unit 5, Lesson 11](https://areding.github.io/6420-pymc/unit5/Unit5-GibbsSampler.html).
 ```
