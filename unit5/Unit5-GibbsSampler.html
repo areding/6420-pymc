@@ -617,19 +617,15 @@ X|\theta &amp;\sim \mathcal{N}\left(\theta, 1\right)\\
 \end{split}\]</div>
 <p>You can read more about this parameter expansion approach <a class="reference external" href="https://betanalpha.github.io/assets/case_studies/fitting_the_cauchy.html#3_first_alternative_implementation">here</a>.</p>
 <p>The lecture slide says we’re looking for <span class="math notranslate nohighlight">\(\delta(2)\)</span>. The lecture doesn’t really clarify that notation, but in the code <span class="math notranslate nohighlight">\(x=2\)</span> as our sole datapoint, so that must be what the professor meant.</p>
-<p>The full conditionals are:
-$$</p>
+<p>The full conditionals are:</p>
 <div class="amsmath math notranslate nohighlight">
 \[\begin{align*}
 \theta | \lambda, X &amp;\sim \mathcal{N}\left(\frac{\tau^2 x + \lambda \sigma^2 \mu}{\tau^2 + \lambda \sigma^2}, \frac{\tau^2 \sigma^2}{\tau^2 + \lambda \sigma^2}\right)
 \end{align*}\]</div>
-<div class="math notranslate nohighlight">
-\[\]</div>
 <div class="amsmath math notranslate nohighlight">
 \[\begin{align*}
 \lambda | \theta, X &amp;\sim \text{Exp}\left(\frac{\tau^2 + (\theta - \mu)^2}{2\tau^2}\right)
 \end{align*}\]</div>
-<p>$$</p>
 <div class="cell tag_hide-output docutils container">
 <div class="cell_input above-output-prompt docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>

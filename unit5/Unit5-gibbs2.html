@@ -62,6 +62,8 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'unit5/Unit5-gibbs2';</script>
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -539,7 +541,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
 </div></div>
       
     </div>
@@ -555,6 +559,17 @@ document.write(`
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model">Model</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#full-conditionals">Full Conditionals</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -566,10 +581,35 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="conjugate-gamma-poisson-model">
 <h1>12. Conjugate Gamma-Poisson Model<a class="headerlink" href="#conjugate-gamma-poisson-model" title="Permalink to this headline">#</a></h1>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>This page is a stub. I will try to update it over the semester with supplementary lecture notes—if you would like to request a certain page be finished first, please make an Ed Discussion post with your questions about the lecture.</p>
-</div>
+<p>The professor cites <span id="id1">George <em>et al.</em> [<a class="reference internal" href="../backmatter/bibliography.html#id33" title="E. I. George, U. E. Makov, and A. F. M. Smith. Conjugate likelihood distributions. Scandinavian Journal of Statistics, 20(2):147–156, 1993. URL: http://www.jstor.org/stable/4616270 (visited on 2023-08-22).">1993</a>]</span> as the source of this example.</p>
+<section id="model">
+<h2>Model<a class="headerlink" href="#model" title="Permalink to this headline">#</a></h2>
+<p>We’ll model the number of failures for each pump <span class="math notranslate nohighlight">\(i\)</span> using a Poisson distribution, with the rate parameter <span class="math notranslate nohighlight">\(\theta_i\)</span> modified by a time factor <span class="math notranslate nohighlight">\(t_i\)</span> to add a linear time dependency to the rate:</p>
+<div class="math notranslate nohighlight">
+\[x_i \mid \theta_i \sim \text{Pois}(\theta_i t_i)\]</div>
+<p>So the likelihood is proportional to:</p>
+<div class="math notranslate nohighlight">
+\[f(x_i \mid \theta_i) \propto \prod_{i=1}^{n}\theta_i^{x_i} e^{-\theta_i t_i}\]</div>
+<p>We then place a Gamma prior on the rate of failure for each pump, but we’re fixing the shape parameter <span class="math notranslate nohighlight">\(\alpha\)</span> at 1, so it reduces to an Exponential distribution:</p>
+<div class="math notranslate nohighlight">
+\[ \theta_i \mid \beta \sim \text{Exp}(\beta) \propto \beta e^{-\beta \theta_i}\]</div>
+<p>Our prior on <span class="math notranslate nohighlight">\(\beta\)</span> is another Gamma distribution:</p>
+<div class="math notranslate nohighlight">
+\[ \beta \sim \text{Ga}(c, d) \propto \beta^{c-1}e^{-d\beta}\]</div>
+<p>The joint distribution:</p>
+<div class="math notranslate nohighlight">
+\[ \pi(x, \theta, \beta) \propto \prod_{i=1}^n \theta_i^{x_i} e^{-\theta_i t_i} \cdot \beta e^{-\beta \theta_i} \cdot \beta^{c-1} e^{-d\beta} \]</div>
+<section id="full-conditionals">
+<h3>Full Conditionals<a class="headerlink" href="#full-conditionals" title="Permalink to this headline">#</a></h3>
+<p><strong>For each <span class="math notranslate nohighlight">\(\theta_i\)</span>:</strong></p>
+<div class="math notranslate nohighlight">
+\[ \pi(\theta_i \mid \theta_{\neq i}, \beta, x) \sim \text{Gamma}(x_i + 1, \beta + t_i) \]</div>
+<p><strong>For <span class="math notranslate nohighlight">\(\beta\)</span>:</strong></p>
+<div class="math notranslate nohighlight">
+\[ \pi(\beta \mid \theta, x) \sim \text{Gamma}(m + c, \sum \theta_i + d) \]</div>
+<p>Implementation is on the next page.</p>
+</section>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -624,6 +664,23 @@ document.write(`
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model">Model</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#full-conditionals">Full Conditionals</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>

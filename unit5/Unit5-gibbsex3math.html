@@ -62,6 +62,8 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'unit5/Unit5-gibbsex3math';</script>
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -539,7 +541,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
 </div></div>
       
     </div>
@@ -555,6 +559,15 @@ document.write(`
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model">Model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conditionals">Conditionals</a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -566,10 +579,67 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="change-point-problem">
 <h1>14. Change Point Problem<a class="headerlink" href="#change-point-problem" title="Permalink to this headline">#</a></h1>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>This page is a stub. I will try to update it over the semester with supplementary lecture notes—if you would like to request a certain page be finished first, please make an Ed Discussion post with your questions about the lecture.</p>
-</div>
+<p>In this lesson, we’re trying to infer the “change point” the widely-used UK coal mining disaster dataset, originally published by <span id="id1">MAGUIRE <em>et al.</em> [<a class="reference internal" href="../backmatter/bibliography.html#id36" title="B. A. MAGUIRE, E. S. PEARSON, and A. H. A. WYNN. THE TIME INTERVALS BETWEEN INDUSTRIAL ACCIDENTS. Biometrika, 39(1-2):168-180, 05 1952. URL: https://doi.org/10.1093/biomet/39.1-2.168, arXiv:https://academic.oup.com/biomet/article-pdf/39/1-2/168/834479/39-1-2-168.pdf, doi:10.1093/biomet/39.1-2.168.">1952</a>]</span> and updated by <span id="id2">Jarrett [<a class="reference internal" href="../backmatter/bibliography.html#id37" title="R. G. Jarrett. A note on the intervals between coal-mining disasters. Biometrika, 66(1):191–193, 1979. URL: http://www.jstor.org/stable/2335266 (visited on 2023-08-27).">1979</a>]</span>.
+The dataset spans from 1851 to 1962 and was compiled to include only incidents where at least 10 people died.</p>
+<section id="model">
+<h2>Model<a class="headerlink" href="#model" title="Permalink to this headline">#</a></h2>
+<p>The model comes from <span id="id3">Carlin <em>et al.</em> [<a class="reference internal" href="../backmatter/bibliography.html#id38" title="Bradley P. Carlin, Alan E. Gelfand, and Adrian F. M. Smith. Hierarchical bayesian analysis of changepoint problems. Journal of the Royal Statistical Society. Series C (Applied Statistics), 41(2):389–405, 1992. URL: http://www.jstor.org/stable/2347570 (visited on 2023-08-27).">1992</a>]</span>. This paper is really readable and useful for double-checking your understanding of the concepts we’ve seen so far. The model itself is a great example of how intuitive and flexible Bayesian hierarchical frameworks can be.</p>
+<p>We assume two different Poisson processes governing the rates of coal mining disasters. Before the change point <span class="math notranslate nohighlight">\(m\)</span>, we’ll call the Poisson likelihood’s rate <span class="math notranslate nohighlight">\(\lambda\)</span>. After <span class="math notranslate nohighlight">\(m\)</span>, the rate will be <span class="math notranslate nohighlight">\(\mu\)</span> for our second likelihood.</p>
+<p>We’ll assume the prior on <span class="math notranslate nohighlight">\(m\)</span> is discrete uniform <span class="math notranslate nohighlight">\([1, n]\)</span>, where <span class="math notranslate nohighlight">\(n\)</span> is the number of years in the dataset (112 years). Priors for <span class="math notranslate nohighlight">\(\lambda\)</span> and <span class="math notranslate nohighlight">\(\mu\)</span> are gamma distributions with hyperparameters <span class="math notranslate nohighlight">\( (\alpha, \beta) \)</span> and <span class="math notranslate nohighlight">\( (\gamma, \delta) \)</span>, respectively.</p>
+<p>Summarized:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+f(x_i | \lambda) &amp;\sim \text{Pois}(\lambda) &amp;&amp; \text{For the first $ m $ years.} \\
+f(x_i | \mu) &amp;\sim \text{Pois}(\mu) &amp;&amp; \text{For the remaining $ n-m $ years.} \\
+m &amp;\sim \text{Uniform}(1, n) &amp;&amp; \\
+\lambda &amp;\sim \text{Gamma}(\alpha, \beta) &amp;&amp; \\
+\mu &amp;\sim \text{Gamma}(\gamma, \delta) &amp;&amp; 
+\end{align*}
+\end{split}\]</div>
+</section>
+<section id="conditionals">
+<h2>Conditionals<a class="headerlink" href="#conditionals" title="Permalink to this headline">#</a></h2>
+<p>The posterior is proportional to the product of the likelihoods and the priors for <span class="math notranslate nohighlight">\( \lambda \)</span>, <span class="math notranslate nohighlight">\( \mu \)</span>, and <span class="math notranslate nohighlight">\( m \)</span>.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+p(\lambda, \mu, m | X) &amp;\propto \left[ \prod_{i=1}^{m} \text{Poisson}(x_i | \lambda) \right] \left[ \prod_{i=m+1}^{n} \text{Poisson}(x_i | \mu) \right] \text{Gamma}(\lambda | \alpha, \beta) \text{Gamma}(\mu | \gamma, \delta) \text{Uniform}(m | 1, n) \\
+&amp;\propto \left[ \lambda^{\sum_{i=1}^{m} x_i} e^{-m\lambda} \right] \left[ \mu^{\sum_{i=m+1}^{n} x_i} e^{-(n-m)\mu} \right] \lambda^{\alpha - 1} e^{-\beta \lambda} \mu^{\gamma - 1} e^{-\delta \mu} \\
+&amp;\propto \lambda^{\alpha + \sum_{i=1}^{m} x_i - 1} e^{-(\beta + m)\lambda} \mu^{\gamma + \sum_{i=m+1}^{n} x_i - 1} e^{-(\delta + n - m)\mu}
+\end{align*}
+\end{split}\]</div>
+<p>So, the full conditional for <span class="math notranslate nohighlight">\(\lambda\)</span> is:</p>
+<div class="math notranslate nohighlight">
+\[
+\lambda | \mu, m, X \sim \text{Gamma} \left( \alpha + \sum_{i=1}^{m} x_i, \beta + m \right)
+\]</div>
+<p>And for <span class="math notranslate nohighlight">\(\mu\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+\mu | \lambda, m, X \sim \text{Gamma} \left( \gamma + \sum_{i=m+1}^{n} x_i, \delta + (n - m) \right)
+\]</div>
+<p>A lot of the time I skip full derivations, but finding the full conditional for <span class="math notranslate nohighlight">\(m\)</span> is a little different than what we’ve seen in lectures so far and I didn’t immediately understand it, so I worked out the steps in the hidden cell below.</p>
+<p>Let’s start with the joint distribution again, without any of the priors since we know they won’t have any terms with <span class="math notranslate nohighlight">\(m\)</span>.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+\pi(m|\mu, \lambda, X) &amp;\propto \left[ \prod_{i=1}^{m} \text{Poisson}(x_i | \lambda) \right] \left[ \prod_{i=m+1}^{n} \text{Poisson}(x_i | \mu) \right] \\
+&amp;\propto \left( \prod_{i=1}^{m} \frac{\lambda^{x_i} e^{-\lambda}}{x_i!} \prod_{i=m+1}^{n} \frac{\mu^{x_i} e^{-\mu}}{x_i!} \right) \\
+&amp; \propto e^{-m\lambda} e^{-(n-m)\mu} \left( \prod_{i=1}^{m} \frac{\lambda^{x_i}}{x_i!} \right) \left( \prod_{i=m+1}^{n} \frac{\mu^{x_i}}{x_i!} \right) &amp;&amp; \text{Group exponential terms.} \\
+&amp; \propto e^{m(\mu -\lambda)} e^{-\mu n} \left( \prod_{i=1}^{m} \frac{\lambda^{x_i}}{x_i!} \right) \left( \prod_{i=m+1}^{n} \frac{\mu^{x_i}}{x_i!} \right) &amp;&amp; \text{Rearrange exponential terms.} \\
+&amp; \propto e^{m(\mu -\lambda)} e^{-\mu n} \left( \prod_{i=1}^{m} \frac{\left(\lambda \frac{\mu}{\mu} \right)^{x_i}}{x_i!} \right) \left( \prod_{i=m+1}^{n} \frac{\mu^{x_i}}{x_i!} \right) &amp;&amp; \text{Introduce a factor of 1 as } \frac{\mu}{\mu} \text{.} \\
+&amp; \propto e^{m(\mu -\lambda)} e^{-\mu n} \left( \prod_{i=1}^{m} \frac{\left(\mu \frac{\lambda}{\mu} \right)^{x_i}}{x_i!} \right) \left( \prod_{i=m+1}^{n} \frac{\mu^{x_i}}{x_i!} \right) &amp;&amp; \text{Rearrange terms.} \\
+&amp; \propto e^{m(\mu -\lambda)} e^{-\mu n} \left(\frac{\lambda}{\mu}\right)^{\sum_{i=1}^{m} x_i} \left( \prod_{i=1}^{m} \frac{\mu^{x_i}}{x_i!} \right) \left( \prod_{i=m+1}^{n} \frac{\mu^{x_i}}{x_i!} \right) &amp;&amp; \text{Pull out the } \frac{\lambda}{\mu} \text{ term.} \\
+&amp; \propto e^{m(\mu -\lambda)} e^{-\mu n} \left(\frac{\lambda}{\mu}\right)^{\sum_{i=1}^{m} x_i} \left( \prod_{i=1}^{n} \frac{\mu^{x_i}}{x_i!} \right) &amp;&amp; \text{Combine the two products since they go from 1 to n.}\\
+&amp; \propto e^{m(\mu -\lambda)} \left(\frac{\lambda}{\mu}\right)^{\sum_{i=1}^{m} x_i} &amp;&amp; \text{Remove constant terms.}
+\end{align*}
+\end{split}\]</div>
+<p>We know our PMF will be proportional to <span class="math notranslate nohighlight">\(\pi(m) = e^{m(\mu -\lambda)} \left(\frac{\lambda}{\mu}\right)^{\sum_{i=1}^{m} x_i}\)</span>. To normalize <span class="math notranslate nohighlight">\(\pi(m)\)</span>, we divide by the sum of <span class="math notranslate nohighlight">\(\pi\)</span> evaluated at all possible values of <span class="math notranslate nohighlight">\(m\)</span>.</p>
+<div class="math notranslate nohighlight">
+\[P(m=k) = \frac{\pi(k)}{\sum_{i=1}^{n} \pi(i)}\]</div>
+<p>Now that we have all these full conditionals, we can code the Gibbs sampler in the next lesson.</p>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -624,6 +694,21 @@ document.write(`
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model">Model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conditionals">Conditionals</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>
