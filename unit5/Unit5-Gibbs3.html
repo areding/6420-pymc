@@ -62,6 +62,8 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'unit5/Unit5-Gibbs3';</script>
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -569,8 +571,6 @@ document.write(`
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">tqdm.auto</span> <span class="kn">import</span> <span class="n">tqdm</span>
-
-<span class="o">%</span><span class="k">load_ext</span> lab_black
 </pre></div>
 </div>
 </div>
@@ -578,14 +578,10 @@ document.write(`
 <section class="tex2jax_ignore mathjax_ignore" id="coal-mining-disasters-in-the-uk">
 <h1>15. Coal Mining Disasters in the UK*<a class="headerlink" href="#coal-mining-disasters-in-the-uk" title="Permalink to this headline">#</a></h1>
 <p>Adapted from <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/original_examples/Codes4Unit5/disastersmc.m">Unit 5: disastersmc.m</a>.</p>
-<p>The 112 data points represent the numbers of coal-mining disasters involving 10 or more men killed per year between 1851 and 1962.</p>
-<p>Based on the observation that the there was a significant decrease around 1900, it is suitable to apply a change-point model to divide the whole dataset into two periods; each period with its own distribution of number of disasters.</p>
-<p>The data set was compiled by Maguire, Pearson and Wynn in 1952 and updated by Jarrett (1978). This data have been used by a number of authors to illustrate various techniques that can be applied to point processes</p>
-<p>Maguire, B. A., Pearson, E. S. and Wynn, A. H. A. (1952). The time intervals between industrial accidents. Biometrika, 39, 168–180.</p>
-<p>Jarrett, R.G. (1979). A note on the intervals between coal-mining disasters. Biometrika, 66, 191-193.</p>
-<p>Carlin, Gelfand, and Smith (1992) Heirarchical Bayesian Analysis of Changepoint Problems. Applied Statistics, 41, 389-405.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<p>The 112 data points represent the numbers of coal-mining disasters involving 10 or more men killed per year between 1851 and 1962 (<span id="id1">MAGUIRE <em>et al.</em> [<a class="reference internal" href="../backmatter/bibliography.html#id36" title="B. A. MAGUIRE, E. S. PEARSON, and A. H. A. WYNN. THE TIME INTERVALS BETWEEN INDUSTRIAL ACCIDENTS. Biometrika, 39(1-2):168-180, 05 1952. URL: https://doi.org/10.1093/biomet/39.1-2.168, arXiv:https://academic.oup.com/biomet/article-pdf/39/1-2/168/834479/39-1-2-168.pdf, doi:10.1093/biomet/39.1-2.168.">1952</a>]</span>, <span id="id2">Jarrett [<a class="reference internal" href="../backmatter/bibliography.html#id37" title="R. G. Jarrett. A note on the intervals between coal-mining disasters. Biometrika, 66(1):191–193, 1979. URL: http://www.jstor.org/stable/2335266 (visited on 2023-08-27).">1979</a>]</span>).</p>
+<p>You can check out the derivation of the model we’re using on the previous page, or see <span id="id3">Carlin <em>et al.</em> [<a class="reference internal" href="../backmatter/bibliography.html#id38" title="Bradley P. Carlin, Alan E. Gelfand, and Adrian F. M. Smith. Hierarchical bayesian analysis of changepoint problems. Journal of the Royal Statistical Society. Series C (Applied Statistics), 41(2):389–405, 1992. URL: http://www.jstor.org/stable/2347570 (visited on 2023-08-27).">1992</a>]</span> for the inspiration.</p>
+<div class="cell tag_hide-output docutils container">
+<div class="cell_input above-output-prompt docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 
 <span class="c1"># x is the number of coal mine disasters per year</span>
@@ -647,29 +643,70 @@ document.write(`
 <span class="n">lambdas</span> <span class="o">=</span> <span class="n">lambdas</span><span class="p">[</span><span class="n">burn</span><span class="p">:]</span>
 <span class="n">mus</span> <span class="o">=</span> <span class="n">mus</span><span class="p">[</span><span class="n">burn</span><span class="p">:]</span>
 <span class="n">ms</span> <span class="o">=</span> <span class="n">ms</span><span class="p">[</span><span class="n">burn</span><span class="p">:]</span>
+</pre></div>
+</div>
+</div>
+<details class="hide below-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell output</span>
+<span class="expanded">Hide code cell output</span>
+</summary>
+<div class="cell_output docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "20df8aa1682d4f02b3f0992beaad7ac5", "version_major": 2, "version_minor": 0}</script></div>
+</details>
+</div>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># posterior densities</span>
+<span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">,</span> <span class="n">ax3</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">))</span>
 
-<span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">lambdas</span><span class="p">,</span> <span class="mi">40</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;lambda&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">lambdas</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;plum&quot;</span><span class="p">,</span> <span class="n">density</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;λ&quot;</span><span class="p">)</span>
 
-<span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">mus</span><span class="p">,</span> <span class="mi">40</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;mu&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">mus</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;palegreen&quot;</span><span class="p">,</span> <span class="n">density</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;μ&quot;</span><span class="p">)</span>
 
-<span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">ms</span> <span class="o">+</span> <span class="mi">1851</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;year&quot;</span><span class="p">)</span>
+<span class="n">ax3</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">ax3</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">ms</span> <span class="o">+</span> <span class="mi">1851</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;lightskyblue&quot;</span><span class="p">,</span> <span class="n">density</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+<span class="n">ax3</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Changepoint year (m + 1851)&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">year</span><span class="p">[</span><span class="mi">30</span><span class="p">:</span><span class="mi">50</span><span class="p">],</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">minorticks_off</span><span class="p">()</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
+</details>
 <div class="cell_output docutils container">
-<script type="application/vnd.jupyter.widget-view+json">{"model_id": "f60501191ad4403aab8b6e7528441bcc", "version_major": 2, "version_minor": 0}</script><img alt="../_images/a364fc266f9207475e07a35a64298dfe1fa5a4b27f618b328c8fb2058e5e6f0c.png" src="../_images/a364fc266f9207475e07a35a64298dfe1fa5a4b27f618b328c8fb2058e5e6f0c.png" />
-<img alt="../_images/cd0b7ffe6a2457dd37795a978019d7747557513c0f6a6da14efd6489a444a2fe.png" src="../_images/cd0b7ffe6a2457dd37795a978019d7747557513c0f6a6da14efd6489a444a2fe.png" />
-<img alt="../_images/2474a49a62499248e64d87354c367e523973c4890b4b33b937c40efaa6314958.png" src="../_images/2474a49a62499248e64d87354c367e523973c4890b4b33b937c40efaa6314958.png" />
+<img alt="../_images/c02943d3fb013059830959f264bea017669308b9c1117ddb8142488edb99d1d7.png" src="../_images/c02943d3fb013059830959f264bea017669308b9c1117ddb8142488edb99d1d7.png" />
 </div>
 </div>
+<p>Let’s check the odds ratio as well.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">count_m_eq_n</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">ms</span> <span class="o">==</span> <span class="n">n</span><span class="p">)</span>
+<span class="n">prob_m_equals_n</span> <span class="o">=</span> <span class="n">count_m_eq_n</span> <span class="o">/</span> <span class="n">ms</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">posterior_odds_ratio</span> <span class="o">=</span> <span class="n">prob_m_equals_n</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">prob_m_equals_n</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Posterior odds ratio that m=n: </span><span class="si">{</span><span class="n">posterior_odds_ratio</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Posterior odds ratio that m=n: 0.0000
+</pre></div>
+</div>
+</div>
+</div>
+<p>There are actually 0 occurrences of <span class="math notranslate nohighlight">\(m=n\)</span> in our samples, which is probably why the professor didn’t include this in the lecture in the first place. Compared to the baseline odds of any single value from our prior, 111 to 1, this still seems pretty significant. You can see that the results cluster in the late 1880s to early 1890s, with the MAP at 1891.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">load_ext</span> watermark
@@ -678,14 +715,14 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Sat Mar 18 2023
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Mon Aug 28 2023
 
 Python implementation: CPython
-Python version       : 3.11.0
-IPython version      : 8.9.0
+Python version       : 3.11.4
+IPython version      : 8.14.0
 
-matplotlib: 3.6.3
-numpy     : 1.24.2
+numpy     : 1.24.4
+matplotlib: 3.7.2
 </pre></div>
 </div>
 </div>

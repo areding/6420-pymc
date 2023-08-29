@@ -565,6 +565,7 @@ document.write(`
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model">Model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#odds-ratio">Odds ratio</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conditionals">Conditionals</a></li>
 </ul>
             </nav>
@@ -579,13 +580,13 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="change-point-problem">
 <h1>14. Change Point Problem<a class="headerlink" href="#change-point-problem" title="Permalink to this headline">#</a></h1>
-<p>In this lesson, we’re trying to infer the “change point” the widely-used UK coal mining disaster dataset, originally published by <span id="id1">MAGUIRE <em>et al.</em> [<a class="reference internal" href="../backmatter/bibliography.html#id36" title="B. A. MAGUIRE, E. S. PEARSON, and A. H. A. WYNN. THE TIME INTERVALS BETWEEN INDUSTRIAL ACCIDENTS. Biometrika, 39(1-2):168-180, 05 1952. URL: https://doi.org/10.1093/biomet/39.1-2.168, arXiv:https://academic.oup.com/biomet/article-pdf/39/1-2/168/834479/39-1-2-168.pdf, doi:10.1093/biomet/39.1-2.168.">1952</a>]</span> and updated by <span id="id2">Jarrett [<a class="reference internal" href="../backmatter/bibliography.html#id37" title="R. G. Jarrett. A note on the intervals between coal-mining disasters. Biometrika, 66(1):191–193, 1979. URL: http://www.jstor.org/stable/2335266 (visited on 2023-08-27).">1979</a>]</span>.
-The dataset spans from 1851 to 1962 and was compiled to include only incidents where at least 10 people died.</p>
+<p>In this lesson, we’re trying to infer the “change point” in the widely-used UK coal mining disaster dataset, originally published by <span id="id1">MAGUIRE <em>et al.</em> [<a class="reference internal" href="../backmatter/bibliography.html#id36" title="B. A. MAGUIRE, E. S. PEARSON, and A. H. A. WYNN. THE TIME INTERVALS BETWEEN INDUSTRIAL ACCIDENTS. Biometrika, 39(1-2):168-180, 05 1952. URL: https://doi.org/10.1093/biomet/39.1-2.168, arXiv:https://academic.oup.com/biomet/article-pdf/39/1-2/168/834479/39-1-2-168.pdf, doi:10.1093/biomet/39.1-2.168.">1952</a>]</span> and updated by <span id="id2">Jarrett [<a class="reference internal" href="../backmatter/bibliography.html#id37" title="R. G. Jarrett. A note on the intervals between coal-mining disasters. Biometrika, 66(1):191–193, 1979. URL: http://www.jstor.org/stable/2335266 (visited on 2023-08-27).">1979</a>]</span>.
+The dataset spans from 1851 to 1962 and was compiled to include only incidents where at least 10 people died. The idea is that at some point the number of disasters decreased significantly, so let’s figure out which year that happened.</p>
 <section id="model">
 <h2>Model<a class="headerlink" href="#model" title="Permalink to this headline">#</a></h2>
 <p>The model comes from <span id="id3">Carlin <em>et al.</em> [<a class="reference internal" href="../backmatter/bibliography.html#id38" title="Bradley P. Carlin, Alan E. Gelfand, and Adrian F. M. Smith. Hierarchical bayesian analysis of changepoint problems. Journal of the Royal Statistical Society. Series C (Applied Statistics), 41(2):389–405, 1992. URL: http://www.jstor.org/stable/2347570 (visited on 2023-08-27).">1992</a>]</span>. This paper is really readable and useful for double-checking your understanding of the concepts we’ve seen so far. The model itself is a great example of how intuitive and flexible Bayesian hierarchical frameworks can be.</p>
 <p>We assume two different Poisson processes governing the rates of coal mining disasters. Before the change point <span class="math notranslate nohighlight">\(m\)</span>, we’ll call the Poisson likelihood’s rate <span class="math notranslate nohighlight">\(\lambda\)</span>. After <span class="math notranslate nohighlight">\(m\)</span>, the rate will be <span class="math notranslate nohighlight">\(\mu\)</span> for our second likelihood.</p>
-<p>We’ll assume the prior on <span class="math notranslate nohighlight">\(m\)</span> is discrete uniform <span class="math notranslate nohighlight">\([1, n]\)</span>, where <span class="math notranslate nohighlight">\(n\)</span> is the number of years in the dataset (112 years). Priors for <span class="math notranslate nohighlight">\(\lambda\)</span> and <span class="math notranslate nohighlight">\(\mu\)</span> are gamma distributions with hyperparameters <span class="math notranslate nohighlight">\( (\alpha, \beta) \)</span> and <span class="math notranslate nohighlight">\( (\gamma, \delta) \)</span>, respectively.</p>
+<p>We’ll assume the prior on <span class="math notranslate nohighlight">\(m\)</span> is discrete uniform <span class="math notranslate nohighlight">\([1, n]\)</span>, where <span class="math notranslate nohighlight">\(n=112\)</span> the number of years in the dataset. Priors for <span class="math notranslate nohighlight">\(\lambda\)</span> and <span class="math notranslate nohighlight">\(\mu\)</span> are gamma distributions with hyperparameters <span class="math notranslate nohighlight">\( (\alpha, \beta) \)</span> and <span class="math notranslate nohighlight">\( (\gamma, \delta) \)</span>, respectively.</p>
 <p>Summarized:</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
@@ -597,6 +598,11 @@ m &amp;\sim \text{Uniform}(1, n) &amp;&amp; \\
 \mu &amp;\sim \text{Gamma}(\gamma, \delta) &amp;&amp; 
 \end{align*}
 \end{split}\]</div>
+</section>
+<section id="odds-ratio">
+<h2>Odds ratio<a class="headerlink" href="#odds-ratio" title="Permalink to this headline">#</a></h2>
+<p>This model will find some change point since it’s built in to our assumptions. But how do we know whether that change point is actually meaningful? (<span id="id4">Carlin <em>et al.</em> [<a class="reference internal" href="../backmatter/bibliography.html#id38" title="Bradley P. Carlin, Alan E. Gelfand, and Adrian F. M. Smith. Hierarchical bayesian analysis of changepoint problems. Journal of the Royal Statistical Society. Series C (Applied Statistics), 41(2):389–405, 1992. URL: http://www.jstor.org/stable/2347570 (visited on 2023-08-27).">1992</a>]</span>) say: “The question of whether or not a change has occurred is addressed through the posterior odds for no change.”</p>
+<p>In our case, that would be <span class="math notranslate nohighlight">\(P(m=n \mid X)/{1 - P(m=n \mid X)}\)</span>, comparing the odds that <span class="math notranslate nohighlight">\(m=112\)</span> to the odds it doesn’t.</p>
 </section>
 <section id="conditionals">
 <h2>Conditionals<a class="headerlink" href="#conditionals" title="Permalink to this headline">#</a></h2>
@@ -704,6 +710,7 @@ p(\lambda, \mu, m | X) &amp;\propto \left[ \prod_{i=1}^{m} \text{Poisson}(x_i | 
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model">Model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#odds-ratio">Odds ratio</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conditionals">Conditionals</a></li>
 </ul>
   </nav></div>
