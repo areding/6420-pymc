@@ -563,9 +563,20 @@ document.write(`
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#graphical-models">Graphical models</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pymc">PyMC</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#links">Links</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#missing-example">Missing example</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pymc">PyMC</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#some-history">Some history</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#installation">Installation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#troubleshooting">Troubleshooting</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#missing-dependencies">Missing dependencies</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#blas-implementation-issues">BLAS implementation issues</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#jupyter-notebook-lab-issues">Jupyter Notebook/Lab issues</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#using-scripts-instead-of-notebooks">Using scripts instead of notebooks</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#other-debugging-tips">Other debugging tips</a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
             </nav>
         </div>
@@ -581,26 +592,93 @@ document.write(`
 <h1><span class="section-number">1. </span>Probabilistic Programming Languages<a class="headerlink" href="#probabilistic-programming-languages" title="Permalink to this headline">#</a></h1>
 <section id="graphical-models">
 <h2>Graphical models<a class="headerlink" href="#graphical-models" title="Permalink to this headline">#</a></h2>
-<p>The original lecture is about thinking of Bayesian models as <a class="reference external" href="https://en.wikipedia.org/wiki/Directed_acyclic_graph">directed acyclic graphs</a> (DAGs). The professor talks a little bit about why they’re a useful way to think about the relationships between random variables, the Markovian property, and independence of nodes. I will add some more details here in the future, but it’s low-priority for now.</p>
+<p>The original lecture is about thinking of Bayesian models as graphical models. The professor talks a little bit about why they’re a useful way to think about the relationships between random variables, the Markovian property, and independence of nodes. Not only are they useful for intuition as we think about our models, representing them that way in code</p>
 <p>He cites <em>Machine Learning: A Probabilistic Perspective</em>, which is the old version of <a class="reference external" href="https://probml.github.io/pml-book/"><em>Probabilistic Machine Learning: An Introduction</em></a> mentioned in the <a class="reference internal" href="../unit1/Unit1-about-this-course.html#content-other-resources"><span class="std std-ref">other recommended resources</span></a> section.</p>
-<p>Starting with this unit, we will be using <a class="reference internal" href="../unit1/Unit1-software.html"><span class="doc std std-doc">Probabilistic Programming Languages</span></a> (PPLs) to run our models.</p>
-</section>
-<section id="pymc">
-<h2>PyMC<a class="headerlink" href="#pymc" title="Permalink to this headline">#</a></h2>
-<p>This site is currently using <a class="reference external" href="https://www.pymc.io/">PyMC</a> version 5. Please follow the instructions for your OS at the <a class="reference external" href="https://github.com/pymc-devs/pymc#installation">PyMC developers’ GitHub repository</a> when installing.</p>
-<p>I’m going to copy the practice of using the <a class="reference external" href="https://github.com/rasbt/watermark">watermark extension</a> as in the <a class="reference external" href="https://www.pymc.io/projects/examples/en/latest/gallery.html">PyMC Example Gallery</a> to show the exact versions I’m using.</p>
-</section>
-<section id="links">
-<h2>Links<a class="headerlink" href="#links" title="Permalink to this headline">#</a></h2>
-<ul class="simple">
-<li><p><a class="reference external" href="https://danmackinlay.name/notebook/probabilistic_programming.html">An overview of various PPLs</a>, last updated February 2022.</p></li>
-<li><p><a class="reference external" href="https://en.wikipedia.org/wiki/Probabilistic_programming">Wikipedia on PPLs</a>.</p></li>
-<li><p><a class="reference external" href="https://bayesiancomputationbook.com/markdown/chp_10.html">Chapter 10 of <em>Bayesian Modeling and Computation in Python</em></a>: A look at what goes into creating a PPL and the moving parts involved.</p></li>
-</ul>
+<p>Starting with this unit, we will be using <a class="reference internal" href="../unit1/Unit1-software.html"><span class="doc std std-doc">Probabilistic Programming Languages</span></a> (PPLs) to run our models. Check out <a class="reference external" href="https://bayesiancomputationbook.com/markdown/chp_10.html">Chapter 10 of <em>Bayesian Modeling and Computation in Python</em></a> for a look at what goes into creating a PPL and the components involved.</p>
 </section>
 <section id="missing-example">
 <h2>Missing example<a class="headerlink" href="#missing-example" title="Permalink to this headline">#</a></h2>
 <p>In the original unit 6 code archive, there’s a file called <code class="docutils literal notranslate"><span class="pre">DeMere.odc</span></code> that doesn’t seem to have anything to do with the rest of the unit. You can find a Python implementation <a class="reference external" href="https://areding.github.io/6420-pymc/original_examples/stuff/Unit3-DeMere.ipynb">here</a> (right-click and Save Link As…).</p>
+</section>
+<section id="pymc">
+<h2>PyMC<a class="headerlink" href="#pymc" title="Permalink to this headline">#</a></h2>
+<section id="some-history">
+<h3>Some history<a class="headerlink" href="#some-history" title="Permalink to this headline">#</a></h3>
+<p>In 2003, Chris Fonnesbeck <a class="reference external" href="https://www.pymc.io/blog/PyMC_Past_Present_Future.html">started</a> writing PyMC (<span id="id1">Wiecki <em>et al.</em> [<a class="reference internal" href="../backmatter/bibliography.html#id39">2023</a>]</span>) as a graduate student at the University of Georgia—partly out of frustration with WinBUGS. Eventually, PyMC3 became popular as a Python-based alternative to <a class="reference external" href="https://mc-stan.org/">Stan</a>. Both used implementations of the NUTS algorithm for sampling (<span id="id2">Homan and Gelman [<a class="reference internal" href="../backmatter/bibliography.html#id28" title="Matthew D. Homan and Andrew Gelman. The no-u-turn sampler: adaptively setting path lengths in hamiltonian monte carlo. J. Mach. Learn. Res., 15(1):1593–1623, jan 2014.">2014</a>]</span>). PyMC3 was based on Theano, a tensor library for doing machine learning-related math. In 2016, PyMC was sponsored by <a class="reference external" href="https://numfocus.org/uncategorized/numfocus-announces-new-fiscally-sponsored-project-pymc3">NumFOCUS</a>, an organization started in part by the authors of NumPy, Matplotlib, and IPython and others to promote open scientific computing.</p>
+<p>I started converting the course examples to PyMC3 in 2022. Later that year, PyMC version 4.0 was <a class="reference external" href="https://www.pymc.io/blog/v4_announcement.html">released</a>. The backend switched to Aesara, a rewrite of Theano based on JAX. Towards the end of 2022, the PyMC devs forked Aesara to create <a class="reference external" href="https://www.pymc.io/blog/pytensor_announcement.html">Pytensor</a> over some governance conflicts, and the current major version, PyMC v5, came out.</p>
+<p>So there have been lots of changes and I’ve had to update the code examples a few times. In fact, there are still some that need to be updated that used to work in PyMC3 or v4. I’m going to copy the practice of using the <a class="reference external" href="https://github.com/rasbt/watermark">watermark extension</a> as in the <a class="reference external" href="https://www.pymc.io/projects/examples/en/latest/gallery.html">PyMC Example Gallery</a> to show the exact versions each example was last run on.</p>
+</section>
+<section id="installation">
+<h3>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">#</a></h3>
+<p>This site is currently using PyMC version 5. Please follow the instructions at the <a class="reference external" href="https://www.pymc.io/projects/docs/en/latest/installation.html">PyMC website</a> when installing. You don’t need nutpie, blackjax, or numpyro for this course’s examples.</p>
+</section>
+<section id="troubleshooting">
+<h3>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permalink to this headline">#</a></h3>
+<p>If your model is running very slowly or you’re having other issues getting PyMC to work, there could be many causes. I’ll update this list as</p>
+<section id="missing-dependencies">
+<h4>Missing dependencies<a class="headerlink" href="#missing-dependencies" title="Permalink to this headline">#</a></h4>
+<p>This is by far the most common problem I’ve come across for ISYE 6420 students. Lots of students will just do <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">pymc</span></code>, or use PyCharm, or some other installation method. You might get a warning like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>WARNING (pytensor.configdefaults): g++ not available, if using conda: `conda install m2w64-toolchain`
+WARNING (pytensor.configdefaults): g++ not detected!  PyTensor will be unable to compile C-implementations and will default to Python. Performance may be severely degraded. To remove this warning, set PyTensor flags cxx to an empty string.
+WARNING (pytensor.tensor.blas): Using NumPy C-API based implementation for BLAS functions.
+</pre></div>
+</div>
+<p>I highly recommend installing using a Conda environment as in the official installation instructions. You don’t need to get the full Conda installation, let alone Anaconda. Try <a class="reference external" href="https://docs.conda.io/en/main/miniconda.html">Miniconda</a> or <a class="reference external" href="https://mamba.readthedocs.io/en/latest/user_guide/mamba.html">Mamba</a> for a more minimal install.</p>
+<p>Make sure you’ve activated the environment you installed PyMC into!</p>
+<p>If that still doesn’t work, some students have had luck following the warning’s advice and doing <code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">install</span> <span class="pre">m2w64-toolchain</span></code>.</p>
+</section>
+<section id="blas-implementation-issues">
+<h4>BLAS implementation issues<a class="headerlink" href="#blas-implementation-issues" title="Permalink to this headline">#</a></h4>
+<p><a class="reference external" href="https://netlib.org/blas/blast-forum/">BLAS</a> (Basic Linear Algebra Subprograms) is a standard specification for the low-level linear algebra routines. There are many implementations for different operating systems and hardware. NumPy or PyMC may give you a warning about
+Some people have had success speeding up their PyMC runtimes by changing implementations.</p>
+<p>For example, on ARM-based Macs (the ones using M1/M2 processors), you could try installing and switching to Apple’s BLAS implementation as in this <a class="reference external" href="https://discourse.pymc.io/t/performance-tip-if-youre-on-arm64-apples-m1-m2-chips-install-accelerate/12495">PyMC forum post</a>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda install <span class="s2">&quot;libblas=*=*accelerate&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="jupyter-notebook-lab-issues">
+<h4>Jupyter Notebook/Lab issues<a class="headerlink" href="#jupyter-notebook-lab-issues" title="Permalink to this headline">#</a></h4>
+<p>PyMC works great with Jupyter Notebook or Lab, but sometimes people have installation issues depending on how they’ve installed everything and how they’re opening the notebooks.</p>
+<p>If you’re using Jupyter, make sure it’s pointing to the correct kernel. You’ll want to use your pymc environment as the kernel. One way to do this is to install Jupyter on that same environment using</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda install jupyterlab
+</pre></div>
+</div>
+<p>then launch using</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>jupyter notebook
+</pre></div>
+</div>
+<p>or</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>jupyter lab
+</pre></div>
+</div>
+<p>from the terminal with that environment activated. Your kernel will show as <code class="docutils literal notranslate"><span class="pre">Python</span> <span class="pre">3</span> <span class="pre">(ipykernel)</span></code>, but you can try executing this in a code cell to see which Python installation you’re using (if you’re using Windows, I think the equivalent command is <code class="docutils literal notranslate"><span class="pre">where</span></code>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>which python
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc/bin/python
+</pre></div>
+</div>
+</div>
+</div>
+<p>You can see that for me, that points to the Python installation in my pymc environment folder which is what I want. If you’re using Jupyter through another editor like VSCode, you will need to select the correct environment as your kernel manually.</p>
+</section>
+<section id="using-scripts-instead-of-notebooks">
+<h4>Using scripts instead of notebooks<a class="headerlink" href="#using-scripts-instead-of-notebooks" title="Permalink to this headline">#</a></h4>
+<p>If you prefer to use <code class="docutils literal notranslate"><span class="pre">.py</span></code> scripts that will be run directly from the command line, be aware that for multiprocessing to work correctly, you must use the <code class="docutils literal notranslate"><span class="pre">if</span> <span class="pre">__name__</span> <span class="pre">==</span> <span class="pre">'__main__':</span></code> <a class="reference external" href="https://docs.python.org/3/library/__main__.html#idiomatic-usage">Python idiom</a>.</p>
+</section>
+<section id="other-debugging-tips">
+<h4>Other debugging tips<a class="headerlink" href="#other-debugging-tips" title="Permalink to this headline">#</a></h4>
+<ul class="simple">
+<li><p>Try running a minimal model first, like the <a class="reference external" href="https://areding.github.io/6420-pymc/unit6/Unit6-loadingdata.html">taste of cheese</a> example to make sure your installation is working okay.</p></li>
+<li><p>Use Google Colab to see if it’s your model or your installation. You can open any of the notebooks on this site directly in Colab using the pop-up link from the rocket ship icon on the top of the page. Colab will likely be somewhat slower than your machine if you’re using the free version, but it works reliably well for newer versions of PyMC.</p></li>
+<li><p>Some students will directly translate BUGS models to PyMC and then use the same number of samples, like 100,000 or more. Don’t do that! You need far fewer samples when using the NUTS sampler, which is PyMC’s default. Start with 3,000 or fewer when first testing out your model.</p></li>
+</ul>
+</section>
+</section>
 </section>
 </section>
 
@@ -666,9 +744,20 @@ document.write(`
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#graphical-models">Graphical models</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pymc">PyMC</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#links">Links</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#missing-example">Missing example</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pymc">PyMC</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#some-history">Some history</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#installation">Installation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#troubleshooting">Troubleshooting</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#missing-dependencies">Missing dependencies</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#blas-implementation-issues">BLAS implementation issues</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#jupyter-notebook-lab-issues">Jupyter Notebook/Lab issues</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#using-scripts-instead-of-notebooks">Using scripts instead of notebooks</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#other-debugging-tips">Other debugging tips</a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
   </nav></div>
 
