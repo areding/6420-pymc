@@ -19,12 +19,12 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
-<link href="../_static/styles/bootstrap.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
 
   
-  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
   <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
@@ -36,16 +36,16 @@
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
     <link rel="stylesheet" type="text/css" href="../_static/proof.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
     <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d" />
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
 
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
@@ -584,7 +584,7 @@ document.write(`
                 <article class="bd-article" role="main">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="introduction-to-gibbs-sampling">
-<h1>10. Introduction to Gibbs Sampling<a class="headerlink" href="#introduction-to-gibbs-sampling" title="Permalink to this headline">#</a></h1>
+<h1>10. Introduction to Gibbs Sampling<a class="headerlink" href="#introduction-to-gibbs-sampling" title="Permalink to this heading">#</a></h1>
 <p>Gibbs sampling (<span id="id1">Geman and Geman [<a class="reference internal" href="../backmatter/bibliography.html#id26" title="Stuart Geman and Donald Geman. Stochastic relaxation, gibbs distributions, and the bayesian restoration of images. IEEE Transactions on Pattern Analysis and Machine Intelligence, PAMI-6(6):721-741, 1984. doi:10.1109/TPAMI.1984.4767596.">1984</a>]</span>) is a special case of Metropolis-Hastings where our proposal distribution comes from the full conditional distribution of the parameter. This allows us to remove the acceptance ratio calculation. The detailed balance property is satisfied because we are sampling exactly from the conditional distribution of each parameter in turn. The transition from one state to another and back has the same probability.</p>
 <p>This makes Gibbs sampling very efficient, which is why BUGS (Bayesian inference Using Gibbs Sampling, <span id="id2">Gilks <em>et al.</em> [<a class="reference internal" href="../backmatter/bibliography.html#id31" title="W. R. Gilks, A. Thomas, and D. J. Spiegelhalter. A language and program for complex bayesian modelling. Journal of the Royal Statistical Society. Series D (The Statistician), 43(1):169–177, 1994. URL: http://www.jstor.org/stable/2348941 (visited on 2023-08-20).">1994</a>]</span>) tries to use this algorithm as a first resort. But it only works if we can find these full conditionals. The lecture has some simple examples. You can also check out the <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/original_examples/Codes4Unit5/GIBBS.zip">Gibbs handout</a> created by Professor Vidakovic.</p>
 <p>I’m going to jump into a slightly more complicated example here, where we can only get the full conditionals for some of the parameters and have to include a Metropolis-Hastings step for one of them.</p>
@@ -593,7 +593,7 @@ document.write(`
 <p>This page contains the answer to a supplementary exercise, specifically the 5.4 problem <em>Georgia Deaths from Kidney Cancer 1985-1989 by Counties.</em> If you want to try it yourself first, hold off on reading the rest of this page.</p>
 </div>
 <section id="gibbs-sampling-with-a-metropolis-hastings-step">
-<h2>Gibbs sampling with a Metropolis-Hastings step<a class="headerlink" href="#gibbs-sampling-with-a-metropolis-hastings-step" title="Permalink to this headline">#</a></h2>
+<h2>Gibbs sampling with a Metropolis-Hastings step<a class="headerlink" href="#gibbs-sampling-with-a-metropolis-hastings-step" title="Permalink to this heading">#</a></h2>
 <p>The dataset (available <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/data/georgiakcd.csv">here</a>) has the deaths from kidney cancer by Georgia county along with the population of each county. We’re going to estimate the death rate for each county along with the all-Georgia death rate. This is our model:</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
@@ -609,7 +609,7 @@ y_i &amp;\sim Poi(\lambda_i n_i), i = 1, ..., m \\
 <p><span class="math notranslate nohighlight">\(n = \sum_{i=1}^{k}\)</span> (total Georgia population/100k)</p>
 <p>We’ll talk more about these kinds of hierarchical models in Unit 7—for now, let’s focus on the the sampling algorithm.</p>
 <section id="finding-the-joint-distribution">
-<h3>Finding the joint distribution<a class="headerlink" href="#finding-the-joint-distribution" title="Permalink to this headline">#</a></h3>
+<h3>Finding the joint distribution<a class="headerlink" href="#finding-the-joint-distribution" title="Permalink to this heading">#</a></h3>
 <p>The Poisson PDF is:</p>
 <div class="math notranslate nohighlight">
 \[\frac{\lambda^{y_i}_i \exp(-\lambda_i n_i)}{y_i!}\]</div>
@@ -626,7 +626,7 @@ y_i &amp;\sim Poi(\lambda_i n_i), i = 1, ..., m \\
 \[f(y, \lambda, \alpha, \beta) = \prod_{i=1}^{m} \left[ \frac{\lambda^{y_i}_i \exp(-\lambda_i n_i)}{y_i!} \right] \prod_{i=1}^{m} \left[ \frac{\beta^\alpha}{\Gamma(\alpha)} \lambda_i^{\alpha - 1} \exp(-\beta \lambda_i) \right] \cdot \frac{1}{A} \mathbf{1}(0 \le \alpha \le A) \cdot \frac{1}{B} \mathbf{1}(0 \le \beta \le B)\]</div>
 </section>
 <section id="finding-the-conditionals">
-<h3>Finding the conditionals<a class="headerlink" href="#finding-the-conditionals" title="Permalink to this headline">#</a></h3>
+<h3>Finding the conditionals<a class="headerlink" href="#finding-the-conditionals" title="Permalink to this heading">#</a></h3>
 <p>First up is lambda.</p>
 <p>The original answers had some weird notation (<span class="math notranslate nohighlight">\(\lambda_{\ne i}\)</span>?), but what I think they’re trying to get across is we want to find the Gamma distribution for each lambda/y combo, not an overall one. These individual Gamma distributions are IID—there’s no interaction between them at all, but they all share the same priors. The only difference will be the y and lambdas. So let’s pretend that <span class="math notranslate nohighlight">\(m=1\)</span> to get one of them so we can get rid of those products.</p>
 <div class="math notranslate nohighlight">
@@ -664,7 +664,7 @@ y_i &amp;\sim Poi(\lambda_i n_i), i = 1, ..., m \\
 \end{split}\]</div>
 </section>
 <section id="metropolis-step">
-<h3>Metropolis step<a class="headerlink" href="#metropolis-step" title="Permalink to this headline">#</a></h3>
+<h3>Metropolis step<a class="headerlink" href="#metropolis-step" title="Permalink to this heading">#</a></h3>
 <p>We only have two out of three necessary conditionals. We can calculate the remaining parameter, alpha, with a Metropolis step within our sampler.</p>
 <p>Let our target distribution for this step, f(x), be:</p>
 <div class="math notranslate nohighlight">
@@ -675,7 +675,7 @@ y_i &amp;\sim Poi(\lambda_i n_i), i = 1, ..., m \\
 <p>For beta, Scipy doesn’t have a truncated Gamma distribution. We can use inverse transform theorem and the CDF and inverse CDF functions to create our own (see the code, below).</p>
 </section>
 <section id="code">
-<h3>Code<a class="headerlink" href="#code" title="Permalink to this headline">#</a></h3>
+<h3>Code<a class="headerlink" href="#code" title="Permalink to this heading">#</a></h3>
 <div class="cell tag_hide-output tag_hide-input docutils container">
 <details class="hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -887,7 +887,7 @@ np.mean(betas)=0.011
 <p>I didn’t visualize the deaths by county, may add that later.</p>
 </section>
 <section id="check-results-with-pymc">
-<h3>Check results with PyMC<a class="headerlink" href="#check-results-with-pymc" title="Permalink to this headline">#</a></h3>
+<h3>Check results with PyMC<a class="headerlink" href="#check-results-with-pymc" title="Permalink to this heading">#</a></h3>
 <div class="cell tag_hide-output tag_hide-input docutils container">
 <details class="hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -1105,7 +1105,10 @@ matplotlib: 3.7.2
               
               
                 <footer class="bd-footer-article">
-                  <!-- Previous / next buttons -->
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
        href="gibbs-sampling.html"
@@ -1125,7 +1128,10 @@ matplotlib: 3.7.2
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
+</div></div>
+  
 </div>
+
                 </footer>
               
             </div>
@@ -1156,7 +1162,7 @@ matplotlib: 3.7.2
             
           </div>
           <footer class="bd-footer-content">
-            <div class="bd-footer-content__inner">
+            
 <div class="bd-footer-content__inner container">
   
   <div class="footer-item">
@@ -1186,7 +1192,7 @@ By Aaron Reding
     
   </div>
   
-</div></div>
+</div>
           </footer>
         
 
@@ -1195,8 +1201,8 @@ By Aaron Reding
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d"></script>
-<script src="../_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d"></script>
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
 
   <footer class="bd-footer">
   </footer>

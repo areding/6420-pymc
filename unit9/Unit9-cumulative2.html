@@ -19,12 +19,12 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
-<link href="../_static/styles/bootstrap.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
 
   
-  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
   <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
@@ -36,16 +36,16 @@
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
     <link rel="stylesheet" type="text/css" href="../_static/proof.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
     <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d" />
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
 
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
@@ -594,7 +594,7 @@ document.write(`
 </div>
 </div>
 <section class="tex2jax_ignore mathjax_ignore" id="cumulative-example">
-<h1><span class="section-number">8. </span>Cumulative Example*<a class="headerlink" href="#cumulative-example" title="Permalink to this headline">#</a></h1>
+<h1><span class="section-number">8. </span>Cumulative Example*<a class="headerlink" href="#cumulative-example" title="Permalink to this heading">#</a></h1>
 <p>Adapted from <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/original_examples/Codes4Unit9/cumulative2.odc">Unit 9: cumulative2.odc</a>.</p>
 <p>Original text:</p>
 <p>Use of <code class="docutils literal notranslate"><span class="pre">cumulative</span></code> as a check for outliers.</p>
@@ -602,7 +602,7 @@ document.write(`
 <p>The first y[i] specifies the distribution of y[i]’s, the second is the argument/observation. The output is empirical cdf of y[i]s evaluated at y[i].</p>
 <p>Values close to 0 or 1 are potential outliers.</p>
 <section id="notes">
-<h2>Notes<a class="headerlink" href="#notes" title="Permalink to this headline">#</a></h2>
+<h2>Notes<a class="headerlink" href="#notes" title="Permalink to this heading">#</a></h2>
 <p>From the OpenBUGS manual:</p>
 <blockquote>
 <div><p>cumulative(s1, s2): tail area of distribution of s1 up to the value of s2, s1 must be stochastic, s1 and s2 can be the same</p>
@@ -811,10 +811,10 @@ array(61.5587851)
 <p>This should give equivalent results. They aren’t identical but they detect the same outliers.</p>
 </section>
 <section id="other-ways-to-check-model-fit">
-<h2>Other ways to check model fit<a class="headerlink" href="#other-ways-to-check-model-fit" title="Permalink to this headline">#</a></h2>
+<h2>Other ways to check model fit<a class="headerlink" href="#other-ways-to-check-model-fit" title="Permalink to this heading">#</a></h2>
 <p>I know I say this a lot but I would definitely like to expand on this more in the future!</p>
 <section id="plot-posterior-predictive-distribution-vs-observed-values">
-<h3>Plot posterior predictive distribution vs. observed values<a class="headerlink" href="#plot-posterior-predictive-distribution-vs-observed-values" title="Permalink to this headline">#</a></h3>
+<h3>Plot posterior predictive distribution vs. observed values<a class="headerlink" href="#plot-posterior-predictive-distribution-vs-observed-values" title="Permalink to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">plot_ppc</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">num_pp_samples</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
@@ -885,7 +885,7 @@ array(61.5587851)
 <span class="g g-Whitespace">    </span><span class="mi">110</span> <span class="k">else</span><span class="p">:</span>
 
 <span class="nn">File ~/mambaforge/envs/pymc_env2/lib/python3.11/site-packages/matplotlib/axes/_axes.py:1668,</span> in <span class="ni">Axes.plot</span><span class="nt">(self, scalex, scaley, data, *args, **kwargs)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1425</span> <span class="sd">&quot;&quot;&quot;</span>
+<span class="g g-Whitespace">   </span><span class="mi">1425</span><span class="w"> </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="g g-Whitespace">   </span><span class="mi">1426</span><span class="sd"> Plot y versus x as lines and/or markers.</span>
 <span class="g g-Whitespace">   </span><span class="mi">1427</span><span class="sd"> </span>
 <span class="sd">   (...)</span>
@@ -1001,7 +1001,10 @@ arviz     : 0.15.1
               
               
                 <footer class="bd-footer-article">
-                  <!-- Previous / next buttons -->
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
        href="Unit9-cumulative.html"
@@ -1021,7 +1024,10 @@ arviz     : 0.15.1
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
+</div></div>
+  
 </div>
+
                 </footer>
               
             </div>
@@ -1049,7 +1055,7 @@ arviz     : 0.15.1
             
           </div>
           <footer class="bd-footer-content">
-            <div class="bd-footer-content__inner">
+            
 <div class="bd-footer-content__inner container">
   
   <div class="footer-item">
@@ -1079,7 +1085,7 @@ By Aaron Reding
     
   </div>
   
-</div></div>
+</div>
           </footer>
         
 
@@ -1088,8 +1094,8 @@ By Aaron Reding
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d"></script>
-<script src="../_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d"></script>
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
 
   <footer class="bd-footer">
   </footer>

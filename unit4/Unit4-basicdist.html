@@ -19,12 +19,12 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
-<link href="../_static/styles/bootstrap.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
 
   
-  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
   <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
@@ -36,16 +36,16 @@
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
     <link rel="stylesheet" type="text/css" href="../_static/proof.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
     <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d" />
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
 
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
@@ -597,13 +597,13 @@ document.write(`
                 <article class="bd-article" role="main">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="basic-distributions">
-<h1>1. Basic Distributions<a class="headerlink" href="#basic-distributions" title="Permalink to this headline">#</a></h1>
+<h1>1. Basic Distributions<a class="headerlink" href="#basic-distributions" title="Permalink to this heading">#</a></h1>
 <p>From this lecture, make sure you understand what a random variable is, the difference between discrete and continuous distributions, PDF/PMF vs. CDF, and the different types of parameters (shape, scale, rate, location). I’ll slowly expand this list until I’ve got all the distributions we use in the course.</p>
 <p>Be careful about what parameterization you’re using, as it will change depending on software. I will try to use <span id="id1">Vidakovic [<a class="reference internal" href="../backmatter/bibliography.html#id10" title="Brani Vidakovic. Engineering Biostatistics: An Introduction using MATLAB and WinBUGS. Wiley, 2017. ISBN 978-1-119-16896-6.">2017</a>]</span> versions here, but may add alternate parameterizations.</p>
 <section id="discrete">
-<h2>Discrete<a class="headerlink" href="#discrete" title="Permalink to this headline">#</a></h2>
+<h2>Discrete<a class="headerlink" href="#discrete" title="Permalink to this heading">#</a></h2>
 <section id="bernoulli-distribution">
-<span id="content-bernoulli-dist"></span><h3><strong>Bernoulli Distribution</strong><a class="headerlink" href="#bernoulli-distribution" title="Permalink to this headline">#</a></h3>
+<span id="content-bernoulli-dist"></span><h3><strong>Bernoulli Distribution</strong><a class="headerlink" href="#bernoulli-distribution" title="Permalink to this heading">#</a></h3>
 <ul class="simple">
 <li><p><strong>PMF:</strong> <span class="math notranslate nohighlight">\(P(X=k|p) = p^k(1-p)^{1-k}\)</span> for <span class="math notranslate nohighlight">\(k \in \{0, 1\}\)</span></p></li>
 <li><p><strong>CDF:</strong> <span class="math notranslate nohighlight">\(F(k|p) = \begin{cases} 
@@ -619,7 +619,7 @@ document.write(`
 </ul>
 </section>
 <section id="binomial-distribution">
-<span id="content-binomial-dist"></span><h3><strong>Binomial Distribution</strong><a class="headerlink" href="#binomial-distribution" title="Permalink to this headline">#</a></h3>
+<span id="content-binomial-dist"></span><h3><strong>Binomial Distribution</strong><a class="headerlink" href="#binomial-distribution" title="Permalink to this heading">#</a></h3>
 <ul class="simple">
 <li><p><strong>PMF:</strong> <span class="math notranslate nohighlight">\(P(X=k|n,p) = \binom{n}{k} p^k(1-p)^{n-k}\)</span> for <span class="math notranslate nohighlight">\(k \in \{0, 1, 2, ..., n\}\)</span></p></li>
 <li><p><strong>CDF:</strong> <span class="math notranslate nohighlight">\(F(k|n,p) = \sum_{i=0}^{k} \binom{n}{i} p^i(1-p)^{n-i}\)</span></p></li>
@@ -631,7 +631,7 @@ document.write(`
 </ul>
 </section>
 <section id="poisson-distribution">
-<span id="content-poisson-dist"></span><h3><strong>Poisson Distribution</strong><a class="headerlink" href="#poisson-distribution" title="Permalink to this headline">#</a></h3>
+<span id="content-poisson-dist"></span><h3><strong>Poisson Distribution</strong><a class="headerlink" href="#poisson-distribution" title="Permalink to this heading">#</a></h3>
 <ul class="simple">
 <li><p><strong>PMF:</strong> <span class="math notranslate nohighlight">\(P(X=k|\lambda) = e^{-\lambda}\frac{\lambda^k}{k!}\)</span></p></li>
 <li><p><strong>CDF:</strong> <span class="math notranslate nohighlight">\(F(k|\lambda) = e^{-\lambda}\sum_{i=0}^{k} \frac{\lambda^i}{i!}\)</span></p></li>
@@ -644,9 +644,9 @@ document.write(`
 </section>
 </section>
 <section id="continuous">
-<h2>Continuous<a class="headerlink" href="#continuous" title="Permalink to this headline">#</a></h2>
+<h2>Continuous<a class="headerlink" href="#continuous" title="Permalink to this heading">#</a></h2>
 <section id="normal-distribution">
-<span id="content-normal-dist"></span><h3><strong>Normal Distribution</strong><a class="headerlink" href="#normal-distribution" title="Permalink to this headline">#</a></h3>
+<span id="content-normal-dist"></span><h3><strong>Normal Distribution</strong><a class="headerlink" href="#normal-distribution" title="Permalink to this heading">#</a></h3>
 <ul class="simple">
 <li><p><strong>PDF (variance):</strong> <span class="math notranslate nohighlight">\(f(x|\mu,\sigma^2) = \frac{1}{\sqrt{2\pi\sigma^2}} e^{-(x-\mu)^2 / (2\sigma^2)}\)</span></p></li>
 <li><p><strong>PDF (precision):</strong> <span class="math notranslate nohighlight">\(f(x|\mu,\tau) = \sqrt{\frac{\tau}{2\pi}} e^{-(\tau/2) (x-\mu)^2}\)</span></p></li>
@@ -659,7 +659,7 @@ document.write(`
 </ul>
 </section>
 <section id="beta-distribution">
-<span id="content-beta-dist"></span><h3><strong>Beta Distribution</strong><a class="headerlink" href="#beta-distribution" title="Permalink to this headline">#</a></h3>
+<span id="content-beta-dist"></span><h3><strong>Beta Distribution</strong><a class="headerlink" href="#beta-distribution" title="Permalink to this heading">#</a></h3>
 <ul class="simple">
 <li><p><strong>PDF:</strong> <span class="math notranslate nohighlight">\(f(x|\alpha,\beta) = \frac{x^{\alpha-1} (1-x)^{\beta-1}}{B(\alpha,\beta)}\)</span></p></li>
 <li><p><strong>CDF:</strong> <span class="math notranslate nohighlight">\(I_x(\alpha,\beta)\)</span></p></li>
@@ -671,7 +671,7 @@ document.write(`
 </ul>
 </section>
 <section id="cauchy-distribution">
-<span id="content-cauchy-dist"></span><h3><strong>Cauchy Distribution</strong><a class="headerlink" href="#cauchy-distribution" title="Permalink to this headline">#</a></h3>
+<span id="content-cauchy-dist"></span><h3><strong>Cauchy Distribution</strong><a class="headerlink" href="#cauchy-distribution" title="Permalink to this heading">#</a></h3>
 <ul class="simple">
 <li><p><strong>PDF:</strong> <span class="math notranslate nohighlight">\(f(x|x_0,\gamma) = \frac{1}{\pi\gamma[1 + ((x-x_0)/\gamma)^2]}\)</span></p></li>
 <li><p><strong>CDF:</strong> <span class="math notranslate nohighlight">\(F(x|x_0,\gamma) = \frac{1}{\pi}\arctan\left(\frac{x-x_0}{\gamma}\right) + \frac{1}{2}\)</span></p></li>
@@ -683,7 +683,7 @@ document.write(`
 </ul>
 </section>
 <section id="exponential-distribution">
-<span id="content-exponential-dist"></span><h3><strong>Exponential Distribution</strong><a class="headerlink" href="#exponential-distribution" title="Permalink to this headline">#</a></h3>
+<span id="content-exponential-dist"></span><h3><strong>Exponential Distribution</strong><a class="headerlink" href="#exponential-distribution" title="Permalink to this heading">#</a></h3>
 <ul class="simple">
 <li><p><strong>PDF:</strong> <span class="math notranslate nohighlight">\(f(x|\lambda) = \lambda e^{-\lambda x}\)</span></p></li>
 <li><p><strong>CDF:</strong> <span class="math notranslate nohighlight">\(F(x|\lambda) = 1 - e^{-\lambda x}\)</span></p></li>
@@ -695,7 +695,7 @@ document.write(`
 </ul>
 </section>
 <section id="gamma-distribution">
-<span id="content-gamma-dist"></span><h3><strong>Gamma Distribution</strong><a class="headerlink" href="#gamma-distribution" title="Permalink to this headline">#</a></h3>
+<span id="content-gamma-dist"></span><h3><strong>Gamma Distribution</strong><a class="headerlink" href="#gamma-distribution" title="Permalink to this heading">#</a></h3>
 <ul class="simple">
 <li><p><strong>PDF:</strong> <span class="math notranslate nohighlight">\(f(x|\alpha,\beta) = \frac{\beta^\alpha}{\Gamma(\alpha)}x^{\alpha-1}e^{-\beta x}\)</span></p></li>
 <li><p><strong>CDF:</strong> <span class="math notranslate nohighlight">\(F(x|\alpha,\beta) = \frac{\gamma(\alpha, \beta x)}{\Gamma(\alpha)}\)</span></p></li>
@@ -707,7 +707,7 @@ document.write(`
 </ul>
 </section>
 <section id="uniform-distribution">
-<span id="content-uniform-dist"></span><h3><strong>Uniform Distribution</strong><a class="headerlink" href="#uniform-distribution" title="Permalink to this headline">#</a></h3>
+<span id="content-uniform-dist"></span><h3><strong>Uniform Distribution</strong><a class="headerlink" href="#uniform-distribution" title="Permalink to this heading">#</a></h3>
 <ul class="simple">
 <li><p><strong>PDF:</strong> <span class="math notranslate nohighlight">\(f(x|a,b) = \frac{1}{b-a}\)</span></p></li>
 <li><p><strong>CDF:</strong> <span class="math notranslate nohighlight">\(F(x|a,b) = \frac{x-a}{b-a}\)</span></p></li>
@@ -719,9 +719,9 @@ document.write(`
 </ul>
 </section>
 <section id="weibull-distribution">
-<span id="content-weibull-dist"></span><h3><strong>Weibull Distribution</strong><a class="headerlink" href="#weibull-distribution" title="Permalink to this headline">#</a></h3>
+<span id="content-weibull-dist"></span><h3><strong>Weibull Distribution</strong><a class="headerlink" href="#weibull-distribution" title="Permalink to this heading">#</a></h3>
 <section id="bugs">
-<h4>BUGS<a class="headerlink" href="#bugs" title="Permalink to this headline">#</a></h4>
+<h4>BUGS<a class="headerlink" href="#bugs" title="Permalink to this heading">#</a></h4>
 <ul class="simple">
 <li><p><strong>PDF:</strong> <span class="math notranslate nohighlight">\(f(x|r, \lambda) = \lambda r x^{r-1} e^{-\lambda x^r}\)</span>, for <span class="math notranslate nohighlight">\(x &gt; 0\)</span></p></li>
 <li><p><strong>CDF:</strong> <span class="math notranslate nohighlight">\(F(x|r, \lambda) = 1 - e^{-\lambda x^r}\)</span></p></li>
@@ -733,7 +733,7 @@ document.write(`
 </ul>
 </section>
 <section id="pymc">
-<h4>PyMC<a class="headerlink" href="#pymc" title="Permalink to this headline">#</a></h4>
+<h4>PyMC<a class="headerlink" href="#pymc" title="Permalink to this heading">#</a></h4>
 <ul class="simple">
 <li><p><strong>PDF:</strong> <span class="math notranslate nohighlight">\(f(x|\alpha, \beta) = \frac{\alpha x^{\alpha - 1} e^{-(x/\beta)^{\alpha}}}{\beta^\alpha}\)</span>, for <span class="math notranslate nohighlight">\(x &gt; 0\)</span></p></li>
 <li><p><strong>CDF:</strong> <span class="math notranslate nohighlight">\(F(x|\alpha, \beta) = 1 - e^{-(x/\beta)^\alpha}\)</span> for <span class="math notranslate nohighlight">\(x &gt; 0\)</span></p></li>
@@ -751,7 +751,7 @@ document.write(`
 </section>
 </section>
 <section id="other-resources">
-<h2>Other resources<a class="headerlink" href="#other-resources" title="Permalink to this headline">#</a></h2>
+<h2>Other resources<a class="headerlink" href="#other-resources" title="Permalink to this heading">#</a></h2>
 <p>I highly recommend <a class="reference external" href="https://betanalpha.github.io/assets/case_studies/probability_densities.html#2_elementary_building_blocks">this overview</a> of probability density functions and families by Michael Betancourt, especially section 2.</p>
 </section>
 </section>
@@ -782,7 +782,10 @@ document.write(`
               
               
                 <footer class="bd-footer-article">
-                  <!-- Previous / next buttons -->
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
        href="distributions.html"
@@ -802,7 +805,10 @@ document.write(`
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
+</div></div>
+  
 </div>
+
                 </footer>
               
             </div>
@@ -846,7 +852,7 @@ document.write(`
             
           </div>
           <footer class="bd-footer-content">
-            <div class="bd-footer-content__inner">
+            
 <div class="bd-footer-content__inner container">
   
   <div class="footer-item">
@@ -876,7 +882,7 @@ By Aaron Reding
     
   </div>
   
-</div></div>
+</div>
           </footer>
         
 
@@ -885,8 +891,8 @@ By Aaron Reding
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d"></script>
-<script src="../_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d"></script>
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
 
   <footer class="bd-footer">
   </footer>

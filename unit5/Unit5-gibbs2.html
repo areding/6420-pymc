@@ -19,12 +19,12 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
-<link href="../_static/styles/bootstrap.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
 
   
-  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
   <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
@@ -36,16 +36,16 @@
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
     <link rel="stylesheet" type="text/css" href="../_static/proof.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
     <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d" />
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
 
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
@@ -580,10 +580,10 @@ document.write(`
                 <article class="bd-article" role="main">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="conjugate-gamma-poisson-model">
-<h1>12. Conjugate Gamma-Poisson Model<a class="headerlink" href="#conjugate-gamma-poisson-model" title="Permalink to this headline">#</a></h1>
+<h1>12. Conjugate Gamma-Poisson Model<a class="headerlink" href="#conjugate-gamma-poisson-model" title="Permalink to this heading">#</a></h1>
 <p>The professor cites <span id="id1">George <em>et al.</em> [<a class="reference internal" href="../backmatter/bibliography.html#id33" title="E. I. George, U. E. Makov, and A. F. M. Smith. Conjugate likelihood distributions. Scandinavian Journal of Statistics, 20(2):147–156, 1993. URL: http://www.jstor.org/stable/4616270 (visited on 2023-08-22).">1993</a>]</span> as the source of this example.</p>
 <section id="model">
-<h2>Model<a class="headerlink" href="#model" title="Permalink to this headline">#</a></h2>
+<h2>Model<a class="headerlink" href="#model" title="Permalink to this heading">#</a></h2>
 <p>We’ll model the number of failures for each pump <span class="math notranslate nohighlight">\(i\)</span> using a Poisson distribution, with the rate parameter <span class="math notranslate nohighlight">\(\theta_i\)</span> modified by a time factor <span class="math notranslate nohighlight">\(t_i\)</span> to add a linear time dependency to the rate:</p>
 <div class="math notranslate nohighlight">
 \[x_i \mid \theta_i \sim \text{Pois}(\theta_i t_i)\]</div>
@@ -600,7 +600,7 @@ document.write(`
 <div class="math notranslate nohighlight">
 \[ \pi(x, \theta, \beta) \propto \prod_{i=1}^n \theta_i^{x_i} e^{-\theta_i t_i} \cdot \beta e^{-\beta \theta_i} \cdot \beta^{c-1} e^{-d\beta} \]</div>
 <section id="full-conditionals">
-<h3>Full Conditionals<a class="headerlink" href="#full-conditionals" title="Permalink to this headline">#</a></h3>
+<h3>Full Conditionals<a class="headerlink" href="#full-conditionals" title="Permalink to this heading">#</a></h3>
 <p><strong>For each <span class="math notranslate nohighlight">\(\theta_i\)</span>:</strong></p>
 <div class="math notranslate nohighlight">
 \[ \pi(\theta_i \mid \theta_{\neq i}, \beta, x) \sim \text{Gamma}(x_i + 1, \beta + t_i) \]</div>
@@ -638,7 +638,10 @@ document.write(`
               
               
                 <footer class="bd-footer-article">
-                  <!-- Previous / next buttons -->
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
        href="Unit5-GibbsSampler.html"
@@ -658,7 +661,10 @@ document.write(`
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
+</div></div>
+  
 </div>
+
                 </footer>
               
             </div>
@@ -685,7 +691,7 @@ document.write(`
             
           </div>
           <footer class="bd-footer-content">
-            <div class="bd-footer-content__inner">
+            
 <div class="bd-footer-content__inner container">
   
   <div class="footer-item">
@@ -715,7 +721,7 @@ By Aaron Reding
     
   </div>
   
-</div></div>
+</div>
           </footer>
         
 
@@ -724,8 +730,8 @@ By Aaron Reding
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d"></script>
-<script src="../_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d"></script>
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
 
   <footer class="bd-footer">
   </footer>

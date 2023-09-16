@@ -19,12 +19,12 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
-<link href="../_static/styles/bootstrap.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
 
   
-  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
   <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
@@ -36,16 +36,16 @@
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
     <link rel="stylesheet" type="text/css" href="../_static/proof.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
     <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d" />
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
 
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
@@ -590,12 +590,12 @@ document.write(`
 </div>
 </div>
 <section class="tex2jax_ignore mathjax_ignore" id="rats-example-with-missing-data">
-<h1><span class="section-number">2. </span>Rats Example with Missing Data*<a class="headerlink" href="#rats-example-with-missing-data" title="Permalink to this headline">#</a></h1>
+<h1><span class="section-number">2. </span>Rats Example with Missing Data*<a class="headerlink" href="#rats-example-with-missing-data" title="Permalink to this heading">#</a></h1>
 <p>This example goes further into dealing with missing data in PyMC, including in the predictor variables.</p>
 <p>Adapted from <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/original_examples/Codes4Unit8/ratsignorable1.odc">Unit 8: ratsignorable1.odc</a>, <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/original_examples/Codes4Unit8/ratsignorable2.odc">ratsignorable2.odc</a>, and <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/original_examples/Codes4Unit8/ratsinformative.odc">ratsinformative.odc</a>.</p>
 <p>Data can be found <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/data/rats.txt">here</a>.</p>
 <section id="problem-statement">
-<h2>Problem statement<a class="headerlink" href="#problem-statement" title="Permalink to this headline">#</a></h2>
+<h2>Problem statement<a class="headerlink" href="#problem-statement" title="Permalink to this heading">#</a></h2>
 <p>We had a previous example about <a class="reference external" href="https://areding.github.io/6420-pymc/Unit6-dugongs.html">dugongs</a> that dealt with missing data in the observed data (y values). This example shows how to deal with missing data in the input data (x). It’s still pretty easy. You could look at it like creating another likelihood in the model, a very simple one where the observed data is x, and you use a single distribution to fill in the missing values (see <code class="docutils literal notranslate"><span class="pre">x_imputed</span></code> in the model below).</p>
 <p>Original paper <a class="reference external" href="https://www.jstor.org/stable/pdf/2289594.pdf">here.</a></p>
 <p>Gelfand et al 1990 consider the problem of missing data, and delete the last observation of cases 6-10, the last two from 11-20, the last 3 from 21-25 and the last 4 from 26-30.  The appropriate data file is obtained by simply replacing data values by NA (see below). The model specification is unchanged, since the distinction between observed and unobserved quantities is made in the data file and not the model specification.</p>
@@ -618,7 +618,7 @@ document.write(`
 </div>
 </section>
 <section id="model-1">
-<h2>Model 1<a class="headerlink" href="#model-1" title="Permalink to this headline">#</a></h2>
+<h2>Model 1<a class="headerlink" href="#model-1" title="Permalink to this heading">#</a></h2>
 <p>This first model we only have missing data in our response variable (y). Notice that I made the shapes of alpha and beta (30, 1) instead of just 30. This is so that they broadcast correctly when combined (<code class="docutils literal notranslate"><span class="pre">mu</span> <span class="pre">=</span> <span class="pre">alpha</span> <span class="pre">+</span> <span class="pre">beta</span> <span class="pre">*</span> <span class="pre">x</span></code>). The NumPy docs have a helpful <a class="reference external" href="https://numpy.org/doc/stable/user/basics.broadcasting.html">page about broadcasting</a>.</p>
 <div class="cell tag_hide-output docutils container">
 <div class="cell_input above-output-prompt docutils container">
@@ -765,7 +765,7 @@ There were 8 divergences after tuning. Increase `target_accept` or reparameteriz
 </div>
 </section>
 <section id="model-2-imputing-missing-predictor-variable-data">
-<h2>Model 2: Imputing missing predictor variable data<a class="headerlink" href="#model-2-imputing-missing-predictor-variable-data" title="Permalink to this headline">#</a></h2>
+<h2>Model 2: Imputing missing predictor variable data<a class="headerlink" href="#model-2-imputing-missing-predictor-variable-data" title="Permalink to this heading">#</a></h2>
 <p>This is the same model, except we now have missing x data.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -981,7 +981,7 @@ There were 8 divergences after tuning. Increase `target_accept` or reparameteriz
 </div>
 </section>
 <section id="model-3-non-ignorable-missingness">
-<h2>Model 3: Non-ignorable missingness<a class="headerlink" href="#model-3-non-ignorable-missingness" title="Permalink to this headline">#</a></h2>
+<h2>Model 3: Non-ignorable missingness<a class="headerlink" href="#model-3-non-ignorable-missingness" title="Permalink to this heading">#</a></h2>
 <p>Probability of missingness increases approx. at a rate of 1% with increasing the weight.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1302,7 +1302,10 @@ arviz: 0.14.0
               
               
                 <footer class="bd-footer-article">
-                  <!-- Previous / next buttons -->
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
        href="Unit8-missing.html"
@@ -1322,7 +1325,10 @@ arviz: 0.14.0
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
+</div></div>
+  
 </div>
+
                 </footer>
               
             </div>
@@ -1349,7 +1355,7 @@ arviz: 0.14.0
             
           </div>
           <footer class="bd-footer-content">
-            <div class="bd-footer-content__inner">
+            
 <div class="bd-footer-content__inner container">
   
   <div class="footer-item">
@@ -1379,7 +1385,7 @@ By Aaron Reding
     
   </div>
   
-</div></div>
+</div>
           </footer>
         
 
@@ -1388,8 +1394,8 @@ By Aaron Reding
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d"></script>
-<script src="../_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d"></script>
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
 
   <footer class="bd-footer">
   </footer>

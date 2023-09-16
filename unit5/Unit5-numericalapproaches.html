@@ -19,12 +19,12 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
-<link href="../_static/styles/bootstrap.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
 
   
-  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
   <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
@@ -36,16 +36,16 @@
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
     <link rel="stylesheet" type="text/css" href="../_static/proof.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
     <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d" />
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
 
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
@@ -578,15 +578,15 @@ document.write(`
                 <article class="bd-article" role="main">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="numerical-approaches">
-<h1>1. Numerical Approaches<a class="headerlink" href="#numerical-approaches" title="Permalink to this headline">#</a></h1>
+<h1>1. Numerical Approaches<a class="headerlink" href="#numerical-approaches" title="Permalink to this heading">#</a></h1>
 <section id="lecture-errata">
-<h2>Lecture errata<a class="headerlink" href="#lecture-errata" title="Permalink to this headline">#</a></h2>
+<h2>Lecture errata<a class="headerlink" href="#lecture-errata" title="Permalink to this heading">#</a></h2>
 <p>There is an error in the exponential terms when sampling from the Cauchy distribution at slide 7, which appears at 4:46. The exponents in the numerator and denominator were accidentally dropped from the last version of the expression. This is how it should be:</p>
 <div class="math notranslate nohighlight">
 \[\delta_B(x) \approx \frac{\sum_{i=1}^{N} \theta_i e^{-\frac{1}{2}(\theta_i - x)^2}}{\sum_{i=1}^{N} e^{-\frac{1}{2}(\theta_i - x)^2}}\]</div>
 </section>
 <section id="moving-beyond-conjugate-cases">
-<h2>Moving beyond conjugate cases<a class="headerlink" href="#moving-beyond-conjugate-cases" title="Permalink to this headline">#</a></h2>
+<h2>Moving beyond conjugate cases<a class="headerlink" href="#moving-beyond-conjugate-cases" title="Permalink to this heading">#</a></h2>
 <p>When we move beyond conjugate cases, we might possess the posterior in an analytical form due to Bayes’ theorem. However, this will not represent any recognizable distribution, irrespective of how we manipulate it. Many normalizing constants lack a closed-form solution. As illustrated in lessons 2 and 4 of this unit, we can attempt to numerically approximate these constants, but this method can be imprecise or computationally intractable. The time complexity increases exponentially with the number of parameters, as shown in section 2.1 of <span id="id1">[<a class="reference internal" href="../backmatter/bibliography.html#id22" title="David M. Blei, Alp Kucukelbir, and Jon D. McAuliffe. Variational inference: a review for statisticians. Journal of the American Statistical Association, 112(518):859–877, apr 2017. URL: https://doi.org/10.1080%2F01621459.2017.1285773, doi:10.1080/01621459.2017.1285773.">Blei <em>et al.</em>, 2017</a>]</span>, linked <a class="reference external" href="https://arxiv.org/pdf/1601.00670.pdf">here</a>.</p>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
@@ -623,7 +623,10 @@ document.write(`
               
               
                 <footer class="bd-footer-article">
-                  <!-- Previous / next buttons -->
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
        href="bayesian-computation.html"
@@ -643,7 +646,10 @@ document.write(`
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
+</div></div>
+  
 </div>
+
                 </footer>
               
             </div>
@@ -668,7 +674,7 @@ document.write(`
             
           </div>
           <footer class="bd-footer-content">
-            <div class="bd-footer-content__inner">
+            
 <div class="bd-footer-content__inner container">
   
   <div class="footer-item">
@@ -698,7 +704,7 @@ By Aaron Reding
     
   </div>
   
-</div></div>
+</div>
           </footer>
         
 
@@ -707,8 +713,8 @@ By Aaron Reding
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d"></script>
-<script src="../_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d"></script>
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
 
   <footer class="bd-footer">
   </footer>

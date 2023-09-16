@@ -19,12 +19,12 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
-<link href="../_static/styles/bootstrap.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
 
   
-  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
   <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
@@ -36,16 +36,16 @@
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
     <link rel="stylesheet" type="text/css" href="../_static/proof.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
     <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d" />
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
 
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
@@ -593,15 +593,15 @@ document.write(`
 </div>
 </div>
 <section class="tex2jax_ignore mathjax_ignore" id="time-to-event-models-gastric-cancer">
-<h1><span class="section-number">6. </span>Time-to-event Models: Gastric Cancer*<a class="headerlink" href="#time-to-event-models-gastric-cancer" title="Permalink to this headline">#</a></h1>
+<h1><span class="section-number">6. </span>Time-to-event Models: Gastric Cancer*<a class="headerlink" href="#time-to-event-models-gastric-cancer" title="Permalink to this heading">#</a></h1>
 <p>Adapted from code for <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/original_examples/Codes4Unit8/gastric.odc">Unit 8: gastric.odc</a>.</p>
 <p>Data can be found <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/data/gastric.txt">here</a>.</p>
 <section id="problem-statement">
-<h2>Problem statement<a class="headerlink" href="#problem-statement" title="Permalink to this headline">#</a></h2>
+<h2>Problem statement<a class="headerlink" href="#problem-statement" title="Permalink to this heading">#</a></h2>
 <p>Stablein et al. (1981) provide data on 90 patients affected by locally advanced, nonresectable gastric carcinoma. The patients are randomized to two treatments: chemotherapy alone (coded as 0) and chemotherapy plus radiation (coded as 1). Survival time is reported in days. Recorded times are censored if the patient stopped participating in the study before it finished.</p>
 <p>Stablein, D. M., Carter, W. H., Novak, J. W. (1981). Analysis of survival data with nonproportional hazard functions. Control. Clin. Trials,  2 , 2, 149–159.</p>
 <section id="data">
-<h3>Data<a class="headerlink" href="#data" title="Permalink to this headline">#</a></h3>
+<h3>Data<a class="headerlink" href="#data" title="Permalink to this heading">#</a></h3>
 <p>Columns are, from left to right:</p>
 <ul class="simple">
 <li><p>type: Treatment type, chemotherapy (0) or chemotherapy + radiation (1)</p></li>
@@ -610,12 +610,12 @@ document.write(`
 </ul>
 </section>
 <section id="model-changes">
-<h3>Model changes<a class="headerlink" href="#model-changes" title="Permalink to this headline">#</a></h3>
+<h3>Model changes<a class="headerlink" href="#model-changes" title="Permalink to this heading">#</a></h3>
 <p>PyMC really did not like the noninformative exponential prior on v (α in this model). It’s a very broad prior. To avoid divide by zero errors, I just kept increasing lambda until the model ran all the way through. This is not ideal, but I haven’t had time to look into it further. The results actually came out fairly close to the BUGS results.</p>
 </section>
 </section>
 <section id="method-1-pm-censored">
-<h2>Method 1: <code class="docutils literal notranslate"><span class="pre">pm.Censored</span></code><a class="headerlink" href="#method-1-pm-censored" title="Permalink to this headline">#</a></h2>
+<h2>Method 1: <code class="docutils literal notranslate"><span class="pre">pm.Censored</span></code><a class="headerlink" href="#method-1-pm-censored" title="Permalink to this heading">#</a></h2>
 <p>The way PyMC censoring works is described in some detail in <a class="reference external" href="https://www.pymc.io/projects/examples/en/latest/generalized_linear_models/GLM-truncated-censored-regression.html#censored-regression-model">this notebook</a> by <a class="reference external" href="https://github.com/drbenvincent">Dr. Benjamin T. Vincent</a>. This is accomplished in the source code <a class="reference external" href="https://github.com/aesara-devs/aeppl/blob/751979802f1aef5478fdbf7cc1839df07df60825/aeppl/truncation.py#L79">here</a> if you want to take a look. For right-censoring, try this: <code class="docutils literal notranslate"><span class="pre">pm.Censored(&quot;name&quot;,</span> <span class="pre">dist,</span> <span class="pre">lower=None,</span> <span class="pre">upper=censored,</span> <span class="pre">observed=y)</span></code>. The censored values can be an array of the same shape as the y values.</p>
 <p>If the y value equals the right-censored value, <a class="reference external" href="https://docs.pymc.io/en/latest/api/distributions/generated/pymc.Censored.html#pymc.Censored"><code class="docutils literal notranslate"><span class="pre">pm.Censored</span></code></a> returns the complement to the CDF evaluated at the censored value. If the y value is greater than the censored value, it returns <code class="docutils literal notranslate"><span class="pre">-np.inf</span></code>. Otherwise, the distribution you passed to the <code class="docutils literal notranslate"><span class="pre">dist</span></code> parameter works as normal. What I’ve been doing is setting the values in the censored array to <code class="docutils literal notranslate"><span class="pre">np.inf</span></code> if the corresponding y value is not censored, and equal to the y value if it should be censored.</p>
 <div class="admonition note">
@@ -849,7 +849,7 @@ NUTS: [beta0, beta1, α]
 </div>
 </section>
 <section id="method-2-imputed-censoring">
-<h2>Method 2: Imputed censoring<a class="headerlink" href="#method-2-imputed-censoring" title="Permalink to this headline">#</a></h2>
+<h2>Method 2: Imputed censoring<a class="headerlink" href="#method-2-imputed-censoring" title="Permalink to this heading">#</a></h2>
 <p>This method is from <a class="reference external" href="https://www.pymc.io/projects/examples/en/latest/survival_analysis/censored_data.html#censored-data-model1">this notebook</a> by <a class="reference external" href="https://github.com/domenzain">Luis Mario Domenzain</a>, <a class="reference external" href="https://github.com/eigenfoo">George Ho</a>, and <a class="reference external" href="https://github.com/drbenvincent">Dr. Ben Vincent</a>. This method imputes the values using what is almost another likelihood (not sure if it actually meets the definition of one, so I’m calling the variable <code class="docutils literal notranslate"><span class="pre">impute_censored</span></code>) in the model, with the right-censored values as lower bounds. Since the two likelihoods share the same priors, this ends up working nearly as well as the previous method.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
@@ -1186,7 +1186,10 @@ pymc : 5.1.2
               
               
                 <footer class="bd-footer-article">
-                  <!-- Previous / next buttons -->
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
        href="Unit8-tteex2.html"
@@ -1206,7 +1209,10 @@ pymc : 5.1.2
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
+</div></div>
+  
 </div>
+
                 </footer>
               
             </div>
@@ -1236,7 +1242,7 @@ pymc : 5.1.2
             
           </div>
           <footer class="bd-footer-content">
-            <div class="bd-footer-content__inner">
+            
 <div class="bd-footer-content__inner container">
   
   <div class="footer-item">
@@ -1266,7 +1272,7 @@ By Aaron Reding
     
   </div>
   
-</div></div>
+</div>
           </footer>
         
 
@@ -1275,8 +1281,8 @@ By Aaron Reding
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d"></script>
-<script src="../_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d"></script>
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
 
   <footer class="bd-footer">
   </footer>

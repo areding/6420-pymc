@@ -19,12 +19,12 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
-<link href="../_static/styles/bootstrap.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
 
   
-  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
   <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
@@ -36,16 +36,16 @@
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
     <link rel="stylesheet" type="text/css" href="../_static/proof.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
     <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d" />
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
 
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
@@ -582,18 +582,18 @@ document.write(`
                 <article class="bd-article" role="main">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="prior-elicitation">
-<h1>14. Prior Elicitation<a class="headerlink" href="#prior-elicitation" title="Permalink to this headline">#</a></h1>
+<h1>14. Prior Elicitation<a class="headerlink" href="#prior-elicitation" title="Permalink to this heading">#</a></h1>
 <p>Priors are one of the strengths of Bayesian inference. They’re also a source of criticism. Critics say that prior choice is essentially subjective and can make the resulting models too easy to manipulate into supporting whatever the creator of the model wants to say. But those criticisms apply to classical statistics as well; arguably, the explicitly defined prior distributions of Bayesian models are more transparent than the hidden assumptions made in many frequentist models.</p>
 <p>Priors ideally would be based on expert beliefs about whatever parameter you’re putting them on. In reality, we don’t always have a strong belief about something, so we might use weak or non–informative priors (more on those in the next lesson).</p>
 <section id="choosing-parameters">
-<h2>Choosing parameters<a class="headerlink" href="#choosing-parameters" title="Permalink to this headline">#</a></h2>
+<h2>Choosing parameters<a class="headerlink" href="#choosing-parameters" title="Permalink to this heading">#</a></h2>
 <p>This lecture mostly discusses what to do if you already know which distribution you want to use for your prior. The professor gives exponential and beta prior examples in the lecture.</p>
 <section id="exponential">
-<h3>Exponential<a class="headerlink" href="#exponential" title="Permalink to this headline">#</a></h3>
+<h3>Exponential<a class="headerlink" href="#exponential" title="Permalink to this heading">#</a></h3>
 <p>We know our parameter <span class="math notranslate nohighlight">\(\theta\)</span> is exponentially-distributed with an expected value of 2. The expected value of an exponential distribution <a class="reference internal" href="Unit4-basicdist.html#content-exponential-dist"><span class="std std-ref">Exponential Distribution</span></a> is <span class="math notranslate nohighlight">\(1/\lambda\)</span> where <span class="math notranslate nohighlight">\(\lambda\)</span> is the rate parameter, so we know that our prior should be <span class="math notranslate nohighlight">\(Exp(1/2)\)</span>.</p>
 </section>
 <section id="beta">
-<h3>Beta<a class="headerlink" href="#beta" title="Permalink to this headline">#</a></h3>
+<h3>Beta<a class="headerlink" href="#beta" title="Permalink to this heading">#</a></h3>
 <p>The prior expected value of our beta-distributed parameter is <span class="math notranslate nohighlight">\(1/2\)</span> and the variance <span class="math notranslate nohighlight">\(1/8\)</span>. By the known mean and variance <a class="reference internal" href="Unit4-basicdist.html#content-beta-dist"><span class="std std-ref">Beta Distribution</span></a>, we can figure out the shape parameters <span class="math notranslate nohighlight">\(\alpha\)</span> and <span class="math notranslate nohighlight">\(\beta\)</span> by solving the resulting system of equations:</p>
 <p>The mean is:</p>
 <div class="math notranslate nohighlight">
@@ -605,7 +605,7 @@ document.write(`
 </section>
 </section>
 <section id="principled-prior-choice">
-<span id="id1"></span><h2>Principled prior choice<a class="headerlink" href="#principled-prior-choice" title="Permalink to this headline">#</a></h2>
+<span id="id1"></span><h2>Principled prior choice<a class="headerlink" href="#principled-prior-choice" title="Permalink to this heading">#</a></h2>
 <p>But how do we choose the prior distribution? This might be students’ single most-asked question in the course. The professor doesn’t go in-depth on this topic in the lectures, so it feels like a blind spot for many. That’s normal, so don’t worry; this subject is big enough for a class on its own.</p>
 <p>There are also practical considerations–we may need to select priors that are conjugate or otherwise play nicely with our model or sampling algorithm. For example, later in the course, the professor uses the Wishart prior on the covariance matrix of a multivariate normal distribution for multiple regression. While this works in OpenBUGS, other probabilistic programming libraries that use different sampling algorithms can’t easily use the Wishart distribution.</p>
 <p>There are lots of methods and philosophies behind prior choice. The professor references <span id="id2">Garthwaite and Dickey [<a class="reference internal" href="../backmatter/bibliography.html#id15" title="Paul H. Garthwaite and James M. Dickey. Quantifying expert opinion in linear regression problems. Journal of the Royal Statistical Society: Series B (Methodological), 50(3):462-474, 1988. URL: https://rss.onlinelibrary.wiley.com/doi/abs/10.1111/j.2517-6161.1988.tb01741.x, arXiv:https://rss.onlinelibrary.wiley.com/doi/pdf/10.1111/j.2517-6161.1988.tb01741.x, doi:https://doi.org/10.1111/j.2517-6161.1988.tb01741.x.">1988</a>]</span> in the lecture; they present a detailed procedure for questioning experts and quantifying their opinions in the form of a conjugate prior. This is usually what people mean by prior <em>elicitation</em>; it’s specifically the process of turning expert knowledge into a prior distribution. Some of the people involved with PyMC have an new <a class="reference external" href="https://arxiv.org/abs/2112.01380">overview paper</a> on prior elicitation <span id="id3">Mikkola <em>et al.</em> [<a class="reference internal" href="../backmatter/bibliography.html#id23" title="Petrus Mikkola, Osvaldo A. Martin, Suyog Chandramouli, Marcelo Hartmann, Oriol Abril Pla, Owen Thomas, Henri Pesonen, Jukka Corander, Aki Vehtari, Samuel Kaski, Paul-Christian Bürkner, and Arto Klami. Prior knowledge elicitation: the past, present, and future. 2023. arXiv:2112.01380.">2023</a>]</span>.</p>
@@ -646,7 +646,10 @@ document.write(`
               
               
                 <footer class="bd-footer-article">
-                  <!-- Previous / next buttons -->
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
        href="priors.html"
@@ -666,7 +669,10 @@ document.write(`
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
+</div></div>
+  
 </div>
+
                 </footer>
               
             </div>
@@ -695,7 +701,7 @@ document.write(`
             
           </div>
           <footer class="bd-footer-content">
-            <div class="bd-footer-content__inner">
+            
 <div class="bd-footer-content__inner container">
   
   <div class="footer-item">
@@ -725,7 +731,7 @@ By Aaron Reding
     
   </div>
   
-</div></div>
+</div>
           </footer>
         
 
@@ -734,8 +740,8 @@ By Aaron Reding
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d"></script>
-<script src="../_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d"></script>
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
 
   <footer class="bd-footer">
   </footer>

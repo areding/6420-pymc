@@ -19,12 +19,12 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
-<link href="../_static/styles/bootstrap.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
 
   
-  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
   <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
@@ -36,16 +36,16 @@
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
     <link rel="stylesheet" type="text/css" href="../_static/proof.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
     <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d" />
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
 
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
@@ -578,17 +578,17 @@ document.write(`
                 <article class="bd-article" role="main">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="bayesian-testing">
-<h1>12. Bayesian Testing<a class="headerlink" href="#bayesian-testing" title="Permalink to this headline">#</a></h1>
+<h1>12. Bayesian Testing<a class="headerlink" href="#bayesian-testing" title="Permalink to this heading">#</a></h1>
 <p>First, I recommend checking out 3blue1brown’s <a class="reference external" href="https://www.youtube.com/watch?v=lG4VkPoG3ko">video on Bayes’ factor</a> to help with intuition. There is a similar example in Professor Vidakov’s <a class="reference external" href="https://statbook.gatech.edu">statistics book</a>: <span id="id1">Vidakovic [<a class="reference internal" href="../backmatter/bibliography.html#id10" title="Brani Vidakovic. Engineering Biostatistics: An Introduction using MATLAB and WinBUGS. Wiley, 2017. ISBN 978-1-119-16896-6.">2017</a>]</span> page 103.</p>
 <p>Unlike the classical approach, Bayesian testing doesn’t prioritize the null hypothesis. Instead, we calculate the posterior probabilities for both hypotheses, then choose the one with the larger posterior probability.</p>
 <section id="point-masses">
-<h2>Point masses<a class="headerlink" href="#point-masses" title="Permalink to this headline">#</a></h2>
+<h2>Point masses<a class="headerlink" href="#point-masses" title="Permalink to this heading">#</a></h2>
 <p>The professor notes that your overall prior needs to contain the point mass representing your precise null hypothesis.</p>
 <p>What the professor means here is that you can only test a hypothesis where your prior allows for a probability greater than 0. So if your prior is just a continuous distribution, the probability at any given point is 0. At a high level, if your prior doesn’t contain your hypothesis, you are essentially ruling out the hypothesis before you even build the rest of your model. Without mixing in the point mass, you’ve already predetermined that your hypothesis is impossible.</p>
 <p>That’s why he mixes that point mass and the “spread” distribution; you need a discrete distribution to test a specific point.</p>
 </section>
 <section id="scales-for-the-strength-of-evidence">
-<h2>Scales for the strength of evidence<a class="headerlink" href="#scales-for-the-strength-of-evidence" title="Permalink to this headline">#</a></h2>
+<h2>Scales for the strength of evidence<a class="headerlink" href="#scales-for-the-strength-of-evidence" title="Permalink to this heading">#</a></h2>
 <p>The professor uses Jeffrey’s scale (<span id="id2">Jeffreys [<a class="reference internal" href="../backmatter/bibliography.html#id12" title="Harold Jeffreys. Theory of probability, 3rd Edition. Oxford Classic Texts in the Physical Sciences. Clarendon Press, 3 edition, 2003. ISBN 0198503687; 9780198503682.">2003</a>]</span> Appendix B) in the lecture.</p>
 <table class="colwidths-auto table">
 <thead>
@@ -654,7 +654,10 @@ document.write(`
               
               
                 <footer class="bd-footer-article">
-                  <!-- Previous / next buttons -->
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
        href="Unit4-GammaGamma.html"
@@ -674,7 +677,10 @@ document.write(`
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
+</div></div>
+  
 </div>
+
                 </footer>
               
             </div>
@@ -699,7 +705,7 @@ document.write(`
             
           </div>
           <footer class="bd-footer-content">
-            <div class="bd-footer-content__inner">
+            
 <div class="bd-footer-content__inner container">
   
   <div class="footer-item">
@@ -729,7 +735,7 @@ By Aaron Reding
     
   </div>
   
-</div></div>
+</div>
           </footer>
         
 
@@ -738,8 +744,8 @@ By Aaron Reding
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d"></script>
-<script src="../_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d"></script>
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
 
   <footer class="bd-footer">
   </footer>

@@ -19,12 +19,12 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
-<link href="../_static/styles/bootstrap.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
 
   
-  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
   <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
@@ -36,16 +36,16 @@
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
     <link rel="stylesheet" type="text/css" href="../_static/proof.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
     <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d" />
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
 
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
@@ -599,9 +599,9 @@ document.write(`
 </div>
 </div>
 <section class="tex2jax_ignore mathjax_ignore" id="laplaces-method-demo">
-<h1>4. Laplace’s Method Demo*<a class="headerlink" href="#laplaces-method-demo" title="Permalink to this headline">#</a></h1>
+<h1>4. Laplace’s Method Demo*<a class="headerlink" href="#laplaces-method-demo" title="Permalink to this heading">#</a></h1>
 <section id="steps">
-<h2>Steps<a class="headerlink" href="#steps" title="Permalink to this headline">#</a></h2>
+<h2>Steps<a class="headerlink" href="#steps" title="Permalink to this heading">#</a></h2>
 <p>As we learned in the last lecture, these are the steps to Laplace approximation:</p>
 <ol class="arabic simple">
 <li><p><strong>Find the mode</strong>.</p></li>
@@ -624,7 +624,7 @@ document.write(`
 \[g(\theta|x) \approx N(\hat{\theta},Q^{-1})\]</div>
 </section>
 <section id="univariate-example">
-<h2>Univariate example<a class="headerlink" href="#univariate-example" title="Permalink to this headline">#</a></h2>
+<h2>Univariate example<a class="headerlink" href="#univariate-example" title="Permalink to this heading">#</a></h2>
 <p>From <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/original_examples/Codes4Unit5/laplace.m">Unit 5: laplace.m</a>.</p>
 <p>Here’s our example model:</p>
 <div class="math notranslate nohighlight">
@@ -641,7 +641,7 @@ f(x|\theta)\pi(\theta) &amp;\propto x^{r-1}e^{-\theta x}\theta^{\alpha-1}e^{-\be
  &amp;\propto \theta^{r + \alpha -1}e^{-(\beta + x)\theta}
 \end{align*}\]</div>
 <section id="mode">
-<h3>Mode<a class="headerlink" href="#mode" title="Permalink to this headline">#</a></h3>
+<h3>Mode<a class="headerlink" href="#mode" title="Permalink to this heading">#</a></h3>
 <p>In this case it’s not too tough to find the mode analytically.</p>
 <p>The log-likelihood is <span class="math notranslate nohighlight">\(L(\theta) = (r + \alpha - 1)\log(\theta) - (\beta + x)\theta\)</span>, so we can just take the derivative and set it equal to zero, then solve for <span class="math notranslate nohighlight">\(\theta\)</span>:</p>
 <div class="math notranslate nohighlight">
@@ -683,7 +683,7 @@ f(x|\theta)\pi(\theta) &amp;\propto x^{r-1}e^{-\theta x}\theta^{\alpha-1}e^{-\be
 </div>
 </section>
 <section id="variance">
-<h3>Variance<a class="headerlink" href="#variance" title="Permalink to this headline">#</a></h3>
+<h3>Variance<a class="headerlink" href="#variance" title="Permalink to this heading">#</a></h3>
 <p>The true variance of the posterior is <span class="math notranslate nohighlight">\(\frac{r+\alpha - 1}{(\beta + x)^2}\)</span>.</p>
 <p>The approximation distribution’s variance will be:</p>
 <div class="math notranslate nohighlight">
@@ -692,7 +692,7 @@ f(x|\theta)\pi(\theta) &amp;\propto x^{r-1}e^{-\theta x}\theta^{\alpha-1}e^{-\be
 \[\]</div>
 </section>
 <section id="compare-the-true-posterior-with-the-approximation">
-<h3>Compare the true posterior with the approximation<a class="headerlink" href="#compare-the-true-posterior-with-the-approximation" title="Permalink to this headline">#</a></h3>
+<h3>Compare the true posterior with the approximation<a class="headerlink" href="#compare-the-true-posterior-with-the-approximation" title="Permalink to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">xx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">100000</span><span class="p">)</span>
@@ -811,7 +811,10 @@ seaborn   : 0.12.2
               
               
                 <footer class="bd-footer-article">
-                  <!-- Previous / next buttons -->
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
        href="Unit5-Laplace.html"
@@ -831,7 +834,10 @@ seaborn   : 0.12.2
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
+</div></div>
+  
 </div>
+
                 </footer>
               
             </div>
@@ -861,7 +867,7 @@ seaborn   : 0.12.2
             
           </div>
           <footer class="bd-footer-content">
-            <div class="bd-footer-content__inner">
+            
 <div class="bd-footer-content__inner container">
   
   <div class="footer-item">
@@ -891,7 +897,7 @@ By Aaron Reding
     
   </div>
   
-</div></div>
+</div>
           </footer>
         
 
@@ -900,8 +906,8 @@ By Aaron Reding
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d"></script>
-<script src="../_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d"></script>
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
 
   <footer class="bd-footer">
   </footer>

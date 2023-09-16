@@ -19,12 +19,12 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
-<link href="../_static/styles/bootstrap.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
 
   
-  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
   <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
@@ -36,16 +36,16 @@
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
     <link rel="stylesheet" type="text/css" href="../_static/proof.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
     <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d" />
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
 
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
@@ -589,9 +589,9 @@ document.write(`
 </div>
 </div>
 <section class="tex2jax_ignore mathjax_ignore" id="the-zero-trick-and-custom-likelihoods">
-<h1><span class="section-number">10. </span>The Zero Trick and Custom Likelihoods*<a class="headerlink" href="#the-zero-trick-and-custom-likelihoods" title="Permalink to this headline">#</a></h1>
+<h1><span class="section-number">10. </span>The Zero Trick and Custom Likelihoods*<a class="headerlink" href="#the-zero-trick-and-custom-likelihoods" title="Permalink to this heading">#</a></h1>
 <section id="zero-trick-jeremy">
-<h2>Zero-trick Jeremy<a class="headerlink" href="#zero-trick-jeremy" title="Permalink to this headline">#</a></h2>
+<h2>Zero-trick Jeremy<a class="headerlink" href="#zero-trick-jeremy" title="Permalink to this heading">#</a></h2>
 <p>This introduces the “zero trick”, which is a method for specifying custom likelihoods in BUGS. For a more detailed treatment of these methods, see <span id="id1">Ntzoufras [<a class="reference internal" href="../backmatter/bibliography.html#id29" title="Ioannis Ntzoufras. Bayesian Modeling Using WinBUGS. John Wiley &amp; Sons, Inc., Hoboken, New Jersey, 1 edition, 2009. ISBN 978-0-470-14114-4.">2009</a>]</span>, page 276, which is where I got this explanation. These tricks are unnecessary in PyMC since we can just define custom distributions directly, but they do seem to work.</p>
 <p>Adapted from <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/original_examples/Codes4Unit6/zerotrickjeremy.odc">Unit 6: zerotrickjeremy.odc</a>.</p>
 <p>Here’s the model we’re using:</p>
@@ -731,7 +731,7 @@ NUTS: [θ]
 </div>
 </section>
 <section id="custom-likelihoods-in-pymc">
-<h2>Custom likelihoods in PyMC<a class="headerlink" href="#custom-likelihoods-in-pymc" title="Permalink to this headline">#</a></h2>
+<h2>Custom likelihoods in PyMC<a class="headerlink" href="#custom-likelihoods-in-pymc" title="Permalink to this heading">#</a></h2>
 <p>PyMC is a lot more flexible. For one, many more built-in <a class="reference external" href="https://www.pymc.io/projects/docs/en/stable/api/distributions.html">distributions</a> are available, including mixtures and zero-inflated models, which is where I’ve seen the zero trick used most often (<span id="id3">Karlis and Ntzoufras [<a class="reference internal" href="../backmatter/bibliography.html#id30" title="Dimitris Karlis and Ioannis Ntzoufras. Bayesian modelling of football outcomes: using the Skellam's distribution for the goal difference. IMA Journal of Management Mathematics, 20(2):133-145, 09 2008. URL: https://doi.org/10.1093/imaman/dpn026, arXiv:https://academic.oup.com/imaman/article-pdf/20/2/133/2118878/dpn026.pdf, doi:10.1093/imaman/dpn026.">2008</a>]</span>, <span id="id4">Ntzoufras [<a class="reference internal" href="../backmatter/bibliography.html#id29" title="Ioannis Ntzoufras. Bayesian Modeling Using WinBUGS. John Wiley &amp; Sons, Inc., Hoboken, New Jersey, 1 edition, 2009. ISBN 978-0-470-14114-4.">2009</a>]</span> page 288).</p>
 <p>If you need a custom likelihood, take a look at the <a class="reference external" href="https://www.pymc.io/projects/docs/en/stable/api/generated/pymc.Potential.html">pm.Potential</a> or <a class="reference external" href="https://www.pymc.io/projects/docs/en/stable/api/distributions/generated/pymc.CustomDist.html">pm.CustomDist</a> classes.</p>
 <div class="cell docutils container">
@@ -785,7 +785,10 @@ arviz: 0.16.1
               
               
                 <footer class="bd-footer-article">
-                  <!-- Previous / next buttons -->
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
        href="Unit6-censoring.html"
@@ -805,7 +808,10 @@ arviz: 0.16.1
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
+</div></div>
+  
 </div>
+
                 </footer>
               
             </div>
@@ -830,7 +836,7 @@ arviz: 0.16.1
             
           </div>
           <footer class="bd-footer-content">
-            <div class="bd-footer-content__inner">
+            
 <div class="bd-footer-content__inner container">
   
   <div class="footer-item">
@@ -860,7 +866,7 @@ By Aaron Reding
     
   </div>
   
-</div></div>
+</div>
           </footer>
         
 
@@ -869,8 +875,8 @@ By Aaron Reding
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d"></script>
-<script src="../_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d"></script>
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
 
   <footer class="bd-footer">
   </footer>

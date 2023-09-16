@@ -19,12 +19,12 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
-<link href="../_static/styles/bootstrap.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
 
   
-  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
   <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
@@ -36,16 +36,16 @@
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
     <link rel="stylesheet" type="text/css" href="../_static/proof.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
     <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d" />
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
 
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
@@ -577,7 +577,7 @@ document.write(`
                 <article class="bd-article" role="main">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="prior-sample-size">
-<h1>16. Prior Sample Size<a class="headerlink" href="#prior-sample-size" title="Permalink to this headline">#</a></h1>
+<h1>16. Prior Sample Size<a class="headerlink" href="#prior-sample-size" title="Permalink to this heading">#</a></h1>
 <p>In lesson 7, when discussing different beta priors, the professor decided on <span class="math notranslate nohighlight">\(Be(500, 500)\)</span> as a realistic prior for a fair coin. But how would you decide between that and, say, <span class="math notranslate nohighlight">\(Be(10, 10)\)</span>? Both have a mean of <span class="math notranslate nohighlight">\(.5\)</span>, but one is much stronger.</p>
 <div class="cell tag_hide-input docutils container">
 <details class="hide above-input">
@@ -619,7 +619,7 @@ document.write(`
 <div class="math notranslate nohighlight">
 \[\frac{\alpha}{\beta} \rightarrow \frac{\alpha + n/2}{\beta + 1/2 \cdot \sum_{i=1}^{n} (x_i - n)^2} \rightarrow ESS = 2\alpha\]</div>
 <section id="spiegelhalters-categories-and-current-recommendations">
-<h2>Spiegelhalter’s categories and current recommendations<a class="headerlink" href="#spiegelhalters-categories-and-current-recommendations" title="Permalink to this headline">#</a></h2>
+<h2>Spiegelhalter’s categories and current recommendations<a class="headerlink" href="#spiegelhalters-categories-and-current-recommendations" title="Permalink to this heading">#</a></h2>
 <p>The professor mentions three different types of priors: vague, skeptical, and enthusiastic <span id="id1">[<a class="reference internal" href="../backmatter/bibliography.html#id21" title="David J. Spiegelhalter, Laurence S. Freedman, and Mahesh K. B. Parmar. Bayesian approaches to randomized trials. Journal of the Royal Statistical Society. Series A (Statistics in Society), 157(3):357–416, 1994. URL: http://www.jstor.org/stable/2983527 (visited on 2023-07-10).">Spiegelhalter <em>et al.</em>, 1994</a>]</span>. These are similar to the five categories mentioned in the Stan <a class="reference external" href="https://github.com/stan-dev/stan/wiki/Prior-Choice-Recommendations">Prior Choice Recommendations</a>.</p>
 <p>Both Stan and <a class="reference external" href="https://www.pymc.io/projects/docs/en/stable/learn/core_notebooks/posterior_predictive.html">PyMC</a> developers recommend prior predictive checks for your models. When combined with visualizations, these can help you check how realistic your priors are.</p>
 </section>
@@ -651,7 +651,10 @@ document.write(`
               
               
                 <footer class="bd-footer-article">
-                  <!-- Previous / next buttons -->
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
        href="Unit4-noninform.html"
@@ -671,7 +674,10 @@ document.write(`
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
+</div></div>
+  
 </div>
+
                 </footer>
               
             </div>
@@ -695,7 +701,7 @@ document.write(`
             
           </div>
           <footer class="bd-footer-content">
-            <div class="bd-footer-content__inner">
+            
 <div class="bd-footer-content__inner container">
   
   <div class="footer-item">
@@ -725,7 +731,7 @@ By Aaron Reding
     
   </div>
   
-</div></div>
+</div>
           </footer>
         
 
@@ -734,8 +740,8 @@ By Aaron Reding
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d"></script>
-<script src="../_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d"></script>
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
 
   <footer class="bd-footer">
   </footer>

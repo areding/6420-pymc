@@ -19,12 +19,12 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
-<link href="../_static/styles/bootstrap.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
 
   
-  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
   <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
@@ -36,16 +36,16 @@
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
     <link rel="stylesheet" type="text/css" href="../_static/proof.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
     <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d" />
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
 
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
@@ -582,14 +582,14 @@ document.write(`
                 <article class="bd-article" role="main">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="markov-chain-monte-carlo">
-<h1>5. Markov Chain Monte Carlo<a class="headerlink" href="#markov-chain-monte-carlo" title="Permalink to this headline">#</a></h1>
+<h1>5. Markov Chain Monte Carlo<a class="headerlink" href="#markov-chain-monte-carlo" title="Permalink to this heading">#</a></h1>
 <p>This is going to be our algorithm of choice for the rest of the course. This unit will give us the very basics of Metropolis-Hastings and Gibbs sampling. The goal is to get us understanding just enough to reason about what’s happening under the hood when we start using libraries like OpenBUGS or PyMC in Unit 6.</p>
 <p>I don’t have a lot to add to the lecture here, but I’ve added some comments to the lecture slides. This is more of a reference—don’t spend a lot of time trying to understand the algorithm itself here, just get a basic understanding of the concepts below and move on to the next lecture, where we’ll go over the algorithm itself.</p>
 <section id="lecture-slides-with-notes">
-<h2>Lecture slides with notes<a class="headerlink" href="#lecture-slides-with-notes" title="Permalink to this headline">#</a></h2>
+<h2>Lecture slides with notes<a class="headerlink" href="#lecture-slides-with-notes" title="Permalink to this heading">#</a></h2>
 <p>Our algorithm will generate a Markov chain. It’s a sequence of random variables following the Markovian property, where the conditional probability of the next state depends only on the current state, not any of the previous states. After running our algorithm, we’ll have an array of samples from our Markov chain.</p>
 <section id="markov-chain-definition">
-<h3>Markov chain definition<a class="headerlink" href="#markov-chain-definition" title="Permalink to this headline">#</a></h3>
+<h3>Markov chain definition<a class="headerlink" href="#markov-chain-definition" title="Permalink to this heading">#</a></h3>
 <ul class="simple">
 <li><p>A sequence <span class="math notranslate nohighlight">\({X_0, X_1, X_2, \dots, X_{n-1}, X_n, X_{n+1}, \dots}\)</span> forms a Markov Chain if:</p>
 <ol class="arabic simple">
@@ -603,7 +603,7 @@ document.write(`
 </ul>
 </section>
 <section id="further-notes">
-<h3>Further notes<a class="headerlink" href="#further-notes" title="Permalink to this headline">#</a></h3>
+<h3>Further notes<a class="headerlink" href="#further-notes" title="Permalink to this heading">#</a></h3>
 <ul class="simple">
 <li><p><span class="math notranslate nohighlight">\(\pi\)</span> is the density for <span class="math notranslate nohighlight">\(\Pi\)</span>. It is stationary if it satisfies the detailed balance equation: <span class="math notranslate nohighlight">\(q(x|y) \pi(y) = q(y|x) \pi(x)\)</span>. The detailed balance condition states that for any two states <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(y\)</span>, the probability of transitioning from <span class="math notranslate nohighlight">\(x\)</span> to <span class="math notranslate nohighlight">\(y\)</span> times the stationary distribution at <span class="math notranslate nohighlight">\(x\)</span> equals the probability of transitioning from <span class="math notranslate nohighlight">\(y\)</span> to <span class="math notranslate nohighlight">\(x\)</span> times the stationary distribution at <span class="math notranslate nohighlight">\(y\)</span>.</p></li>
 <li><p>If <span class="math notranslate nohighlight">\(Q^n_{A|x} = P(X_n \in A | X_0 = x)\)</span>, then as <span class="math notranslate nohighlight">\(n \rightarrow \infty\)</span>, <span class="math notranslate nohighlight">\(Q^n_{A|x} \rightarrow \Pi_A\)</span>. In other words, the <span class="math notranslate nohighlight">\(n\)</span>-step transition probabilities converge to the stationary distribution as <span class="math notranslate nohighlight">\(n\)</span> goes to infinity.</p></li>
@@ -613,7 +613,7 @@ document.write(`
 </section>
 </section>
 <section id="brief-history-of-metropolis-and-gibbs-algorithms-in-papers">
-<h2>Brief history of Metropolis and Gibbs algorithms in papers<a class="headerlink" href="#brief-history-of-metropolis-and-gibbs-algorithms-in-papers" title="Permalink to this headline">#</a></h2>
+<h2>Brief history of Metropolis and Gibbs algorithms in papers<a class="headerlink" href="#brief-history-of-metropolis-and-gibbs-algorithms-in-papers" title="Permalink to this heading">#</a></h2>
 <p>If anyone has more important papers to add to these let me know! This list is very incomplete right now.</p>
 <p>1953: <span id="id1">Metropolis <em>et al.</em> [<a class="reference internal" href="../backmatter/bibliography.html#id24" title="Nicholas Metropolis, Arianna W. Rosenbluth, Marshall N. Rosenbluth, Augusta H. Teller, and Edward Teller. Equation of state calculations by fast computing machines. The Journal of Chemical Physics, 21(6):1087–1092, 1953.">1953</a>]</span> publishes the original Metropolis <a class="reference external" href="https://bayes.wustl.edu/Manual/EquationOfState.pdf">paper</a>.</p>
 <p>1970: <span id="id2">Hastings [<a class="reference internal" href="../backmatter/bibliography.html#id25" title="W. K. Hastings. Monte carlo sampling methods using markov chains and their applications. Biometrika, 57(1):97–109, 1970. URL: http://www.jstor.org/stable/2334940 (visited on 2023-07-16).">1970</a>]</span> generalizes the algorithm to handle asymmetric proposal distributions.</p>
@@ -649,7 +649,10 @@ document.write(`
               
               
                 <footer class="bd-footer-article">
-                  <!-- Previous / next buttons -->
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
        href="Unit5-demo-Laplaces-method.html"
@@ -669,7 +672,10 @@ document.write(`
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
+</div></div>
+  
 </div>
+
                 </footer>
               
             </div>
@@ -698,7 +704,7 @@ document.write(`
             
           </div>
           <footer class="bd-footer-content">
-            <div class="bd-footer-content__inner">
+            
 <div class="bd-footer-content__inner container">
   
   <div class="footer-item">
@@ -728,7 +734,7 @@ By Aaron Reding
     
   </div>
   
-</div></div>
+</div>
           </footer>
         
 
@@ -737,8 +743,8 @@ By Aaron Reding
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d"></script>
-<script src="../_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d"></script>
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
 
   <footer class="bd-footer">
   </footer>
