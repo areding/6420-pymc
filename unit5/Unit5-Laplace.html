@@ -602,7 +602,7 @@ document.write(`
 <p>Laplace’s method is another integral approximation technique. This is faster than MCMC, but not as flexible.</p>
 <p>We expand the log of the function around its mode in a second-order <a class="reference external" href="https://www.youtube.com/watch?v=3d6DsjIBzJ4">Taylor expansion</a>. This process results in a quadratic approximation of the function in the log space, which translates to a normal approximation in the original space.</p>
 <p>This method is only useful for unimodal, twice-differentiable distributions that aren’t too skewed. You can extend the concept to apply to more challenging distributions with <a class="reference external" href="https://en.wikipedia.org/wiki/Integrated_nested_Laplace_approximations">Integrated Nested Laplace Approximations (INLA)</a>, but we don’t go into that in this course.</p>
-<p>Say we have an un-normalized posterior <span class="math notranslate nohighlight">\(g(\theta|x)\)</span>. We can’t normalize it for whatever reason, so we’ll try to approximate it using a normal distribution:</p>
+<p>Say we have a posterior <span class="math notranslate nohighlight">\(g(\theta|x)\)</span>. We can’t normalize it for whatever reason, so we’ll try to approximate it using a normal distribution:</p>
 <div class="math notranslate nohighlight">
 \[g(\theta|x) \approx N(\hat{\theta},Q^{-1})\]</div>
 <p>A normal distribution is defined by mean and variance (or precision), so we need to find these parameters.</p>
@@ -612,7 +612,7 @@ document.write(`
 <p>We want to approximate the joint log-likelihood, so let’s manipulate the above a bit:</p>
 <div class="math notranslate nohighlight">
 \[g(\theta|x) = \frac{e^{\log\left(f(x|\theta)\pi(\theta)\right)}}{\int e^{\log\left( f(x|\theta)\pi(\theta)\right)}d\theta}\]</div>
-<p>The joint log-likelihood is <span class="math notranslate nohighlight">\(\log\left(f(x|\theta)\pi(\theta)\right)\)</span>. Let’s shorten that to <span class="math notranslate nohighlight">\(h(\theta)\)</span> for now. We’re going to approximate it with the second-order Taylor expansion, which is:</p>
+<p>The expression proportional to the log-posterior is <span class="math notranslate nohighlight">\(\log\left(f(x|\theta)\pi(\theta)\right)\)</span>. Let’s shorten that to <span class="math notranslate nohighlight">\(h(\theta)\)</span> for now. We’re going to approximate it with the second-order Taylor expansion, which is:</p>
 <div class="math notranslate nohighlight">
 \[h(\theta) \approx h(\hat{\theta}) + (\theta - \hat{\theta})^T \nabla h(\hat{\theta}) + \frac{1}{2}(\theta - \hat{\theta})^T \nabla^2 h(\hat{\theta})(\theta - \hat{\theta})\]</div>
 <p>in the multivariate case, or</p>
@@ -635,7 +635,7 @@ g(\theta|x) &amp; = \frac{e^{h(\hat{\theta})}e^{\frac{1}{2}(\theta - \hat{\theta
 &amp; = \frac{e^{\frac{1}{2}(\theta - \hat{\theta})^T \nabla^2 h(\hat{\theta})(\theta -\hat{\theta})}}{\int e^{\frac{1}{2}(\theta - \hat{\theta})^T \nabla^2 h(\hat{\theta})(\theta - \hat{\theta})\, }d\theta}
 \end{align*}
 \end{split}\]</div>
-<p>To make this match up with the lecture notation, let’s let <span class="math notranslate nohighlight">\(Q = -\left(\nabla^2 h(\hat{\theta})\right) = -\left[\nabla^2 \log\left(f(x|\hat{\theta})\pi(\hat{\theta})\right)\right]\)</span>. Then:</p>
+<p>Let’s let the inverse of our covariance matrix <span class="math notranslate nohighlight">\(Q = -\left(\nabla^2 h(\hat{\theta})\right) = -\left[\nabla^2 \log\left(f(x|\hat{\theta})\pi(\hat{\theta})\right)\right]\)</span>. Then:</p>
 <div class="math notranslate nohighlight">
 \[g(\theta|x) = \frac{1}{\int e^{-\frac{1}{2}(\theta - \hat{\theta})^T Q(\theta - \hat{\theta})\, }d\theta} e^{-\frac{1}{2}(\theta - \hat{\theta})^T Q(\theta -\hat{\theta})}\]</div>
 <p>The multivariate normal distribution is specified as:</p>

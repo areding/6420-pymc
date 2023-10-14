@@ -566,7 +566,7 @@ document.write(`
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#original-method">Original method</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#non-centered-proposal">Non-centered proposal</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#random-walk-proposal">Random-walk proposal</a></li>
 </ul>
             </nav>
         </div>
@@ -583,9 +583,6 @@ document.write(`
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">tqdm.auto</span> <span class="kn">import</span> <span class="n">tqdm</span>
-
-<span class="o">%</span><span class="k">load_ext</span> lab_black
-<span class="o">%</span><span class="k">load_ext</span> watermark
 </pre></div>
 </div>
 </div>
@@ -603,7 +600,7 @@ X \mid \theta &amp;\sim N(\theta, 1) \\
 \end{split}\]</div>
 <section id="original-method">
 <h2>Original method<a class="headerlink" href="#original-method" title="Permalink to this heading">#</a></h2>
-<p>The professor chooses a <span class="math notranslate nohighlight">\(N(x, 1)\)</span> proposal (where <span class="math notranslate nohighlight">\(x=2\)</span> is our sole datapoint). This is an independent proposal, plus it simplifies the acceptance ratio quite a bit. Here’s how we get the ratio:</p>
+<p>The professor chooses a <span class="math notranslate nohighlight">\(N(x, 1)\)</span> proposal (where <span class="math notranslate nohighlight">\(x=2\)</span> is our sole datapoint). This is not symmetric around the current state of the chain, so it doesn’t satisfy <span class="math notranslate nohighlight">\(q(\theta^\prime| \theta) = q(\theta | \theta^\prime)\)</span> and we must use Metropolis-Hastings. It does simplify the acceptance ratio quite a bit. Here’s how we get the ratio:</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \begin{align}
@@ -622,7 +619,7 @@ X \mid \theta &amp;\sim N(\theta, 1) \\
 <p>Skipping some intermediate steps for now, but if you’d like to see them let me know and I’ll take some time to add them.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>I usually pre-generate arrays of random numbers (see <code class="docutils literal notranslate"><span class="pre">theta_prop</span></code> and <code class="docutils literal notranslate"><span class="pre">unif</span></code> variables in the below cell) because it’s computationally faster. However, that only works when those numbers don’t depend on the previous step in the sampling loop!</p>
+<p>I usually pre-generate arrays of random numbers (see <code class="docutils literal notranslate"><span class="pre">theta_prop</span></code> and <code class="docutils literal notranslate"><span class="pre">unif</span></code> variables in the below cell) because it’s computationally faster. However, that only works when those numbers don’t depend on the previous step in the sampling loop.</p>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -662,18 +659,19 @@ X \mid \theta &amp;\sim N(\theta, 1) \\
 </div>
 </div>
 <div class="cell_output docutils container">
-<script type="application/vnd.jupyter.widget-view+json">{"model_id": "1f34f920bf814db78c0ac8d753764cdc", "version_major": 2, "version_minor": 0}</script><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>np.mean(thetas)=1.283
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "e53c023b1c424f57915ae8b8427d0413", "version_major": 2, "version_minor": 0}</script><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>np.mean(thetas)=1.283
 np.var(thetas)=0.863
 np.sum(accepted)/n=0.588
 </pre></div>
 </div>
-<img alt="../_images/5a90118b9ed788ba5376a68f47fd2bfac01fa6d11a14a3f2b29976c151e40353.png" src="../_images/5a90118b9ed788ba5376a68f47fd2bfac01fa6d11a14a3f2b29976c151e40353.png" />
+<img alt="../_images/eb319e3d081b362a072234000aff11d127c2e542963ee89edd7af350e9737931.png" src="../_images/eb319e3d081b362a072234000aff11d127c2e542963ee89edd7af350e9737931.png" />
 </div>
 </div>
 </section>
-<section id="non-centered-proposal">
-<h2>Non-centered proposal<a class="headerlink" href="#non-centered-proposal" title="Permalink to this heading">#</a></h2>
-<p>Someone asked how we would do this without centering the proposal on the current x value. Here’s what that looks like.</p>
+<section id="random-walk-proposal">
+<h2>Random-walk proposal<a class="headerlink" href="#random-walk-proposal" title="Permalink to this heading">#</a></h2>
+<p>How would we do this with classic Metropolis? We would use a random-walk proposal, centering the proposal at the previous state of the chain at each step.</p>
+<p>Notice I can still pregenerate proposal values, because it’s easy to adjust the pregenerated <span class="math notranslate nohighlight">\(N(0, 1)\)</span> values by adding theta, which centers the distribution at the previous state of the chain.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">n</span> <span class="o">=</span> <span class="mi">1000000</span>
@@ -688,20 +686,20 @@ np.sum(accepted)/n=0.588
 <span class="n">unif</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">n</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">q</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
-
-
 <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">theta</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">theta</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">theta</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
 
 
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)):</span>
-    <span class="n">r</span> <span class="o">=</span> <span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">theta_prop</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">/</span> <span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">theta</span><span class="p">))</span> <span class="o">*</span> <span class="p">(</span><span class="n">q</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">theta</span><span class="p">))</span> <span class="o">/</span> <span class="n">q</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">theta_prop</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="n">theta_prop_current</span> <span class="o">=</span> <span class="n">theta_prop</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">theta</span>
+
+    <span class="n">r</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">theta_prop_current</span><span class="p">)</span> <span class="o">/</span> <span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">theta</span><span class="p">)</span>
     <span class="n">rho</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
     <span class="k">if</span> <span class="n">unif</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">rho</span><span class="p">:</span>
-        <span class="n">theta</span> <span class="o">=</span> <span class="n">theta_prop</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">theta</span> <span class="o">=</span> <span class="n">theta_prop_current</span>
         <span class="n">accepted</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
     <span class="n">thetas</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">theta</span>
 
 <span class="n">thetas</span> <span class="o">=</span> <span class="n">thetas</span><span class="p">[</span><span class="n">burn</span><span class="p">:]</span>
@@ -718,30 +716,31 @@ np.sum(accepted)/n=0.588
 </div>
 </div>
 <div class="cell_output docutils container">
-<script type="application/vnd.jupyter.widget-view+json">{"model_id": "8ee3a61fdcc54a1ab7f02477ecf896da", "version_major": 2, "version_minor": 0}</script><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>np.mean(thetas)=1.277
-np.var(thetas)=0.859
-np.sum(accepted)/n=0.350
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "f44412ef6bac46829744d4a611b10779", "version_major": 2, "version_minor": 0}</script><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>np.mean(thetas)=1.283
+np.var(thetas)=0.865
+np.sum(accepted)/n=0.686
 </pre></div>
 </div>
-<img alt="../_images/916981d4d6921c279168fc64686d310089568715623ab52839e5d324741ed611.png" src="../_images/916981d4d6921c279168fc64686d310089568715623ab52839e5d324741ed611.png" />
+<img alt="../_images/e3bb8a1dbfb19c670dc3f348fa4dd0e3dd9609fc6e24e3b5bf206f5b7ecf2768.png" src="../_images/e3bb8a1dbfb19c670dc3f348fa4dd0e3dd9609fc6e24e3b5bf206f5b7ecf2768.png" />
 </div>
 </div>
-<p>The end results are very close. But the acceptance rate is much lower!</p>
+<p>The end results are the same, with a higher acceptance ratio!</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">watermark</span> -n -u -v -iv
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">load_ext</span> watermark
+<span class="o">%</span><span class="k">watermark</span> -n -u -v -iv
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Fri Aug 04 2023
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Sat Oct 14 2023
 
 Python implementation: CPython
-Python version       : 3.11.0
-IPython version      : 8.9.0
+Python version       : 3.11.5
+IPython version      : 8.15.0
 
-numpy     : 1.24.2
-matplotlib: 3.6.3
+numpy     : 1.25.2
+matplotlib: 3.7.2
 </pre></div>
 </div>
 </div>
@@ -817,7 +816,7 @@ matplotlib: 3.6.3
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#original-method">Original method</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#non-centered-proposal">Non-centered proposal</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#random-walk-proposal">Random-walk proposal</a></li>
 </ul>
   </nav></div>
 
