@@ -581,9 +581,7 @@ document.write(`
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">arviz</span> <span class="k">as</span> <span class="nn">az</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pymc</span> <span class="k">as</span> <span class="nn">pm</span>
-<span class="kn">from</span> <span class="nn">pymc.math</span> <span class="kn">import</span> <span class="n">switch</span>
-
-<span class="o">%</span><span class="k">load_ext</span> lab_black
+<span class="kn">from</span> <span class="nn">pymc.math</span> <span class="kn">import</span> <span class="n">switch</span><span class="p">,</span> <span class="n">ge</span>
 </pre></div>
 </div>
 </div>
@@ -647,26 +645,32 @@ document.write(`
 <div class="cell_output docutils container">
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Auto-assigning NUTS sampler...
 Initializing NUTS using jitter+adapt_diag...
-Initializing NUTS using jitter+adapt_diag...
 Multiprocess sampling (4 chains in 4 jobs)
 NUTS: [mu, prec]
-Sampling 4 chains for 500 tune and 10_000 draw iterations (2_000 + 40_000 draws total) took 4 seconds.
-Chain &lt;xarray.DataArray &#39;chain&#39; ()&gt;
-array(0)
-Coordinates:
-    chain    int64 0 reached the maximum tree depth. Increase `max_treedepth`, increase `target_accept` or reparameterize.
-Chain &lt;xarray.DataArray &#39;chain&#39; ()&gt;
-array(1)
-Coordinates:
-    chain    int64 1 reached the maximum tree depth. Increase `max_treedepth`, increase `target_accept` or reparameterize.
-Chain &lt;xarray.DataArray &#39;chain&#39; ()&gt;
-array(2)
-Coordinates:
-    chain    int64 2 reached the maximum tree depth. Increase `max_treedepth`, increase `target_accept` or reparameterize.
-Chain &lt;xarray.DataArray &#39;chain&#39; ()&gt;
-array(3)
-Coordinates:
-    chain    int64 3 reached the maximum tree depth. Increase `max_treedepth`, increase `target_accept` or reparameterize.
+</pre></div>
+</div>
+<div class="output text_html">
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    progress:not([value]), progress:not([value])::-webkit-progress-bar {
+        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div><div class="output text_html">
+    <div>
+      <progress value='24000' class='' max='24000' style='width:300px; height:20px; vertical-align: middle;'></progress>
+      100.00% [24000/24000 00:01&lt;00:00 Sampling 4 chains, 0 divergences]
+    </div>
+    </div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 5_000 draw iterations (4_000 + 20_000 draws total) took 1 seconds.
 </pre></div>
 </div>
 </div>
@@ -679,7 +683,7 @@ Coordinates:
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc_env2/lib/python3.11/site-packages/arviz/stats/diagnostics.py:584: RuntimeWarning: invalid value encountered in scalar divide
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc/lib/python3.11/site-packages/arviz/stats/diagnostics.py:592: RuntimeWarning: invalid value encountered in scalar divide
   (between_chain_variance / within_chain_variance + num_samples - 1) / (num_samples)
 </pre></div>
 </div>
@@ -715,26 +719,26 @@ Coordinates:
   <tbody>
     <tr>
       <th>mu</th>
-      <td>6.348</td>
-      <td>1.155</td>
-      <td>4.073</td>
-      <td>8.654</td>
+      <td>6.355</td>
+      <td>1.167</td>
+      <td>4.149</td>
+      <td>8.766</td>
+      <td>0.009</td>
       <td>0.007</td>
-      <td>0.005</td>
-      <td>30917.0</td>
-      <td>24883.0</td>
+      <td>16065.0</td>
+      <td>12098.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>sigma</th>
-      <td>5.138</td>
-      <td>0.882</td>
-      <td>3.612</td>
-      <td>6.908</td>
+      <td>5.125</td>
+      <td>0.883</td>
+      <td>3.568</td>
+      <td>6.887</td>
+      <td>0.007</td>
       <td>0.005</td>
-      <td>0.004</td>
-      <td>30678.0</td>
-      <td>26152.0</td>
+      <td>15790.0</td>
+      <td>13476.0</td>
       <td>1.0</td>
     </tr>
     <tr>
@@ -745,15 +749,15 @@ Coordinates:
       <td>1.000</td>
       <td>0.000</td>
       <td>0.000</td>
-      <td>40000.0</td>
-      <td>40000.0</td>
+      <td>20000.0</td>
+      <td>20000.0</td>
       <td>NaN</td>
     </tr>
   </tbody>
 </table>
 </div></div></div>
 </div>
-<p>Even though we’re getting lots of warnings, our model agrees with the BUGS results:</p>
+<p>Our model agrees with the BUGS results:</p>
 <table class="colwidths-auto table">
 <thead>
 <tr class="row-odd"><th class="head"><p></p></th>
@@ -862,26 +866,32 @@ Coordinates:
 <div class="cell_output docutils container">
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Auto-assigning NUTS sampler...
 Initializing NUTS using jitter+adapt_diag...
-Initializing NUTS using jitter+adapt_diag...
 Multiprocess sampling (4 chains in 4 jobs)
 NUTS: [mu1, mu2, prec]
-Sampling 4 chains for 1_000 tune and 10_000 draw iterations (4_000 + 40_000 draws total) took 4 seconds.
-Chain &lt;xarray.DataArray &#39;chain&#39; ()&gt;
-array(0)
-Coordinates:
-    chain    int64 0 reached the maximum tree depth. Increase `max_treedepth`, increase `target_accept` or reparameterize.
-Chain &lt;xarray.DataArray &#39;chain&#39; ()&gt;
-array(1)
-Coordinates:
-    chain    int64 1 reached the maximum tree depth. Increase `max_treedepth`, increase `target_accept` or reparameterize.
-Chain &lt;xarray.DataArray &#39;chain&#39; ()&gt;
-array(2)
-Coordinates:
-    chain    int64 2 reached the maximum tree depth. Increase `max_treedepth`, increase `target_accept` or reparameterize.
-Chain &lt;xarray.DataArray &#39;chain&#39; ()&gt;
-array(3)
-Coordinates:
-    chain    int64 3 reached the maximum tree depth. Increase `max_treedepth`, increase `target_accept` or reparameterize.
+</pre></div>
+</div>
+<div class="output text_html">
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    progress:not([value]), progress:not([value])::-webkit-progress-bar {
+        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div><div class="output text_html">
+    <div>
+      <progress value='24000' class='' max='24000' style='width:300px; height:20px; vertical-align: middle;'></progress>
+      100.00% [24000/24000 00:01&lt;00:00 Sampling 4 chains, 0 divergences]
+    </div>
+    </div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 5_000 draw iterations (4_000 + 20_000 draws total) took 1 seconds.
 </pre></div>
 </div>
 </div>
@@ -926,62 +936,62 @@ Coordinates:
   <tbody>
     <tr>
       <th>mu1</th>
-      <td>7.336</td>
-      <td>0.473</td>
-      <td>6.412</td>
-      <td>8.277</td>
+      <td>7.334</td>
+      <td>0.470</td>
+      <td>6.414</td>
+      <td>8.269</td>
+      <td>0.003</td>
       <td>0.002</td>
-      <td>0.001</td>
-      <td>51503.0</td>
-      <td>31125.0</td>
+      <td>27558.0</td>
+      <td>15811.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>mu2</th>
-      <td>6.201</td>
-      <td>0.399</td>
-      <td>5.389</td>
-      <td>6.965</td>
+      <td>6.198</td>
+      <td>0.397</td>
+      <td>5.438</td>
+      <td>6.984</td>
       <td>0.002</td>
-      <td>0.001</td>
-      <td>49352.0</td>
-      <td>31643.0</td>
+      <td>0.002</td>
+      <td>26341.0</td>
+      <td>14856.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>prec</th>
-      <td>0.263</td>
+      <td>0.264</td>
       <td>0.058</td>
-      <td>0.155</td>
-      <td>0.380</td>
+      <td>0.159</td>
+      <td>0.381</td>
       <td>0.000</td>
       <td>0.000</td>
-      <td>43753.0</td>
-      <td>28900.0</td>
+      <td>24987.0</td>
+      <td>13816.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>mudiff</th>
-      <td>1.135</td>
-      <td>0.618</td>
-      <td>-0.059</td>
-      <td>2.378</td>
+      <td>1.136</td>
+      <td>0.613</td>
+      <td>-0.032</td>
+      <td>2.382</td>
+      <td>0.004</td>
       <td>0.003</td>
-      <td>0.002</td>
-      <td>51789.0</td>
-      <td>31031.0</td>
+      <td>28981.0</td>
+      <td>15171.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>probint</th>
-      <td>0.920</td>
-      <td>0.271</td>
+      <td>0.921</td>
+      <td>0.270</td>
       <td>0.000</td>
       <td>1.000</td>
       <td>0.002</td>
-      <td>0.001</td>
-      <td>31350.0</td>
-      <td>31350.0</td>
+      <td>0.002</td>
+      <td>16160.0</td>
+      <td>16160.0</td>
       <td>1.0</td>
     </tr>
   </tbody>
@@ -1063,18 +1073,17 @@ Coordinates:
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Sat Mar 18 2023
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Mon Oct 30 2023
 
 Python implementation: CPython
-Python version       : 3.11.0
-IPython version      : 8.9.0
+Python version       : 3.11.5
+IPython version      : 8.15.0
 
-pytensor: 2.10.1
+pytensor: 2.17.1
 
-pymc      : 5.1.1
-arviz     : 0.14.0
-matplotlib: 3.6.3
-numpy     : 1.24.2
+pymc : 5.9.0
+numpy: 1.25.2
+arviz: 0.16.1
 </pre></div>
 </div>
 </div>

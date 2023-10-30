@@ -1112,7 +1112,7 @@ There were 15000 divergences after tuning. Increase `target_accept` or reparamet
 <div class="cell_output docutils container">
 <img alt="../_images/eefc6bf95caf55ab438b3ca0c0853c8d3b89943e37ba217ee2336aa08d75985b.svg" src="../_images/eefc6bf95caf55ab438b3ca0c0853c8d3b89943e37ba217ee2336aa08d75985b.svg" /></div>
 </div>
-<p>With that many divergences, there’s no way the model fit correctly, and that’s borne out in the summary statistics with each r_hat being well above 1.01. So we may need to standardize our data. <span id="id1"></span> <a class="reference external" href="https://stat.columbia.edu/~gelman/research/published/standardizing7.pdf">suggest</a> standardizing by two standard deviations.</p>
+<p>With that many divergences, there’s no way the model fit correctly, and that’s borne out in the summary statistics with each r_hat being well above 1.01. So we may need to standardize our data. Andrew Gelman <span id="id1"></span> <a class="reference external" href="https://stat.columbia.edu/~gelman/research/published/standardizing7.pdf">suggests</a> standardizing by two standard deviations.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">standardize</span><span class="p">(</span><span class="n">X_df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
