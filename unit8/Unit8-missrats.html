@@ -583,9 +583,7 @@ document.write(`
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">arviz</span> <span class="k">as</span> <span class="nn">az</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pymc</span> <span class="k">as</span> <span class="nn">pm</span>
-<span class="kn">from</span> <span class="nn">pymc.math</span> <span class="kn">import</span> <span class="n">dot</span><span class="p">,</span> <span class="n">stack</span><span class="p">,</span> <span class="n">concatenate</span><span class="p">,</span> <span class="n">exp</span><span class="p">,</span> <span class="n">invlogit</span><span class="p">,</span> <span class="n">logit</span>
-
-<span class="o">%</span><span class="k">load_ext</span> lab_black
+<span class="kn">from</span> <span class="nn">pymc.math</span> <span class="kn">import</span> <span class="n">dot</span><span class="p">,</span> <span class="n">stack</span><span class="p">,</span> <span class="n">concatenate</span><span class="p">,</span> <span class="n">exp</span><span class="p">,</span> <span class="n">invlogit</span>
 </pre></div>
 </div>
 </div>
@@ -623,10 +621,12 @@ document.write(`
 <p>This first model we only have missing data in our response variable (y). Notice that I made the shapes of alpha and beta (30, 1) instead of just 30. This is so that they broadcast correctly when combined (<code class="docutils literal notranslate"><span class="pre">mu</span> <span class="pre">=</span> <span class="pre">alpha</span> <span class="pre">+</span> <span class="pre">beta</span> <span class="pre">*</span> <span class="pre">x</span></code>). The NumPy docs have a helpful <a class="reference external" href="https://numpy.org/doc/stable/user/basics.broadcasting.html">page about broadcasting</a>.</p>
 <div class="cell tag_hide-output docutils container">
 <div class="cell_input above-output-prompt docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">m</span><span class="p">:</span>
-    <span class="n">alpha_c</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;alpha_c&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">prior_tau</span> <span class="o">=</span> <span class="mf">1e-4</span>
+
+<span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">m</span><span class="p">:</span>
+    <span class="n">alpha_c</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;alpha_c&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="n">prior_tau</span><span class="p">)</span>
     <span class="n">alpha_tau</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Gamma</span><span class="p">(</span><span class="s2">&quot;alpha_tau&quot;</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">)</span>
-    <span class="n">beta_c</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;beta_c&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">)</span>
+    <span class="n">beta_c</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;beta_c&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="n">prior_tau</span><span class="p">)</span>
     <span class="n">beta_tau</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Gamma</span><span class="p">(</span><span class="s2">&quot;beta_tau&quot;</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">)</span>
 
     <span class="n">alpha</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span>
@@ -641,7 +641,7 @@ document.write(`
     <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;likelihood&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="n">lik_tau</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
 
     <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span>
-        <span class="mi">5000</span><span class="p">,</span> <span class="n">tune</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="s2">&quot;jitter+adapt_diag_grad&quot;</span><span class="p">,</span> <span class="n">target_accept</span><span class="o">=</span><span class="mf">0.9</span>
+        <span class="mi">5000</span><span class="p">,</span> <span class="n">tune</span><span class="o">=</span><span class="mi">4000</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="s2">&quot;jitter+adapt_diag_grad&quot;</span><span class="p">,</span> <span class="n">target_accept</span><span class="o">=</span><span class="mf">0.95</span>
     <span class="p">)</span>
 </pre></div>
 </div>
@@ -652,12 +652,12 @@ document.write(`
 <span class="expanded">Hide code cell output</span>
 </summary>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc_env2/lib/python3.11/site-packages/pymc/model.py:1402: ImputationWarning: Data in likelihood contains missing values and will be automatically imputed from the sampling distribution.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc/lib/python3.11/site-packages/pymc/model/core.py:1365: ImputationWarning: Data in likelihood contains missing values and will be automatically imputed from the sampling distribution.
   warnings.warn(impute_message, ImputationWarning)
 Auto-assigning NUTS sampler...
 Initializing NUTS using jitter+adapt_diag_grad...
 Multiprocess sampling (4 chains in 4 jobs)
-NUTS: [alpha_c, alpha_tau, beta_c, beta_tau, alpha, beta, lik_tau, likelihood_missing]
+NUTS: [alpha_c, alpha_tau, beta_c, beta_tau, alpha, beta, lik_tau, likelihood_unobserved]
 </pre></div>
 </div>
 <div class="output text_html">
@@ -678,11 +678,11 @@ NUTS: [alpha_c, alpha_tau, beta_c, beta_tau, alpha, beta, lik_tau, likelihood_mi
 </style>
 </div><div class="output text_html">
     <div>
-      <progress value='24000' class='' max='24000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-      100.00% [24000/24000 01:31&lt;00:00 Sampling 4 chains, 8 divergences]
+      <progress value='36000' class='' max='36000' style='width:300px; height:20px; vertical-align: middle;'></progress>
+      100.00% [36000/36000 01:28&lt;00:00 Sampling 4 chains, 5 divergences]
     </div>
-    </div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 5_000 draw iterations (4_000 + 20_000 draws total) took 91 seconds.
-There were 8 divergences after tuning. Increase `target_accept` or reparameterize.
+    </div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 4_000 tune and 5_000 draw iterations (16_000 + 20_000 draws total) took 89 seconds.
+There were 5 divergences after tuning. Increase `target_accept` or reparameterize.
 </pre></div>
 </div>
 </div>
@@ -727,38 +727,38 @@ There were 8 divergences after tuning. Increase `target_accept` or reparameteriz
   <tbody>
     <tr>
       <th>alpha_c</th>
-      <td>101.245</td>
-      <td>2.301</td>
-      <td>96.599</td>
-      <td>105.669</td>
+      <td>101.161</td>
+      <td>2.306</td>
+      <td>96.773</td>
+      <td>105.803</td>
     </tr>
     <tr>
       <th>alpha_tau</th>
-      <td>0.022</td>
-      <td>0.045</td>
+      <td>0.027</td>
+      <td>0.098</td>
       <td>0.004</td>
-      <td>0.046</td>
+      <td>0.049</td>
     </tr>
     <tr>
       <th>beta_c</th>
-      <td>6.565</td>
-      <td>0.165</td>
-      <td>6.239</td>
-      <td>6.885</td>
+      <td>6.570</td>
+      <td>0.164</td>
+      <td>6.255</td>
+      <td>6.905</td>
     </tr>
     <tr>
       <th>beta_tau</th>
-      <td>2.863</td>
-      <td>1.245</td>
-      <td>0.924</td>
-      <td>5.227</td>
+      <td>2.869</td>
+      <td>1.207</td>
+      <td>0.953</td>
+      <td>5.264</td>
     </tr>
     <tr>
       <th>sigma</th>
-      <td>6.031</td>
-      <td>0.662</td>
-      <td>4.845</td>
-      <td>7.394</td>
+      <td>6.025</td>
+      <td>0.664</td>
+      <td>4.777</td>
+      <td>7.341</td>
     </tr>
   </tbody>
 </table>
@@ -792,10 +792,12 @@ There were 8 divergences after tuning. Increase `target_accept` or reparameteriz
 </div>
 <div class="cell tag_hide-output docutils container">
 <div class="cell_input above-output-prompt docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">m</span><span class="p">:</span>
-    <span class="n">alpha_c</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;alpha_c&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">prior_tau</span> <span class="o">=</span> <span class="mf">1e-4</span>
+
+<span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">m</span><span class="p">:</span>
+    <span class="n">alpha_c</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;alpha_c&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="n">prior_tau</span><span class="p">)</span>
     <span class="n">alpha_tau</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Gamma</span><span class="p">(</span><span class="s2">&quot;alpha_tau&quot;</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">)</span>
-    <span class="n">beta_c</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;beta_c&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">)</span>
+    <span class="n">beta_c</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;beta_c&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="n">prior_tau</span><span class="p">)</span>
     <span class="n">beta_tau</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Gamma</span><span class="p">(</span><span class="s2">&quot;beta_tau&quot;</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">)</span>
 
     <span class="n">alpha</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;alpha&quot;</span><span class="p">,</span> <span class="n">alpha_c</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="n">alpha_tau</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
@@ -803,16 +805,14 @@ There were 8 divergences after tuning. Increase `target_accept` or reparameteriz
     <span class="n">lik_tau</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Gamma</span><span class="p">(</span><span class="s2">&quot;lik_tau&quot;</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">)</span>
     <span class="n">sigma</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;sigma&quot;</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">lik_tau</span><span class="o">**</span><span class="mf">0.5</span><span class="p">)</span>
 
-    <span class="n">x_imputed</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">TruncatedNormal</span><span class="p">(</span>
-        <span class="s2">&quot;x_imputed&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">lower</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">x_miss</span>
-    <span class="p">)</span>
+    <span class="n">x_imputed</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;x_imputed&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">x_miss</span><span class="p">)</span>
 
     <span class="n">mu</span> <span class="o">=</span> <span class="n">alpha</span> <span class="o">+</span> <span class="n">beta</span> <span class="o">*</span> <span class="n">x_imputed</span>
 
     <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;likelihood&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="n">lik_tau</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
 
     <span class="n">trace_2</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span>
-        <span class="mi">5000</span><span class="p">,</span> <span class="n">tune</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">cores</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="s2">&quot;jitter+adapt_diag_grad&quot;</span><span class="p">,</span> <span class="n">target_accept</span><span class="o">=</span><span class="mf">0.9</span>
+        <span class="mi">5000</span><span class="p">,</span> <span class="n">tune</span><span class="o">=</span><span class="mi">4000</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="s2">&quot;jitter+adapt_diag_grad&quot;</span><span class="p">,</span> <span class="n">target_accept</span><span class="o">=</span><span class="mf">0.87</span>
     <span class="p">)</span>
 </pre></div>
 </div>
@@ -823,14 +823,14 @@ There were 8 divergences after tuning. Increase `target_accept` or reparameteriz
 <span class="expanded">Hide code cell output</span>
 </summary>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc_env2/lib/python3.11/site-packages/pymc/model.py:1402: ImputationWarning: Data in x_imputed contains missing values and will be automatically imputed from the sampling distribution.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc/lib/python3.11/site-packages/pymc/model/core.py:1365: ImputationWarning: Data in x_imputed contains missing values and will be automatically imputed from the sampling distribution.
   warnings.warn(impute_message, ImputationWarning)
-/Users/aaron/mambaforge/envs/pymc_env2/lib/python3.11/site-packages/pymc/model.py:1402: ImputationWarning: Data in likelihood contains missing values and will be automatically imputed from the sampling distribution.
+/Users/aaron/mambaforge/envs/pymc/lib/python3.11/site-packages/pymc/model/core.py:1365: ImputationWarning: Data in likelihood contains missing values and will be automatically imputed from the sampling distribution.
   warnings.warn(impute_message, ImputationWarning)
 Auto-assigning NUTS sampler...
 Initializing NUTS using jitter+adapt_diag_grad...
 Multiprocess sampling (4 chains in 4 jobs)
-NUTS: [alpha_c, alpha_tau, beta_c, beta_tau, alpha, beta, lik_tau, x_imputed_missing, likelihood_missing]
+NUTS: [alpha_c, alpha_tau, beta_c, beta_tau, alpha, beta, lik_tau, x_imputed_unobserved, likelihood_unobserved]
 </pre></div>
 </div>
 <div class="output text_html">
@@ -851,11 +851,11 @@ NUTS: [alpha_c, alpha_tau, beta_c, beta_tau, alpha, beta, lik_tau, x_imputed_mis
 </style>
 </div><div class="output text_html">
     <div>
-      <progress value='24000' class='' max='24000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-      100.00% [24000/24000 11:38&lt;00:00 Sampling 4 chains, 8 divergences]
+      <progress value='36000' class='' max='36000' style='width:300px; height:20px; vertical-align: middle;'></progress>
+      100.00% [36000/36000 01:14&lt;00:00 Sampling 4 chains, 18 divergences]
     </div>
-    </div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 5_000 draw iterations (4_000 + 20_000 draws total) took 699 seconds.
-There were 8 divergences after tuning. Increase `target_accept` or reparameterize.
+    </div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 4_000 tune and 5_000 draw iterations (16_000 + 20_000 draws total) took 75 seconds.
+There were 18 divergences after tuning. Increase `target_accept` or reparameterize.
 </pre></div>
 </div>
 </div>
@@ -866,7 +866,7 @@ There were 8 divergences after tuning. Increase `target_accept` or reparameteriz
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span>
     <span class="n">trace_2</span><span class="p">,</span>
     <span class="n">hdi_prob</span><span class="o">=</span><span class="mf">0.95</span><span class="p">,</span>
-    <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;~alpha&quot;</span><span class="p">,</span> <span class="s2">&quot;~beta&quot;</span><span class="p">,</span> <span class="s2">&quot;~likelihood_missing&quot;</span><span class="p">],</span>
+    <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;alpha_c&quot;</span><span class="p">,</span> <span class="s2">&quot;beta_c&quot;</span><span class="p">,</span> <span class="s2">&quot;alpha_tau&quot;</span><span class="p">,</span> <span class="s2">&quot;beta_tau&quot;</span><span class="p">,</span> <span class="s2">&quot;lik_tau&quot;</span><span class="p">],</span>
     <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;stats&quot;</span><span class="p">,</span>
 <span class="p">)</span>
 </pre></div>
@@ -900,84 +900,41 @@ There were 8 divergences after tuning. Increase `target_accept` or reparameteriz
   <tbody>
     <tr>
       <th>alpha_c</th>
-      <td>101.836</td>
-      <td>2.335</td>
-      <td>97.067</td>
-      <td>106.267</td>
+      <td>101.744</td>
+      <td>2.348</td>
+      <td>97.048</td>
+      <td>106.248</td>
     </tr>
     <tr>
       <th>beta_c</th>
-      <td>6.512</td>
-      <td>0.169</td>
-      <td>6.184</td>
-      <td>6.840</td>
+      <td>6.517</td>
+      <td>0.168</td>
+      <td>6.189</td>
+      <td>6.853</td>
     </tr>
     <tr>
       <th>alpha_tau</th>
-      <td>1.716</td>
-      <td>24.920</td>
-      <td>0.003</td>
-      <td>0.082</td>
+      <td>0.025</td>
+      <td>0.077</td>
+      <td>0.004</td>
+      <td>0.043</td>
     </tr>
     <tr>
       <th>beta_tau</th>
-      <td>2.945</td>
-      <td>1.259</td>
-      <td>1.003</td>
-      <td>5.419</td>
+      <td>2.981</td>
+      <td>1.269</td>
+      <td>0.967</td>
+      <td>5.414</td>
     </tr>
     <tr>
       <th>lik_tau</th>
       <td>0.029</td>
       <td>0.006</td>
       <td>0.017</td>
-      <td>0.042</td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-    </tr>
-    <tr>
-      <th>likelihood[29, 0]</th>
-      <td>153.000</td>
-      <td>0.000</td>
-      <td>153.000</td>
-      <td>153.000</td>
-    </tr>
-    <tr>
-      <th>likelihood[29, 1]</th>
-      <td>198.624</td>
-      <td>9.680</td>
-      <td>179.844</td>
-      <td>217.769</td>
-    </tr>
-    <tr>
-      <th>likelihood[29, 2]</th>
-      <td>244.052</td>
-      <td>12.344</td>
-      <td>219.714</td>
-      <td>267.852</td>
-    </tr>
-    <tr>
-      <th>likelihood[29, 3]</th>
-      <td>292.678</td>
-      <td>16.013</td>
-      <td>260.663</td>
-      <td>323.681</td>
-    </tr>
-    <tr>
-      <th>likelihood[29, 4]</th>
-      <td>334.921</td>
-      <td>19.428</td>
-      <td>296.234</td>
-      <td>372.224</td>
+      <td>0.041</td>
     </tr>
   </tbody>
 </table>
-<p>162 rows × 4 columns</p>
 </div></div></div>
 </div>
 </section>
@@ -1015,7 +972,9 @@ There were 8 divergences after tuning. Increase `target_accept` or reparameteriz
     <span class="n">p</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;p&quot;</span><span class="p">,</span> <span class="n">invlogit</span><span class="p">(</span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span> <span class="o">*</span> <span class="n">y_imputed</span><span class="p">))</span>
     <span class="n">pm</span><span class="o">.</span><span class="n">Bernoulli</span><span class="p">(</span><span class="s2">&quot;missing&quot;</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">p</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">miss</span><span class="p">)</span>
 
-    <span class="n">trace_3</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">4000</span><span class="p">,</span> <span class="n">tune</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="s2">&quot;jitter+adapt_diag_grad&quot;</span><span class="p">)</span>
+    <span class="n">trace_3</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span>
+        <span class="mi">5000</span><span class="p">,</span> <span class="n">tune</span><span class="o">=</span><span class="mi">4000</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="s2">&quot;jitter+adapt_diag_grad&quot;</span><span class="p">,</span> <span class="n">target_accept</span><span class="o">=</span><span class="mf">0.95</span>
+    <span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1025,12 +984,12 @@ There were 8 divergences after tuning. Increase `target_accept` or reparameteriz
 <span class="expanded">Hide code cell output</span>
 </summary>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc_env2/lib/python3.11/site-packages/pymc/model.py:1402: ImputationWarning: Data in likelihood contains missing values and will be automatically imputed from the sampling distribution.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc/lib/python3.11/site-packages/pymc/model/core.py:1365: ImputationWarning: Data in likelihood contains missing values and will be automatically imputed from the sampling distribution.
   warnings.warn(impute_message, ImputationWarning)
 Auto-assigning NUTS sampler...
 Initializing NUTS using jitter+adapt_diag_grad...
 Multiprocess sampling (4 chains in 4 jobs)
-NUTS: [a, alpha, beta, log_sigma, likelihood_missing]
+NUTS: [a, alpha, beta, log_sigma, likelihood_unobserved]
 </pre></div>
 </div>
 <div class="output text_html">
@@ -1051,11 +1010,10 @@ NUTS: [a, alpha, beta, log_sigma, likelihood_missing]
 </style>
 </div><div class="output text_html">
     <div>
-      <progress value='24000' class='' max='24000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-      100.00% [24000/24000 00:19&lt;00:00 Sampling 4 chains, 148 divergences]
+      <progress value='36000' class='' max='36000' style='width:300px; height:20px; vertical-align: middle;'></progress>
+      100.00% [36000/36000 00:22&lt;00:00 Sampling 4 chains, 0 divergences]
     </div>
-    </div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 2_000 tune and 4_000 draw iterations (8_000 + 16_000 draws total) took 20 seconds.
-There were 148 divergences after tuning. Increase `target_accept` or reparameterize.
+    </div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 4_000 tune and 5_000 draw iterations (16_000 + 20_000 draws total) took 23 seconds.
 </pre></div>
 </div>
 </div>
@@ -1095,87 +1053,87 @@ There were 148 divergences after tuning. Increase `target_accept` or reparameter
   <tbody>
     <tr>
       <th>a</th>
-      <td>-4.867</td>
-      <td>1.414</td>
-      <td>-7.820</td>
-      <td>-2.343</td>
+      <td>-4.816</td>
+      <td>1.366</td>
+      <td>-7.606</td>
+      <td>-2.334</td>
     </tr>
     <tr>
       <th>alpha</th>
-      <td>111.439</td>
-      <td>13.058</td>
-      <td>88.279</td>
-      <td>135.365</td>
+      <td>110.976</td>
+      <td>18.973</td>
+      <td>82.593</td>
+      <td>135.184</td>
     </tr>
     <tr>
       <th>beta</th>
-      <td>8.150</td>
-      <td>0.671</td>
-      <td>6.917</td>
-      <td>9.293</td>
+      <td>8.175</td>
+      <td>0.989</td>
+      <td>6.840</td>
+      <td>9.434</td>
     </tr>
     <tr>
       <th>log_sigma</th>
-      <td>1.807</td>
-      <td>0.610</td>
-      <td>0.755</td>
-      <td>3.033</td>
+      <td>1.821</td>
+      <td>0.649</td>
+      <td>0.768</td>
+      <td>3.156</td>
     </tr>
     <tr>
-      <th>likelihood_missing[0]</th>
-      <td>405.777</td>
-      <td>19.316</td>
-      <td>377.068</td>
-      <td>435.457</td>
+      <th>likelihood_unobserved[0]</th>
+      <td>406.247</td>
+      <td>25.075</td>
+      <td>374.857</td>
+      <td>437.231</td>
     </tr>
     <tr>
       <th>sigma2</th>
-      <td>144.044</td>
-      <td>1334.789</td>
-      <td>2.729</td>
-      <td>356.261</td>
+      <td>217.298</td>
+      <td>3347.053</td>
+      <td>2.286</td>
+      <td>448.064</td>
     </tr>
     <tr>
       <th>tau</th>
-      <td>0.046</td>
-      <td>0.046</td>
+      <td>0.047</td>
+      <td>0.047</td>
       <td>0.000</td>
-      <td>0.137</td>
+      <td>0.140</td>
     </tr>
     <tr>
       <th>mu[0]</th>
-      <td>176.635</td>
-      <td>8.458</td>
-      <td>161.501</td>
-      <td>192.384</td>
+      <td>176.376</td>
+      <td>11.832</td>
+      <td>158.025</td>
+      <td>192.071</td>
     </tr>
     <tr>
       <th>mu[1]</th>
-      <td>233.682</td>
-      <td>5.680</td>
-      <td>222.581</td>
-      <td>243.141</td>
+      <td>233.601</td>
+      <td>7.089</td>
+      <td>222.921</td>
+      <td>245.086</td>
     </tr>
     <tr>
       <th>mu[2]</th>
-      <td>290.728</td>
-      <td>6.096</td>
-      <td>280.759</td>
-      <td>300.845</td>
+      <td>290.825</td>
+      <td>7.511</td>
+      <td>279.627</td>
+      <td>301.906</td>
     </tr>
     <tr>
       <th>mu[3]</th>
-      <td>347.775</td>
-      <td>9.286</td>
-      <td>331.990</td>
-      <td>362.772</td>
+      <td>348.050</td>
+      <td>12.589</td>
+      <td>330.514</td>
+      <td>364.368</td>
     </tr>
     <tr>
       <th>mu[4]</th>
-      <td>404.821</td>
-      <td>13.397</td>
-      <td>381.028</td>
-      <td>426.647</td>
+      <td>405.275</td>
+      <td>18.879</td>
+      <td>380.380</td>
+      <td>429.687</td>
     </tr>
     <tr>
       <th>likelihood[0, 0]</th>
@@ -1207,45 +1165,45 @@ There were 148 divergences after tuning. Increase `target_accept` or reparameter
     </tr>
     <tr>
       <th>likelihood[0, 4]</th>
-      <td>405.777</td>
-      <td>19.316</td>
-      <td>377.068</td>
-      <td>435.457</td>
+      <td>406.247</td>
+      <td>25.075</td>
+      <td>374.857</td>
+      <td>437.231</td>
     </tr>
     <tr>
       <th>p[0, 0]</th>
-      <td>0.078</td>
-      <td>0.086</td>
+      <td>0.079</td>
+      <td>0.085</td>
       <td>0.000</td>
-      <td>0.251</td>
+      <td>0.253</td>
     </tr>
     <tr>
       <th>p[0, 1]</th>
-      <td>0.125</td>
-      <td>0.122</td>
+      <td>0.127</td>
+      <td>0.121</td>
       <td>0.000</td>
-      <td>0.377</td>
+      <td>0.378</td>
     </tr>
     <tr>
       <th>p[0, 2]</th>
-      <td>0.177</td>
-      <td>0.156</td>
+      <td>0.180</td>
+      <td>0.155</td>
       <td>0.000</td>
-      <td>0.496</td>
+      <td>0.498</td>
     </tr>
     <tr>
       <th>p[0, 3]</th>
-      <td>0.267</td>
-      <td>0.200</td>
+      <td>0.272</td>
+      <td>0.198</td>
       <td>0.000</td>
-      <td>0.653</td>
+      <td>0.654</td>
     </tr>
     <tr>
       <th>p[0, 4]</th>
-      <td>0.360</td>
-      <td>0.231</td>
+      <td>0.367</td>
+      <td>0.229</td>
       <td>0.000</td>
-      <td>0.767</td>
+      <td>0.769</td>
     </tr>
   </tbody>
 </table>
@@ -1259,17 +1217,17 @@ There were 148 divergences after tuning. Increase `target_accept` or reparameter
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Wed Mar 22 2023
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Tue Nov 07 2023
 
 Python implementation: CPython
-Python version       : 3.11.0
-IPython version      : 8.9.0
+Python version       : 3.11.5
+IPython version      : 8.15.0
 
-pytensor: 2.10.1
+pytensor: 2.17.1
 
-pymc : 5.1.2
-numpy: 1.24.2
-arviz: 0.14.0
+arviz: 0.16.1
+numpy: 1.25.2
+pymc : 5.9.0
 </pre></div>
 </div>
 </div>
