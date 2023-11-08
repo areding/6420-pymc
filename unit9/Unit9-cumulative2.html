@@ -63,6 +63,8 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'unit9/Unit9-cumulative2';</script>
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -564,10 +566,9 @@ document.write(`
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notes">Notes</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#other-ways-to-check-model-fit">Other ways to check model fit</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-posterior-predictive-distribution-vs-observed-values">Plot posterior predictive distribution vs. observed values</a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fitting-the-model">Fitting the model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-posterior-predictive-distribution-vs-observed-values">Plot posterior predictive distribution vs. observed values</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#another-cool-arviz-plot">Another cool Arviz plot</a></li>
 </ul>
             </nav>
         </div>
@@ -587,9 +588,9 @@ document.write(`
 <span class="kn">from</span> <span class="nn">pymc.math</span> <span class="kn">import</span> <span class="n">logit</span><span class="p">,</span> <span class="n">exp</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
 <span class="n">np</span><span class="o">.</span><span class="n">set_printoptions</span><span class="p">(</span><span class="n">suppress</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="o">%</span><span class="k">load_ext</span> lab_black
 </pre></div>
 </div>
 </div>
@@ -597,27 +598,42 @@ document.write(`
 <section class="tex2jax_ignore mathjax_ignore" id="cumulative-example">
 <h1><span class="section-number">8. </span>Cumulative Example*<a class="headerlink" href="#cumulative-example" title="Permalink to this heading">#</a></h1>
 <p>Adapted from <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/original_examples/Codes4Unit9/cumulative2.odc">Unit 9: cumulative2.odc</a>.</p>
-<p>Original text:</p>
-<p>Use of <code class="docutils literal notranslate"><span class="pre">cumulative</span></code> as a check for outliers.</p>
-<p>How consistent are the data with the model? Check <code class="docutils literal notranslate"><span class="pre">cumulative(y[i],</span> <span class="pre">y[i])</span></code>.</p>
-<p>The first y[i] specifies the distribution of y[i]’s, the second is the argument/observation. The output is empirical cdf of y[i]s evaluated at y[i].</p>
-<p>Values close to 0 or 1 are potential outliers.</p>
 <section id="notes">
 <h2>Notes<a class="headerlink" href="#notes" title="Permalink to this heading">#</a></h2>
 <p>From the OpenBUGS manual:</p>
 <blockquote>
 <div><p>cumulative(s1, s2): tail area of distribution of s1 up to the value of s2, s1 must be stochastic, s1 and s2 can be the same</p>
 </div></blockquote>
-<p>This is not too detailed. I had to recreate it in PyMC to understand what exactly is going on. What Brani is doing is calculating the <a class="reference external" href="https://en.wikipedia.org/wiki/Empirical_distribution_function">empirical CDF</a> at each y value. In other words, what is the probability that the posterior samples are less than or equal to each observed y value?</p>
-<p>Here’s how to do it in PyMC:</p>
+</section>
+<section id="fitting-the-model">
+<h2>Fitting the model<a class="headerlink" href="#fitting-the-model" title="Permalink to this heading">#</a></h2>
+<p>As we said on the previous page, we want to evaluate the Empirical CDF at the values of our response variable to check how well our model fits the data. First, we’ll fit our model and add posterior predictive samples to the trace.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># fmt: off</span>
-<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
-    <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.2</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.4</span><span class="p">,</span> 
-     <span class="mf">0.2</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.4</span><span class="p">,</span> <span class="mf">1.8</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.6</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">,</span> <span class="mf">5.1</span><span class="p">,</span> <span class="o">-</span><span class="mf">6.3</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="mf">0.0</span><span class="p">,</span>
+        <span class="mf">1.0</span><span class="p">,</span>
+        <span class="mf">2.0</span><span class="p">,</span>
+        <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span>
+        <span class="mf">0.4</span><span class="p">,</span>
+        <span class="o">-</span><span class="mf">0.5</span><span class="p">,</span>
+        <span class="mf">0.7</span><span class="p">,</span>
+        <span class="o">-</span><span class="mf">1.2</span><span class="p">,</span>
+        <span class="mf">0.1</span><span class="p">,</span>
+        <span class="o">-</span><span class="mf">0.4</span><span class="p">,</span>
+        <span class="mf">0.2</span><span class="p">,</span>
+        <span class="o">-</span><span class="mf">0.5</span><span class="p">,</span>
+        <span class="o">-</span><span class="mf">1.4</span><span class="p">,</span>
+        <span class="mf">1.8</span><span class="p">,</span>
+        <span class="mf">0.2</span><span class="p">,</span>
+        <span class="mf">0.3</span><span class="p">,</span>
+        <span class="o">-</span><span class="mf">0.6</span><span class="p">,</span>
+        <span class="mf">1.1</span><span class="p">,</span>
+        <span class="mf">5.1</span><span class="p">,</span>
+        <span class="o">-</span><span class="mf">6.3</span><span class="p">,</span>
+    <span class="p">]</span>
 <span class="p">)</span>
-<span class="c1"># fmt: on</span>
 </pre></div>
 </div>
 </div>
@@ -739,36 +755,128 @@ Sampling: [y]
   <tbody>
     <tr>
       <th>theta</th>
-      <td>0.046</td>
+      <td>0.052</td>
       <td>0.486</td>
-      <td>-0.823</td>
-      <td>0.999</td>
+      <td>-0.855</td>
+      <td>0.975</td>
       <td>0.006</td>
       <td>0.006</td>
-      <td>6452.0</td>
-      <td>5366.0</td>
+      <td>6753.0</td>
+      <td>4931.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>ls</th>
-      <td>0.752</td>
-      <td>0.167</td>
+      <td>0.755</td>
+      <td>0.170</td>
       <td>0.450</td>
-      <td>1.069</td>
+      <td>1.080</td>
       <td>0.002</td>
-      <td>0.001</td>
-      <td>6795.0</td>
-      <td>5315.0</td>
+      <td>0.002</td>
+      <td>5754.0</td>
+      <td>5290.0</td>
       <td>1.0</td>
     </tr>
   </tbody>
 </table>
 </div></div></div>
 </div>
-<p>Now we have posterior samples, the equivalent of the stochastic part of the y[i] node in BUGS. Then we can compare them to the original y data:</p>
+</section>
+<section id="plot-posterior-predictive-distribution-vs-observed-values">
+<h2>Plot posterior predictive distribution vs. observed values<a class="headerlink" href="#plot-posterior-predictive-distribution-vs-observed-values" title="Permalink to this heading">#</a></h2>
+<p>Now we have posterior samples, the equivalent of the stochastic part of the y[i] node in BUGS. There are different ways to compare these with our ECDF. The easiest is the <a class="reference external" href="https://python.arviz.org/en/stable/api/generated/arviz.plot_ppc.html"><code class="docutils literal notranslate"><span class="pre">arviz.plot_ppc</span></code></a> function with the <code class="docutils literal notranslate"><span class="pre">kind=&quot;cumulative&quot;</span></code> argument.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># transforming data so we can broadcast</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">plot_ppc</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;cumulative&quot;</span><span class="p">,</span> <span class="n">num_pp_samples</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/1bbd865e4c609040dfc798a9bcb8d09615a10bf706426f6b88f94cae6590bb02.png" src="../_images/1bbd865e4c609040dfc798a9bcb8d09615a10bf706426f6b88f94cae6590bb02.png" />
+</div>
+</div>
+<p>Doesn’t look like our posterior does a good job of fitting the observed data. The mean fits okay, but both tails have some issues because of some extreme values near the endpoints. This plot is just comparing individual ECDFs, though. It’s not evaluating the posterior ECDF at the observed <span class="math notranslate nohighlight">\(y\)</span> values.</p>
+<p>Plots in general might not be the easiest thing to interpret if we have a lot of datapoints. I wrote the following function to recreate the lecture example.</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">evaluate_ecdf</span><span class="p">(</span><span class="n">trace</span><span class="p">:</span> <span class="n">az</span><span class="o">.</span><span class="n">InferenceData</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Evaluates ECDF at original observed values.</span>
+
+<span class="sd">    This function assumes a single set of observed values.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        trace: arviz.InferenceData from running a PyMC model.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        A Numpy array of the ECDF evaluation at each original datapoint.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># get posterior predictive variable name</span>
+    <span class="n">ppc_vars</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">trace</span><span class="o">.</span><span class="n">posterior_predictive</span><span class="o">.</span><span class="n">data_vars</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="p">(</span>
+        <span class="nb">len</span><span class="p">(</span><span class="n">ppc_vars</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+    <span class="p">),</span> <span class="s2">&quot;Number of variables in posterior predictive must equal 1.&quot;</span>
+    <span class="n">y_varname</span> <span class="o">=</span> <span class="n">ppc_vars</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="c1"># get original observations</span>
+    <span class="n">y_obs</span> <span class="o">=</span> <span class="n">trace</span><span class="o">.</span><span class="n">observed_data</span><span class="p">[</span><span class="n">y_varname</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">y_obs</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;Y-observations shape must be one-dimensional.&quot;</span>
+    <span class="n">n_obs</span> <span class="o">=</span> <span class="n">y_obs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">y_obs</span> <span class="o">=</span> <span class="n">y_obs</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>  <span class="c1"># for broadcasting</span>
+
+    <span class="c1"># get posterior predictive samples for each y_obs and sample count</span>
+    <span class="n">y_samples_per_obs</span> <span class="o">=</span> <span class="n">trace</span><span class="o">.</span><span class="n">posterior_predictive</span><span class="p">[</span><span class="n">y_varname</span><span class="p">]</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span>
+        <span class="n">sample</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;chain&quot;</span><span class="p">,</span> <span class="s2">&quot;draw&quot;</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="k">assert</span> <span class="n">y_samples_per_obs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">n_obs</span><span class="p">,</span> <span class="s2">&quot;Shape assumptions aren&#39;t met.&quot;</span>
+    <span class="n">n_samples</span> <span class="o">=</span> <span class="n">y_samples_per_obs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="c1"># evaluate ECDF at each y_obs and convert to numpy array</span>
+    <span class="n">ecdf_values</span> <span class="o">=</span> <span class="n">y_samples_per_obs</span> <span class="o">&lt;=</span> <span class="n">y_obs</span>
+    <span class="n">prob</span> <span class="o">=</span> <span class="n">ecdf_values</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s2">&quot;sample&quot;</span><span class="p">)</span> <span class="o">/</span> <span class="n">n_samples</span>
+
+    <span class="k">return</span> <span class="n">prob</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">prob</span> <span class="o">=</span> <span class="n">evaluate_ecdf</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">prob</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">prob</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">prob</span><span class="p">))</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>  <span class="c1"># squared logit</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[0.4905   0.668375 0.813875 0.304625 0.571    0.393625 0.610375 0.2775
+ 0.508125 0.41075  0.528375 0.395    0.2455   0.79225  0.53125  0.540125
+ 0.38525  0.681625 0.986875 0.005   ]
+[ 0.00144435  0.49118313  2.17677064  0.68123523  0.08175727  0.18671035
+  0.20150114  0.91565089  0.00105644  0.13022411  0.01290998  0.18176809
+  1.26058627  1.79169352  0.01566581  0.0258714   0.21839098  0.57950114
+ 18.66261234 28.01907597]
+</pre></div>
+</div>
+</div>
+</div>
+<p>The last two values are the outliers. I’ve saved the old version of this code below, you should be able to click to expand it.</p>
+<div class="cell tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># old version</span>
+<span class="c1"># transforming data so we can broadcast</span>
 <span class="n">y_data</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;y_dim_2&quot;</span><span class="p">,))</span>
 <span class="n">y_sampled</span> <span class="o">=</span> <span class="n">trace</span><span class="o">.</span><span class="n">posterior_predictive</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">]</span>
 <span class="n">y_data</span> <span class="o">=</span> <span class="n">y_data</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span>
@@ -790,73 +898,117 @@ Sampling: [y]
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;xarray.DataArray (y_dim_2: 20)&gt;
-array([0.49925 , 0.665625, 0.81325 , 0.31125 , 0.559   , 0.400125,
-       0.617125, 0.275875, 0.513375, 0.42    , 0.523   , 0.40575 ,
-       0.257625, 0.787875, 0.5415  , 0.544   , 0.373625, 0.68025 ,
-       0.986125, 0.00275 ])
+array([0.4905  , 0.668375, 0.813875, 0.304625, 0.571   , 0.393625,
+       0.610375, 0.2775  , 0.508125, 0.41075 , 0.528375, 0.395   ,
+       0.2455  , 0.79225 , 0.53125 , 0.540125, 0.38525 , 0.681625,
+       0.986875, 0.005   ])
 Coordinates:
   * y_dim_2  (y_dim_2) int64 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19
 &lt;xarray.DataArray (y_dim_2: 20)&gt;
-array([ 0.000009  ,  0.47398176,  2.16462877,  0.63088376,  0.05621859,
-        0.16397989,  0.22787546,  0.9312562 ,  0.00286362,  0.10418266,
-        0.00847596,  0.14559025,  1.12010359,  1.72177364,  0.02768323,
-        0.03113687,  0.26697539,  0.56990562, 18.17909046, 34.73217039])
+array([ 0.00144435,  0.49118313,  2.17677064,  0.68123523,  0.08175727,
+        0.18671035,  0.20150114,  0.91565089,  0.00105644,  0.13022411,
+        0.01290998,  0.18176809,  1.26058627,  1.79169352,  0.01566581,
+        0.0258714 ,  0.21839098,  0.57950114, 18.66261234, 28.01907597])
 Coordinates:
   * y_dim_2  (y_dim_2) int64 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19
 &lt;xarray.DataArray ()&gt;
-array(61.5587851)
+array(55.63560904)
 </pre></div>
 </div>
 </div>
+</details>
 </div>
-<p>This should give equivalent results. They aren’t identical but they detect the same outliers.</p>
 </section>
-<section id="other-ways-to-check-model-fit">
-<h2>Other ways to check model fit<a class="headerlink" href="#other-ways-to-check-model-fit" title="Permalink to this heading">#</a></h2>
-<p>I know I say this a lot but I would definitely like to expand on this more in the future!</p>
-<section id="plot-posterior-predictive-distribution-vs-observed-values">
-<h3>Plot posterior predictive distribution vs. observed values<a class="headerlink" href="#plot-posterior-predictive-distribution-vs-observed-values" title="Permalink to this heading">#</a></h3>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">plot_ppc</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">num_pp_samples</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../_images/863171045ce34d92e6fd2e8a3815217e7a496980c1ea9af2993910ba13f56137.png" src="../_images/863171045ce34d92e6fd2e8a3815217e7a496980c1ea9af2993910ba13f56137.png" />
-</div>
-</div>
-<p>Doesn’t look like our posterior does a good job of fitting the observed data because of the outliers.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">plot_ppc</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;cumulative&quot;</span><span class="p">,</span> <span class="n">num_pp_samples</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../_images/c4a0e6ba5ef21fc151d90acca6ae8b8515188529d8f6ca98bb1ef9fd5e9cb227.png" src="../_images/c4a0e6ba5ef21fc151d90acca6ae8b8515188529d8f6ca98bb1ef9fd5e9cb227.png" />
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">plot_ppc</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;scatter&quot;</span><span class="p">,</span> <span class="n">num_pp_samples</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../_images/5a34725c4c7ce2f83585d247e60dac5a63ea84b933b17c5bcc2795a2888b7c7a.png" src="../_images/5a34725c4c7ce2f83585d247e60dac5a63ea84b933b17c5bcc2795a2888b7c7a.png" />
-</div>
-</div>
-<p>The below code is not working for me since PyMC 5. I’m not sure what happened. It should look like the example below, from their <a class="reference external" href="https://python.arviz.org/en/v0.15.1/api/generated/arviz.plot_lm.html">documentation</a>.</p>
+<section id="another-cool-arviz-plot">
+<h2>Another cool Arviz plot<a class="headerlink" href="#another-cool-arviz-plot" title="Permalink to this heading">#</a></h2>
+<p>Arviz has the <a class="reference external" href="https://python.arviz.org/en/v0.15.1/api/generated/arviz.plot_lm.html"><code class="docutils literal notranslate"><span class="pre">plot_lm</span></code></a> function as well. It’s really nice for visualizing the observed data versus the posterior predictive samples. Let’s try it with the single-predictor model from <a class="reference internal" href="../unit7/Unit7-demo-regression.html"><span class="doc std std-doc">11. Brozek index prediction*</span></a>.</p>
 <div class="cell tag_hide-output docutils container">
 <div class="cell_input above-output-prompt docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># broken?!</span>
-<span class="n">x</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">20</span><span class="p">))</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;../data/fat.tsv&quot;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">y</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(</span><span class="n">copy</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;X8&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(</span><span class="n">copy</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">m</span><span class="p">:</span>
+    <span class="n">sigma</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Exponential</span><span class="p">(</span><span class="s2">&quot;sigma&quot;</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">)</span>
+    <span class="n">beta0</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;intercept&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">beta1</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;slope&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+    <span class="n">mu</span> <span class="o">=</span> <span class="n">beta0</span> <span class="o">+</span> <span class="n">beta1</span> <span class="o">*</span> <span class="n">X</span>
+    <span class="n">likelihood</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
+
+    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">2000</span><span class="p">)</span>
+    <span class="n">pm</span><span class="o">.</span><span class="n">sample_posterior_predictive</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">extend_inferencedata</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<details class="hide below-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell output</span>
+<span class="expanded">Hide code cell output</span>
+</summary>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Auto-assigning NUTS sampler...
+Initializing NUTS using jitter+adapt_diag...
+Multiprocess sampling (4 chains in 4 jobs)
+NUTS: [sigma, intercept, slope]
+</pre></div>
+</div>
+<div class="output text_html">
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    progress:not([value]), progress:not([value])::-webkit-progress-bar {
+        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div><div class="output text_html">
+    <div>
+      <progress value='12000' class='' max='12000' style='width:300px; height:20px; vertical-align: middle;'></progress>
+      100.00% [12000/12000 00:03&lt;00:00 Sampling 4 chains, 0 divergences]
+    </div>
+    </div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 2_000 draw iterations (4_000 + 8_000 draws total) took 4 seconds.
+Sampling: [y]
+</pre></div>
+</div>
+<div class="output text_html">
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    progress:not([value]), progress:not([value])::-webkit-progress-bar {
+        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div><div class="output text_html">
+    <div>
+      <progress value='8000' class='' max='8000' style='width:300px; height:20px; vertical-align: middle;'></progress>
+      100.00% [8000/8000 00:00&lt;00:00]
+    </div>
+    </div></div>
+</details>
+</div>
+<p>Unfortunately, I haven’t been able to get this working for a year or two now.</p>
+<div class="cell tag_hide-output docutils container">
+<div class="cell_input above-output-prompt docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">252</span><span class="p">))</span>
+<span class="n">trace</span><span class="o">.</span><span class="n">posterior</span><span class="p">[</span><span class="s2">&quot;y_model&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">trace</span><span class="o">.</span><span class="n">posterior</span><span class="p">[</span><span class="s2">&quot;intercept&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">trace</span><span class="o">.</span><span class="n">posterior</span><span class="p">[</span><span class="s2">&quot;slope&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="n">x</span>
 <span class="n">az</span><span class="o">.</span><span class="n">plot_lm</span><span class="p">(</span><span class="n">idata</span><span class="o">=</span><span class="n">trace</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -868,42 +1020,43 @@ array(61.5587851)
 <div class="cell_output docutils container">
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
 <span class="ne">ValueError</span><span class="g g-Whitespace">                                </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">9</span><span class="p">],</span> <span class="n">line</span> <span class="mi">2</span>
-<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="n">x</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">20</span><span class="p">))</span>
-<span class="ne">----&gt; </span><span class="mi">2</span> <span class="n">az</span><span class="o">.</span><span class="n">plot_lm</span><span class="p">(</span><span class="n">idata</span><span class="o">=</span><span class="n">trace</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">)</span>
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">11</span><span class="p">],</span> <span class="n">line</span> <span class="mi">3</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="n">x</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">252</span><span class="p">))</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="n">trace</span><span class="o">.</span><span class="n">posterior</span><span class="p">[</span><span class="s2">&quot;y_model&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">trace</span><span class="o">.</span><span class="n">posterior</span><span class="p">[</span><span class="s2">&quot;intercept&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">trace</span><span class="o">.</span><span class="n">posterior</span><span class="p">[</span><span class="s2">&quot;slope&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="n">x</span>
+<span class="ne">----&gt; </span><span class="mi">3</span> <span class="n">az</span><span class="o">.</span><span class="n">plot_lm</span><span class="p">(</span><span class="n">idata</span><span class="o">=</span><span class="n">trace</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">)</span>
 
-<span class="nn">File ~/mambaforge/envs/pymc_env2/lib/python3.11/site-packages/arviz/plots/lmplot.py:351,</span> in <span class="ni">plot_lm</span><span class="nt">(y, idata, x, y_model, y_hat, num_samples, kind_pp, kind_model, xjitter, plot_dim, backend, y_kwargs, y_hat_plot_kwargs, y_hat_fill_kwargs, y_model_plot_kwargs, y_model_fill_kwargs, y_model_mean_kwargs, backend_kwargs, show, figsize, textsize, axes, legend, grid)</span>
+<span class="nn">File ~/mambaforge/envs/pymc/lib/python3.11/site-packages/arviz/plots/lmplot.py:351,</span> in <span class="ni">plot_lm</span><span class="nt">(y, idata, x, y_model, y_hat, num_samples, kind_pp, kind_model, xjitter, plot_dim, backend, y_kwargs, y_hat_plot_kwargs, y_hat_fill_kwargs, y_model_plot_kwargs, y_model_fill_kwargs, y_model_mean_kwargs, backend_kwargs, show, figsize, textsize, axes, legend, grid)</span>
 <span class="g g-Whitespace">    </span><span class="mi">348</span> <span class="n">backend</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
 <span class="g g-Whitespace">    </span><span class="mi">350</span> <span class="n">plot</span> <span class="o">=</span> <span class="n">get_plotting_function</span><span class="p">(</span><span class="s2">&quot;plot_lm&quot;</span><span class="p">,</span> <span class="s2">&quot;lmplot&quot;</span><span class="p">,</span> <span class="n">backend</span><span class="p">)</span>
 <span class="ne">--&gt; </span><span class="mi">351</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plot</span><span class="p">(</span><span class="o">**</span><span class="n">lmplot_kwargs</span><span class="p">)</span>
 <span class="g g-Whitespace">    </span><span class="mi">352</span> <span class="k">return</span> <span class="n">ax</span>
 
-<span class="nn">File ~/mambaforge/envs/pymc_env2/lib/python3.11/site-packages/arviz/plots/backends/matplotlib/lmplot.py:108,</span> in <span class="ni">plot_lm</span><span class="nt">(x, y, y_model, y_hat, num_samples, kind_pp, kind_model, xjitter, length_plotters, rows, cols, y_kwargs, y_hat_plot_kwargs, y_hat_fill_kwargs, y_model_plot_kwargs, y_model_fill_kwargs, y_model_mean_kwargs, backend_kwargs, show, figsize, textsize, axes, legend, grid)</span>
+<span class="nn">File ~/mambaforge/envs/pymc/lib/python3.11/site-packages/arviz/plots/backends/matplotlib/lmplot.py:108,</span> in <span class="ni">plot_lm</span><span class="nt">(x, y, y_model, y_hat, num_samples, kind_pp, kind_model, xjitter, length_plotters, rows, cols, y_kwargs, y_hat_plot_kwargs, y_hat_fill_kwargs, y_model_plot_kwargs, y_model_fill_kwargs, y_model_mean_kwargs, backend_kwargs, show, figsize, textsize, axes, legend, grid)</span>
 <span class="g g-Whitespace">    </span><span class="mi">106</span>             <span class="n">ax_i</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_plotters_jitter</span><span class="p">,</span> <span class="n">y_hat_plotters</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">j</span><span class="p">],</span> <span class="o">**</span><span class="n">y_hat_plot_kwargs</span><span class="p">)</span>
 <span class="g g-Whitespace">    </span><span class="mi">107</span>         <span class="k">else</span><span class="p">:</span>
 <span class="ne">--&gt; </span><span class="mi">108</span>             <span class="n">ax_i</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_plotters</span><span class="p">,</span> <span class="n">y_hat_plotters</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">j</span><span class="p">],</span> <span class="o">**</span><span class="n">y_hat_plot_kwargs</span><span class="p">)</span>
 <span class="g g-Whitespace">    </span><span class="mi">109</span>     <span class="n">ax_i</span><span class="o">.</span><span class="n">plot</span><span class="p">([],</span> <span class="o">**</span><span class="n">y_hat_plot_kwargs</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Posterior predictive samples&quot;</span><span class="p">)</span>
 <span class="g g-Whitespace">    </span><span class="mi">110</span> <span class="k">else</span><span class="p">:</span>
 
-<span class="nn">File ~/mambaforge/envs/pymc_env2/lib/python3.11/site-packages/matplotlib/axes/_axes.py:1668,</span> in <span class="ni">Axes.plot</span><span class="nt">(self, scalex, scaley, data, *args, **kwargs)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1425</span><span class="w"> </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="g g-Whitespace">   </span><span class="mi">1426</span><span class="sd"> Plot y versus x as lines and/or markers.</span>
-<span class="g g-Whitespace">   </span><span class="mi">1427</span><span class="sd"> </span>
+<span class="nn">File ~/mambaforge/envs/pymc/lib/python3.11/site-packages/matplotlib/axes/_axes.py:1688,</span> in <span class="ni">Axes.plot</span><span class="nt">(self, scalex, scaley, data, *args, **kwargs)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1445</span><span class="w"> </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="g g-Whitespace">   </span><span class="mi">1446</span><span class="sd"> Plot y versus x as lines and/or markers.</span>
+<span class="g g-Whitespace">   </span><span class="mi">1447</span><span class="sd"> </span>
 <span class="sd">   (...)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1665</span><span class="sd"> (``&#39;green&#39;``) or hex strings (``&#39;#008000&#39;``).</span>
-<span class="g g-Whitespace">   </span><span class="mi">1666</span><span class="sd"> &quot;&quot;&quot;</span>
-<span class="g g-Whitespace">   </span><span class="mi">1667</span> <span class="n">kwargs</span> <span class="o">=</span> <span class="n">cbook</span><span class="o">.</span><span class="n">normalize_kwargs</span><span class="p">(</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">mlines</span><span class="o">.</span><span class="n">Line2D</span><span class="p">)</span>
-<span class="ne">-&gt; </span><span class="mi">1668</span> <span class="n">lines</span> <span class="o">=</span> <span class="p">[</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_lines</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)]</span>
-<span class="g g-Whitespace">   </span><span class="mi">1669</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">:</span>
-<span class="g g-Whitespace">   </span><span class="mi">1670</span>     <span class="bp">self</span><span class="o">.</span><span class="n">add_line</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1685</span><span class="sd"> (``&#39;green&#39;``) or hex strings (``&#39;#008000&#39;``).</span>
+<span class="g g-Whitespace">   </span><span class="mi">1686</span><span class="sd"> &quot;&quot;&quot;</span>
+<span class="g g-Whitespace">   </span><span class="mi">1687</span> <span class="n">kwargs</span> <span class="o">=</span> <span class="n">cbook</span><span class="o">.</span><span class="n">normalize_kwargs</span><span class="p">(</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">mlines</span><span class="o">.</span><span class="n">Line2D</span><span class="p">)</span>
+<span class="ne">-&gt; </span><span class="mi">1688</span> <span class="n">lines</span> <span class="o">=</span> <span class="p">[</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_lines</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)]</span>
+<span class="g g-Whitespace">   </span><span class="mi">1689</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">1690</span>     <span class="bp">self</span><span class="o">.</span><span class="n">add_line</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
 
-<span class="nn">File ~/mambaforge/envs/pymc_env2/lib/python3.11/site-packages/matplotlib/axes/_base.py:311,</span> in <span class="ni">_process_plot_var_args.__call__</span><span class="nt">(self, data, *args, **kwargs)</span>
+<span class="nn">File ~/mambaforge/envs/pymc/lib/python3.11/site-packages/matplotlib/axes/_base.py:311,</span> in <span class="ni">_process_plot_var_args.__call__</span><span class="nt">(self, data, *args, **kwargs)</span>
 <span class="g g-Whitespace">    </span><span class="mi">309</span>     <span class="n">this</span> <span class="o">+=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
 <span class="g g-Whitespace">    </span><span class="mi">310</span>     <span class="n">args</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
 <span class="ne">--&gt; </span><span class="mi">311</span> <span class="k">yield from</span> <span class="bp">self</span><span class="o">.</span><span class="n">_plot_args</span><span class="p">(</span>
 <span class="g g-Whitespace">    </span><span class="mi">312</span>     <span class="n">this</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">,</span> <span class="n">ambiguous_fmt_datakey</span><span class="o">=</span><span class="n">ambiguous_fmt_datakey</span><span class="p">)</span>
 
-<span class="nn">File ~/mambaforge/envs/pymc_env2/lib/python3.11/site-packages/matplotlib/axes/_base.py:504,</span> in <span class="ni">_process_plot_var_args._plot_args</span><span class="nt">(self, tup, kwargs, return_kwargs, ambiguous_fmt_datakey)</span>
+<span class="nn">File ~/mambaforge/envs/pymc/lib/python3.11/site-packages/matplotlib/axes/_base.py:504,</span> in <span class="ni">_process_plot_var_args._plot_args</span><span class="nt">(self, tup, kwargs, return_kwargs, ambiguous_fmt_datakey)</span>
 <span class="g g-Whitespace">    </span><span class="mi">501</span>     <span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">update_units</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
 <span class="g g-Whitespace">    </span><span class="mi">503</span> <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
 <span class="ne">--&gt; </span><span class="mi">504</span>     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;x and y must have same first dimension, but &quot;</span>
@@ -912,39 +1065,28 @@ array(61.5587851)
 <span class="g g-Whitespace">    </span><span class="mi">507</span>     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;x and y can be no greater than 2D, but have &quot;</span>
 <span class="g g-Whitespace">    </span><span class="mi">508</span>                      <span class="sa">f</span><span class="s2">&quot;shapes </span><span class="si">{</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2"> and </span><span class="si">{</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-<span class="ne">ValueError</span>: x and y must have same first dimension, but have shapes (20,) and (1,)
+<span class="ne">ValueError</span>: x and y must have same first dimension, but have shapes (252,) and (1,)
 </pre></div>
 </div>
-<img alt="../_images/7a8856d84abff3c9eb5c18773e6a4234a5f00e0c2d8182e808eca1f08311fe88.png" src="../_images/7a8856d84abff3c9eb5c18773e6a4234a5f00e0c2d8182e808eca1f08311fe88.png" />
+<img alt="../_images/1b52d5f5a1167b90b37b030e5b54aa97d1a9547d3f3adaf06f3dda9d2beade31.png" src="../_images/1b52d5f5a1167b90b37b030e5b54aa97d1a9547d3f3adaf06f3dda9d2beade31.png" />
 </div>
 </details>
 </div>
+<p>The below example from the <a class="reference external" href="https://python.arviz.org/en/v0.16.1/api/generated/arviz.plot_lm.html">Arviz docs</a> still works, but the idata here was generated using PyMC 3. Maybe there’s some subtle difference that I’m missing. Let me know if you figure it out!</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># docs example still working though</span>
-<span class="c1"># from https://python.arviz.org/en/stable/api/generated/arviz.plot_lm.html</span>
-
-<span class="n">idata</span> <span class="o">=</span> <span class="n">az</span><span class="o">.</span><span class="n">load_arviz_data</span><span class="p">(</span><span class="s2">&quot;regression1d&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">idata</span> <span class="o">=</span> <span class="n">az</span><span class="o">.</span><span class="n">load_arviz_data</span><span class="p">(</span><span class="s2">&quot;regression1d&quot;</span><span class="p">)</span>
 <span class="n">x</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">100</span><span class="p">))</span>
 <span class="n">idata</span><span class="o">.</span><span class="n">posterior</span><span class="p">[</span><span class="s2">&quot;y_model&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">idata</span><span class="o">.</span><span class="n">posterior</span><span class="p">[</span><span class="s2">&quot;intercept&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">idata</span><span class="o">.</span><span class="n">posterior</span><span class="p">[</span><span class="s2">&quot;slope&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="n">x</span>
 <span class="n">az</span><span class="o">.</span><span class="n">plot_lm</span><span class="p">(</span><span class="n">idata</span><span class="o">=</span><span class="n">idata</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/607ffd238c24ff1b8192ebd75e70682d8a47b30c8922385c7c97afd6b4f2e4f2.png" src="../_images/607ffd238c24ff1b8192ebd75e70682d8a47b30c8922385c7c97afd6b4f2e4f2.png" />
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">plot_lm</span><span class="p">(</span><span class="n">idata</span><span class="o">=</span><span class="n">idata</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">y_model</span><span class="o">=</span><span class="s2">&quot;y_model&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[&lt;Axes: ylabel=&#39;y&#39;&gt;]], dtype=object)
 </pre></div>
 </div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../_images/6d9f1fc6dd12ec39b306782d0bb3541859d55c9decdf719eb2332733f1f10ed6.png" src="../_images/6d9f1fc6dd12ec39b306782d0bb3541859d55c9decdf719eb2332733f1f10ed6.png" />
+<img alt="../_images/a2873e84b439d423b95aade4bd911493b4fda1e87dcfa8b3346aa053078ae422.png" src="../_images/a2873e84b439d423b95aade4bd911493b4fda1e87dcfa8b3346aa053078ae422.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -955,24 +1097,24 @@ array(61.5587851)
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Mon Apr 03 2023
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Tue Nov 07 2023
 
 Python implementation: CPython
-Python version       : 3.11.0
-IPython version      : 8.9.0
+Python version       : 3.11.5
+IPython version      : 8.15.0
 
-pytensor: 2.10.1
+pytensor: 2.17.1
 
-xarray    : 2023.1.0
-numpy     : 1.24.2
-matplotlib: 3.6.3
-pymc      : 5.1.2
-arviz     : 0.15.1
+arviz     : 0.16.1
+pymc      : 5.9.0
+pandas    : 2.1.0
+numpy     : 1.25.2
+xarray    : 2023.8.0
+matplotlib: 3.7.2
 </pre></div>
 </div>
 </div>
 </div>
-</section>
 </section>
 </section>
 
@@ -1044,10 +1186,9 @@ arviz     : 0.15.1
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notes">Notes</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#other-ways-to-check-model-fit">Other ways to check model fit</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-posterior-predictive-distribution-vs-observed-values">Plot posterior predictive distribution vs. observed values</a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fitting-the-model">Fitting the model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-posterior-predictive-distribution-vs-observed-values">Plot posterior predictive distribution vs. observed values</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#another-cool-arviz-plot">Another cool Arviz plot</a></li>
 </ul>
   </nav></div>
 
