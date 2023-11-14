@@ -563,6 +563,7 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#problem-statement-mvn-with-gender-specific-means-but-common-precision-matrix">Problem statement: MVN with gender-Specific means but common precision matrix</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lecture-errata">Lecture errata</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notes">Notes</a></li>
 </ul>
@@ -579,12 +580,10 @@ document.write(`
   <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pymc</span> <span class="k">as</span> <span class="nn">pm</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">arviz</span> <span class="k">as</span> <span class="nn">az</span>
-<span class="kn">from</span> <span class="nn">pymc.math</span> <span class="kn">import</span> <span class="n">matrix_inverse</span><span class="p">,</span> <span class="n">extract_diag</span><span class="p">,</span> <span class="n">sqrt</span>
 <span class="kn">import</span> <span class="nn">pytensor.tensor</span> <span class="k">as</span> <span class="nn">pt</span>
-
-<span class="o">%</span><span class="k">load_ext</span> lab_black
 </pre></div>
 </div>
 </div>
@@ -592,28 +591,37 @@ document.write(`
 <section class="tex2jax_ignore mathjax_ignore" id="dental-development">
 <h1><span class="section-number">2. </span>Dental Development*<a class="headerlink" href="#dental-development" title="Permalink to this heading">#</a></h1>
 <p>Adapted from <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/original_examples/Codes4Unit10/growth.odc">Unit 10: growth.odc</a>.</p>
-<p>Data for the y array can be found <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/data/growthy.txt">here</a>.</p>
-<p>Data set on dental development was first provided by Potthof and Roy in their 1964 paper. It consists of longitudinal observations on 11 girls (gender=1) and 16 boys (gender=2).</p>
-<p>There are 4 observations on each subject centered at times -3,-1, 1, 3, where the units were years.</p>
-<p>The measurement on each subject is the distance (in mm) from the center of the pituitary to the pteryomaxillary fisure.</p>
-<p>Potthoff and Roy (1964). “A Generalized Multivariate Analysis of Variance Model Useful Especially for Growth Curve Problems,” Biometrika, 51, 313-326.</p>
-<p>MVN with Gender Specific Means but Common Precision Matrix</p>
+<p>The lecture version of the response data is <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/data/growthy.txt">here</a>.</p>
+<p>The updated data, which should match the original paper, is available <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/data/dental_new.csv">here</a>.</p>
+<section id="problem-statement-mvn-with-gender-specific-means-but-common-precision-matrix">
+<h2>Problem statement: MVN with gender-Specific means but common precision matrix<a class="headerlink" href="#problem-statement-mvn-with-gender-specific-means-but-common-precision-matrix" title="Permalink to this heading">#</a></h2>
+<p>This dataset on dental development was first introduced by Potthoff and Roy in their 1964 paper. It comprises longitudinal observations of 11 girls (gender=1) and 15 boys (gender=2).</p>
+<p>Each subject has 4 observations, centered at times -3, -1, 1, and 3, where the units are measured in years.</p>
+<p>The measurement for each subject is the distance (in mm) from the center of the pituitary to the pterygomaxillary fissure.</p>
+<p><a class="reference external" href="https://academic.oup.com/biomet/article/51/3-4/313/291852">Potthoff and Roy (1964)</a>. “A Generalized Multivariate Analysis of Variance Model Useful Especially for Growth Curve Problems,” <em>Biometrika</em>, 51, pp. 313-326.</p>
+</section>
 <section id="lecture-errata">
 <h2>Lecture errata<a class="headerlink" href="#lecture-errata" title="Permalink to this heading">#</a></h2>
-<p>See pdf</p>
+<p>There were only 15 rows for boys in the lecture data. I’ve fixed the dataset to match the study in this version.</p>
 </section>
 <section id="notes">
 <h2>Notes<a class="headerlink" href="#notes" title="Permalink to this heading">#</a></h2>
-<ul class="simple">
-<li><p>Wishart. Pymc docs say it’s unusable.</p></li>
-<li><p><a class="github reference external" href="https://github.com/pymc-devs/pymc/issues/538">pymc-devs/pymc#538</a> interesting discussion here</p></li>
-<li><p><a class="reference external" href="https://austinrochford.com/posts/2015-09-16-mvn-pymc3-lkj.html">https://austinrochford.com/posts/2015-09-16-mvn-pymc3-lkj.html</a></p></li>
-</ul>
-<p>Currently have a working version but not sure if it’s correct. I split the likelihoods for male and female with a shared covariance matrix. Results are sort of in-line with BUGS. Not sure if the difference is from the different prior on the covariance matrix or something else. A better way would be to use the coordinate system but I couldn’t get it working with the multivariate normal likelihood.</p>
+<p>There’s an interesting discussion in the PyMC Github issues tracker on problems with the <a class="reference external" href="https://github.com/pymc-devs/pymc/issues/538">Wishart prior</a>, and an intro to using the <a class="reference external" href="https://en.wikipedia.org/wiki/Lewandowski-Kurowicka-Joe_distribution">Lewandowski-Kurowicka-Joe distribution</a> as a prior on the covariance matrix <a class="reference external" href="https://www.pymc.io/projects/examples/en/latest/case_studies/LKJ.html">here</a>. Another option might be to use <a class="reference external" href="https://www.pymc.io/projects/docs/en/stable/api/distributions/generated/pymc.WishartBartlett.html">Wishart-Bartlett</a> rather than <a class="reference external" href="https://www.pymc.io/projects/docs/en/stable/api/distributions/generated/pymc.LKJCholeskyCov.html">LKJCholeskyCov</a>, but the PyMC devs still don’t recommend that.</p>
+<p>I currently have a working version below, but am not sure if it’s correct because it doesn’t fully match the BUGS results. I split the likelihoods for male and female with a shared covariance matrix. It could just be that the difference is from the different prior on the covariance matrix, but it could also be something else.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dental</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;../data/dental_new.csv&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
-<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="s2">&quot;../data/growthy.txt&quot;</span><span class="p">)</span>
+<span class="n">girls</span> <span class="o">=</span> <span class="n">dental</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s2">&quot;Girl == 1&quot;</span><span class="p">)</span>
+<span class="n">boys</span> <span class="o">=</span> <span class="n">dental</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s2">&quot;Girl == 0&quot;</span><span class="p">)</span>
+<span class="n">girls_y</span> <span class="o">=</span> <span class="n">girls</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+<span class="n">boys_y</span> <span class="o">=</span> <span class="n">boys</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -627,12 +635,12 @@ document.write(`
     <span class="n">sd_dist</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
     <span class="n">T</span><span class="p">,</span> <span class="n">corr</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">LKJCholeskyCov</span><span class="p">(</span><span class="s2">&quot;T&quot;</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">eta</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">sd_dist</span><span class="o">=</span><span class="n">sd_dist</span><span class="p">,</span> <span class="n">compute_corr</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-    <span class="n">mu_male</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;mu_male&quot;</span><span class="p">,</span> <span class="n">beta1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">beta2</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">time</span><span class="p">)</span>
-    <span class="n">mu_female</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;mu_female&quot;</span><span class="p">,</span> <span class="n">beta1</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">beta2</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">time</span><span class="p">)</span>
+    <span class="n">mu_male</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;mu_boys&quot;</span><span class="p">,</span> <span class="n">beta1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">beta2</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">time</span><span class="p">)</span>
+    <span class="n">mu_female</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;mu_girls&quot;</span><span class="p">,</span> <span class="n">beta1</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">beta2</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">time</span><span class="p">)</span>
 
-    <span class="n">pm</span><span class="o">.</span><span class="n">MvNormal</span><span class="p">(</span><span class="s2">&quot;likelihood_male&quot;</span><span class="p">,</span> <span class="n">mu_male</span><span class="p">,</span> <span class="n">chol</span><span class="o">=</span><span class="n">T</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">observed</span><span class="o">=</span><span class="n">y</span><span class="p">[:</span><span class="mi">12</span><span class="p">,</span> <span class="p">:])</span>
+    <span class="n">pm</span><span class="o">.</span><span class="n">MvNormal</span><span class="p">(</span><span class="s2">&quot;likelihood_boys&quot;</span><span class="p">,</span> <span class="n">mu_male</span><span class="p">,</span> <span class="n">chol</span><span class="o">=</span><span class="n">T</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">observed</span><span class="o">=</span><span class="n">girls_y</span><span class="p">)</span>
     <span class="n">pm</span><span class="o">.</span><span class="n">MvNormal</span><span class="p">(</span>
-        <span class="s2">&quot;likelihood_female&quot;</span><span class="p">,</span> <span class="n">mu_female</span><span class="p">,</span> <span class="n">chol</span><span class="o">=</span><span class="n">T</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">observed</span><span class="o">=</span><span class="n">y</span><span class="p">[</span><span class="mi">11</span><span class="p">:,</span> <span class="p">:]</span>
+        <span class="s2">&quot;likelihood_girls&quot;</span><span class="p">,</span> <span class="n">mu_female</span><span class="p">,</span> <span class="n">chol</span><span class="o">=</span><span class="n">T</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">observed</span><span class="o">=</span><span class="n">boys_y</span>
     <span class="p">)</span>
 
     <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;corr&quot;</span><span class="p">,</span> <span class="n">corr</span><span class="p">)</span>
@@ -667,13 +675,15 @@ NUTS: [beta1, beta2, T]
 </div><div class="output text_html">
     <div>
       <progress value='8000' class='' max='8000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-      100.00% [8000/8000 01:15&lt;00:00 Sampling 4 chains, 0 divergences]
+      100.00% [8000/8000 00:02&lt;00:00 Sampling 4 chains, 0 divergences]
     </div>
-    </div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc_env2/lib/python3.11/site-packages/pytensor/compile/function/types.py:970: RuntimeWarning: invalid value encountered in accumulate
+    </div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc/lib/python3.11/site-packages/pytensor/compile/function/types.py:970: RuntimeWarning: invalid value encountered in accumulate
   self.vm()
-/Users/aaron/mambaforge/envs/pymc_env2/lib/python3.11/site-packages/pytensor/compile/function/types.py:970: RuntimeWarning: invalid value encountered in accumulate
+/Users/aaron/mambaforge/envs/pymc/lib/python3.11/site-packages/pytensor/compile/function/types.py:970: RuntimeWarning: invalid value encountered in accumulate
   self.vm()
-Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws total) took 75 seconds.
+/Users/aaron/mambaforge/envs/pymc/lib/python3.11/site-packages/pytensor/compile/function/types.py:970: RuntimeWarning: invalid value encountered in accumulate
+  self.vm()
+Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws total) took 3 seconds.
 </pre></div>
 </div>
 </div>
@@ -717,50 +727,50 @@ Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws 
   <tbody>
     <tr>
       <th>beta1[0]</th>
-      <td>23.053</td>
-      <td>0.485</td>
-      <td>22.114</td>
-      <td>23.969</td>
-      <td>0.008</td>
-      <td>0.006</td>
-      <td>3493.0</td>
-      <td>2614.0</td>
+      <td>22.664</td>
+      <td>0.509</td>
+      <td>21.744</td>
+      <td>23.647</td>
+      <td>0.007</td>
+      <td>0.005</td>
+      <td>5807.0</td>
+      <td>2831.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>beta1[1]</th>
-      <td>25.165</td>
-      <td>0.463</td>
-      <td>24.331</td>
-      <td>26.078</td>
-      <td>0.007</td>
-      <td>0.005</td>
-      <td>3791.0</td>
-      <td>2803.0</td>
+      <td>24.940</td>
+      <td>0.447</td>
+      <td>24.129</td>
+      <td>25.789</td>
+      <td>0.006</td>
+      <td>0.004</td>
+      <td>5139.0</td>
+      <td>2933.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>beta2[0]</th>
-      <td>0.525</td>
-      <td>0.111</td>
-      <td>0.321</td>
-      <td>0.732</td>
+      <td>0.476</td>
+      <td>0.110</td>
+      <td>0.269</td>
+      <td>0.682</td>
       <td>0.002</td>
       <td>0.001</td>
-      <td>3815.0</td>
-      <td>2934.0</td>
+      <td>5355.0</td>
+      <td>2797.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>beta2[1]</th>
-      <td>0.780</td>
-      <td>0.112</td>
-      <td>0.583</td>
-      <td>1.006</td>
-      <td>0.002</td>
+      <td>0.865</td>
+      <td>0.102</td>
+      <td>0.664</td>
+      <td>1.045</td>
       <td>0.001</td>
-      <td>3054.0</td>
-      <td>2611.0</td>
+      <td>0.001</td>
+      <td>5063.0</td>
+      <td>3028.0</td>
       <td>1.0</td>
     </tr>
   </tbody>
@@ -774,7 +784,7 @@ Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws 
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc_env2/lib/python3.11/site-packages/arviz/stats/diagnostics.py:592: RuntimeWarning: invalid value encountered in scalar divide
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc/lib/python3.11/site-packages/arviz/stats/diagnostics.py:592: RuntimeWarning: invalid value encountered in scalar divide
   (between_chain_variance / within_chain_variance + num_samples - 1) / (num_samples)
 </pre></div>
 </div>
@@ -822,50 +832,50 @@ Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws 
     </tr>
     <tr>
       <th>corr[0, 1]</th>
-      <td>0.475</td>
-      <td>0.134</td>
-      <td>0.219</td>
-      <td>0.711</td>
+      <td>0.413</td>
+      <td>0.146</td>
+      <td>0.147</td>
+      <td>0.683</td>
       <td>0.003</td>
       <td>0.002</td>
-      <td>2428.0</td>
-      <td>2512.0</td>
+      <td>3404.0</td>
+      <td>2840.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>corr[0, 2]</th>
-      <td>0.622</td>
-      <td>0.108</td>
-      <td>0.412</td>
-      <td>0.805</td>
+      <td>0.500</td>
+      <td>0.138</td>
+      <td>0.235</td>
+      <td>0.741</td>
       <td>0.002</td>
       <td>0.002</td>
-      <td>2199.0</td>
-      <td>2435.0</td>
+      <td>3368.0</td>
+      <td>2659.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>corr[0, 3]</th>
-      <td>0.408</td>
-      <td>0.143</td>
-      <td>0.152</td>
-      <td>0.674</td>
+      <td>0.334</td>
+      <td>0.158</td>
+      <td>0.025</td>
+      <td>0.613</td>
       <td>0.003</td>
       <td>0.002</td>
-      <td>2611.0</td>
-      <td>2983.0</td>
+      <td>2490.0</td>
+      <td>2991.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>corr[1, 0]</th>
-      <td>0.475</td>
-      <td>0.134</td>
-      <td>0.219</td>
-      <td>0.711</td>
+      <td>0.413</td>
+      <td>0.146</td>
+      <td>0.147</td>
+      <td>0.683</td>
       <td>0.003</td>
       <td>0.002</td>
-      <td>2428.0</td>
-      <td>2512.0</td>
+      <td>3404.0</td>
+      <td>2840.0</td>
       <td>1.0</td>
     </tr>
     <tr>
@@ -876,56 +886,56 @@ Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws 
       <td>1.000</td>
       <td>0.000</td>
       <td>0.000</td>
-      <td>3778.0</td>
-      <td>3626.0</td>
+      <td>3503.0</td>
+      <td>3524.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>corr[1, 2]</th>
-      <td>0.723</td>
-      <td>0.087</td>
-      <td>0.558</td>
-      <td>0.865</td>
+      <td>0.413</td>
+      <td>0.142</td>
+      <td>0.148</td>
+      <td>0.669</td>
       <td>0.002</td>
-      <td>0.001</td>
-      <td>3248.0</td>
-      <td>3162.0</td>
+      <td>0.002</td>
+      <td>3780.0</td>
+      <td>2744.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>corr[1, 3]</th>
-      <td>0.553</td>
-      <td>0.125</td>
-      <td>0.311</td>
-      <td>0.763</td>
+      <td>0.626</td>
+      <td>0.117</td>
+      <td>0.408</td>
+      <td>0.823</td>
       <td>0.002</td>
-      <td>0.002</td>
-      <td>2836.0</td>
-      <td>2842.0</td>
+      <td>0.001</td>
+      <td>3561.0</td>
+      <td>3120.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>corr[2, 0]</th>
-      <td>0.622</td>
-      <td>0.108</td>
-      <td>0.412</td>
-      <td>0.805</td>
+      <td>0.500</td>
+      <td>0.138</td>
+      <td>0.235</td>
+      <td>0.741</td>
       <td>0.002</td>
       <td>0.002</td>
-      <td>2199.0</td>
-      <td>2435.0</td>
+      <td>3368.0</td>
+      <td>2659.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>corr[2, 1]</th>
-      <td>0.723</td>
-      <td>0.087</td>
-      <td>0.558</td>
-      <td>0.865</td>
+      <td>0.413</td>
+      <td>0.142</td>
+      <td>0.148</td>
+      <td>0.669</td>
       <td>0.002</td>
-      <td>0.001</td>
-      <td>3248.0</td>
-      <td>3162.0</td>
+      <td>0.002</td>
+      <td>3780.0</td>
+      <td>2744.0</td>
       <td>1.0</td>
     </tr>
     <tr>
@@ -936,56 +946,56 @@ Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws 
       <td>1.000</td>
       <td>0.000</td>
       <td>0.000</td>
-      <td>3837.0</td>
-      <td>3568.0</td>
+      <td>3911.0</td>
+      <td>3785.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>corr[2, 3]</th>
-      <td>0.803</td>
-      <td>0.067</td>
-      <td>0.675</td>
-      <td>0.910</td>
+      <td>0.608</td>
+      <td>0.113</td>
+      <td>0.392</td>
+      <td>0.800</td>
+      <td>0.002</td>
       <td>0.001</td>
-      <td>0.001</td>
-      <td>3275.0</td>
-      <td>2872.0</td>
+      <td>4558.0</td>
+      <td>2589.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>corr[3, 0]</th>
-      <td>0.408</td>
-      <td>0.143</td>
-      <td>0.152</td>
-      <td>0.674</td>
+      <td>0.334</td>
+      <td>0.158</td>
+      <td>0.025</td>
+      <td>0.613</td>
       <td>0.003</td>
       <td>0.002</td>
-      <td>2611.0</td>
-      <td>2983.0</td>
+      <td>2490.0</td>
+      <td>2991.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>corr[3, 1]</th>
-      <td>0.553</td>
-      <td>0.125</td>
-      <td>0.311</td>
-      <td>0.763</td>
+      <td>0.626</td>
+      <td>0.117</td>
+      <td>0.408</td>
+      <td>0.823</td>
       <td>0.002</td>
-      <td>0.002</td>
-      <td>2836.0</td>
-      <td>2842.0</td>
+      <td>0.001</td>
+      <td>3561.0</td>
+      <td>3120.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>corr[3, 2]</th>
-      <td>0.803</td>
-      <td>0.067</td>
-      <td>0.675</td>
-      <td>0.910</td>
+      <td>0.608</td>
+      <td>0.113</td>
+      <td>0.392</td>
+      <td>0.800</td>
+      <td>0.002</td>
       <td>0.001</td>
-      <td>0.001</td>
-      <td>3275.0</td>
-      <td>2872.0</td>
+      <td>4558.0</td>
+      <td>2589.0</td>
       <td>1.0</td>
     </tr>
     <tr>
@@ -996,8 +1006,8 @@ Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws 
       <td>1.000</td>
       <td>0.000</td>
       <td>0.000</td>
-      <td>3965.0</td>
-      <td>3982.0</td>
+      <td>3707.0</td>
+      <td>3953.0</td>
       <td>1.0</td>
     </tr>
   </tbody>
@@ -1006,7 +1016,7 @@ Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws 
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;mu_male&quot;</span><span class="p">,</span> <span class="s2">&quot;mu_female&quot;</span><span class="p">])</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;mu_boys&quot;</span><span class="p">,</span> <span class="s2">&quot;mu_girls&quot;</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -1042,99 +1052,99 @@ Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws 
   </thead>
   <tbody>
     <tr>
-      <th>mu_male[0]</th>
-      <td>21.480</td>
-      <td>0.520</td>
-      <td>20.479</td>
-      <td>22.421</td>
+      <th>mu_boys[0]</th>
+      <td>21.235</td>
+      <td>0.578</td>
+      <td>20.207</td>
+      <td>22.399</td>
       <td>0.008</td>
       <td>0.005</td>
-      <td>4702.0</td>
-      <td>2851.0</td>
+      <td>5646.0</td>
+      <td>3012.0</td>
       <td>1.0</td>
     </tr>
     <tr>
-      <th>mu_male[1]</th>
-      <td>22.529</td>
+      <th>mu_boys[1]</th>
+      <td>22.188</td>
+      <td>0.510</td>
+      <td>21.279</td>
+      <td>23.194</td>
+      <td>0.007</td>
+      <td>0.005</td>
+      <td>5785.0</td>
+      <td>3034.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>mu_boys[2]</th>
+      <td>23.140</td>
+      <td>0.531</td>
+      <td>22.117</td>
+      <td>24.106</td>
+      <td>0.007</td>
+      <td>0.005</td>
+      <td>5622.0</td>
+      <td>3215.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>mu_boys[3]</th>
+      <td>24.092</td>
+      <td>0.634</td>
+      <td>22.858</td>
+      <td>25.239</td>
+      <td>0.009</td>
+      <td>0.006</td>
+      <td>5449.0</td>
+      <td>3052.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>mu_girls[0]</th>
+      <td>22.344</td>
+      <td>0.508</td>
+      <td>21.342</td>
+      <td>23.232</td>
+      <td>0.007</td>
+      <td>0.005</td>
+      <td>5833.0</td>
+      <td>3474.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>mu_girls[1]</th>
+      <td>24.075</td>
+      <td>0.445</td>
+      <td>23.246</td>
+      <td>24.900</td>
+      <td>0.006</td>
+      <td>0.004</td>
+      <td>5368.0</td>
+      <td>3210.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>mu_girls[2]</th>
+      <td>25.805</td>
       <td>0.471</td>
-      <td>21.658</td>
-      <td>23.449</td>
-      <td>0.008</td>
-      <td>0.005</td>
-      <td>3863.0</td>
-      <td>2918.0</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>mu_male[2]</th>
-      <td>23.578</td>
-      <td>0.522</td>
-      <td>22.603</td>
-      <td>24.580</td>
-      <td>0.009</td>
-      <td>0.006</td>
-      <td>3264.0</td>
-      <td>2647.0</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>mu_male[3]</th>
-      <td>24.627</td>
-      <td>0.649</td>
-      <td>23.409</td>
-      <td>25.849</td>
-      <td>0.012</td>
-      <td>0.008</td>
-      <td>3124.0</td>
-      <td>2590.0</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>mu_female[0]</th>
-      <td>22.825</td>
-      <td>0.501</td>
-      <td>21.869</td>
-      <td>23.726</td>
+      <td>24.960</td>
+      <td>26.695</td>
       <td>0.007</td>
       <td>0.005</td>
-      <td>4741.0</td>
-      <td>3318.0</td>
+      <td>5010.0</td>
+      <td>3140.0</td>
       <td>1.0</td>
     </tr>
     <tr>
-      <th>mu_female[1]</th>
-      <td>24.385</td>
-      <td>0.449</td>
-      <td>23.532</td>
-      <td>25.217</td>
-      <td>0.007</td>
-      <td>0.005</td>
-      <td>4437.0</td>
-      <td>3069.0</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>mu_female[2]</th>
-      <td>25.945</td>
-      <td>0.502</td>
-      <td>25.052</td>
-      <td>26.946</td>
-      <td>0.009</td>
-      <td>0.006</td>
-      <td>3396.0</td>
-      <td>2644.0</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>mu_female[3]</th>
-      <td>27.505</td>
-      <td>0.635</td>
-      <td>26.273</td>
-      <td>28.671</td>
-      <td>0.011</td>
+      <th>mu_girls[3]</th>
+      <td>27.536</td>
+      <td>0.572</td>
+      <td>26.458</td>
+      <td>28.584</td>
       <td>0.008</td>
-      <td>3084.0</td>
-      <td>2686.0</td>
+      <td>0.006</td>
+      <td>4758.0</td>
+      <td>3029.0</td>
       <td>1.0</td>
     </tr>
   </tbody>
@@ -1149,20 +1159,19 @@ Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws 
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The watermark extension is already loaded. To reload it, use:
-  %reload_ext watermark
-Last updated: Wed Mar 22 2023
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Tue Nov 14 2023
 
 Python implementation: CPython
-Python version       : 3.11.0
-IPython version      : 8.9.0
+Python version       : 3.11.5
+IPython version      : 8.15.0
 
-pytensor: 2.10.1
+pytensor: 2.17.1
 
-pymc    : 5.1.2
-numpy   : 1.24.2
-arviz   : 0.15.1
-pytensor: 2.10.1
+pymc    : 5.9.0
+pandas  : 2.1.0
+numpy   : 1.25.2
+arviz   : 0.16.1
+pytensor: 2.17.1
 </pre></div>
 </div>
 </div>
@@ -1237,6 +1246,7 @@ pytensor: 2.10.1
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#problem-statement-mvn-with-gender-specific-means-but-common-precision-matrix">Problem statement: MVN with gender-Specific means but common precision matrix</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lecture-errata">Lecture errata</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notes">Notes</a></li>
 </ul>
