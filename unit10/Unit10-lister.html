@@ -563,7 +563,7 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#problem-statement">Problem statement</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#problem-statement">Problem Statement</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notes">Notes</a></li>
 </ul>
             </nav>
@@ -581,8 +581,7 @@ document.write(`
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pymc</span> <span class="k">as</span> <span class="nn">pm</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">arviz</span> <span class="k">as</span> <span class="nn">az</span>
-
-<span class="o">%</span><span class="k">load_ext</span> lab_black
+<span class="kn">from</span> <span class="nn">pymc.math</span> <span class="kn">import</span> <span class="n">invlogit</span>
 </pre></div>
 </div>
 </div>
@@ -590,57 +589,59 @@ document.write(`
 <section class="tex2jax_ignore mathjax_ignore" id="lister">
 <h1><span class="section-number">1. </span>Lister*<a class="headerlink" href="#lister" title="Permalink to this heading">#</a></h1>
 <p>Adapted from <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/original_examples/Codes4Unit10/lister.odc">Unit 10: lister.odc</a>.</p>
-<p>Data can be found <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/data/r.txt">here</a>.</p>
 <section id="problem-statement">
-<h2>Problem statement<a class="headerlink" href="#problem-statement" title="Permalink to this heading">#</a></h2>
-<p>Sir Joseph Lister (1827–1912), Professor of Surgery at Glasgow University, influenced by Pasteur’s ideas, found that a wound wrapped in bandages treated by Carbolic acid (phenol) would often not become infected.</p>
+<h2>Problem Statement<a class="headerlink" href="#problem-statement" title="Permalink to this heading">#</a></h2>
+<p>Sir Joseph Lister (1827–1912), Professor of Surgery at Glasgow University, was influenced by Pasteur’s ideas. He discovered that wounds wrapped in bandages treated with Carbolic acid (phenol) often did not become infected.</p>
 <p>Here are Lister’s data on treating open fractures and amputations:</p>
-<p>Period    Carbolic acid used    Results</p>
-<p>1864–1866     No       Treated   34 patients, 15 died and 19 recovered</p>
-<p>1867–1870     Yes     Treated   40 patients,   6 died and 34 recovered</p>
-<p>Estimate and interpret the risk difference,  risk ratio, and   odds ratio</p>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Period</p></th>
+<th class="head"><p>Carbolic Acid Used</p></th>
+<th class="head"><p>Results</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1864–1866</p></td>
+<td><p>No</p></td>
+<td><p>Treated 34 patients: 15 died, 19 recovered</p></td>
+</tr>
+<tr class="row-odd"><td><p>1867–1870</p></td>
+<td><p>Yes</p></td>
+<td><p>Treated 40 patients: 6 died, 34 recovered</p></td>
+</tr>
+</tbody>
+</table>
+<p>Estimate and interpret the risk difference, risk ratio, and odds ratio.</p>
 </section>
 <section id="notes">
 <h2>Notes<a class="headerlink" href="#notes" title="Permalink to this heading">#</a></h2>
-<ul class="simple">
-<li><p>Wishart! I’ve tried both WishartBartlett and LKJ, can’t get a similar result to the professor’s yet.</p></li>
-<li><p>possibly useful paper:</p>
-<ul>
-<li><p><a class="reference external" href="https://arxiv.org/pdf/1809.04746.pdf">https://arxiv.org/pdf/1809.04746.pdf</a></p></li>
-</ul>
-</li>
-</ul>
-<p>Unfinished! This is not working correctly right now, assuming because of the different tau prior but it could be something else.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">n1</span> <span class="o">=</span> <span class="mi">34</span>
-<span class="n">y1</span> <span class="o">=</span> <span class="mi">15</span>
-<span class="n">n2</span> <span class="o">=</span> <span class="mi">40</span>
-<span class="n">y2</span> <span class="o">=</span> <span class="mi">6</span>
-<span class="n">mu0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.5</span><span class="p">])</span>
-<span class="n">S</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">]])</span>
-</pre></div>
-</div>
-</div>
-</div>
+<p>The results are a bit different than BUGS. I’m not sure if that’s from the slightly different prior (WishartBartlett vs Wishart), or something else I’ve missed. The</p>
 <div class="cell tag_hide-output docutils container">
 <div class="cell_input above-output-prompt docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">m</span><span class="p">:</span>
-    <span class="n">tau</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">WishartBartlett</span><span class="p">(</span><span class="s2">&quot;tau&quot;</span><span class="p">,</span> <span class="n">S</span><span class="o">=</span><span class="n">S</span><span class="p">,</span> <span class="n">nu</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cepn_untreated</span> <span class="o">=</span> <span class="mi">34</span>
+<span class="n">n_untreated_fail</span> <span class="o">=</span> <span class="mi">15</span>
+<span class="n">n_treated</span> <span class="o">=</span> <span class="mi">40</span>
+<span class="n">n_treated_fail</span> <span class="o">=</span> <span class="mi">6</span>
+<span class="n">mu0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.5</span><span class="p">])</span>
+<span class="n">S</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">]])</span>
+<span class="n">S_init</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]])</span>
+
+<span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">m</span><span class="p">:</span>
+    <span class="n">tau</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">WishartBartlett</span><span class="p">(</span><span class="s2">&quot;tau&quot;</span><span class="p">,</span> <span class="n">S</span><span class="o">=</span><span class="n">S</span><span class="p">,</span> <span class="n">nu</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">initval</span><span class="o">=</span><span class="n">S_init</span><span class="p">)</span>
     <span class="n">sigma</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;sigma&quot;</span><span class="p">,</span> <span class="n">pm</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">matrix_inverse</span><span class="p">(</span><span class="n">tau</span><span class="p">))</span>
-    <span class="n">mu</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">MvNormal</span><span class="p">(</span><span class="s2">&quot;mu&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu0</span><span class="p">,</span> <span class="n">cov</span><span class="o">=</span><span class="n">tau</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">mu</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">MvNormal</span><span class="p">(</span><span class="s2">&quot;mu&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu0</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="n">tau</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 
-    <span class="n">p1</span> <span class="o">=</span> <span class="n">mu</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="n">p2</span> <span class="o">=</span> <span class="n">mu</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">p1</span> <span class="o">=</span> <span class="n">invlogit</span><span class="p">(</span><span class="n">mu</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">p2</span> <span class="o">=</span> <span class="n">invlogit</span><span class="p">(</span><span class="n">mu</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
 
-    <span class="n">pm</span><span class="o">.</span><span class="n">Binomial</span><span class="p">(</span><span class="s2">&quot;y1&quot;</span><span class="p">,</span> <span class="n">logit_p</span><span class="o">=</span><span class="n">p1</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">n1</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">y1</span><span class="p">)</span>
-    <span class="n">pm</span><span class="o">.</span><span class="n">Binomial</span><span class="p">(</span><span class="s2">&quot;y2&quot;</span><span class="p">,</span> <span class="n">logit_p</span><span class="o">=</span><span class="n">p2</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">n2</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">y2</span><span class="p">)</span>
+    <span class="n">pm</span><span class="o">.</span><span class="n">Binomial</span><span class="p">(</span><span class="s2">&quot;y_untreated&quot;</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">p1</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">n_untreated</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">n_untreated_fail</span><span class="p">)</span>
+    <span class="n">pm</span><span class="o">.</span><span class="n">Binomial</span><span class="p">(</span><span class="s2">&quot;y_treated&quot;</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">p2</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">n_treated</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">n_treated_fail</span><span class="p">)</span>
 
     <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;rd&quot;</span><span class="p">,</span> <span class="n">p1</span> <span class="o">-</span> <span class="n">p2</span><span class="p">)</span>
     <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;rr&quot;</span><span class="p">,</span> <span class="n">p1</span> <span class="o">/</span> <span class="n">p2</span><span class="p">)</span>
     <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;or&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">p1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">p1</span><span class="p">))</span> <span class="o">/</span> <span class="p">(</span><span class="n">p2</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">p2</span><span class="p">)))</span>
 
-    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">3000</span><span class="p">)</span>
+    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">3000</span><span class="p">,</span> <span class="n">target_accept</span><span class="o">=</span><span class="mf">0.95</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -677,10 +678,9 @@ NUTS: [tau_c, tau_z, mu]
 </div><div class="output text_html">
     <div>
       <progress value='16000' class='' max='16000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-      100.00% [16000/16000 00:08&lt;00:00 Sampling 4 chains, 30 divergences]
+      100.00% [16000/16000 00:07&lt;00:00 Sampling 4 chains, 0 divergences]
     </div>
     </div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 3_000 draw iterations (4_000 + 12_000 draws total) took 8 seconds.
-There were 30 divergences after tuning. Increase `target_accept` or reparameterize.
 </pre></div>
 </div>
 </div>
@@ -688,7 +688,7 @@ There were 30 divergences after tuning. Increase `target_accept` or reparameteri
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;~tau&quot;</span><span class="p">],</span> <span class="n">filter_vars</span><span class="o">=</span><span class="s2">&quot;like&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -724,195 +724,111 @@ There were 30 divergences after tuning. Increase `target_accept` or reparameteri
   </thead>
   <tbody>
     <tr>
-      <th>tau_z[0]</th>
-      <td>-0.039</td>
-      <td>0.988</td>
-      <td>-1.952</td>
-      <td>1.769</td>
-      <td>0.010</td>
-      <td>0.009</td>
-      <td>10775.0</td>
-      <td>8232.0</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
       <th>mu[0]</th>
-      <td>-0.307</td>
-      <td>0.301</td>
-      <td>-0.884</td>
-      <td>0.247</td>
+      <td>-0.253</td>
+      <td>0.349</td>
+      <td>-0.896</td>
+      <td>0.408</td>
       <td>0.003</td>
-      <td>0.002</td>
-      <td>11094.0</td>
-      <td>8953.0</td>
+      <td>0.003</td>
+      <td>14065.0</td>
+      <td>9108.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>mu[1]</th>
-      <td>-1.685</td>
-      <td>0.358</td>
-      <td>-2.353</td>
-      <td>-1.023</td>
+      <td>-1.788</td>
+      <td>0.443</td>
+      <td>-2.639</td>
+      <td>-0.983</td>
+      <td>0.004</td>
       <td>0.003</td>
-      <td>0.003</td>
-      <td>11210.0</td>
-      <td>8290.0</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>tau_c[0]</th>
-      <td>5.352</td>
-      <td>3.244</td>
-      <td>0.460</td>
-      <td>11.138</td>
-      <td>0.029</td>
-      <td>0.021</td>
-      <td>9525.0</td>
-      <td>5376.0</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>tau_c[1]</th>
-      <td>4.498</td>
-      <td>2.916</td>
-      <td>0.331</td>
-      <td>9.735</td>
-      <td>0.026</td>
-      <td>0.019</td>
-      <td>10357.0</td>
-      <td>6061.0</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>tau[0, 0]</th>
-      <td>0.535</td>
-      <td>0.324</td>
-      <td>0.046</td>
-      <td>1.114</td>
-      <td>0.003</td>
-      <td>0.002</td>
-      <td>9525.0</td>
-      <td>5376.0</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>tau[0, 1]</th>
-      <td>-0.008</td>
-      <td>0.230</td>
-      <td>-0.462</td>
-      <td>0.432</td>
-      <td>0.002</td>
-      <td>0.002</td>
-      <td>10641.0</td>
-      <td>8624.0</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>tau[1, 0]</th>
-      <td>-0.008</td>
-      <td>0.230</td>
-      <td>-0.462</td>
-      <td>0.432</td>
-      <td>0.002</td>
-      <td>0.002</td>
-      <td>10641.0</td>
-      <td>8624.0</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>tau[1, 1]</th>
-      <td>0.548</td>
-      <td>0.324</td>
-      <td>0.063</td>
-      <td>1.148</td>
-      <td>0.003</td>
-      <td>0.002</td>
-      <td>9610.0</td>
-      <td>6608.0</td>
+      <td>11314.0</td>
+      <td>7297.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>sigma[0, 0]</th>
-      <td>3.971</td>
-      <td>5.475</td>
-      <td>0.500</td>
-      <td>10.054</td>
-      <td>0.085</td>
-      <td>0.060</td>
-      <td>8848.0</td>
-      <td>6051.0</td>
+      <td>43.124</td>
+      <td>837.373</td>
+      <td>0.576</td>
+      <td>86.710</td>
+      <td>8.108</td>
+      <td>5.733</td>
+      <td>8565.0</td>
+      <td>6194.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>sigma[0, 1]</th>
-      <td>0.115</td>
-      <td>2.715</td>
-      <td>-4.413</td>
-      <td>4.571</td>
-      <td>0.033</td>
-      <td>0.026</td>
-      <td>10025.0</td>
-      <td>7780.0</td>
+      <td>6.524</td>
+      <td>489.723</td>
+      <td>-47.465</td>
+      <td>51.318</td>
+      <td>5.054</td>
+      <td>3.574</td>
+      <td>11237.0</td>
+      <td>7516.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>sigma[1, 0]</th>
-      <td>0.115</td>
-      <td>2.715</td>
-      <td>-4.413</td>
-      <td>4.571</td>
-      <td>0.033</td>
-      <td>0.026</td>
-      <td>10025.0</td>
-      <td>7780.0</td>
+      <td>6.524</td>
+      <td>489.723</td>
+      <td>-47.465</td>
+      <td>51.318</td>
+      <td>5.054</td>
+      <td>3.574</td>
+      <td>11237.0</td>
+      <td>7516.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>sigma[1, 1]</th>
-      <td>3.719</td>
-      <td>3.906</td>
-      <td>0.544</td>
-      <td>9.378</td>
-      <td>0.053</td>
-      <td>0.043</td>
-      <td>10357.0</td>
-      <td>6061.0</td>
+      <td>40.100</td>
+      <td>491.767</td>
+      <td>0.521</td>
+      <td>81.160</td>
+      <td>6.329</td>
+      <td>4.475</td>
+      <td>9202.0</td>
+      <td>4896.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>rd</th>
-      <td>1.379</td>
-      <td>0.468</td>
-      <td>0.510</td>
-      <td>2.271</td>
-      <td>0.005</td>
-      <td>0.003</td>
-      <td>10909.0</td>
-      <td>7624.0</td>
+      <td>0.287</td>
+      <td>0.100</td>
+      <td>0.101</td>
+      <td>0.470</td>
+      <td>0.001</td>
+      <td>0.001</td>
+      <td>13492.0</td>
+      <td>8897.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>rr</th>
-      <td>0.191</td>
-      <td>0.198</td>
-      <td>-0.156</td>
-      <td>0.579</td>
-      <td>0.002</td>
-      <td>0.001</td>
-      <td>10839.0</td>
-      <td>9492.0</td>
+      <td>3.348</td>
+      <td>1.643</td>
+      <td>1.106</td>
+      <td>6.191</td>
+      <td>0.018</td>
+      <td>0.014</td>
+      <td>11531.0</td>
+      <td>7110.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>or</th>
-      <td>0.299</td>
-      <td>0.402</td>
-      <td>-0.344</td>
-      <td>0.888</td>
-      <td>0.004</td>
-      <td>0.003</td>
-      <td>10972.0</td>
-      <td>9490.0</td>
+      <td>5.469</td>
+      <td>3.534</td>
+      <td>1.105</td>
+      <td>11.696</td>
+      <td>0.037</td>
+      <td>0.028</td>
+      <td>12107.0</td>
+      <td>8051.0</td>
       <td>1.0</td>
     </tr>
   </tbody>
@@ -927,17 +843,17 @@ There were 30 divergences after tuning. Increase `target_accept` or reparameteri
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Wed Mar 22 2023
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Mon Nov 13 2023
 
 Python implementation: CPython
-Python version       : 3.11.0
-IPython version      : 8.9.0
+Python version       : 3.11.5
+IPython version      : 8.15.0
 
-pytensor: 2.10.1
+pytensor: 2.17.1
 
-arviz: 0.15.1
-numpy: 1.24.2
-pymc : 5.1.2
+numpy: 1.25.2
+pymc : 5.9.0
+arviz: 0.16.1
 </pre></div>
 </div>
 </div>
@@ -1012,7 +928,7 @@ pymc : 5.1.2
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#problem-statement">Problem statement</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#problem-statement">Problem Statement</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notes">Notes</a></li>
 </ul>
   </nav></div>
