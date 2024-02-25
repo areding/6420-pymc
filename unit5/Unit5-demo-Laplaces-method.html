@@ -644,11 +644,11 @@ f(x|\theta)\pi(\theta) &amp;\propto x^{r-1}e^{-\theta x}\theta^{\alpha-1}e^{-\be
 <section id="mode">
 <h3>Mode<a class="headerlink" href="#mode" title="Permalink to this heading">#</a></h3>
 <p>In this case it’s not too tough to find the mode analytically.</p>
-<p>The log-likelihood is <span class="math notranslate nohighlight">\(L(\theta) = (r + \alpha - 1)\log(\theta) - (\beta + x)\theta\)</span>, so we can just take the derivative and set it equal to zero, then solve for <span class="math notranslate nohighlight">\(\theta\)</span>:</p>
+<p>The log of the unnormalized posterior is <span class="math notranslate nohighlight">\(\pi(\theta) = (r + \alpha - 1)\log(\theta) - (\beta + x)\theta\)</span>, so we can just take the derivative and set it equal to zero, then solve for <span class="math notranslate nohighlight">\(\theta\)</span>:</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \begin{align*}
-\frac{d}{d\theta} L(\theta) &amp;= \frac{d}{d\theta} \left[(r + \alpha - 1)\log(\theta) - (\beta + x)\theta\right] \\
+\frac{d}{d\theta} \pi(\theta) &amp;= \frac{d}{d\theta} \left[(r + \alpha - 1)\log(\theta) - (\beta + x)\theta\right] \\
 &amp;= \frac{r + \alpha - 1}{\theta} - (\beta + x) \\
 0 &amp;= \frac{r + \alpha - 1}{\theta} - (\beta + x) \\
 \beta + x &amp;= \frac{r + \alpha - 1}{\theta} \\
@@ -660,14 +660,14 @@ f(x|\theta)\pi(\theta) &amp;\propto x^{r-1}e^{-\theta x}\theta^{\alpha-1}e^{-\be
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># define our posterior</span>
-<span class="k">def</span> <span class="nf">neg_log_likelihood</span><span class="p">(</span><span class="n">θ</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">α</span><span class="p">,</span> <span class="n">β</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">neg_log_post</span><span class="p">(</span><span class="n">θ</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">α</span><span class="p">,</span> <span class="n">β</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
     <span class="k">return</span> <span class="o">-</span><span class="p">((</span><span class="n">r</span> <span class="o">+</span> <span class="n">α</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">θ</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">β</span> <span class="o">+</span> <span class="n">x</span><span class="p">)</span> <span class="o">*</span> <span class="n">θ</span><span class="p">)</span>
 
 
 <span class="n">r</span><span class="p">,</span> <span class="n">α</span><span class="p">,</span> <span class="n">β</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span>
 
 <span class="n">result</span> <span class="o">=</span> <span class="n">minimize_scalar</span><span class="p">(</span>
-    <span class="n">neg_log_likelihood</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1e6</span><span class="p">),</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">α</span><span class="p">,</span> <span class="n">β</span><span class="p">,</span> <span class="n">x</span><span class="p">),</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;bounded&quot;</span>
+    <span class="n">neg_log_post</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1e6</span><span class="p">),</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">α</span><span class="p">,</span> <span class="n">β</span><span class="p">,</span> <span class="n">x</span><span class="p">),</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;bounded&quot;</span>
 <span class="p">)</span>
 
 <span class="n">mode</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">x</span>
@@ -757,7 +757,7 @@ Laplace approximation 95% credible interval: (4.799393229141485, 11.200610149214
 </div>
 </details>
 <div class="cell_output docutils container">
-<img alt="../_images/311a7b38009340a197cafc3a8985a1cf8e8c7cfb35353909ceccca227d240a7a.png" src="../_images/311a7b38009340a197cafc3a8985a1cf8e8c7cfb35353909ceccca227d240a7a.png" />
+<img alt="../_images/a9003958339bee90a3ddea92e9124e2b1f3ef21ef597ab9ef91bb9b2ce1eb9ef.png" src="../_images/a9003958339bee90a3ddea92e9124e2b1f3ef21ef597ab9ef91bb9b2ce1eb9ef.png" />
 </div>
 </div>
 <p>The exact posterior is a bit skewed to the right, so the normal approximation is a bit off, but it’s not too bad.</p>
@@ -769,15 +769,15 @@ Laplace approximation 95% credible interval: (4.799393229141485, 11.200610149214
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Fri Jul 14 2023
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Sat Feb 24 2024
 
 Python implementation: CPython
-Python version       : 3.11.0
-IPython version      : 8.9.0
+Python version       : 3.11.5
+IPython version      : 8.15.0
 
-matplotlib: 3.6.3
-numpy     : 1.24.2
-seaborn   : 0.12.2
+numpy     : 1.25.2
+matplotlib: 3.7.2
+seaborn   : 0.13.0
 </pre></div>
 </div>
 </div>
