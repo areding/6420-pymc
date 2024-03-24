@@ -19,16 +19,16 @@ After recognizing the disadvantages of simply pooling the data we decide to try 
 $$ S_{ij} \sim \mathcal{N}(\mu_j, \sigma^2_j)  $$ 
 where $\mu_j$ and $ \sigma^2_j$ are the estimated average and variance for school $j$. While this model will certainly take the inter-school variation into account the disadvantage is that it's not clear how we can get an estimate for the average SAT score at the state level which is what we were after in the first place.
 
-### Hierarchical model
+## Hierarchical model
 Hierarchical models can be seen as a middle ground between these two models. The pooled model does not fully take the inter-school variation into account and this is not realistic since there are certainly differences between schools that can effect student test scores such as the amount of funding the school receives. The heterogenous model does capture the variation of scores for each school but it treats each school as independent from all the others. This is not realistic either since there should be some relation between the schools given that they are all in the state of Georgia which has it's own Department of Education which determines certain state-wide public school polices. Hierarchical models allow us to build in this relation between schools while also accounting for inter-school score variation. 
 
 For the case of the Georgia schools we can decide that the average score $\mu_j$ for school $j$ is drawn from a state level distribution of averages 
 $$ \mu_j \sim \mathcal{N}(\bar{\mu}, \bar{\sigma^2}) $$
 and put a non-informative prior on the variance of scores for school $j$
-$$ \sigma_j^2 \sim InvGa(0.001, 0.001).$$
+$$ \sigma_j^2 \sim InverseGa(0.001, 0.001).$$
 Here $\bar{\mu}$ is the average of the average test scores across all of the schools in Georgia and $\bar{\sigma^2}$ is the variance of the school averages around $\bar{\mu}$ and we can place non-informative priors on them
-$$ \bar{\mu} \sim \mathcal{N}(1000, 10), \quad \bar{\sigma^2} \sim InvGa(0.001, 0.001). $$
+$$ \bar{\mu} \sim \mathcal{N}(1000, 10), \quad \bar{\sigma^2} \sim InverseGa(0.001, 0.001). $$
 This model allows us to capture the fact that the average test scores for schools are related to each other in some way while also taking into account that there will be variations in the average test scores between schools. Note that we set the mean of the normal distribution for $\bar{\mu}$ to be 1000 since the range of SAT test scores is $[400,1600]$.  
 
-### Non-spatially separated groups
+## Non-spatially separated groups
 In the above example our data come in groups (the schools from Georgia) that are separated spatially however the groups that our data come in need not only be separated spatially. These groups can also be separated temporally such as the case from Gelfand et al (1990) we will cover later in this section or spatio-temporally in the case of a meta-analysis of different studies.
