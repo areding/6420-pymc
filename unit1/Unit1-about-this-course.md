@@ -1,4 +1,4 @@
-# About This Course and Website
+# About This Course
 
 The course was originally developed at Georgia Tech in 2004 by Professor Brani Vidakovic, who is now the head of the [Texas A&M Department of Statistics](https://science.tamu.edu/news/2020/07/branislav-vidakovic-named-head-of-texas-am-statistics/). Prof. Vidakovic also wrote the textbook [*Engineering Biostatistics*](https://statbook.gatech.edu/index.html)). That's why many of the examples in the course reference medical and biological research. Don't worry—the methods are broadly applicable. We'll reference this book often in the course, often as "The Statbook."
 
@@ -27,7 +27,7 @@ These are not required for the class, but they might be helpful. Prof. Vidakovic
 
 - *Probability Theory: The Logic of Science* by E.T. Jaynes is a classic that builds up to Bayesian inference from logical first principles. I usually dip into it when students ask more philosophical questions.
 
-- [*Probabilistic Machine Learning: An Introduction*](https://probml.github.io/pml-book/) by Kevin P. Murphy is one I haven't looked at too much yet. It seems incredibly broad, containing just about everything we've got in this class along with half the OMSA program, all viewed through a probabilistic and decision theoretical lense. The second book in the series is supposed to come out this year.
+- [*Probabilistic Machine Learning: An Introduction*](https://probml.github.io/pml-book/) by Kevin P. Murphy is one I haven't looked at too much yet. It seems incredibly broad, containing just about everything we've got in this class along with half the OMSA program, all viewed through a probabilistic and decision theoretical lense.
 
 ### Blogs
 
