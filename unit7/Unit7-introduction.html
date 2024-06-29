@@ -580,6 +580,7 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="introduction-to-hierarchical-models">
 <h1>1. Introduction to Hierarchical Models<a class="headerlink" href="#introduction-to-hierarchical-models" title="Link to this heading">#</a></h1>
+<p>Contributed by <a class="reference external" href="https://github.com/amanuelanteneh">Amanuel Anteneh</a>.</p>
 <p>In his introductory textbook <em>A Student’s Guide to Bayesian Statistics</em> <span id="id1">Lambert [<a class="reference internal" href="../backmatter/bibliography.html#id45" title="Ben Lambert. A student's guide to bayesian statistics. A Student's Guide to Bayesian Statistics, pages 1–520, 2018.">2018</a>]</span> Ben Lambert provides a great introduction to the concept of hierarchial models with an example. We will go over a modified version of this example here.
 Hierarchical models can be seen as a compromise between two other types of models. The first is what Lambert calls ‘fully pooled’ models and the second are called ‘heterogenous’ models. Let’s look to a specific example to compare and contrast the two models.</p>
 <section id="fully-pooled-versus-heterogenous-models">
@@ -588,28 +589,43 @@ Hierarchical models can be seen as a compromise between two other types of model
 <section id="fully-pooled-model">
 <h3>Fully pooled model<a class="headerlink" href="#fully-pooled-model" title="Link to this heading">#</a></h3>
 <p>For this model we simply ignore what school each score came from and aggregate or ‘pool’ all the data together.
-After looking at a plot of the pooled data we decide to model the scores as being normally distributed
-$<span class="math notranslate nohighlight">\( S_{ij} \sim \mathcal{N}(\mu, \sigma^2) \)</span><span class="math notranslate nohighlight">\(
-with average \)</span>\mu<span class="math notranslate nohighlight">\( and variance \)</span>\sigma^2<span class="math notranslate nohighlight">\( 
-where \)</span>S_{ij}<span class="math notranslate nohighlight">\( denotes the test score of student \)</span>i<span class="math notranslate nohighlight">\( who attends school \)</span>j$. While this method does yield the quantity we are after (the average score of a randomly chosen senior from the state of Georgia) it arrives at this answer without adequately accounting for the variation of scores <em>between schools</em>. Therefore it’s likely that our posterior distribution is far too narrow. In the example Lambert gives he shows this to be the case using a posterior predictive check.</p>
+After looking at a plot of the pooled data we decide to model the scores as being normally distributed</p>
+<div class="math notranslate nohighlight">
+\[
+S_{ij} \sim \mathcal{N}(\mu, \sigma^2)
+\]</div>
+<p>with average <span class="math notranslate nohighlight">\(\mu\)</span> and variance <span class="math notranslate nohighlight">\(\sigma^2\)</span>
+where <span class="math notranslate nohighlight">\(S_{ij}\)</span> denotes the test score of student <span class="math notranslate nohighlight">\(i\)</span> who attends school <span class="math notranslate nohighlight">\(j\)</span>. While this method does yield the quantity we are after (the average score of a randomly chosen senior from the state of Georgia) it arrives at this answer without adequately accounting for the variation of scores <em>between schools</em>. Therefore it’s likely that our posterior distribution is far too narrow. In the example Lambert gives he shows this to be the case using a posterior predictive check.</p>
 </section>
 <section id="heterogenous-model">
 <h3>Heterogenous model<a class="headerlink" href="#heterogenous-model" title="Link to this heading">#</a></h3>
-<p>After recognizing the disadvantages of simply pooling the data we decide to try to take the inter-school variation into account in our model. To do this we decide to use a model that estimates a separate average and variance for each school
-$<span class="math notranslate nohighlight">\( S_{ij} \sim \mathcal{N}(\mu_j, \sigma^2_j)  \)</span><span class="math notranslate nohighlight">\( 
-where \)</span>\mu_j<span class="math notranslate nohighlight">\( and \)</span> \sigma^2_j<span class="math notranslate nohighlight">\( are the estimated average and variance for school \)</span>j$. While this model will certainly take the inter-school variation into account the disadvantage is that it’s not clear how we can get an estimate for the average SAT score at the state level which is what we were after in the first place.</p>
+<p>After recognizing the disadvantages of simply pooling the data we decide to try to take the inter-school variation into account in our model. To do this we decide to use a model that estimates a separate average and variance for each school</p>
+<div class="math notranslate nohighlight">
+\[
+S_{ij} \sim \mathcal{N}(\mu_j, \sigma^2_j)
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(\mu_j\)</span> and <span class="math notranslate nohighlight">\( \sigma^2_j\)</span> are the estimated average and variance for school <span class="math notranslate nohighlight">\(j\)</span>. While this model will certainly take the inter-school variation into account the disadvantage is that it’s not clear how we can get an estimate for the average SAT score at the state level which is what we were after in the first place.</p>
 </section>
 </section>
 <section id="hierarchical-model">
 <h2>Hierarchical model<a class="headerlink" href="#hierarchical-model" title="Link to this heading">#</a></h2>
 <p>Hierarchical models can be seen as a middle ground between these two models. The pooled model does not fully take the inter-school variation into account and this is not realistic since there are certainly differences between schools that can effect student test scores such as the amount of funding the school receives. The heterogenous model does capture the variation of scores for each school but it treats each school as independent from all the others. This is not realistic either since there should be some relation between the schools given that they are all in the state of Georgia which has it’s own Department of Education which determines certain state-wide public school polices. Hierarchical models allow us to build in this relation between schools while also accounting for inter-school score variation.</p>
-<p>For the case of the Georgia schools we can decide that the average score <span class="math notranslate nohighlight">\(\mu_j\)</span> for school <span class="math notranslate nohighlight">\(j\)</span> is drawn from a state level distribution of averages
-$<span class="math notranslate nohighlight">\( \mu_j \sim \mathcal{N}(\bar{\mu}, \bar{\sigma^2}) \)</span><span class="math notranslate nohighlight">\(
-and put a non-informative prior on the variance of scores for school \)</span>j<span class="math notranslate nohighlight">\(
-\)</span><span class="math notranslate nohighlight">\( \sigma_j^2 \sim InverseGa(0.001, 0.001).\)</span><span class="math notranslate nohighlight">\(
-Here \)</span>\bar{\mu}<span class="math notranslate nohighlight">\( is the average of the average test scores across all of the schools in Georgia and \)</span>\bar{\sigma^2}<span class="math notranslate nohighlight">\( is the variance of the school averages around \)</span>\bar{\mu}<span class="math notranslate nohighlight">\( and we can place non-informative priors on them
-\)</span><span class="math notranslate nohighlight">\( \bar{\mu} \sim \mathcal{N}(1000, 10), \quad \bar{\sigma^2} \sim InverseGa(0.001, 0.001). \)</span><span class="math notranslate nohighlight">\(
-This model allows us to capture the fact that the average test scores for schools are related to each other in some way while also taking into account that there will be variations in the average test scores between schools. Note that we set the mean of the normal distribution for \)</span>\bar{\mu}<span class="math notranslate nohighlight">\( to be 1000 since the range of SAT test scores is \)</span>[400,1600]$.</p>
+<p>For the case of the Georgia schools we can decide that the average score <span class="math notranslate nohighlight">\(\mu_j\)</span> for school <span class="math notranslate nohighlight">\(j\)</span> is drawn from a state level distribution of averages</p>
+<div class="math notranslate nohighlight">
+\[
+\mu_j \sim \mathcal{N}(\bar{\mu}, \bar{\sigma^2})
+\]</div>
+<p>and put a non-informative prior on the variance of scores for school <span class="math notranslate nohighlight">\(j\)</span></p>
+<div class="math notranslate nohighlight">
+\[
+\sigma_j^2 \sim \text{InverseGa}(0.001, 0.001).
+\]</div>
+<p>Here <span class="math notranslate nohighlight">\(\bar{\mu}\)</span> is the average of the average test scores across all of the schools in Georgia and <span class="math notranslate nohighlight">\(\bar{\sigma}^2\)</span> is the variance of the school averages around <span class="math notranslate nohighlight">\(\bar{\mu}\)</span> and we can place non-informative priors on them</p>
+<div class="math notranslate nohighlight">
+\[ 
+\bar{\mu} \sim \mathcal{N}(1000, 10), \quad \bar{\sigma}^2 \sim \text{InverseGa}(0.001, 0.001). 
+\]</div>
+<p>This model allows us to capture the fact that the average test scores for schools are related to each other in some way while also taking into account that there will be variations in the average test scores between schools. Note that we set the mean of the normal distribution for <span class="math notranslate nohighlight">\(\bar{\mu}\)</span> to be 1000 since the range of SAT test scores is <span class="math notranslate nohighlight">\([400,1600]\)</span>.</p>
 </section>
 <section id="non-spatially-separated-groups">
 <h2>Non-spatially separated groups<a class="headerlink" href="#non-spatially-separated-groups" title="Link to this heading">#</a></h2>
@@ -712,7 +728,7 @@ By Aaron Reding
 
   <p class="copyright">
     
-      © Copyright 2023.
+      © Copyright 2024.
       <br/>
     
   </p>
