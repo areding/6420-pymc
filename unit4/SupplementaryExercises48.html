@@ -596,7 +596,7 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#histocompatibility">4. Histocompatibility</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#neurons-fire-in-potters-lab">5. Neurons Fire in Potter’s Lab</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#elicit-inverse-gamma-prior">6. Elicit Inverse Gamma Prior</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#derive-jeffreys-priors-for-poisson-lambda-bernoulli-p-and-geometric-p">7. Derive Jeffreys’ Priors for Poisson <span class="math notranslate nohighlight">\(\lambda\)</span>, <strong>Bernoulli</strong> <span class="math notranslate nohighlight">\(p\)</span>, <strong>and Geometric</strong> <span class="math notranslate nohighlight">\(p\)</span>.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#derive-jeffreys-priors-for-poisson-lambda-bernoulli-p-and-geometric-p">7. Derive Jeffreys’ Priors for Poisson <span class="math notranslate nohighlight">\(\lambda\)</span>, Bernoulli <span class="math notranslate nohighlight">\(p\)</span>, and Geometric <span class="math notranslate nohighlight">\(p\)</span>.</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#two-scenarios-for-the-probability-of-success">8. Two Scenarios for the Probability of Success</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#jeffreys-prior-for-normal-precision">9. Jeffreys’ Prior for Normal Precision</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#derive-jeffreys-prior-for-maxwells-theta">10. Derive Jeffreys’ Prior for Maxwell’s <span class="math notranslate nohighlight">\(\theta\)</span></a></li>
@@ -627,7 +627,7 @@ document.write(`
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>The old question 1 was a duplicate of <a class="reference external" href="https://areding.github.io/6420-pymc/unit4/SupplementaryExercises43.html#counts-of-alpha">4.3 question 16</a>, so we’re going to start numbering with 2 in order to maintain consistency with the old materials.</p>
+<p>Question 1 was a duplicate of <a class="reference external" href="https://areding.github.io/6420-pymc/unit4/SupplementaryExercises43.html#counts-of-alpha">4.3 question 16</a>.</p>
 </div>
 <section id="mosaic-virus">
 <h2>2. Mosaic Virus<a class="headerlink" href="#mosaic-virus" title="Link to this heading">#</a></h2>
@@ -646,14 +646,74 @@ document.write(`
 8 &amp; 36 &amp; 25 \\
 \end{array}
 \end{split}\]</div>
-<p>Assume the normal distribution for the difference between the populations/samples. Using a PPL find:</p>
+<p>Assume the normal distribution for the difference between the populations/samples. Using a PPL, find:</p>
 <ol class="arabic simple">
 <li><p>the 95% credible set for <span class="math notranslate nohighlight">\(\mu_1 - \mu_2\)</span>, and</p></li>
 <li><p>posterior probability of hypothesis <span class="math notranslate nohighlight">\(H_1: \mu_1 - \mu_2 \geq 0\)</span>.</p></li>
 </ol>
 <p>Use noninformative priors.</p>
 <p>Hint: Since this is a paired two sample problem, a single model should be placed on the difference.</p>
-<div class="cell docutils container">
+<div class="tip dropdown admonition">
+<p class="admonition-title">Solution</p>
+<p>See the hidden cell below for the code. This question asks for a PPL solution, but keep in mind we won’t use those until after the midterm in the current class format. It is possible to do this with Unit 4 or Unit 5 techniques, but we haven’t written up a solution using those yet.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p></p></th>
+<th class="head text-right"><p>mean</p></th>
+<th class="head text-right"><p>sd</p></th>
+<th class="head text-right"><p>hdi_2.5%</p></th>
+<th class="head text-right"><p>hdi_97.5%</p></th>
+<th class="head text-right"><p>mcse_mean</p></th>
+<th class="head text-right"><p>mcse_sd</p></th>
+<th class="head text-right"><p>ess_bulk</p></th>
+<th class="head text-right"><p>ess_tail</p></th>
+<th class="head text-right"><p>r_hat</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p>mean</p></td>
+<td class="text-right"><p>4.767</p></td>
+<td class="text-right"><p>3.812</p></td>
+<td class="text-right"><p>-2.67</p></td>
+<td class="text-right"><p>12.371</p></td>
+<td class="text-right"><p>0.049</p></td>
+<td class="text-right"><p>0.039</p></td>
+<td class="text-right"><p>6515</p></td>
+<td class="text-right"><p>5423</p></td>
+<td class="text-right"><p>1</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>precision</p></td>
+<td class="text-right"><p>0.012</p></td>
+<td class="text-right"><p>0.006</p></td>
+<td class="text-right"><p>0.002</p></td>
+<td class="text-right"><p>0.024</p></td>
+<td class="text-right"><p>0</p></td>
+<td class="text-right"><p>0</p></td>
+<td class="text-right"><p>6542</p></td>
+<td class="text-right"><p>6356</p></td>
+<td class="text-right"><p>1</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>variance</p></td>
+<td class="text-right"><p>117.474</p></td>
+<td class="text-right"><p>106.899</p></td>
+<td class="text-right"><p>24.761</p></td>
+<td class="text-right"><p>271.664</p></td>
+<td class="text-right"><p>1.389</p></td>
+<td class="text-right"><p>0.982</p></td>
+<td class="text-right"><p>6542</p></td>
+<td class="text-right"><p>6356</p></td>
+<td class="text-right"><p>1</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pymc</span> <span class="k">as</span> <span class="nn">pm</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -672,14 +732,313 @@ document.write(`
 
     <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">3000</span><span class="p">)</span>
 
-<span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">hdi_prob</span><span class="o">=</span><span class="mf">0.95</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">hdi_prob</span><span class="o">=</span><span class="mf">0.95</span><span class="p">)</span>
+
+<span class="n">results</span>
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Auto-assigning NUTS sampler...
+Initializing NUTS using jitter+adapt_diag...
+Multiprocess sampling (4 chains in 4 jobs)
+NUTS: [precision, mean]
+</pre></div>
+</div>
+<div class="output text_html">
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    progress:not([value]), progress:not([value])::-webkit-progress-bar {
+        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div><div class="output text_html">
+    <div>
+      <progress value='16000' class='' max='16000' style='width:300px; height:20px; vertical-align: middle;'></progress>
+      100.00% [16000/16000 00:00&lt;00:00 Sampling 4 chains, 0 divergences]
+    </div>
+    </div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 3_000 draw iterations (4_000 + 12_000 draws total) took 1 seconds.
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mean</th>
+      <th>sd</th>
+      <th>hdi_2.5%</th>
+      <th>hdi_97.5%</th>
+      <th>mcse_mean</th>
+      <th>mcse_sd</th>
+      <th>ess_bulk</th>
+      <th>ess_tail</th>
+      <th>r_hat</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>mean</th>
+      <td>4.723</td>
+      <td>3.771</td>
+      <td>-2.838</td>
+      <td>12.063</td>
+      <td>0.048</td>
+      <td>0.036</td>
+      <td>6552.0</td>
+      <td>5865.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>precision</th>
+      <td>0.012</td>
+      <td>0.006</td>
+      <td>0.002</td>
+      <td>0.025</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>7070.0</td>
+      <td>7276.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>variance</th>
+      <td>115.911</td>
+      <td>90.591</td>
+      <td>26.121</td>
+      <td>271.055</td>
+      <td>1.174</td>
+      <td>0.830</td>
+      <td>7070.0</td>
+      <td>7276.0</td>
+      <td>1.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</details>
 </div>
 </section>
 <section id="figo">
 <h2>3. FIGO<a class="headerlink" href="#figo" title="Link to this heading">#</a></h2>
+<p>Despite the excellent prognosis of FIGO stage I, type I endometrial cancers, a substantial number of patients experience recurrence and die from this disease. <span id="id1">Zeimet <em>et al.</em> [<a class="reference internal" href="../backmatter/bibliography.html#id46" title="Alain Gustave Zeimet, Daniel Reimer, Monica Huszar, Boris J. Winterhoff, U. S. Puistola, Samira Abdel Azim, Elisabeth Müller-Holzner, A. Ben‐arie, Léon C. van Kempen, Edgar Petru, Stephan Wenzel Jahn, Yvette P. Geels, Leon Fag Massuger, Frédéric Amant, Stephan Polterauer, Elisa Lappi‐Blanco, Johan Bulten, Alexandra Meuter, Staci Tanouye, Peter Oppelt, Monika Stroh-Weigert, Alexander Reinthaller, Andrea Mariani, Werner O. Hackl, Michael Netzer, Uwe Schirmer, Ignace Vergote, Peter Altevogt, Christian Marth, and Mina Fogel. L1cam in early-stage type i endometrial cancer: results of a large multicenter evaluation. Journal of the National Cancer Institute, 105 15:1142-50, 2013. URL: https://api.semanticscholar.org/CorpusID:23394570.">2013</a>]</span> conducted a retrospective multicenter cohort study to determine the expression of L1CAM by immunohistochemistry in 1021 endometrial cancer specimens with the goal of predicting clinical outcomes. Of the 1021 included cancers, 17.7% were rated L1CAM-positive. Of these L1CAM-positive cancers, 51.4% recurred during follow-up compared with 2.9% of L1CAM-negative cancers. Patients with L1CAM-positive cancers had poorer disease-free and overall survival.</p>
+<p>It is stated that L1CAM has been the best-ever published prognostic factor in FIGO stage I, type I endometrial cancers and shows clear superiority over the standardly used multifactor risk score. L1CAM expression in type I cancers indicates the need for adjuvant treatment. This adhesion molecule might serve as a treatment target for the fully humanized anti-L1CAM antibody currently under development for clinical use.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>FIGO I/I Endometrial Cancer</p></th>
+<th class="head"><p>Recurred</p></th>
+<th class="head"><p>Did Not Recur</p></th>
+<th class="head"><p>Total</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>L1CAM Positive</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>L1CAM Negative</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p>Total</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p>1021</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<ol class="arabic simple">
+<li><p>Using the information supplied, fill in the table (round the entries to the closest integer).</p></li>
+<li><p>The estimators of the population Sensitivity and Specificity are simple relative frequencies (ratios): True Positives (TP)/Recurred and True Negatives (TN)/Not Recurred. Consider now a Bayesian version of this problem. Using WinBUGS, model TP and TN as Binomials, place priors on population Sensitivity (<span class="math notranslate nohighlight">\(p_1\)</span>) and Specificity (<span class="math notranslate nohighlight">\(p_2\)</span>) and find their Bayesian estimators. Explore the estimators for your favorite choice of priors on <span class="math notranslate nohighlight">\(p_1\)</span> and <span class="math notranslate nohighlight">\(p_2\)</span>: Jeffreys’, uniform (0, 1), flat on logit, etc.</p></li>
+</ol>
+<div class="tip dropdown admonition">
+<p class="admonition-title">Solution</p>
+<p>Solution by Jason Naramore. This is another PPL example.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p></p></th>
+<th class="head text-right"><p>mean</p></th>
+<th class="head text-right"><p>sd</p></th>
+<th class="head text-right"><p>hdi_2.5%</p></th>
+<th class="head text-right"><p>hdi_97.5%</p></th>
+<th class="head text-right"><p>mcse_mean</p></th>
+<th class="head text-right"><p>mcse_sd</p></th>
+<th class="head text-right"><p>ess_bulk</p></th>
+<th class="head text-right"><p>ess_tail</p></th>
+<th class="head text-right"><p>r_hat</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p>sensitivity</p></td>
+<td class="text-right"><p>0.79</p></td>
+<td class="text-right"><p>0.037</p></td>
+<td class="text-right"><p>0.717</p></td>
+<td class="text-right"><p>0.859</p></td>
+<td class="text-right"><p>0</p></td>
+<td class="text-right"><p>0</p></td>
+<td class="text-right"><p>13585</p></td>
+<td class="text-right"><p>11945</p></td>
+<td class="text-right"><p>1</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pymc</span> <span class="k">as</span> <span class="nn">pm</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">arviz</span> <span class="k">as</span> <span class="nn">az</span>
+
+<span class="n">total</span> <span class="o">=</span> <span class="mi">1021</span>
+<span class="n">totalpositive</span> <span class="o">=</span> <span class="mi">181</span>  <span class="c1"># rounded 0.177* 1021= 180.7170</span>
+<span class="n">totalnegative</span> <span class="o">=</span> <span class="mi">840</span>  <span class="c1"># % as 1021- 181</span>
+<span class="n">tp</span> <span class="o">=</span> <span class="mi">93</span>  <span class="c1"># true positiveas rounded181 *0.514 =93.0340</span>
+<span class="n">fp</span> <span class="o">=</span> <span class="mi">88</span>  <span class="c1"># alse positives,as 181-93</span>
+<span class="n">fn</span> <span class="o">=</span> <span class="mi">24</span>  <span class="c1"># false negativesas rounded840 *0.029=24.3600</span>
+<span class="n">tn</span> <span class="o">=</span> <span class="mi">816</span>  <span class="c1"># truenegatives, as840-24</span>
+
+<span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">m</span><span class="p">:</span>
+
+    <span class="c1"># priors</span>
+    <span class="n">prior_sensitivity</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Uniform</span><span class="p">(</span><span class="s2">&quot;sensitivity&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">prior_specificity</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Uniform</span><span class="p">(</span><span class="s2">&quot;specificity&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="c1"># Binomial Likelihoods</span>
+    <span class="n">sensitivity_likelihood</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Binomial</span><span class="p">(</span>
+        <span class="s2">&quot;sensitivity_likelihood&quot;</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">prior_sensitivity</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">tp</span> <span class="o">+</span> <span class="n">fn</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">tp</span>
+    <span class="p">)</span>
+    <span class="n">specificity_likelihood</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Binomial</span><span class="p">(</span>
+        <span class="s2">&quot;specificity_likelihood&quot;</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">prior_specificity</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">tn</span> <span class="o">+</span> <span class="n">fp</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">tn</span>
+    <span class="p">)</span>
+
+    <span class="c1"># sampling</span>
+    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">5000</span><span class="p">,</span> <span class="n">target_accept</span><span class="o">=</span><span class="mf">0.95</span><span class="p">)</span>
+
+<span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">hdi_prob</span><span class="o">=</span><span class="mf">0.95</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Auto-assigning NUTS sampler...
+Initializing NUTS using jitter+adapt_diag...
+Multiprocess sampling (4 chains in 4 jobs)
+NUTS: [sensitivity, specificity]
+</pre></div>
+</div>
+<div class="output text_html">
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    progress:not([value]), progress:not([value])::-webkit-progress-bar {
+        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div><div class="output text_html">
+    <div>
+      <progress value='24000' class='' max='24000' style='width:300px; height:20px; vertical-align: middle;'></progress>
+      100.00% [24000/24000 00:01&lt;00:00 Sampling 4 chains, 0 divergences]
+    </div>
+    </div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 5_000 draw iterations (4_000 + 20_000 draws total) took 2 seconds.
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mean</th>
+      <th>sd</th>
+      <th>hdi_2.5%</th>
+      <th>hdi_97.5%</th>
+      <th>mcse_mean</th>
+      <th>mcse_sd</th>
+      <th>ess_bulk</th>
+      <th>ess_tail</th>
+      <th>r_hat</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>sensitivity</th>
+      <td>0.790</td>
+      <td>0.037</td>
+      <td>0.718</td>
+      <td>0.863</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>12138.0</td>
+      <td>11296.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>specificity</th>
+      <td>0.902</td>
+      <td>0.010</td>
+      <td>0.882</td>
+      <td>0.920</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>14302.0</td>
+      <td>12679.0</td>
+      <td>1.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</details>
+</div>
 </section>
 <section id="histocompatibility">
 <h2>4. Histocompatibility<a class="headerlink" href="#histocompatibility" title="Link to this heading">#</a></h2>
@@ -701,45 +1060,102 @@ document.write(`
 <p>To shake things up, let’s generalize to multiple independent datapoints, even though we only have a single datapoint equalling 1 for this problem.</p>
 <p><span class="math notranslate nohighlight">\(\prod_{i=1}^{n} e^{-\lambda}\lambda^{k_i} = e^{- n\lambda}\lambda^{\sum_{i=1}^{n} k_i}\)</span>​</p>
 <p>Gamma PDF <span class="math notranslate nohighlight">\(\propto x^{\alpha -1}e^{-\beta x}\)</span>​</p>
-<div class="math notranslate nohighlight">
-\[ \begin{align}\begin{aligned}\begin{split}\begin{align*} \pi(\lambda \mid k) &amp;\propto \left(e^{- n\lambda}\lambda^{\sum_{i=1}^{n} k_i}\right) \left(\lambda^{\alpha -1}e^{-\beta \lambda}\right) \\\end{split}\\\begin{split}&amp;\propto \lambda^{(\alpha -1) + \sum_{i=1}^{n} k_i}e^{-\beta \lambda - n\lambda} \\ \end{split}\\\begin{split}&amp;\propto \lambda^{(\alpha + \sum_{i=1}^{n} k_i) - 1}e^{-(\beta + n)\lambda} \\\end{split}\\&amp;= Ga(\alpha + \sum_{i=1}^{n} k_i, \beta + n) \\\end{align*} \end{aligned}\end{align} \]</div>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*} 
+\pi(\lambda \mid k) &amp;\propto \left(e^{- n\lambda}\lambda^{\sum_{i=1}^{n} k_i}\right) \left(\lambda^{\alpha -1}e^{-\beta \lambda}\right) \\
+&amp;\propto \lambda^{(\alpha -1) + \sum_{i=1}^{n} k_i}e^{-\beta \lambda - n\lambda} \\ 
+&amp;\propto \lambda^{(\alpha + \sum_{i=1}^{n} k_i) - 1}e^{-(\beta + n)\lambda} \\
+&amp;= Ga(\alpha + \sum_{i=1}^{n} k_i, \beta + n) 
+\end{align*}\]</div>
 <p>We recognize the <span class="math notranslate nohighlight">\(Ga(\alpha + \sum_{i=1}^{n} k_i, \beta + n)\)</span> posterior, which comes out to <span class="math notranslate nohighlight">\(Ga(3, 2)\)</span> in this case. Our Bayes estimate is then the mean of the posterior, which is <span class="math notranslate nohighlight">\(\frac{\alpha}{\beta} = \frac{3}{2}\)</span>.</p>
 <ol class="arabic simple" start="2">
 <li><p>flat prior <span class="math notranslate nohighlight">\(\lambda = 1\)</span>, for <span class="math notranslate nohighlight">\(\lambda &gt; 0\)</span>​;</p></li>
 </ol>
 <p>Then go on with the same procedure:</p>
-<div class="math notranslate nohighlight">
-\[ \begin{align}\begin{aligned}\begin{align*} \\\begin{split}\pi(\lambda \mid k) &amp;\propto \left(e^{- n\lambda}\lambda^{\sum_{i=1}^{n} k_i}\right) \mathbf{1}(\lambda &gt; 0) \\\end{split}\\\begin{split}&amp;\propto \lambda^{\left(\sum_{i=1}^{n} k_i\right) + 1 - 1} e^{- n\lambda} \mathbf{1}(\lambda &gt; 0) \\\end{split}\\&amp;= Ga(1 + \sum_{i=1}^{n} k_i, n) \\\end{align*} \end{aligned}\end{align} \]</div>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*} 
+\pi(\lambda \mid k) &amp;\propto \left(e^{- n\lambda}\lambda^{\sum_{i=1}^{n} k_i}\right) \mathbf{1}(\lambda &gt; 0) \\
+&amp;\propto \lambda^{\left(\sum_{i=1}^{n} k_i\right) + 1 - 1} e^{- n\lambda} \mathbf{1}(\lambda &gt; 0) \\
+&amp;= Ga(1 + \sum_{i=1}^{n} k_i, n) 
+\end{align*}\]</div>
 <p>Which in our case would be <span class="math notranslate nohighlight">\(Ga(2, 1)\)</span> with a mean of 2.</p>
 <ol class="arabic simple" start="3">
 <li><p>invariance prior <span class="math notranslate nohighlight">\(\pi(\lambda) = \frac{1}{\lambda}\)</span>, for <span class="math notranslate nohighlight">\(\lambda &gt; 0\)</span>​;</p></li>
 </ol>
-<div class="math notranslate nohighlight">
-\[\begin{split}
-\begin{align*}
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
 \pi(\lambda \mid k) &amp; \propto \left(e^{- n\lambda}\lambda^{\sum_{i=1}^{n} k_i}\right) \frac{1}{\lambda}\mathbf{1}(\lambda &gt; 0) \\
 &amp;\propto e^{-n\lambda} \lambda^{-1 + \sum_{i=1}^{n} k_i} \mathbf{1}(\lambda &gt; 0) \\
 &amp; = Ga(\sum_{i=1}^{n} k_i, n) 
-\end{align*}
-\end{split}\]</div>
+\end{align*}\]</div>
 <p>We identify the <span class="math notranslate nohighlight">\(Ga(1, 1)\)</span> distribution, which has a mean of 1. Equivalently, the <span class="math notranslate nohighlight">\(Exp(1)\)</span> distribution.</p>
 <ol class="arabic simple" start="4">
 <li><p>Jeffreys prior <span class="math notranslate nohighlight">\(\pi(\lambda) = \sqrt{\frac{1}{\lambda}}\)</span>, for <span class="math notranslate nohighlight">\(\lambda &gt; 0\)</span>.</p></li>
 </ol>
-<div class="math notranslate nohighlight">
-\[ \begin{align}\begin{aligned}\begin{align*} \\\begin{split}\pi(\lambda \mid k) &amp;\propto \left(e^{- n\lambda}\lambda^{\sum_{i=1}^{n} k_i}\right) \times \sqrt{\frac{1}{\lambda}}\mathbf{1}(\lambda &gt; 0) \\\end{split}\\\begin{split}&amp;\propto \lambda^{- 1/2 + \sum_{i=1}^{n} k_i} e^{-n\lambda} \mathbf{1}(\lambda &gt; 0) \\\end{split}\\\begin{split}&amp; \propto \lambda^{- 1 + \left(1/2 + \sum_{i=1}^{n} k_i\right)} e^{-n\lambda} \mathbf{1}(\lambda &gt; 0) \\\end{split}\\&amp;= Ga(1/2 + \sum_{i=1}^{n} k_i, n) \\\end{align*} \end{aligned}\end{align} \]</div>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*} 
+\pi(\lambda \mid k) &amp;\propto \left(e^{- n\lambda}\lambda^{\sum_{i=1}^{n} k_i}\right) \times \sqrt{\frac{1}{\lambda}}\mathbf{1}(\lambda &gt; 0) \\
+&amp;\propto \lambda^{- 1/2 + \sum_{i=1}^{n} k_i} e^{-n\lambda} \mathbf{1}(\lambda &gt; 0) \\
+&amp; \propto \lambda^{- 1 + \left(1/2 + \sum_{i=1}^{n} k_i\right)} e^{-n\lambda} \mathbf{1}(\lambda &gt; 0) \\
+&amp;= Ga(1/2 + \sum_{i=1}^{n} k_i, n) 
+\end{align*}\]</div>
 <p>In our case the posterior is <span class="math notranslate nohighlight">\(Ga(3/2, 1)\)</span> with a mean of <span class="math notranslate nohighlight">\(3/2\)</span>.</p>
 <p>Note that the priors in (b-d) are not proper densities (the integrals are not finite), however, the resulting posteriors are proper.</p>
 </div>
 </section>
 <section id="neurons-fire-in-potters-lab">
 <h2>5. Neurons Fire in Potter’s Lab<a class="headerlink" href="#neurons-fire-in-potters-lab" title="Link to this heading">#</a></h2>
+<p>Data set consisting of 989 firing times in a cell culture of neurons, recorded time instances when a neuron sent a signal to another linked neuron (a spike). The cells from the cortex of an embryonic rat brain were cultured for 18 days on multielectrode arrays. The measurements were taken while the culture was stimulated at a rate of 1 Hz. From this data set, the counts of firings in consecutive time intervals of length 20 milliseconds were derived:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{array}{ccccc}
+20 &amp; 19 &amp; 26 &amp; 20 &amp; 24 \\
+21 &amp; 24 &amp; 29 &amp; 21 &amp; 17 \\
+23 &amp; 21 &amp; 19 &amp; 23 &amp; 17 \\
+30 &amp; 20 &amp; 20 &amp; 18 &amp; 16 \\
+14 &amp; 17 &amp; 15 &amp; 25 &amp; 21 \\
+16 &amp; 14 &amp; 18 &amp; 22 &amp; 25 \\
+17 &amp; 25 &amp; 24 &amp; 18 &amp; 13 \\
+12 &amp; 19 &amp; 17 &amp; 19 &amp; 19 \\
+19 &amp; 23 &amp; 17 &amp; 17 &amp; 21 \\
+15 &amp; 19 &amp; 15 &amp; 23 &amp; 22 \\
+\end{array}
+\end{split}\]</div>
+<p>It is believed that the counts are distributed as Poisson with an unknown parameter <span class="math notranslate nohighlight">\( \lambda \)</span>. An expert believes that the number of counts in the interval of 20 milliseconds should be about 15.</p>
+<ol class="arabic simple">
+<li><p>What is the likelihood function for these 50 observations?</p></li>
+<li><p>Using the information the expert provided, elicit an appropriate Gamma prior. Is such a prior unique?</p></li>
+<li><p>For the prior suggested in (2), find the Bayes’ estimator of <span class="math notranslate nohighlight">\( \lambda \)</span>. How does this estimator compare to the MLE?</p></li>
+</ol>
+<div class="tip dropdown admonition">
+<p class="admonition-title">Solution</p>
+<ol class="arabic simple">
+<li><p>The likelihood is proportional to <span class="math notranslate nohighlight">\( \lambda^{\sum_{i=1}^{50} X_i} \exp\{-50\lambda\} \)</span>, where <span class="math notranslate nohighlight">\(\sum X_i = 989\)</span> is the sum of all counts (total number of firings). The <span class="math notranslate nohighlight">\(\sum_i X_i\)</span> is a sufficient statistic here and has a Poisson <span class="math notranslate nohighlight">\(\text{Poi}(n\lambda)\)</span> distribution.</p></li>
+<li><p>A gamma prior with mean 15 is not unique; for any <span class="math notranslate nohighlight">\( x \)</span>, <span class="math notranslate nohighlight">\( \text{Ga}(15x, x) \)</span> is such a prior. However, the variances depend on <span class="math notranslate nohighlight">\( x \)</span>. For example, priors <span class="math notranslate nohighlight">\( \text{Ga}(150, 10) \)</span>, <span class="math notranslate nohighlight">\( \text{Ga}(15, 1) \)</span>, <span class="math notranslate nohighlight">\( \text{Ga}(1.5, 0.1) \)</span>, <span class="math notranslate nohighlight">\( \text{Ga}(0.15, 0.01) \)</span>, etc., have variances 1.5, 15, 150, 1500, etc. The variances indicate the degree of certainty of the expert that the prior mean is 15. Large variances correspond to non-informative choices. Since the sample variance of 50 observations is about 15, it is reasonable to take a prior with larger variance, say <span class="math notranslate nohighlight">\( \text{Ga}(3, 0.2) \)</span>.</p></li>
+<li><p>Show that <span class="math notranslate nohighlight">\( \lambda \mid \sum_i X_i \)</span> is gamma <span class="math notranslate nohighlight">\( \text{Ga} \left( \sum_i X_i + 3, n + 0.2 \right) \)</span>. The Bayes estimator for <span class="math notranslate nohighlight">\( \lambda \)</span> can be represented as <span class="math notranslate nohighlight">\( w \times \bar{X} + (1 - w) \times 15 \)</span>, where <span class="math notranslate nohighlight">\( w = \frac{n}{n + 0.2} \)</span>, emphasizing the fact that the posterior mean is a compromise between the MLE, <span class="math notranslate nohighlight">\( \bar{X} \)</span>, and the prior mean, 15.</p></li>
+</ol>
+</div>
 </section>
 <section id="elicit-inverse-gamma-prior">
 <h2>6. Elicit Inverse Gamma Prior<a class="headerlink" href="#elicit-inverse-gamma-prior" title="Link to this heading">#</a></h2>
+<p>Specify the inverse gamma prior</p>
+<div class="math notranslate nohighlight">
+\[
+\pi(\theta) = \frac{\beta^\alpha \exp\{-\theta/\beta\}}{\Gamma(\alpha)\theta^{\alpha+1}}, \quad \theta \geq 0; \, \alpha, \beta &gt; 0
+\]</div>
+<p>if <span class="math notranslate nohighlight">\( E[\theta] = 2 \)</span> and <span class="math notranslate nohighlight">\( \text{Var}(\theta) = 12 \)</span> are elicited from the experts.</p>
+<div class="tip dropdown admonition">
+<p class="admonition-title">Solution</p>
+<p>Show that the mean <span class="math notranslate nohighlight">\( \mu \)</span> and variance <span class="math notranslate nohighlight">\( \sigma^2 \)</span> of an inverse gamma prior <span class="math notranslate nohighlight">\( \text{IG}(\alpha, \beta) \)</span> are connected with <span class="math notranslate nohighlight">\( \alpha \)</span> and <span class="math notranslate nohighlight">\( \beta \)</span> as</p>
+<div class="math notranslate nohighlight">
+\[
+\alpha = \frac{\mu^2}{\sigma^2} + 2, \quad \beta = \mu \left( \frac{\mu^2}{\sigma^2} + 1 \right)
+\]</div>
+<p>Result: <span class="math notranslate nohighlight">\( \alpha = \frac{7}{3}, \, \beta = \frac{8}{3} \)</span>.</p>
+</div>
 </section>
 <section id="derive-jeffreys-priors-for-poisson-lambda-bernoulli-p-and-geometric-p">
-<h2>7. Derive Jeffreys’ Priors for Poisson <span class="math notranslate nohighlight">\(\lambda\)</span>, <strong>Bernoulli</strong> <span class="math notranslate nohighlight">\(p\)</span>, <strong>and Geometric</strong> <span class="math notranslate nohighlight">\(p\)</span>.<a class="headerlink" href="#derive-jeffreys-priors-for-poisson-lambda-bernoulli-p-and-geometric-p" title="Link to this heading">#</a></h2>
+<h2>7. Derive Jeffreys’ Priors for Poisson <span class="math notranslate nohighlight">\(\lambda\)</span>, Bernoulli <span class="math notranslate nohighlight">\(p\)</span>, and Geometric <span class="math notranslate nohighlight">\(p\)</span>.<a class="headerlink" href="#derive-jeffreys-priors-for-poisson-lambda-bernoulli-p-and-geometric-p" title="Link to this heading">#</a></h2>
 <p>Recall that Jeffreys’ prior for parameter <span class="math notranslate nohighlight">\(\theta\)</span> in the likelihood <span class="math notranslate nohighlight">\(f(x | \theta)\)</span> is defined as</p>
 <div class="math notranslate nohighlight">
 \[\pi(\theta) \propto \left| \text{det}(I(\theta)) \right|^{1/2}\]</div>
@@ -747,13 +1163,18 @@ document.write(`
 <div class="math notranslate nohighlight">
 \[I(\theta) = E \left[ \left( \frac{d \log f(x | \theta)}{d\theta} \right)^2 \right] = -E \left[ \frac{d^2 \log f(x | \theta)}{d\theta^2} \right]\]</div>
 <p>and expectation is taken with respect to the random variable <span class="math notranslate nohighlight">\(X \sim f(x | \theta)\)</span>.</p>
-<p><strong>(a) Show that Jeffreys’ prior for Poisson distribution</strong> <span class="math notranslate nohighlight">\(f(x | \lambda) = \frac{\lambda^x}{x!} e^{-\lambda}\)</span>, <span class="math notranslate nohighlight">\(\lambda \geq 0\)</span>, <strong>is</strong> <span class="math notranslate nohighlight">\(\pi(\lambda) = \sqrt{\frac{1}{\lambda}}\)</span>.</p>
-<p><strong>(b) Show that Jeffreys’ prior for Bernoulli distribution</strong> <span class="math notranslate nohighlight">\(f(x | p) = p^x (1 - p)^{1-x}\)</span>, <span class="math notranslate nohighlight">\(0 \leq p \leq 1\)</span>, <strong>is</strong> <span class="math notranslate nohighlight">\(\pi(p) \propto \frac{1}{\sqrt{p(1-p)}}\)</span>, which is the beta <span class="math notranslate nohighlight">\(\text{Be}(1/2, 1/2)\)</span> distribution (or Arcsin distribution).</p>
-<p><strong>© Show that Jeffreys’ prior for Geometric distribution</strong> <span class="math notranslate nohighlight">\(f(x | p) = (1 - p)^{x-1} p\)</span>, <span class="math notranslate nohighlight">\(x = 1, 2, \ldots\)</span> ; <span class="math notranslate nohighlight">\(0 \leq p \leq 1\)</span>, <strong>is</strong> <span class="math notranslate nohighlight">\(\pi(p) \propto \frac{1}{p \sqrt{1-p}}\)</span>.</p>
-<hr class="docutils" />
+<ol class="arabic simple">
+<li><p>Show that Jeffreys’ prior for Poisson distribution** <span class="math notranslate nohighlight">\(f(x | \lambda) = \frac{\lambda^x}{x!} e^{-\lambda}\)</span>, <span class="math notranslate nohighlight">\(\lambda \geq 0\)</span>, <strong>is</strong> <span class="math notranslate nohighlight">\(\pi(\lambda) = \sqrt{\frac{1}{\lambda}}\)</span>.</p></li>
+<li><p>Show that Jeffreys’ prior for Bernoulli distribution** <span class="math notranslate nohighlight">\(f(x | p) = p^x (1 - p)^{1-x}\)</span>, <span class="math notranslate nohighlight">\(0 \leq p \leq 1\)</span>, <strong>is</strong> <span class="math notranslate nohighlight">\(\pi(p) \propto \frac{1}{\sqrt{p(1-p)}}\)</span>, which is the beta <span class="math notranslate nohighlight">\(\text{Be}(1/2, 1/2)\)</span> distribution (or Arcsin distribution).</p></li>
+<li><p>Show that Jeffreys’ prior for Geometric distribution** <span class="math notranslate nohighlight">\(f(x | p) = (1 - p)^{x-1} p\)</span>, <span class="math notranslate nohighlight">\(x = 1, 2, \ldots\)</span> ; <span class="math notranslate nohighlight">\(0 \leq p \leq 1\)</span>, <strong>is</strong> <span class="math notranslate nohighlight">\(\pi(p) \propto \frac{1}{p \sqrt{1-p}}\)</span>.</p></li>
+</ol>
+<div class="tip dropdown admonition">
+<p class="admonition-title">Solution</p>
 <p><strong>7. Derive Jeffreys’ Priors for Poisson</strong> <span class="math notranslate nohighlight">\(\lambda\)</span>, <strong>Bernoulli</strong> <span class="math notranslate nohighlight">\(p\)</span>, <strong>and Geometric</strong> <span class="math notranslate nohighlight">\(p\)</span>.</p>
-<p><strong>(a)</strong>
-For the Poisson distribution with likelihood function:
+<ol class="arabic simple">
+<li></li>
+</ol>
+<p>For the Poisson distribution with likelihood function:
 $<span class="math notranslate nohighlight">\(f(x | \lambda) = \frac{\lambda^x e^{-\lambda}}{x!}\)</span>$</p>
 <p>First, we differentiate the log-likelihood with respect to <span class="math notranslate nohighlight">\(\lambda\)</span>:</p>
 <div class="math notranslate nohighlight">
@@ -773,8 +1194,10 @@ $<span class="math notranslate nohighlight">\(f(x | \lambda) = \frac{\lambda^x e
 <p>Thus, the Jeffreys’ prior is:</p>
 <div class="math notranslate nohighlight">
 \[\pi(\lambda) \propto \sqrt{\frac{1}{\lambda}}\]</div>
-<p><strong>(b)</strong>
-For the Bernoulli distribution:
+<ol class="arabic simple" start="2">
+<li></li>
+</ol>
+<p>For the Bernoulli distribution:
 $<span class="math notranslate nohighlight">\(f(x | p) = p^x (1-p)^{1-x}\)</span>$</p>
 <p>The log-likelihood is:</p>
 <div class="math notranslate nohighlight">
@@ -791,8 +1214,10 @@ $<span class="math notranslate nohighlight">\(f(x | p) = p^x (1-p)^{1-x}\)</span
 <p>So, the Jeffreys’ prior is:</p>
 <div class="math notranslate nohighlight">
 \[\pi(p) \propto \frac{1}{\sqrt{p(1-p)}}\]</div>
-<p><strong>©</strong>
-For the Geometric distribution:</p>
+<ol class="arabic simple" start="3">
+<li></li>
+</ol>
+<p>For the Geometric distribution:</p>
 <div class="math notranslate nohighlight">
 \[f(x | p) = (1-p)^{x-1} p\]</div>
 <p>The log-likelihood is:</p>
@@ -810,85 +1235,283 @@ For the Geometric distribution:</p>
 <p>So, the Jeffreys’ prior is:</p>
 <div class="math notranslate nohighlight">
 \[\pi(p) \propto \frac{1}{p \sqrt{1-p}}\]</div>
+</div>
 </section>
 <section id="two-scenarios-for-the-probability-of-success">
 <h2>8. Two Scenarios for the Probability of Success<a class="headerlink" href="#two-scenarios-for-the-probability-of-success" title="Link to this heading">#</a></h2>
-<p>Is there a typo on Q 8- b?</p>
-<p>It says Be(1, 21/2). But Posterior Expectation is 2/21.</p>
-<p>I got Be(1, 19/2) which results in 2/21 with the formula alpha. / (alpha + beta)</p>
-<p>Thanks.</p>
+<p>An experiment may lead to success with probability <span class="math notranslate nohighlight">\( p \)</span>, which is to be estimated. Two series of experiments were conducted:</p>
+<ul class="simple">
+<li><p>In the first scenario, the experiment is repeated independently 10 times, and the number of successes realized was 1.</p></li>
+<li><p>In the second scenario, the experiment was repeated until success, and the number of repetitions was 10.</p></li>
+</ul>
+<ol class="arabic simple">
+<li><p>The two likelihoods are Binomial and Geometric, and the moment matching estimate for the probability of success in both cases is <span class="math notranslate nohighlight">\( \hat{p} = 0.1 \)</span>. However, classical inference for the two cases (confidence intervals, testing, etc.) is different. Is there any difference in Bayesian inferences? Why yes or no?</p></li>
+<li><p>For any of the two scenarios, find the Bayes estimator of <span class="math notranslate nohighlight">\( p \)</span> if the prior is <span class="math notranslate nohighlight">\( \pi(p) = \frac{1}{p\sqrt{1-p}} \)</span>.</p></li>
+</ol>
+<div class="tip dropdown admonition">
+<p class="admonition-title">Solution</p>
+<ol class="arabic simple">
+<li><p>For the Binomial distribution, <span class="math notranslate nohighlight">\( E[X] = np = 10p \)</span>, and with <span class="math notranslate nohighlight">\( X = 1 \)</span>, leading to <span class="math notranslate nohighlight">\( \hat{p} = 0.1 \)</span>. For the Geometric distribution, <span class="math notranslate nohighlight">\( E[N] = 1/p \)</span> and <span class="math notranslate nohighlight">\( N = 10 \)</span>, also leading to <span class="math notranslate nohighlight">\( \hat{p} = 0.1 \)</span>. However, see Example 9.16 (page 413) in the Engineering Biostatistics textbook, known as the Savage Disparity. Since in both cases the likelihood is proportional to <span class="math notranslate nohighlight">\( p(1-p)^9 \)</span>, Bayesian inference coincides, and for a Bayesian, the scenario is irrelevant; all that matters is one success and 10 trials.</p></li>
+<li><p>The posterior is proportional to <span class="math notranslate nohighlight">\( (1-p)^{17/2} \)</span>, which is beta <span class="math notranslate nohighlight">\( \text{Be}(1, 19/2) \)</span>. Thus, the Bayes’ estimator is <span class="math notranslate nohighlight">\( \hat{p}_B = \frac{2}{21} \)</span>.</p></li>
+</ol>
+</div>
 </section>
 <section id="jeffreys-prior-for-normal-precision">
 <h2>9. Jeffreys’ Prior for Normal Precision<a class="headerlink" href="#jeffreys-prior-for-normal-precision" title="Link to this heading">#</a></h2>
+<p>The Jeffreys’ prior on the normal scale <span class="math notranslate nohighlight">\( \sigma \)</span> is <span class="math notranslate nohighlight">\( \pi(\sigma) = \frac{1}{\sigma} \)</span>. Consider the precision parameter <span class="math notranslate nohighlight">\( \tau = \frac{1}{\sigma^2} \)</span>.</p>
+<p>Using the invariance property, show that Jeffreys’ prior for <span class="math notranslate nohighlight">\( \tau \)</span> is <span class="math notranslate nohighlight">\( \pi(\tau) = \frac{1}{\tau} \)</span>.</p>
+<div class="tip dropdown admonition">
+<p class="admonition-title">Solution</p>
+<p>We know that Jeffreys’ prior for <span class="math notranslate nohighlight">\( \sigma \)</span> is <span class="math notranslate nohighlight">\( \pi(\sigma) = \frac{1}{\sigma} \)</span>.</p>
+<p>The invariance property states that if <span class="math notranslate nohighlight">\( \tau = \tau(\sigma) \)</span>, then</p>
+<div class="math notranslate nohighlight">
+\[
+I^{1/2}(\tau) = I^{1/2}(\sigma) \left| \frac{d\sigma}{d\tau} \right|
+\]</div>
+<p>Here, <span class="math notranslate nohighlight">\( \sigma = \sqrt{\frac{1}{\tau}} \)</span> and <span class="math notranslate nohighlight">\( \frac{d\sigma}{d\tau} = -\frac{1}{2} \tau^{-3/2} \)</span>.</p>
+<p>Thus,</p>
+<div class="math notranslate nohighlight">
+\[
+\pi(\tau) = \pi(\sigma) \left| \frac{d\sigma}{d\tau} \right| = \sqrt{\frac{1}{1/\tau}} \times \frac{1}{2} \tau^{-3/2} = \frac{1}{2\tau}
+\]</div>
+<p>Since the derived prior is improper, we can drop the constant 2 in the denominator and take</p>
+<div class="math notranslate nohighlight">
+\[
+\pi(\tau) = \frac{1}{\tau}
+\]</div>
+<p>as Jeffreys’ prior for the precision parameter <span class="math notranslate nohighlight">\( \tau \)</span>.</p>
+</div>
 </section>
 <section id="derive-jeffreys-prior-for-maxwells-theta">
 <h2>10. Derive Jeffreys’ Prior for Maxwell’s <span class="math notranslate nohighlight">\(\theta\)</span><a class="headerlink" href="#derive-jeffreys-prior-for-maxwells-theta" title="Link to this heading">#</a></h2>
+<ol class="arabic">
+<li><p>Show that Jeffreys’ prior for Maxwell’s rate parameter <span class="math notranslate nohighlight">\( \theta \)</span> is proportional to <span class="math notranslate nohighlight">\( \frac{1}{\theta} \)</span>. Maxwell density is given by</p>
+<div class="math notranslate nohighlight">
+\[f(x \mid \theta) = \sqrt{\frac{2}{\pi}} \theta^{3/2} x^2 \exp\left( -\frac{1}{2} \theta x^2 \right), \quad x \geq 0, \, \theta &gt; 0\]</div>
+</li>
+<li><p>Show that the flat prior on <span class="math notranslate nohighlight">\( \log \theta \)</span> is equivalent to <span class="math notranslate nohighlight">\( \frac{1}{\theta} \)</span> prior on <span class="math notranslate nohighlight">\( \theta \)</span>.</p></li>
+</ol>
+<div class="tip dropdown admonition">
+<p class="admonition-title">Solution</p>
+<ol class="arabic simple">
+<li><p>The second derivative of the log-likelihood, when evaluated, is free of <span class="math notranslate nohighlight">\( x \)</span>, making the expectation straightforward. Given the prior <span class="math notranslate nohighlight">\( \pi(\theta) = \frac{1}{\theta} \)</span>.</p></li>
+<li><p>Let <span class="math notranslate nohighlight">\( \phi = \log \theta \)</span> have a flat prior. Then,</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[
+\pi(\theta) = \pi(\phi) \left| \frac{d\phi}{d\theta} \right| = 1 \times \frac{1}{\theta}
+\]</div>
+</div>
 </section>
 <section id="quasi-jeffreys-priors">
 <h2>11. “Quasi” Jeffreys’ Priors<a class="headerlink" href="#quasi-jeffreys-priors" title="Link to this heading">#</a></h2>
+<p>Jeffreys himself often recommended priors different from Jeffreys’ priors. For example, for Poisson rate <span class="math notranslate nohighlight">\( \lambda \)</span> he recommended <span class="math notranslate nohighlight">\( \pi(\lambda) \propto \frac{1}{\lambda} \)</span> instead of <span class="math notranslate nohighlight">\( \pi(\lambda) \propto \sqrt{\frac{1}{\lambda}} \)</span>.</p>
+<p>For <span class="math notranslate nohighlight">\( (\mu, \sigma^2) \)</span>, Jeffreys recommended <span class="math notranslate nohighlight">\( \pi(\mu, \sigma^2) \propto \frac{1}{\sigma^2} \)</span>. This prior is obtained as the product of separate one-dimensional Jeffreys’ priors for <span class="math notranslate nohighlight">\( \mu \)</span> and <span class="math notranslate nohighlight">\( \sigma^2 \)</span>.</p>
+<p>Show that the simultaneous Jeffreys’ prior for the two-dimensional parameter <span class="math notranslate nohighlight">\( (\mu, \sigma^2) \)</span> is <span class="math notranslate nohighlight">\( \pi(\mu, \sigma^2) \propto \frac{1}{\sigma^3} \)</span>.</p>
+<div class="tip dropdown admonition">
+<p class="admonition-title">Solution</p>
+<p>Denote <span class="math notranslate nohighlight">\( \phi = \sigma^2 \)</span>. Then the normal likelihood is</p>
+<div class="math notranslate nohighlight">
+\[
+L(\mu, \phi) = \frac{1}{\sqrt{2\pi\phi}} \exp\left( -\frac{(x - \mu)^2}{2\phi} \right)
+\]</div>
+<p>and the log likelihood is</p>
+<div class="math notranslate nohighlight">
+\[
+\ell(\mu, \phi) = \text{const} - \frac{1}{2} \log \phi - \frac{(x - \mu)^2}{2\phi}
+\]</div>
+<p>Then,</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\partial \ell}{\partial \mu} = \frac{x - \mu}{\phi}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\frac{\partial \ell}{\partial \phi} = -\frac{1}{2\phi} + \frac{(x - \mu)^2}{2\phi^2}
+\]</div>
+<p>and</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\partial^2 \ell}{\partial \mu^2} = -\frac{1}{\phi}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\frac{\partial^2 \ell}{\partial \mu \partial \phi} = -\frac{x - \mu}{\phi^2}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\frac{\partial^2 \ell}{\partial \phi \partial \mu} = \frac{\partial^2 \ell}{\partial \mu \partial \phi}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\frac{\partial^2 \ell}{\partial \phi^2} = \frac{1}{2\phi^2} - \frac{(x - \mu)^2}{\phi^3}
+\]</div>
+<p>The Fisher Information matrix is</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+I = -E \left[
+\begin{array}{cc}
+-\frac{1}{\phi} &amp; -\frac{x - \mu}{\phi^2} \\
+-\frac{x - \mu}{\phi^2} &amp; \frac{1}{2\phi^2} - \frac{(x - \mu)^2}{\phi^3}
+\end{array}
+\right] =
+\begin{pmatrix}
+\frac{1}{\phi} &amp; 0 \\
+0 &amp; \frac{1}{2\phi^2}
+\end{pmatrix}
+\end{split}\]</div>
+<p>and</p>
+<div class="math notranslate nohighlight">
+\[
+\det(I) = \frac{1}{2\phi^3}
+\]</div>
+<p>Jeffreys’ prior is proportional to <span class="math notranslate nohighlight">\( |\det(I)|^{1/2} \)</span>, so</p>
+<div class="math notranslate nohighlight">
+\[
+\pi(\mu, \phi) \propto \frac{1}{\phi^{3/2}} \propto \frac{1}{\sigma}
+\]</div>
+</div>
 </section>
 <section id="haldane-prior-for-binomial-p">
 <h2>12. Haldane Prior for Binomial p<a class="headerlink" href="#haldane-prior-for-binomial-p" title="Link to this heading">#</a></h2>
+<p><span id="id2">Haldane [<a class="reference internal" href="../backmatter/bibliography.html#id48" title="J. B. S. Haldane. A note on inverse probability. Mathematical Proceedings of the Cambridge Philosophical Society, 28(1):55–61, 1932. doi:10.1017/S0305004100010495.">1932</a>]</span> suggested a fully noninformative prior for binomial <span class="math notranslate nohighlight">\( p \)</span> as <span class="math notranslate nohighlight">\( \pi(p) \propto \frac{1}{p(1-p)} \)</span> [beta <span class="math notranslate nohighlight">\(\text{Be}(0, 0)\)</span> distribution].</p>
+<ol class="arabic simple">
+<li><p>Show that Haldane prior is equivalent to a flat prior on <span class="math notranslate nohighlight">\(\text{logit}(p)\)</span>.</p></li>
+<li><p>Suppose <span class="math notranslate nohighlight">\( X \sim \text{Bin}(n, p) \)</span> is observed. What is the posterior? What is the Bayes estimator of <span class="math notranslate nohighlight">\( p \)</span>?</p></li>
+<li><p>What is the predictive distribution for a single future Bernoulli <span class="math notranslate nohighlight">\( Y \)</span>? What is the prediction for <span class="math notranslate nohighlight">\( Y \)</span>?</p></li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>While tracking down the Haldane citation, I found <a class="reference external" href="https://arxiv.org/abs/1511.08180">this paper</a> (<span id="id3">Etz and Wagenmakers [<a class="reference internal" href="../backmatter/bibliography.html#id47" title="Alexander Etz and Eric-Jan Wagenmakers. J. b. s. haldane's contribution to the bayes factor hypothesis test. 2016. URL: https://arxiv.org/abs/1511.08180, arXiv:1511.08180.">2016</a>]</span>) on some Bayesian history relating to Jeffreys and Haldane and <a class="reference external" href="https://xianblog.wordpress.com/2015/11/27/origin-of-the-bayes-factor/">this blog post commenting on it</a> by one of my favorite Bayesian writers, Christian P. Robert.</p>
+<p>Just leaving these links here if anyone is interested!</p>
+</div>
+<div class="tip dropdown admonition">
+<p class="admonition-title">Solution</p>
+<ol class="arabic simple">
+<li><p>Let <span class="math notranslate nohighlight">\( \psi \)</span> be the logit of <span class="math notranslate nohighlight">\( p \)</span>, i.e.,</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[
+\psi = \log\left(\frac{p}{1 - p}\right),
+\]</div>
+<p>and assume that <span class="math notranslate nohighlight">\( \psi \)</span> is given a flat prior, <span class="math notranslate nohighlight">\( \psi \sim 1 \)</span>. Then the prior on <span class="math notranslate nohighlight">\( p \)</span> is</p>
+<div class="math notranslate nohighlight">
+\[
+\pi(p) = \pi(\psi) \left| \frac{d\psi(p)}{dp} \right| = 1 \times \left| \frac{1}{p/(1 - p)} \cdot \frac{(1 - p) - p}{(1 - p)^2} \right| = \frac{1}{p(1 - p)}.
+\]</div>
+<ol class="arabic simple" start="2">
+<li><p>The posterior is beta <span class="math notranslate nohighlight">\( \text{Be}(x, n - x) \)</span> and the Bayes estimator of <span class="math notranslate nohighlight">\( p \)</span> is <span class="math notranslate nohighlight">\( \frac{x}{n} \)</span>, which coincides with the frequentist’s <span class="math notranslate nohighlight">\( \hat{p} \)</span>.</p></li>
+</ol>
+<p>© The predictive distribution for a single future Bernoulli <span class="math notranslate nohighlight">\( y \)</span> is</p>
+<div class="math notranslate nohighlight">
+\[
+f(y \mid x) = \frac{B(x + y, n + 1 - x - y)}{B(x, n - x)}.
+\]</div>
+<p>Here, using <span class="math notranslate nohighlight">\( B(a, b) = \frac{\Gamma(a)\Gamma(b)}{\Gamma(a + b)} \)</span> and <span class="math notranslate nohighlight">\( \Gamma(a + 1) = a\Gamma(a) \)</span>, we can show</p>
+<div class="math notranslate nohighlight">
+\[
+f(0 \mid x) + f(1 \mid x) = \frac{\Gamma(x)\Gamma(n + 1 - x)}{\Gamma(n + 1)} + \frac{\Gamma(x + 1)\Gamma(n - x)}{\Gamma(n + 1)},
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+= \frac{\Gamma(x)(n - x)\Gamma(n - x)}{n\Gamma(n)} + \frac{x\Gamma(x)\Gamma(n - x)}{n\Gamma(n)} = \frac{n - x}{n} + \frac{x}{n} = 1.
+\]</div>
+<p>Thus, the distribution of future observation <span class="math notranslate nohighlight">\( y \)</span> given <span class="math notranslate nohighlight">\( x \)</span> successes in <span class="math notranslate nohighlight">\( n \)</span> trials is</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+y \mid x \quad \begin{array}{cc}
+0 &amp; 1 \\
+\frac{n - x}{n} &amp; \frac{x}{n}
+\end{array}
+\end{split}\]</div>
+<p>Note that the prediction for future <span class="math notranslate nohighlight">\( y \)</span> is the mean of the posterior predictive distribution, which is <span class="math notranslate nohighlight">\( \frac{x}{n} \)</span>. The same result is obtained when <span class="math notranslate nohighlight">\( E[y] = p \)</span> is integrated with respect to the posterior <span class="math notranslate nohighlight">\( \text{Be}(x, n - x) \)</span>. Check this!</p>
+</div>
 </section>
 <section id="eliciting-a-normal-prior">
 <h2>13. Eliciting a Normal Prior<a class="headerlink" href="#eliciting-a-normal-prior" title="Link to this heading">#</a></h2>
+<p>We are eliciting a normal prior <span class="math notranslate nohighlight">\( N(\mu, \sigma^2) \)</span> from an expert who can specify percentiles. If the 20th and 70th percentiles are specified as 2.7 and 4.8, respectively, how should <span class="math notranslate nohighlight">\( \mu \)</span> and <span class="math notranslate nohighlight">\( \sigma \)</span> be elicited?</p>
+<div class="tip dropdown admonition">
+<p class="admonition-title">Solution</p>
+<p>If <span class="math notranslate nohighlight">\( x_p \)</span> is the <span class="math notranslate nohighlight">\( p \)</span>th quantile (100% <span class="math notranslate nohighlight">\( p \)</span>th percentile), then <span class="math notranslate nohighlight">\(x_p = \mu + z_p \sigma\)</span>. A system of two equations with two unknowns is formed with <span class="math notranslate nohighlight">\(z_p\)</span>.</p>
+<p>The solution is <span class="math notranslate nohighlight">\(\mu = 3.99382 \approx 4\)</span>, <span class="math notranslate nohighlight">\(\sigma = 1.53734\)</span>.</p>
+</div>
+<div class="cell tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">norm</span>
+
+<span class="n">z_20</span> <span class="o">=</span> <span class="n">norm</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="mf">0.20</span><span class="p">)</span>
+<span class="n">z_70</span> <span class="o">=</span> <span class="n">norm</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="mf">0.70</span><span class="p">)</span>
+
+<span class="n">z_20</span><span class="p">,</span> <span class="n">z_70</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(-0.8416212335729142, 0.5244005127080407)
+</pre></div>
+</div>
+</div>
+</details>
+</div>
 </section>
 <section id="jigsaw">
 <h2>14. Jigsaw<a class="headerlink" href="#jigsaw" title="Link to this heading">#</a></h2>
 <p>An experiment with a sample of 18 nursery-school children involved the elapsed time required to put together a small jigsaw puzzle. The times were:</p>
-<p><a class="reference external" href="https://colab.research.google.com/drive/19OEW7E1wOfcvdpytEiLQ--VF4YlsRTcD">https://colab.research.google.com/drive/19OEW7E1wOfcvdpytEiLQ–VF4YlsRTcD</a></p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="mf">3.1</span><span class="p">,</span>
-    <span class="mf">3.2</span><span class="p">,</span>
-    <span class="mf">3.4</span><span class="p">,</span>
-    <span class="mf">3.6</span><span class="p">,</span>
-    <span class="mf">3.7</span><span class="p">,</span>
-    <span class="mf">4.2</span><span class="p">,</span>
-    <span class="mf">4.3</span><span class="p">,</span>
-    <span class="mf">4.5</span><span class="p">,</span>
-    <span class="mf">4.7</span><span class="p">,</span>
-    <span class="mf">5.2</span><span class="p">,</span>
-    <span class="mf">5.6</span><span class="p">,</span>
-    <span class="mf">6.0</span><span class="p">,</span>
-    <span class="mf">6.1</span><span class="p">,</span>
-    <span class="mf">6.6</span><span class="p">,</span>
-    <span class="mf">7.3</span><span class="p">,</span>
-    <span class="mf">8.2</span><span class="p">,</span>
-    <span class="mf">10.8</span><span class="p">,</span>
-    <span class="mf">13.6</span><span class="p">,</span>
-<span class="p">]</span>
-</pre></div>
-</div>
-</div>
-</div>
-<p>Assume that data are coming from a normal distribution <span class="math notranslate nohighlight">\(N (\mu, \sigma^2)\)</span> with <span class="math notranslate nohighlight">\(\sigma^2 = 8\)</span>. For parameter <span class="math notranslate nohighlight">\(\mu\)</span>, set a normal prior with mean 5 and variance 6.</p>
-<hr class="docutils" />
-<p>(a) Find the Bayes estimator and 95% credible set for population mean <span class="math notranslate nohighlight">\(\mu\)</span>.</p>
-<p>We can define our model like this:
-$$</p>
-<div class="amsmath math notranslate nohighlight" id="equation-5260faf2-1e35-4b93-a15f-52319ba62f2b">
-<span class="eqno">(1)<a class="headerlink" href="#equation-5260faf2-1e35-4b93-a15f-52319ba62f2b" title="Permalink to this equation">#</a></span>\[\begin{align}
+<p>\begin{array}{cccccc}
+3.1 &amp; 3.2 &amp; 3.4 &amp; 3.6 &amp; 3.7 &amp; 4.2 \
+4.3 &amp; 4.5 &amp; 4.7 &amp; 5.2 &amp; 5.6 &amp; 6.0 \
+6.1 &amp; 6.6 &amp; 7.3 &amp; 8.2 &amp; 10.8 &amp; 13.6 \
+\end{array}</p>
+<p>Assume that data are coming from normal <span class="math notranslate nohighlight">\( N(\mu, \sigma^2) \)</span> with <span class="math notranslate nohighlight">\( \sigma^2 = 8 \)</span>. For parameter <span class="math notranslate nohighlight">\( \mu \)</span>, set a normal prior with mean 5 and variance 6.</p>
+<ol class="arabic simple">
+<li><p>Find the Bayes estimator and 95% credible set for the population mean <span class="math notranslate nohighlight">\( \mu \)</span>.</p></li>
+<li><p>Find the posterior probability of hypothesis <span class="math notranslate nohighlight">\( H_0: \mu \leq 5 \)</span>.</p></li>
+<li><p>What is your prediction for a single future observation?</p></li>
+</ol>
+<div class="tip dropdown admonition">
+<p class="admonition-title">Solution</p>
+<ol class="arabic simple">
+<li><p>Find the Bayes estimator and 95% credible set for population mean <span class="math notranslate nohighlight">\(\mu\)</span>.</p></li>
+</ol>
+<p>We can define our model like this:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-3bda6861-2026-4989-a8ab-437f0d3726b7">
+<span class="eqno">(1)<a class="headerlink" href="#equation-3bda6861-2026-4989-a8ab-437f0d3726b7" title="Permalink to this equation">#</a></span>\[\begin{align}
 x_i|\mu &amp;\sim N(\mu, 8) \\
 \mu &amp; \sim N(5, 6)
 \end{align}\]</div>
-<div class="math notranslate nohighlight">
-\[ \begin{align}\begin{aligned}
-This is the Normal-Normal conjugate pair for a fixed variance and random mean, with $n=18$ and $\bar{X} \approx 5.78333$\\Our posterior is then:
-\end{aligned}\end{align} \]</div>
-<div class="amsmath math notranslate nohighlight" id="equation-d48383bf-5565-4d19-bfb5-6450eb6404b3">
-<span class="eqno">(2)<a class="headerlink" href="#equation-d48383bf-5565-4d19-bfb5-6450eb6404b3" title="Permalink to this equation">#</a></span>\[\begin{align}
+<p>This is the Normal-Normal conjugate pair for a fixed variance and random mean, with <span class="math notranslate nohighlight">\(n=18\)</span> and <span class="math notranslate nohighlight">\(\bar{X} \approx 5.78333\)</span></p>
+<p>Our posterior is then:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-28b7096d-6778-4719-9294-3a168cdd0988">
+<span class="eqno">(2)<a class="headerlink" href="#equation-28b7096d-6778-4719-9294-3a168cdd0988" title="Permalink to this equation">#</a></span>\[\begin{align}
 \pi(\theta|x) &amp;\sim N\left(\frac{\tau^2}{\tau^2 +\sigma^2/n}\bar{X} + \frac{\sigma^2/n}{\tau^2 + \sigma^2/n}\mu_0, \frac{\tau^2\sigma^2/n}{\tau^2+ \sigma^2/n}\right) \\
 &amp; \sim N(\frac{6}{6 + 8/18}\bar{X} + \frac{8/18}{6 + 8/18}(5), \frac{6(8/18)}{6+8/18}) \\
 &amp; \sim N(5.72931, 0.41379)
 \end{align}\]</div>
-<p>$$
-Our Bayes estimator will be the posterior mean, 5.72931.</p>
-<p>The 95% equitailed credible set:</p>
-<div class="cell docutils container">
+<p>Our Bayes estimator will be the posterior mean, 5.72931.</p>
+<p>The 95% equitailed credible set: (4.4685, 6.9901). HPD set will be the same since this is a symmetrical posterior.</p>
+<ol class="arabic simple" start="2">
+<li><p>Find the posterior probability of hypothesis <span class="math notranslate nohighlight">\(H_0 : \mu \leq 5\)</span>.</p></li>
+</ol>
+<p>Use the posterior cdf (see code below) with a result of 0.1284.</p>
+<ol class="arabic simple" start="3">
+<li><p>What is your prediction for a single future observation?</p></li>
+</ol>
+<p>A single prediction in this case will be equal to the posterior mean. But the important thing about</p>
+</div>
+<div class="cell tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># part 1</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">scipy.stats</span> <span class="k">as</span> <span class="nn">ss</span>
 
 <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.05</span>
@@ -897,20 +1520,26 @@ Our Bayes estimator will be the posterior mean, 5.72931.</p>
 
 <span class="n">post</span> <span class="o">=</span> <span class="n">ss</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="n">mean</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">var</span><span class="o">**</span><span class="mf">0.5</span><span class="p">)</span>
 
-<span class="n">post</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="n">alpha</span> <span class="o">/</span> <span class="mi">2</span><span class="p">),</span> <span class="n">post</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">alpha</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+<span class="nb">round</span><span class="p">(</span><span class="n">post</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="n">alpha</span> <span class="o">/</span> <span class="mi">2</span><span class="p">),</span> <span class="mi">4</span><span class="p">),</span> <span class="nb">round</span><span class="p">(</span><span class="n">post</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">alpha</span> <span class="o">/</span> <span class="mi">2</span><span class="p">),</span> <span class="mi">4</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(4.468533554544652, 6.990086445455348)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(4.4685, 6.9901)
 </pre></div>
 </div>
 </div>
+</details>
 </div>
-<p>The HPD credible set will be the same for the normal distribution because of symmetry:</p>
-<div class="cell docutils container">
+<div class="cell tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="kn">import</span> <span class="n">fsolve</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># part 1 HPD</span>
+<span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="kn">import</span> <span class="n">fsolve</span>
 
 
 <span class="k">def</span> <span class="nf">conditions</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">post</span><span class="p">,</span> <span class="n">alpha</span><span class="p">):</span>
@@ -931,48 +1560,35 @@ Our Bayes estimator will be the posterior mean, 5.72931.</p>
 </pre></div>
 </div>
 </div>
+</details>
 </div>
-<p>(b) Find the posterior probability of hypothesis <span class="math notranslate nohighlight">\(H_0 : \mu \leq 5\)</span>.</p>
-<div class="cell docutils container">
+<div class="cell tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">post</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">round</span><span class="p">(</span><span class="n">post</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span> <span class="mi">4</span><span class="p">)</span>  <span class="c1"># post probability, part 2</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.12844704607549606
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.1284
 </pre></div>
 </div>
 </div>
+</details>
 </div>
-<p>© What is your prediction for a single future observation?</p>
-<p>Since we only want a single future observation, we can use this from Greg’s U4L13 notes (linked under the lecture videos):</p>
-<div class="math notranslate nohighlight">
-\[
-\hat{X}_{n+1} = \int_\theta \mu(\theta) \pi(\theta \mid x_i) d\theta
-\]</div>
-<p>where <span class="math notranslate nohighlight">\(\mu(\theta) = \mathbb{E}[X] = \int x f(x \mid \theta) dx\)</span> is the mean of the original likelihood (the distribution of <span class="math notranslate nohighlight">\(X|\theta\)</span>).</p>
-<p>We can use the <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.rv_continuous.expect.html"><code class="docutils literal notranslate"><span class="pre">.expect()</span></code></a> method on our posterior to calculate this single value, since it will take the expectation of a function with respect to our posterior. Although in the model we treat the mean of the likelihood as unknown, here we can use the mean of <span class="math notranslate nohighlight">\(\mu\)</span> (the mean of the prior on <span class="math notranslate nohighlight">\(\mu\)</span>).</p>
-<p>As the original hints for the solution said, this will equal the posterior mean.</p>
-<div class="cell docutils container">
+<div class="cell tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># define likelihood</span>
-<span class="n">lik</span> <span class="o">=</span> <span class="n">ss</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">8</span><span class="o">**</span><span class="mf">0.5</span><span class="p">)</span>
-
-<span class="n">post</span><span class="o">.</span><span class="n">expect</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>5.729310000000003
-</pre></div>
-</div>
-</div>
-</div>
-<p>A PyMC solution:</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pymc</span> <span class="k">as</span> <span class="nn">pm</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># pymc solution for Q14</span>
+<span class="kn">import</span> <span class="nn">pymc</span> <span class="k">as</span> <span class="nn">pm</span>
 <span class="kn">import</span> <span class="nn">arviz</span> <span class="k">as</span> <span class="nn">az</span>
 
 <span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">m</span><span class="p">:</span>
@@ -982,6 +1598,11 @@ Our Bayes estimator will be the posterior mean, 5.72931.</p>
 
     <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">5000</span><span class="p">)</span>
     <span class="n">pm</span><span class="o">.</span><span class="n">sample_posterior_predictive</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">extend_inferencedata</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+
+<span class="nb">print</span><span class="p">(</span><span class="n">trace</span><span class="o">.</span><span class="n">posterior_predictive</span><span class="o">.</span><span class="n">to_array</span><span class="p">()</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
+
+<span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">hdi_prob</span><span class="o">=</span><span class="mf">0.95</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;stats&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1038,15 +1659,10 @@ Sampling: [lik]
       <progress value='20000' class='' max='20000' style='width:300px; height:20px; vertical-align: middle;'></progress>
       100.00% [20000/20000 00:00&lt;00:00]
     </div>
-    </div></div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">hdi_prob</span><span class="o">=</span><span class="mf">0.95</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;stats&quot;</span><span class="p">)</span>
+    </div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;xarray.DataArray ()&gt; Size: 8B
+array(5.73871452)
 </pre></div>
 </div>
-</div>
-<div class="cell_output docutils container">
 <div class="output text_html"><div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
@@ -1074,40 +1690,523 @@ Sampling: [lik]
   <tbody>
     <tr>
       <th>mu</th>
-      <td>5.721</td>
-      <td>0.647</td>
-      <td>4.503</td>
-      <td>7.033</td>
+      <td>5.727</td>
+      <td>0.651</td>
+      <td>4.451</td>
+      <td>6.968</td>
     </tr>
   </tbody>
 </table>
 </div></div></div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">trace</span><span class="o">.</span><span class="n">posterior_predictive</span><span class="o">.</span><span class="n">to_array</span><span class="p">()</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;xarray.DataArray ()&gt;
-array(5.72300883)
-</pre></div>
-</div>
-</div>
+</details>
 </div>
 </section>
 <section id="jeremy-and-poisson">
 <h2>15. Jeremy and Poisson<a class="headerlink" href="#jeremy-and-poisson" title="Link to this heading">#</a></h2>
+<p>Jeremy believes that the normal model on his IQ test scores is not appropriate. After all, the scores are reported as integers. So he proposes a Poisson model; the scores to be modeled as Poisson:</p>
+<div class="math notranslate nohighlight">
+\[y \sim \text{Poisson}(\theta)\]</div>
+<p>An expert versed in GT student’s intellectual abilities is asked to elicit a prior on <span class="math notranslate nohighlight">\(\theta\)</span>. The expert elicits a gamma prior:</p>
+<div class="math notranslate nohighlight">
+\[\theta \sim \text{Gamma}(30, 0.25)\]</div>
+<p>Jeremy gets the test and scores <span class="math notranslate nohighlight">\(y = 98\)</span>.</p>
+<ol class="arabic simple">
+<li><p>What is the Bayes estimator of <span class="math notranslate nohighlight">\(\theta\)</span>? Find this estimator exactly.</p></li>
+<li><p>Using a PPL, confirm that simulations agree with the theoretical result in (a).</p></li>
+</ol>
+<div class="tip dropdown admonition">
+<p class="admonition-title">Solution</p>
+<p>Use the conjugate table to find that <span class="math notranslate nohighlight">\(\theta \mid y \sim \text{Gamma}(128, \frac{5}{4})\)</span></p>
+<p>The posterior mean is <span class="math notranslate nohighlight">\(128 \cdot \frac{4}{5} = 102.4\)</span> and variance <span class="math notranslate nohighlight">\(128 \cdot \frac{16}{25} = 81.92\)</span>. The posterior standard deviation is <span class="math notranslate nohighlight">\(9.0510\)</span>.</p>
+<p>See the PyMC code below for part 2.</p>
+</div>
+<div class="cell tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># pymc solution for Q15</span>
+<span class="kn">import</span> <span class="nn">pymc</span> <span class="k">as</span> <span class="nn">pm</span>
+<span class="kn">import</span> <span class="nn">arviz</span> <span class="k">as</span> <span class="nn">az</span>
+
+<span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">m</span><span class="p">:</span>
+    <span class="n">theta_prior</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Gamma</span><span class="p">(</span><span class="s2">&quot;theta&quot;</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">)</span>
+
+    <span class="n">likelihood</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Poisson</span><span class="p">(</span><span class="s2">&quot;lik&quot;</span><span class="p">,</span> <span class="n">theta_prior</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="p">[</span><span class="mi">98</span><span class="p">])</span>
+
+    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">4000</span><span class="p">)</span>
+
+<span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">hdi_prob</span><span class="o">=</span><span class="mf">0.95</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;stats&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Auto-assigning NUTS sampler...
+Initializing NUTS using jitter+adapt_diag...
+Multiprocess sampling (4 chains in 4 jobs)
+NUTS: [theta]
+</pre></div>
+</div>
+<div class="output text_html">
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    progress:not([value]), progress:not([value])::-webkit-progress-bar {
+        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div><div class="output text_html">
+    <div>
+      <progress value='20000' class='' max='20000' style='width:300px; height:20px; vertical-align: middle;'></progress>
+      100.00% [20000/20000 00:00&lt;00:00 Sampling 4 chains, 0 divergences]
+    </div>
+    </div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 4_000 draw iterations (4_000 + 16_000 draws total) took 1 seconds.
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mean</th>
+      <th>sd</th>
+      <th>hdi_2.5%</th>
+      <th>hdi_97.5%</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>theta</th>
+      <td>102.301</td>
+      <td>9.06</td>
+      <td>85.352</td>
+      <td>120.737</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</details>
+</div>
 </section>
 <section id="npeb-for-p-in-the-geometric-distribution">
 <h2>16. NPEB for <em>p</em> in the Geometric Distribution<a class="headerlink" href="#npeb-for-p-in-the-geometric-distribution" title="Link to this heading">#</a></h2>
+<p>A geometric random variable <span class="math notranslate nohighlight">\(X\)</span> counts the number of failures before the first success, when the probability of success is <span class="math notranslate nohighlight">\(p\)</span> (and a failure <span class="math notranslate nohighlight">\(1 - p\)</span>). The PDF of <span class="math notranslate nohighlight">\(X\)</span> is:</p>
+<p><span class="math notranslate nohighlight">\(P(X = x) = (1 - p)^x \times p, \quad x = 0, 1, 2, \ldots; \quad 0 \leq p \leq 1\)</span></p>
+<p>We simulated a sample of size 2400 from a geometric distribution with a probability of success 0.32. The following (summarized) sample was obtained:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p><span class="math notranslate nohighlight">\(x\)</span></p></th>
+<th class="head"><p>Frequency</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0</p></td>
+<td><p>758</p></td>
+</tr>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p>527</p></td>
+</tr>
+<tr class="row-even"><td><p>2</p></td>
+<td><p>379</p></td>
+</tr>
+<tr class="row-odd"><td><p>3</p></td>
+<td><p>229</p></td>
+</tr>
+<tr class="row-even"><td><p>4</p></td>
+<td><p>162</p></td>
+</tr>
+<tr class="row-odd"><td><p>5</p></td>
+<td><p>121</p></td>
+</tr>
+<tr class="row-even"><td><p>6</p></td>
+<td><p>79</p></td>
+</tr>
+<tr class="row-odd"><td><p>7</p></td>
+<td><p>56</p></td>
+</tr>
+<tr class="row-even"><td><p>8</p></td>
+<td><p>30</p></td>
+</tr>
+<tr class="row-odd"><td><p>9</p></td>
+<td><p>20</p></td>
+</tr>
+<tr class="row-even"><td><p>10</p></td>
+<td><p>15</p></td>
+</tr>
+<tr class="row-odd"><td><p>11</p></td>
+<td><p>6</p></td>
+</tr>
+<tr class="row-even"><td><p>12</p></td>
+<td><p>6</p></td>
+</tr>
+<tr class="row-odd"><td><p>13</p></td>
+<td><p>4</p></td>
+</tr>
+<tr class="row-even"><td><p>14</p></td>
+<td><p>1</p></td>
+</tr>
+<tr class="row-odd"><td><p>15</p></td>
+<td><p>0</p></td>
+</tr>
+<tr class="row-even"><td><p>16</p></td>
+<td><p>0</p></td>
+</tr>
+<tr class="row-odd"><td><p>17</p></td>
+<td><p>4</p></td>
+</tr>
+<tr class="row-even"><td><p>18</p></td>
+<td><p>1</p></td>
+</tr>
+<tr class="row-odd"><td><p>19</p></td>
+<td><p>1</p></td>
+</tr>
+<tr class="row-even"><td><p>20</p></td>
+<td><p>1</p></td>
+</tr>
+<tr class="row-odd"><td><p>21+</p></td>
+<td><p>0</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Total</strong></p></td>
+<td><p><strong>2400</strong></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<ol class="arabic simple">
+<li><p>Develop a Nonparametric Empirical Bayes Estimator if the prior on <span class="math notranslate nohighlight">\(p\)</span> is <span class="math notranslate nohighlight">\(g(p)\)</span>, <span class="math notranslate nohighlight">\(0 \leq p \leq 1\)</span>.</p></li>
+<li><p>Compute the empirical Bayes estimator developed in 1. on the simulated sample for different values of <span class="math notranslate nohighlight">\(x\)</span>.</p></li>
+</ol>
+<div class="tip dropdown admonition">
+<p class="admonition-title">Solution</p>
+<p>Solution for 1:
+The likelihood and prior are:</p>
+<div class="math notranslate nohighlight">
+\[f(x \mid p) = (1 - p)^x p, \quad x = 0, 1, 2, \ldots; \quad p \sim g(p), \quad 0 \leq p \leq 1\]</div>
+<p>leading to the marginal for <span class="math notranslate nohighlight">\(X\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[m(x) = \int_0^1 f(x \mid p) \, dG(p) = \int_0^1 (1 - p)^x p g(p) \, dp\]</div>
+<p>The posterior mean is:</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+E(p \mid x) &amp;= \frac{1}{m(x)} \int_0^1 p (1 - p)^x p g(p) \, dp \\
+&amp;= \frac{1}{m(x)} \int_0^1 [1 - (1 - p)] (1 - p)^x p g(p) \, dp \\
+&amp;= \frac{1}{m(x)} \left[ m(x) - \int_0^1 (1 - p)^{x+1} p g(p) \, dp \right] \\
+&amp;= 1 - \frac{m(x+1)}{m(x)}
+\end{align*}\]</div>
+<p>An automatic estimator for <span class="math notranslate nohighlight">\(m(x)\)</span> is:</p>
+<p><span class="math notranslate nohighlight">\(\hat{m}(x) = \frac{\# \text{ of observations } = x}{\text{Total } \# \text{ of observations}}\)</span></p>
+<p>This leads to:</p>
+<div class="math notranslate nohighlight">
+\[p^* = 1 - \frac{\# \text{ of observations } = x + 1}{\# \text{ of observations } = x}\]</div>
+<div class="math notranslate nohighlight">
+\[\hat{p} = \min \left\{1, \max \{0, p^*\} \right\}\]</div>
+<p>In this case <span class="math notranslate nohighlight">\(\hat{p}\)</span> is free of the prior distribution <span class="math notranslate nohighlight">\(g\)</span> (although the marginal depends on <span class="math notranslate nohighlight">\(g\)</span>).</p>
+<p>Solution for 2:
+For the simulated data, the estimators (at particular values of <span class="math notranslate nohighlight">\(x\)</span>) are given in the following table:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p><span class="math notranslate nohighlight">\(x\)</span></p></th>
+<th class="head"><p>Frequency</p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(\hat{p}\)</span></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0</p></td>
+<td><p>758</p></td>
+<td><p>0.3047</p></td>
+</tr>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p>527</p></td>
+<td><p>0.2808</p></td>
+</tr>
+<tr class="row-even"><td><p>2</p></td>
+<td><p>379</p></td>
+<td><p>0.3958</p></td>
+</tr>
+<tr class="row-odd"><td><p>3</p></td>
+<td><p>229</p></td>
+<td><p>0.2926</p></td>
+</tr>
+<tr class="row-even"><td><p>4</p></td>
+<td><p>162</p></td>
+<td><p>0.2531</p></td>
+</tr>
+<tr class="row-odd"><td><p>5</p></td>
+<td><p>121</p></td>
+<td><p>0.3471</p></td>
+</tr>
+<tr class="row-even"><td><p>6</p></td>
+<td><p>79</p></td>
+<td><p>0.2911</p></td>
+</tr>
+<tr class="row-odd"><td><p>7</p></td>
+<td><p>56</p></td>
+<td><p>0.4643</p></td>
+</tr>
+<tr class="row-even"><td><p>8</p></td>
+<td><p>30</p></td>
+<td><p>0.3333</p></td>
+</tr>
+<tr class="row-odd"><td><p>9</p></td>
+<td><p>20</p></td>
+<td><p>0.2500</p></td>
+</tr>
+<tr class="row-even"><td><p>10</p></td>
+<td><p>15</p></td>
+<td><p>0.6000</p></td>
+</tr>
+<tr class="row-odd"><td><p>11</p></td>
+<td><p>6</p></td>
+<td><p>0.0000</p></td>
+</tr>
+<tr class="row-even"><td><p>12</p></td>
+<td><p>6</p></td>
+<td><p>0.3333</p></td>
+</tr>
+<tr class="row-odd"><td><p>13</p></td>
+<td><p>4</p></td>
+<td><p>0.7500</p></td>
+</tr>
+<tr class="row-even"><td><p>14</p></td>
+<td><p>1</p></td>
+<td><p>1.0000</p></td>
+</tr>
+<tr class="row-odd"><td><p>15</p></td>
+<td><p>0</p></td>
+<td><p>NaN</p></td>
+</tr>
+<tr class="row-even"><td><p>16</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+</tr>
+<tr class="row-odd"><td><p>17</p></td>
+<td><p>4</p></td>
+<td><p>0.7500</p></td>
+</tr>
+<tr class="row-even"><td><p>18</p></td>
+<td><p>1</p></td>
+<td><p>0</p></td>
+</tr>
+<tr class="row-odd"><td><p>19</p></td>
+<td><p>1</p></td>
+<td><p>0</p></td>
+</tr>
+<tr class="row-even"><td><p>20</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+</tr>
+<tr class="row-odd"><td><p>21+</p></td>
+<td><p>0</p></td>
+<td><p>NaN</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Total</strong></p></td>
+<td><p><strong>2400</strong></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Note that for <span class="math notranslate nohighlight">\(x \geq 10\)</span> the NPEB estimators become unreliable due to low frequency counts.</p>
+</div>
 </section>
 <section id="lifetimes-and-predictive-distribution">
 <h2>17. Lifetimes and Predictive Distribution<a class="headerlink" href="#lifetimes-and-predictive-distribution" title="Link to this heading">#</a></h2>
+<p>Suppose that <span class="math notranslate nohighlight">\(T_1, \ldots, T_n\)</span> are exponential <span class="math notranslate nohighlight">\(\text{Exp}(\theta)\)</span> lifetimes, where <span class="math notranslate nohighlight">\(\theta\)</span> is the rate parameter. Let the prior on <span class="math notranslate nohighlight">\(\theta\)</span> be exponential <span class="math notranslate nohighlight">\(\text{Exp}(\tau)\)</span>, where <span class="math notranslate nohighlight">\(\tau\)</span> is also a rate parameter.</p>
+<p>Denote with <span class="math notranslate nohighlight">\(T\)</span> the total observed lifetime <span class="math notranslate nohighlight">\(\sum_{i=1}^n T_i\)</span>. Then, <span class="math notranslate nohighlight">\(T\)</span> is gamma <span class="math notranslate nohighlight">\(\text{Gamma}(n, \theta)\)</span> distributed. Show:</p>
+<ol class="arabic simple">
+<li><p>Marginal (prior predictive) for <span class="math notranslate nohighlight">\(T\)</span> is</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[
+m_T(t) = \frac{n\tau t^{n-1}}{(\tau+t)^{n+1}}, \quad t &gt; 0
+\]</div>
+<ol class="arabic simple" start="2">
+<li><p>Posterior for <span class="math notranslate nohighlight">\(\theta\)</span> given <span class="math notranslate nohighlight">\(T = t\)</span> is <span class="math notranslate nohighlight">\(\text{Gamma}(n + 1, \tau + t)\)</span>.</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[
+\pi(\theta \mid y) = \frac{\theta^n (\tau + t)^{n+1}}{\Gamma(n + 1)} \exp\{- (\tau + t) \theta\}
+\]</div>
+<ol class="arabic simple" start="3">
+<li><p>Posterior predictive distribution for a new <span class="math notranslate nohighlight">\(T^*\)</span>, given <span class="math notranslate nohighlight">\(T = t\)</span> is</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[
+f(t^* \mid t) = \int_0^\infty \theta \exp \{- \theta t^* \} \pi(\theta \mid t) \, d\theta = \frac{(n + 1)(\tau + t)^{n+1}}{(\tau + t + t^*)^{n+2}}
+\]</div>
+<ol class="arabic simple" start="4">
+<li><p>Expected value (with respect to the posterior predictive distribution) of <span class="math notranslate nohighlight">\(T^*\)</span> (that is, the prediction for a new <span class="math notranslate nohighlight">\(T^*\)</span>) is</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[
+E(T^* \mid T = t) = \frac{\tau + t}{n}
+\]</div>
+<div class="tip dropdown admonition">
+<p class="admonition-title">Solution</p>
+<ol class="arabic simple">
+<li></li>
+</ol>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+m_T (t) &amp;= \int_{\Theta} f(T \mid \theta) \pi(\theta) \, d\theta \\
+\end{align*}\]</div>
+<p>Substituting for the given gamma and exponential distributions:</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+m_T (t) &amp;= \int_0^\infty \frac{\theta^n}{\Gamma(n)} t^{n-1} e^{-\theta t} \tau e^{-\tau \theta} \, d\theta \\
+&amp;= \frac{\tau t^{n-1}}{\Gamma(n)} \int_0^\infty \theta^n e^{-\theta (t+\tau)} \, d\theta
+\end{align*}\]</div>
+<p>Let <span class="math notranslate nohighlight">\(u = \theta(\tau + t)\)</span>, <span class="math notranslate nohighlight">\(du = d\theta (\tau + t) \rightarrow d\theta = \frac{du}{\tau + t}\)</span>. The bounds of integration remain the same in this case. Substituting:</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\frac{\tau t^{n-1}}{\Gamma(n)} \int_0^\infty \left( \frac{u}{\tau + t} \right)^n e^{-u} \frac{du}{\tau + t} &amp;= \frac{\tau t^{n-1}}{\Gamma(n)(\tau + t)^{n+1}} \int_0^\infty u^n e^{-u} \, du
+\end{align*}\]</div>
+<p>The integral by definition is <span class="math notranslate nohighlight">\(\Gamma(n + 1)\)</span>, substituting:</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\frac{\tau t^{n-1}}{(\tau + t)^{n+1}} \frac{\Gamma(n + 1)}{\Gamma(n)} &amp;= \frac{\tau t^{n-1}}{(\tau + t)^{n+1}} \frac{n!}{(n - 1)!} \\
+&amp;= \frac{\tau t^{n-1}}{(\tau + t)^{n+1}} \frac{n \cdot (n - 1)!}{(n - 1)!}
+\end{align*}\]</div>
+<ol class="arabic simple" start="2">
+<li><p>We just showed that the product of the marginal and prior is:</p></li>
+</ol>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\frac{\tau t^{n-1}}{\Gamma(n)} \theta^n e^{-\theta (t + \tau)}
+\end{align*}\]</div>
+<p>This is proportional to:</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\theta^n e^{-\theta (t + \tau)}
+\end{align*}\]</div>
+<p>Which is proportional to <span class="math notranslate nohighlight">\(\text{Gamma}(n+1, \tau + t)\)</span></p>
+<ol class="arabic simple" start="3">
+<li><p>We are given the definition of posterior predictive with the distributions substituted in so all we have to do is evaluate the integral, it is the same procedure as (a) but now <span class="math notranslate nohighlight">\(u = \theta(\tau + t + t^*)\)</span></p></li>
+<li></li>
+</ol>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+E[T^* \mid T = t] &amp;\equiv \int t^* f(t^* \mid t) \, dt^* = \int_0^\infty t^* \frac{(n + 1)(\tau + t)^{n+1}}{(\tau + t + t^*)^{n+2}} \, dt^*
+\end{align*}\]</div>
+<p>substitute <span class="math notranslate nohighlight">\(\tau + t + t^* = u, \, dt^* = du\)</span></p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+= (n + 1)(\tau + t)^{n+1} \int_{t+\tau}^\infty \frac{u - t - \tau}{u^{n+2}} \, du &amp;= (n + 1)(\tau + t)^{n+1} \int_{t+\tau}^\infty \left( \frac{u^{-n-1}}{n} - \frac{(t + \tau)u^{-n-2}}{n + 1} \right) \, du
+\end{align*}\]</div>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+= (n + 1)(\tau + t)^{n+1} \left( - \frac{u^{-n}}{n} + \frac{(t + \tau)u^{-n-1}}{n + 1} \right) \bigg|_{t+\tau}^\infty
+\end{align*}\]</div>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+= (n + 1)(\tau + t)^{n+1} \left[ \left( - \frac{(t + \tau)^{-n}}{n} + \frac{(t + \tau) (t + \tau)^{-n-1}}{n + 1} \right) - (0 - 0) \right]
+\end{align*}\]</div>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+= \frac{(t + \tau)(n + 1)}{n} - \frac{(t + \tau)(n + 1)}{n + 1} &amp;= (t + \tau)(n + 1) \left( \frac{1}{n} - \frac{1}{n + 1} \right)
+\end{align*}\]</div>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+= (t + \tau)(n + 1) \left( \frac{n + 1 - n}{n(n + 1)} \right) &amp;= \frac{t + \tau}{n}
+\end{align*}\]</div>
+</div>
 </section>
 <section id="normal-likelihood-with-improper-priors">
 <h2>18. Normal Likelihood with Improper Priors<a class="headerlink" href="#normal-likelihood-with-improper-priors" title="Link to this heading">#</a></h2>
+<p>Let <span class="math notranslate nohighlight">\(X_1, \ldots, X_n\)</span> be iid normals <span class="math notranslate nohighlight">\(N (\theta, \sigma^2)\)</span>, where</p>
+<ol class="arabic simple">
+<li><p><span class="math notranslate nohighlight">\(\theta\)</span> is the parameter of interest, and <span class="math notranslate nohighlight">\(\sigma^2\)</span> is known. Assume a flat prior on <span class="math notranslate nohighlight">\(\theta\)</span>:</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[
+\pi(\theta) = 1, \, -\infty &lt; \theta &lt; \infty
+\]</div>
+<p>Show that the posterior is</p>
+<div class="math notranslate nohighlight">
+\[
+[\theta \mid X_1, \ldots, X_n] \sim N \left( \bar{X}, \frac{\sigma^2}{n} \right)
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(\bar{X}\)</span> is the mean of the observations.</p>
+<ol class="arabic simple" start="2">
+<li><p><span class="math notranslate nohighlight">\(\sigma^2\)</span> is the parameter of interest, and <span class="math notranslate nohighlight">\(\theta\)</span> is known. Let the prior on <span class="math notranslate nohighlight">\(\sigma^2\)</span> be</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[
+\pi(\sigma^2) = \frac{1}{\sigma^2}, \quad \sigma^2 &gt; 0.
+\]</div>
+<p>Show that the posterior is inverse gamma</p>
+<div class="math notranslate nohighlight">
+\[
+\sigma^2 \mid X_1, \ldots, X_n \sim \text{IG} \left( \frac{n}{2}, \frac{\sum_{i=1}^n (X_i - \theta)^2}{2} \right)
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(\text{IG}(a, b)\)</span> stands for the distribution with a density</p>
+<div class="math notranslate nohighlight">
+\[
+f(y) = \frac{b^a}{\Gamma(a)} y^{-a-1} e^{-b/y}, \quad a, b &gt; 0, \, y \geq 0.
+\]</div>
+<div class="tip dropdown admonition">
+<p class="admonition-title">Solution</p>
+<ol class="arabic simple">
+<li></li>
+</ol>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+f(x \mid \theta) &amp;= \prod_{i=1}^n \frac{1}{\sqrt{2\pi\sigma^2}} e^{-\frac{(x_i - \theta)^2}{2\sigma^2}} = C_0 e^{-\frac{1}{2\sigma^2} \sum_{i=1}(x_i - \theta)^2} \\
+\pi(\theta \mid x) &amp;\propto f(x \mid \theta) \pi(\theta) \\
+&amp;= C_0 e^{-\frac{1}{2\sigma^2} \sum_{i=1}(x_i - \theta)^2} \cdot 1 \\
+&amp;\propto e^{-\frac{1}{2\sigma^2} \sum_{i=1} (x_i^2 - 2x_i\theta + \theta^2)} \\
+&amp;\propto e^{-\frac{1}{2\sigma^2} \left( \sum_{i=1} x_i^2 - 2\theta \sum_{i=1} x_i + n\theta^2 \right)} \\
+&amp;\propto e^{-\frac{1}{2\sigma^2} \left( n\theta^2 - 2\theta \sum_{i=1} x_i \right)} \\
+&amp;= e^{-\frac{n}{2\sigma^2} \left( \theta^2 - 2\theta \frac{1}{n} \sum_{i=1} x_i \right)} \\
+&amp;\propto e^{-\frac{1}{2 \left( \frac{\sigma^2}{n} \right)} \left( \theta - \frac{\sum_{i=1} x_i}{n} \right)^2} \\
+&amp;\sim N \left( \bar{X}, \frac{\sigma^2}{n} \right)
+\end{align*}\]</div>
+<p>A note about the second to last proportion, this is just completing the square and discarding the extra bit needed to complete the square because it is proportional!</p>
+<ol class="arabic simple" start="2">
+<li></li>
+</ol>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\prod_{i=1}^n \frac{1}{\sqrt{2\pi\sigma^2}} e^{-\frac{(x_i - \theta)^2}{2\sigma^2}} &amp;= C_0 \sigma^{-n} e^{-\frac{1}{2\sigma^2} \sum_{i=1}(x_i - \theta)^2} \\
+\pi(\sigma^2 \mid x) &amp;\propto f(x \mid \sigma^2) \pi(\sigma^2) \\
+&amp;= C_0 \sigma^{-n} e^{-\frac{1}{2\sigma^2} \sum_{i=1}(x_i - \theta)^2} \cdot \frac{1}{\sigma^2} \\
+&amp;\propto \sigma^{-(n+2)} e^{-\frac{1}{2\sigma^2} \sum_{i=1}(x_i - \theta)^2} \\
+&amp;\propto (\sigma^2)^{-\left(\frac{n+2}{2}\right)} e^{-\frac{\sum_{i=1}(x_i - \theta)^2}{2\sigma^2}}
+\end{align*}\]</div>
+<p>This is proportional to an inverse gamma distribution but let us be explicit about the parameters. The <span class="math notranslate nohighlight">\((\sigma^2)^{-\left(\frac{n+2}{2}\right)}\)</span> is like <span class="math notranslate nohighlight">\(y^{-(a+1)}\)</span> so:</p>
+<div class="math notranslate nohighlight">
+\[
+-\left(\frac{n + 2}{2}\right) = -(a + 1) \rightarrow n + 2 = 2a + 2 \rightarrow a = \frac{n}{2}
+\]</div>
+<p>The <span class="math notranslate nohighlight">\(e^{-\frac{\sum_{i=1}(x_i - \theta)^2}{2\sigma^2}}\)</span> is like <span class="math notranslate nohighlight">\(e^{-\frac{b}{y}}\)</span> so:</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\sum_{i=1}(x_i - \theta)^2}{2} = b
+\]</div>
+</div>
 </section>
 </section>
 
@@ -1180,7 +2279,7 @@ array(5.72300883)
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#histocompatibility">4. Histocompatibility</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#neurons-fire-in-potters-lab">5. Neurons Fire in Potter’s Lab</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#elicit-inverse-gamma-prior">6. Elicit Inverse Gamma Prior</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#derive-jeffreys-priors-for-poisson-lambda-bernoulli-p-and-geometric-p">7. Derive Jeffreys’ Priors for Poisson <span class="math notranslate nohighlight">\(\lambda\)</span>, <strong>Bernoulli</strong> <span class="math notranslate nohighlight">\(p\)</span>, <strong>and Geometric</strong> <span class="math notranslate nohighlight">\(p\)</span>.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#derive-jeffreys-priors-for-poisson-lambda-bernoulli-p-and-geometric-p">7. Derive Jeffreys’ Priors for Poisson <span class="math notranslate nohighlight">\(\lambda\)</span>, Bernoulli <span class="math notranslate nohighlight">\(p\)</span>, and Geometric <span class="math notranslate nohighlight">\(p\)</span>.</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#two-scenarios-for-the-probability-of-success">8. Two Scenarios for the Probability of Success</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#jeffreys-prior-for-normal-precision">9. Jeffreys’ Prior for Normal Precision</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#derive-jeffreys-prior-for-maxwells-theta">10. Derive Jeffreys’ Prior for Maxwell’s <span class="math notranslate nohighlight">\(\theta\)</span></a></li>
