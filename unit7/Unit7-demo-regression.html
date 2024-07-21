@@ -573,7 +573,7 @@ document.write(`
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#single-predictor-x8">Single predictor (X8)</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#multinomial-regression-with-all-predictors">Multinomial regression with all predictors</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#multivariate-regression-with-all-predictors">Multivariate regression with all predictors</a></li>
 </ul>
             </nav>
         </div>
@@ -856,7 +856,9 @@ Sampling: [likelihood]
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># updated based on the arviz docs</span>
-<span class="n">y_pred</span> <span class="o">=</span> <span class="n">ppc</span><span class="o">.</span><span class="n">posterior_predictive</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">sample</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;chain&quot;</span><span class="p">,</span> <span class="s2">&quot;draw&quot;</span><span class="p">))[</span><span class="s2">&quot;likelihood&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">T</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">ppc</span><span class="o">.</span><span class="n">posterior_predictive</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">sample</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;chain&quot;</span><span class="p">,</span> <span class="s2">&quot;draw&quot;</span><span class="p">))[</span>
+    <span class="s2">&quot;likelihood&quot;</span>
+<span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">T</span>
 <span class="n">az</span><span class="o">.</span><span class="n">r2_score</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -870,8 +872,8 @@ dtype: float64
 </div>
 </div>
 </section>
-<section id="multinomial-regression-with-all-predictors">
-<h2>Multinomial regression with all predictors<a class="headerlink" href="#multinomial-regression-with-all-predictors" title="Permalink to this headline">#</a></h2>
+<section id="multivariate-regression-with-all-predictors">
+<h2>Multivariate regression with all predictors<a class="headerlink" href="#multivariate-regression-with-all-predictors" title="Permalink to this headline">#</a></h2>
 <p>Based on fat2d.odc or fatmulti.odc (they appear to be identical).</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1273,7 +1275,9 @@ Sampling: [likelihood]
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y_pred</span> <span class="o">=</span> <span class="n">ppc</span><span class="o">.</span><span class="n">posterior_predictive</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">sample</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;chain&quot;</span><span class="p">,</span> <span class="s2">&quot;draw&quot;</span><span class="p">))[</span><span class="s2">&quot;likelihood&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">T</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y_pred</span> <span class="o">=</span> <span class="n">ppc</span><span class="o">.</span><span class="n">posterior_predictive</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">sample</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;chain&quot;</span><span class="p">,</span> <span class="s2">&quot;draw&quot;</span><span class="p">))[</span>
+    <span class="s2">&quot;likelihood&quot;</span>
+<span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">T</span>
 <span class="n">az</span><span class="o">.</span><span class="n">r2_score</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -1390,7 +1394,7 @@ pymc    : 5.0.1
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#single-predictor-x8">Single predictor (X8)</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#multinomial-regression-with-all-predictors">Multinomial regression with all predictors</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#multivariate-regression-with-all-predictors">Multivariate regression with all predictors</a></li>
 </ul>
   </nav></div>
 

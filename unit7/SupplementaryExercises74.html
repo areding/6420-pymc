@@ -578,7 +578,9 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#magnesium-ammonium-phosphate-and-chrysanthemums">4. Magnesium Ammonium Phosphate and Chrysanthemums</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#third-degree-burns">5. Third-degree Burns</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#shocks">6. Shocks!</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#three-winbugs-programs-and-glm-practice">7. Three WinBUGS Programs and GLM Practice</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#binary-regression-and-iop">7. Binary Regression and IOP</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#negative-binomial-as-a-gamma-mixture-of-poissons">8. Negative Binomial as a Gamma Mixture of Poissons</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sex-of-diamond-backed-terrapins-and-incubation-temperature">9. Sex of Diamond-backed Terrapins and Incubation Temperature</a></li>
 </ul>
             </nav>
         </div>
@@ -817,7 +819,7 @@ x_1 = \log(10 \times v), \quad x_2 = \log(10 \times r)
 <ol class="arabic simple" start="2">
 <li><p>Using a PPL, estimate posterior means for coefficients in the logit model. Use noninformative priors on all coefficients.</p></li>
 <li><p>For a subject with <span class="math notranslate nohighlight">\(v = r = 1.5\)</span>, find the probability of vasoconstriction.</p></li>
-<li><p>Which of the five links: logit, probit, cloglog, loglog, and cauchyit, has the smallest deviance? An example for use of the five links is provided: <code class="docutils literal notranslate"><span class="pre">beetles1.odc</span></code>. Uncomment and run one link at a time.</p></li>
+<li><p>Which of the five links: logit, probit, cloglog, loglog, and cauchyit, has the smallest deviance? An example for use of the five links is in Question 1, above. Uncomment and run one link at a time.</p></li>
 </ol>
 <div class="tip dropdown admonition">
 <p class="admonition-title">Solution</p>
@@ -845,41 +847,34 @@ x_1 = \log(10 \times v), \quad x_2 = \log(10 \times r)
 0 &amp; \text{No antibiotics given} 
 \end{cases}
 \end{align*}\]</div>
-<p>(a) Given the covariates, establish a multinomial model, where the outcome “No infection” serves as a baseline.</p>
-<p>Table 1: Data on infections for 251 C-sections.</p>
-<table class="colwidths-auto table">
-<thead>
-<tr class="row-odd"><th class="head"><p>C-section</p></th>
-<th class="head"><p>Infection</p></th>
-<th class="head"><p>Planned</p></th>
-<th class="head"><p>Unplanned</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p>Antibiotics</p></td>
-<td><p>Risk factor</p></td>
-<td><p>0</p></td>
-<td><p>1</p></td>
-</tr>
-<tr class="row-odd"><td><p>No risk factor</p></td>
-<td><p>0</p></td>
-<td><p>0</p></td>
-<td><p>2</p></td>
-</tr>
-<tr class="row-even"><td><p>No Antibiotics</p></td>
-<td><p>Risk factor</p></td>
-<td><p>11</p></td>
-<td><p>17</p></td>
-</tr>
-<tr class="row-odd"><td><p>No risk factor</p></td>
-<td><p>4</p></td>
-<td><p>4</p></td>
-<td><p>32</p></td>
-</tr>
-</tbody>
-</table>
-<p>(b) A new C-section delivery for a mother with covariates <span class="math notranslate nohighlight">\((\text{NOPLAN}, \text{RISK}, \text{ANTIBIO}) = (1, 0, 0)\)</span> is to be evaluated for risks of infection. What are the estimated probabilities of no infection, and type I and II infections?</p>
-<p>Hint: Consult <code class="docutils literal notranslate"><span class="pre">NHANESmulti.odc</span></code> discussed in UNIT7.</p>
+<ol class="arabic simple">
+<li><p>Given the covariates, establish a multinomial model, where the outcome “No infection” serves as a baseline.</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[
+\text{Table 1: Data on infections for 251 C-sections.}
+\]</div>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{array}{|l|lll|lll|}
+\hline
+&amp; \rlap{\text{Planned}} &amp; &amp; &amp; \rlap{\text{Unplanned}} &amp; &amp; \\
+\text{Infection} &amp; \text{I} &amp; \text{II} &amp; \text{No} &amp; \text{I} &amp; \text{II} &amp; \text{No} \\
+\hline
+\textbf{Antibiotics} &amp; &amp; &amp; &amp; &amp; &amp; \\
+\hspace{1em}\text{Risk factor} &amp; 0 &amp; 1 &amp; 17 &amp; 4 &amp; 7 &amp; 87 \\
+\hspace{1em}\text{No risk factor} &amp; 0 &amp; 0 &amp; 2 &amp; 0 &amp; 0 &amp; 0 \\
+\hline
+\textbf{No Antibiotics} &amp; &amp; &amp; &amp; &amp; &amp; \\
+\hspace{1em}\text{Risk factor} &amp; 11 &amp; 17 &amp; 30 &amp; 10 &amp; 13 &amp; 3 \\
+\hspace{1em}\text{No risk factor} &amp; 4 &amp; 4 &amp; 32 &amp; 0 &amp; 0 &amp; 9 \\
+\hline
+\end{array}
+\end{split}\]</div>
+<ol class="arabic simple">
+<li><p>A new C-section delivery for a mother with covariates <span class="math notranslate nohighlight">\((\text{NOPLAN}, \text{RISK}, \text{ANTIBIO}) = (1, 0, 0)\)</span> is to be evaluated for risks of infection. What are the estimated probabilities of no infection, and type I and II infections?</p></li>
+</ol>
+<p>Hint: Consult <a class="reference internal" href="Unit7-demo-multinomial.html"><span class="doc std std-doc">17. Multinomial regression*</span></a>.</p>
 <div class="tip dropdown admonition">
 <p class="admonition-title">Solution</p>
 <p>Solution to be added. Feel free to share yours on Ed Discussion!</p>
@@ -888,24 +883,7 @@ x_1 = \log(10 \times v), \quad x_2 = \log(10 \times r)
 <section id="magnesium-ammonium-phosphate-and-chrysanthemums">
 <h2>4. Magnesium Ammonium Phosphate and Chrysanthemums<a class="headerlink" href="#magnesium-ammonium-phosphate-and-chrysanthemums" title="Permalink to this headline">#</a></h2>
 <p>Walpole et al. (2007) provide data from a study on the effect of magnesium ammonium phosphate on the height of chrysanthemums, which was conducted at George Mason University in order to determine a possible optimum level of fertilization, based on the enhanced vertical growth response of the chrysanthemums. Forty chrysanthemum seedlings were assigned to 4 groups, each containing 10 plants. Each was planted in a similar pot containing a uniform growth medium. An increasing concentration of <span class="math notranslate nohighlight">\(\text{MgNH}_4\text{PO}_4\)</span>, measured in grams per bushel, was added to each plant. The 4 groups of plants were grown under uniform conditions in a greenhouse for a period of 4 weeks. The treatments and the respective changes in heights, measured in centimeters, are given in the following table:</p>
-<table class="colwidths-auto table">
-<thead>
-<tr class="row-odd"><th class="head"><p>Treatment</p></th>
-<th class="head"><p>50 g/bu</p></th>
-<th class="head"><p>100 g/bu</p></th>
-<th class="head"><p>200 g/bu</p></th>
-<th class="head"><p>400 g/bu</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p>Heights</p></td>
-<td><p>13.2, 16.0, 7.8, 21.0, 12.4, 12.6, 14.4, 14.8, 12.8, 14.8, 20.0, 19.1, 17.2, 13.0, 15.8, 15.8, 13.0, 14.0, 17.0, 18.0, 14.0, 23.6, 27.0, 26.0, 14.2, 14.0, 19.6, 21.1, 21.6, 17.0, 18.0, 22.0, 15.0, 22.2, 20.2, 25.0, 20.0, 24.4, 23.2, 18.2</p></td>
-<td><p></p></td>
-<td><p></p></td>
-<td><p></p></td>
-</tr>
-</tbody>
-</table>
+<p>Data is available for download in csv format <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/data/chrysanthemums.csv">here</a>.</p>
 <p>Solve the problem as a Bayesian one-way ANOVA. Use STZ constraints on treatment effects.</p>
 <ol class="arabic simple">
 <li><p>Do different concentrations of <span class="math notranslate nohighlight">\(\text{MgNH}_4\text{PO}_4\)</span> affect the average attained height of chrysanthemums? Look at the 95% credible sets for the differences between treatment effects.</p></li>
@@ -919,55 +897,30 @@ x_1 = \log(10 \times v), \quad x_2 = \log(10 \times r)
 <section id="third-degree-burns">
 <h2>5. Third-degree Burns<a class="headerlink" href="#third-degree-burns" title="Permalink to this headline">#</a></h2>
 <p>The data for this exercise, discussed in Fan et al. (1995), refer to <span class="math notranslate nohighlight">\(n = 435\)</span> adults who were treated for third-degree burns by the University of Southern California General Hospital Burn Center. The patients were grouped according to the area of third-degree burns on the body. For each midpoint of the groupings “log(area +1),” the number of patients in the corresponding group who survived and the number who died from the burns was recorded:</p>
-<table class="colwidths-auto table">
-<thead>
-<tr class="row-odd"><th class="head"><p>Log(area+1)</p></th>
-<th class="head"><p>Survived</p></th>
-<th class="head"><p>Died</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p>1.35</p></td>
-<td><p>13</p></td>
-<td><p>0</p></td>
-</tr>
-<tr class="row-odd"><td><p>1.60</p></td>
-<td><p>19</p></td>
-<td><p>0</p></td>
-</tr>
-<tr class="row-even"><td><p>1.75</p></td>
-<td><p>67</p></td>
-<td><p>2</p></td>
-</tr>
-<tr class="row-odd"><td><p>1.85</p></td>
-<td><p>45</p></td>
-<td><p>5</p></td>
-</tr>
-<tr class="row-even"><td><p>1.95</p></td>
-<td><p>71</p></td>
-<td><p>8</p></td>
-</tr>
-<tr class="row-odd"><td><p>2.05</p></td>
-<td><p>50</p></td>
-<td><p>20</p></td>
-</tr>
-<tr class="row-even"><td><p>2.15</p></td>
-<td><p>35</p></td>
-<td><p>31</p></td>
-</tr>
-<tr class="row-odd"><td><p>2.25</p></td>
-<td><p>7</p></td>
-<td><p>49</p></td>
-</tr>
-<tr class="row-even"><td><p>2.35</p></td>
-<td><p>1</p></td>
-<td><p>12</p></td>
-</tr>
-</tbody>
-</table>
-<p>(a) Fit the logistic regression on the probability of death due to third-degree burns with the covariate <span class="math notranslate nohighlight">\(x = \log(\text{area} + 1)\)</span>. What is the deviance?</p>
-<p>(b) Using your model, estimate the posterior probability of survival for a person for whom <span class="math notranslate nohighlight">\(\log(\text{area} + 1)\)</span> equals 2.</p>
-<p>© Repeat (a) with probit and complementary log-log links. In terms of deviance, which model provides the best fit?</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{array}{|c|c|c|}
+\hline
+\text{Log(area+1)} &amp; \text{Survived} &amp; \text{Died} \\
+\hline
+1.35 &amp; 13 &amp; 0 \\
+1.60 &amp; 19 &amp; 0 \\
+1.75 &amp; 67 &amp; 2 \\
+1.85 &amp; 45 &amp; 5 \\
+1.95 &amp; 71 &amp; 8 \\
+2.05 &amp; 50 &amp; 20 \\
+2.15 &amp; 35 &amp; 31 \\
+2.25 &amp; 7 &amp; 49 \\
+2.35 &amp; 1 &amp; 12 \\
+\hline
+\end{array}
+\end{split}\]</div>
+<p>Data is available for download in csv format <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/data/thirddegreeburns.csv">here</a>.</p>
+<ol class="arabic simple">
+<li><p>Fit the logistic regression on the probability of death due to third-degree burns with the covariate <span class="math notranslate nohighlight">\(x = \log(\text{area} + 1)\)</span>. What is the deviance?</p></li>
+<li><p>Using your model, estimate the posterior probability of survival for a person for whom <span class="math notranslate nohighlight">\(\log(\text{area} + 1)\)</span> equals 2.</p></li>
+<li><p>Repeat (a) with probit and complementary log-log links. In terms of deviance, which model provides the best fit?</p></li>
+</ol>
 <div class="tip dropdown admonition">
 <p class="admonition-title">Solution</p>
 <p>Solution to be added. Feel free to share yours on Ed Discussion!</p>
@@ -976,57 +929,82 @@ x_1 = \log(10 \times v), \quad x_2 = \log(10 \times r)
 <section id="shocks">
 <h2>6. Shocks!<a class="headerlink" href="#shocks" title="Permalink to this headline">#</a></h2>
 <p>An experiment was conducted to assess the effect of small electrical currents on farm animals, with the eventual goal of understanding the effects of high-voltage powerlines on livestock. The experiment was carried out with seven cows, and six shock intensities, 0, 1, 2, 3, 4, and 5 milliamps (shocks on the order of 15 milliamps are painful for many humans). Each cow was given 30 shocks, five at each intensity, in random order. The entire experiment was then repeated, so each cow received a total of 60 shocks. For each shock the response, mouth movement, was either present or absent. The data as quoted give the total number of responses, out of 70 trials, at each shock level. We ignore cow differences and differences between blocks (experiments).</p>
-<table class="colwidths-auto table">
-<thead>
-<tr class="row-odd"><th class="head"><p>Current (milliamps)</p></th>
-<th class="head"><p>Number of Responses <span class="math notranslate nohighlight">\(y\)</span></p></th>
-<th class="head"><p>Number of Trials <span class="math notranslate nohighlight">\(n\)</span></p></th>
-<th class="head"><p>Proportion of Responses <span class="math notranslate nohighlight">\(p\)</span></p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p>0</p></td>
-<td><p>0</p></td>
-<td><p>70</p></td>
-<td><p>0.000</p></td>
-</tr>
-<tr class="row-odd"><td><p>1</p></td>
-<td><p>9</p></td>
-<td><p>70</p></td>
-<td><p>0.129</p></td>
-</tr>
-<tr class="row-even"><td><p>2</p></td>
-<td><p>21</p></td>
-<td><p>70</p></td>
-<td><p>0.300</p></td>
-</tr>
-<tr class="row-odd"><td><p>3</p></td>
-<td><p>47</p></td>
-<td><p>70</p></td>
-<td><p>0.671</p></td>
-</tr>
-<tr class="row-even"><td><p>4</p></td>
-<td><p>60</p></td>
-<td><p>70</p></td>
-<td><p>0.857</p></td>
-</tr>
-<tr class="row-odd"><td><p>5</p></td>
-<td><p>63</p></td>
-<td><p>70</p></td>
-<td><p>0.900</p></td>
-</tr>
-</tbody>
-</table>
-<p>As in Exercise Beetles (Bliss Data), model <span class="math notranslate nohighlight">\(y\)</span> as a function of <span class="math notranslate nohighlight">\(x\)</span> via binary regression with 5 different links and propose the link that minimizes the deviance.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{array}{|c|c|c|c|}
+\hline
+\text{Current (ma)} &amp; y &amp; \text n &amp; p \\
+\hline
+0 &amp; 0 &amp; 70 &amp; 0.000 \\
+1 &amp; 9 &amp; 70 &amp; 0.129 \\
+2 &amp; 21 &amp; 70 &amp; 0.300 \\
+3 &amp; 47 &amp; 70 &amp; 0.671 \\
+4 &amp; 60 &amp; 70 &amp; 0.857 \\
+5 &amp; 63 &amp; 70 &amp; 0.900 \\
+\hline
+\end{array}
+\end{split}\]</div>
+<p>Here, <span class="math notranslate nohighlight">\(y\)</span> is the number of responses, <span class="math notranslate nohighlight">\(n\)</span> is the number of trials, and <span class="math notranslate nohighlight">\(p\)</span> is the proportion of responses.</p>
+<p>Data is available for download in csv format <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/data/shocks.csv">here</a>.</p>
+<p>As in the exercise on beetles (bliss data), model <span class="math notranslate nohighlight">\(y\)</span> as a function of <span class="math notranslate nohighlight">\(x\)</span> via binary regression with 5 different links and propose the link that minimizes the deviance.</p>
 <div class="tip dropdown admonition">
 <p class="admonition-title">Solution</p>
 <p>Solution to be added. Feel free to share yours on Ed Discussion!</p>
 </div>
 </section>
-<section id="three-winbugs-programs-and-glm-practice">
-<h2>7. Three WinBUGS Programs and GLM Practice<a class="headerlink" href="#three-winbugs-programs-and-glm-practice" title="Permalink to this headline">#</a></h2>
-<p>Three WinBUGS programs are supplied: <code class="docutils literal notranslate"><span class="pre">iop2.odc</span></code>, <code class="docutils literal notranslate"><span class="pre">NBreg.odc</span></code>, and <code class="docutils literal notranslate"><span class="pre">terrapins.odc</span></code>.</p>
-<p>Read the intro to the programs (preambles in ODC files) and run them on your computer. Understand the output.</p>
+<section id="binary-regression-and-iop">
+<h2>7. Binary Regression and IOP<a class="headerlink" href="#binary-regression-and-iop" title="Permalink to this headline">#</a></h2>
+<p>Laser refractive surgery often decreases Intraocular Pressure (IOP) and may lead to hypotony (clinically significant low IOP that may lead to corneal decompensation, accelerated cataract formation, maculopathy, and discomfort). An investigator wished to determine whether the post-operative IOP in patients after laser refractive surgery was related to the residual thickness of the cornea.</p>
+<p>In a sample of 140 patients who had undergone laser surgery, post-operative IOP and the thickness of the cornea were measured. The dataset is provided in the startup file <code class="docutils literal notranslate"><span class="pre">iop2.odc</span></code> which consists of two columns:</p>
+<ul class="simple">
+<li><p>Indicator of low IOP (IOP &lt; 10)</p></li>
+<li><p>Central corneal thickness (in micrometers)</p></li>
+</ul>
+<ol class="arabic simple">
+<li><p>Fit the logistic regression with cornea thickness as the predictor of incidence of low IOP.</p></li>
+<li><p>For a person who had a refractive surgery with residual thickness of cornea of 420 micrometers, what is the risk of a low IOP.</p></li>
+<li><p>Compare deviances for two links: logit (as in (a)), and probit. Which link provides better fit?</p></li>
+</ol>
+<p>Data is available for download in csv format <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/data/iop.csv">here</a>.</p>
+<div class="tip dropdown admonition">
+<p class="admonition-title">Solution</p>
+<p>Solution to be added. Feel free to share yours on Ed Discussion!</p>
+</div>
+</section>
+<section id="negative-binomial-as-a-gamma-mixture-of-poissons">
+<h2>8. Negative Binomial as a Gamma Mixture of Poissons<a class="headerlink" href="#negative-binomial-as-a-gamma-mixture-of-poissons" title="Permalink to this headline">#</a></h2>
+<p>Implement this model, which recreates a negative binomial regression as a gamma mixture of Poissons.</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+  y_i | \lambda_i &amp;\sim \text{Poisson}(\lambda_i) \\
+  \lambda_i | \mu_i, \alpha &amp;\sim \text{Gamma}(\alpha, \frac{\alpha}{\mu_i}) \\
+  \mu_i &amp;= \exp(\beta_0 + \beta_1 x_i) \\
+  \beta_0 &amp;\sim \mathcal{N}(0, 10^4) \\
+  \beta_1 &amp;\sim \mathcal{N}(0, 10^4) \\
+  \alpha &amp;\sim \text{Uniform}(0.01, 100)
+\end{align*}\]</div>
+<p>Here’s the data:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">12.2</span><span class="p">,</span> <span class="mf">14.2</span><span class="p">,</span> <span class="mf">9.8</span><span class="p">,</span> <span class="mf">16.3</span><span class="p">,</span> <span class="mf">20.1</span><span class="p">,</span> <span class="mf">18.4</span><span class="p">,</span> <span class="mf">22.7</span><span class="p">,</span> <span class="mf">20.2</span><span class="p">,</span> <span class="mf">21.4</span><span class="p">,</span> <span class="mf">33.0</span><span class="p">,</span> <span class="mf">30.5</span><span class="p">])</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">22</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="tip dropdown admonition">
+<p class="admonition-title">Solution</p>
+<p>Solution to be added. Feel free to share yours on Ed Discussion!</p>
+</div>
+</section>
+<section id="sex-of-diamond-backed-terrapins-and-incubation-temperature">
+<h2>9. Sex of Diamond-backed Terrapins and Incubation Temperature<a class="headerlink" href="#sex-of-diamond-backed-terrapins-and-incubation-temperature" title="Permalink to this headline">#</a></h2>
+<p>Temperature-dependent sex determination, observed in some reptiles and fish, is a type of environmental sex determination in which the temperatures experienced during embryonic development determine the sex of the offspring. Data on the relationship between the ratio of male/female diamond-backed terrapins (Malaclemys terrapin) and incubation temperature are reported by Burke and Calichio (2014).</p>
+<ol class="arabic simple">
+<li><p>Develop a binary regression model for both logit and cloglog links.</p></li>
+<li><p>Which link gives smaller deviance?</p></li>
+<li><p>Predict the probability of a female terrapin for a temperature of 29°C, using both models.</p></li>
+</ol>
+<p>Data is available for download in csv format <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/data/terrapins.csv">here</a>.</p>
+<p><strong>Reference:</strong>
+Burke, R. L. and Calichio, A. M. (2014).<br />
+<em>Temperature-dependent sex determination in the diamond-backed terrapin (Malaclemys terrapin)</em>. Journal of Herpetology, 48(4), 466-470.</p>
 <div class="tip dropdown admonition">
 <p class="admonition-title">Solution</p>
 <p>Solution to be added. Feel free to share yours on Ed Discussion!</p>
@@ -1107,7 +1085,9 @@ x_1 = \log(10 \times v), \quad x_2 = \log(10 \times r)
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#magnesium-ammonium-phosphate-and-chrysanthemums">4. Magnesium Ammonium Phosphate and Chrysanthemums</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#third-degree-burns">5. Third-degree Burns</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#shocks">6. Shocks!</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#three-winbugs-programs-and-glm-practice">7. Three WinBUGS Programs and GLM Practice</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#binary-regression-and-iop">7. Binary Regression and IOP</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#negative-binomial-as-a-gamma-mixture-of-poissons">8. Negative Binomial as a Gamma Mixture of Poissons</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sex-of-diamond-backed-terrapins-and-incubation-temperature">9. Sex of Diamond-backed Terrapins and Incubation Temperature</a></li>
 </ul>
   </nav></div>
 
