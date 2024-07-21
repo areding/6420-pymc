@@ -1,4 +1,4 @@
-# Conditioning, Part 2
+# 3. Conditioning, Part 2
 
 ## The law of total probability
 

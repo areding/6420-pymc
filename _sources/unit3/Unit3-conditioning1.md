@@ -1,4 +1,4 @@
-# Conditioning, Part 1
+# 2. Conditioning, Part 1
 
 ## The queen of spades
 
