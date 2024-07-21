@@ -308,6 +308,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l2"><a class="reference internal" href="../unit7/Unit7-demo-multinomial.html">17. Multinomial regression*</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../unit7/Unit7-multilevel.html">18. Multilevel Models</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../unit7/Unit7-demo-multilevel.html">19. Paraguay Vaccination Status*</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit7/SupplementaryExercises74.html">Supplementary Exercises</a></li>
 </ul>
 </li>
 </ul>
@@ -1456,15 +1457,15 @@ y \mid x \quad \begin{array}{cc}
 <li><p>Find the Bayes estimator and 95% credible set for population mean <span class="math notranslate nohighlight">\(\mu\)</span>.</p></li>
 </ol>
 <p>We can define our model like this:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-1fe345e3-2a44-41e9-a8bf-be6e56f58f10">
-<span class="eqno">(1)<a class="headerlink" href="#equation-1fe345e3-2a44-41e9-a8bf-be6e56f58f10" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-18308d65-5421-44ac-bdcb-5b614126588e">
+<span class="eqno">(1)<a class="headerlink" href="#equation-18308d65-5421-44ac-bdcb-5b614126588e" title="Permalink to this equation">#</a></span>\[\begin{align}
 x_i|\mu &amp;\sim N(\mu, 8) \\
 \mu &amp; \sim N(5, 6)
 \end{align}\]</div>
 <p>This is the Normal-Normal conjugate pair for a fixed variance and random mean, with <span class="math notranslate nohighlight">\(n=18\)</span> and <span class="math notranslate nohighlight">\(\bar{X} \approx 5.78333\)</span></p>
 <p>Our posterior is then:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-b7208d59-d5a8-4704-a9e3-eb38abdcec36">
-<span class="eqno">(2)<a class="headerlink" href="#equation-b7208d59-d5a8-4704-a9e3-eb38abdcec36" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-dcc10dec-bfb0-4d92-a4e4-3826e8482a15">
+<span class="eqno">(2)<a class="headerlink" href="#equation-dcc10dec-bfb0-4d92-a4e4-3826e8482a15" title="Permalink to this equation">#</a></span>\[\begin{align}
 \pi(\theta|x) &amp;\sim N\left(\frac{\tau^2}{\tau^2 +\sigma^2/n}\bar{X} + \frac{\sigma^2/n}{\tau^2 + \sigma^2/n}\mu_0, \frac{\tau^2\sigma^2/n}{\tau^2+ \sigma^2/n}\right) \\
 &amp; \sim N(\frac{6}{6 + 8/18}\bar{X} + \frac{8/18}{6 + 8/18}(5), \frac{6(8/18)}{6+8/18}) \\
 &amp; \sim N(5.72931, 0.41379)
