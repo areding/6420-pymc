@@ -1,4 +1,4 @@
-# Bayes Networks
+# 7. Bayes Networks
 
 Bayes networks or belief networks are a type of directed acyclic graph (DAG) model that represent the probabilistic relationships among a set of variables.
 

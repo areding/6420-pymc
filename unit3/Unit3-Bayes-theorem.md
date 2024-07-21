@@ -1,4 +1,4 @@
-# Bayes' Theorem
+# 4. Bayes' Theorem
 
 Say we have hypothesis $H_i$ and some data $D$.
 

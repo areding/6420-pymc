@@ -1,3 +1,3 @@
-# A Review of Necessary Probability
+# 1. A Review of Necessary Probability
 
 As the professor says, there are a lot of ways to introduce the fundamentals of probability. He uses Venn diagrams and set theory for a very brief overview, but assumes students have seen this material before. There are no derivations here, but if you're interested in something more in-depth, I recommend Chapter 2 and Appendix A from {cite:t}`jaynes2003`. Jaynes also points out that Venn diagrams can be misleading.
