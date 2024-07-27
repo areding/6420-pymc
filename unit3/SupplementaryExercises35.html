@@ -337,6 +337,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-cumulative2.html">8. Cumulative Example*</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-ssvs.html">9. Stochastic Search Variable Selection</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-hald2.html">10. SSVS: Hald*</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit9/SupplementaryExercises93.html">11. Supplementary Exercises</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Unit 10</span></p>
 <ul class="nav bd-sidenav">
@@ -817,65 +818,36 @@ P(H_2 | A) = \frac{P(A | H_2)P(H_2)}{P(A)} = \frac{18/63}{38/63} = \frac{9}{19}
 <div class="tip dropdown admonition">
 <p class="admonition-title">Solution</p>
 <p>There are 21 true Parkinson’s patients and there are 32 people as control (without Parkinson’s). We are told that for Raman spectroscopy, there are 8 FP and 4 FN. Using this info we create the following confusion matrix:</p>
-<table class="colwidths-auto table">
-<thead>
-<tr class="row-odd"><th class="head"><p>Raman Result</p></th>
-<th class="head"><p>Predicted: Disease</p></th>
-<th class="head"><p>Predicted: No Disease</p></th>
-<th class="head"><p>Total</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p>Actual: Disease</p></td>
-<td><p>17</p></td>
-<td><p>4</p></td>
-<td><p>21</p></td>
-</tr>
-<tr class="row-odd"><td><p>Actual: No Disease</p></td>
-<td><p>8</p></td>
-<td><p>24</p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-even"><td><p>32</p></td>
-<td><p></p></td>
-<td><p></p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-odd"><td><p>Total</p></td>
-<td><p>25</p></td>
-<td><p>28</p></td>
-<td><p>53</p></td>
-</tr>
-</tbody>
-</table>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{array}{|p{4cm}|p{2.5cm}|p{2.5cm}|p{2.5cm}|}
+\hline
+\text{Raman Result} &amp; \text{Predicted: Disease} &amp; \text{Predicted: No Disease} &amp; \text{Total} \\
+\hline
+\text{Actual: Disease} &amp; 17 &amp; 4 &amp; 21 \\
+\hline
+\text{Actual: No Disease} &amp; 8 &amp; 24 &amp; 32 \\
+\hline
+\text{Total} &amp; 25 &amp; 28 &amp; 53 \\
+\hline
+\end{array}
+\end{split}\]</div>
 <p>The Positive Predictive Value (PPV = <span class="math notranslate nohighlight">\(\frac{TP}{TP + FP}\)</span>) is <span class="math notranslate nohighlight">\(\frac{17}{25}\)</span>.</p>
 <p>For NIR spectroscopy, we have:</p>
-<table class="colwidths-auto table">
-<thead>
-<tr class="row-odd"><th class="head"><p>NIR Result</p></th>
-<th class="head"><p>Predicted: Disease</p></th>
-<th class="head"><p>Predicted: No Disease</p></th>
-<th class="head"><p>Total</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p>Actual: Disease</p></td>
-<td><p>16</p></td>
-<td><p>5</p></td>
-<td><p>21</p></td>
-</tr>
-<tr class="row-odd"><td><p>Actual: No Disease</p></td>
-<td><p>4</p></td>
-<td><p>28</p></td>
-<td><p>32</p></td>
-</tr>
-<tr class="row-even"><td><p>Total</p></td>
-<td><p>20</p></td>
-<td><p>33</p></td>
-<td><p>53</p></td>
-</tr>
-</tbody>
-</table>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{array}{|p{4cm}|p{2.5cm}|p{2.5cm}|p{2.5cm}|}
+\hline
+\text{NIR Result} &amp; \text{Predicted: Disease} &amp; \text{Predicted: No Disease} &amp; \text{Total} \\
+\hline
+\text{Actual: Disease} &amp; 16 &amp; 5 &amp; 21 \\
+\hline
+\text{Actual: No Disease} &amp; 4 &amp; 28 &amp; 32 \\
+\hline
+\text{Total} &amp; 20 &amp; 33 &amp; 53 \\
+\hline
+\end{array}
+\end{split}\]</div>
 <p>The Positive Predictive Value (PPV = <span class="math notranslate nohighlight">\(\frac{TP}{TP + FP}\)</span>) is then <span class="math notranslate nohighlight">\(\frac{16}{20}\)</span>.</p>
 </div>
 </section>
@@ -1020,12 +992,22 @@ P(\text{Croupier} = 9 | \text{You won}) = \frac{P(\text{You won} | \text{Croupie
 E = \sum_{i=2}^{12} i \cdot P(\text{Croupier} = i | \text{You won})
 \]</div>
 <p>We already found that for <span class="math notranslate nohighlight">\(i = 9\)</span>, the probability is <span class="math notranslate nohighlight">\(\frac{24}{575}\)</span>. It is straightforward to find probabilities for other values of <span class="math notranslate nohighlight">\(i\)</span> and calculate the expectation. We can do it with the following Python script:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<p>See hidden code cell below.</p>
+<p>If you won, we expect that the croupier got the sum of <span class="math notranslate nohighlight">\(\frac{3136}{575} \approx 5.454\)</span>. This is less than 7 – the expectation without any information.</p>
+</div>
+<div class="cell tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">random</span>
 
 <span class="n">casino</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">13</span><span class="p">))</span>
 <span class="n">prob</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">35</span><span class="p">,</span> <span class="mi">66</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="mi">104</span><span class="p">,</span> <span class="mi">105</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">24</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span> <span class="o">/</span> <span class="mi">575</span>
-<span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">casino</span><span class="p">,</span> <span class="n">prob</span><span class="p">)</span> <span class="c1"># 5.454</span>
+<span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">casino</span><span class="p">,</span> <span class="n">prob</span><span class="p">)</span>  <span class="c1"># 5.454</span>
 
 <span class="n">n</span> <span class="o">=</span> <span class="mi">1000000</span>
 <span class="n">won</span> <span class="o">=</span> <span class="mi">0</span>
@@ -1034,13 +1016,11 @@ E = \sum_{i=2}^{12} i \cdot P(\text{Croupier} = i | \text{You won})
     <span class="n">casino</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span> <span class="o">+</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">casino</span> <span class="o">&lt;</span> <span class="n">you</span><span class="p">:</span>
         <span class="n">won</span> <span class="o">+=</span> <span class="mi">1</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Approx Prob of Winning =&#39;</span><span class="p">,</span> <span class="n">won</span><span class="o">/</span><span class="n">n</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Approx Prob of Winning =&quot;</span><span class="p">,</span> <span class="n">won</span> <span class="o">/</span> <span class="n">n</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
-<p>If you won, we expect that the croupier got the sum of <span class="math notranslate nohighlight">\(\frac{3136}{575} \approx 5.454\)</span>. This is less than 7 – the expectation without any information.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
-</pre></div>
+</details>
 </div>
 </section>
 <section id="redundant-wiring">
@@ -1110,7 +1090,16 @@ E = \sum_{i=2}^{12} i \cdot P(\text{Croupier} = i | \text{You won})
 <div class="tip dropdown admonition">
 <p class="admonition-title">Solution</p>
 <p>Hint: <span class="math notranslate nohighlight">\(P(A | H_1) = 0\)</span>, <span class="math notranslate nohighlight">\(P(A | H_2) = 1 - 0.4 \cdot 0.4\)</span>, <span class="math notranslate nohighlight">\(P(A | H_3) = 0.6\)</span>, <span class="math notranslate nohighlight">\(P(A | H_4) = 1\)</span></p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">p</span> <span class="o">=</span> <span class="mf">.6</span>
+<p>See hidden code cell below.</p>
+</div>
+<div class="cell tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">p</span> <span class="o">=</span> <span class="mf">0.6</span>
 <span class="n">q</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">p</span>
 
 <span class="c1"># P(H_i)</span>
@@ -1126,25 +1115,24 @@ E = \sum_{i=2}^{12} i \cdot P(\text{Croupier} = i | \text{You won})
 <span class="c1"># part b</span>
 <span class="c1"># P(A|H_i)</span>
 <span class="c1"># if neither E_2 or E_3 are working, there&#39;s no viable path</span>
-<span class="n">p_ah1</span> <span class="o">=</span> <span class="mi">0</span> 
+<span class="n">p_ah1</span> <span class="o">=</span> <span class="mi">0</span>
 
 <span class="c1"># if E_2 isn&#39;t working, then only the E_3 -&gt; E_4/E_5 path is possible</span>
-<span class="n">p_ah2</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">q</span><span class="o">**</span><span class="mi">2</span> 
+<span class="n">p_ah2</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">q</span><span class="o">**</span><span class="mi">2</span>
 
 <span class="c1"># if E_3 isn&#39;t working, only the top path will work</span>
-<span class="n">p_ah3</span> <span class="o">=</span> <span class="n">p</span> 
+<span class="n">p_ah3</span> <span class="o">=</span> <span class="n">p</span>
 
 <span class="c1"># If E_3 and E_2 are assumed working, there is one guaranteed path for P(A) on the crosslink</span>
-<span class="n">p_ah4</span> <span class="o">=</span> <span class="mi">1</span> 
+<span class="n">p_ah4</span> <span class="o">=</span> <span class="mi">1</span>
 
 <span class="c1"># part c</span>
 <span class="n">p_A</span> <span class="o">=</span> <span class="n">p_ah1</span> <span class="o">*</span> <span class="n">H_1</span> <span class="o">+</span> <span class="n">p_ah2</span> <span class="o">*</span> <span class="n">H_2</span> <span class="o">+</span> <span class="n">p_ah3</span> <span class="o">*</span> <span class="n">H_3</span> <span class="o">+</span> <span class="n">p_ah4</span> <span class="o">*</span> <span class="n">H_4</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">p_A</span><span class="p">)</span> <span class="c1"># .7056</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">p_A</span><span class="p">)</span>  <span class="c1"># .7056</span>
 </pre></div>
 </div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
-</pre></div>
+</details>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -1196,9 +1184,16 @@ W^c &amp; W &amp; \text{Condition} \\
 </ol>
 <div class="tip dropdown admonition">
 <p class="admonition-title">Solution</p>
-<p><strong>Exact Calculation (Python)</strong>
-Contributed by Jason Naramore.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># W = Wet, C = Cloudy, S = Sprinkler, R = Rain</span>
+<p>See the hidden code cell below for an exact calculation in Python, contributed by Jason Naramore.</p>
+</div>
+<div class="cell tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># W = Wet, C = Cloudy, S = Sprinkler, R = Rain</span>
 <span class="c1">#&#39;n&#39; represents &#39;not&#39;</span>
 <span class="n">p_W_C_S_R</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="mf">0.1</span> <span class="o">*</span> <span class="mf">0.8</span> <span class="o">*</span> <span class="mf">0.99</span>
 <span class="n">p_W_C_S_Rn</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="mf">0.1</span> <span class="o">*</span> <span class="mf">0.2</span> <span class="o">*</span> <span class="mf">0.9</span>
@@ -1220,8 +1215,7 @@ Contributed by Jason Naramore.</p>
 </pre></div>
 </div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
-</pre></div>
+</details>
 </div>
 </section>
 <section id="simple-diagnostic-bayes-network">
@@ -1286,11 +1280,22 @@ A B &amp; 0.15 &amp; 0.85 \\
 </ol>
 <div class="tip dropdown admonition">
 <p class="admonition-title">Solution</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
-<span class="kn">import</span> <span class="nn">pymc</span> <span class="k">as</span> <span class="nn">pm</span>
+<p>See hidden code cell below.</p>
+<p><span class="output text_plain">‘P(B|A=0, S=1) = 0.8841’</span></p>
+<p><span class="output text_plain">‘P(E|S=1, T_B=1) = 0.5635’</span></p>
+</div>
+<div class="cell tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pymc</span> <span class="k">as</span> <span class="nn">pm</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pytensor</span>
 <span class="kn">import</span> <span class="nn">pytensor.tensor</span> <span class="k">as</span> <span class="nn">pt</span>
+
 
 <span class="c1"># PyMC solution based on this notebook:</span>
 <span class="c1"># https://gist.github.com/Dekermanjian/35aa0340c673cb6cc7f9fbd95e8e764d</span>
@@ -1359,15 +1364,28 @@ A B &amp; 0.15 &amp; 0.85 \\
     <span class="n">prior_trace_dict</span><span class="p">,</span> <span class="s2">&quot;E&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;S&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;T_B&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>
 <span class="p">)</span>
 
-<span class="c1"># print(f&quot;P(B|A=0, S=1) = {P_B_given_A0_S1}&quot;) # ~ 0.8899</span>
-<span class="c1"># print(f&quot;P(E|S=1, T_B=1) = {P_E_given_S1_T_B1}&quot;) # ~ 0.5571</span>
+<span class="c1"># print(f&quot;P(B|A=0, S=1) = {P_B_given_A0_S1}&quot;)  # ~ 0.8899</span>
+<span class="c1"># print(f&quot;P(E|S=1, T_B=1) = {P_E_given_S1_T_B1}&quot;)  # ~ 0.5571</span>
+
+<span class="kn">from</span> <span class="nn">myst_nb</span> <span class="kn">import</span> <span class="n">glue</span>
+
+<span class="n">glue</span><span class="p">(</span><span class="s2">&quot;glued_txt_15_1&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;P(B|A=0, S=1) = </span><span class="si">{</span><span class="nb">round</span><span class="p">(</span><span class="n">P_B_given_A0_S1</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">glue</span><span class="p">(</span><span class="s2">&quot;glued_txt_15_2&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;P(E|S=1, T_B=1) = </span><span class="si">{</span><span class="nb">round</span><span class="p">(</span><span class="n">P_E_given_S1_T_B1</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
-<p><span class="output text_plain">‘P(B|A=0, S=1) = 0.8841’</span></p>
-<p><span class="output text_plain">‘P(E|S=1, T_B=1) = 0.5635’</span></p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling: [A, B, E, R, S, T_B]
 </pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;P(B|A=0, S=1) = 0.8841&#39;
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;P(E|S=1, T_B=1) = 0.5635&#39;
+</pre></div>
+</div>
+</div>
+</details>
 </div>
 </section>
 <section id="smart-alarm">

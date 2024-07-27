@@ -337,6 +337,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-cumulative2.html">8. Cumulative Example*</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-ssvs.html">9. Stochastic Search Variable Selection</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-hald2.html">10. SSVS: Hald*</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit9/SupplementaryExercises93.html">11. Supplementary Exercises</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Unit 10</span></p>
 <ul class="nav bd-sidenav">
@@ -578,10 +579,7 @@ document.write(`
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dukes-c-colorectal-cancer-and-diet-treatment">1. Dukes’ C Colorectal Cancer and Diet Treatment</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#censored-rayleigh">2. Censored Rayleigh</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stagnant-water-with-mar-data">3. Stagnant Water with MAR Data</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reference">Reference</a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stagnant-water-with-mar-data">3. Stagnant Water with MAR Data</a></li>
 </ul>
             </nav>
         </div>
@@ -608,13 +606,28 @@ document.write(`
 \hline
 \text{Group} &amp; \text{Sample Size} &amp; \text{Survival Time (months)} \\
 \hline
-\text{Treatment (Linoleic acid)} &amp; n_1 = 25 &amp; 1+, 5+, 6, 6, 9+, 10, 10, 10+, 12, 12, 12, 12, 12+, 13+, 15+, 16+, 20+, 24, 24+, 27+, 32, 34+, 36+, 36+, 44+ \\
+\text{Treatment (Linoleic acid)} &amp; n_1 = 25 &amp; 
+\begin{array}{c}
+1+, 5+, 6, 6, 9+, 10, 10, 10+, 12, 12, 12, 12 \\
+12+, 13+, 15+, 16+, 20+, 24, 24+, 27+, 32 \\
+34+, 36+, 36+, 44+ 
+\end{array} \\
 \hline
-\text{Control} &amp; n_2 = 24 &amp; 3+, 6, 6, 6, 6, 8, 8, 12, 12, 12+, 15+, 16+, 18+, 18+, 20, 22+, 24, 28+, 28+, 28+, 30, 30+, 33+, 42 \\
+\text{Control} &amp; n_2 = 24 &amp; 
+\begin{array}{c}
+3+, 6, 6, 6, 6, 8, 8, 12, 12, 12+ \\
+15+, 16+, 18+, 18+, 20, 22+, 24, 28+ \\
+28+, 28+, 30, 30+, 33+, 42 
+\end{array} \\
 \hline
 \end{array}
 \end{split}\]</div>
+<p>This data is available as a csv <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/data/dukes.csv">here</a>.</p>
 <p>Fit the data with Weibull distribution, taking the treatment/control (1/0) as a covariate. Place noninformative priors on all parameters. Is the linoleic acid treatment beneficial? Comment.</p>
+<div class="tip dropdown admonition">
+<p class="admonition-title">Solution</p>
+<p>Solution to be added. Feel free to share yours on Ed Discussion!</p>
+</div>
 </section>
 <section id="censored-rayleigh">
 <h2>2. Censored Rayleigh<a class="headerlink" href="#censored-rayleigh" title="Permalink to this headline">#</a></h2>
@@ -644,11 +657,12 @@ S(t) = \exp\left(-\frac{t^2}{2\lambda}\right), \lambda &gt; 0
 </section>
 <section id="stagnant-water-with-mar-data">
 <h2>3. Stagnant Water with MAR Data<a class="headerlink" href="#stagnant-water-with-mar-data" title="Permalink to this headline">#</a></h2>
-<p>Carlin et al (1992) analyzed data on the stagnation of water by piecing together linear parametric forms.</p>
+<p><span id="id1">Carlin <em>et al.</em> [<a class="reference internal" href="../backmatter/bibliography.html#id49" title="Bradley P. Carlin, Alan E. Gelfand, and Adrian F. M. Smith. Hierarchical bayesian analysis of changepoint problems. Journal of the Royal Statistical Society. Series C (Applied Statistics), 41(2):389–405, 1992.">1992</a>]</span> analyzed data on the stagnation of water by piecing together linear parametric forms.</p>
 <ul class="simple">
 <li><p><span class="math notranslate nohighlight">\( y_i \)</span> is the log flow rate down the channel.</p></li>
 <li><p><span class="math notranslate nohighlight">\( x_i \)</span> is the log height of stagnant surface levels for different surfactants <span class="math notranslate nohighlight">\( i \)</span>.</p></li>
 </ul>
+<p>Data is available for download <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/data/stagnant_water.csv">here</a>.</p>
 <p>The proposed model is:</p>
 <div class="amsmath math notranslate nohighlight">
 \[\begin{align*}
@@ -657,16 +671,10 @@ y_i &amp;\sim N(\mu_i, \sigma^2) \\
 \end{align*}\]</div>
 <p>Here, <span class="math notranslate nohighlight">\( (a)_{+} \)</span> is <span class="math notranslate nohighlight">\( a \)</span> if <span class="math notranslate nohighlight">\( a \geq 0 \)</span> and 0 if <span class="math notranslate nohighlight">\( a &lt; 0 \)</span>.</p>
 <p>According to this model, the regression slope is <span class="math notranslate nohighlight">\( \beta_1 \)</span> for <span class="math notranslate nohighlight">\( x &lt; \theta \)</span> and <span class="math notranslate nohighlight">\( \beta_1 + \beta_2 \)</span> for <span class="math notranslate nohighlight">\( x \geq \theta \)</span>. The original exercise is modified to have two <span class="math notranslate nohighlight">\( y \)</span>‘s and two <span class="math notranslate nohighlight">\( x \)</span>‘s missing at random.</p>
-<section id="reference">
-<h3>Reference<a class="headerlink" href="#reference" title="Permalink to this headline">#</a></h3>
-<ol class="arabic simple">
-<li><p>Carlin, B. P., Gelfand, A. E., &amp; Smith, A. F. M. (1992). Hierarchical Bayesian Analysis of Changepoint Problems. <em>Journal of the Royal Statistical Society. Series C (Applied Statistics)</em>, 41(2), 389-405.</p></li>
-</ol>
 <div class="tip dropdown admonition">
 <p class="admonition-title">Solution</p>
 <p>Solution to be added. Feel free to share yours on Ed Discussion!</p>
 </div>
-</section>
 </section>
 </section>
 
@@ -739,10 +747,7 @@ y_i &amp;\sim N(\mu_i, \sigma^2) \\
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dukes-c-colorectal-cancer-and-diet-treatment">1. Dukes’ C Colorectal Cancer and Diet Treatment</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#censored-rayleigh">2. Censored Rayleigh</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stagnant-water-with-mar-data">3. Stagnant Water with MAR Data</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reference">Reference</a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stagnant-water-with-mar-data">3. Stagnant Water with MAR Data</a></li>
 </ul>
   </nav></div>
 

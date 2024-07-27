@@ -337,6 +337,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-cumulative2.html">8. Cumulative Example*</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-ssvs.html">9. Stochastic Search Variable Selection</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-hald2.html">10. SSVS: Hald*</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit9/SupplementaryExercises93.html">11. Supplementary Exercises</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Unit 10</span></p>
 <ul class="nav bd-sidenav">
@@ -641,56 +642,20 @@ document.write(`
 <div class="tip dropdown admonition">
 <p class="admonition-title">Solution</p>
 <p>See the hidden cell below for the code. This question asks for a PPL solution, but keep in mind we won’t use those until after the midterm in the current class format. It is possible to do this with Unit 4 or Unit 5 techniques, but we haven’t written up a solution using those yet.</p>
-<table class="colwidths-auto table">
-<thead>
-<tr class="row-odd"><th class="text-left head"><p></p></th>
-<th class="text-right head"><p>mean</p></th>
-<th class="text-right head"><p>sd</p></th>
-<th class="text-right head"><p>hdi_2.5%</p></th>
-<th class="text-right head"><p>hdi_97.5%</p></th>
-<th class="text-right head"><p>mcse_mean</p></th>
-<th class="text-right head"><p>mcse_sd</p></th>
-<th class="text-right head"><p>ess_bulk</p></th>
-<th class="text-right head"><p>ess_tail</p></th>
-<th class="text-right head"><p>r_hat</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td class="text-left"><p>mean</p></td>
-<td class="text-right"><p>4.767</p></td>
-<td class="text-right"><p>3.812</p></td>
-<td class="text-right"><p>-2.67</p></td>
-<td class="text-right"><p>12.371</p></td>
-<td class="text-right"><p>0.049</p></td>
-<td class="text-right"><p>0.039</p></td>
-<td class="text-right"><p>6515</p></td>
-<td class="text-right"><p>5423</p></td>
-<td class="text-right"><p>1</p></td>
-</tr>
-<tr class="row-odd"><td class="text-left"><p>precision</p></td>
-<td class="text-right"><p>0.012</p></td>
-<td class="text-right"><p>0.006</p></td>
-<td class="text-right"><p>0.002</p></td>
-<td class="text-right"><p>0.024</p></td>
-<td class="text-right"><p>0</p></td>
-<td class="text-right"><p>0</p></td>
-<td class="text-right"><p>6542</p></td>
-<td class="text-right"><p>6356</p></td>
-<td class="text-right"><p>1</p></td>
-</tr>
-<tr class="row-even"><td class="text-left"><p>variance</p></td>
-<td class="text-right"><p>117.474</p></td>
-<td class="text-right"><p>106.899</p></td>
-<td class="text-right"><p>24.761</p></td>
-<td class="text-right"><p>271.664</p></td>
-<td class="text-right"><p>1.389</p></td>
-<td class="text-right"><p>0.982</p></td>
-<td class="text-right"><p>6542</p></td>
-<td class="text-right"><p>6356</p></td>
-<td class="text-right"><p>1</p></td>
-</tr>
-</tbody>
-</table>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{array}{|l|r|r|r|r|r|r|r|r|r|}
+\hline
+ &amp; \text{mean} &amp; \text{sd} &amp; \text{hdi_2.5%} &amp; \text{hdi_97.5%} &amp; \text{mcse\_mean} &amp; \text{mcse_sd} &amp; \text{ess_bulk} &amp; \text{ess_tail} &amp; \text{r_hat} \\
+\hline
+\text{mean} &amp; 4.767 &amp; 3.812 &amp; -2.67 &amp; 12.371 &amp; 0.049 &amp; 0.039 &amp; 6515 &amp; 5423 &amp; 1 \\
+\hline
+\text{precision} &amp; 0.012 &amp; 0.006 &amp; 0.002 &amp; 0.024 &amp; 0 &amp; 0 &amp; 6542 &amp; 6356 &amp; 1 \\
+\hline
+\text{variance} &amp; 117.474 &amp; 106.899 &amp; 24.761 &amp; 271.664 &amp; 1.389 &amp; 0.982 &amp; 6542 &amp; 6356 &amp; 1 \\
+\hline
+\end{array}
+\end{split}\]</div>
 </div>
 <div class="cell tag_hide-cell docutils container">
 <details class="hide above-input">
@@ -862,34 +827,18 @@ NUTS: [precision, mean]
 <div class="tip dropdown admonition">
 <p class="admonition-title">Solution</p>
 <p>Solution by Jason Naramore. This is another PPL example.</p>
-<table class="colwidths-auto table">
-<thead>
-<tr class="row-odd"><th class="text-left head"><p></p></th>
-<th class="text-right head"><p>mean</p></th>
-<th class="text-right head"><p>sd</p></th>
-<th class="text-right head"><p>hdi_2.5%</p></th>
-<th class="text-right head"><p>hdi_97.5%</p></th>
-<th class="text-right head"><p>mcse_mean</p></th>
-<th class="text-right head"><p>mcse_sd</p></th>
-<th class="text-right head"><p>ess_bulk</p></th>
-<th class="text-right head"><p>ess_tail</p></th>
-<th class="text-right head"><p>r_hat</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td class="text-left"><p>sensitivity</p></td>
-<td class="text-right"><p>0.79</p></td>
-<td class="text-right"><p>0.037</p></td>
-<td class="text-right"><p>0.717</p></td>
-<td class="text-right"><p>0.859</p></td>
-<td class="text-right"><p>0</p></td>
-<td class="text-right"><p>0</p></td>
-<td class="text-right"><p>13585</p></td>
-<td class="text-right"><p>11945</p></td>
-<td class="text-right"><p>1</p></td>
-</tr>
-</tbody>
-</table>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{array}{|l|r|r|r|r|r|r|r|r|r|}
+\hline
+ &amp; \text{mean} &amp; \text{sd} &amp; \text{hdi_2.5%} &amp; \text{hdi_97.5%} &amp; \text{mcse_mean} &amp; \text{mcse_sd} &amp; \text{ess_bulk} &amp; \text{ess_tail} &amp; \text{r_hat} \\
+\hline
+\text{sensitivity} &amp; 0.79 &amp; 0.037 &amp; 0.717 &amp; 0.859 &amp; 0 &amp; 0 &amp; 13585 &amp; 11945 &amp; 1 \\
+\hline
+\text{specificity} &amp; 0.902 &amp; 0.01 &amp; 0.882 &amp; 0.921 &amp; 0 &amp; 0 &amp; 13292 &amp; 11986 &amp; 1 \\
+\hline
+\end{array}
+\end{split}\]</div>
 </div>
 <div class="cell tag_hide-cell docutils container">
 <details class="hide above-input">
@@ -1461,15 +1410,15 @@ y \mid x \quad \begin{array}{cc}
 <li><p>Find the Bayes estimator and 95% credible set for population mean <span class="math notranslate nohighlight">\(\mu\)</span>.</p></li>
 </ol>
 <p>We can define our model like this:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-43eb4dcb-2c42-46c9-97bf-eaf056137a8e">
-<span class="eqno">(1)<a class="headerlink" href="#equation-43eb4dcb-2c42-46c9-97bf-eaf056137a8e" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-7963a3f0-e441-4926-bd6b-27a2a0959b6f">
+<span class="eqno">(1)<a class="headerlink" href="#equation-7963a3f0-e441-4926-bd6b-27a2a0959b6f" title="Permalink to this equation">#</a></span>\[\begin{align}
 x_i|\mu &amp;\sim N(\mu, 8) \\
 \mu &amp; \sim N(5, 6)
 \end{align}\]</div>
 <p>This is the Normal-Normal conjugate pair for a fixed variance and random mean, with <span class="math notranslate nohighlight">\(n=18\)</span> and <span class="math notranslate nohighlight">\(\bar{X} \approx 5.78333\)</span></p>
 <p>Our posterior is then:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-56668dcd-bb3d-4bfb-a283-5e25cc40af61">
-<span class="eqno">(2)<a class="headerlink" href="#equation-56668dcd-bb3d-4bfb-a283-5e25cc40af61" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-aa642c5e-5564-4c4b-9d80-05f556d15b73">
+<span class="eqno">(2)<a class="headerlink" href="#equation-aa642c5e-5564-4c4b-9d80-05f556d15b73" title="Permalink to this equation">#</a></span>\[\begin{align}
 \pi(\theta|x) &amp;\sim N\left(\frac{\tau^2}{\tau^2 +\sigma^2/n}\bar{X} + \frac{\sigma^2/n}{\tau^2 + \sigma^2/n}\mu_0, \frac{\tau^2\sigma^2/n}{\tau^2+ \sigma^2/n}\right) \\
 &amp; \sim N(\frac{6}{6 + 8/18}\bar{X} + \frac{8/18}{6 + 8/18}(5), \frac{6(8/18)}{6+8/18}) \\
 &amp; \sim N(5.72931, 0.41379)
@@ -1907,108 +1856,58 @@ E(p \mid x) &amp;= \frac{1}{m(x)} \int_0^1 p (1 - p)^x p g(p) \, dp \\
 <p>In this case <span class="math notranslate nohighlight">\(\hat{p}\)</span> is free of the prior distribution <span class="math notranslate nohighlight">\(g\)</span> (although the marginal depends on <span class="math notranslate nohighlight">\(g\)</span>).</p>
 <p>Solution for 2:
 For the simulated data, the estimators (at particular values of <span class="math notranslate nohighlight">\(x\)</span>) are given in the following table:</p>
-<table class="colwidths-auto table">
-<thead>
-<tr class="row-odd"><th class="head"><p><span class="math notranslate nohighlight">\(x\)</span></p></th>
-<th class="head"><p>Frequency</p></th>
-<th class="head"><p><span class="math notranslate nohighlight">\(\hat{p}\)</span></p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p>0</p></td>
-<td><p>758</p></td>
-<td><p>0.3047</p></td>
-</tr>
-<tr class="row-odd"><td><p>1</p></td>
-<td><p>527</p></td>
-<td><p>0.2808</p></td>
-</tr>
-<tr class="row-even"><td><p>2</p></td>
-<td><p>379</p></td>
-<td><p>0.3958</p></td>
-</tr>
-<tr class="row-odd"><td><p>3</p></td>
-<td><p>229</p></td>
-<td><p>0.2926</p></td>
-</tr>
-<tr class="row-even"><td><p>4</p></td>
-<td><p>162</p></td>
-<td><p>0.2531</p></td>
-</tr>
-<tr class="row-odd"><td><p>5</p></td>
-<td><p>121</p></td>
-<td><p>0.3471</p></td>
-</tr>
-<tr class="row-even"><td><p>6</p></td>
-<td><p>79</p></td>
-<td><p>0.2911</p></td>
-</tr>
-<tr class="row-odd"><td><p>7</p></td>
-<td><p>56</p></td>
-<td><p>0.4643</p></td>
-</tr>
-<tr class="row-even"><td><p>8</p></td>
-<td><p>30</p></td>
-<td><p>0.3333</p></td>
-</tr>
-<tr class="row-odd"><td><p>9</p></td>
-<td><p>20</p></td>
-<td><p>0.2500</p></td>
-</tr>
-<tr class="row-even"><td><p>10</p></td>
-<td><p>15</p></td>
-<td><p>0.6000</p></td>
-</tr>
-<tr class="row-odd"><td><p>11</p></td>
-<td><p>6</p></td>
-<td><p>0.0000</p></td>
-</tr>
-<tr class="row-even"><td><p>12</p></td>
-<td><p>6</p></td>
-<td><p>0.3333</p></td>
-</tr>
-<tr class="row-odd"><td><p>13</p></td>
-<td><p>4</p></td>
-<td><p>0.7500</p></td>
-</tr>
-<tr class="row-even"><td><p>14</p></td>
-<td><p>1</p></td>
-<td><p>1.0000</p></td>
-</tr>
-<tr class="row-odd"><td><p>15</p></td>
-<td><p>0</p></td>
-<td><p>NaN</p></td>
-</tr>
-<tr class="row-even"><td><p>16</p></td>
-<td><p>0</p></td>
-<td><p>0</p></td>
-</tr>
-<tr class="row-odd"><td><p>17</p></td>
-<td><p>4</p></td>
-<td><p>0.7500</p></td>
-</tr>
-<tr class="row-even"><td><p>18</p></td>
-<td><p>1</p></td>
-<td><p>0</p></td>
-</tr>
-<tr class="row-odd"><td><p>19</p></td>
-<td><p>1</p></td>
-<td><p>0</p></td>
-</tr>
-<tr class="row-even"><td><p>20</p></td>
-<td><p>1</p></td>
-<td><p>1</p></td>
-</tr>
-<tr class="row-odd"><td><p>21+</p></td>
-<td><p>0</p></td>
-<td><p>NaN</p></td>
-</tr>
-<tr class="row-even"><td><p><strong>Total</strong></p></td>
-<td><p><strong>2400</strong></p></td>
-<td><p></p></td>
-</tr>
-</tbody>
-</table>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{array}{|c|r|r|}
+\hline
+x &amp; \text{Frequency} &amp; \hat{p} \\
+\hline
+0 &amp; 758 &amp; 0.3047 \\
+\hline
+1 &amp; 527 &amp; 0.2808 \\
+\hline
+2 &amp; 379 &amp; 0.3958 \\
+\hline
+3 &amp; 229 &amp; 0.2926 \\
+\hline
+4 &amp; 162 &amp; 0.2531 \\
+\hline
+5 &amp; 121 &amp; 0.3471 \\
+\hline
+6 &amp; 79 &amp; 0.2911 \\
+\hline
+7 &amp; 56 &amp; 0.4643 \\
+\hline
+8 &amp; 30 &amp; 0.3333 \\
+\hline
+9 &amp; 20 &amp; 0.2500 \\
+\hline
+10 &amp; 15 &amp; 0.6000 \\
+\hline
+11 &amp; 6 &amp; 0.0000 \\
+\hline
+12 &amp; 6 &amp; 0.3333 \\
+\hline
+13 &amp; 4 &amp; 0.7500 \\
+\hline
+14 &amp; 1 &amp; 1.0000 \\
+\hline
+15 &amp; 0 &amp; \text{NaN} \\
+\hline
+16 &amp; 0 &amp; 0 \\
+\hline
+17 &amp; 4 &amp; 0.7500 \\
+\hline
+18 &amp; 1 &amp; 0 \\
+\hline
+19 &amp; 1 &amp; 0 \\
+\hline
+20 &amp; 1 &amp; 1 \\
+\hline
+21+ &amp; 0 &amp; \text{NaN} \\
+\hline
+\end{array}
+\end{split}\]</div>
 <p>Note that for <span class="math notranslate nohighlight">\(x \geq 10\)</span> the NPEB estimators become unreliable due to low frequency counts.</p>
 </div>
 </section>
