@@ -323,7 +323,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="../unit8/Unit8-tteex1.html">4. Time-to-event Models: Example 1</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../unit8/Unit8-tteex2.html">5. Time-to-event Models: Example 2*</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../unit8/Unit8-tte-gastric.html">6. Time-to-event Models: Gastric Cancer*</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../unit8/SupplementaryExercises83.html">7. Supplementary Exercises</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit8/SupplementaryExercises83.html">Supplementary Exercises</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Unit 9</span></p>
 <ul class="current nav bd-sidenav">
@@ -337,7 +337,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">8. Cumulative Example*</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Unit9-ssvs.html">9. Stochastic Search Variable Selection</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Unit9-hald2.html">10. SSVS: Hald*</a></li>
-<li class="toctree-l1"><a class="reference internal" href="SupplementaryExercises93.html">11. Supplementary Exercises</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SupplementaryExercises93.html">Supplementary Exercises</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Unit 10</span></p>
 <ul class="nav bd-sidenav">
@@ -567,7 +567,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Cumulative Example*</h1>
+    <h1>8. Cumulative Example*</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -608,7 +608,7 @@ document.write(`
 </div>
 </div>
 <section class="tex2jax_ignore mathjax_ignore" id="cumulative-example">
-<h1><span class="section-number">8. </span>Cumulative Example*<a class="headerlink" href="#cumulative-example" title="Permalink to this headline">#</a></h1>
+<h1>8. Cumulative Example*<a class="headerlink" href="#cumulative-example" title="Permalink to this headline">#</a></h1>
 <p>Adapted from <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/original_examples/Codes4Unit9/cumulative2.odc">Unit 9: cumulative2.odc</a>.</p>
 <section id="notes">
 <h2>Notes<a class="headerlink" href="#notes" title="Permalink to this headline">#</a></h2>
@@ -623,8 +623,28 @@ document.write(`
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
-    <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.2</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.4</span><span class="p">,</span> 
-     <span class="mf">0.2</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.4</span><span class="p">,</span> <span class="mf">1.8</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.6</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">,</span> <span class="mf">5.1</span><span class="p">,</span> <span class="o">-</span><span class="mf">6.3</span><span class="p">]</span>
+    <span class="p">[</span>
+        <span class="mf">0.0</span><span class="p">,</span>
+        <span class="mf">1.0</span><span class="p">,</span>
+        <span class="mf">2.0</span><span class="p">,</span>
+        <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span>
+        <span class="mf">0.4</span><span class="p">,</span>
+        <span class="o">-</span><span class="mf">0.5</span><span class="p">,</span>
+        <span class="mf">0.7</span><span class="p">,</span>
+        <span class="o">-</span><span class="mf">1.2</span><span class="p">,</span>
+        <span class="mf">0.1</span><span class="p">,</span>
+        <span class="o">-</span><span class="mf">0.4</span><span class="p">,</span>
+        <span class="mf">0.2</span><span class="p">,</span>
+        <span class="o">-</span><span class="mf">0.5</span><span class="p">,</span>
+        <span class="o">-</span><span class="mf">1.4</span><span class="p">,</span>
+        <span class="mf">1.8</span><span class="p">,</span>
+        <span class="mf">0.2</span><span class="p">,</span>
+        <span class="mf">0.3</span><span class="p">,</span>
+        <span class="o">-</span><span class="mf">0.6</span><span class="p">,</span>
+        <span class="mf">1.1</span><span class="p">,</span>
+        <span class="mf">5.1</span><span class="p">,</span>
+        <span class="o">-</span><span class="mf">6.3</span><span class="p">,</span>
+    <span class="p">]</span>
 <span class="p">)</span>
 </pre></div>
 </div>
@@ -817,7 +837,9 @@ Sampling: [y]
 
     <span class="c1"># get original observations</span>
     <span class="n">y_obs</span> <span class="o">=</span> <span class="n">trace</span><span class="o">.</span><span class="n">observed_data</span><span class="p">[</span><span class="n">y_varname</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
-    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">y_obs</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;Y-observations shape must be one-dimensional.&quot;</span>
+    <span class="k">assert</span> <span class="p">(</span>
+        <span class="nb">len</span><span class="p">(</span><span class="n">y_obs</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+    <span class="p">),</span> <span class="s2">&quot;Y-observations shape must be one-dimensional.&quot;</span>
     <span class="n">n_obs</span> <span class="o">=</span> <span class="n">y_obs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">y_obs</span> <span class="o">=</span> <span class="n">y_obs</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>  <span class="c1"># for broadcasting</span>
 
@@ -999,7 +1021,9 @@ Sampling: [y]
 <div class="cell tag_hide-output docutils container">
 <div class="cell_input above-output-prompt docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">252</span><span class="p">))</span>
-<span class="n">trace</span><span class="o">.</span><span class="n">posterior</span><span class="p">[</span><span class="s2">&quot;y_model&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">trace</span><span class="o">.</span><span class="n">posterior</span><span class="p">[</span><span class="s2">&quot;intercept&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">trace</span><span class="o">.</span><span class="n">posterior</span><span class="p">[</span><span class="s2">&quot;slope&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="n">x</span>
+<span class="n">trace</span><span class="o">.</span><span class="n">posterior</span><span class="p">[</span><span class="s2">&quot;y_model&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">trace</span><span class="o">.</span><span class="n">posterior</span><span class="p">[</span><span class="s2">&quot;intercept&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">trace</span><span class="o">.</span><span class="n">posterior</span><span class="p">[</span><span class="s2">&quot;slope&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="n">x</span>
+<span class="p">)</span>
 <span class="n">az</span><span class="o">.</span><span class="n">plot_lm</span><span class="p">(</span><span class="n">idata</span><span class="o">=</span><span class="n">trace</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -1069,7 +1093,9 @@ Sampling: [y]
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">idata</span> <span class="o">=</span> <span class="n">az</span><span class="o">.</span><span class="n">load_arviz_data</span><span class="p">(</span><span class="s2">&quot;regression1d&quot;</span><span class="p">)</span>
 <span class="n">x</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">100</span><span class="p">))</span>
-<span class="n">idata</span><span class="o">.</span><span class="n">posterior</span><span class="p">[</span><span class="s2">&quot;y_model&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">idata</span><span class="o">.</span><span class="n">posterior</span><span class="p">[</span><span class="s2">&quot;intercept&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">idata</span><span class="o">.</span><span class="n">posterior</span><span class="p">[</span><span class="s2">&quot;slope&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="n">x</span>
+<span class="n">idata</span><span class="o">.</span><span class="n">posterior</span><span class="p">[</span><span class="s2">&quot;y_model&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">idata</span><span class="o">.</span><span class="n">posterior</span><span class="p">[</span><span class="s2">&quot;intercept&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">idata</span><span class="o">.</span><span class="n">posterior</span><span class="p">[</span><span class="s2">&quot;slope&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="n">x</span>
+<span class="p">)</span>
 <span class="n">az</span><span class="o">.</span><span class="n">plot_lm</span><span class="p">(</span><span class="n">idata</span><span class="o">=</span><span class="n">idata</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -1147,7 +1173,7 @@ matplotlib: 3.7.2
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title"><span class="section-number">7. </span>Using the Empirical CDF and the Probability Integral Transform</p>
+        <p class="prev-next-title">7. Using the Empirical CDF and the Probability Integral Transform</p>
       </div>
     </a>
     <a class="right-next"
@@ -1155,7 +1181,7 @@ matplotlib: 3.7.2
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title"><span class="section-number">9. </span>Stochastic Search Variable Selection</p>
+        <p class="prev-next-title">9. Stochastic Search Variable Selection</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

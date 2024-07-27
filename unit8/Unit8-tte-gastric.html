@@ -69,7 +69,7 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="7. Supplementary Exercises" href="SupplementaryExercises83.html" />
+    <link rel="next" title="Supplementary Exercises" href="SupplementaryExercises83.html" />
     <link rel="prev" title="5. Time-to-event Models: Example 2*" href="Unit8-tteex2.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -321,7 +321,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="Unit8-tteex1.html">4. Time-to-event Models: Example 1</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Unit8-tteex2.html">5. Time-to-event Models: Example 2*</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">6. Time-to-event Models: Gastric Cancer*</a></li>
-<li class="toctree-l1"><a class="reference internal" href="SupplementaryExercises83.html">7. Supplementary Exercises</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SupplementaryExercises83.html">Supplementary Exercises</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Unit 9</span></p>
 <ul class="nav bd-sidenav">
@@ -335,7 +335,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-cumulative2.html">8. Cumulative Example*</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-ssvs.html">9. Stochastic Search Variable Selection</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-hald2.html">10. SSVS: Hald*</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../unit9/SupplementaryExercises93.html">11. Supplementary Exercises</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit9/SupplementaryExercises93.html">Supplementary Exercises</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Unit 10</span></p>
 <ul class="nav bd-sidenav">
@@ -565,7 +565,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Time-to-event Models: Gastric Cancer*</h1>
+    <h1>6. Time-to-event Models: Gastric Cancer*</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -606,7 +606,7 @@ document.write(`
 </div>
 </div>
 <section class="tex2jax_ignore mathjax_ignore" id="time-to-event-models-gastric-cancer">
-<h1><span class="section-number">6. </span>Time-to-event Models: Gastric Cancer*<a class="headerlink" href="#time-to-event-models-gastric-cancer" title="Permalink to this headline">#</a></h1>
+<h1>6. Time-to-event Models: Gastric Cancer*<a class="headerlink" href="#time-to-event-models-gastric-cancer" title="Permalink to this headline">#</a></h1>
 <p>Adapted from code for <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/original_examples/Codes4Unit8/gastric.odc">Unit 8: gastric.odc</a>.</p>
 <p>Data can be found <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/data/gastric.txt">here</a>.</p>
 <section id="problem-statement">
@@ -735,7 +735,9 @@ document.write(`
     <span class="p">)</span>
 
     <span class="n">median0</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;median0&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">log2</span> <span class="o">*</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">beta0</span><span class="p">))</span> <span class="o">**</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">α</span><span class="p">))</span>
-    <span class="n">median1</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;median1&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">log2</span> <span class="o">*</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">beta0</span> <span class="o">-</span> <span class="n">beta1</span><span class="p">))</span> <span class="o">**</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">α</span><span class="p">))</span>
+    <span class="n">median1</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span>
+        <span class="s2">&quot;median1&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">log2</span> <span class="o">*</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">beta0</span> <span class="o">-</span> <span class="n">beta1</span><span class="p">))</span> <span class="o">**</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">α</span><span class="p">)</span>
+    <span class="p">)</span>
 
     <span class="n">S</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;S&quot;</span><span class="p">,</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">λ</span> <span class="o">*</span> <span class="p">(</span><span class="n">likelihood</span><span class="o">**</span><span class="n">α</span><span class="p">)))</span>
     <span class="n">f</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;f&quot;</span><span class="p">,</span> <span class="n">λ</span> <span class="o">*</span> <span class="n">α</span> <span class="o">*</span> <span class="p">(</span><span class="n">likelihood</span> <span class="o">**</span> <span class="p">(</span><span class="n">α</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span> <span class="o">*</span> <span class="n">S</span><span class="p">)</span>
@@ -917,7 +919,9 @@ NUTS: [beta0, beta1, α]
     <span class="p">)</span>
 
     <span class="n">median0</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;median0&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">log2</span> <span class="o">*</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">beta0</span><span class="p">))</span> <span class="o">**</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">α</span><span class="p">))</span>
-    <span class="n">median1</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;median1&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">log2</span> <span class="o">*</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">beta0</span> <span class="o">-</span> <span class="n">beta1</span><span class="p">))</span> <span class="o">**</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">α</span><span class="p">))</span>
+    <span class="n">median1</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span>
+        <span class="s2">&quot;median1&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">log2</span> <span class="o">*</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">beta0</span> <span class="o">-</span> <span class="n">beta1</span><span class="p">))</span> <span class="o">**</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">α</span><span class="p">)</span>
+    <span class="p">)</span>
 
     <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">10000</span><span class="p">,</span> <span class="n">tune</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">cores</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">,</span> <span class="n">target_accept</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
 </pre></div>
@@ -1210,7 +1214,7 @@ pymc : 5.1.2
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title"><span class="section-number">5. </span>Time-to-event Models: Example 2*</p>
+        <p class="prev-next-title">5. Time-to-event Models: Example 2*</p>
       </div>
     </a>
     <a class="right-next"
@@ -1218,7 +1222,7 @@ pymc : 5.1.2
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title"><span class="section-number">7. </span>Supplementary Exercises</p>
+        <p class="prev-next-title">Supplementary Exercises</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

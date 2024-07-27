@@ -69,7 +69,7 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="11. Supplementary Exercises" href="SupplementaryExercises93.html" />
+    <link rel="next" title="Supplementary Exercises" href="SupplementaryExercises93.html" />
     <link rel="prev" title="9. Stochastic Search Variable Selection" href="Unit9-ssvs.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -321,7 +321,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="../unit8/Unit8-tteex1.html">4. Time-to-event Models: Example 1</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../unit8/Unit8-tteex2.html">5. Time-to-event Models: Example 2*</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../unit8/Unit8-tte-gastric.html">6. Time-to-event Models: Gastric Cancer*</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../unit8/SupplementaryExercises83.html">7. Supplementary Exercises</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit8/SupplementaryExercises83.html">Supplementary Exercises</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Unit 9</span></p>
 <ul class="current nav bd-sidenav">
@@ -335,7 +335,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="Unit9-cumulative2.html">8. Cumulative Example*</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Unit9-ssvs.html">9. Stochastic Search Variable Selection</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">10. SSVS: Hald*</a></li>
-<li class="toctree-l1"><a class="reference internal" href="SupplementaryExercises93.html">11. Supplementary Exercises</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SupplementaryExercises93.html">Supplementary Exercises</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Unit 10</span></p>
 <ul class="nav bd-sidenav">
@@ -563,7 +563,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>SSVS: Hald*</h1>
+    <h1>10. SSVS: Hald*</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -588,7 +588,7 @@ document.write(`
 </div>
 </div>
 <section class="tex2jax_ignore mathjax_ignore" id="ssvs-hald">
-<h1><span class="section-number">10. </span>SSVS: Hald*<a class="headerlink" href="#ssvs-hald" title="Permalink to this headline">#</a></h1>
+<h1>10. SSVS: Hald*<a class="headerlink" href="#ssvs-hald" title="Permalink to this headline">#</a></h1>
 <p>Adapted from <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/original_examples/Codes4Unit9/Haldssvs.odc">Haldssvs.odc</a>.</p>
 <p>SVSS can be looked at as adding an indicator variable to each covariate, then randomly turning each one on and off as you sample.</p>
 <div class="cell docutils container">
@@ -1175,7 +1175,9 @@ Coordinates:
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rows</span> <span class="o">=</span> <span class="n">chains</span> <span class="o">*</span> <span class="n">draws</span>
 
 <span class="n">deltas</span> <span class="o">=</span> <span class="n">trace</span><span class="o">.</span><span class="n">posterior</span><span class="o">.</span><span class="n">delta</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
-<span class="n">models</span><span class="p">,</span> <span class="n">counts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">deltas</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">rows</span><span class="p">,</span> <span class="n">p</span><span class="p">)),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">return_counts</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">models</span><span class="p">,</span> <span class="n">counts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span>
+    <span class="n">deltas</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">rows</span><span class="p">,</span> <span class="n">p</span><span class="p">)),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">return_counts</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
 
 <span class="k">for</span> <span class="n">model</span><span class="p">,</span> <span class="n">count</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">models</span><span class="p">,</span> <span class="n">counts</span><span class="p">):</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">model</span><span class="si">}</span><span class="s2">: prob=</span><span class="si">{</span><span class="n">count</span><span class="o">/</span><span class="n">rows</span><span class="si">:</span><span class="s2">.3</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -1259,7 +1261,7 @@ arviz : 0.14.0
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title"><span class="section-number">9. </span>Stochastic Search Variable Selection</p>
+        <p class="prev-next-title">9. Stochastic Search Variable Selection</p>
       </div>
     </a>
     <a class="right-next"
@@ -1267,7 +1269,7 @@ arviz : 0.14.0
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title"><span class="section-number">11. </span>Supplementary Exercises</p>
+        <p class="prev-next-title">Supplementary Exercises</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

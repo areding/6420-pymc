@@ -321,7 +321,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="../unit8/Unit8-tteex1.html">4. Time-to-event Models: Example 1</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../unit8/Unit8-tteex2.html">5. Time-to-event Models: Example 2*</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../unit8/Unit8-tte-gastric.html">6. Time-to-event Models: Gastric Cancer*</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../unit8/SupplementaryExercises83.html">7. Supplementary Exercises</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit8/SupplementaryExercises83.html">Supplementary Exercises</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Unit 9</span></p>
 <ul class="current nav bd-sidenav">
@@ -335,7 +335,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="Unit9-cumulative2.html">8. Cumulative Example*</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Unit9-ssvs.html">9. Stochastic Search Variable Selection</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Unit9-hald2.html">10. SSVS: Hald*</a></li>
-<li class="toctree-l1"><a class="reference internal" href="SupplementaryExercises93.html">11. Supplementary Exercises</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SupplementaryExercises93.html">Supplementary Exercises</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Unit 10</span></p>
 <ul class="nav bd-sidenav">
@@ -565,7 +565,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Gesell*</h1>
+    <h1>6. Gesell*</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -600,11 +600,15 @@ document.write(`
 </div>
 </div>
 <section class="tex2jax_ignore mathjax_ignore" id="gesell">
-<h1><span class="section-number">6. </span>Gesell*<a class="headerlink" href="#gesell" title="Permalink to this headline">#</a></h1>
+<h1>6. Gesell*<a class="headerlink" href="#gesell" title="Permalink to this headline">#</a></h1>
 <p>Adapted from <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/original_examples/Codes4Unit9/Gesell.odc">Unit 9: Gesell.odc</a>.</p>
 <p>Gesell Developmental Schedules  measure  child development. The scoring is devised by the American child psychologist and pediatrician Arnold Gesell who founded the Clinic of Child Development at Yale in 1911 and directed it for many years.  The Gesell Developmental Schedules are a gauge of the status of a child’s motor and language development and personal-social and adaptive behaviors.</p>
-<p>For 21 children the age in months at which they first spoke and their Gesell Adaptive Score, which is the result of an aptitude test taken much later was recorded.  These data were originally collected by L. M. Linde of UCLA but were first published by M. R. Mickey, O. J. Dunn, and V. Clark, †Note on the use of stepwise regression in detecting outliers,† Computers and Biomedical Research, 1 (1967), pp. 105†111.</p>
-<p>The data have been used by several authors, e.g.,  N. R. Draper and J. A. John, †Influential observations and outliers in regression,† Technometrics, 23 (1981), pp. 21†26.</p>
+<p>For 21 children the age in months at which they first spoke and their Gesell Adaptive Score, which is the result of an aptitude test taken much later was recorded.  These data were originally collected by L. M. Linde of UCLA but were first published by M. R. Mickey, O. J. Dunn, and V. Clark, 
+†Note on the use of stepwise regression in detecting outliers,
+† Computers and Biomedical Research, 1 (1967), pp. 105†111.</p>
+<p>The data have been used by several authors, e.g.,  N. R. Draper and J. A. John, 
+†Influential observations and outliers in regression,
+† Technometrics, 23 (1981), pp. 21†26.</p>
 <p>Let X be the age in in months a child speaks his/her first word and let Y be the Gesell adaptive score, a measure of a child†s aptitude (observed later on).</p>
 <p>Correlation of r = ¢0.640 indicates a  moderately strong negative relationship between age at first word spoken and Gesell score. How does the child†s aptitude change with how long it takes them to speak?</p>
 <p>Are there any influential observations/potential outliers?</p>
@@ -1037,7 +1041,9 @@ NUTS: [tau, b]
 
     <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;likelihood&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">m</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="n">tau</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
 
-    <span class="n">traceb</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">2000</span><span class="p">,</span> <span class="n">target_accept</span><span class="o">=</span><span class="mf">0.95</span><span class="p">,</span> <span class="n">idata_kwargs</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">log_likelihood</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+    <span class="n">traceb</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span>
+        <span class="mi">2000</span><span class="p">,</span> <span class="n">target_accept</span><span class="o">=</span><span class="mf">0.95</span><span class="p">,</span> <span class="n">idata_kwargs</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">log_likelihood</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1596,7 +1602,7 @@ pymc : 5.1.2
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title"><span class="section-number">5. </span>Conditional Predictive Ordinate</p>
+        <p class="prev-next-title">5. Conditional Predictive Ordinate</p>
       </div>
     </a>
     <a class="right-next"
@@ -1604,7 +1610,7 @@ pymc : 5.1.2
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title"><span class="section-number">7. </span>Using the Empirical CDF and the Probability Integral Transform</p>
+        <p class="prev-next-title">7. Using the Empirical CDF and the Probability Integral Transform</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

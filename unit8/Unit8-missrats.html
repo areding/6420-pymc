@@ -321,7 +321,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="Unit8-tteex1.html">4. Time-to-event Models: Example 1</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Unit8-tteex2.html">5. Time-to-event Models: Example 2*</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Unit8-tte-gastric.html">6. Time-to-event Models: Gastric Cancer*</a></li>
-<li class="toctree-l1"><a class="reference internal" href="SupplementaryExercises83.html">7. Supplementary Exercises</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SupplementaryExercises83.html">Supplementary Exercises</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Unit 9</span></p>
 <ul class="nav bd-sidenav">
@@ -335,7 +335,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-cumulative2.html">8. Cumulative Example*</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-ssvs.html">9. Stochastic Search Variable Selection</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-hald2.html">10. SSVS: Hald*</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../unit9/SupplementaryExercises93.html">11. Supplementary Exercises</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit9/SupplementaryExercises93.html">Supplementary Exercises</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Unit 10</span></p>
 <ul class="nav bd-sidenav">
@@ -565,7 +565,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Rats Example with Missing Data*</h1>
+    <h1>2. Rats Example with Missing Data*</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -601,7 +601,7 @@ document.write(`
 </div>
 </div>
 <section class="tex2jax_ignore mathjax_ignore" id="rats-example-with-missing-data">
-<h1><span class="section-number">2. </span>Rats Example with Missing Data*<a class="headerlink" href="#rats-example-with-missing-data" title="Permalink to this headline">#</a></h1>
+<h1>2. Rats Example with Missing Data*<a class="headerlink" href="#rats-example-with-missing-data" title="Permalink to this headline">#</a></h1>
 <p>This example goes further into dealing with missing data in PyMC, including in the predictor variables.</p>
 <p>Adapted from <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/original_examples/Codes4Unit8/ratsignorable1.odc">Unit 8: ratsignorable1.odc</a>, <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/original_examples/Codes4Unit8/ratsignorable2.odc">ratsignorable2.odc</a>, and <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/original_examples/Codes4Unit8/ratsinformative.odc">ratsinformative.odc</a>.</p>
 <p>Data can be found <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/data/rats.txt">here</a>.</p>
@@ -955,7 +955,9 @@ There were 18 divergences after tuning. Increase `target_accept` or reparameteri
 <p>Probability of missingness increases approx. at a rate of 1% with increasing the weight.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_2d</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">177.0</span><span class="p">,</span> <span class="mf">236.0</span><span class="p">,</span> <span class="mf">285.0</span><span class="p">,</span> <span class="mf">350.0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]))</span>  <span class="c1"># original value was 320</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_2d</span><span class="p">(</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">177.0</span><span class="p">,</span> <span class="mf">236.0</span><span class="p">,</span> <span class="mf">285.0</span><span class="p">,</span> <span class="mf">350.0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+<span class="p">)</span>  <span class="c1"># original value was 320</span>
 <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_values</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">value</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># create masked array</span>
 <span class="c1"># y.mask is equivalent to the &quot;miss&quot; array from the professor&#39;s example</span>
 <span class="n">miss</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">mask</span>
@@ -1284,7 +1286,7 @@ pymc : 5.9.0
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title"><span class="section-number">1. </span>Missing Data</p>
+        <p class="prev-next-title">1. Missing Data</p>
       </div>
     </a>
     <a class="right-next"
@@ -1292,7 +1294,7 @@ pymc : 5.9.0
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title"><span class="section-number">3. </span>Time-to-event Models</p>
+        <p class="prev-next-title">3. Time-to-event Models</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
