@@ -22,7 +22,7 @@ Any necessary data will either have a download link or, if the data is compact e
 
 [Greg Schreiter](https://github.com/schr0841) was the head TA for several years and wrote many of the problem solutions as well as compiling the course errata.
 
-[Jason Naramore](https://github.com/jnaramore), a current TA, has contributed Python code and exercise solutions.
+[Jason Naramore](https://github.com/jnaramore), a current TA, has contributed Python code, exercise solutions, and lecture notes.
 
 Former students [Amanuel Anteneh](https://github.com/amanuelanteneh) and [Anthony Miyaguchi](https://github.com/acmiyaguchi) have contributed code and notes.
 
