@@ -65,6 +65,8 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'unit7/Unit7-priors';</script>
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -579,9 +581,281 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="priors-with-structural-information">
 <h1>3. Priors with Structural Information<a class="headerlink" href="#priors-with-structural-information" title="Permalink to this headline">#</a></h1>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>This page is a stub. I will try to update it over the semester with supplementary lecture notes—if you would like to request a certain page be finished first, please make an Ed Discussion post with your questions about the lecture.</p>
+<p>This page contributed by Jason Naramore!</p>
+<p>An example model is defined with a Binomial likelihood and several hierarchical priors:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{align*} X | p &amp; \sim \text{Bin}(n,p) \\
+p | k &amp; \sim \text{Beta} (k,k) \\
+k | r &amp; \sim \text{Geom}(r), p(k=i) = (1-r)^{i-1} r,\space i = 1,2,... \space \space 0&lt;r&lt;1 \\
+r &amp; \sim \text{Beta}(2,2) \\
+\end{align*} \end{split}\]</div>
+<p>It is expected that <span class="math notranslate nohighlight">\(p\)</span> should be around 0.5, so the prior on <span class="math notranslate nohighlight">\(p\)</span> is set with <span class="math notranslate nohighlight">\(\alpha = \beta\)</span>, since the mean of a Beta distribution is <span class="math notranslate nohighlight">\(k / (k+k) = 0.5\)</span>. Lower values of <span class="math notranslate nohighlight">\(k\)</span> result in a wider Beta distribution, while higher values of <span class="math notranslate nohighlight">\(k\)</span> result in a tigher distribution.</p>
+<p>The idea is that structural information is contained in the <span class="math notranslate nohighlight">\(p | k \sim \text{Beta} (k,k)\)</span>, while priors on <span class="math notranslate nohighlight">\(k\)</span> and <span class="math notranslate nohighlight">\(r\)</span> contain subjective information, which could informative or non-informative.</p>
+<p>We can build this model in PyMC:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pymc</span> <span class="k">as</span> <span class="nn">pm</span>
+<span class="kn">import</span> <span class="nn">arviz</span> <span class="k">as</span> <span class="nn">az</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">m</span><span class="p">:</span>
+    <span class="c1"># priors</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Beta</span><span class="p">(</span><span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">k</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Geometric</span><span class="p">(</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Beta</span><span class="p">(</span><span class="s2">&quot;p&quot;</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>
+
+    <span class="c1"># likelihood</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Binomial</span><span class="p">(</span><span class="s2">&quot;likelihood&quot;</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">p</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>First, let’s sample from the prior predictive and create a histogram of <span class="math notranslate nohighlight">\(p\)</span> before incorporating new data (matching the theoretical plot in the lecture slides):</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">m</span><span class="p">:</span>
+    <span class="n">trace_prior</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample_prior_predictive</span><span class="p">(</span><span class="mi">20000</span><span class="p">)</span>
+<span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace_prior</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling: [k, likelihood, p, r]
+arviz - WARNING - Shape validation failed: input_shape: (1, 20000), minimum_shape: (chains=2, draws=4)
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mean</th>
+      <th>sd</th>
+      <th>hdi_3%</th>
+      <th>hdi_97%</th>
+      <th>mcse_mean</th>
+      <th>mcse_sd</th>
+      <th>ess_bulk</th>
+      <th>ess_tail</th>
+      <th>r_hat</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>r</th>
+      <td>0.501</td>
+      <td>0.224</td>
+      <td>0.108</td>
+      <td>0.901</td>
+      <td>0.002</td>
+      <td>0.001</td>
+      <td>19582.0</td>
+      <td>19436.0</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>k</th>
+      <td>2.946</td>
+      <td>6.119</td>
+      <td>1.000</td>
+      <td>8.000</td>
+      <td>0.044</td>
+      <td>0.031</td>
+      <td>19978.0</td>
+      <td>19825.0</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>p</th>
+      <td>0.499</td>
+      <td>0.243</td>
+      <td>0.058</td>
+      <td>0.947</td>
+      <td>0.002</td>
+      <td>0.001</td>
+      <td>19934.0</td>
+      <td>19936.0</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">trace_prior</span><span class="o">.</span><span class="n">prior</span><span class="p">[</span><span class="s2">&quot;p&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">density</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/6b121b73f64f5e9e38a6c38a91f1cac389fd315982238fe4a342cf01b2685e8e.png" src="../_images/6b121b73f64f5e9e38a6c38a91f1cac389fd315982238fe4a342cf01b2685e8e.png" />
+</div>
+</div>
+<p>Next, we can sample the posterior distribution. Incorporating the new datapoint of 3/5 successes results in a Bayes estimate in the posterior distribution of <span class="math notranslate nohighlight">\(\approx 0.55\)</span>, vs. the MLE of 0.6.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">m</span><span class="p">:</span>
+    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">5000</span><span class="p">)</span>
+<span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">hdi_prob</span><span class="o">=</span><span class="mf">0.95</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Multiprocess sampling (4 chains in 4 jobs)
+CompoundStep
+&gt;NUTS: [r, p]
+&gt;Metropolis: [k]
+</pre></div>
+</div>
+<div class="output text_html">
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    progress:not([value]), progress:not([value])::-webkit-progress-bar {
+        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div><div class="output text_html">
+    <div>
+      <progress value='24000' class='' max='24000' style='width:300px; height:20px; vertical-align: middle;'></progress>
+      100.00% [24000/24000 00:01&lt;00:00 Sampling 4 chains, 3 divergences]
+    </div>
+    </div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 5_000 draw iterations (4_000 + 20_000 draws total) took 2 seconds.
+There were 3 divergences after tuning. Increase `target_accept` or reparameterize.
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mean</th>
+      <th>sd</th>
+      <th>hdi_2.5%</th>
+      <th>hdi_97.5%</th>
+      <th>mcse_mean</th>
+      <th>mcse_sd</th>
+      <th>ess_bulk</th>
+      <th>ess_tail</th>
+      <th>r_hat</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>k</th>
+      <td>3.090</td>
+      <td>4.111</td>
+      <td>1.000</td>
+      <td>10.000</td>
+      <td>0.227</td>
+      <td>0.170</td>
+      <td>691.0</td>
+      <td>471.0</td>
+      <td>1.01</td>
+    </tr>
+    <tr>
+      <th>r</th>
+      <td>0.486</td>
+      <td>0.223</td>
+      <td>0.089</td>
+      <td>0.895</td>
+      <td>0.005</td>
+      <td>0.004</td>
+      <td>1559.0</td>
+      <td>938.0</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <th>p</th>
+      <td>0.557</td>
+      <td>0.158</td>
+      <td>0.260</td>
+      <td>0.873</td>
+      <td>0.001</td>
+      <td>0.001</td>
+      <td>13095.0</td>
+      <td>11443.0</td>
+      <td>1.00</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">plot_trace</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="s2">&quot;p&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/ce0fdbbc364c6586fd80f5bea322ad671046186e71b3f8516b9a1afdf18beffd.png" src="../_images/ce0fdbbc364c6586fd80f5bea322ad671046186e71b3f8516b9a1afdf18beffd.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">load_ext</span> watermark
+<span class="o">%</span><span class="k">watermark</span> -n -u -v -iv -p pytensor
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Mon Jul 29 2024
+
+Python implementation: CPython
+Python version       : 3.11.8
+IPython version      : 8.22.2
+
+pytensor: 2.18.6
+
+pymc      : 5.11.0
+numpy     : 1.26.4
+matplotlib: 3.8.3
+arviz     : 0.17.1
+</pre></div>
+</div>
+</div>
 </div>
 </section>
 

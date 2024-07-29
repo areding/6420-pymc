@@ -65,6 +65,8 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'unit7/Unit7-anova';</script>
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -552,7 +554,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
 </div></div>
       
     </div>
@@ -568,6 +572,14 @@ document.write(`
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#one-way-anova">One-Way ANOVA</a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -579,10 +591,41 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="analysis-of-variance">
 <h1>6. Analysis of Variance<a class="headerlink" href="#analysis-of-variance" title="Permalink to this headline">#</a></h1>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>This page is a stub. I will try to update it over the semester with supplementary lecture notes—if you would like to request a certain page be finished first, please make an Ed Discussion post with your questions about the lecture.</p>
-</div>
+<p>This page contributed by Jason Naramore!</p>
+<section id="one-way-anova">
+<h2>One-Way ANOVA<a class="headerlink" href="#one-way-anova" title="Permalink to this headline">#</a></h2>
+<p>In an ANOVA model, we are trying to discern whether the means of multiple treatment groups are equivalent or different. The null hypothesis is that the mean of all treatment groups are equal:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{align*}
+H_0 &amp; : \mu_1 = \mu_2 = ... = \mu_a \\
+H_1 &amp; : \text{one or more groups have a different } \mu
+\end{align*}\end{split}\]</div>
+<p>The ANOVA model is defined as</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{align*}
+y_{ij} &amp; \sim N(\mu_i, \sigma^2) \\
+\mu_i &amp; = \mu + a_i, \space i = 1,...,a \space ; j = 1,...,n_i
+\end{align*}\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(i\)</span> represents the treatment group and <span class="math notranslate nohighlight">\(j\)</span> is the sample number. Variance <span class="math notranslate nohighlight">\(\sigma^2\)</span> is assumed to be common among all groups. <span class="math notranslate nohighlight">\(\mu\)</span> is the grand mean of all the data, and <span class="math notranslate nohighlight">\(a_i\)</span> is the treatment effect of the <span class="math notranslate nohighlight">\(i\)</span>th group. Now we can re-define the null hypothesis as:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{align*}
+H_0 &amp; : a_1 = a_2 = ... = a_a \\
+\end{align*}\end{split}\]</div>
+<p>which basically is interpreted as the difference in treatment groups is equal to zero. In the model, we will need to use one of 2 constraints to have an acceptable degrees of freedom. In the sum-to-zero (STZ) constraint, the sum of <span class="math notranslate nohighlight">\(a\)</span>’s are equal to zero. Or, we can set one of the <span class="math notranslate nohighlight">\(a\)</span>’s, say <span class="math notranslate nohighlight">\(a_1\)</span>, to zero.</p>
+<p>In classical statistics, an ANOVA table is built and an F-test is used to determine if <span class="math notranslate nohighlight">\(H_0\)</span> is rejected. In the case where <span class="math notranslate nohighlight">\(H_0\)</span> is rejected, we then would need to make additional models for each comparison of treatment groups to further analyze treatment effects.</p>
+<p>The Bayesian approach to ANOVA is to set priors on <span class="math notranslate nohighlight">\(\mu\)</span>, <span class="math notranslate nohighlight">\(a_1,a_2,...,a_a\)</span>, and <span class="math notranslate nohighlight">\(\sigma^2\)</span>. The Bayesian model is constructed as:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split} \begin{align*}
+y_i &amp; \sim N(\mu_i,\sigma^2) &amp;&amp; \text{likelihood}\\ \\
+\mu &amp; \sim  N(\mu_i,\sigma_0^2) &amp;&amp; \text{prior: grand mean}\\
+\mu_i &amp; = \mu + a_i &amp;&amp; \text{deterministic relationship}\\
+a_i &amp; \sim  N(0,\sigma_i^2) &amp;&amp; \text{prior: } a_i\\
+\tau &amp;\sim Ga(0.001,0.001) &amp;&amp; \text{prior: } \tau\\
+\sigma^2 &amp; =  1/\tau &amp;&amp; \text{deterministic relationship}\\ \\
+\text{Subject to: } &amp; \sum a_i = 0 &amp;&amp; \text{STZ constraint}\\
+\end{align*}\end{split}\]</div>
+<p>Here <span class="math notranslate nohighlight">\(\sigma_0^2\)</span> and <span class="math notranslate nohighlight">\(\sigma_i^2\)</span> are representing prior variances of the grand mean and treatment groups, respectively. Non-informative variances might be something like <span class="math notranslate nohighlight">\(\sigma_0^2 = 1000\)</span>. To assess <span class="math notranslate nohighlight">\(H_0\)</span>, we will look at the posterior distributions of the <span class="math notranslate nohighlight">\(a_i\)</span>’s to see if they are significantly different than zero. If we want to compare treatment groups, we can calculate their difference in the Bayesian model, and then look at the posterior distribution of the difference to see if it’s significantly different than zero.</p>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -643,6 +686,20 @@ document.write(`
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#one-way-anova">One-Way ANOVA</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>
