@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>18. Multilevel Models &#8212; ISYE 6420 - BUGS to PyMC</title>
+    <title>Multilevel Models &#8212; ISYE 6420 - BUGS to PyMC</title>
   
   
   
@@ -65,6 +65,8 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'unit7/Unit7-multilevel';</script>
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -296,18 +298,18 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l2"><a class="reference internal" href="Unit7-coagulation.html">7. Coagulation*</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Unit7-factorial.html">8. Factorial Designs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Unit7-demo-factorial.html">9. Simvastatin*</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Unit7-regression.html">10. Linear Regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Unit7-regression.html">Simple Linear Regression</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Unit7-demo-regression.html">11. Brozek index prediction*</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Unit7-multipleregression.html">12. Multiple Regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Unit7-multipleregression.html">Multiple Linear Regression</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Unit7-demo-multiple.html">13. Multiple Regression: Brozek Index Prediction*</a></li>
 </ul>
 </li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="othermodels.html">Other Models</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-14" name="toctree-checkbox-14" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-14"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="Unit7-other.html">14. Generalized Linear Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Unit7-other.html">Generalized Linear Models</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Unit7-arrhythmia.html">15. GLM Examples*</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Unit7-multinomial.html">16. Multinomial Logit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Unit7-multinomial.html">Multinomial Logit</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Unit7-demo-multinomial.html">17. Multinomial regression*</a></li>
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">18. Multilevel Models</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Multilevel Models</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Unit7-demo-multilevel.html">19. Paraguay Vaccination Status*</a></li>
 </ul>
 </li>
@@ -563,7 +565,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>18. Multilevel Models</h1>
+    <h1>Multilevel Models</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -577,12 +579,24 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="multilevel-models">
-<h1>18. Multilevel Models<a class="headerlink" href="#multilevel-models" title="Permalink to this headline">#</a></h1>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>This page is a stub. I will try to update it over the semester with supplementary lecture notes—if you would like to request a certain page be finished first, please make an Ed Discussion post with your questions about the lecture.</p>
-</div>
+  <section id="multilevel-models">
+<h1>Multilevel Models<a class="headerlink" href="#multilevel-models" title="Permalink to this headline">#</a></h1>
+<p>Contributed by Jason Naramore.</p>
+<p>In multilevel models, we can model the parameters to be associated by group. Random effects models and mixed effects models are both examples of multilevel models.</p>
+<p>For example, we could have <span class="math notranslate nohighlight">\(J\)</span> intecepts in the following linear model that are associated with the students at school <span class="math notranslate nohighlight">\(j\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{align*}
+y_i &amp; = \alpha_{j(i)} + \beta x_i + \epsilon_i, \text{ for students } i = 1, .. , n\\
+\alpha_j &amp; = a + b \mu_j + \eta_j \text{ for schools } j = 1, ..., J \\
+\end{align*}\end{split}\]</div>
+<p>Advantages of multilevel models can be to learn about treatment effects that vary by group. This type of model allows us to “borrow strength” from all of the data to make inferences about smaller sample-size groups.</p>
+<p>We also may be able to achieve better fitting models, by accounting for the uncertainty at different levels. Another example is with <span class="math notranslate nohighlight">\(Poission(\lambda)\)</span> regression:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split} \begin{align*}
+y_{i} &amp; \sim Poisson(\lambda_i)\\
+\lambda_i &amp; = \text{exp}(\beta_{0} + \beta_{1} x_{i1} + ... + \beta_k x_{ik})
+\end{align*}\end{split}\]</div>
+<p>One of the model assumptions is that the expection and variance of <span class="math notranslate nohighlight">\(y_i\)</span> are equal. However, many times in real-life data the variance is larger. In order to account for the higher than expected variance, we can add the random effect term <span class="math notranslate nohighlight">\(\xi_{j(i)}\)</span> to the linear equation of covariates. This new term can act as a “sponge” to collect the excess variance, possibly for a better fitting model.</p>
 </section>
 
     <script type="text/x-thebe-config">
