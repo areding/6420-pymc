@@ -600,11 +600,11 @@ document.write(`
 \[\hat{p} = \frac{x}{n} = \frac{0}{10} = 0\]</div>
 <p>where <span class="math notranslate nohighlight">\(x\)</span> is the number of successes. Or they might try to maximize the binomial likelihood:</p>
 <div class="math notranslate nohighlight">
-\[\hat{p} = arg \max_p \left[ {n \choose{k}} p^{k}(1 - p)^{n - k} \right] = arg \max_p \left[(1 - p)^{10}\right] = 0\]</div>
+\[\hat{p} = arg \max_p \left[ {n \choose{x}} p^{x}(1 - p)^{n - x} \right] = arg \max_p \left[(1 - p)^{10}\right] = 0\]</div>
 <p>With a Bayesian approach, we can incorporate a prior probability. Say we have no reason to believe that this is a trick coin. We might say we think <span class="math notranslate nohighlight">\(p\)</span> has an equal probability of being anything from 0 to 1: a continuous uniform prior.</p>
 <div class="math notranslate nohighlight">
-\[\pi(x|p) = \frac{L_x(p) \pi(x)}{\int_p L_x(p) \pi(x) dp} = \frac{(1 - p)^{10} \cdot \mathbf{1}(0 \le p \le 1)}{\int_0^1 (1 - p)^{10} dp} = 11(1-p)^{10} \mathbf{1}(0 \le p \le 1)\]</div>
-<p><span class="math notranslate nohighlight">\(\mathbf{1}(0 \le p \le 1)\)</span> is an indicator function, meaning it is equal to 1 if the given condition is true and 0 otherwise.</p>
+\[\pi(p \mid x) = \frac{L(x \mid p) \pi(p)}{\int_p L(x \mid p) \pi(p) dp} = \frac{(1 - p)^{10} \cdot \mathbf{1}(0 \le p \le 1)}{\int_0^1 (1 - p)^{10} dp} = 11(1-p)^{10} \mathbf{1}(0 \le p \le 1)\]</div>
+<p>Here, <span class="math notranslate nohighlight">\(L(x \mid p)\)</span> is the likelihood function with known <span class="math notranslate nohighlight">\(x\)</span> and unknown <span class="math notranslate nohighlight">\(p\)</span>, and <span class="math notranslate nohighlight">\(\mathbf{1}(0 \le p \le 1)\)</span> is an indicator function, meaning it is equal to 1 if the given condition is true and 0 otherwise.</p>
 <p>The mean of a univariate continuous random variable is</p>
 <div class="math notranslate nohighlight">
 \[E[X] =  \int_{p} xf(x)dx\]</div>
