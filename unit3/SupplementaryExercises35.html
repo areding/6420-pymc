@@ -1146,7 +1146,8 @@ E = \sum_{i=2}^{12} i \cdot P(\text{Croupier} = i | \text{You won})
 </section>
 <section id="sprinkler-bayes-net">
 <h2>14. Sprinkler Bayes Net<a class="headerlink" href="#sprinkler-bayes-net" title="Permalink to this headline">#</a></h2>
-<p>Suppose that a sprinkler (S) or rain ® can make the grass in your yard wet (W). The probability that the sprinkler was on depends on whether the day was cloudy ©. The probability of rain also depends on whether the day was cloudy. The DAG for events <span class="math notranslate nohighlight">\(C\)</span>, <span class="math notranslate nohighlight">\(S\)</span>, <span class="math notranslate nohighlight">\(R\)</span>, and <span class="math notranslate nohighlight">\(W\)</span>is shown below:</p>
+<p>Suppose that a sprinkler (<span class="math notranslate nohighlight">\(S\)</span>) or rain (<span class="math notranslate nohighlight">\(R\)</span>) can make the grass in your yard wet (<span class="math notranslate nohighlight">\(W\)</span>). The probability that the sprinkler was on depends whether the day was cloudy (<span class="math notranslate nohighlight">\(C\)</span>). The probability of rain also depends on whether the day was cloudy. The DAG for events <span class="math notranslate nohighlight">\(C\)</span>, <span class="math notranslate nohighlight">\(S\)</span>, <span class="math notranslate nohighlight">\(R\)</span>, and <span class="math notranslate nohighlight">\(W\)</span> is shown below:</p>
+<p><img alt="DAG" src="../_images/35q14figure.jpg" /></p>
 <p>The conditional probabilities of the nodes are given in the following tables:</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
@@ -1220,13 +1221,18 @@ W^c &amp; W &amp; \text{Condition} \\
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.5757997218358832
+</pre></div>
+</div>
+</div>
 </details>
 </div>
 </section>
 <section id="simple-diagnostic-bayes-network">
 <h2>15. Simple Diagnostic Bayes Network<a class="headerlink" href="#simple-diagnostic-bayes-network" title="Permalink to this headline">#</a></h2>
 <p>Incidences of diseases <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span> depend on the exposure (E). Disease <span class="math notranslate nohighlight">\(A\)</span> is additionally influenced by risk factors ®. Both diseases lead to symptoms (S). Results of the test for disease <span class="math notranslate nohighlight">\(B\)</span>(<span class="math notranslate nohighlight">\(T_B\)</span>) are affected also by disease <span class="math notranslate nohighlight">\(A\)</span>. Positive test will be denoted as <span class="math notranslate nohighlight">\(T_B = 1\)</span>, negative as <span class="math notranslate nohighlight">\(T_B = 0\)</span>. The Bayes Network and needed conditional probabilities are shown in this figure:</p>
-<p><img alt="circuit diagram" src="../_images/35q15fig.jpg" /></p>
+<p><img alt="graph" src="../_images/35q15fig.jpg" /></p>
 <p>The probabilities of nodes are as follows:</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
