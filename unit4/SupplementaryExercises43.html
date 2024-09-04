@@ -856,23 +856,34 @@ F(x, y) =
 </section>
 <section id="joint-marginals-and-conditionals-2">
 <h2>5. Joint, Marginals and Conditionals #2<a class="headerlink" href="#joint-marginals-and-conditionals-2" title="Permalink to this headline">#</a></h2>
-<p>Let random variables <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span> have joint density
-$<span class="math notranslate nohighlight">\( f_{(X,Y)}(x, y) = Cxy^2, \quad x \ge 0, \quad y \ge 0, \quad x + y \le 1. \)</span>$</p>
+<p>Let random variables <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span> have joint density</p>
+<div class="math notranslate nohighlight">
+\[ 
+f_{(X,Y)}(x, y) = Cxy^2, \quad x \ge 0, \quad y \ge 0, \quad x + y \le 1
+\]</div>
 <ol class="arabic simple">
 <li><p>Show that
-$<span class="math notranslate nohighlight">\( C = 60, \quad f_X(x) = 20x(1 - x)^3, \quad 0 \le x \le 1 \)</span><span class="math notranslate nohighlight">\(
-and 
-\)</span><span class="math notranslate nohighlight">\( f_{Y|X}(y | x) = 3y^2(1-x)^3, \quad 0 \le y \le 1 - x. \)</span>$</p></li>
+$<span class="math notranslate nohighlight">\( 
+C = 60, \quad f_X(x) = 20x(1 - x)^3, \quad 0 \le x \le 1 
+\)</span>$</p></li>
+</ol>
+<p>and</p>
+<div class="math notranslate nohighlight">
+\[
+f_{Y|X}(y | x) = 3y^2(1-x)^3, \quad 0 \le y \le 1 - x. 
+\]</div>
+<ol class="arabic simple" start="2">
 <li><p>Find <span class="math notranslate nohighlight">\(f_Y(y)\)</span> and <span class="math notranslate nohighlight">\(f_{X|Y}(x | y)\)</span>.</p></li>
 </ol>
 <div class="tip dropdown admonition">
 <p class="admonition-title">Solution</p>
 <ol class="arabic simple">
-<li><p>Show that
-$<span class="math notranslate nohighlight">\(
-C = 60, \quad f_X(x) = 20x(1 - x)^3, \quad 0 \le x \le 1
-\)</span>$</p></li>
+<li><p>Show that</p></li>
 </ol>
+<div class="math notranslate nohighlight">
+\[
+C = 60, \quad f_X(x) = 20x(1 - x)^3, \quad 0 \le x \le 1
+\]</div>
 <p>and</p>
 <div class="math notranslate nohighlight">
 \[
@@ -895,7 +906,11 @@ f_{Y|X}(y | x) = 3y^2(1-x)^3, \quad 0 \le y \le 1 - x.
 \[
 \int_0^{1-x} 60xy^2 dy = 20x(x-1)^3
 \]</div>
-<p>Then <span class="math notranslate nohighlight">\(f_{Y\mid X}(y\mid x) = \frac{f_{X,Y}(x,y)}{f_X(x)} = \frac{60xy^2}{20x(x-1)^3} = \frac{3y^2}{(x-1)^3}\)</span>.</p>
+<p>Then</p>
+<div class="math notranslate nohighlight">
+\[
+f_{Y\mid X}(y\mid x) = \frac{f_{X,Y}(x,y)}{f_X(x)} = \frac{60xy^2}{20x(x-1)^3} = \frac{3y^2}{(x-1)^3}
+\]</div>
 <ol class="arabic simple" start="2">
 <li><p>Find <span class="math notranslate nohighlight">\(f_Y(y)\)</span> and <span class="math notranslate nohighlight">\(f_{X|Y}(x | y)\)</span>.</p></li>
 </ol>
