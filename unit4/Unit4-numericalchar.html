@@ -577,8 +577,9 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#expectation-and-moments">Expectation and moments</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#expectation">Expectation</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#variance-and-standard-deviation">Variance and standard deviation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#moments">Moments</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quantiles">Quantiles</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mode">Mode</a></li>
 </ul>
@@ -594,21 +595,14 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="numerical-characteristics-of-random-variables">
 <h1>2. Numerical Characteristics of Random Variables<a class="headerlink" href="#numerical-characteristics-of-random-variables" title="Permalink to this headline">#</a></h1>
-<section id="expectation-and-moments">
-<h2>Expectation and moments<a class="headerlink" href="#expectation-and-moments" title="Permalink to this headline">#</a></h2>
+<section id="expectation">
+<h2>Expectation<a class="headerlink" href="#expectation" title="Permalink to this headline">#</a></h2>
 <p>The expectation (mean) is computed by taking a weighted average of the possible outcomes, with the weights being the probabilities of each outcome. For a discrete random variable <span class="math notranslate nohighlight">\(X\)</span> with possible outcomes <span class="math notranslate nohighlight">\(x_1, x_2, ..., x_n\)</span> and corresponding probabilities <span class="math notranslate nohighlight">\(p_1, p_2, ..., p_n\)</span>, the expectation is:</p>
 <div class="math notranslate nohighlight">
 \[E[X] = \sum_{i=1}^{n}x_i p_i\]</div>
 <p>For a continuous random variable with probability density function <span class="math notranslate nohighlight">\(f(x)\)</span>, the expectation is:</p>
 <div class="math notranslate nohighlight">
 \[E[X] = \int_{\mathbb{R}}xf(x)dx\]</div>
-<p>The <span class="math notranslate nohighlight">\(k\)</span>-th moment of a random variable is the expected value of the variable raised to the power of <span class="math notranslate nohighlight">\(k\)</span>. The first moment is the expectation. The second is variance. Higher-order moments provide information about the skew and kurtosis of the distribution.</p>
-<p>For a discrete random variable <span class="math notranslate nohighlight">\(X\)</span> with possible outcomes <span class="math notranslate nohighlight">\(x_1, x_2, ..., x_n\)</span> and corresponding probabilities <span class="math notranslate nohighlight">\(p_1, p_2, ..., p_n\)</span>, the <span class="math notranslate nohighlight">\(k\)</span>-th moment is:</p>
-<div class="math notranslate nohighlight">
-\[E[X^k] = \sum_{i=1}^{n}x_i^k p_i\]</div>
-<p>For a continuous random variable with probability density function <span class="math notranslate nohighlight">\(f(x)\)</span>, the <span class="math notranslate nohighlight">\(k\)</span>-th moment is:</p>
-<div class="math notranslate nohighlight">
-\[E[X^k] = \int_{\mathbb{R}}x^k f(x) dx\]</div>
 <p>A general function <span class="math notranslate nohighlight">\(\phi(X)\)</span> of a random variable <span class="math notranslate nohighlight">\(X\)</span> also has an expectation, given by:</p>
 <div class="math notranslate nohighlight">
 \[E[\phi(X)] = \sum_{i=1}^{n}\phi(x_i)p_i\]</div>
@@ -619,12 +613,16 @@ document.write(`
 </section>
 <section id="variance-and-standard-deviation">
 <h2>Variance and standard deviation<a class="headerlink" href="#variance-and-standard-deviation" title="Permalink to this headline">#</a></h2>
-<p>The variance of a random variable <span class="math notranslate nohighlight">\(X\)</span> is defined as the second moment about the mean, which can be calculated as:</p>
+<p>The variance of a random variable <span class="math notranslate nohighlight">\(X\)</span> can be calculated as:</p>
 <div class="math notranslate nohighlight">
 \[Var(X) = E[(X - E[X])^2] = E[X^2] - (E[X])^2\]</div>
 <p>The standard deviation, denoted <span class="math notranslate nohighlight">\(\sigma\)</span>, is the square root of the variance.</p>
 <div class="math notranslate nohighlight">
 \[\sigma = \sqrt{Var(X)}\]</div>
+</section>
+<section id="moments">
+<h2>Moments<a class="headerlink" href="#moments" title="Permalink to this headline">#</a></h2>
+<p>A more generalized way to describe expected value, variance, and other properties of distributions is to look at the moments. I was going to type up a brief explanation, but found <a class="reference external" href="https://gregorygundersen.com/blog/2020/04/11/moments/">this excellent post</a> by Gregory Gundersen that has the best explanation of the concept I’ve ever read. We don’t often need to look at the higher-order moments in our course, but this post is really worth reading.</p>
 </section>
 <section id="quantiles">
 <h2>Quantiles<a class="headerlink" href="#quantiles" title="Permalink to this headline">#</a></h2>
@@ -706,8 +704,9 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#expectation-and-moments">Expectation and moments</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#expectation">Expectation</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#variance-and-standard-deviation">Variance and standard deviation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#moments">Moments</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quantiles">Quantiles</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mode">Mode</a></li>
 </ul>
