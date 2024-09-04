@@ -869,21 +869,32 @@ and
 <p class="admonition-title">Solution</p>
 <ol class="arabic simple">
 <li><p>Show that
-$<span class="math notranslate nohighlight">\( C = 60, \quad f_X(x) = 20x(1 - x)^3, \quad 0 \le x \le 1 \)</span><span class="math notranslate nohighlight">\(
-and 
-\)</span><span class="math notranslate nohighlight">\( f_{Y|X}(y | x) = 3y^2(1-x)^3, \quad 0 \le y \le 1 - x. \)</span>$</p></li>
+$<span class="math notranslate nohighlight">\(
+C = 60, \quad f_X(x) = 20x(1 - x)^3, \quad 0 \le x \le 1
+\)</span>$</p></li>
 </ol>
+<p>and</p>
+<div class="math notranslate nohighlight">
+\[
+f_{Y|X}(y | x) = 3y^2(1-x)^3, \quad 0 \le y \le 1 - x.
+\]</div>
 <p>First, plotting really does help me get an idea of what’s going on.</p>
 <p><img alt="domain plot" src="../_images/q5_plot.png" /></p>
 <p>To show that <span class="math notranslate nohighlight">\(C=60\)</span>, we make use of one of the properties of PDFs, which is that they must integrate to 1. This is a joint PDF, so we need to integrate over both of the random variables, set that equal to 1, and solve for <span class="math notranslate nohighlight">\(C\)</span>.</p>
 <div class="math notranslate nohighlight">
-\[1 = \int_0^1 \int_0^{1-x} Cxy^2 dy \space dx = C/60\]</div>
+\[
+1 = \int_0^1 \int_0^{1-x} Cxy^2 dy \space dx = C/60
+\]</div>
 <p>The limits here are from the problem description. You could also do it this way:</p>
 <div class="math notranslate nohighlight">
-\[1 = \int_0^1 \int_0^{1-y} Cxy^2 dx \space dy = C/60\]</div>
+\[
+1 = \int_0^1 \int_0^{1-y} Cxy^2 dx \space dy = C/60
+\]</div>
 <p>Now let’s find <span class="math notranslate nohighlight">\(f_X(x)\)</span>, which is the marginal density of <span class="math notranslate nohighlight">\(X\)</span>. Here the limits of integration are the full domain of <span class="math notranslate nohighlight">\(Y\)</span>.</p>
 <div class="math notranslate nohighlight">
-\[\int_0^{1-x} 60xy^2 dy = 20x(x-1)^3\]</div>
+\[
+\int_0^{1-x} 60xy^2 dy = 20x(x-1)^3
+\]</div>
 <p>Then <span class="math notranslate nohighlight">\(f_{Y\mid X}(y\mid x) = \frac{f_{X,Y}(x,y)}{f_X(x)} = \frac{60xy^2}{20x(x-1)^3} = \frac{3y^2}{(x-1)^3}\)</span>.</p>
 <ol class="arabic simple" start="2">
 <li><p>Find <span class="math notranslate nohighlight">\(f_Y(y)\)</span> and <span class="math notranslate nohighlight">\(f_{X|Y}(x | y)\)</span>.</p></li>
@@ -983,24 +994,30 @@ f_{Y|X}(y | x) = \frac{1+xy}{2}, \quad -1 \le y \le 1
 </section>
 <section id="joint-marginals-and-conditionals-4">
 <h2>7. Joint, Marginals and Conditionals #4<a class="headerlink" href="#joint-marginals-and-conditionals-4" title="Permalink to this headline">#</a></h2>
-<p>Let random variables <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span> have joint density <span class="math notranslate nohighlight">\(f_{X,Y}(x, y)\)</span> given by:
-$<span class="math notranslate nohighlight">\(
+<p>Let random variables <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span> have joint density <span class="math notranslate nohighlight">\(f_{X,Y}(x, y)\)</span> given by:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
 f_{X,Y}(x, y) = 
 \begin{cases} 
 C(x^2 - y^2)e^{-x} &amp; \text{for } 0 \leq x &lt; \infty, -x \leq y \leq x \\
 0 &amp; \text{else}
 \end{cases}
-\)</span>$
-Find</p>
+\end{split}\]</div>
+<p>Find</p>
 <ol class="arabic simple">
 <li><p>constant <span class="math notranslate nohighlight">\(C\)</span>.</p></li>
 </ol>
-<p><span class="math notranslate nohighlight">\(1 = \int_{0}^{\infty} \int_{-x}^{x} C x^2 - y^2 e^{-x} \, dy \, dx = \frac{4C}{3} \int_{0}^{\infty} x^3 e^{-x} \, dx = \frac{4C}{3} \times \Gamma(4) = 8C.\)</span></p>
-<p>Thus, <span class="math notranslate nohighlight">\(C = \frac{1}{8}\)</span>. [ Recall, <span class="math notranslate nohighlight">\(\Gamma(n) = (n − 1)!\)</span>]</p>
+<div class="math notranslate nohighlight">
+\[
+1 = \int_{0}^{\infty} \int_{-x}^{x} C x^2 - y^2 e^{-x} \, dy \, dx = \frac{4C}{3} \int_{0}^{\infty} x^3 e^{-x} \, dx = \frac{4C}{3} \times \Gamma(4) = 8C.
+\]</div>
+<p>Thus, <span class="math notranslate nohighlight">\(C = \frac{1}{8}\)</span>. (Recall, <span class="math notranslate nohighlight">\(\Gamma(n) = (n − 1)!\)</span>)</p>
 <ol class="arabic simple" start="2">
 <li><p>marginal densities <span class="math notranslate nohighlight">\(f_X(x)\)</span> and <span class="math notranslate nohighlight">\(f_Y(y)\)</span>.</p></li>
 </ol>
-<p><span class="math notranslate nohighlight">\(f_X(x) = \frac{1}{6} x^3 e^{-x} = \frac{x^{4-1}}{\Gamma(4)} e^{-1 \cdot x}, x \geq 0\)</span>. This is Gamma <span class="math notranslate nohighlight">\(Ga(4, 1)\)</span> distribution. To find <span class="math notranslate nohighlight">\(f_Y(y)\)</span>, when integrating out <span class="math notranslate nohighlight">\(x\)</span>, for <span class="math notranslate nohighlight">\(y \geq 0\)</span>, the integration is <span class="math notranslate nohighlight">\(\int_{y}^{\infty}\)</span>, and for <span class="math notranslate nohighlight">\(y &lt; 0\)</span> the integration is <span class="math notranslate nohighlight">\(\int_{-y}^{\infty}\)</span>. You will need to do integration by parts. When the smoke clears,</p>
+<div class="math notranslate nohighlight">
+\[f_X(x) = \frac{1}{6} x^3 e^{-x} = \frac{x^{4-1}}{\Gamma(4)} e^{-1 \cdot x}, x \geq 0\]</div>
+<p>This is Gamma <span class="math notranslate nohighlight">\(Ga(4, 1)\)</span> distribution. To find <span class="math notranslate nohighlight">\(f_Y(y)\)</span>, when integrating out <span class="math notranslate nohighlight">\(x\)</span>, for <span class="math notranslate nohighlight">\(y \geq 0\)</span>, the integration is <span class="math notranslate nohighlight">\(\int_{y}^{\infty}\)</span>, and for <span class="math notranslate nohighlight">\(y &lt; 0\)</span> the integration is <span class="math notranslate nohighlight">\(\int_{-y}^{\infty}\)</span>. You will need to do integration by parts. When the smoke clears,</p>
 <ol class="arabic simple" start="3">
 <li><p>conditional distributions <span class="math notranslate nohighlight">\(f_{X|Y}(x|y)\)</span> and <span class="math notranslate nohighlight">\(f_{Y|X}(y|x)\)</span>.</p></li>
 </ol>
@@ -1017,7 +1034,10 @@ f_Y(y) =
 <p>or simpler, <span class="math notranslate nohighlight">\(f_Y(y) = \frac{1}{4} (1 + |y|) e^{-|y|}\)</span>, <span class="math notranslate nohighlight">\(-\infty &lt; y &lt; \infty\)</span>.</p>
 <p><img alt="domain plot" src="../_images/q7_plot.png" /></p>
 <p>For the marginal density of x, we integrate over the domain of y. We’re interested in varying y values for fixed x. But we still need to pay attention to the other constraint that <span class="math notranslate nohighlight">\(0 \leq x &lt; \infty\)</span>, it’s just that it doesn’t change anything here.</p>
-<p><span class="math notranslate nohighlight">\(f_X(x) = \int_{-x}^{x} 0.125(x^2 - y^2) e^{-x} dy = \frac{1}{6} e^{-x}x^3=\frac{1^4}{\Gamma(4)}x^{4-1}e^{-1x}, x\ge 0\)</span></p>
+<div class="math notranslate nohighlight">
+\[
+f_X(x) = \int_{-x}^{x} 0.125(x^2 - y^2) e^{-x} dy = \frac{1}{6} e^{-x}x^3=\frac{1^4}{\Gamma(4)}x^{4-1}e^{-1x}, x\ge 0
+\]</div>
 <p>Which is <span class="math notranslate nohighlight">\(Ga(4, 1)\)</span>.</p>
 <p>For the marginal density of y, we integrate over the domain of x, but what is the domain of x?</p>
 <p>We can rewrite the second condition as <span class="math notranslate nohighlight">\(x \ge |y|\)</span>.</p>
@@ -1059,18 +1079,30 @@ f_Y(y) =
 </section>
 <section id="a-2d-pdf">
 <h2>8. A 2D PDF<a class="headerlink" href="#a-2d-pdf" title="Permalink to this headline">#</a></h2>
-<p>Let
-$<span class="math notranslate nohighlight">\(
+<p>Let</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
 f(x, y) = 
 \begin{cases} 
 \frac{3}{8} (x^2 + 2xy), &amp; 0 \le x \le 1, 0 \le y \le 2 \\ 
 0, &amp; \text{else} 
 \end{cases}
-\)</span>$</p>
+\end{split}\]</div>
 <p>be a bivariate PDF of a random vector <span class="math notranslate nohighlight">\((X, Y)\)</span>.</p>
 <ol class="arabic simple">
 <li><p>Show that <span class="math notranslate nohighlight">\(f(x, y)\)</span> is a density.</p></li>
-<li><p>Show that marginal distributions are <span class="math notranslate nohighlight">\(f_X(x) = \frac{3}{2}x + \frac{3}{4}x^2\)</span>, <span class="math notranslate nohighlight">\(0 \le x \le 1\)</span>, and <span class="math notranslate nohighlight">\(f_Y(y) = \frac{1}{8} + \frac{3}{8}y\)</span>, <span class="math notranslate nohighlight">\(0 \le y \le 2\)</span>.</p></li>
+<li><p>Show that marginal distributions are</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[
+f_X(x) = \frac{3}{2}x + \frac{3}{4}x^2$ , 0 \le x \le 1
+\]</div>
+<p>and</p>
+<div class="math notranslate nohighlight">
+\[
+f_Y(y) = \frac{1}{8} + \frac{3}{8}y$, $0 \le y \le 2
+\]</div>
+<ol class="arabic simple" start="3">
 <li><p>Show <span class="math notranslate nohighlight">\(E(X) = \frac{11}{16}\)</span> and <span class="math notranslate nohighlight">\(E(Y) = \frac{5}{4}\)</span>.</p></li>
 <li><p>Show that conditional distributions are</p></li>
 </ol>
@@ -1264,13 +1296,12 @@ f(x | \lambda) = \lambda r x^{r-1} \exp \{-\lambda x^r \}, \quad \lambda &gt; 0,
 \[
 \pi(\sigma^2 | \alpha, \beta) = \frac{\beta^\alpha}{\Gamma(\alpha)} (\sigma^2)^{-\alpha-1} \exp \left( -\frac{\beta}{\sigma^2} \right), \quad \sigma^2 \ge 0, \, \alpha, \beta &gt; 0.
 \]</div>
-<ol class="arabic">
+<ol class="arabic simple">
 <li><p>Is the problem conjugate?</p></li>
-<li><p>If the sample <span class="math notranslate nohighlight">\((X_1, \ldots, X_n)\)</span></p>
-<p>4.3430, 0.5850, 4.4345, 6.2605, 3.9778, 4.4538, 2.3931, 3.5877, 1.4254, 5.0694</p>
-<p>comes from normal <span class="math notranslate nohighlight">\(N(3, \sigma^2)\)</span> distribution, find the posterior distribution of <span class="math notranslate nohighlight">\(\sigma^2\)</span> when the prior is <span class="math notranslate nohighlight">\(IG(0.1, 0.1)\)</span>.</p>
-</li>
+<li><p>If the sample <span class="math notranslate nohighlight">\((X_1, \ldots, X_n)\)</span>:</p></li>
 </ol>
+<p>[4.3430, 0.5850, 4.4345, 6.2605, 3.9778, 4.4538, 2.3931, 3.5877, 1.4254, 5.0694]</p>
+<p>comes from normal <span class="math notranslate nohighlight">\(N(3, \sigma^2)\)</span> distribution, find the posterior distribution of <span class="math notranslate nohighlight">\(\sigma^2\)</span> when the prior is <span class="math notranslate nohighlight">\(IG(0.1, 0.1)\)</span>.</p>
 <div class="tip dropdown admonition">
 <p class="admonition-title">Solution</p>
 <p>Given the information:</p>
