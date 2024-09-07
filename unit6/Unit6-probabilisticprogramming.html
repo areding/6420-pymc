@@ -619,26 +619,31 @@ document.write(`
 <h3>Some history<a class="headerlink" href="#some-history" title="Permalink to this headline">#</a></h3>
 <p>In 2003, Chris Fonnesbeck <a class="reference external" href="https://www.pymc.io/blog/PyMC_Past_Present_Future.html">started</a> writing PyMC (<span id="id1">Wiecki <em>et al.</em> [<a class="reference internal" href="../backmatter/bibliography.html#id38" title="Thomas Wiecki, John Salvatier, Ricardo Vieira, Maxim Kochurov, Anand Patil, Michael Osthege, Brandon T. Willard, Bill Engels, Colin Carroll, Osvaldo A Martin, Adrian Seyboldt, Austin Rochford, Luciano Paz, rpgoldman, Kyle Meyer, Peadar Coyle, Marco Edward Gorelli, Oriol Abril-Pla, Ravin Kumar, Junpeng Lao, Virgile Andreani, Taku Yoshioka, George Ho, Thomas Kluyver, Kyle Beauchamp, Alexandre Andorra, Demetri Pananos, Eelke Spaak, Benjamin Edwards, and Eric Ma. Pymc-devs/pymc: v5.7.2. aug 2023. URL: https://doi.org/10.5281/zenodo.8227797, doi:10.5281/zenodo.8227797.">2023</a>]</span>) as a graduate student at the University of Georgia—partly out of frustration with WinBUGS. Eventually, PyMC3 became popular as a Python-based alternative to <a class="reference external" href="https://mc-stan.org/">Stan</a>. Both used implementations of the NUTS algorithm for sampling (<span id="id2">Hoffman and Gelman [<a class="reference internal" href="../backmatter/bibliography.html#id39" title="Matthew D. Hoffman and Andrew Gelman. The no-u-turn sampler: adaptively setting path lengths in hamiltonian monte carlo. 2011. arXiv:1111.4246.">2011</a>]</span>). PyMC3 was based on Theano, a tensor library for doing machine learning-related math. In 2016, PyMC was sponsored by <a class="reference external" href="https://numfocus.org/uncategorized/numfocus-announces-new-fiscally-sponsored-project-pymc3">NumFOCUS</a>, an organization started in part by the authors of NumPy, Matplotlib, and IPython and others to promote open scientific computing.</p>
 <p>I started converting the course examples to PyMC3 in 2022. Later that year, PyMC version 4.0 was <a class="reference external" href="https://www.pymc.io/blog/v4_announcement.html">released</a>. The backend switched to Aesara, a rewrite of Theano based on JAX. Towards the end of 2022, the PyMC devs forked Aesara to create <a class="reference external" href="https://www.pymc.io/blog/pytensor_announcement.html">Pytensor</a> over some governance conflicts, and the current major version, PyMC v5, came out.</p>
-<p>So there have been lots of changes and I’ve had to update the code examples a few times. In fact, there are still some that need to be updated that used to work in PyMC3 or v4. I’m going to copy the practice of using the <a class="reference external" href="https://github.com/rasbt/watermark">watermark extension</a> as in the <a class="reference external" href="https://www.pymc.io/projects/examples/en/latest/gallery.html">PyMC Example Gallery</a> to show the exact versions each example was last run on.</p>
+<p>There have been lots of changes and I’ve had to update the code examples a few times. In fact, there are still some that need to be updated that used to work in PyMC3 or v4. I’m going to copy the practice of using the <a class="reference external" href="https://github.com/rasbt/watermark">watermark extension</a> as in the <a class="reference external" href="https://www.pymc.io/projects/examples/en/latest/gallery.html">PyMC Example Gallery</a> to show the exact versions each example was last run on.</p>
 </section>
 <section id="installation">
 <h3>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">#</a></h3>
-<p>This site is currently using PyMC version 5. Please follow the instructions at the <a class="reference external" href="https://www.pymc.io/projects/docs/en/latest/installation.html">PyMC website</a> when installing. You don’t need nutpie, blackjax, or numpyro for this course’s examples.</p>
+<p>This site is currently using PyMC version 5. Please follow the instructions at the <a class="reference external" href="https://www.pymc.io/projects/docs/en/latest/installation.html">PyMC website</a> when installing. You don’t need nutpie, blackjax, or numpyro for this course’s examples, but you are welcome to try them!</p>
 </section>
 <section id="troubleshooting">
 <h3>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permalink to this headline">#</a></h3>
 <p>If your model is running very slowly or you’re having other issues getting PyMC to work, there could be many causes.</p>
 <section id="missing-dependencies">
 <h4>Missing dependencies<a class="headerlink" href="#missing-dependencies" title="Permalink to this headline">#</a></h4>
-<p>This is by far the most common problem I’ve come across for ISYE 6420 students. Lots of students will just do <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">pymc</span></code>, or use PyCharm, or some other installation method. You might get a warning like this:</p>
+<p>This is by far the most common problem I’ve come across for ISYE 6420 students. Lots of people will just do <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">pymc</span></code>, or use PyCharm, or some other installation method. You might get a warning like this:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>WARNING (pytensor.configdefaults): g++ not available, if using conda: `conda install m2w64-toolchain`
 WARNING (pytensor.configdefaults): g++ not detected!  PyTensor will be unable to compile C-implementations and will default to Python. Performance may be severely degraded. To remove this warning, set PyTensor flags cxx to an empty string.
 WARNING (pytensor.tensor.blas): Using NumPy C-API based implementation for BLAS functions.
 </pre></div>
 </div>
 <p>I highly recommend installing using a Conda environment as in the official installation instructions. You don’t need to get the full Conda installation, let alone Anaconda. Try <a class="reference external" href="https://docs.conda.io/en/main/miniconda.html">Miniconda</a> or <a class="reference external" href="https://mamba.readthedocs.io/en/latest/user_guide/mamba.html">Mamba</a> for a more minimal install.</p>
-<p>Make sure you’ve activated the environment you installed PyMC into!</p>
-<p>If that still doesn’t work, some students have had luck following the warning’s advice and doing <code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">install</span> <span class="pre">m2w64-toolchain</span></code>.</p>
+<p>If you’re having a similar issue, please try the following with a fresh environment:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>create<span class="w"> </span>--prefix<span class="w"> </span>your-environment-name<span class="w"> </span>-c<span class="w"> </span>conda-forge<span class="w"> </span>-c<span class="w"> </span>nodefaults<span class="w"> </span>pytensor
+conda<span class="w"> </span>activate<span class="w"> </span>your-environment-name
+conda<span class="w"> </span>install<span class="w"> </span>-c<span class="w"> </span>conda-forge<span class="w"> </span>pymc
+</pre></div>
+</div>
+<p>Installing PyTensor first seems to help make sure the correct dependencies are involved. And the extra nodefaults command is just for making extra sure you’re using the Conda Forge channel rather than the defaults. You can then activate the environment and install Py C.</p>
 </section>
 <section id="blas-implementation-issues">
 <h4>BLAS implementation issues<a class="headerlink" href="#blas-implementation-issues" title="Permalink to this headline">#</a></h4>
@@ -647,6 +652,10 @@ Some people have had success speeding up their PyMC runtimes by changing impleme
 <p>For example, on ARM-based Macs (the ones using M1/M2 processors), you could try installing and switching to Apple’s BLAS implementation as in this <a class="reference external" href="https://discourse.pymc.io/t/performance-tip-if-youre-on-arm64-apples-m1-m2-chips-install-accelerate/12495">PyMC forum post</a>:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>install<span class="w"> </span><span class="s2">&quot;libblas=*=*accelerate&quot;</span>
 </pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This may be unnecessary—this BLAS library should now be the default on ARM-based Macs.</p>
 </div>
 </section>
 <section id="jupyter-notebook-lab-issues">
