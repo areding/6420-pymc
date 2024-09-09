@@ -1272,30 +1272,21 @@ f(x | \lambda) = \lambda r x^{r-1} \exp \{-\lambda x^r \}, \quad \lambda &gt; 0,
 \[
 \pi(\lambda | \alpha, \beta) = \frac{\beta^\alpha \lambda^{\alpha-1}}{\Gamma(\alpha)} \exp\{-\beta \lambda\}, \quad \lambda \ge 0, \, \alpha, \beta &gt; 0
 \]</div>
-<p>(a, b) Is the problem conjugate? For that to be the case, since the prior is a Gamma distribution, the posterior would have to also be gamma. First we calculate the joint likelihood:</p>
+<p>(1, 2): Is the problem conjugate? For that to be the case, since the prior is a Gamma distribution, the posterior would have to also be gamma. First we calculate the joint likelihood:</p>
 <div class="math notranslate nohighlight">
 \[
-\prod_{i=1}^n f(x_i | \lambda) = \prod_{i=1}^n \lambda^r x_i^{r-1} \exp \{-\lambda x_i^r\} = \lambda^{nr} (x_1 x_2 \cdots x_n)^{r-1} \exp \left(-\lambda \sum_{i=1}^n x_i^r\right)
+\prod_{i=1}^n f(x_i | \lambda) = \prod_{i=1}^n \lambda r x_i^{r-1} \exp \{-\lambda x_i^r\} = \lambda^{n} r^n (x_1 x_2 \cdots x_n)^{r-1} \exp \left(-\lambda \sum_{i=1}^n x_i^r\right)
 \]</div>
 <p>Then we calculate the posterior:</p>
-<div class="math notranslate nohighlight">
-\[
-\pi(\lambda | X, \alpha, \beta) = \left(\prod_{i=1}^n f(x_i | \lambda)\right) \cdot \pi(\lambda | \alpha, \beta)
-\]</div>
-<div class="math notranslate nohighlight">
-\[
-= \lambda^{nr} (x_1 x_2 \cdots x_n)^{r-1} \exp \left(-\lambda \sum_{i=1}^n x_i^r\right) \cdot \frac{\beta^\alpha \lambda^{\alpha-1}}{\Gamma(\alpha)} \exp\{-\beta \lambda\}
-\]</div>
-<div class="math notranslate nohighlight">
-\[
-= \frac{\beta^\alpha (x_1 x_2 \cdots x_n)^{r-1}}{\Gamma(\alpha)} \lambda^{\alpha + nr - 1} \exp \left(-\lambda \left(\sum_{i=1}^n x_i^r + \beta\right)\right)
-\]</div>
-<div class="math notranslate nohighlight">
-\[
-\propto \lambda^{\alpha + n - 1} \exp \left(-\lambda \left(\sum_{i=1}^n x_i^r + \beta\right)\right)
-\]</div>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\pi(\lambda | X, \alpha, \beta) &amp;= \left(\prod_{i=1}^n f(x_i | \lambda)\right) \cdot \pi(\lambda | \alpha, \beta) \\
+&amp;= \lambda^{n} r^n (x_1 x_2 \cdots x_n)^{r-1} \exp \left(-\lambda \sum_{i=1}^n x_i^r\right) \cdot \frac{\beta^\alpha \lambda^{\alpha-1}}{\Gamma(\alpha)} \exp\{-\beta \lambda\} \\
+&amp;= \frac{\beta^\alpha r^n (x_1 x_2 \cdots x_n)^{r-1}}{\Gamma(\alpha)} \lambda^{\alpha + n - 1} \exp \left(-\lambda \left(\sum_{i=1}^n x_i^r + \beta\right)\right) \\
+&amp;\propto \lambda^{\alpha + n - 1} \exp \left(-\lambda \left(\sum_{i=1}^n x_i^r + \beta\right)\right)
+\end{align*}\]</div>
 <p>which is the kernel of a Gamma(a, b) distribution with parameters <span class="math notranslate nohighlight">\( a = \alpha + n \)</span> and <span class="math notranslate nohighlight">\( b = \sum_{i=1}^n x_i^r + \beta \)</span>. The problem is thus conjugate, and we have found the posterior distribution as Gamma(α + n, <span class="math notranslate nohighlight">\( \sum_{i=1}^n x_i^r + \beta \)</span>).</p>
-<p>© If <span class="math notranslate nohighlight">\( X_1 = 5, X_2 = 3, \)</span> and <span class="math notranslate nohighlight">\( X_3 = 1 \)</span> (n = 3) are observed from <span class="math notranslate nohighlight">\( Wei(2, \lambda) \)</span> (meaning <span class="math notranslate nohighlight">\( r = 2 \)</span>) and <span class="math notranslate nohighlight">\( \pi(\lambda) \)</span> is Gamma(3, 5) (meaning <span class="math notranslate nohighlight">\( \alpha = 3 \)</span> and <span class="math notranslate nohighlight">\( \beta = 5 \)</span>), what is the posterior in this case?</p>
+<p>(3) If <span class="math notranslate nohighlight">\( X_1 = 5, X_2 = 3, \)</span> and <span class="math notranslate nohighlight">\( X_3 = 1 \)</span> (n = 3) are observed from <span class="math notranslate nohighlight">\( Wei(2, \lambda) \)</span> (meaning <span class="math notranslate nohighlight">\( r = 2 \)</span>) and <span class="math notranslate nohighlight">\( \pi(\lambda) \)</span> is Gamma(3, 5) (meaning <span class="math notranslate nohighlight">\( \alpha = 3 \)</span> and <span class="math notranslate nohighlight">\( \beta = 5 \)</span>), what is the posterior in this case?</p>
 <p>Answer: the posterior has the following distribution:</p>
 <div class="math notranslate nohighlight">
 \[
