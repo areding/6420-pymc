@@ -1343,8 +1343,10 @@ I = -E \left[
 \det(I) = \frac{1}{2\phi^3}
 \]</div>
 <p>Jeffreys’ prior is proportional to <span class="math notranslate nohighlight">\( |\det(I)|^{1/2} \)</span>, so</p>
-<p>$$
-\pi(\mu, \phi) \propto \frac{1}{\phi^{3/2}} \propto \frac{1}{\sigma^3}</p>
+<div class="math notranslate nohighlight">
+\[
+\pi(\mu, \phi) \propto \frac{1}{\phi^{3/2}} \propto \frac{1}{\sigma^3}
+\]</div>
 </div>
 </section>
 <section id="haldane-prior-for-binomial-p">
@@ -1392,13 +1394,16 @@ f(0 \mid x) + f(1 \mid x) = \frac{\Gamma(x)\Gamma(n + 1 - x)}{\Gamma(n + 1)} + \
 = \frac{\Gamma(x)(n - x)\Gamma(n - x)}{n\Gamma(n)} + \frac{x\Gamma(x)\Gamma(n - x)}{n\Gamma(n)} = \frac{n - x}{n} + \frac{x}{n} = 1.
 \]</div>
 <p>Thus, the distribution of future observation <span class="math notranslate nohighlight">\( y \)</span> given <span class="math notranslate nohighlight">\( x \)</span> successes in <span class="math notranslate nohighlight">\( n \)</span> trials is</p>
-<p>\begin{array}{|c|c|c|}
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{array}{|c|c|c|}
 \hline
-y \mid x &amp; 0 &amp; 1 \
+y \mid x &amp; 0 &amp; 1 \\
 \hline
-\text{prob} &amp; \frac{n - x}{n} &amp; \frac{x}{n} \
+\text{prob} &amp; \frac{n - x}{n} &amp; \frac{x}{n} \\
 \hline
-\end{array}</p>
+\end{array}
+\end{split}\]</div>
 <p>Note that the prediction for future <span class="math notranslate nohighlight">\( y \)</span> is the mean of the posterior predictive distribution, which is <span class="math notranslate nohighlight">\( \frac{x}{n} \)</span>. The same result is obtained when <span class="math notranslate nohighlight">\( E[y] = p \)</span> is integrated with respect to the posterior <span class="math notranslate nohighlight">\( \text{Be}(x, n - x) \)</span>. Check this!</p>
 </div>
 </section>
