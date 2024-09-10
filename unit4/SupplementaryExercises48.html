@@ -827,11 +827,11 @@ NUTS: [precision, mean]
 
 <span class="n">total</span> <span class="o">=</span> <span class="mi">1021</span>
 <span class="n">totalpositive</span> <span class="o">=</span> <span class="mi">181</span>  <span class="c1"># rounded 0.177* 1021= 180.7170</span>
-<span class="n">totalnegative</span> <span class="o">=</span> <span class="mi">840</span>  <span class="c1"># % as 1021- 181</span>
+<span class="n">totalnegative</span> <span class="o">=</span> <span class="mi">840</span>  <span class="c1"># % as 1021 - 181</span>
 <span class="n">tp</span> <span class="o">=</span> <span class="mi">93</span>  <span class="c1"># true positiveas rounded181 *0.514 =93.0340</span>
-<span class="n">fp</span> <span class="o">=</span> <span class="mi">88</span>  <span class="c1"># alse positives,as 181-93</span>
-<span class="n">fn</span> <span class="o">=</span> <span class="mi">24</span>  <span class="c1"># false negativesas rounded840 *0.029=24.3600</span>
-<span class="n">tn</span> <span class="o">=</span> <span class="mi">816</span>  <span class="c1"># truenegatives, as840-24</span>
+<span class="n">fp</span> <span class="o">=</span> <span class="mi">88</span>  <span class="c1"># false positives, as 181-93</span>
+<span class="n">fn</span> <span class="o">=</span> <span class="mi">24</span>  <span class="c1"># false negatives rounded 840 *0.029=24.3600</span>
+<span class="n">tn</span> <span class="o">=</span> <span class="mi">816</span>  <span class="c1"># true negatives, as 840-24</span>
 
 <span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">m</span><span class="p">:</span>
 
@@ -951,8 +951,8 @@ NUTS: [sensitivity, specificity]
 <p>For a given patient, the number of matching donors per 1000 National Blood Bank records is modeled as Poisson with unknown rate <span class="math notranslate nohighlight">\(\lambda\)</span>. If a randomly selected group of 1000 records showed exactly one match, estimate <span class="math notranslate nohighlight">\(\lambda\)</span> in Bayesian fashion.</p>
 <p>For <span class="math notranslate nohighlight">\(\lambda\)</span>​ assume:</p>
 <ol class="arabic simple">
-<li><p>Gamma <span class="math notranslate nohighlight">\(\text{Ga}(\alpha=2, \beta=1)\)</span>​ prior;</p></li>
-<li><p>flat prior <span class="math notranslate nohighlight">\(\lambda = 1\)</span>, for <span class="math notranslate nohighlight">\(\lambda &gt; 0\)</span>​;</p></li>
+<li><p>Gamma prior <span class="math notranslate nohighlight">\(\text{Ga}(\alpha=2, \beta=1)\)</span>​;</p></li>
+<li><p>half-flat prior <span class="math notranslate nohighlight">\(\lambda \propto 1\)</span>, for <span class="math notranslate nohighlight">\(\lambda &gt; 0\)</span>​;</p></li>
 <li><p>invariance prior <span class="math notranslate nohighlight">\(\pi(\lambda) = \frac{1}{\lambda}\)</span>, for <span class="math notranslate nohighlight">\(\lambda &gt; 0\)</span>​;</p></li>
 <li><p>Jeffreys prior <span class="math notranslate nohighlight">\(\pi(\lambda) = \sqrt{\frac{1}{\lambda}}\)</span>, for <span class="math notranslate nohighlight">\(\lambda &gt; 0\)</span>.</p></li>
 </ol>
@@ -1106,7 +1106,6 @@ I(\theta) = E \left[ \left( \frac{d \log f(x | \theta)}{d\theta} \right)^2 \righ
 </ol>
 <div class="tip dropdown admonition">
 <p class="admonition-title">Solution</p>
-<p>Derive Jeffreys’ Priors for Poisson <span class="math notranslate nohighlight">\(\lambda\)</span>, Bernoulli <span class="math notranslate nohighlight">\(p\)</span>, and Geometric <span class="math notranslate nohighlight">\(p\)</span>.</p>
 <ol class="arabic simple">
 <li></li>
 </ol>
@@ -1344,10 +1343,8 @@ I = -E \left[
 \det(I) = \frac{1}{2\phi^3}
 \]</div>
 <p>Jeffreys’ prior is proportional to <span class="math notranslate nohighlight">\( |\det(I)|^{1/2} \)</span>, so</p>
-<div class="math notranslate nohighlight">
-\[
-\pi(\mu, \phi) \propto \frac{1}{\phi^{3/2}} \propto \frac{1}{\sigma}
-\]</div>
+<p>$$
+\pi(\mu, \phi) \propto \frac{1}{\phi^{3/2}} \propto \frac{1}{\sigma^3}</p>
 </div>
 </section>
 <section id="haldane-prior-for-binomial-p">
@@ -1375,12 +1372,12 @@ I = -E \left[
 <p>and assume that <span class="math notranslate nohighlight">\( \psi \)</span> is given a flat prior, <span class="math notranslate nohighlight">\( \psi \sim 1 \)</span>. Then the prior on <span class="math notranslate nohighlight">\( p \)</span> is</p>
 <div class="math notranslate nohighlight">
 \[
-\pi(p) = \pi(\psi) \left| \frac{d\psi(p)}{dp} \right| = 1 \times \left| \frac{1}{p/(1 - p)} \cdot \frac{(1 - p) - p}{(1 - p)^2} \right| = \frac{1}{p(1 - p)}.
+\pi(p) = \pi(\psi) \left| \frac{d\psi(p)}{dp} \right| = 1 \times \left| \frac{1}{p/(1 - p)} \cdot \frac{p(-1) - 1 \cdot (1 - p)}{(1 - p)^2} \right| = \frac{1}{p(1 - p)}.
 \]</div>
 <ol class="arabic simple" start="2">
 <li><p>The posterior is beta <span class="math notranslate nohighlight">\( \text{Be}(x, n - x) \)</span> and the Bayes estimator of <span class="math notranslate nohighlight">\( p \)</span> is <span class="math notranslate nohighlight">\( \frac{x}{n} \)</span>, which coincides with the frequentist’s <span class="math notranslate nohighlight">\( \hat{p} \)</span>.</p></li>
+<li><p>The predictive distribution for a single future Bernoulli <span class="math notranslate nohighlight">\( y \)</span> is</p></li>
 </ol>
-<p>© The predictive distribution for a single future Bernoulli <span class="math notranslate nohighlight">\( y \)</span> is</p>
 <div class="math notranslate nohighlight">
 \[
 f(y \mid x) = \frac{B(x + y, n + 1 - x - y)}{B(x, n - x)}.
@@ -1395,13 +1392,13 @@ f(0 \mid x) + f(1 \mid x) = \frac{\Gamma(x)\Gamma(n + 1 - x)}{\Gamma(n + 1)} + \
 = \frac{\Gamma(x)(n - x)\Gamma(n - x)}{n\Gamma(n)} + \frac{x\Gamma(x)\Gamma(n - x)}{n\Gamma(n)} = \frac{n - x}{n} + \frac{x}{n} = 1.
 \]</div>
 <p>Thus, the distribution of future observation <span class="math notranslate nohighlight">\( y \)</span> given <span class="math notranslate nohighlight">\( x \)</span> successes in <span class="math notranslate nohighlight">\( n \)</span> trials is</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}
-y \mid x \quad \begin{array}{cc}
-0 &amp; 1 \\
-\frac{n - x}{n} &amp; \frac{x}{n}
-\end{array}
-\end{split}\]</div>
+<p>\begin{array}{|c|c|c|}
+\hline
+y \mid x &amp; 0 &amp; 1 \
+\hline
+\text{prob} &amp; \frac{n - x}{n} &amp; \frac{x}{n} \
+\hline
+\end{array}</p>
 <p>Note that the prediction for future <span class="math notranslate nohighlight">\( y \)</span> is the mean of the posterior predictive distribution, which is <span class="math notranslate nohighlight">\( \frac{x}{n} \)</span>. The same result is obtained when <span class="math notranslate nohighlight">\( E[y] = p \)</span> is integrated with respect to the posterior <span class="math notranslate nohighlight">\( \text{Be}(x, n - x) \)</span>. Check this!</p>
 </div>
 </section>
