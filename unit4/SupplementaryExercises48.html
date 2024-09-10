@@ -641,21 +641,7 @@ document.write(`
 <p>Hint: Since this is a paired two sample problem, a single model should be placed on the difference.</p>
 <div class="tip dropdown admonition">
 <p class="admonition-title">Solution</p>
-<p>See the hidden cell below for the code. This question asks for a PPL solution, but keep in mind we won’t use those until after the midterm in the current class format. It is possible to do this with Unit 4 or Unit 5 techniques, but we haven’t written up a solution using those yet.</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}
-\begin{array}{|l|r|r|r|r|r|r|r|r|r|}
-\hline
- &amp; \text{mean} &amp; \text{sd} &amp; \text{hdi_2.5%} &amp; \text{hdi_97.5%} &amp; \text{mcse\_mean} &amp; \text{mcse_sd} &amp; \text{ess_bulk} &amp; \text{ess_tail} &amp; \text{r_hat} \\
-\hline
-\text{mean} &amp; 4.767 &amp; 3.812 &amp; -2.67 &amp; 12.371 &amp; 0.049 &amp; 0.039 &amp; 6515 &amp; 5423 &amp; 1 \\
-\hline
-\text{precision} &amp; 0.012 &amp; 0.006 &amp; 0.002 &amp; 0.024 &amp; 0 &amp; 0 &amp; 6542 &amp; 6356 &amp; 1 \\
-\hline
-\text{variance} &amp; 117.474 &amp; 106.899 &amp; 24.761 &amp; 271.664 &amp; 1.389 &amp; 0.982 &amp; 6542 &amp; 6356 &amp; 1 \\
-\hline
-\end{array}
-\end{split}\]</div>
+<p>See the hidden cell below for the code and output. This question asks for a PPL solution, but keep in mind we won’t use those until after the midterm in the current class format. It is possible to do this with Unit 4 or Unit 5 techniques, but we haven’t written up a solution using those yet.</p>
 </div>
 <div class="cell tag_hide-cell docutils container">
 <details class="hide above-input">
@@ -822,23 +808,11 @@ NUTS: [precision, mean]
 </table>
 <ol class="arabic simple">
 <li><p>Using the information supplied, fill in the table (round the entries to the closest integer).</p></li>
-<li><p>The estimators of the population Sensitivity and Specificity are simple relative frequencies (ratios): True Positives (TP)/Recurred and True Negatives (TN)/Not Recurred. Consider now a Bayesian version of this problem. Using WinBUGS, model TP and TN as Binomials, place priors on population Sensitivity (<span class="math notranslate nohighlight">\(p_1\)</span>) and Specificity (<span class="math notranslate nohighlight">\(p_2\)</span>) and find their Bayesian estimators. Explore the estimators for your favorite choice of priors on <span class="math notranslate nohighlight">\(p_1\)</span> and <span class="math notranslate nohighlight">\(p_2\)</span>: Jeffreys’, uniform (0, 1), flat on logit, etc.</p></li>
+<li><p>The estimators of the population sensitivity and specificity are simple relative frequencies (ratios): True Positives (TP)/Recurred and True Negatives (TN)/Not Recurred. Consider now a Bayesian version of this problem. Using a PPL, model TP and TN as Binomials, place priors on population sensitivity (<span class="math notranslate nohighlight">\(p_1\)</span>) and Specificity (<span class="math notranslate nohighlight">\(p_2\)</span>) and find their Bayesian estimators. Explore the estimators for your favorite choice of priors on <span class="math notranslate nohighlight">\(p_1\)</span> and <span class="math notranslate nohighlight">\(p_2\)</span>: Jeffreys’, uniform (0, 1), flat on logit, etc.</p></li>
 </ol>
 <div class="tip dropdown admonition">
 <p class="admonition-title">Solution</p>
-<p>Solution by Jason Naramore. This is another PPL example.</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}
-\begin{array}{|l|r|r|r|r|r|r|r|r|r|}
-\hline
- &amp; \text{mean} &amp; \text{sd} &amp; \text{hdi_2.5%} &amp; \text{hdi_97.5%} &amp; \text{mcse_mean} &amp; \text{mcse_sd} &amp; \text{ess_bulk} &amp; \text{ess_tail} &amp; \text{r_hat} \\
-\hline
-\text{sensitivity} &amp; 0.79 &amp; 0.037 &amp; 0.717 &amp; 0.859 &amp; 0 &amp; 0 &amp; 13585 &amp; 11945 &amp; 1 \\
-\hline
-\text{specificity} &amp; 0.902 &amp; 0.01 &amp; 0.882 &amp; 0.921 &amp; 0 &amp; 0 &amp; 13292 &amp; 11986 &amp; 1 \\
-\hline
-\end{array}
-\end{split}\]</div>
+<p>Solution by Jason Naramore. This is another PPL example (see hidden code cell, below).</p>
 </div>
 <div class="cell tag_hide-cell docutils container">
 <details class="hide above-input">
@@ -1052,6 +1026,7 @@ NUTS: [sensitivity, specificity]
 15 &amp; 19 &amp; 15 &amp; 23 &amp; 22 \\
 \end{array}
 \end{split}\]</div>
+<p>Code for a NumPy array containing these values is in the first hidden code cell, below.</p>
 <p>It is believed that the counts are distributed as Poisson with an unknown parameter <span class="math notranslate nohighlight">\( \lambda \)</span>. An expert believes that the number of counts in the interval of 20 milliseconds should be about 15.</p>
 <ol class="arabic simple">
 <li><p>What is the likelihood function for these 50 observations?</p></li>
@@ -1065,6 +1040,34 @@ NUTS: [sensitivity, specificity]
 <li><p>A gamma prior with mean 15 is not unique; for any <span class="math notranslate nohighlight">\( x \)</span>, <span class="math notranslate nohighlight">\( \text{Ga}(15x, x) \)</span> is such a prior. However, the variances depend on <span class="math notranslate nohighlight">\( x \)</span>. For example, priors <span class="math notranslate nohighlight">\( \text{Ga}(150, 10) \)</span>, <span class="math notranslate nohighlight">\( \text{Ga}(15, 1) \)</span>, <span class="math notranslate nohighlight">\( \text{Ga}(1.5, 0.1) \)</span>, <span class="math notranslate nohighlight">\( \text{Ga}(0.15, 0.01) \)</span>, etc., have variances 1.5, 15, 150, 1500, etc. The variances indicate the degree of certainty of the expert that the prior mean is 15. Large variances correspond to non-informative choices. Since the sample variance of 50 observations is about 15, it is reasonable to take a prior with larger variance, say <span class="math notranslate nohighlight">\( \text{Ga}(3, 0.2) \)</span>.</p></li>
 <li><p>Show that <span class="math notranslate nohighlight">\( \lambda \mid \sum_i X_i \)</span> is gamma <span class="math notranslate nohighlight">\( \text{Ga} \left( \sum_i X_i + 3, n + 0.2 \right) \)</span>. The Bayes estimator for <span class="math notranslate nohighlight">\( \lambda \)</span> can be represented as <span class="math notranslate nohighlight">\( w \times \bar{X} + (1 - w) \times 15 \)</span>, where <span class="math notranslate nohighlight">\( w = \frac{n}{n + 0.2} \)</span>, emphasizing the fact that the posterior mean is a compromise between the MLE, <span class="math notranslate nohighlight">\( \bar{X} \)</span>, and the prior mean, 15.</p></li>
 </ol>
+</div>
+<div class="cell tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="c1"># fmt: off</span>
+<span class="n">firing_counts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+    <span class="mi">20</span><span class="p">,</span> <span class="mi">19</span><span class="p">,</span> <span class="mi">26</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">24</span><span class="p">,</span>
+    <span class="mi">21</span><span class="p">,</span> <span class="mi">24</span><span class="p">,</span> <span class="mi">29</span><span class="p">,</span> <span class="mi">21</span><span class="p">,</span> <span class="mi">17</span><span class="p">,</span>
+    <span class="mi">23</span><span class="p">,</span> <span class="mi">21</span><span class="p">,</span> <span class="mi">19</span><span class="p">,</span> <span class="mi">23</span><span class="p">,</span> <span class="mi">17</span><span class="p">,</span>
+    <span class="mi">30</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span>
+    <span class="mi">14</span><span class="p">,</span> <span class="mi">17</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">21</span><span class="p">,</span>
+    <span class="mi">16</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">22</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span>
+    <span class="mi">17</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">24</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span>
+    <span class="mi">12</span><span class="p">,</span> <span class="mi">19</span><span class="p">,</span> <span class="mi">17</span><span class="p">,</span> <span class="mi">19</span><span class="p">,</span> <span class="mi">19</span><span class="p">,</span>
+    <span class="mi">19</span><span class="p">,</span> <span class="mi">23</span><span class="p">,</span> <span class="mi">17</span><span class="p">,</span> <span class="mi">17</span><span class="p">,</span> <span class="mi">21</span><span class="p">,</span>
+    <span class="mi">15</span><span class="p">,</span> <span class="mi">19</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">23</span><span class="p">,</span> <span class="mi">22</span>
+<span class="p">])</span>
+<span class="c1"># fmt: on</span>
+</pre></div>
+</div>
+</div>
+</details>
 </div>
 </section>
 <section id="elicit-inverse-gamma-prior">
@@ -1092,80 +1095,122 @@ NUTS: [sensitivity, specificity]
 \[\pi(\theta) \propto \left| \text{det}(I(\theta)) \right|^{1/2}\]</div>
 <p>where, for univariate parameters,</p>
 <div class="math notranslate nohighlight">
-\[I(\theta) = E \left[ \left( \frac{d \log f(x | \theta)}{d\theta} \right)^2 \right] = -E \left[ \frac{d^2 \log f(x | \theta)}{d\theta^2} \right]\]</div>
+\[
+I(\theta) = E \left[ \left( \frac{d \log f(x | \theta)}{d\theta} \right)^2 \right] = -E \left[ \frac{d^2 \log f(x | \theta)}{d\theta^2} \right]
+\]</div>
 <p>and expectation is taken with respect to the random variable <span class="math notranslate nohighlight">\(X \sim f(x | \theta)\)</span>.</p>
 <ol class="arabic simple">
-<li><p>Show that Jeffreys’ prior for Poisson distribution** <span class="math notranslate nohighlight">\(f(x | \lambda) = \frac{\lambda^x}{x!} e^{-\lambda}\)</span>, <span class="math notranslate nohighlight">\(\lambda \geq 0\)</span>, <strong>is</strong> <span class="math notranslate nohighlight">\(\pi(\lambda) = \sqrt{\frac{1}{\lambda}}\)</span>.</p></li>
-<li><p>Show that Jeffreys’ prior for Bernoulli distribution** <span class="math notranslate nohighlight">\(f(x | p) = p^x (1 - p)^{1-x}\)</span>, <span class="math notranslate nohighlight">\(0 \leq p \leq 1\)</span>, <strong>is</strong> <span class="math notranslate nohighlight">\(\pi(p) \propto \frac{1}{\sqrt{p(1-p)}}\)</span>, which is the beta <span class="math notranslate nohighlight">\(\text{Be}(1/2, 1/2)\)</span> distribution (or Arcsin distribution).</p></li>
-<li><p>Show that Jeffreys’ prior for Geometric distribution** <span class="math notranslate nohighlight">\(f(x | p) = (1 - p)^{x-1} p\)</span>, <span class="math notranslate nohighlight">\(x = 1, 2, \ldots\)</span> ; <span class="math notranslate nohighlight">\(0 \leq p \leq 1\)</span>, <strong>is</strong> <span class="math notranslate nohighlight">\(\pi(p) \propto \frac{1}{p \sqrt{1-p}}\)</span>.</p></li>
+<li><p>Show that Jeffreys’ prior for Poisson distribution <span class="math notranslate nohighlight">\(f(x | \lambda) = \frac{\lambda^x}{x!} e^{-\lambda}\)</span>, <span class="math notranslate nohighlight">\(\lambda \geq 0\)</span>, is <span class="math notranslate nohighlight">\(\pi(\lambda) = \sqrt{\frac{1}{\lambda}}\)</span>.</p></li>
+<li><p>Show that Jeffreys’ prior for Bernoulli distribution <span class="math notranslate nohighlight">\(f(x | p) = p^x (1 - p)^{1-x}\)</span>, <span class="math notranslate nohighlight">\(0 \leq p \leq 1\)</span>, is <span class="math notranslate nohighlight">\(\pi(p) \propto \frac{1}{\sqrt{p(1-p)}}\)</span>, which is the beta <span class="math notranslate nohighlight">\(\text{Be}(1/2, 1/2)\)</span> distribution (or Arcsin distribution).</p></li>
+<li><p>Show that Jeffreys’ prior for Geometric distribution <span class="math notranslate nohighlight">\(f(x | p) = (1 - p)^{x-1} p\)</span>, <span class="math notranslate nohighlight">\(x = 1, 2, \ldots\)</span> ; <span class="math notranslate nohighlight">\(0 \leq p \leq 1\)</span>, is <span class="math notranslate nohighlight">\(\pi(p) \propto \frac{1}{p \sqrt{1-p}}\)</span>.</p></li>
 </ol>
 <div class="tip dropdown admonition">
 <p class="admonition-title">Solution</p>
-<p><strong>7. Derive Jeffreys’ Priors for Poisson</strong> <span class="math notranslate nohighlight">\(\lambda\)</span>, <strong>Bernoulli</strong> <span class="math notranslate nohighlight">\(p\)</span>, <strong>and Geometric</strong> <span class="math notranslate nohighlight">\(p\)</span>.</p>
+<p>Derive Jeffreys’ Priors for Poisson <span class="math notranslate nohighlight">\(\lambda\)</span>, Bernoulli <span class="math notranslate nohighlight">\(p\)</span>, and Geometric <span class="math notranslate nohighlight">\(p\)</span>.</p>
 <ol class="arabic simple">
 <li></li>
 </ol>
-<p>For the Poisson distribution with likelihood function:
-$<span class="math notranslate nohighlight">\(f(x | \lambda) = \frac{\lambda^x e^{-\lambda}}{x!}\)</span>$</p>
+<p>For the Poisson distribution with likelihood function:</p>
+<div class="math notranslate nohighlight">
+\[
+f(x | \lambda) = \frac{\lambda^x e^{-\lambda}}{x!}
+\]</div>
 <p>First, we differentiate the log-likelihood with respect to <span class="math notranslate nohighlight">\(\lambda\)</span>:</p>
 <div class="math notranslate nohighlight">
-\[\frac{d}{d\lambda} \log \left( \frac{\lambda^x e^{-\lambda}}{x!} \right) = \frac{d}{d\lambda} (x \log \lambda - \lambda)\]</div>
+\[
+\frac{d}{d\lambda} \log \left( \frac{\lambda^x e^{-\lambda}}{x!} \right) = \frac{d}{d\lambda} (x \log \lambda - \lambda)
+\]</div>
 <p>Which gives:</p>
 <div class="math notranslate nohighlight">
-\[\frac{x}{\lambda} - 1\]</div>
+\[
+\frac{x}{\lambda} - 1
+\]</div>
 <p>Now, the Fisher Information <span class="math notranslate nohighlight">\(I(\lambda)\)</span> is given by:</p>
 <div class="math notranslate nohighlight">
-\[I(\lambda) = E\left[ \left( \frac{x}{\lambda} - 1 \right)^2 \right] = \frac{E[x^2]}{\lambda^2} - \frac{2E[x]}{\lambda} + 1\]</div>
+\[
+I(\lambda) = E\left[ \left( \frac{x}{\lambda} - 1 \right)^2 \right] = \frac{E[x^2]}{\lambda^2} - \frac{2E[x]}{\lambda} + 1
+\]</div>
 <p>Given that <span class="math notranslate nohighlight">\(E[x^2] = Var(x) + (E[x])^2\)</span> and for a Poisson distribution, <span class="math notranslate nohighlight">\(E[x] = \lambda\)</span> and <span class="math notranslate nohighlight">\(Var(x) = \lambda\)</span>:</p>
 <div class="math notranslate nohighlight">
-\[E[x^2] = \lambda + \lambda^2\]</div>
+\[
+E[x^2] = \lambda + \lambda^2
+\]</div>
 <p>Substituting this in, we get:</p>
 <div class="math notranslate nohighlight">
-\[I(\lambda) = \frac{1}{\lambda}\]</div>
+\[
+I(\lambda) = \frac{1}{\lambda}
+\]</div>
 <p>Thus, the Jeffreys’ prior is:</p>
 <div class="math notranslate nohighlight">
-\[\pi(\lambda) \propto \sqrt{\frac{1}{\lambda}}\]</div>
+\[
+\pi(\lambda) \propto \sqrt{\frac{1}{\lambda}}
+\]</div>
 <ol class="arabic simple" start="2">
 <li></li>
 </ol>
-<p>For the Bernoulli distribution:
-$<span class="math notranslate nohighlight">\(f(x | p) = p^x (1-p)^{1-x}\)</span>$</p>
+<p>For the Bernoulli distribution:</p>
+<div class="math notranslate nohighlight">
+\[
+f(x | p) = p^x (1-p)^{1-x}
+\]</div>
 <p>The log-likelihood is:</p>
 <div class="math notranslate nohighlight">
-\[L = x \log(p) + (1 - x) \log(1 - p)\]</div>
+\[
+L = x \log(p) + (1 - x) \log(1 - p)
+\]</div>
 <p>Differentiating <span class="math notranslate nohighlight">\(L\)</span> with respect to <span class="math notranslate nohighlight">\(p\)</span> we get:</p>
 <div class="math notranslate nohighlight">
-\[\frac{\partial L}{\partial p} = \frac{x}{p} - \frac{1-x}{1-p}\]</div>
+\[
+\frac{\partial L}{\partial p} = \frac{x}{p} - \frac{1-x}{1-p}
+\]</div>
 <p>And the second derivative is:</p>
 <div class="math notranslate nohighlight">
-\[\frac{\partial^2 L}{\partial p^2} = -\frac{x}{p^2} - \frac{1-x}{(1-p)^2}\]</div>
+\[
+\frac{\partial^2 L}{\partial p^2} = -\frac{x}{p^2} - \frac{1-x}{(1-p)^2}
+\]</div>
 <p>For a Bernoulli distribution, <span class="math notranslate nohighlight">\(E[x] = p\)</span>. The Fisher Information <span class="math notranslate nohighlight">\(I(p)\)</span> is:</p>
 <div class="math notranslate nohighlight">
-\[I(p) = \frac{1}{p(1-p)}\]</div>
+\[
+I(p) = \frac{1}{p(1-p)}
+\]</div>
 <p>So, the Jeffreys’ prior is:</p>
 <div class="math notranslate nohighlight">
-\[\pi(p) \propto \frac{1}{\sqrt{p(1-p)}}\]</div>
+\[
+\pi(p) \propto \frac{1}{\sqrt{p(1-p)}}
+\]</div>
 <ol class="arabic simple" start="3">
 <li></li>
 </ol>
 <p>For the Geometric distribution:</p>
 <div class="math notranslate nohighlight">
-\[f(x | p) = (1-p)^{x-1} p\]</div>
+\[
+f(x | p) = (1-p)^{x-1} p
+\]</div>
 <p>The log-likelihood is:</p>
 <div class="math notranslate nohighlight">
-\[L = (x-1) \log(1-p) + \log(p)\]</div>
+\[
+L = (x-1) \log(1-p) + \log(p)
+\]</div>
 <p>Differentiating <span class="math notranslate nohighlight">\(L\)</span> with respect to <span class="math notranslate nohighlight">\(p\)</span>:</p>
 <div class="math notranslate nohighlight">
-\[\frac{\partial L}{\partial p} = \frac{1}{p} - \frac{x-1}{1-p}\]</div>
+\[
+\frac{\partial L}{\partial p} = \frac{1}{p} - \frac{x-1}{1-p}
+\]</div>
 <p>And the second derivative is:</p>
 <div class="math notranslate nohighlight">
-\[\frac{\partial^2 L}{\partial p^2} = -\frac{1}{p^2} - \frac{x-1}{(1-p)^2}\]</div>
+\[
+\frac{\partial^2 L}{\partial p^2} = -\frac{1}{p^2} - \frac{x-1}{(1-p)^2}
+\]</div>
 <p>For a Geometric distribution, <span class="math notranslate nohighlight">\(E[x] = \frac{1}{p}\)</span>. The Fisher Information <span class="math notranslate nohighlight">\(I(p)\)</span> is:</p>
 <div class="math notranslate nohighlight">
-\[I(p) = \frac{1}{p^2(1-p)}\]</div>
+\[
+I(p) = \frac{1}{p^2(1-p)}
+\]</div>
 <p>So, the Jeffreys’ prior is:</p>
 <div class="math notranslate nohighlight">
-\[\pi(p) \propto \frac{1}{p \sqrt{1-p}}\]</div>
+\[
+\pi(p) \propto \frac{1}{p \sqrt{1-p}}
+\]</div>
 </div>
 </section>
 <section id="two-scenarios-for-the-probability-of-success">
@@ -1177,23 +1222,23 @@ $<span class="math notranslate nohighlight">\(f(x | p) = p^x (1-p)^{1-x}\)</span
 </ul>
 <ol class="arabic simple">
 <li><p>The two likelihoods are Binomial and Geometric, and the moment matching estimate for the probability of success in both cases is <span class="math notranslate nohighlight">\( \hat{p} = 0.1 \)</span>. However, classical inference for the two cases (confidence intervals, testing, etc.) is different. Is there any difference in Bayesian inferences? Why yes or no?</p></li>
-<li><p>For any of the two scenarios, find the Bayes estimator of <span class="math notranslate nohighlight">\( p \)</span> if the prior is <span class="math notranslate nohighlight">\( \pi(p) = \frac{1}{p\sqrt{1-p}} \)</span>.</p></li>
+<li><p>For either of the two scenarios, find the Bayes estimator of <span class="math notranslate nohighlight">\(p\)</span> if the prior is <span class="math notranslate nohighlight">\( \pi(p) = \frac{1}{p\sqrt{1-p}}\)</span>.</p></li>
 </ol>
 <div class="tip dropdown admonition">
 <p class="admonition-title">Solution</p>
 <ol class="arabic simple">
-<li><p>For the Binomial distribution, <span class="math notranslate nohighlight">\( E[X] = np = 10p \)</span>, and with <span class="math notranslate nohighlight">\( X = 1 \)</span>, leading to <span class="math notranslate nohighlight">\( \hat{p} = 0.1 \)</span>. For the Geometric distribution, <span class="math notranslate nohighlight">\( E[N] = 1/p \)</span> and <span class="math notranslate nohighlight">\( N = 10 \)</span>, also leading to <span class="math notranslate nohighlight">\( \hat{p} = 0.1 \)</span>. However, see Example 9.16 (page 413) in the Engineering Biostatistics textbook, known as the Savage Disparity. Since in both cases the likelihood is proportional to <span class="math notranslate nohighlight">\( p(1-p)^9 \)</span>, Bayesian inference coincides, and for a Bayesian, the scenario is irrelevant; all that matters is one success and 10 trials.</p></li>
-<li><p>The posterior is proportional to <span class="math notranslate nohighlight">\( (1-p)^{17/2} \)</span>, which is beta <span class="math notranslate nohighlight">\( \text{Be}(1, 19/2) \)</span>. Thus, the Bayes’ estimator is <span class="math notranslate nohighlight">\( \hat{p}_B = \frac{2}{21} \)</span>.</p></li>
+<li><p>For the Binomial distribution, <span class="math notranslate nohighlight">\(E[X] = np = 10p\)</span>, and with <span class="math notranslate nohighlight">\(X = 1\)</span>, leading to <span class="math notranslate nohighlight">\(\hat{p} = 0.1\)</span>. For the Geometric distribution, <span class="math notranslate nohighlight">\(E[N] = 1/p\)</span> and <span class="math notranslate nohighlight">\(N = 10\)</span>, also leading to <span class="math notranslate nohighlight">\(\hat{p} = 0.1\)</span>. However, see Example 9.16 (page 413) in the Engineering Biostatistics textbook, known as the Savage Disparity. Since in both cases the likelihood is proportional to <span class="math notranslate nohighlight">\(p(1-p)^9\)</span>, Bayesian inference coincides, and for a Bayesian, the scenario is irrelevant; all that matters is one success and 10 trials.</p></li>
+<li><p>The posterior is proportional to <span class="math notranslate nohighlight">\((1-p)^{17/2}\)</span>, which is <span class="math notranslate nohighlight">\(\text{Be}(1, 19/2)\)</span>. Thus, the Bayes’ estimator is <span class="math notranslate nohighlight">\(\hat{p}_B = \frac{2}{21}\)</span>.</p></li>
 </ol>
 </div>
 </section>
 <section id="jeffreys-prior-for-normal-precision">
 <h2>9. Jeffreys’ Prior for Normal Precision<a class="headerlink" href="#jeffreys-prior-for-normal-precision" title="Permalink to this headline">#</a></h2>
-<p>The Jeffreys’ prior on the normal scale <span class="math notranslate nohighlight">\( \sigma \)</span> is <span class="math notranslate nohighlight">\( \pi(\sigma) = \frac{1}{\sigma} \)</span>. Consider the precision parameter <span class="math notranslate nohighlight">\( \tau = \frac{1}{\sigma^2} \)</span>.</p>
-<p>Using the invariance property, show that Jeffreys’ prior for <span class="math notranslate nohighlight">\( \tau \)</span> is <span class="math notranslate nohighlight">\( \pi(\tau) = \frac{1}{\tau} \)</span>.</p>
+<p>The Jeffreys’ prior on the normal scale <span class="math notranslate nohighlight">\(\sigma \)</span> is <span class="math notranslate nohighlight">\( \pi(\sigma) = \frac{1}{\sigma}\)</span>. Consider the precision parameter <span class="math notranslate nohighlight">\(\tau = \frac{1}{\sigma^2}\)</span>.</p>
+<p>Using the invariance property, show that Jeffreys’ prior for <span class="math notranslate nohighlight">\(\tau\)</span> is <span class="math notranslate nohighlight">\(\pi(\tau) = \frac{1}{\tau}\)</span>.</p>
 <div class="tip dropdown admonition">
 <p class="admonition-title">Solution</p>
-<p>We know that Jeffreys’ prior for <span class="math notranslate nohighlight">\( \sigma \)</span> is <span class="math notranslate nohighlight">\( \pi(\sigma) = \frac{1}{\sigma} \)</span>.</p>
+<p>We know that Jeffreys’ prior for <span class="math notranslate nohighlight">\(\sigma\)</span> is <span class="math notranslate nohighlight">\(\pi(\sigma) = \frac{1}{\sigma}\)</span>.</p>
 <p>The invariance property states that if <span class="math notranslate nohighlight">\( \tau = \tau(\sigma) \)</span>, then</p>
 <div class="math notranslate nohighlight">
 \[
@@ -1210,7 +1255,7 @@ I^{1/2}(\tau) = I^{1/2}(\sigma) \left| \frac{d\sigma}{d\tau} \right|
 \[
 \pi(\tau) = \frac{1}{\tau}
 \]</div>
-<p>as Jeffreys’ prior for the precision parameter <span class="math notranslate nohighlight">\( \tau \)</span>.</p>
+<p>as Jeffreys’ prior for the precision parameter <span class="math notranslate nohighlight">\(\tau\)</span>.</p>
 </div>
 </section>
 <section id="derive-jeffreys-prior-for-maxwells-theta">
@@ -1218,15 +1263,17 @@ I^{1/2}(\tau) = I^{1/2}(\sigma) \left| \frac{d\sigma}{d\tau} \right|
 <ol class="arabic">
 <li><p>Show that Jeffreys’ prior for Maxwell’s rate parameter <span class="math notranslate nohighlight">\( \theta \)</span> is proportional to <span class="math notranslate nohighlight">\( \frac{1}{\theta} \)</span>. Maxwell density is given by</p>
 <div class="math notranslate nohighlight">
-\[f(x \mid \theta) = \sqrt{\frac{2}{\pi}} \theta^{3/2} x^2 \exp\left( -\frac{1}{2} \theta x^2 \right), \quad x \geq 0, \, \theta &gt; 0\]</div>
+\[
+   f(x \mid \theta) = \sqrt{\frac{2}{\pi}} \theta^{3/2} x^2 \exp\left( -\frac{1}{2} \theta x^2 \right), \quad x \geq 0, \, \theta &gt; 0
+   \]</div>
 </li>
-<li><p>Show that the flat prior on <span class="math notranslate nohighlight">\( \log \theta \)</span> is equivalent to <span class="math notranslate nohighlight">\( \frac{1}{\theta} \)</span> prior on <span class="math notranslate nohighlight">\( \theta \)</span>.</p></li>
+<li><p>Show that the flat prior on <span class="math notranslate nohighlight">\(\log \theta\)</span> is equivalent to <span class="math notranslate nohighlight">\(\frac{1}{\theta}\)</span> prior on <span class="math notranslate nohighlight">\(\theta\)</span>.</p></li>
 </ol>
 <div class="tip dropdown admonition">
 <p class="admonition-title">Solution</p>
 <ol class="arabic simple">
-<li><p>The second derivative of the log-likelihood, when evaluated, is free of <span class="math notranslate nohighlight">\( x \)</span>, making the expectation straightforward. Given the prior <span class="math notranslate nohighlight">\( \pi(\theta) = \frac{1}{\theta} \)</span>.</p></li>
-<li><p>Let <span class="math notranslate nohighlight">\( \phi = \log \theta \)</span> have a flat prior. Then,</p></li>
+<li><p>The second derivative of the log-likelihood, when evaluated, is free of <span class="math notranslate nohighlight">\(x\)</span>, making the expectation straightforward. Given the prior <span class="math notranslate nohighlight">\(\pi(\theta) = \frac{1}{\theta}\)</span>.</p></li>
+<li><p>Let <span class="math notranslate nohighlight">\(\phi = \log \theta\)</span> have a flat prior. Then,</p></li>
 </ol>
 <div class="math notranslate nohighlight">
 \[
@@ -1410,19 +1457,19 @@ y \mid x \quad \begin{array}{cc}
 <li><p>Find the Bayes estimator and 95% credible set for population mean <span class="math notranslate nohighlight">\(\mu\)</span>.</p></li>
 </ol>
 <p>We can define our model like this:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-15fdd463-9c90-438b-ac87-cc87e35eedb7">
-<span class="eqno">(1)<a class="headerlink" href="#equation-15fdd463-9c90-438b-ac87-cc87e35eedb7" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
 x_i|\mu &amp;\sim N(\mu, 8) \\
 \mu &amp; \sim N(5, 6)
-\end{align}\]</div>
+\end{align*}\]</div>
 <p>This is the Normal-Normal conjugate pair for a fixed variance and random mean, with <span class="math notranslate nohighlight">\(n=18\)</span> and <span class="math notranslate nohighlight">\(\bar{X} \approx 5.78333\)</span></p>
 <p>Our posterior is then:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-d408e0c4-a180-4c59-83d8-d6ce31736be8">
-<span class="eqno">(2)<a class="headerlink" href="#equation-d408e0c4-a180-4c59-83d8-d6ce31736be8" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
 \pi(\theta|x) &amp;\sim N\left(\frac{\tau^2}{\tau^2 +\sigma^2/n}\bar{X} + \frac{\sigma^2/n}{\tau^2 + \sigma^2/n}\mu_0, \frac{\tau^2\sigma^2/n}{\tau^2+ \sigma^2/n}\right) \\
 &amp; \sim N(\frac{6}{6 + 8/18}\bar{X} + \frac{8/18}{6 + 8/18}(5), \frac{6(8/18)}{6+8/18}) \\
 &amp; \sim N(5.72931, 0.41379)
-\end{align}\]</div>
+\end{align*}\]</div>
 <p>Our Bayes estimator will be the posterior mean, 5.72931.</p>
 <p>The 95% equitailed credible set: (4.4685, 6.9901). HPD set will be the same since this is a symmetrical posterior.</p>
 <ol class="arabic simple" start="2">
@@ -1432,7 +1479,7 @@ x_i|\mu &amp;\sim N(\mu, 8) \\
 <ol class="arabic simple" start="3">
 <li><p>What is your prediction for a single future observation?</p></li>
 </ol>
-<p>A single prediction in this case will be equal to the posterior mean. But the important thing about</p>
+<p>The single best prediction in this case will be equal to the posterior mean, but in general, we should use the posterior predictive distribution for finding predictions.</p>
 </div>
 <div class="cell tag_hide-cell docutils container">
 <details class="hide above-input">
@@ -1745,7 +1792,10 @@ NUTS: [theta]
 <section id="npeb-for-p-in-the-geometric-distribution">
 <h2>16. NPEB for <em>p</em> in the Geometric Distribution<a class="headerlink" href="#npeb-for-p-in-the-geometric-distribution" title="Permalink to this headline">#</a></h2>
 <p>A geometric random variable <span class="math notranslate nohighlight">\(X\)</span> counts the number of failures before the first success, when the probability of success is <span class="math notranslate nohighlight">\(p\)</span> (and a failure <span class="math notranslate nohighlight">\(1 - p\)</span>). The PDF of <span class="math notranslate nohighlight">\(X\)</span> is:</p>
-<p><span class="math notranslate nohighlight">\(P(X = x) = (1 - p)^x \times p, \quad x = 0, 1, 2, \ldots; \quad 0 \leq p \leq 1\)</span></p>
+<div class="math notranslate nohighlight">
+\[
+P(X = x) = (1 - p)^x \times p, \quad x = 0, 1, 2, \ldots; \quad 0 \leq p \leq 1
+\]</div>
 <p>We simulated a sample of size 2400 from a geometric distribution with a probability of success 0.32. The following (summarized) sample was obtained:</p>
 <table class="colwidths-auto table">
 <thead>
@@ -1834,10 +1884,14 @@ NUTS: [theta]
 <p>Solution for 1:
 The likelihood and prior are:</p>
 <div class="math notranslate nohighlight">
-\[f(x \mid p) = (1 - p)^x p, \quad x = 0, 1, 2, \ldots; \quad p \sim g(p), \quad 0 \leq p \leq 1\]</div>
+\[
+f(x \mid p) = (1 - p)^x p, \quad x = 0, 1, 2, \ldots; \quad p \sim g(p), \quad 0 \leq p \leq 1
+\]</div>
 <p>leading to the marginal for <span class="math notranslate nohighlight">\(X\)</span>:</p>
 <div class="math notranslate nohighlight">
-\[m(x) = \int_0^1 f(x \mid p) \, dG(p) = \int_0^1 (1 - p)^x p g(p) \, dp\]</div>
+\[
+m(x) = \int_0^1 f(x \mid p) \, dG(p) = \int_0^1 (1 - p)^x p g(p) \, dp
+\]</div>
 <p>The posterior mean is:</p>
 <div class="amsmath math notranslate nohighlight">
 \[\begin{align*}
@@ -1847,12 +1901,19 @@ E(p \mid x) &amp;= \frac{1}{m(x)} \int_0^1 p (1 - p)^x p g(p) \, dp \\
 &amp;= 1 - \frac{m(x+1)}{m(x)}
 \end{align*}\]</div>
 <p>An automatic estimator for <span class="math notranslate nohighlight">\(m(x)\)</span> is:</p>
-<p><span class="math notranslate nohighlight">\(\hat{m}(x) = \frac{\# \text{ of observations } = x}{\text{Total } \# \text{ of observations}}\)</span></p>
+<div class="math notranslate nohighlight">
+\[
+\hat{m}(x) = \frac{\# \text{ of observations } = x}{\text{Total } \# \text{ of observations}}
+\]</div>
 <p>This leads to:</p>
 <div class="math notranslate nohighlight">
-\[p^* = 1 - \frac{\# \text{ of observations } = x + 1}{\# \text{ of observations } = x}\]</div>
+\[
+p^* = 1 - \frac{\# \text{ of observations } = x + 1}{\# \text{ of observations } = x}
+\]</div>
 <div class="math notranslate nohighlight">
-\[\hat{p} = \min \left\{1, \max \{0, p^*\} \right\}\]</div>
+\[
+\hat{p} = \min \left\{1, \max \{0, p^*\} \right\}
+\]</div>
 <p>In this case <span class="math notranslate nohighlight">\(\hat{p}\)</span> is free of the prior distribution <span class="math notranslate nohighlight">\(g\)</span> (although the marginal depends on <span class="math notranslate nohighlight">\(g\)</span>).</p>
 <p>Solution for 2:
 For the simulated data, the estimators (at particular values of <span class="math notranslate nohighlight">\(x\)</span>) are given in the following table:</p>
