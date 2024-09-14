@@ -4,11 +4,9 @@ This repository contains Python translations of the examples from Georgia Tech's
 
 ## Why?
 
-I created this site to address some of the most common student complaints and questions. The most frequent source of dissatisfaction was the course's use of OpenBUGS, so I redid the lecture examples in Python and PyMC.
+We created this site to address some of the most common student complaints and questions. The most frequent source of dissatisfaction was the course's use of OpenBUGS, so we redid the lecture examples in Python and PyMC.
 
-A close second was the lecture quality—some students said the lectures were too dense, some said they didn't go deeply enough into the underlying theory, and others requested more problems worked out step-by-step.
-
-Keep in mind that the course is a very broad overview of the subject, so it's tough to go too deep when covering any individual part. But to help with this, I've added notes and further references that provide context to the lectures and address the most common questions we get about each one. As a relative newcomer to statistics, I hope my perspective helps other people coming in with similar backgrounds.
+We also want to supplement the lectures by adding notes that address common questions and provide links for further reading on specific subjects. As an overview course, this class doesn't go too deep on any one topic, but we hope to provide a jumping-off point for students who are interested in going further.
 
 ## Site structure
 
@@ -20,7 +18,9 @@ Any necessary data will either have a download link or, if the data is compact e
 
 ## Contributors
 
-[Greg Schreiter](https://github.com/schr0841) was the head TA for several years and wrote many of the problem solutions as well as compiling the course errata.
+[Aaron Reding](https://github.com/areding), current head TA, started taking notes on the lectures and working on PyMC versions of the code as a student in Spring 2020, which eventually became this site.
+
+[Greg Schreiter](https://github.com/schr0841) was the head TA for several years and wrote many of the problem solutions as well as compiling the course errata. 
 
 [Jason Naramore](https://github.com/jnaramore), a current TA, has contributed Python code, exercise solutions, and lecture notes.
 
