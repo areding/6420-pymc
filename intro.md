@@ -18,7 +18,7 @@ Any necessary data will either have a download link or, if the data is compact e
 
 ## Contributors
 
-[Aaron Reding](https://github.com/areding), current head TA, started taking notes on the lectures and working on PyMC versions of the code as a student in Spring 2020, which eventually became this site.
+[Aaron Reding](https://github.com/areding), current head TA, started taking notes on the lectures and working on PyMC versions of the code as a student in Spring 2020, eventually using those materials to create this site.
 
 [Greg Schreiter](https://github.com/schr0841) was the head TA for several years and wrote many of the problem solutions as well as compiling the course errata. 
 
