@@ -577,7 +577,8 @@ document.write(`
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#problem-statement">Problem statement</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model-1">Model 1</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model-1-using-built-in-ar">Model 1 using built in AR</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model-1-using-built-in-ar-1">Model 1 using built in AR(1)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prediction-step">Prediction Step</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model-2-arma-2-1">Model 2: ARMA(2,1)</a></li>
 </ul>
             </nav>
@@ -598,8 +599,7 @@ document.write(`
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">from</span> <span class="nn">pytensor.tensor.subtensor</span> <span class="kn">import</span> <span class="n">set_subtensor</span>
 <span class="kn">import</span> <span class="nn">pytensor.tensor</span> <span class="k">as</span> <span class="nn">pt</span>
-
-<span class="o">%</span><span class="k">load_ext</span> lab_black
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 </pre></div>
 </div>
 </div>
@@ -656,6 +656,7 @@ document.write(`
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">m1</span><span class="p">:</span>
+
     <span class="n">eps_0</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;eps_0&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">)</span>
 
     <span class="n">theta</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;theta&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">)</span>
@@ -682,28 +683,8 @@ Multiprocess sampling (4 chains in 4 jobs)
 NUTS: [eps_0, theta, c, sigma]
 </pre></div>
 </div>
-<div class="output text_html">
-<style>
-    /* Turns off some styling */
-    progress {
-        /* gets rid of default border in Firefox and Opera. */
-        border: none;
-        /* Needs to be in here for Safari polyfill so background images work as expected. */
-        background-size: auto;
-    }
-    progress:not([value]), progress:not([value])::-webkit-progress-bar {
-        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
-    }
-    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
-        background: #F44336;
-    }
-</style>
-</div><div class="output text_html">
-    <div>
-      <progress value='16000' class='' max='16000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-      100.00% [16000/16000 00:07&lt;00:00 Sampling 4 chains, 0 divergences]
-    </div>
-    </div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 3_000 draw iterations (4_000 + 12_000 draws total) took 7 seconds.
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "42c5a0634cd54a0c933a3c9edf441362", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 3_000 draw iterations (4_000 + 12_000 draws total) took 3 seconds.
 </pre></div>
 </div>
 </div>
@@ -747,50 +728,50 @@ NUTS: [eps_0, theta, c, sigma]
   <tbody>
     <tr>
       <th>eps_0</th>
-      <td>-0.132</td>
-      <td>21.244</td>
-      <td>-39.413</td>
-      <td>39.804</td>
-      <td>0.204</td>
+      <td>-0.019</td>
+      <td>20.996</td>
+      <td>-40.168</td>
+      <td>39.512</td>
       <td>0.201</td>
-      <td>10847.0</td>
-      <td>7037.0</td>
+      <td>0.195</td>
+      <td>10914.0</td>
+      <td>8518.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>theta</th>
-      <td>0.817</td>
-      <td>0.060</td>
-      <td>0.710</td>
-      <td>0.933</td>
+      <td>0.816</td>
+      <td>0.059</td>
+      <td>0.702</td>
+      <td>0.923</td>
       <td>0.001</td>
       <td>0.000</td>
-      <td>8448.0</td>
-      <td>7955.0</td>
+      <td>8773.0</td>
+      <td>8388.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>c</th>
-      <td>8.539</td>
-      <td>3.527</td>
-      <td>1.722</td>
-      <td>14.830</td>
-      <td>0.039</td>
-      <td>0.028</td>
-      <td>8156.0</td>
-      <td>8837.0</td>
+      <td>8.508</td>
+      <td>3.492</td>
+      <td>1.827</td>
+      <td>14.904</td>
+      <td>0.037</td>
+      <td>0.027</td>
+      <td>9104.0</td>
+      <td>8078.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>sigma</th>
-      <td>21.941</td>
-      <td>1.612</td>
-      <td>18.964</td>
-      <td>25.010</td>
-      <td>0.016</td>
+      <td>21.949</td>
+      <td>1.639</td>
+      <td>19.002</td>
+      <td>25.006</td>
+      <td>0.017</td>
       <td>0.012</td>
-      <td>9789.0</td>
-      <td>7872.0</td>
+      <td>9292.0</td>
+      <td>8321.0</td>
       <td>1.0</td>
     </tr>
   </tbody>
@@ -798,123 +779,41 @@ NUTS: [eps_0, theta, c, sigma]
 </div></div></div>
 </div>
 </section>
-<section id="model-1-using-built-in-ar">
-<h2>Model 1 using built in AR<a class="headerlink" href="#model-1-using-built-in-ar" title="Permalink to this headline">#</a></h2>
-<p>Docs are a little lacking here.</p>
-<p>further reading (these may be outdated - I haven’t had a chance to come back to this yet):</p>
-<ul class="simple">
-<li><p><a class="github reference external" href="https://github.com/pymc-devs/pymc4/issues/198">pymc-devs/pymc4#198</a></p></li>
-<li><p><a class="reference external" href="https://www.pymc-labs.io/blog-posts/bayesian-vector-autoregression/">https://www.pymc-labs.io/blog-posts/bayesian-vector-autoregression/</a></p></li>
-<li><p><a class="reference external" href="https://www.pymc.io/projects/examples/en/latest/time_series/AR.html">https://www.pymc.io/projects/examples/en/latest/time_series/AR.html</a></p></li>
-<li><p><a class="reference external" href="https://discourse.pymc.io/t/vectorized-autoregressive-model/1449">https://discourse.pymc.io/t/vectorized-autoregressive-model/1449</a></p></li>
-</ul>
+<section id="model-1-using-built-in-ar-1">
+<h2>Model 1 using built in AR(1)<a class="headerlink" href="#model-1-using-built-in-ar-1" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">m1_ar</span><span class="p">:</span>
-    <span class="n">rho</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;rho&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>  <span class="c1"># shape of rho determines AR order</span>
+
+    <span class="n">rho</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span>
+        <span class="s2">&quot;rho&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="mi">2</span>
+    <span class="p">)</span>  <span class="c1"># shape of rho determines AR order</span>
     <span class="n">sigma</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Uniform</span><span class="p">(</span><span class="s2">&quot;sigma&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
 
     <span class="c1"># constant=True means rho[0] is the constant term (c from BUGS model)</span>
     <span class="n">pm</span><span class="o">.</span><span class="n">AR</span><span class="p">(</span><span class="s2">&quot;likelihood&quot;</span><span class="p">,</span> <span class="n">rho</span><span class="o">=</span><span class="n">rho</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">,</span> <span class="n">constant</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
 
-    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">3000</span><span class="p">,</span> <span class="n">chains</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">cores</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># multiprocessing error</span>
+    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">3000</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc_env2/lib/python3.11/site-packages/pymc/distributions/timeseries.py:569: UserWarning: Initial distribution not specified, defaulting to `Normal.dist(0, 100, shape=...)`. You can specify an init_dist manually to suppress this warning.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc/lib/python3.11/site-packages/pymc/distributions/timeseries.py:621: UserWarning: Initial distribution not specified, defaulting to `Normal.dist(0, 100, shape=...)`. You can specify an init_dist manually to suppress this warning.
   warnings.warn(
 Auto-assigning NUTS sampler...
 Initializing NUTS using jitter+adapt_diag...
-Sequential sampling (4 chains in 1 job)
+Multiprocess sampling (4 chains in 4 jobs)
 NUTS: [rho, sigma]
+/Users/aaron/mambaforge/envs/pymc/lib/python3.11/multiprocessing/popen_fork.py:66: RuntimeWarning: os.fork() was called. os.fork() is incompatible with multithreaded code, and JAX is multithreaded, so this will likely lead to a deadlock.
+  self.pid = os.fork()
 </pre></div>
 </div>
-<div class="output text_html">
-<style>
-    /* Turns off some styling */
-    progress {
-        /* gets rid of default border in Firefox and Opera. */
-        border: none;
-        /* Needs to be in here for Safari polyfill so background images work as expected. */
-        background-size: auto;
-    }
-    progress:not([value]), progress:not([value])::-webkit-progress-bar {
-        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
-    }
-    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
-        background: #F44336;
-    }
-</style>
-</div><div class="output text_html">
-    <div>
-      <progress value='4000' class='' max='4000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-      100.00% [4000/4000 00:02&lt;00:00 Sampling chain 0, 0 divergences]
-    </div>
-    </div><div class="output text_html">
-<style>
-    /* Turns off some styling */
-    progress {
-        /* gets rid of default border in Firefox and Opera. */
-        border: none;
-        /* Needs to be in here for Safari polyfill so background images work as expected. */
-        background-size: auto;
-    }
-    progress:not([value]), progress:not([value])::-webkit-progress-bar {
-        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
-    }
-    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
-        background: #F44336;
-    }
-</style>
-</div><div class="output text_html">
-    <div>
-      <progress value='4000' class='' max='4000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-      100.00% [4000/4000 00:02&lt;00:00 Sampling chain 1, 0 divergences]
-    </div>
-    </div><div class="output text_html">
-<style>
-    /* Turns off some styling */
-    progress {
-        /* gets rid of default border in Firefox and Opera. */
-        border: none;
-        /* Needs to be in here for Safari polyfill so background images work as expected. */
-        background-size: auto;
-    }
-    progress:not([value]), progress:not([value])::-webkit-progress-bar {
-        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
-    }
-    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
-        background: #F44336;
-    }
-</style>
-</div><div class="output text_html">
-    <div>
-      <progress value='4000' class='' max='4000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-      100.00% [4000/4000 00:03&lt;00:00 Sampling chain 2, 0 divergences]
-    </div>
-    </div><div class="output text_html">
-<style>
-    /* Turns off some styling */
-    progress {
-        /* gets rid of default border in Firefox and Opera. */
-        border: none;
-        /* Needs to be in here for Safari polyfill so background images work as expected. */
-        background-size: auto;
-    }
-    progress:not([value]), progress:not([value])::-webkit-progress-bar {
-        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
-    }
-    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
-        background: #F44336;
-    }
-</style>
-</div><div class="output text_html">
-    <div>
-      <progress value='4000' class='' max='4000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-      100.00% [4000/4000 00:03&lt;00:00 Sampling chain 3, 0 divergences]
-    </div>
-    </div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 3_000 draw iterations (4_000 + 12_000 draws total) took 12 seconds.
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "7b9d91112aea499c84cf10cd3a0383fc", "version_major": 2, "version_minor": 0}</script><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc/lib/python3.11/multiprocessing/popen_fork.py:66: RuntimeWarning: os.fork() was called. os.fork() is incompatible with multithreaded code, and JAX is multithreaded, so this will likely lead to a deadlock.
+  self.pid = os.fork()
+</pre></div>
+</div>
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 3_000 draw iterations (4_000 + 12_000 draws total) took 2 seconds.
 </pre></div>
 </div>
 </div>
@@ -958,38 +857,38 @@ NUTS: [rho, sigma]
   <tbody>
     <tr>
       <th>rho[0]</th>
-      <td>8.575</td>
-      <td>3.504</td>
-      <td>1.806</td>
-      <td>14.941</td>
-      <td>0.043</td>
-      <td>0.030</td>
-      <td>6745.0</td>
-      <td>6747.0</td>
+      <td>8.564</td>
+      <td>3.530</td>
+      <td>1.941</td>
+      <td>15.235</td>
+      <td>0.046</td>
+      <td>0.033</td>
+      <td>6001.0</td>
+      <td>7112.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>rho[1]</th>
       <td>0.811</td>
       <td>0.059</td>
-      <td>0.698</td>
-      <td>0.922</td>
+      <td>0.699</td>
+      <td>0.919</td>
       <td>0.001</td>
       <td>0.001</td>
-      <td>6751.0</td>
-      <td>7155.0</td>
+      <td>5918.0</td>
+      <td>6933.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>sigma</th>
-      <td>21.820</td>
-      <td>1.563</td>
-      <td>18.922</td>
-      <td>24.764</td>
+      <td>21.853</td>
+      <td>1.575</td>
+      <td>18.965</td>
+      <td>24.841</td>
       <td>0.018</td>
       <td>0.013</td>
-      <td>7340.0</td>
-      <td>6499.0</td>
+      <td>7770.0</td>
+      <td>7196.0</td>
       <td>1.0</td>
     </tr>
   </tbody>
@@ -997,9 +896,248 @@ NUTS: [rho, sigma]
 </div></div></div>
 </div>
 </section>
+<section id="prediction-step">
+<h2>Prediction Step<a class="headerlink" href="#prediction-step" title="Permalink to this headline">#</a></h2>
+<p>We have our model, now we forecast the next 10 years</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Forecast 10 years ahead</span>
+<span class="n">n_fcast</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">y_fcast</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n_fcast</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">y_fcast</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">:]</span>
+
+<span class="c1"># Extract the mean of the posterior for rho (AR(1) model)</span>
+<span class="n">rho_mean</span> <span class="o">=</span> <span class="n">trace</span><span class="o">.</span><span class="n">posterior</span><span class="p">[</span><span class="s2">&quot;rho&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">values</span>
+
+<span class="c1"># Forecast based on the last observed point for AR(1)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_fcast</span> <span class="o">+</span> <span class="mi">2</span><span class="p">):</span>
+    <span class="n">y_fcast</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">rho_mean</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">rho_mean</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">y_fcast</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+
+<span class="n">y_forecast</span> <span class="o">=</span> <span class="n">y_fcast</span><span class="p">[</span><span class="mi">2</span><span class="p">:]</span>
+
+<span class="c1"># Extend the year array for the forecast period</span>
+<span class="n">t_fcast</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">yr</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">yr</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">n_fcast</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot the original time series with the forecast</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">yr</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Original Sunspot Data&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;blue&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t_fcast</span><span class="p">,</span> <span class="n">y_forecast</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Forecasted Data&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Year&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Number of Sunspots&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Sunspot Time Series Forecast&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, &#39;Sunspot Time Series Forecast&#39;)
+</pre></div>
+</div>
+<img alt="../_images/f00997d0663ec4c567f90a20478c671d9519ef3622e354f458bdbed80fa6c50f.png" src="../_images/f00997d0663ec4c567f90a20478c671d9519ef3622e354f458bdbed80fa6c50f.png" />
+</div>
+</div>
+</section>
 <section id="model-2-arma-2-1">
 <h2>Model 2: ARMA(2,1)<a class="headerlink" href="#model-2-arma-2-1" title="Permalink to this headline">#</a></h2>
-<p>Holding off on this for now - supposedly they are working on adding more time series stuff and it looks like a pain to do manually.</p>
+<p>Because the forecast only utilizes the last value to forecast, we will enhance the model by adding another AR term, as well as a Moving Average (MA) term.</p>
+<p>We use pymc_experimental.BayesianSARIMA to achieve this. As of 9/16/2024, this functionality is still in the experimentation repo, however it allows for a greatly reduced codebase. Coding an ARMA(2,1) method from scratch is lengthy. See here for documentation: <a class="reference external" href="https://www.pymc.io/projects/experimental/en/latest/_modules/pymc_experimental/statespace/models/SARIMAX.html#BayesianSARIMA">https://www.pymc.io/projects/experimental/en/latest/_modules/pymc_experimental/statespace/models/SARIMAX.html#BayesianSARIMA</a>.<strong>init</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pymc_experimental.statespace</span> <span class="k">as</span> <span class="nn">pmss</span>
+<span class="kn">import</span> <span class="nn">pymc</span> <span class="k">as</span> <span class="nn">pm</span>
+<span class="kn">import</span> <span class="nn">pymc.sampling_jax</span> <span class="k">as</span> <span class="nn">pjax</span>
+
+<span class="c1"># As BayesianSARIMA does not include an intercept term,</span>
+<span class="c1"># we can force it by centering the data</span>
+
+<span class="n">y_mean</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">y_centered</span> <span class="o">=</span> <span class="n">y</span> <span class="o">-</span> <span class="n">y_mean</span>
+<span class="n">y2</span> <span class="o">=</span> <span class="n">y_centered</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># ARMA(2,1) model</span>
+<span class="n">ss_mod</span> <span class="o">=</span> <span class="n">pmss</span><span class="o">.</span><span class="n">BayesianSARIMA</span><span class="p">(</span><span class="n">order</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">coords</span><span class="o">=</span><span class="n">ss_mod</span><span class="o">.</span><span class="n">coords</span><span class="p">)</span> <span class="k">as</span> <span class="n">arma_model</span><span class="p">:</span>
+
+    <span class="c1"># Priors</span>
+    <span class="n">state_sigmas</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Uniform</span><span class="p">(</span>
+        <span class="s2">&quot;sigma_state&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="n">ss_mod</span><span class="o">.</span><span class="n">param_dims</span><span class="p">[</span><span class="s2">&quot;sigma_state&quot;</span><span class="p">]</span>
+    <span class="p">)</span>
+    <span class="n">ar_params</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span>
+        <span class="s2">&quot;ar_params&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="n">ss_mod</span><span class="o">.</span><span class="n">param_dims</span><span class="p">[</span><span class="s2">&quot;ar_params&quot;</span><span class="p">]</span>
+    <span class="p">)</span>
+    <span class="n">ma_params</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span>
+        <span class="s2">&quot;ma_params&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="n">ss_mod</span><span class="o">.</span><span class="n">param_dims</span><span class="p">[</span><span class="s2">&quot;ma_params&quot;</span><span class="p">]</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Build Statespace Model</span>
+    <span class="n">ss_mod</span><span class="o">.</span><span class="n">build_statespace_graph</span><span class="p">(</span><span class="n">y2</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;JAX&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Inference Data</span>
+    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">nuts_sampler</span><span class="o">=</span><span class="s2">&quot;numpyro&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The following parameters should be assigned priors inside a PyMC model block: 
+	ar_params -- shape: (2,), constraints: None, dims: (&#39;ar_lag&#39;,)
+	ma_params -- shape: (1,), constraints: None, dims: (&#39;ma_lag&#39;,)
+	sigma_state -- shape: None, constraints: Positive, dims: ()
+/Users/aaron/mambaforge/envs/pymc/lib/python3.11/site-packages/pymc_experimental/statespace/utils/data_tools.py:74: UserWarning: No time index found on the supplied data. A simple range index will be automatically generated.
+  warnings.warn(NO_TIME_INDEX_WARNING)
+</pre></div>
+</div>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "3af6e72518d0495b917d9b8a5ea33775", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "8e93ebcb91bf4dfeaddf612774f404ba", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "30272e111f424efa8383eaf728f64d1f", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "fe4a630fa7ea400ebe1cc27a43f8bf1f", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mean</th>
+      <th>sd</th>
+      <th>hdi_3%</th>
+      <th>hdi_97%</th>
+      <th>mcse_mean</th>
+      <th>mcse_sd</th>
+      <th>ess_bulk</th>
+      <th>ess_tail</th>
+      <th>r_hat</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>ar_params[1]</th>
+      <td>1.222</td>
+      <td>0.117</td>
+      <td>1.011</td>
+      <td>1.448</td>
+      <td>0.003</td>
+      <td>0.002</td>
+      <td>1245.0</td>
+      <td>1469.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>ar_params[2]</th>
+      <td>-0.556</td>
+      <td>0.111</td>
+      <td>-0.771</td>
+      <td>-0.360</td>
+      <td>0.003</td>
+      <td>0.002</td>
+      <td>1288.0</td>
+      <td>1465.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>ma_params[1]</th>
+      <td>0.375</td>
+      <td>0.138</td>
+      <td>0.118</td>
+      <td>0.636</td>
+      <td>0.004</td>
+      <td>0.003</td>
+      <td>1325.0</td>
+      <td>1694.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>sigma_state</th>
+      <td>15.059</td>
+      <td>1.107</td>
+      <td>13.091</td>
+      <td>17.197</td>
+      <td>0.025</td>
+      <td>0.018</td>
+      <td>2030.0</td>
+      <td>1954.0</td>
+      <td>1.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Means of AR, MA, and Sigma</span>
+<span class="n">ar_mean</span> <span class="o">=</span> <span class="n">trace</span><span class="o">.</span><span class="n">posterior</span><span class="p">[</span><span class="s2">&quot;ar_params&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;chain&quot;</span><span class="p">,</span> <span class="s2">&quot;draw&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">values</span>
+<span class="n">ma_mean</span> <span class="o">=</span> <span class="n">trace</span><span class="o">.</span><span class="n">posterior</span><span class="p">[</span><span class="s2">&quot;ma_params&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;chain&quot;</span><span class="p">,</span> <span class="s2">&quot;draw&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">values</span>
+<span class="n">sigma_mean</span> <span class="o">=</span> <span class="n">trace</span><span class="o">.</span><span class="n">posterior</span><span class="p">[</span><span class="s2">&quot;sigma_state&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;chain&quot;</span><span class="p">,</span> <span class="s2">&quot;draw&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">values</span>
+
+<span class="c1"># Residuals</span>
+<span class="n">epsilon_fcast</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n_fcast</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">epsilon_fcast</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="c1"># Forecast 10 periods ahead</span>
+<span class="n">n_fcast</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">y_fcast</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n_fcast</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">y_fcast</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">y_centered</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">:]</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">n_fcast</span> <span class="o">+</span> <span class="mi">2</span><span class="p">):</span>
+
+    <span class="c1"># Future error term</span>
+    <span class="n">epsilon_t</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">y_fcast</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">ar_mean</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">y_fcast</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="o">+</span> <span class="n">ar_mean</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">y_fcast</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">2</span><span class="p">]</span>
+        <span class="o">+</span> <span class="n">ma_mean</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">epsilon_fcast</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="o">+</span> <span class="n">epsilon_t</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Update the error term</span>
+    <span class="n">epsilon_fcast</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">epsilon_t</span>
+
+<span class="n">y_forecast</span> <span class="o">=</span> <span class="n">y_fcast</span><span class="p">[</span><span class="mi">2</span><span class="p">:]</span> <span class="o">+</span> <span class="n">y_mean</span>  <span class="c1"># Add the mean back</span>
+<span class="n">t_fcast</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">yr</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">yr</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">n_fcast</span><span class="p">)</span>
+
+<span class="c1"># Plotting</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">yr</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Original Sunspot Data&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;blue&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">t_fcast</span><span class="p">,</span> <span class="n">y_forecast</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Forecasted Data with ARMA(2,1)&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;red&quot;</span>
+<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Year&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Number of Sunspots&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Sunspot Time Series Forecast&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, &#39;Sunspot Time Series Forecast&#39;)
+</pre></div>
+</div>
+<img alt="../_images/2c73a69890da9c4624fe5b9d0e94d335c67b3f73c2ccdb75a9df94003dfa0eb3.png" src="../_images/2c73a69890da9c4624fe5b9d0e94d335c67b3f73c2ccdb75a9df94003dfa0eb3.png" />
+</div>
+</div>
+<p>Written by Taylor Bosier and Aaron Reding.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">load_ext</span> watermark
@@ -1008,19 +1146,21 @@ NUTS: [rho, sigma]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Wed Mar 22 2023
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Tue Sep 17 2024
 
 Python implementation: CPython
-Python version       : 3.11.0
-IPython version      : 8.9.0
+Python version       : 3.11.8
+IPython version      : 8.22.2
 
-pytensor: 2.10.1
+pytensor: 2.25.4
 
-arviz   : 0.15.1
-pymc    : 5.1.2
-pandas  : 1.5.3
-numpy   : 1.24.2
-pytensor: 2.10.1
+numpy            : 1.26.4
+pytensor         : 2.25.4
+matplotlib       : 3.8.3
+pymc             : 5.16.2
+pymc_experimental: 0.1.2
+pandas           : 2.2.1
+arviz            : 0.17.1
 </pre></div>
 </div>
 </div>
@@ -1097,7 +1237,8 @@ pytensor: 2.10.1
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#problem-statement">Problem statement</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model-1">Model 1</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model-1-using-built-in-ar">Model 1 using built in AR</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model-1-using-built-in-ar-1">Model 1 using built in AR(1)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prediction-step">Prediction Step</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model-2-arma-2-1">Model 2: ARMA(2,1)</a></li>
 </ul>
   </nav></div>
