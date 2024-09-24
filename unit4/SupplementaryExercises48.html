@@ -1372,27 +1372,63 @@ I = -E \left[
 \psi = \log\left(\frac{p}{1 - p}\right),
 \]</div>
 <p>and assume that <span class="math notranslate nohighlight">\( \psi \)</span> is given a flat prior, <span class="math notranslate nohighlight">\( \psi \sim 1 \)</span>. Then the prior on <span class="math notranslate nohighlight">\( p \)</span> is</p>
-<div class="math notranslate nohighlight">
-\[
-\pi(p) = \pi(\psi) \left| \frac{d\psi(p)}{dp} \right| = 1 \times \left| \frac{1}{p/(1 - p)} \cdot \frac{p(-1) - 1 \cdot (1 - p)}{(1 - p)^2} \right| = \frac{1}{p(1 - p)}.
-\]</div>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\pi(p) &amp;= \pi(\psi) \left| \frac{d\psi(p)}{dp} \right| \\
+&amp;= 1 \times \left| \frac{1}{p/(1 - p)} \cdot \frac{p(-1) - 1 \cdot (1 - p)}{(1 - p)^2} \right| \\
+&amp;= \frac{1}{p(1 - p)}
+\end{align*}\]</div>
 <ol class="arabic simple" start="2">
 <li><p>The posterior is beta <span class="math notranslate nohighlight">\( \text{Be}(x, n - x) \)</span> and the Bayes estimator of <span class="math notranslate nohighlight">\( p \)</span> is <span class="math notranslate nohighlight">\( \frac{x}{n} \)</span>, which coincides with the frequentist’s <span class="math notranslate nohighlight">\( \hat{p} \)</span>.</p></li>
-<li><p>The predictive distribution for a single future Bernoulli <span class="math notranslate nohighlight">\( y \)</span> is</p></li>
+<li><p>First find the predictive distribution for Bernoulli given the posterior from 2:</p></li>
 </ol>
 <div class="math notranslate nohighlight">
 \[
-f(y \mid x) = \frac{B(x + y, n + 1 - x - y)}{B(x, n - x)}.
+P(Y\mid X) = \int_0^1 P(Y \mid p) \, \pi(p \mid X) \, dp
+\]</div>
+<p>Likelihood:</p>
+<div class="math notranslate nohighlight">
+\[
+P(Y \mid p) = p^y (1 - p)^{1 - y}
+\]</div>
+<p>Posterior (from part 2):
+$<span class="math notranslate nohighlight">\(
+\pi(p \mid X) = \dfrac{p^{x - 1} (1 - p)^{n - x - 1}}{B(x, n - x)}
+\)</span>$</p>
+<p>Substitute in:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+P(Y = y \mid X = x) &amp;= \int_0^1 p^y (1 - p)^{1 - y} \cdot \dfrac{p^{x - 1} (1 - p)^{n - x - 1}}{B(x, n - x)} \, dp \\
+&amp;= \dfrac{1}{B(x, n - x)} \int_0^1 p^{x - 1 + y} (1 - p)^{n - x - 1 + (1 - y)} \, dp \\
+&amp;= \dfrac{1}{B(x, n - x)} \int_0^1 p^{x + y - 1} (1 - p)^{n - x - y} \, dp
+\end{align*}
+\end{split}\]</div>
+<p>Recognize the Beta function:</p>
+<div class="math notranslate nohighlight">
+\[
+\int_0^1 p^{a - 1} (1 - p)^{b - 1} \, dp = B(a, b)
+\]</div>
+<p>Where:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+a &amp;= x + y \\
+b &amp;= n - x - y + 1
+\end{align*}
+\end{split}\]</div>
+<p>Substitute back in to the posterior predictive and you have:</p>
+<div class="math notranslate nohighlight">
+\[
+f(y \mid x) = \frac{B(x + y, n - x - y+ 1)}{B(x, n - x)}
 \]</div>
 <p>Here, using <span class="math notranslate nohighlight">\( B(a, b) = \frac{\Gamma(a)\Gamma(b)}{\Gamma(a + b)} \)</span> and <span class="math notranslate nohighlight">\( \Gamma(a + 1) = a\Gamma(a) \)</span>, we can show</p>
-<div class="math notranslate nohighlight">
-\[
-f(0 \mid x) + f(1 \mid x) = \frac{\Gamma(x)\Gamma(n + 1 - x)}{\Gamma(n + 1)} + \frac{\Gamma(x + 1)\Gamma(n - x)}{\Gamma(n + 1)},
-\]</div>
-<div class="math notranslate nohighlight">
-\[
-= \frac{\Gamma(x)(n - x)\Gamma(n - x)}{n\Gamma(n)} + \frac{x\Gamma(x)\Gamma(n - x)}{n\Gamma(n)} = \frac{n - x}{n} + \frac{x}{n} = 1.
-\]</div>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+f(0 \mid x) + f(1 \mid x) &amp;= \frac{\Gamma(x)\Gamma(n + 1 - x)}{\Gamma(n + 1)} + \frac{\Gamma(x + 1)\Gamma(n - x)}{\Gamma(n + 1)} \\
+&amp;= \frac{\Gamma(x)(n - x)\Gamma(n - x)}{n\Gamma(n)} + \frac{x\Gamma(x)\Gamma(n - x)}{n\Gamma(n)} \\
+&amp;= \frac{n - x}{n} + \frac{x}{n} = 1
+\end{align*}\]</div>
 <p>Thus, the distribution of future observation <span class="math notranslate nohighlight">\( y \)</span> given <span class="math notranslate nohighlight">\( x \)</span> successes in <span class="math notranslate nohighlight">\( n \)</span> trials is</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
