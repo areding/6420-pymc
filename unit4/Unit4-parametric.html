@@ -582,7 +582,18 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#incorrect-conditional-on-slide-3">Incorrect conditional on slide 3</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lecture-summary">Lecture summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lecture-notes">Lecture Notes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#empirical-bayes">Empirical Bayes</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#jeremy-in-empirical-bayes">Jeremy in Empirical Bayes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#poisson-exponential-example">Poisson-Exponential example:</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#the-long-way">The long way</a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#solution">Solution</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
             </nav>
         </div>
@@ -625,11 +636,279 @@ document.write(`
 \[\prod_{i=1}^{n} m_i(x_i|\xi)\]</div>
 </section>
 </section>
-<section id="lecture-summary">
-<h2>Lecture summary<a class="headerlink" href="#lecture-summary" title="Permalink to this headline">#</a></h2>
-<p>Empirical Bayes can be categorized into parametric and non-parametric approaches, a taxonomy proposed by Carl Morris in his <a class="reference external" href="https://www.jstor.org/stable/2287098">1983 JASA paper</a> (<span id="id1">Morris [<a class="reference internal" href="../backmatter/bibliography.html#id17" title="Carl N. Morris. Parametric empirical bayes inference: theory and applications. Journal of the American Statistical Association, 78(381):47–55, 1983. URL: http://www.jstor.org/stable/2287098 (visited on 2023-07-10).">1983</a>]</span>). This lecture primarily focuses on the parametric approach, where the likelihood function and the parameter <span class="math notranslate nohighlight">\(\theta_i\)</span> vary across observations. The individual observations are independent but <strong>not</strong> identically distributed because of the variation in <span class="math notranslate nohighlight">\(\theta_i\)</span> and the likelihood functions <span class="math notranslate nohighlight">\(f_i\)</span>. The priors on <span class="math notranslate nohighlight">\(\theta_i\)</span> are considered to be IID, however.</p>
-<p>If the individual observations <span class="math notranslate nohighlight">\(x_i\)</span> are all dependent on a common hyperparameter and share the same likelihood function <span class="math notranslate nohighlight">\(f_i\)</span>, then they are marginally IID. Then the hyperparameter, although unknown, can be estimated using the data through a Maximum Likelihood Estimation (MLE) approach.</p>
-<p>Empirical Bayes estimates borrow strength from all data points, using the mean and variance of all observations, not just the observation for each test. Hence, instead of analyzing each test separately, the empirical Bayes estimate takes into account all the data points.</p>
+<section id="lecture-notes">
+<h2>Lecture Notes<a class="headerlink" href="#lecture-notes" title="Permalink to this headline">#</a></h2>
+<p>I’m going to add the entire slides for this one since we get so many questions about this lecture, as well as additional algebraic steps.</p>
+<p>Empirical Bayes can be categorized into parametric and non-parametric approaches, a taxonomy proposed by Carl Morris in his <a class="reference external" href="https://www.jstor.org/stable/2287098">1983 JASA paper</a> (<span id="id1">Morris [<a class="reference internal" href="../backmatter/bibliography.html#id17" title="Carl N. Morris. Parametric empirical bayes inference: theory and applications. Journal of the American Statistical Association, 78(381):47–55, 1983. URL: http://www.jstor.org/stable/2287098 (visited on 2023-07-10).">1983</a>]</span>).</p>
+</section>
+<section id="empirical-bayes">
+<h2>Empirical Bayes<a class="headerlink" href="#empirical-bayes" title="Permalink to this headline">#</a></h2>
+<ul class="simple">
+<li><p>Carl Morris (1983, JASA paper) divided Empirical Bayes into <strong>parametric</strong> and <strong>non-parametric</strong>.</p></li>
+</ul>
+<p>Given the following:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+X_i \mid \theta_i &amp;\overset{\text{ind.}}{\sim} f_i(x_i \mid \theta_i), \quad i = 1, 2, \dots, n \\
+\theta_i &amp;\overset{\text{i.i.d.}}{\sim} \pi(\theta_i \mid \xi), \quad \xi \text{ is a common hyperparameter}
+\end{align*}
+\end{split}\]</div>
+<p>Then the marginal distribution of <span class="math notranslate nohighlight">\(x_i\)</span> given <span class="math notranslate nohighlight">\(\xi\)</span> is:</p>
+<div class="math notranslate nohighlight">
+\[
+m_i(x_i \mid \xi) = \int f_i(x_i \mid \theta_i) \cdot \pi(\theta_i \mid \xi) d\theta_i
+\]</div>
+<p>The joint marginal distribution is:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+m(\underset{\sim}{x} \mid \xi) &amp;= \int \prod_{i=1}^{n} f_i(x_i \mid \theta_i) \cdot \prod_{i=1}^{n} \pi(\theta_i \mid \xi) d\theta_1 \cdots d\theta_n \\
+&amp;= \prod_{i=1}^{n} \int f_i(x_i \mid \theta_i) \cdot \pi(\theta_i \mid \xi) d\theta_i  \\
+&amp;= \prod_{i=1}^{n} m_i(x_i \mid \xi) \quad \text{(independent)} 
+\end{align*}
+\end{split}\]</div>
+<p>From <span class="math notranslate nohighlight">\( m(\underset{\sim}{x} \mid \xi) = \prod_{i=1}^{n} m_i(x_i \mid \xi) \)</span>: <span class="math notranslate nohighlight">\( X_i \)</span> are marginally independent if <span class="math notranslate nohighlight">\( \theta_i \overset{\text{i.i.d.}}{\sim} \pi(\theta_i \mid \xi) \)</span>.</p>
+<hr class="docutils" />
+<p>If <span class="math notranslate nohighlight">\( f_i \equiv f \)</span>, then <span class="math notranslate nohighlight">\( X_i \)</span> are i.i.d. (marginally).</p>
+<p>Also, the posterior is:</p>
+<div class="math notranslate nohighlight">
+\[
+\pi(\theta_i \mid X_i, \xi) = \frac{f(x_i \mid \theta_i) \cdot \pi(\theta_i \mid \xi)}{m(x_i \mid \xi)}
+\]</div>
+<hr class="docutils" />
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\( \xi \)</span> is unknown and can be estimated from <span class="math notranslate nohighlight">\( X_1, X_2, \dots, X_n \)</span> via:</p>
+<ul>
+<li><p>MLE (called MLE II approach). This is what we’ll focus on.</p></li>
+<li><p>MM (moment matching)</p></li>
+</ul>
+</li>
+</ul>
+<section id="jeremy-in-empirical-bayes">
+<h3>Jeremy in Empirical Bayes<a class="headerlink" href="#jeremy-in-empirical-bayes" title="Permalink to this headline">#</a></h3>
+<p>Let <span class="math notranslate nohighlight">\( \underset{\sim}{X} = (98, 107, 89, 88, 108) \)</span> be Jeremy’s scores on <span class="math notranslate nohighlight">\( n = 5 \)</span> independent IQ tests.</p>
+<p>For this data:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+X_i \mid \theta_i &amp;\overset{\text{ind.}}{\sim} N(\theta_i, \sigma^2), \quad \sigma^2 = 80 \\
+\theta_i &amp;\overset{\text{i.i.d.}}{\sim} N(\mu, \tau^2), \quad \text{Goal: estimate } \theta_i
+\end{align*}
+\end{split}\]</div>
+<p>The marginal distribution of <span class="math notranslate nohighlight">\( X_i \)</span> is:</p>
+<div class="math notranslate nohighlight">
+\[
+m(\underset{\sim}{x} \mid \mu, \tau^2) = \prod_{i=1}^{n} m(x_i \mid \mu, \tau^2)
+\]</div>
+<p>Given that:</p>
+<div class="math notranslate nohighlight">
+\[
+X_i \overset{\text{i.i.d.}}{\sim} N(\mu, \sigma^2 + \tau^2)
+\]</div>
+<p>This implies:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+m(\underset{\sim}{x} \mid \mu, \tau^2) &amp;=\prod_{i=1}^{n}m(x_i \mid \mu, \tau^2) \\
+&amp;= \prod_{i=1}^{n} \frac{1}{\sqrt{2\pi(\sigma^2 + \tau^2)}} \exp\left(-\frac{(x_i - \mu)^2}{2(\sigma^2 + \tau^2)}\right)
+\end{align*}
+\end{split}\]</div>
+<p>Then, the MLE of <span class="math notranslate nohighlight">\( \mu \)</span> is <span class="math notranslate nohighlight">\( \hat{\mu} = \bar{X} \)</span> and of <span class="math notranslate nohighlight">\( \tau^2 \)</span> is:</p>
+<div class="math notranslate nohighlight">
+\[
+\hat{\tau}^2 = (s^2 - \sigma^2)_+ \equiv \text{max}\{0, s^2 - \sigma^2\}, \quad s^2 = \text{sample variance for } X.
+\]</div>
+<p>With these estimators from the data <span class="math notranslate nohighlight">\( \underset{\sim}{X} \)</span>, the (estimated) posterior becomes:</p>
+<div class="math notranslate nohighlight">
+\[
+\pi(\theta_i \mid X_i, \hat{\mu}, \hat{\tau}^2) = N(\hat{B} \hat{\mu} + (1 - \hat{B}) x_i, (1 - \hat{B}) \cdot \sigma^2),
+\]</div>
+<p>where <span class="math notranslate nohighlight">\( \hat{\mu} = \bar{X} \)</span>, <span class="math notranslate nohighlight">\( \hat{\tau}^2 = (s^2 - \sigma^2)_+ \)</span>, and <span class="math notranslate nohighlight">\( \hat{B} = \frac{\sigma^2}{\sigma^2 + \hat{\tau}^2} \)</span>.</p>
+<p>Thus, for Jeremy’s data:</p>
+<div class="math notranslate nohighlight">
+\[
+s^2 = 101,
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\hat{B} = \frac{\sigma^2}{\sigma^2 + \hat{\tau}^2} = \frac{80}{80 + (90.5 - 80)} = \frac{80}{90.5}.
+\]</div>
+<p>Then, the estimated parameters are:</p>
+<div class="math notranslate nohighlight">
+\[
+\hat{\theta}_1 = \frac{80}{90.5} \cdot 98 + \frac{21}{90.5} \cdot 98 = 98,
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\hat{\theta}_2 = \frac{80}{90.5} \cdot 98 + \frac{21}{90.5} \cdot 107 = 99.044, \space \text{etc.}
+\]</div>
+</section>
+<section id="poisson-exponential-example">
+<h3>Poisson-Exponential example:<a class="headerlink" href="#poisson-exponential-example" title="Permalink to this headline">#</a></h3>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+X_i\mid \lambda_i &amp;\sim \text{Pois}(\lambda_i), \quad i = 1, 2, \dots, n \\
+\lambda_i &amp;\sim \text{Exp}(\mu), \quad \pi(\lambda_i) = \mu e^{-\mu \lambda_i}
+\end{align*}
+\end{split}\]</div>
+<p>Find the Empirical Bayes estimators of <span class="math notranslate nohighlight">\( \lambda_i \)</span>.</p>
+<ul>
+<li><p><strong>Bayes estimator:</strong> <span class="math notranslate nohighlight">\( X_i \sim \text{Pois}(\lambda_i), \quad \lambda_i \sim \text{Exp}(\mu) \)</span></p>
+<p><span class="math notranslate nohighlight">\( \lambda_i \mid X_i \sim \text{Ga}(x_i + 1, 1 + \mu) \)</span> by conjugacy.</p>
+<p><span class="math notranslate nohighlight">\( \mathbb{E}(\lambda_i \mid X_i) = \frac{x_i + 1}{1 + \mu}, \)</span> but <span class="math notranslate nohighlight">\( \mu \)</span> may not be known…</p>
+</li>
+<li><p><strong>Empirical Bayes:</strong></p></li>
+</ul>
+<p>The marginal distribution <span class="math notranslate nohighlight">\( m(x_i) \)</span> is:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+m(x_i) &amp;= \int_{0}^{+\infty} \frac{\lambda_i^{x_i}}{x_i!} e^{-\lambda_i} \cdot \mu e^{-\mu \lambda_i} d\lambda_i\\
+m(x_i) &amp;= \frac{1}{(1+\mu)^{x_i+1}} \cdot \mu \int_{0}^{+\infty} \lambda_i^{x_i+1} e^{-(1+\mu)\lambda_i} d\lambda_i \\
+&amp;= \left(\frac{1}{1+\mu}\right)^{x_i} \cdot \frac{\mu}{1+\mu}, \quad x_i = 0, 1, \ldots
+\end{align*}
+\end{split}\]</div>
+<p>This is a geometric distribution! Denote <span class="math notranslate nohighlight">\( \frac{\mu}{1+\mu} = p \)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+\text{Ge}(p): \quad P(X_i = x_i) = (1-p)^{x_i} \cdot p
+\]</div>
+<p>The likelihood is:</p>
+<div class="math notranslate nohighlight">
+\[
+L = \prod_{i=1}^{n} m(x_i) = (1-p)^{\sum x_i} \cdot p^n
+\]</div>
+<p>Taking the log-likelihood:</p>
+<div class="math notranslate nohighlight">
+\[
+\ell = \log L = \sum_{i=1}^{n} \left[ \log(1-p) \cdot \sum x_i + n \log p \right]
+\]</div>
+<p>Taking the derivative and setting it equal to 0:</p>
+<div class="math notranslate nohighlight">
+\[
+\ell' = -\frac{\sum x_i}{1-p} + \frac{n}{p} = 0
+\]</div>
+<p>Solving for <span class="math notranslate nohighlight">\( p \)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+\hat{p} = \frac{n}{n + \sum x_i} = \frac{1}{1 + \bar{x}}
+\]</div>
+<p>Thus,</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\mu}{1+\mu} = \frac{1}{1+\bar{X}} \quad \Rightarrow \quad \hat{\mu} = \frac{1}{\bar{X}}
+\]</div>
+<p>Back to Bayes estimator with <span class="math notranslate nohighlight">\( \mu \)</span> estimated from the data:</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{X_i + 1}{1 + \mu} \quad \rightarrow \quad \frac{X_i + 1}{1 + \hat{\mu}} = \frac{X_i + 1}{1 + \frac{1}{\bar{X}}} = \frac{\bar{X}}{1 + \bar{X}} \cdot (X_i + 1).
+\]</div>
+<p>Thus,</p>
+<div class="math notranslate nohighlight">
+\[
+\hat{\lambda}_i = \frac{\bar{X}}{1 + \bar{X}}(X_i + 1)
+\]</div>
+<section id="the-long-way">
+<h4>The long way<a class="headerlink" href="#the-long-way" title="Permalink to this headline">#</a></h4>
+<p>Here we’ll ignore conjugacy and the Geometric distribution.</p>
+<p>Let <span class="math notranslate nohighlight">\( X_i \mid \lambda_i \)</span> be independently distributed following a Poisson distribution with parameter <span class="math notranslate nohighlight">\( \lambda_i \)</span>, i.e.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align}
+X_i \mid \lambda_i &amp;\sim^\text{ind.} \text{Poisson}(\lambda_i) \\
+\lambda_i &amp;\sim^\text{iid} \text{Exp}(\mu)
+\end{align}
+\end{split}\]</div>
+<p>for <span class="math notranslate nohighlight">\( i = 1, \ldots, n \)</span>, where <span class="math notranslate nohighlight">\( \mu \)</span> is unknown. Find the empirical Bayes estimator of <span class="math notranslate nohighlight">\( \lambda_i \)</span>, <span class="math notranslate nohighlight">\( i = 1, \ldots, n \)</span>.</p>
+<p><strong>Note:</strong> If <span class="math notranslate nohighlight">\( Z \sim \text{Gamma}(a, b) \)</span>, then its pdf is
+$<span class="math notranslate nohighlight">\(
+p(z) = \frac{b^a}{\Gamma(a)} z^{a-1} e^{-bz} \quad \text{for} \quad z \geq 0, \, a, b &gt; 0.
+\)</span>$</p>
+<section id="solution">
+<h5>Solution<a class="headerlink" href="#solution" title="Permalink to this headline">#</a></h5>
+<p>From the form of the likelihood and the prior, we have:</p>
+<div class="math notranslate nohighlight">
+\[
+f(X_i \mid \lambda_i) = \frac{\lambda_i^{X_i}}{X_i!} e^{-\lambda_i} \quad \text{for} \quad X_i = 0, 1, 2, \ldots
+\]</div>
+<p>and</p>
+<div class="math notranslate nohighlight">
+\[
+\pi(\lambda_i) = \frac{\mu}{\Gamma(1)} e^{- \mu \lambda_i}
+\]</div>
+<p>Compute the marginal for <span class="math notranslate nohighlight">\( X_i \)</span>.</p>
+<p>The marginal for <span class="math notranslate nohighlight">\( X_i \)</span> is the distribution of <span class="math notranslate nohighlight">\( X_i \)</span> averaged over all possible values of <span class="math notranslate nohighlight">\( \lambda_i \)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+m(X_i) = \int_0^\infty \frac{\lambda_i^{X_i}}{X_i!} e^{-\lambda_i} \cdot \frac{\mu}{\Gamma(1)} e^{-\mu \lambda_i} \, d\lambda_i,
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+m(X_i) = \frac{\mu}{X_i!} \int_0^\infty \lambda_i^{X_i} e^{-(\mu + 1) \lambda_i} \, d\lambda_i
+\]</div>
+<p>where <span class="math notranslate nohighlight">\( \lambda_i^{X_i} e^{-(\mu + 1) \lambda_i} \)</span> is the kernel of a Gamma distribution with parameters <span class="math notranslate nohighlight">\( (X_i + 1, \mu + 1) \)</span>. This will integrate to 1 if we normalize it, so we’ll multiply by 1 in the form of the normalizing constant and its reciprocal:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align}
+m(X_i) &amp;= \frac{\mu}{X_i!} \frac{\Gamma(\alpha)}{\beta^\alpha}\frac{\beta^\alpha}{\Gamma(\alpha)}\int_0^\infty \lambda_i^{X_i} e^{-(\mu + 1) \lambda_i} d\lambda_i &amp;&amp; \text{Multiply by 1.} \\
+ &amp;= \frac{\mu}{X_i!} \frac{\Gamma(X_i + 1)}{(\mu + 1)^{X_i + 1}}\frac{{(\mu + 1)}^{X_i + 1}}{\Gamma(X_i + 1)}\int_0^\infty \lambda_i^{X_i} e^{-(\mu + 1) \lambda_i} d\lambda_i &amp;&amp; \text{Substitute known parameter values.} \\
+ &amp;= \frac{\mu}{X_i!} \frac{\Gamma(X_i + 1)}{(\mu + 1)^{X_i + 1}}\left[\frac{{(\mu + 1)}^{X_i + 1}}{\Gamma(X_i + 1)}\int_0^\infty \lambda_i^{X_i} e^{-(\mu + 1) \lambda_i} d\lambda_i\right] &amp;&amp; \text{[Gamma dist.] will integrate to 1 now.}\\
+&amp;= \frac{\mu}{X_i!} \frac{\Gamma(X_i + 1)}{(\mu + 1)^{X_i + 1}} \\
+&amp;= \frac{\mu}{(\mu + 1)^{X_i + 1}} &amp;&amp; \text{Remember, } \Gamma(n)=(n-1)!\\
+\end{align}
+\end{split}\]</div>
+<p>So, the marginal for all <span class="math notranslate nohighlight">\( X \)</span> is the joint distribution (independence is enough here):</p>
+<div class="math notranslate nohighlight">
+\[
+m(X) = \prod_{i=1}^n m(X_i) = \prod_{i=1}^n \frac{\mu}{(\mu + 1)^{X_i + 1}}.
+\]</div>
+<p>We view <span class="math notranslate nohighlight">\( m(X) \)</span> as a function of the unknown parameter <span class="math notranslate nohighlight">\( \mu \)</span>, and find a parameter estimate for <span class="math notranslate nohighlight">\( \mu \)</span> using Maximum Likelihood Estimation (MLE) as follows:</p>
+<p>Convert to log-likelihood:</p>
+<div class="math notranslate nohighlight">
+\[
+\log m(X) = \sum_{i=1}^n \left\{ \log \mu - (X_i + 1) \log(1 + \mu) \right\}
+\]</div>
+<p>Take the derivative and set equal to 0:</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\partial \log m(X)}{\partial \mu} = \sum_{i=1}^n \left( \frac{1}{\mu} - \frac{X_i + 1}{1 + \mu} \right) = 0,
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\frac{n}{\mu} = \frac{n \bar{X} + n}{1 + \mu},
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+n (1 + \mu) = \mu n (\bar{X} + 1),
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+n + n\mu = \mu n \bar{X} + n\mu.
+\]</div>
+<p>Solving for <span class="math notranslate nohighlight">\( \mu \)</span> yields:</p>
+<div class="math notranslate nohighlight">
+\[
+\hat{\mu} = \frac{1}{\bar{X}}.
+\]</div>
+<p>Finally, the posterior of <span class="math notranslate nohighlight">\( \lambda_i \)</span> given <span class="math notranslate nohighlight">\( X_i \)</span> is:</p>
+<div class="math notranslate nohighlight">
+\[
+p(\lambda_i \mid X_i) \propto p(X_i \mid \lambda_i) p(\lambda_i) \propto e^{-\lambda_i} \lambda_i^{X_i} \times e^{-\mu \lambda_i} = e^{-(1+\mu)\lambda_i} \lambda_i^{X_i},
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\Rightarrow \lambda_i \mid X_i \sim \text{Gamma}(X_i + 1, 1 + \mu).
+\]</div>
+<p>Hence, the empirical Bayes (EB) estimate of <span class="math notranslate nohighlight">\( \lambda_i \)</span> is obtained as follows:</p>
+<div class="math notranslate nohighlight">
+\[
+\text{EB estimate of } \lambda_i: \hat{\lambda}_i = \mathbb{E}(\lambda_i \mid X_i) = \frac{X_i + 1}{1 + \hat{\mu}} = \frac{X_i + 1}{1 + \frac{1}{\bar{X}}} = \frac{\bar{X}}{1 + \bar{X}} (X_i + 1).
+\]</div>
+</section>
+</section>
+</section>
 </section>
 </section>
 
@@ -705,7 +984,18 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#incorrect-conditional-on-slide-3">Incorrect conditional on slide 3</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lecture-summary">Lecture summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lecture-notes">Lecture Notes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#empirical-bayes">Empirical Bayes</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#jeremy-in-empirical-bayes">Jeremy in Empirical Bayes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#poisson-exponential-example">Poisson-Exponential example:</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#the-long-way">The long way</a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#solution">Solution</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
   </nav></div>
 
