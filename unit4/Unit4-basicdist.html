@@ -577,10 +577,12 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-distribution-improvements">Basic Distribution improvements</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#discrete">Discrete</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#bernoulli-distribution"><strong>Bernoulli Distribution</strong></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#binomial-distribution"><strong>Binomial Distribution</strong></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#poisson-distribution"><strong>Poisson Distribution</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geometric-distribution"><strong>Geometric Distribution</strong></a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#continuous">Continuous</a><ul class="nav section-nav flex-column">
@@ -595,6 +597,7 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pymc">PyMC</a></li>
 </ul>
 </li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pareto-distribution"><strong>Pareto Distribution</strong></a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#other-resources">Other resources</a></li>
@@ -613,6 +616,9 @@ document.write(`
 <h1>1. Basic Distributions<a class="headerlink" href="#basic-distributions" title="Permalink to this headline">#</a></h1>
 <p>From this lecture, make sure you understand what a random variable is, the difference between discrete and continuous distributions, PDF/PMF vs. CDF, and the different types of parameters (shape, scale, rate, location). I’ll slowly expand this list until I’ve got all the distributions we use in the course.</p>
 <p>Be careful about what parameterization you’re using, as it will change depending on software. I will try to use <span id="id1">Vidakovic [<a class="reference internal" href="../backmatter/bibliography.html#id10" title="Brani Vidakovic. Engineering Biostatistics: An Introduction using MATLAB and WinBUGS. Wiley, 2017. ISBN 978-1-119-16896-6.">2017</a>]</span> versions here, but may add alternate parameterizations.</p>
+<section id="basic-distribution-improvements">
+<h2>Basic Distribution improvements<a class="headerlink" href="#basic-distribution-improvements" title="Permalink to this headline">#</a></h2>
+</section>
 <section id="discrete">
 <h2>Discrete<a class="headerlink" href="#discrete" title="Permalink to this headline">#</a></h2>
 <section id="bernoulli-distribution">
@@ -626,9 +632,19 @@ document.write(`
  \end{cases}\)</span></p></li>
 <li><p><strong>Mean:</strong> <span class="math notranslate nohighlight">\(p\)</span></p></li>
 <li><p><strong>Variance:</strong> <span class="math notranslate nohighlight">\(p(1-p)\)</span></p></li>
+<li><p><strong>Median:</strong> <span class="math notranslate nohighlight">\(\begin{cases}
+  0 &amp; \text{if } p &lt; \dfrac{1}{2} \\
+  \text{any value in } [0,1] &amp; \text{if } p = \dfrac{1}{2} \\
+  1 &amp; \text{if } p &gt; \dfrac{1}{2}
+\end{cases}\)</span></p></li>
+<li><p><strong>Mode:</strong> <span class="math notranslate nohighlight">\(\begin{cases}
+  0 &amp; \text{if } p &lt; \dfrac{1}{2} \\
+  0, 1 &amp; \text{if } p = \dfrac{1}{2} \\
+  1 &amp; \text{if } p &gt; \dfrac{1}{2}
+\end{cases}\)</span></p></li>
 <li><p><strong>Support:</strong> <span class="math notranslate nohighlight">\(\{0, 1\}\)</span></p></li>
 <li><p><strong>Parameters:</strong> <span class="math notranslate nohighlight">\(p\)</span> (probability of success)</p></li>
-<li><p><strong>Notation:</strong> <span class="math notranslate nohighlight">\(X \sim Bernoulli(p)\)</span></p></li>
+<li><p><strong>Notation:</strong> <span class="math notranslate nohighlight">\(X \sim \text{Bernoulli}(p)\)</span></p></li>
 </ul>
 </section>
 <section id="binomial-distribution">
@@ -640,19 +656,32 @@ document.write(`
 <li><p><strong>Variance:</strong> <span class="math notranslate nohighlight">\(np(1-p)\)</span></p></li>
 <li><p><strong>Support:</strong> <span class="math notranslate nohighlight">\(\{0, 1, 2, ..., n\}\)</span></p></li>
 <li><p><strong>Parameters:</strong> <span class="math notranslate nohighlight">\(n\)</span> (number of trials), <span class="math notranslate nohighlight">\(p\)</span> (probability of success)</p></li>
-<li><p><strong>Notation:</strong> <span class="math notranslate nohighlight">\(X \sim Bin(n, p)\)</span></p></li>
+<li><p><strong>Notation:</strong> <span class="math notranslate nohighlight">\(X \sim \text{Bin}(n, p)\)</span></p></li>
 </ul>
 </section>
 <section id="poisson-distribution">
 <span id="content-poisson-dist"></span><h3><strong>Poisson Distribution</strong><a class="headerlink" href="#poisson-distribution" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
-<li><p><strong>PMF:</strong> <span class="math notranslate nohighlight">\(P(X=k|\lambda) = e^{-\lambda}\frac{\lambda^k}{k!}\)</span></p></li>
-<li><p><strong>CDF:</strong> <span class="math notranslate nohighlight">\(F(k|\lambda) = e^{-\lambda}\sum_{i=0}^{k} \frac{\lambda^i}{i!}\)</span></p></li>
+<li><p><strong>PMF:</strong> <span class="math notranslate nohighlight">\(P(X=k|\lambda) = e^{-\lambda}\dfrac{\lambda^k}{k!}\)</span> for <span class="math notranslate nohighlight">\(k \in \{0, 1, 2, ...\}\)</span></p></li>
+<li><p><strong>CDF:</strong> <span class="math notranslate nohighlight">\(F(k|\lambda) = e^{-\lambda}\sum_{i=0}^{k} \dfrac{\lambda^i}{i!}\)</span></p></li>
 <li><p><strong>Mean:</strong> <span class="math notranslate nohighlight">\(\lambda\)</span></p></li>
 <li><p><strong>Variance:</strong> <span class="math notranslate nohighlight">\(\lambda\)</span></p></li>
 <li><p><strong>Support:</strong> <span class="math notranslate nohighlight">\(\{0, 1, 2, ...\}\)</span></p></li>
 <li><p><strong>Parameters:</strong> <span class="math notranslate nohighlight">\(\lambda\)</span> (rate)</p></li>
-<li><p><strong>Notation:</strong> <span class="math notranslate nohighlight">\(X \sim Poi(\lambda)\)</span></p></li>
+<li><p><strong>Notation:</strong> <span class="math notranslate nohighlight">\(X \sim \text{Poisson}(\lambda)\)</span></p></li>
+</ul>
+</section>
+<section id="geometric-distribution">
+<span id="content-geometric-dist"></span><h3><strong>Geometric Distribution</strong><a class="headerlink" href="#geometric-distribution" title="Permalink to this headline">#</a></h3>
+<ul class="simple">
+<li><p><strong>PMF:</strong> <span class="math notranslate nohighlight">\(P(X=k|p) = p(1-p)^k\)</span> for <span class="math notranslate nohighlight">\(k \in \{0, 1, 2, ...\}\)</span></p></li>
+<li><p><strong>CDF:</strong> <span class="math notranslate nohighlight">\(F(k|p) = 1 - (1-p)^{k+1}\)</span> for <span class="math notranslate nohighlight">\(x \ge 0\)</span>, else <span class="math notranslate nohighlight">\(0\)</span>.</p></li>
+<li><p><strong>Mean:</strong> <span class="math notranslate nohighlight">\(\dfrac{1-p}{p}\)</span></p></li>
+<li><p><strong>Variance:</strong> <span class="math notranslate nohighlight">\(\dfrac{1-p}{p^2}\)</span></p></li>
+<li><p><strong>Mode:</strong> <span class="math notranslate nohighlight">\(0\)</span></p></li>
+<li><p><strong>Support:</strong> <span class="math notranslate nohighlight">\(\{0, 1, 2, ...\}\)</span></p></li>
+<li><p><strong>Parameters:</strong> <span class="math notranslate nohighlight">\(p\)</span> (probability of success)</p></li>
+<li><p><strong>Notation:</strong> <span class="math notranslate nohighlight">\(X \sim \text{Geometric}(p)\)</span></p></li>
 </ul>
 </section>
 </section>
@@ -661,11 +690,13 @@ document.write(`
 <section id="normal-distribution">
 <span id="content-normal-dist"></span><h3><strong>Normal Distribution</strong><a class="headerlink" href="#normal-distribution" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
-<li><p><strong>PDF (variance):</strong> <span class="math notranslate nohighlight">\(f(x|\mu,\sigma^2) = \frac{1}{\sqrt{2\pi\sigma^2}} e^{-(x-\mu)^2 / (2\sigma^2)}\)</span></p></li>
-<li><p><strong>PDF (precision):</strong> <span class="math notranslate nohighlight">\(f(x|\mu,\tau) = \sqrt{\frac{\tau}{2\pi}} e^{-(\tau/2) (x-\mu)^2}\)</span></p></li>
-<li><p><strong>CDF:</strong> <span class="math notranslate nohighlight">\(\Phi(x|\mu,\sigma) = \frac{1}{2}[1 + \text{erf}((x-\mu)/(\sigma\sqrt{2}))]\)</span></p></li>
+<li><p><strong>PDF (variance):</strong> <span class="math notranslate nohighlight">\(f(x|\mu,\sigma^2) = \dfrac{1}{\sqrt{2\pi\sigma^2}} e^{-\dfrac{(x-\mu)^2}{2\sigma^2}}\)</span></p></li>
+<li><p><strong>PDF (precision):</strong> <span class="math notranslate nohighlight">\(f(x|\mu,\tau) = \sqrt{\dfrac{\tau}{2\pi}} e^{-\dfrac{\tau}{2} (x-\mu)^2}\)</span></p></li>
+<li><p><strong>CDF:</strong> <span class="math notranslate nohighlight">\(\Phi(x|\mu,\sigma) = \dfrac{1}{2}\left[1 + \text{erf}\left(\dfrac{x-\mu}{\sigma\sqrt{2}}\right)\right]\)</span></p></li>
 <li><p><strong>Mean:</strong> <span class="math notranslate nohighlight">\(\mu\)</span></p></li>
 <li><p><strong>Variance:</strong> <span class="math notranslate nohighlight">\(\sigma^2\)</span></p></li>
+<li><p><strong>Median:</strong> <span class="math notranslate nohighlight">\(\mu\)</span></p></li>
+<li><p><strong>Mode:</strong> <span class="math notranslate nohighlight">\(\mu\)</span></p></li>
 <li><p><strong>Support:</strong> <span class="math notranslate nohighlight">\((-\infty, \infty)\)</span></p></li>
 <li><p><strong>Parameters:</strong> <span class="math notranslate nohighlight">\(\mu\)</span> (mean), <span class="math notranslate nohighlight">\(\sigma^2\)</span> (variance), <span class="math notranslate nohighlight">\(\tau\)</span> (precision, defined as <span class="math notranslate nohighlight">\(\tau = 1/\sigma^2\)</span>)</p></li>
 <li><p><strong>Notation:</strong> <span class="math notranslate nohighlight">\(X \sim N(\mu, \sigma^2)\)</span></p></li>
@@ -674,61 +705,78 @@ document.write(`
 <section id="beta-distribution">
 <span id="content-beta-dist"></span><h3><strong>Beta Distribution</strong><a class="headerlink" href="#beta-distribution" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
-<li><p><strong>PDF:</strong> <span class="math notranslate nohighlight">\(f(x|\alpha,\beta) = \frac{x^{\alpha-1} (1-x)^{\beta-1}}{B(\alpha,\beta)}\)</span></p></li>
-<li><p><strong>CDF:</strong> <span class="math notranslate nohighlight">\(I_x(\alpha,\beta)\)</span></p></li>
-<li><p><strong>Mean:</strong> <span class="math notranslate nohighlight">\(\frac{\alpha}{\alpha+\beta}\)</span></p></li>
-<li><p><strong>Variance:</strong> <span class="math notranslate nohighlight">\(\frac{\alpha \beta}{(\alpha+\beta)^2(\alpha+\beta+1)}\)</span></p></li>
+<li><p><strong>PDF:</strong> <span class="math notranslate nohighlight">\(f(x|\alpha,\beta) = \dfrac{x^{\alpha-1} (1-x)^{\beta-1}}{B(\alpha,\beta)}\)</span> for <span class="math notranslate nohighlight">\(x \in (0, 1)\)</span></p></li>
+<li><p><strong>CDF:</strong> <span class="math notranslate nohighlight">\(F(x|\alpha,\beta) = I_x(\alpha,\beta)\)</span></p></li>
+<li><p><strong>Mean:</strong> <span class="math notranslate nohighlight">\(\dfrac{\alpha}{\alpha+\beta}\)</span></p></li>
+<li><p><strong>Variance:</strong> <span class="math notranslate nohighlight">\(\dfrac{\alpha \beta}{(\alpha+\beta)^2(\alpha+\beta+1)}\)</span></p></li>
+<li><p><strong>Mode:</strong></p>
+<ul>
+<li><p>If <span class="math notranslate nohighlight">\(\alpha &gt; 1\)</span> and <span class="math notranslate nohighlight">\(\beta &gt; 1\)</span>, <span class="math notranslate nohighlight">\(\text{Mode} = \dfrac{\alpha - 1}{\alpha + \beta - 2}\)</span></p></li>
+</ul>
+</li>
 <li><p><strong>Support:</strong> <span class="math notranslate nohighlight">\((0, 1)\)</span></p></li>
 <li><p><strong>Parameters:</strong> <span class="math notranslate nohighlight">\(\alpha,\beta\)</span> (shape parameters)</p></li>
-<li><p><strong>Notation:</strong> <span class="math notranslate nohighlight">\(X \sim Be(\alpha, \beta)\)</span></p></li>
+<li><p><strong>Notation:</strong> <span class="math notranslate nohighlight">\(X \sim \text{Beta}(\alpha, \beta)\)</span></p></li>
 </ul>
 </section>
 <section id="cauchy-distribution">
 <span id="content-cauchy-dist"></span><h3><strong>Cauchy Distribution</strong><a class="headerlink" href="#cauchy-distribution" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
-<li><p><strong>PDF:</strong> <span class="math notranslate nohighlight">\(f(x|x_0,\gamma) = \frac{1}{\pi\gamma[1 + ((x-x_0)/\gamma)^2]}\)</span></p></li>
-<li><p><strong>CDF:</strong> <span class="math notranslate nohighlight">\(F(x|x_0,\gamma) = \frac{1}{\pi}\arctan\left(\frac{x-x_0}{\gamma}\right) + \frac{1}{2}\)</span></p></li>
-<li><p><strong>Mean:</strong> undefined</p></li>
-<li><p><strong>Variance:</strong> undefined</p></li>
+<li><p><strong>PDF:</strong> <span class="math notranslate nohighlight">\(f(x|x_0,\gamma) = \dfrac{1}{\pi\gamma\left[1 + \left(\dfrac{x-x_0}{\gamma}\right)^2\right]}\)</span></p></li>
+<li><p><strong>CDF:</strong> <span class="math notranslate nohighlight">\(F(x|x_0,\gamma) = \dfrac{1}{\pi}\arctan\left(\dfrac{x-x_0}{\gamma}\right) + \dfrac{1}{2}\)</span></p></li>
+<li><p><strong>Mean:</strong> Undefined</p></li>
+<li><p><strong>Variance:</strong> Undefined</p></li>
+<li><p><strong>Median:</strong> <span class="math notranslate nohighlight">\(x_0\)</span></p></li>
+<li><p><strong>Mode:</strong> <span class="math notranslate nohighlight">\(x_0\)</span></p></li>
 <li><p><strong>Support:</strong> <span class="math notranslate nohighlight">\((-\infty, \infty)\)</span></p></li>
 <li><p><strong>Parameters:</strong> <span class="math notranslate nohighlight">\(x_0\)</span> (location), <span class="math notranslate nohighlight">\(\gamma\)</span> (scale)</p></li>
-<li><p><strong>Notation:</strong> <span class="math notranslate nohighlight">\(X \sim Cauchy(x_0, \gamma)\)</span></p></li>
+<li><p><strong>Notation:</strong> <span class="math notranslate nohighlight">\(X \sim \text{Cauchy}(x_0, \gamma)\)</span></p></li>
 </ul>
 </section>
 <section id="exponential-distribution">
 <span id="content-exponential-dist"></span><h3><strong>Exponential Distribution</strong><a class="headerlink" href="#exponential-distribution" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
-<li><p><strong>PDF:</strong> <span class="math notranslate nohighlight">\(f(x|\lambda) = \lambda e^{-\lambda x}\)</span></p></li>
-<li><p><strong>CDF:</strong> <span class="math notranslate nohighlight">\(F(x|\lambda) = 1 - e^{-\lambda x}\)</span></p></li>
-<li><p><strong>Mean:</strong> <span class="math notranslate nohighlight">\(\frac{1}{\lambda}\)</span></p></li>
-<li><p><strong>Variance:</strong> <span class="math notranslate nohighlight">\(\frac{1}{\lambda^2}\)</span></p></li>
-<li><p><strong>Support:</strong> <span class="math notranslate nohighlight">\((0, \infty)\)</span></p></li>
+<li><p><strong>PDF:</strong> <span class="math notranslate nohighlight">\(f(x|\lambda) = \lambda e^{-\lambda x}\)</span> for <span class="math notranslate nohighlight">\(x \geq 0\)</span></p></li>
+<li><p><strong>CDF:</strong> <span class="math notranslate nohighlight">\(F(x|\lambda) = 1 - e^{-\lambda x}\)</span> for <span class="math notranslate nohighlight">\(x \geq 0\)</span></p></li>
+<li><p><strong>Mean:</strong> <span class="math notranslate nohighlight">\(\dfrac{1}{\lambda}\)</span></p></li>
+<li><p><strong>Variance:</strong> <span class="math notranslate nohighlight">\(\dfrac{1}{\lambda^2}\)</span></p></li>
+<li><p><strong>Median:</strong> <span class="math notranslate nohighlight">\(\dfrac{\ln 2}{\lambda}\)</span></p></li>
+<li><p><strong>Mode:</strong> <span class="math notranslate nohighlight">\(0\)</span></p></li>
+<li><p><strong>Support:</strong> <span class="math notranslate nohighlight">\([0, \infty)\)</span></p></li>
 <li><p><strong>Parameters:</strong> <span class="math notranslate nohighlight">\(\lambda\)</span> (rate)</p></li>
-<li><p><strong>Notation:</strong> <span class="math notranslate nohighlight">\(X \sim Exp(\lambda)\)</span></p></li>
+<li><p><strong>Notation:</strong> <span class="math notranslate nohighlight">\(X \sim \text{Exponential}(\lambda)\)</span></p></li>
 </ul>
 </section>
 <section id="gamma-distribution">
 <span id="content-gamma-dist"></span><h3><strong>Gamma Distribution</strong><a class="headerlink" href="#gamma-distribution" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
-<li><p><strong>PDF:</strong> <span class="math notranslate nohighlight">\(f(x|\alpha,\beta) = \frac{\beta^\alpha}{\Gamma(\alpha)}x^{\alpha-1}e^{-\beta x}\)</span></p></li>
-<li><p><strong>CDF:</strong> <span class="math notranslate nohighlight">\(F(x|\alpha,\beta) = \frac{\gamma(\alpha, \beta x)}{\Gamma(\alpha)}\)</span></p></li>
-<li><p><strong>Mean:</strong> <span class="math notranslate nohighlight">\(\frac{\alpha}{\beta}\)</span></p></li>
-<li><p><strong>Variance:</strong> <span class="math notranslate nohighlight">\(\frac{\alpha}{\beta^2}\)</span></p></li>
-<li><p><strong>Support:</strong> <span class="math notranslate nohighlight">\((0, \infty)\)</span></p></li>
+<li><p><strong>PDF:</strong> <span class="math notranslate nohighlight">\(f(x|\alpha,\beta) = \dfrac{\beta^\alpha}{\Gamma(\alpha)} x^{\alpha-1} e^{-\beta x}\)</span> for <span class="math notranslate nohighlight">\(x \geq 0\)</span></p></li>
+<li><p><strong>CDF:</strong> <span class="math notranslate nohighlight">\(F(x|\alpha,\beta) = \dfrac{\gamma(\alpha, \beta x)}{\Gamma(\alpha)}\)</span></p></li>
+<li><p><strong>Mean:</strong> <span class="math notranslate nohighlight">\(\dfrac{\alpha}{\beta}\)</span></p></li>
+<li><p><strong>Variance:</strong> <span class="math notranslate nohighlight">\(\dfrac{\alpha}{\beta^2}\)</span></p></li>
+<li><p><strong>Mode:</strong></p>
+<ul>
+<li><p>For <span class="math notranslate nohighlight">\(\alpha &gt; 1\)</span>, <span class="math notranslate nohighlight">\(\text{Mode} = \dfrac{\alpha - 1}{\beta}\)</span></p></li>
+<li><p>For <span class="math notranslate nohighlight">\(\alpha \leq 1\)</span>, <span class="math notranslate nohighlight">\(\text{Mode} = 0\)</span></p></li>
+</ul>
+</li>
+<li><p><strong>Support:</strong> <span class="math notranslate nohighlight">\([0, \infty)\)</span></p></li>
 <li><p><strong>Parameters:</strong> <span class="math notranslate nohighlight">\(\alpha\)</span> (shape), <span class="math notranslate nohighlight">\(\beta\)</span> (rate)</p></li>
-<li><p><strong>Notation:</strong> <span class="math notranslate nohighlight">\(X \sim Ga(\alpha, \beta)\)</span></p></li>
+<li><p><strong>Notation:</strong> <span class="math notranslate nohighlight">\(X \sim \text{Gamma}(\alpha, \beta)\)</span></p></li>
 </ul>
 </section>
 <section id="uniform-distribution">
 <span id="content-uniform-dist"></span><h3><strong>Uniform Distribution</strong><a class="headerlink" href="#uniform-distribution" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
-<li><p><strong>PDF:</strong> <span class="math notranslate nohighlight">\(f(x|a,b) = \frac{1}{b-a}\)</span></p></li>
-<li><p><strong>CDF:</strong> <span class="math notranslate nohighlight">\(F(x|a,b) = \frac{x-a}{b-a}\)</span></p></li>
-<li><p><strong>Mean:</strong> <span class="math notranslate nohighlight">\(\frac{a+b}{2}\)</span></p></li>
-<li><p><strong>Variance:</strong> <span class="math notranslate nohighlight">\(\frac{(b-a)^2}{12}\)</span></p></li>
+<li><p><strong>PDF:</strong> <span class="math notranslate nohighlight">\(f(x|a,b) = \dfrac{1}{b-a}\)</span> for <span class="math notranslate nohighlight">\(x \in [a, b]\)</span></p></li>
+<li><p><strong>CDF:</strong> <span class="math notranslate nohighlight">\(F(x|a,b) = \dfrac{x-a}{b-a}\)</span> for <span class="math notranslate nohighlight">\(x \in [a, b]\)</span></p></li>
+<li><p><strong>Mean:</strong> <span class="math notranslate nohighlight">\(\dfrac{a+b}{2}\)</span></p></li>
+<li><p><strong>Variance:</strong> <span class="math notranslate nohighlight">\(\dfrac{(b-a)^2}{12}\)</span></p></li>
+<li><p><strong>Median:</strong> <span class="math notranslate nohighlight">\(\dfrac{a+b}{2}\)</span></p></li>
+<li><p><strong>Mode:</strong> Any value in <span class="math notranslate nohighlight">\([a, b]\)</span></p></li>
 <li><p><strong>Support:</strong> <span class="math notranslate nohighlight">\([a, b]\)</span></p></li>
 <li><p><strong>Parameters:</strong> <span class="math notranslate nohighlight">\(a\)</span> (lower bound), <span class="math notranslate nohighlight">\(b\)</span> (upper bound)</p></li>
-<li><p><strong>Notation:</strong> <span class="math notranslate nohighlight">\(X \sim U(a, b)\)</span></p></li>
+<li><p><strong>Notation:</strong> <span class="math notranslate nohighlight">\(X \sim \text{Uniform}(a, b)\)</span></p></li>
 </ul>
 </section>
 <section id="weibull-distribution">
@@ -761,6 +809,26 @@ document.write(`
 <li><p><strong>Notation:</strong> <span class="math notranslate nohighlight">\(X \sim Weibull(\alpha, \beta)\)</span></p></li>
 </ul>
 </section>
+</section>
+<section id="pareto-distribution">
+<span id="content-pareto-dist"></span><h3><strong>Pareto Distribution</strong><a class="headerlink" href="#pareto-distribution" title="Permalink to this headline">#</a></h3>
+<ul class="simple">
+<li><p><strong>PDF:</strong> <span class="math notranslate nohighlight">\(f(x|x_m,\alpha) = \dfrac{\alpha x_m^\alpha}{x^{\alpha+1}}\)</span> for <span class="math notranslate nohighlight">\(x \geq x_m\)</span></p></li>
+<li><p><strong>CDF:</strong> <span class="math notranslate nohighlight">\(F(x|x_m,\alpha) = 1 - \left( \dfrac{x_m}{x} \right)^\alpha\)</span> for <span class="math notranslate nohighlight">\(x \geq x_m\)</span></p></li>
+<li><p><strong>Mean:</strong> <span class="math notranslate nohighlight">\(\begin{cases}
+\dfrac{\alpha x_m}{\alpha - 1} &amp; \text{for } \alpha &gt; 1 \\
+\infty &amp; \text{for } \alpha \leq 1
+\end{cases}\)</span></p></li>
+<li><p><strong>Variance:</strong> <span class="math notranslate nohighlight">\(\begin{cases}
+\dfrac{\alpha x_m^2}{(\alpha - 1)^2 (\alpha - 2)} &amp; \text{for } \alpha &gt; 2 \\
+\infty &amp; \text{for } \alpha \leq 2 
+\end{cases}\)</span></p></li>
+<li><p><strong>Median:</strong> <span class="math notranslate nohighlight">\(x_m 2^{1/\alpha}\)</span></p></li>
+<li><p><strong>Mode:</strong> <span class="math notranslate nohighlight">\(x_m\)</span></p></li>
+<li><p><strong>Support:</strong> <span class="math notranslate nohighlight">\([x_m, \infty)\)</span></p></li>
+<li><p><strong>Parameters:</strong> <span class="math notranslate nohighlight">\(x_m\)</span> (scale parameter, <span class="math notranslate nohighlight">\(x_m &gt; 0\)</span>), <span class="math notranslate nohighlight">\(\alpha\)</span> (shape parameter, <span class="math notranslate nohighlight">\(\alpha &gt; 0\)</span>)</p></li>
+<li><p><strong>Notation:</strong> <span class="math notranslate nohighlight">\(X \sim \text{Pareto}(x_m, \alpha)\)</span></p></li>
+</ul>
 </section>
 </section>
 <section id="other-resources">
@@ -836,10 +904,12 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-distribution-improvements">Basic Distribution improvements</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#discrete">Discrete</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#bernoulli-distribution"><strong>Bernoulli Distribution</strong></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#binomial-distribution"><strong>Binomial Distribution</strong></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#poisson-distribution"><strong>Poisson Distribution</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geometric-distribution"><strong>Geometric Distribution</strong></a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#continuous">Continuous</a><ul class="nav section-nav flex-column">
@@ -854,6 +924,7 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pymc">PyMC</a></li>
 </ul>
 </li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pareto-distribution"><strong>Pareto Distribution</strong></a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#other-resources">Other resources</a></li>
