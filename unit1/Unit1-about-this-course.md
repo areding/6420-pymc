@@ -35,6 +35,7 @@ These are not required for the class, but they might be helpful. Prof. Vidakovic
 - [Dan Simpson](https://dpsimpson.github.io/), one of the maintainers of the [Stan PPL](https://mc-stan.org/), has a blog called [Un garçon pas comme les autres (Bayes)](https://dansblog.netlify.app/) with opinionated and funny deep dives into various Bayesian topics. Warning: NSFW language.
 - [Count Bayesie: Probably a probability blog](https://www.countbayesie.com/) by Will Kurt.
 - Michael Betancourt, another Stan developer, has a [series of incredibly in-depth](https://betanalpha.github.io/writing/) posts and notebooks on Bayesian modeling.
+- PyMC Developer Dr. Juan Camilo Orduz has [a blog](https://juanitorduz.github.io/) full of Bayesian models implemented in PyMC and Pyro.
 - PyMC developer [Austin Rochford's blog](https://austinrochford.com/posts.html) has a lot of good posts.
 - Another PyMC developer, [Oriol Abril](https://oriolabrilpla.cat/blog/), posts some really helpful PyMC examples.
 - If you're interested in how ideas from the course might be used in a business context, you might enjoy the posts on the [PyMC Labs blog](https://www.pymc-labs.io/blog-posts/).
