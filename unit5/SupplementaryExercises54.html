@@ -36,7 +36,6 @@
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
     <link rel="stylesheet" type="text/css" href="../_static/proof.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
     <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
     <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
     <link rel="stylesheet" type="text/css" href="../_static/panels-bootstrap.5fd3999ee7762ccc51105388f4a9d115.css" />
@@ -619,7 +618,7 @@ document.write(`
 \[\begin{align*} 
 X|p &amp;\sim \text{Bin}(n, p) \\ 
 p &amp;\sim \text{Be}(\alpha, \beta)
-\end{align*}\]</div>
+\end{align*} \]</div>
 <p>This is conjugate, with an exact posterior of <span class="math notranslate nohighlight">\(\text{Be}(\alpha + x, \beta + n - x)\)</span>.</p>
 <p>The log-posterior (with fixed <span class="math notranslate nohighlight">\(n\)</span>) and one datapoint:</p>
 <div class="amsmath math notranslate nohighlight">
@@ -628,7 +627,7 @@ p &amp;\sim \text{Be}(\alpha, \beta)
 log \pi(p) &amp;\propto \log \left[ p^x (1-p)^{n-x} p^{\alpha - 1}(1-p)^{\beta - 1} \right]\\
 &amp;\propto \log \left[ p^{x +\alpha - 1}(1-p)^{n - x + \beta - 1} \right]\\
 &amp;\propto (x + \alpha -1)\log(p) + (n - x + \beta - 1)\log(1-p)
-\end{align*}\]</div>
+\end{align*} \]</div>
 <p>We could simplify further and find the mode but I’m just going to use code.</p>
 <ol class="arabic simple">
 <li><p><span class="math notranslate nohighlight">\(\alpha = \beta = 1\)</span></p></li>
