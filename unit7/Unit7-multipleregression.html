@@ -582,36 +582,39 @@ document.write(`
   <section class="tex2jax_ignore mathjax_ignore" id="multiple-linear-regression">
 <h1>12. Multiple Linear Regression<a class="headerlink" href="#multiple-linear-regression" title="Permalink to this headline">#</a></h1>
 <p>Contributed by Jason Naramore.</p>
-<p>Multiple linear regression is really an extension of simple linear regression when there are multiple predictors <span class="math notranslate nohighlight">\(x_1, x_2, ... x_k\)</span>.</p>
+<p>Multiple linear regression is really an extension of simple linear regression when there are multiple predictors <span class="math notranslate nohighlight">\( x_1, x_2, \ldots, x_k \)</span>.</p>
 <div class="math notranslate nohighlight">
-\[\begin{split}\begin{align*}
-y_i &amp; = \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + ... + \beta_k x_{ik} + \epsilon_i, i = 1 , ... , n \\
-\epsilon_i &amp; \overset{iid}{\sim} N (0,\sigma^2) \end{align*} \end{split}\]</div>
+\[\begin{split}
+\begin{align*}
+y_i &amp; = \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + \ldots + \beta_k x_{ik} + \epsilon_i, \quad i = 1 , \ldots , n \\
+\epsilon_i &amp; \overset{iid}{\sim} N (0,\sigma^2) 
+\end{align*}
+\end{split}\]</div>
 <p>The compact representation can be written as follows, using matrix form.</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
-\bf{y} = 
+\mathbf{y} = 
 \begin{bmatrix}
     y_1 \\
     \vdots  \\
     y_n
 \end{bmatrix}_{n \times 1}
-\space
-X = \begin{bmatrix}
+\quad
+\mathbf{X} = \begin{bmatrix}
     1 &amp; X_{11} &amp; \dots &amp; X_{1k} \\
     1 &amp; X_{21} &amp; \dots &amp; X_{2k} \\
-    \vdots  \\
+    \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
     1 &amp; X_{n1} &amp; \dots &amp; X_{nk}
 \end{bmatrix}_{n \times p}
-\space
-\boldsymbol\beta = 
+\quad
+\boldsymbol{\beta} = 
 \begin{bmatrix}
     \beta_0 \\
     \vdots  \\
     \beta_k
 \end{bmatrix}_{p \times 1}
-\space
-\boldsymbol\epsilon = 
+\quad
+\boldsymbol{\epsilon} = 
 \begin{bmatrix}
     \epsilon_1 \\
     \vdots  \\
@@ -619,31 +622,41 @@ X = \begin{bmatrix}
 \end{bmatrix}_{n \times 1}
 \end{split}\]</div>
 <div class="math notranslate nohighlight">
-\[\bf{y} = \boldsymbol\bf{X}\beta  + \boldsymbol\epsilon\]</div>
-<p>There’s an elegant closed-form solution for finding the <span class="math notranslate nohighlight">\(\hat{\boldsymbol\beta}\)</span> estimates in classical statistics:</p>
+\[
+\mathbf{y} = \mathbf{X} \boldsymbol{\beta} + \boldsymbol{\epsilon}
+\]</div>
+<p>There’s an elegant closed-form solution for finding the <span class="math notranslate nohighlight">\( \hat{\boldsymbol{\beta}} \)</span> estimates in classical statistics:</p>
 <div class="math notranslate nohighlight">
-\[ \hat{\boldsymbol\beta} = (\textbf{X}^T \textbf{X} ) ^{-1} \textbf{X y} \]</div>
-<p><span class="math notranslate nohighlight">\(\hat{\bf y}\)</span> estimates can then be found by <span class="math notranslate nohighlight">\(\hat{\bf y} = \bf X \hat{\boldsymbol \beta}\)</span>.</p>
-<p>In the Bayesian form of multiple linear regression, we place priors on all <span class="math notranslate nohighlight">\(\beta\)</span>’s and <span class="math notranslate nohighlight">\(\sigma^2\)</span>.</p>
+\[
+\hat{\boldsymbol{\beta}} = (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \mathbf{y}
+\]</div>
+<p>The estimates <span class="math notranslate nohighlight">\( \hat{\mathbf{y}} \)</span> can then be found by <span class="math notranslate nohighlight">\( \hat{\mathbf{y}} = \mathbf{X} \hat{\boldsymbol{\beta}} \)</span>.</p>
+<p>In the Bayesian form of multiple linear regression, we place priors on all <span class="math notranslate nohighlight">\( \beta \)</span>‘s and <span class="math notranslate nohighlight">\( \sigma^2 \)</span>.</p>
 <div class="math notranslate nohighlight">
-\[\begin{split} \begin{align*}
-y_{ij} &amp; \sim N(\mu,\sigma^2) &amp;&amp; \text{likelihood}\\ \\
-\mu &amp; = \beta_0 + \beta_1 x &amp;&amp; \text{deterministic relationship}\\
+\[\begin{split}
+\begin{align*}
+y_{ij} &amp; \sim N(\mu,\sigma^2) &amp;&amp; \text{likelihood} \\ 
+\mu &amp; = \beta_0 + \beta_1 x &amp;&amp; \text{deterministic relationship} \\
 \beta_j &amp; \sim  N(0,\sigma_j^2) &amp;&amp; \text{prior: } \beta_j, \space j = 0 \text{ to } k \\
-\tau &amp; \sim  Ga(a,b) &amp;&amp; \text{prior: } \tau\\
-\sigma^2 &amp; =  1/\tau &amp;&amp; \text{deterministic relationship}\\
-\end{align*}\end{split}\]</div>
-<p>We typically assume that <span class="math notranslate nohighlight">\(\beta\)</span>’s are independent. For non-informative priors, we might set <span class="math notranslate nohighlight">\(\sigma_j^2\)</span> to something large like <span class="math notranslate nohighlight">\(10^3\)</span> or <span class="math notranslate nohighlight">\(10^4\)</span>, and the <span class="math notranslate nohighlight">\(a\)</span> and <span class="math notranslate nohighlight">\(b\)</span> parameters in <span class="math notranslate nohighlight">\(\tau\)</span>’s Gamma distribution to something small like <span class="math notranslate nohighlight">\(10^{-3}\)</span>. An example with this prior setup is</p>
-<p>An example using independent Normal priors on <span class="math notranslate nohighlight">\(\beta\)</span>’s can be found here: <a class="reference external" href="https://areding.github.io/6420-pymc/unit6/Unit6-prediction.html">Taste of Cheese</a>.</p>
-<p>There are other methods for defining priors, such as Zellner’s prior, which may help to account for covariance between predictors.</p>
+\tau &amp; \sim  Ga(a,b) &amp;&amp; \text{prior: } \tau \\
+\sigma^2 &amp; =  1/\tau &amp;&amp; \text{deterministic relationship}
+\end{align*}
+\end{split}\]</div>
+<p>We typically assume that the <span class="math notranslate nohighlight">\( \beta \)</span>‘s are independent. For non-informative priors, we might set <span class="math notranslate nohighlight">\( \sigma_j^2 \)</span> to something large, like <span class="math notranslate nohighlight">\( 10^3 \)</span> or <span class="math notranslate nohighlight">\( 10^4 \)</span>, and the <span class="math notranslate nohighlight">\( a \)</span> and <span class="math notranslate nohighlight">\( b \)</span> parameters in <span class="math notranslate nohighlight">\( \tau \)</span>‘s Gamma distribution to something small, like <span class="math notranslate nohighlight">\( 10^{-3} \)</span>.</p>
+<p>An example using independent Normal priors on <span class="math notranslate nohighlight">\( \beta \)</span>‘s can be found here: <a class="reference external" href="https://areding.github.io/6420-pymc/unit6/Unit6-prediction.html">Taste of Cheese</a>.</p>
+<p>Other methods for defining priors, such as Zellner’s prior, may help to account for covariance between predictors.</p>
 <div class="math notranslate nohighlight">
-\[\begin{split} \begin{align*}
-\boldsymbol\beta &amp; \sim  MVN(\mu,g \cdot \sigma^2\textbf{V}) &amp;&amp; \text{prior: }\boldsymbol\beta \\
-\sigma^2 &amp; \sim  IG(a,b) &amp;&amp; \text{prior: } \sigma^2\\
-\end{align*}\end{split}\]</div>
+\[\begin{split}
+\begin{align*}
+\boldsymbol{\beta} &amp; \sim  MVN(\mu,g \cdot \sigma^2 \mathbf{V}) &amp;&amp; \text{prior: } \boldsymbol{\beta} \\
+\sigma^2 &amp; \sim  IG(a,b) &amp;&amp; \text{prior: } \sigma^2
+\end{align*}
+\end{split}\]</div>
 <div class="math notranslate nohighlight">
-\[\text{typical choices: } g = n, \space g = p^2, \space g = \max\{n,p^2\}\]</div>
-<p>where <span class="math notranslate nohighlight">\(\sigma^2\textbf{V}\)</span> is the covariance matrix. An example using Zellner’s prior can be found here: <a class="reference external" href="https://areding.github.io/6420-pymc/unit7/Unit7-demo-multiple.html">Brozek Index Prediction</a>.</p>
+\[
+\text{typical choices: } g = n, \quad g = p^2, \quad g = \max\{n,p^2\}
+\]</div>
+<p>where <span class="math notranslate nohighlight">\( \sigma^2 \mathbf{V} \)</span> is the covariance matrix. An example using Zellner’s prior can be found here: <a class="reference external" href="https://areding.github.io/6420-pymc/unit7/Unit7-demo-multiple.html">Brozek Index Prediction</a>.</p>
 </section>
 
     <script type="text/x-thebe-config">
