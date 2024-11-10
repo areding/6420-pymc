@@ -753,27 +753,27 @@ z_i &amp;\sim \text{Bernoulli}(\pi_i) \\
 <p>The model can be specified as:</p>
 <div class="amsmath math notranslate nohighlight">
 \[\begin{align*}
-    y_{ij} | e_{ij}, \beta_1, \beta_2, \beta_3 &amp;\sim \text{Poisson}(\lambda) \\
-    \lambda &amp;= \exp(e_{ij} + \beta_1 \text{time}_{ij} + \beta_2 \text{age}_i + \beta_3 \text{sex}_i) \\
-    e_{ij} | \sigma^2_e &amp;\sim \mathcal{N}(0, \sigma^2_e)
-    \end{align*}\]</div>
+y_{ij} | e_{ij}, \beta_1, \beta_2, \beta_3 &amp;\sim \text{Poisson}(\lambda) \\
+\lambda &amp;= \exp(e_{ij} + \beta_1 \text{time}_{ij} + \beta_2 \text{age}_i + \beta_3 \text{sex}_i) \\
+e_{ij} | \sigma^2_e &amp;\sim \mathcal{N}(0, \sigma^2_e)
+\end{align*}\]</div>
 <p>With prior distributions:</p>
 <div class="amsmath math notranslate nohighlight">
 \[\begin{align*}
-    \beta_k &amp;\sim \mathcal{N}(0, \sigma^2 = 25), \quad k = 1, 2, 3 \\
-    e &amp;\sim \mathcal{N}(0, \sigma^2_e) \\
-    \tau_e &amp;\sim \text{Gamma}(0.01, 0.01)
-    \end{align*}\]</div>
+\beta_k &amp;\sim \mathcal{N}(0, \sigma^2 = 25), \quad k = 1, 2, 3 \\
+e &amp;\sim \mathcal{N}(0, \sigma^2_e) \\
+\tau_e &amp;\sim \text{Gamma}(0.01, 0.01)
+\end{align*}\]</div>
 </li>
 <li><p>Use Poisson regression again, but this time add a per-subject random effect (<span class="math notranslate nohighlight">\(u_i\)</span>). Does the posterior predictive better fit the observed values? Why or why not?</p>
 <p>The model can be specified as:</p>
 <div class="amsmath math notranslate nohighlight">
 \[\begin{align*}
-    y_{ij} | e_{ij}, \beta_1, \beta_2, \beta_3, u_i &amp;\sim \text{Poisson}(\lambda) \\
-    \lambda &amp;= \exp(e_{ij} + \beta_1 \text{time}_{ij} + \beta_2 \text{age}_i + \beta_3 \text{sex}_i + u_i) \\
-    e_{ij} | \sigma^2_e &amp;\sim \mathcal{N}(0, \sigma^2_e) \\
-    u_i | \sigma^2_u &amp;\sim \mathcal{N}(0, \sigma^2_u)
-    \end{align*}\]</div>
+y_{ij} | e_{ij}, \beta_1, \beta_2, \beta_3, u_i &amp;\sim \text{Poisson}(\lambda) \\
+\lambda &amp;= \exp(e_{ij} + \beta_1 \text{time}_{ij} + \beta_2 \text{age}_i + \beta_3 \text{sex}_i + u_i) \\
+e_{ij} | \sigma^2_e &amp;\sim \mathcal{N}(0, \sigma^2_e) \\
+u_i | \sigma^2_u &amp;\sim \mathcal{N}(0, \sigma^2_u)
+\end{align*}\]</div>
 <p>With prior for the additional random effect:</p>
 <div class="math notranslate nohighlight">
 \[

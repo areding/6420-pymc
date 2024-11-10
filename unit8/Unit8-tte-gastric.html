@@ -581,7 +581,8 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#method-1-pm-censored">Method 1: <code class="docutils literal notranslate"><span class="pre">pm.Censored</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#method-2-imputed-censoring">Method 2: Imputed censoring</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#method-2-pm-potential">Method 2: pm.Potential</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#old-imputed-censoring-method">Old imputed censoring method</a></li>
 </ul>
             </nav>
         </div>
@@ -599,8 +600,6 @@ document.write(`
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pymc</span> <span class="k">as</span> <span class="nn">pm</span>
 <span class="kn">from</span> <span class="nn">pymc.math</span> <span class="kn">import</span> <span class="n">exp</span>
-
-<span class="o">%</span><span class="k">load_ext</span> lab_black
 </pre></div>
 </div>
 </div>
@@ -611,8 +610,7 @@ document.write(`
 <p>Data can be found <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/data/gastric.txt">here</a>.</p>
 <section id="problem-statement">
 <h2>Problem statement<a class="headerlink" href="#problem-statement" title="Permalink to this headline">#</a></h2>
-<p>Stablein et al. (1981) provide data on 90 patients affected by locally advanced, nonresectable gastric carcinoma. The patients are randomized to two treatments: chemotherapy alone (coded as 0) and chemotherapy plus radiation (coded as 1). Survival time is reported in days. Recorded times are censored if the patient stopped participating in the study before it finished.</p>
-<p>Stablein, D. M., Carter, W. H., Novak, J. W. (1981). Analysis of survival data with nonproportional hazard functions. Control. Clin. Trials,  2 , 2, 149–159.</p>
+<p><span id="id1">Stablein, Carter, and Novak [<a class="reference internal" href="../backmatter/bibliography.html#id55" title="Donald M. Stablein, Walter H. Carter, and Joel W. Novak. Analysis of survival data with nonproportional hazard functions. Controlled Clinical Trials, 2(2):149-159, 1981. URL: https://www.sciencedirect.com/science/article/pii/0197245681900052, doi:https://doi.org/10.1016/0197-2456(81)90005-2.">1981</a>]</span> provide data on 90 patients affected by locally advanced, nonresectable gastric carcinoma. The patients are randomized to two treatments: chemotherapy alone (coded as 0) and chemotherapy plus radiation (coded as 1). Survival time is reported in days. Recorded times are censored if the patient stopped participating in the study before it finished.</p>
 <section id="data">
 <h3>Data<a class="headerlink" href="#data" title="Permalink to this headline">#</a></h3>
 <p>Columns are, from left to right:</p>
@@ -624,12 +622,12 @@ document.write(`
 </section>
 <section id="model-changes">
 <h3>Model changes<a class="headerlink" href="#model-changes" title="Permalink to this headline">#</a></h3>
-<p>PyMC really did not like the noninformative exponential prior on v (α in this model). It’s a very broad prior. To avoid divide by zero errors, I just kept increasing lambda until the model ran all the way through. This is not ideal, but I haven’t had time to look into it further. The results actually came out fairly close to the BUGS results.</p>
+<p>PyMC really did not like the noninformative exponential prior on v (α in this model). For some reason, the equivalent Gamma distribution is more stable. I also found passing an initial value also helps avoid divergences here.</p>
 </section>
 </section>
 <section id="method-1-pm-censored">
 <h2>Method 1: <code class="docutils literal notranslate"><span class="pre">pm.Censored</span></code><a class="headerlink" href="#method-1-pm-censored" title="Permalink to this headline">#</a></h2>
-<p>The way PyMC censoring works is described in some detail in <a class="reference external" href="https://www.pymc.io/projects/examples/en/latest/generalized_linear_models/GLM-truncated-censored-regression.html#censored-regression-model">this notebook</a> by <a class="reference external" href="https://github.com/drbenvincent">Dr. Benjamin T. Vincent</a>. This is accomplished in the source code <a class="reference external" href="https://github.com/aesara-devs/aeppl/blob/751979802f1aef5478fdbf7cc1839df07df60825/aeppl/truncation.py#L79">here</a> if you want to take a look. For right-censoring, try this: <code class="docutils literal notranslate"><span class="pre">pm.Censored(&quot;name&quot;,</span> <span class="pre">dist,</span> <span class="pre">lower=None,</span> <span class="pre">upper=censored,</span> <span class="pre">observed=y)</span></code>. The censored values can be an array of the same shape as the y values.</p>
+<p>The way PyMC censoring works is described in some detail in <a class="reference external" href="https://www.pymc.io/projects/examples/en/latest/generalized_linear_models/GLM-truncated-censored-regression.html">this notebook</a> (<span id="id2">Vincent [<a class="reference internal" href="../backmatter/bibliography.html#id56">n.d.</a>]</span>). For right-censoring, try this: <code class="docutils literal notranslate"><span class="pre">pm.Censored(&quot;name&quot;,</span> <span class="pre">dist,</span> <span class="pre">lower=None,</span> <span class="pre">upper=censored,</span> <span class="pre">observed=y)</span></code>. The censored values can be an array of the same shape as the y values.</p>
 <p>If the y value equals the right-censored value, <a class="reference external" href="https://docs.pymc.io/en/latest/api/distributions/generated/pymc.Censored.html#pymc.Censored"><code class="docutils literal notranslate"><span class="pre">pm.Censored</span></code></a> returns the complement to the CDF evaluated at the censored value. If the y value is greater than the censored value, it returns <code class="docutils literal notranslate"><span class="pre">-np.inf</span></code>. Otherwise, the distribution you passed to the <code class="docutils literal notranslate"><span class="pre">dist</span></code> parameter works as normal. What I’ve been doing is setting the values in the censored array to <code class="docutils literal notranslate"><span class="pre">np.inf</span></code> if the corresponding y value is not censored, and equal to the y value if it should be censored.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -660,53 +658,6 @@ document.write(`
 </div>
 </div>
 </div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([1.700e+01, 4.200e+01, 4.400e+01, 4.800e+01, 6.000e+01, 7.200e+01,
-       7.400e+01, 9.500e+01, 1.030e+02, 1.080e+02, 1.220e+02, 1.440e+02,
-       1.670e+02, 1.700e+02, 1.830e+02, 1.850e+02, 1.930e+02, 1.950e+02,
-       1.970e+02, 2.080e+02, 2.340e+02, 2.350e+02, 2.540e+02, 3.070e+02,
-       3.150e+02, 4.010e+02, 4.450e+02, 4.640e+02, 4.840e+02, 5.280e+02,
-       5.420e+02, 5.670e+02, 5.770e+02, 5.800e+02, 7.950e+02, 8.550e+02,
-       8.820e+02, 8.920e+02, 1.031e+03, 1.033e+03, 1.306e+03, 1.335e+03,
-       1.366e+03, 1.452e+03, 1.472e+03, 1.000e+00, 6.300e+01, 1.050e+02,
-       1.290e+02, 1.820e+02, 2.160e+02, 2.500e+02, 2.620e+02, 3.010e+02,
-       3.010e+02, 3.420e+02, 3.540e+02, 3.560e+02, 3.580e+02, 3.800e+02,
-       3.810e+02, 3.830e+02, 3.830e+02, 3.880e+02, 3.940e+02, 4.080e+02,
-       4.600e+02, 4.890e+02, 4.990e+02, 5.240e+02, 5.290e+02, 5.350e+02,
-       5.620e+02, 6.750e+02, 6.760e+02, 7.480e+02, 7.480e+02, 7.780e+02,
-       7.860e+02, 7.970e+02, 9.450e+02, 9.550e+02, 9.680e+02, 1.180e+03,
-       1.245e+03, 1.271e+03, 1.277e+03, 1.397e+03, 1.512e+03, 1.519e+03])
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">censored</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([  inf,   inf,   inf,   inf,   inf,   inf,   inf,   inf,   inf,
-         inf,   inf,   inf,   inf,   inf,   inf,   inf,   inf,   inf,
-         inf,   inf,   inf,   inf,   inf,   inf,   inf,   inf,   inf,
-         inf,   inf,   inf,   inf,   inf,   inf,   inf,   inf,   inf,
-        882.,  892., 1031., 1033., 1306., 1335.,   inf, 1452., 1472.,
-         inf,   inf,   inf,   inf,   inf,   inf,   inf,   inf,   inf,
-         inf,   inf,   inf,   inf,   inf,   inf,  381.,   inf,   inf,
-         inf,   inf,   inf,   inf,   inf,   inf,   inf,  529.,   inf,
-         inf,   inf,   inf,   inf,   inf,   inf,   inf,   inf,  945.,
-         inf,   inf, 1180.,   inf,   inf, 1277., 1397., 1512., 1519.])
-</pre></div>
-</div>
-</div>
-</div>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>PyMC and BUGS do not specify the Weibull distribution in the same way!</p>
@@ -720,7 +671,7 @@ document.write(`
 <span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">m</span><span class="p">:</span>
     <span class="n">beta0</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;beta0&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
     <span class="n">beta1</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;beta1&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
-    <span class="n">α</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Exponential</span><span class="p">(</span><span class="s2">&quot;α&quot;</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+    <span class="n">α</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Gamma</span><span class="p">(</span><span class="s2">&quot;α&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">,</span> <span class="n">initval</span><span class="o">=</span><span class="mf">0.25</span><span class="p">)</span>
 
     <span class="n">λ</span> <span class="o">=</span> <span class="n">exp</span><span class="p">(</span><span class="n">beta0</span> <span class="o">+</span> <span class="n">beta1</span> <span class="o">*</span> <span class="n">x</span><span class="p">)</span>
     <span class="n">β</span> <span class="o">=</span> <span class="n">λ</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span> <span class="o">/</span> <span class="n">α</span><span class="p">)</span>
@@ -764,36 +715,16 @@ Multiprocess sampling (4 chains in 4 jobs)
 NUTS: [beta0, beta1, α]
 </pre></div>
 </div>
-<div class="output text_html">
-<style>
-    /* Turns off some styling */
-    progress {
-        /* gets rid of default border in Firefox and Opera. */
-        border: none;
-        /* Needs to be in here for Safari polyfill so background images work as expected. */
-        background-size: auto;
-    }
-    progress:not([value]), progress:not([value])::-webkit-progress-bar {
-        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
-    }
-    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
-        background: #F44336;
-    }
-</style>
-</div><div class="output text_html">
-    <div>
-      <progress value='48000' class='' max='48000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-      100.00% [48000/48000 00:13&lt;00:00 Sampling 4 chains, 0 divergences]
-    </div>
-    </div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 2_000 tune and 10_000 draw iterations (8_000 + 40_000 draws total) took 14 seconds.
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "d5a680d570cb48cbbd785a1ba47964f6", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 2_000 tune and 10_000 draw iterations (8_000 + 40_000 draws total) took 14 seconds.
 </pre></div>
 </div>
 </div>
 </details>
 </div>
-<div class="cell tag_full-width docutils container">
+<div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;~S&quot;</span><span class="p">,</span> <span class="s2">&quot;~f&quot;</span><span class="p">,</span> <span class="s2">&quot;~h&quot;</span><span class="p">],</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;stats&quot;</span><span class="p">,</span> <span class="n">hdi_prob</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;~S&quot;</span><span class="p">,</span> <span class="s2">&quot;~f&quot;</span><span class="p">,</span> <span class="s2">&quot;~h&quot;</span><span class="p">],</span> <span class="n">hdi_prob</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -820,55 +751,267 @@ NUTS: [beta0, beta1, α]
       <th>sd</th>
       <th>hdi_5%</th>
       <th>hdi_95%</th>
+      <th>mcse_mean</th>
+      <th>mcse_sd</th>
+      <th>ess_bulk</th>
+      <th>ess_tail</th>
+      <th>r_hat</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <th>beta0</th>
-      <td>-6.539</td>
-      <td>0.651</td>
-      <td>-7.602</td>
-      <td>-5.475</td>
+      <td>-6.794</td>
+      <td>0.669</td>
+      <td>-7.918</td>
+      <td>-5.721</td>
+      <td>0.008</td>
+      <td>0.006</td>
+      <td>7103.0</td>
+      <td>9414.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>beta1</th>
-      <td>0.258</td>
-      <td>0.235</td>
-      <td>-0.116</td>
-      <td>0.655</td>
+      <td>0.262</td>
+      <td>0.232</td>
+      <td>-0.114</td>
+      <td>0.648</td>
+      <td>0.001</td>
+      <td>0.001</td>
+      <td>24321.0</td>
+      <td>19909.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>α</th>
-      <td>0.990</td>
-      <td>0.095</td>
-      <td>0.830</td>
-      <td>1.142</td>
+      <td>1.028</td>
+      <td>0.098</td>
+      <td>0.867</td>
+      <td>1.188</td>
+      <td>0.001</td>
+      <td>0.001</td>
+      <td>7153.0</td>
+      <td>9646.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>median0</th>
-      <td>516.909</td>
-      <td>91.089</td>
-      <td>370.988</td>
-      <td>660.714</td>
+      <td>524.207</td>
+      <td>88.400</td>
+      <td>383.214</td>
+      <td>664.780</td>
+      <td>0.587</td>
+      <td>0.415</td>
+      <td>22412.0</td>
+      <td>25454.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>median1</th>
-      <td>398.074</td>
-      <td>71.253</td>
-      <td>281.726</td>
-      <td>510.506</td>
+      <td>405.738</td>
+      <td>70.421</td>
+      <td>295.325</td>
+      <td>522.211</td>
+      <td>0.446</td>
+      <td>0.315</td>
+      <td>24736.0</td>
+      <td>26524.0</td>
+      <td>1.0</td>
     </tr>
   </tbody>
 </table>
 </div></div></div>
 </div>
 </section>
-<section id="method-2-imputed-censoring">
-<h2>Method 2: Imputed censoring<a class="headerlink" href="#method-2-imputed-censoring" title="Permalink to this headline">#</a></h2>
-<p>This method is from <a class="reference external" href="https://www.pymc.io/projects/examples/en/latest/survival_analysis/censored_data.html#censored-data-model1">this notebook</a> by <a class="reference external" href="https://github.com/domenzain">Luis Mario Domenzain</a>, <a class="reference external" href="https://github.com/eigenfoo">George Ho</a>, and <a class="reference external" href="https://github.com/drbenvincent">Dr. Ben Vincent</a>. This method imputes the values using what is almost another likelihood (not sure if it actually meets the definition of one, so I’m calling the variable <code class="docutils literal notranslate"><span class="pre">impute_censored</span></code>) in the model, with the right-censored values as lower bounds. Since the two likelihoods share the same priors, this ends up working nearly as well as the previous method.</p>
+<section id="method-2-pm-potential">
+<h2>Method 2: pm.Potential<a class="headerlink" href="#method-2-pm-potential" title="Permalink to this headline">#</a></h2>
+<p>This method uses <a class="reference external" href="https://www.pymc.io/projects/docs/en/stable/api/model/generated/pymc.model.core.Potential.html#pymc-model-core-potential">pm.Potential</a> to achieve the same thing as above by evaluating the censored datapoints differently. It came from <a class="reference external" href="https://www.pymc.io/projects/examples/en/latest/survival_analysis/weibull_aft.html#reparameterizing-the-weibull-accelerated-failure-time-model">this notebook</a>(<span id="id3">Junpeng Lao [<a class="reference internal" href="../backmatter/bibliography.html#id57">n.d.</a>]</span>).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">data</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">censored_vals</span> <span class="o">=</span> <span class="n">data</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">data</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+<span class="c1"># we need to separate the observed values and the censored values</span>
+<span class="n">observed_mask</span> <span class="o">=</span> <span class="n">censored_vals</span> <span class="o">==</span> <span class="mi">0</span>
+
+<span class="n">y_censored</span> <span class="o">=</span> <span class="n">censored_vals</span><span class="p">[</span><span class="o">~</span><span class="n">observed_mask</span><span class="p">]</span>
+<span class="n">y_uncensored</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="n">observed_mask</span><span class="p">]</span>
+<span class="n">x_censored</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="o">~</span><span class="n">observed_mask</span><span class="p">]</span>
+<span class="n">x_uncensored</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">observed_mask</span><span class="p">]</span>
+
+<span class="n">n_right_censored</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">x_censored</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">n_observed</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">x_uncensored</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># see https://www.pymc.io/projects/examples/en/latest/survival_analysis/weibull_aft.html</span>
+<span class="k">def</span> <span class="nf">weibull_lccdf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Log complementary cdf of Weibull distribution.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="o">-</span><span class="p">((</span><span class="n">x</span> <span class="o">/</span> <span class="n">beta</span><span class="p">)</span> <span class="o">**</span> <span class="n">alpha</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">log2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">m</span><span class="p">:</span>
+    <span class="n">beta0</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;beta0&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+    <span class="n">beta1</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;beta1&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+    <span class="n">α</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Gamma</span><span class="p">(</span><span class="s2">&quot;α&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">,</span> <span class="n">initval</span><span class="o">=</span><span class="mf">0.25</span><span class="p">)</span>
+
+    <span class="n">λ_censored</span> <span class="o">=</span> <span class="n">exp</span><span class="p">(</span><span class="n">beta0</span> <span class="o">+</span> <span class="n">beta1</span> <span class="o">*</span> <span class="n">x_censored</span><span class="p">)</span>
+    <span class="n">β_censored</span> <span class="o">=</span> <span class="n">λ_censored</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span> <span class="o">/</span> <span class="n">α</span><span class="p">)</span>
+
+    <span class="n">λ_uncensored</span> <span class="o">=</span> <span class="n">exp</span><span class="p">(</span><span class="n">beta0</span> <span class="o">+</span> <span class="n">beta1</span> <span class="o">*</span> <span class="n">x_uncensored</span><span class="p">)</span>
+    <span class="n">β_uncensored</span> <span class="o">=</span> <span class="n">λ_uncensored</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span> <span class="o">/</span> <span class="n">α</span><span class="p">)</span>
+
+    <span class="n">pm</span><span class="o">.</span><span class="n">Weibull</span><span class="p">(</span>
+        <span class="s2">&quot;observed&quot;</span><span class="p">,</span>
+        <span class="n">alpha</span><span class="o">=</span><span class="n">α</span><span class="p">,</span>
+        <span class="n">beta</span><span class="o">=</span><span class="n">β_uncensored</span><span class="p">,</span>
+        <span class="n">observed</span><span class="o">=</span><span class="n">y_uncensored</span><span class="p">,</span>
+        <span class="n">shape</span><span class="o">=</span><span class="n">n_observed</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">pm</span><span class="o">.</span><span class="n">Potential</span><span class="p">(</span><span class="s2">&quot;censored&quot;</span><span class="p">,</span> <span class="n">weibull_lccdf</span><span class="p">(</span><span class="n">y_censored</span><span class="p">,</span> <span class="n">α</span><span class="p">,</span> <span class="n">β_censored</span><span class="p">))</span>
+
+    <span class="n">median0</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;median0&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">log2</span> <span class="o">*</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">beta0</span><span class="p">))</span> <span class="o">**</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">α</span><span class="p">))</span>
+    <span class="n">median1</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span>
+        <span class="s2">&quot;median1&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">log2</span> <span class="o">*</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">beta0</span> <span class="o">-</span> <span class="n">beta1</span><span class="p">))</span> <span class="o">**</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">α</span><span class="p">)</span>
+    <span class="p">)</span>
+
+    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">10000</span><span class="p">,</span> <span class="n">tune</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">target_accept</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Auto-assigning NUTS sampler...
+Initializing NUTS using jitter+adapt_diag...
+Multiprocess sampling (4 chains in 4 jobs)
+NUTS: [beta0, beta1, α]
+</pre></div>
+</div>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "5b3e7e963f1540159a7954b7d97dd6b9", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 2_000 tune and 10_000 draw iterations (8_000 + 40_000 draws total) took 15 seconds.
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">hdi_prob</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mean</th>
+      <th>sd</th>
+      <th>hdi_5%</th>
+      <th>hdi_95%</th>
+      <th>mcse_mean</th>
+      <th>mcse_sd</th>
+      <th>ess_bulk</th>
+      <th>ess_tail</th>
+      <th>r_hat</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>beta0</th>
+      <td>-6.768</td>
+      <td>0.666</td>
+      <td>-7.842</td>
+      <td>-5.656</td>
+      <td>0.006</td>
+      <td>0.004</td>
+      <td>13330.0</td>
+      <td>14984.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>beta1</th>
+      <td>0.262</td>
+      <td>0.232</td>
+      <td>-0.121</td>
+      <td>0.641</td>
+      <td>0.002</td>
+      <td>0.001</td>
+      <td>17578.0</td>
+      <td>16409.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>α</th>
+      <td>1.025</td>
+      <td>0.097</td>
+      <td>0.869</td>
+      <td>1.187</td>
+      <td>0.001</td>
+      <td>0.001</td>
+      <td>13312.0</td>
+      <td>15338.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>median0</th>
+      <td>522.726</td>
+      <td>88.403</td>
+      <td>376.215</td>
+      <td>658.102</td>
+      <td>0.582</td>
+      <td>0.413</td>
+      <td>23193.0</td>
+      <td>26359.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>median1</th>
+      <td>404.411</td>
+      <td>69.819</td>
+      <td>292.821</td>
+      <td>517.047</td>
+      <td>0.460</td>
+      <td>0.326</td>
+      <td>22932.0</td>
+      <td>25841.0</td>
+      <td>1.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="old-imputed-censoring-method">
+<h2>Old imputed censoring method<a class="headerlink" href="#old-imputed-censoring-method" title="Permalink to this headline">#</a></h2>
+<p>This method is from an older version of <a class="reference external" href="https://www.pymc.io/projects/examples/en/latest/survival_analysis/censored_data.html#censored-data-model1">this notebook</a> by <a class="reference external" href="https://github.com/domenzain">Luis Mario Domenzain</a>, <a class="reference external" href="https://github.com/eigenfoo">George Ho</a>, and <a class="reference external" href="https://github.com/drbenvincent">Dr. Ben Vincent</a>. The newer version doesn’t work for our purposes at this time, so I’ll be on the lookout for another way to do imputed censoring with varying censoring cutoff values.</p>
+<p>I’m just going to preserve it here for posterity.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>pm.Bound is being deprecated, so this method will stop working eventually. The notebook linked above has a new method, but I haven’t investigated it yet.</p>
+<p>pm.Bound is deprecated, so this method has stopped working.</p>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -923,7 +1066,7 @@ NUTS: [beta0, beta1, α]
         <span class="s2">&quot;median1&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">log2</span> <span class="o">*</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">beta0</span> <span class="o">-</span> <span class="n">beta1</span><span class="p">))</span> <span class="o">**</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">α</span><span class="p">)</span>
     <span class="p">)</span>
 
-    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">10000</span><span class="p">,</span> <span class="n">tune</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">cores</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">,</span> <span class="n">target_accept</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
+    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">10000</span><span class="p">,</span> <span class="n">tune</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">target_accept</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -933,36 +1076,26 @@ NUTS: [beta0, beta1, α]
 <span class="expanded">Hide code cell output</span>
 </summary>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc_env2/lib/python3.11/site-packages/pymc/distributions/bound.py:186: FutureWarning: Bound has been deprecated in favor of Truncated, and will be removed in a future release. If Truncated is not an option, Bound can be implemented byadding an IntervalTransform between lower and upper to a continuous variable. A Potential that returns negative infinity for values outside of the bounds can be used for discrete variables.
-  warnings.warn(
-Auto-assigning NUTS sampler...
-Initializing NUTS using jitter+adapt_diag...
-Multiprocess sampling (4 chains in 4 jobs)
-NUTS: [beta0, beta1, α, impute_censored]
-</pre></div>
-</div>
-<div class="output text_html">
-<style>
-    /* Turns off some styling */
-    progress {
-        /* gets rid of default border in Firefox and Opera. */
-        border: none;
-        /* Needs to be in here for Safari polyfill so background images work as expected. */
-        background-size: auto;
-    }
-    progress:not([value]), progress:not([value])::-webkit-progress-bar {
-        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
-    }
-    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
-        background: #F44336;
-    }
-</style>
-</div><div class="output text_html">
-    <div>
-      <progress value='48000' class='' max='48000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-      100.00% [48000/48000 00:34&lt;00:00 Sampling 4 chains, 0 divergences]
-    </div>
-    </div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 2_000 tune and 10_000 draw iterations (8_000 + 40_000 draws total) took 35 seconds.
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">AttributeError</span><span class="g g-Whitespace">                            </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">13</span><span class="p">],</span> <span class="n">line</span> <span class="mi">14</span>
+<span class="g g-Whitespace">     </span><span class="mi">11</span> <span class="n">λ_uncensored</span> <span class="o">=</span> <span class="n">exp</span><span class="p">(</span><span class="n">beta0</span> <span class="o">+</span> <span class="n">beta1</span> <span class="o">*</span> <span class="n">x_uncensored</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">12</span> <span class="n">β_uncensored</span> <span class="o">=</span> <span class="n">λ_uncensored</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span> <span class="o">/</span> <span class="n">α</span><span class="p">)</span>
+<span class="ne">---&gt; </span><span class="mi">14</span> <span class="n">impute_censored</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Bound</span><span class="p">(</span>
+<span class="g g-Whitespace">     </span><span class="mi">15</span>     <span class="s2">&quot;impute_censored&quot;</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">16</span>     <span class="n">pm</span><span class="o">.</span><span class="n">Weibull</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="n">α</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="n">β_censored</span><span class="p">),</span>
+<span class="g g-Whitespace">     </span><span class="mi">17</span>     <span class="n">lower</span><span class="o">=</span><span class="n">censored</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">18</span>     <span class="n">shape</span><span class="o">=</span><span class="n">censored</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+<span class="g g-Whitespace">     </span><span class="mi">19</span> <span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">21</span> <span class="n">likelihood</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Weibull</span><span class="p">(</span>
+<span class="g g-Whitespace">     </span><span class="mi">22</span>     <span class="s2">&quot;likelihood&quot;</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">23</span>     <span class="n">alpha</span><span class="o">=</span><span class="n">α</span><span class="p">,</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">26</span>     <span class="n">shape</span><span class="o">=</span><span class="n">y_uncensored</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+<span class="g g-Whitespace">     </span><span class="mi">27</span> <span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">29</span> <span class="n">median0</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;median0&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">log2</span> <span class="o">*</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">beta0</span><span class="p">))</span> <span class="o">**</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">α</span><span class="p">))</span>
+
+<span class="ne">AttributeError</span>: module &#39;pymc&#39; has no attribute &#39;Bound&#39;
 </pre></div>
 </div>
 </div>
@@ -1250,7 +1383,8 @@ pymc : 5.1.2
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#method-1-pm-censored">Method 1: <code class="docutils literal notranslate"><span class="pre">pm.Censored</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#method-2-imputed-censoring">Method 2: Imputed censoring</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#method-2-pm-potential">Method 2: pm.Potential</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#old-imputed-censoring-method">Old imputed censoring method</a></li>
 </ul>
   </nav></div>
 

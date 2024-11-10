@@ -621,8 +621,41 @@ document.write(`
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># import y data and create mask (missing data is represented as nan in the file)</span>
 <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="s2">&quot;../data/rats.txt&quot;</span><span class="p">)</span>
-<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan_to_num</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">nan</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># nan to -1</span>
-<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_values</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">value</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># create mask</span>
+<span class="n">y</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[151., 199., 246., 283., 320.],
+       [145., 199., 249., 293., 354.],
+       [147., 214., 263., 312., 328.],
+       [155., 200., 237., 272., 297.],
+       [135., 188., 230., 280., 323.],
+       [159., 210., 252., 298.,  nan],
+       [141., 189., 231., 275.,  nan],
+       [159., 201., 248., 297.,  nan],
+       [177., 236., 285., 350.,  nan],
+       [134., 182., 220., 260.,  nan],
+       [160., 208., 261., 313.,  nan],
+       [143., 188., 220.,  nan,  nan],
+       [154., 200., 244.,  nan,  nan],
+       [171., 221., 270.,  nan,  nan],
+       [163., 216., 242.,  nan,  nan],
+       [160., 207., 248.,  nan,  nan],
+       [142., 187., 234.,  nan,  nan],
+       [156., 203., 243.,  nan,  nan],
+       [157., 212., 259.,  nan,  nan],
+       [152., 203., 246.,  nan,  nan],
+       [154., 205., 253.,  nan,  nan],
+       [139., 190.,  nan,  nan,  nan],
+       [146., 191.,  nan,  nan,  nan],
+       [157., 211.,  nan,  nan,  nan],
+       [132., 185.,  nan,  nan,  nan],
+       [160.,  nan,  nan,  nan,  nan],
+       [169.,  nan,  nan,  nan,  nan],
+       [157.,  nan,  nan,  nan,  nan],
+       [137.,  nan,  nan,  nan,  nan],
+       [153.,  nan,  nan,  nan,  nan]])
 </pre></div>
 </div>
 </div>
@@ -653,7 +686,10 @@ document.write(`
     <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;likelihood&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="n">lik_tau</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
 
     <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span>
-        <span class="mi">5000</span><span class="p">,</span> <span class="n">tune</span><span class="o">=</span><span class="mi">4000</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="s2">&quot;jitter+adapt_diag_grad&quot;</span><span class="p">,</span> <span class="n">target_accept</span><span class="o">=</span><span class="mf">0.95</span>
+        <span class="mi">5000</span><span class="p">,</span>
+        <span class="n">tune</span><span class="o">=</span><span class="mi">4000</span><span class="p">,</span>
+        <span class="n">init</span><span class="o">=</span><span class="s2">&quot;jitter+adapt_diag_grad&quot;</span><span class="p">,</span>
+        <span class="n">target_accept</span><span class="o">=</span><span class="mf">0.95</span><span class="p">,</span>
     <span class="p">)</span>
 </pre></div>
 </div>
@@ -664,7 +700,7 @@ document.write(`
 <span class="expanded">Hide code cell output</span>
 </summary>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc/lib/python3.11/site-packages/pymc/model/core.py:1365: ImputationWarning: Data in likelihood contains missing values and will be automatically imputed from the sampling distribution.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/miniforge3/envs/pymc_macos15/lib/python3.12/site-packages/pymc/model/core.py:1278: ImputationWarning: Data in likelihood contains missing values and will be automatically imputed from the sampling distribution.
   warnings.warn(impute_message, ImputationWarning)
 Auto-assigning NUTS sampler...
 Initializing NUTS using jitter+adapt_diag_grad...
@@ -672,29 +708,9 @@ Multiprocess sampling (4 chains in 4 jobs)
 NUTS: [alpha_c, alpha_tau, beta_c, beta_tau, alpha, beta, lik_tau, likelihood_unobserved]
 </pre></div>
 </div>
-<div class="output text_html">
-<style>
-    /* Turns off some styling */
-    progress {
-        /* gets rid of default border in Firefox and Opera. */
-        border: none;
-        /* Needs to be in here for Safari polyfill so background images work as expected. */
-        background-size: auto;
-    }
-    progress:not([value]), progress:not([value])::-webkit-progress-bar {
-        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
-    }
-    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
-        background: #F44336;
-    }
-</style>
-</div><div class="output text_html">
-    <div>
-      <progress value='36000' class='' max='36000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-      100.00% [36000/36000 01:28&lt;00:00 Sampling 4 chains, 5 divergences]
-    </div>
-    </div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 4_000 tune and 5_000 draw iterations (16_000 + 20_000 draws total) took 89 seconds.
-There were 5 divergences after tuning. Increase `target_accept` or reparameterize.
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "586bbda4124b4e8c878170c95ae2d657", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 4_000 tune and 5_000 draw iterations (16_000 + 20_000 draws total) took 119 seconds.
+There were 1 divergences after tuning. Increase `target_accept` or reparameterize.
 </pre></div>
 </div>
 </div>
@@ -739,38 +755,38 @@ There were 5 divergences after tuning. Increase `target_accept` or reparameteriz
   <tbody>
     <tr>
       <th>alpha_c</th>
-      <td>101.161</td>
-      <td>2.306</td>
-      <td>96.773</td>
-      <td>105.803</td>
+      <td>101.166</td>
+      <td>2.325</td>
+      <td>96.433</td>
+      <td>105.610</td>
     </tr>
     <tr>
       <th>alpha_tau</th>
-      <td>0.027</td>
-      <td>0.098</td>
+      <td>0.023</td>
+      <td>0.064</td>
       <td>0.004</td>
-      <td>0.049</td>
+      <td>0.046</td>
     </tr>
     <tr>
       <th>beta_c</th>
       <td>6.570</td>
-      <td>0.164</td>
-      <td>6.255</td>
-      <td>6.905</td>
+      <td>0.166</td>
+      <td>6.234</td>
+      <td>6.890</td>
     </tr>
     <tr>
       <th>beta_tau</th>
-      <td>2.869</td>
-      <td>1.207</td>
-      <td>0.953</td>
-      <td>5.264</td>
+      <td>2.885</td>
+      <td>1.194</td>
+      <td>0.988</td>
+      <td>5.262</td>
     </tr>
     <tr>
       <th>sigma</th>
-      <td>6.025</td>
-      <td>0.664</td>
-      <td>4.777</td>
-      <td>7.341</td>
+      <td>6.011</td>
+      <td>0.649</td>
+      <td>4.760</td>
+      <td>7.263</td>
     </tr>
   </tbody>
 </table>
@@ -782,8 +798,7 @@ There were 5 divergences after tuning. Increase `target_accept` or reparameteriz
 <p>This is the same model, except we now have missing x data.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x_miss</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">8.0</span><span class="p">,</span> <span class="mf">15.0</span><span class="p">,</span> <span class="mf">22.0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mf">36.0</span><span class="p">])</span>
-<span class="n">x_miss</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_values</span><span class="p">(</span><span class="n">x_miss</span><span class="p">,</span> <span class="n">value</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x_miss</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">8.0</span><span class="p">,</span> <span class="mf">15.0</span><span class="p">,</span> <span class="mf">22.0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="mf">36.0</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -795,9 +810,7 @@ There were 5 divergences after tuning. Increase `target_accept` or reparameteriz
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>masked_array(data=[8.0, 15.0, 22.0, --, 36.0],
-             mask=[False, False, False,  True, False],
-       fill_value=-1.0)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([ 8., 15., 22., nan, 36.])
 </pre></div>
 </div>
 </div>
@@ -835,9 +848,9 @@ There were 5 divergences after tuning. Increase `target_accept` or reparameteriz
 <span class="expanded">Hide code cell output</span>
 </summary>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc/lib/python3.11/site-packages/pymc/model/core.py:1365: ImputationWarning: Data in x_imputed contains missing values and will be automatically imputed from the sampling distribution.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/miniforge3/envs/pymc_macos15/lib/python3.12/site-packages/pymc/model/core.py:1278: ImputationWarning: Data in x_imputed contains missing values and will be automatically imputed from the sampling distribution.
   warnings.warn(impute_message, ImputationWarning)
-/Users/aaron/mambaforge/envs/pymc/lib/python3.11/site-packages/pymc/model/core.py:1365: ImputationWarning: Data in likelihood contains missing values and will be automatically imputed from the sampling distribution.
+/Users/aaron/miniforge3/envs/pymc_macos15/lib/python3.12/site-packages/pymc/model/core.py:1278: ImputationWarning: Data in likelihood contains missing values and will be automatically imputed from the sampling distribution.
   warnings.warn(impute_message, ImputationWarning)
 Auto-assigning NUTS sampler...
 Initializing NUTS using jitter+adapt_diag_grad...
@@ -845,33 +858,120 @@ Multiprocess sampling (4 chains in 4 jobs)
 NUTS: [alpha_c, alpha_tau, beta_c, beta_tau, alpha, beta, lik_tau, x_imputed_unobserved, likelihood_unobserved]
 </pre></div>
 </div>
-<div class="output text_html">
-<style>
-    /* Turns off some styling */
-    progress {
-        /* gets rid of default border in Firefox and Opera. */
-        border: none;
-        /* Needs to be in here for Safari polyfill so background images work as expected. */
-        background-size: auto;
-    }
-    progress:not([value]), progress:not([value])::-webkit-progress-bar {
-        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
-    }
-    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
-        background: #F44336;
-    }
-</style>
-</div><div class="output text_html">
-    <div>
-      <progress value='36000' class='' max='36000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-      100.00% [36000/36000 01:14&lt;00:00 Sampling 4 chains, 18 divergences]
-    </div>
-    </div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 4_000 tune and 5_000 draw iterations (16_000 + 20_000 draws total) took 75 seconds.
-There were 18 divergences after tuning. Increase `target_accept` or reparameterize.
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "be2bef36a4c04fa7b168b0c32271aa32", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 4_000 tune and 5_000 draw iterations (16_000 + 20_000 draws total) took 90 seconds.
+There were 69 divergences after tuning. Increase `target_accept` or reparameterize.
 </pre></div>
 </div>
 </div>
 </details>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace_2</span><span class="p">,</span> <span class="n">hdi_prob</span><span class="o">=</span><span class="mf">0.95</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;x_imputed&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/miniforge3/envs/pymc_macos15/lib/python3.12/site-packages/arviz/stats/diagnostics.py:596: RuntimeWarning: invalid value encountered in scalar divide
+  (between_chain_variance / within_chain_variance + num_samples - 1) / (num_samples)
+/Users/aaron/miniforge3/envs/pymc_macos15/lib/python3.12/site-packages/arviz/stats/diagnostics.py:596: RuntimeWarning: invalid value encountered in scalar divide
+  (between_chain_variance / within_chain_variance + num_samples - 1) / (num_samples)
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mean</th>
+      <th>sd</th>
+      <th>hdi_2.5%</th>
+      <th>hdi_97.5%</th>
+      <th>mcse_mean</th>
+      <th>mcse_sd</th>
+      <th>ess_bulk</th>
+      <th>ess_tail</th>
+      <th>r_hat</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>x_imputed[0]</th>
+      <td>8.000</td>
+      <td>0.000</td>
+      <td>8.0</td>
+      <td>8.00</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>20000.0</td>
+      <td>20000.0</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>x_imputed[1]</th>
+      <td>15.000</td>
+      <td>0.000</td>
+      <td>15.0</td>
+      <td>15.00</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>20000.0</td>
+      <td>20000.0</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>x_imputed[2]</th>
+      <td>22.000</td>
+      <td>0.000</td>
+      <td>22.0</td>
+      <td>22.00</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>20000.0</td>
+      <td>20000.0</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>x_imputed[3]</th>
+      <td>29.455</td>
+      <td>0.382</td>
+      <td>28.7</td>
+      <td>30.19</td>
+      <td>0.002</td>
+      <td>0.002</td>
+      <td>24069.0</td>
+      <td>9300.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>x_imputed[4]</th>
+      <td>36.000</td>
+      <td>0.000</td>
+      <td>36.0</td>
+      <td>36.00</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>20000.0</td>
+      <td>20000.0</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -912,31 +1012,31 @@ There were 18 divergences after tuning. Increase `target_accept` or reparameteri
   <tbody>
     <tr>
       <th>alpha_c</th>
-      <td>101.744</td>
-      <td>2.348</td>
-      <td>97.048</td>
-      <td>106.248</td>
+      <td>101.737</td>
+      <td>2.364</td>
+      <td>96.940</td>
+      <td>106.293</td>
     </tr>
     <tr>
       <th>beta_c</th>
       <td>6.517</td>
-      <td>0.168</td>
-      <td>6.189</td>
-      <td>6.853</td>
+      <td>0.169</td>
+      <td>6.185</td>
+      <td>6.843</td>
     </tr>
     <tr>
       <th>alpha_tau</th>
-      <td>0.025</td>
-      <td>0.077</td>
+      <td>0.027</td>
+      <td>0.098</td>
       <td>0.004</td>
-      <td>0.043</td>
+      <td>0.044</td>
     </tr>
     <tr>
       <th>beta_tau</th>
-      <td>2.981</td>
-      <td>1.269</td>
-      <td>0.967</td>
-      <td>5.414</td>
+      <td>2.985</td>
+      <td>1.276</td>
+      <td>1.039</td>
+      <td>5.554</td>
     </tr>
     <tr>
       <th>lik_tau</th>
@@ -987,7 +1087,10 @@ There were 18 divergences after tuning. Increase `target_accept` or reparameteri
     <span class="n">pm</span><span class="o">.</span><span class="n">Bernoulli</span><span class="p">(</span><span class="s2">&quot;missing&quot;</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">p</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">miss</span><span class="p">)</span>
 
     <span class="n">trace_3</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span>
-        <span class="mi">5000</span><span class="p">,</span> <span class="n">tune</span><span class="o">=</span><span class="mi">4000</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="s2">&quot;jitter+adapt_diag_grad&quot;</span><span class="p">,</span> <span class="n">target_accept</span><span class="o">=</span><span class="mf">0.95</span>
+        <span class="mi">5000</span><span class="p">,</span>
+        <span class="n">tune</span><span class="o">=</span><span class="mi">4000</span><span class="p">,</span>
+        <span class="n">init</span><span class="o">=</span><span class="s2">&quot;jitter+adapt_diag_grad&quot;</span><span class="p">,</span>
+        <span class="n">target_accept</span><span class="o">=</span><span class="mf">0.95</span><span class="p">,</span>
     <span class="p">)</span>
 </pre></div>
 </div>
@@ -998,7 +1101,7 @@ There were 18 divergences after tuning. Increase `target_accept` or reparameteri
 <span class="expanded">Hide code cell output</span>
 </summary>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc/lib/python3.11/site-packages/pymc/model/core.py:1365: ImputationWarning: Data in likelihood contains missing values and will be automatically imputed from the sampling distribution.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/miniforge3/envs/pymc_macos15/lib/python3.12/site-packages/pymc/model/core.py:1278: ImputationWarning: Data in likelihood contains missing values and will be automatically imputed from the sampling distribution.
   warnings.warn(impute_message, ImputationWarning)
 Auto-assigning NUTS sampler...
 Initializing NUTS using jitter+adapt_diag_grad...
@@ -1006,32 +1109,22 @@ Multiprocess sampling (4 chains in 4 jobs)
 NUTS: [a, alpha, beta, log_sigma, likelihood_unobserved]
 </pre></div>
 </div>
-<div class="output text_html">
-<style>
-    /* Turns off some styling */
-    progress {
-        /* gets rid of default border in Firefox and Opera. */
-        border: none;
-        /* Needs to be in here for Safari polyfill so background images work as expected. */
-        background-size: auto;
-    }
-    progress:not([value]), progress:not([value])::-webkit-progress-bar {
-        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
-    }
-    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
-        background: #F44336;
-    }
-</style>
-</div><div class="output text_html">
-    <div>
-      <progress value='36000' class='' max='36000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-      100.00% [36000/36000 00:22&lt;00:00 Sampling 4 chains, 0 divergences]
-    </div>
-    </div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 4_000 tune and 5_000 draw iterations (16_000 + 20_000 draws total) took 23 seconds.
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "38dd1ce5bd7946adbd2a169ffd096e79", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 4_000 tune and 5_000 draw iterations (16_000 + 20_000 draws total) took 28 seconds.
+There were 14 divergences after tuning. Increase `target_accept` or reparameterize.
 </pre></div>
 </div>
 </div>
 </details>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pm</span><span class="o">.</span><span class="n">model_to_graphviz</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/3c459f7ef772268c275fb4c64f923cad247e857258987aca6fa2b885ccf6de93.svg" src="../_images/3c459f7ef772268c275fb4c64f923cad247e857258987aca6fa2b885ccf6de93.svg" /></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1067,87 +1160,87 @@ NUTS: [a, alpha, beta, log_sigma, likelihood_unobserved]
   <tbody>
     <tr>
       <th>a</th>
-      <td>-4.816</td>
-      <td>1.366</td>
-      <td>-7.606</td>
-      <td>-2.334</td>
+      <td>-4.846</td>
+      <td>1.404</td>
+      <td>-7.644</td>
+      <td>-2.242</td>
     </tr>
     <tr>
       <th>alpha</th>
-      <td>110.976</td>
-      <td>18.973</td>
-      <td>82.593</td>
-      <td>135.184</td>
+      <td>110.843</td>
+      <td>26.691</td>
+      <td>83.215</td>
+      <td>139.322</td>
     </tr>
     <tr>
       <th>beta</th>
-      <td>8.175</td>
-      <td>0.989</td>
-      <td>6.840</td>
-      <td>9.434</td>
+      <td>8.203</td>
+      <td>1.378</td>
+      <td>6.786</td>
+      <td>9.599</td>
     </tr>
     <tr>
       <th>log_sigma</th>
-      <td>1.821</td>
-      <td>0.649</td>
-      <td>0.768</td>
-      <td>3.156</td>
+      <td>1.859</td>
+      <td>0.701</td>
+      <td>0.752</td>
+      <td>3.240</td>
     </tr>
     <tr>
       <th>likelihood_unobserved[0]</th>
-      <td>406.247</td>
-      <td>25.075</td>
-      <td>374.857</td>
-      <td>437.231</td>
+      <td>408.122</td>
+      <td>47.895</td>
+      <td>372.253</td>
+      <td>440.117</td>
     </tr>
     <tr>
       <th>sigma2</th>
-      <td>217.298</td>
-      <td>3347.053</td>
-      <td>2.286</td>
-      <td>448.064</td>
+      <td>729.004</td>
+      <td>12595.822</td>
+      <td>2.133</td>
+      <td>543.137</td>
     </tr>
     <tr>
       <th>tau</th>
-      <td>0.047</td>
-      <td>0.047</td>
+      <td>0.045</td>
+      <td>0.046</td>
       <td>0.000</td>
-      <td>0.140</td>
+      <td>0.137</td>
     </tr>
     <tr>
       <th>mu[0]</th>
-      <td>176.376</td>
-      <td>11.832</td>
-      <td>158.025</td>
-      <td>192.071</td>
+      <td>176.464</td>
+      <td>18.438</td>
+      <td>158.065</td>
+      <td>195.403</td>
     </tr>
     <tr>
       <th>mu[1]</th>
-      <td>233.601</td>
-      <td>7.089</td>
-      <td>222.921</td>
-      <td>245.086</td>
+      <td>233.883</td>
+      <td>14.605</td>
+      <td>222.164</td>
+      <td>246.472</td>
     </tr>
     <tr>
       <th>mu[2]</th>
-      <td>290.825</td>
-      <td>7.511</td>
-      <td>279.627</td>
-      <td>301.906</td>
+      <td>291.302</td>
+      <td>16.511</td>
+      <td>279.056</td>
+      <td>303.103</td>
     </tr>
     <tr>
       <th>mu[3]</th>
-      <td>348.050</td>
-      <td>12.589</td>
-      <td>330.514</td>
-      <td>364.368</td>
+      <td>348.721</td>
+      <td>22.758</td>
+      <td>330.340</td>
+      <td>366.996</td>
     </tr>
     <tr>
       <th>mu[4]</th>
-      <td>405.275</td>
-      <td>18.879</td>
-      <td>380.380</td>
-      <td>429.687</td>
+      <td>406.140</td>
+      <td>30.809</td>
+      <td>379.154</td>
+      <td>432.768</td>
     </tr>
     <tr>
       <th>likelihood[0, 0]</th>
@@ -1179,45 +1272,45 @@ NUTS: [a, alpha, beta, log_sigma, likelihood_unobserved]
     </tr>
     <tr>
       <th>likelihood[0, 4]</th>
-      <td>406.247</td>
-      <td>25.075</td>
-      <td>374.857</td>
-      <td>437.231</td>
+      <td>408.122</td>
+      <td>47.895</td>
+      <td>372.253</td>
+      <td>440.117</td>
     </tr>
     <tr>
       <th>p[0, 0]</th>
       <td>0.079</td>
-      <td>0.085</td>
+      <td>0.086</td>
       <td>0.000</td>
-      <td>0.253</td>
+      <td>0.254</td>
     </tr>
     <tr>
       <th>p[0, 1]</th>
-      <td>0.127</td>
-      <td>0.121</td>
+      <td>0.126</td>
+      <td>0.123</td>
       <td>0.000</td>
-      <td>0.378</td>
+      <td>0.380</td>
     </tr>
     <tr>
       <th>p[0, 2]</th>
-      <td>0.180</td>
-      <td>0.155</td>
+      <td>0.179</td>
+      <td>0.157</td>
       <td>0.000</td>
-      <td>0.498</td>
+      <td>0.500</td>
     </tr>
     <tr>
       <th>p[0, 3]</th>
-      <td>0.272</td>
-      <td>0.198</td>
+      <td>0.270</td>
+      <td>0.201</td>
       <td>0.000</td>
-      <td>0.654</td>
+      <td>0.656</td>
     </tr>
     <tr>
       <th>p[0, 4]</th>
-      <td>0.367</td>
-      <td>0.229</td>
+      <td>0.366</td>
+      <td>0.234</td>
       <td>0.000</td>
-      <td>0.769</td>
+      <td>0.776</td>
     </tr>
   </tbody>
 </table>
@@ -1231,17 +1324,18 @@ NUTS: [a, alpha, beta, log_sigma, likelihood_unobserved]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Tue Nov 07 2023
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Sun Nov 10 2024
 
 Python implementation: CPython
-Python version       : 3.11.5
-IPython version      : 8.15.0
+Python version       : 3.12.7
+IPython version      : 8.29.0
 
-pytensor: 2.17.1
+pytensor: 2.26.0
 
-arviz: 0.16.1
-numpy: 1.25.2
-pymc : 5.9.0
+arviz   : 0.20.0
+pytensor: 2.26.0
+numpy   : 1.26.4
+pymc    : 5.18.0
 </pre></div>
 </div>
 </div>

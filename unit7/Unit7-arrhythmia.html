@@ -688,13 +688,23 @@ document.write(`
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \begin{align*}
-y_i | \boldsymbol{\beta}, \mathbf{x}_i &amp;\sim \text{Bernoulli}(n_i, p_i) \\
+y_i | \boldsymbol{\beta}, \mathbf{x}_i &amp;\sim \text{Bernoulli}(p_i) \\
 g(p_i) &amp;= \beta_0 + \sum_{j=1}^p \beta_j x_{ij} \\
 \beta_0 &amp;\sim \mathcal{N}(0, \sigma_0^2) &amp;&amp; \text{Intercept variance may be higher than coefficient variance.}\\
-\beta_j &amp;\sim \mathcal{N}(0, \sigma^2), \quad j = 0, 1, \ldots, p
+\beta_j &amp;\sim \mathcal{N}(0, \sigma^2), \quad j = 1, 2, \ldots, k
 \end{align*}
 \end{split}\]</div>
-<p>where <span class="math notranslate nohighlight">\(g(\cdot)\)</span> is the logit function: <span class="math notranslate nohighlight">\(\text{logit}(p) = \ln\left(\frac{p}{1-p}\right)\)</span>, and its inverse <span class="math notranslate nohighlight">\(g^{-1}(\cdot)\)</span> is the logistic function: <span class="math notranslate nohighlight">\(\text{logistic}(x) = \frac{1}{1 + e^{-x}}\)</span>.</p>
+<p>where <span class="math notranslate nohighlight">\(k\)</span> is the number of predictors and <span class="math notranslate nohighlight">\(g(\cdot)\)</span> is the logit function: <span class="math notranslate nohighlight">\(\text{logit}(p) = \ln\left(\frac{p}{1-p}\right)\)</span>, and its inverse <span class="math notranslate nohighlight">\(g^{-1}(\cdot)\)</span> is the logistic function: <span class="math notranslate nohighlight">\(\text{logistic}(x) = \frac{1}{1 + e^{-x}}\)</span>.</p>
+<p>If your data is in an aggregated format, you should consider going with a Binomial likelihood. The model can be equivalently stated this way:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+y_i | \boldsymbol{\beta}, \mathbf{x}_i &amp;\sim \text{Binomial}(n_i, p_i) \\
+g(p_i) &amp;= \beta_0 + \sum_{j=1}^p \beta_j x_{ij} \\
+\beta_0 &amp;\sim \mathcal{N}(0, \sigma_0^2) &amp;&amp; \text{Intercept variance may be higher than coefficient variance.}\\
+\beta_j &amp;\sim \mathcal{N}(0, \sigma^2), \quad j = 1, 2 \ldots, k
+\end{align*}
+\end{split}\]</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;../data/arrhythmia.csv&quot;</span><span class="p">)</span>

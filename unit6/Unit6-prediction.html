@@ -595,8 +595,6 @@ document.write(`
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">pymc</span> <span class="k">as</span> <span class="nn">pm</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-
-<span class="o">%</span><span class="k">load_ext</span> lab_black
 </pre></div>
 </div>
 </div>
@@ -625,7 +623,7 @@ document.write(`
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -690,232 +688,16 @@ document.write(`
       <td>3.807</td>
       <td>0.99</td>
     </tr>
-    <tr>
-      <th>6</th>
-      <td>25.9</td>
-      <td>5.697</td>
-      <td>7.601</td>
-      <td>1.09</td>
-    </tr>
-    <tr>
-      <th>7</th>
-      <td>37.3</td>
-      <td>5.892</td>
-      <td>8.726</td>
-      <td>1.29</td>
-    </tr>
-    <tr>
-      <th>8</th>
-      <td>21.9</td>
-      <td>6.078</td>
-      <td>7.966</td>
-      <td>1.78</td>
-    </tr>
-    <tr>
-      <th>9</th>
-      <td>18.1</td>
-      <td>4.898</td>
-      <td>3.850</td>
-      <td>1.29</td>
-    </tr>
-    <tr>
-      <th>10</th>
-      <td>21.0</td>
-      <td>5.242</td>
-      <td>4.174</td>
-      <td>1.58</td>
-    </tr>
-    <tr>
-      <th>11</th>
-      <td>34.9</td>
-      <td>5.740</td>
-      <td>6.142</td>
-      <td>1.68</td>
-    </tr>
-    <tr>
-      <th>12</th>
-      <td>57.2</td>
-      <td>6.446</td>
-      <td>7.908</td>
-      <td>1.90</td>
-    </tr>
-    <tr>
-      <th>13</th>
-      <td>0.7</td>
-      <td>4.477</td>
-      <td>2.996</td>
-      <td>1.06</td>
-    </tr>
-    <tr>
-      <th>14</th>
-      <td>25.9</td>
-      <td>5.236</td>
-      <td>4.942</td>
-      <td>1.30</td>
-    </tr>
-    <tr>
-      <th>15</th>
-      <td>54.9</td>
-      <td>6.151</td>
-      <td>6.752</td>
-      <td>1.52</td>
-    </tr>
-    <tr>
-      <th>16</th>
-      <td>40.9</td>
-      <td>6.365</td>
-      <td>9.588</td>
-      <td>1.74</td>
-    </tr>
-    <tr>
-      <th>17</th>
-      <td>15.9</td>
-      <td>4.787</td>
-      <td>3.912</td>
-      <td>1.16</td>
-    </tr>
-    <tr>
-      <th>18</th>
-      <td>6.4</td>
-      <td>5.412</td>
-      <td>4.700</td>
-      <td>1.49</td>
-    </tr>
-    <tr>
-      <th>19</th>
-      <td>18.0</td>
-      <td>5.247</td>
-      <td>6.174</td>
-      <td>1.63</td>
-    </tr>
-    <tr>
-      <th>20</th>
-      <td>38.9</td>
-      <td>5.438</td>
-      <td>9.064</td>
-      <td>1.99</td>
-    </tr>
-    <tr>
-      <th>21</th>
-      <td>14.0</td>
-      <td>4.564</td>
-      <td>4.949</td>
-      <td>1.15</td>
-    </tr>
-    <tr>
-      <th>22</th>
-      <td>15.2</td>
-      <td>5.298</td>
-      <td>5.220</td>
-      <td>1.33</td>
-    </tr>
-    <tr>
-      <th>23</th>
-      <td>32.0</td>
-      <td>5.455</td>
-      <td>9.242</td>
-      <td>1.44</td>
-    </tr>
-    <tr>
-      <th>24</th>
-      <td>56.7</td>
-      <td>5.855</td>
-      <td>10.199</td>
-      <td>2.01</td>
-    </tr>
-    <tr>
-      <th>25</th>
-      <td>16.8</td>
-      <td>5.366</td>
-      <td>3.664</td>
-      <td>1.31</td>
-    </tr>
-    <tr>
-      <th>26</th>
-      <td>11.6</td>
-      <td>6.043</td>
-      <td>3.219</td>
-      <td>1.46</td>
-    </tr>
-    <tr>
-      <th>27</th>
-      <td>26.5</td>
-      <td>6.458</td>
-      <td>6.962</td>
-      <td>1.72</td>
-    </tr>
-    <tr>
-      <th>28</th>
-      <td>0.7</td>
-      <td>5.328</td>
-      <td>3.912</td>
-      <td>1.25</td>
-    </tr>
-    <tr>
-      <th>29</th>
-      <td>13.4</td>
-      <td>5.802</td>
-      <td>6.685</td>
-      <td>1.08</td>
-    </tr>
-    <tr>
-      <th>30</th>
-      <td>5.5</td>
-      <td>6.176</td>
-      <td>4.787</td>
-      <td>1.25</td>
-    </tr>
   </tbody>
 </table>
 </div></div></div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X_aug</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[ 1.   ,  4.543,  3.135,  0.86 ],
-       [ 1.   ,  5.159,  5.043,  1.53 ],
-       [ 1.   ,  5.366,  5.438,  1.57 ],
-       [ 1.   ,  5.759,  7.496,  1.81 ],
-       [ 1.   ,  4.663,  3.807,  0.99 ],
-       [ 1.   ,  5.697,  7.601,  1.09 ],
-       [ 1.   ,  5.892,  8.726,  1.29 ],
-       [ 1.   ,  6.078,  7.966,  1.78 ],
-       [ 1.   ,  4.898,  3.85 ,  1.29 ],
-       [ 1.   ,  5.242,  4.174,  1.58 ],
-       [ 1.   ,  5.74 ,  6.142,  1.68 ],
-       [ 1.   ,  6.446,  7.908,  1.9  ],
-       [ 1.   ,  4.477,  2.996,  1.06 ],
-       [ 1.   ,  5.236,  4.942,  1.3  ],
-       [ 1.   ,  6.151,  6.752,  1.52 ],
-       [ 1.   ,  6.365,  9.588,  1.74 ],
-       [ 1.   ,  4.787,  3.912,  1.16 ],
-       [ 1.   ,  5.412,  4.7  ,  1.49 ],
-       [ 1.   ,  5.247,  6.174,  1.63 ],
-       [ 1.   ,  5.438,  9.064,  1.99 ],
-       [ 1.   ,  4.564,  4.949,  1.15 ],
-       [ 1.   ,  5.298,  5.22 ,  1.33 ],
-       [ 1.   ,  5.455,  9.242,  1.44 ],
-       [ 1.   ,  5.855, 10.199,  2.01 ],
-       [ 1.   ,  5.366,  3.664,  1.31 ],
-       [ 1.   ,  6.043,  3.219,  1.46 ],
-       [ 1.   ,  6.458,  6.962,  1.72 ],
-       [ 1.   ,  5.328,  3.912,  1.25 ],
-       [ 1.   ,  5.802,  6.685,  1.08 ],
-       [ 1.   ,  6.176,  4.787,  1.25 ]])
-</pre></div>
-</div>
-</div>
 </div>
 <div class="cell tag_hide-output docutils container">
 <div class="cell_input above-output-prompt docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">m</span><span class="p">:</span>
     <span class="c1"># associate data with model (this makes prediction easier)</span>
-    <span class="n">X_data</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Data</span><span class="p">(</span><span class="s2">&quot;X&quot;</span><span class="p">,</span> <span class="n">X_aug</span><span class="p">,</span> <span class="n">mutable</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">y_data</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Data</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">mutable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">X_data</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Data</span><span class="p">(</span><span class="s2">&quot;X&quot;</span><span class="p">,</span> <span class="n">X_aug</span><span class="p">)</span>
+    <span class="n">y_data</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Data</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
 
     <span class="c1"># priors</span>
     <span class="n">beta</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;beta&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
@@ -945,53 +727,13 @@ Multiprocess sampling (4 chains in 4 jobs)
 NUTS: [beta, tau]
 </pre></div>
 </div>
-<div class="output text_html">
-<style>
-    /* Turns off some styling */
-    progress {
-        /* gets rid of default border in Firefox and Opera. */
-        border: none;
-        /* Needs to be in here for Safari polyfill so background images work as expected. */
-        background-size: auto;
-    }
-    progress:not([value]), progress:not([value])::-webkit-progress-bar {
-        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
-    }
-    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
-        background: #F44336;
-    }
-</style>
-</div><div class="output text_html">
-    <div>
-      <progress value='24000' class='' max='24000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-      100.00% [24000/24000 00:19&lt;00:00 Sampling 4 chains, 0 divergences]
-    </div>
-    </div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 5_000 draw iterations (4_000 + 20_000 draws total) took 19 seconds.
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "efe8dd9503f64ae5b0445a47c4e412b4", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 5_000 draw iterations (4_000 + 20_000 draws total) took 22 seconds.
 Sampling: [taste_score]
 </pre></div>
 </div>
-<div class="output text_html">
-<style>
-    /* Turns off some styling */
-    progress {
-        /* gets rid of default border in Firefox and Opera. */
-        border: none;
-        /* Needs to be in here for Safari polyfill so background images work as expected. */
-        background-size: auto;
-    }
-    progress:not([value]), progress:not([value])::-webkit-progress-bar {
-        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
-    }
-    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
-        background: #F44336;
-    }
-</style>
-</div><div class="output text_html">
-    <div>
-      <progress value='20000' class='' max='20000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-      100.00% [20000/20000 00:00&lt;00:00]
-    </div>
-    </div></div>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "9096cecd6462483eb26e47b35c4745dc", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
+</div></div>
 </details>
 </div>
 <div class="cell docutils container">
@@ -1033,50 +775,50 @@ Sampling: [taste_score]
   <tbody>
     <tr>
       <th>beta[0]</th>
-      <td>-28.827</td>
-      <td>20.571</td>
-      <td>-68.654</td>
-      <td>12.278</td>
-      <td>0.243</td>
-      <td>0.172</td>
-      <td>7159.0</td>
-      <td>9390.0</td>
+      <td>-28.574</td>
+      <td>20.332</td>
+      <td>-67.694</td>
+      <td>11.618</td>
+      <td>0.236</td>
+      <td>0.167</td>
+      <td>7415.0</td>
+      <td>9686.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>beta[1]</th>
-      <td>0.314</td>
-      <td>4.650</td>
-      <td>-8.482</td>
-      <td>9.805</td>
-      <td>0.057</td>
-      <td>0.040</td>
-      <td>6760.0</td>
-      <td>9158.0</td>
+      <td>0.251</td>
+      <td>4.608</td>
+      <td>-8.735</td>
+      <td>9.307</td>
+      <td>0.055</td>
+      <td>0.039</td>
+      <td>6986.0</td>
+      <td>8855.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>beta[2]</th>
-      <td>3.921</td>
-      <td>1.303</td>
-      <td>1.371</td>
-      <td>6.535</td>
+      <td>3.936</td>
+      <td>1.302</td>
+      <td>1.341</td>
+      <td>6.459</td>
       <td>0.014</td>
       <td>0.010</td>
-      <td>8847.0</td>
-      <td>10720.0</td>
+      <td>8207.0</td>
+      <td>8851.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>beta[3]</th>
-      <td>19.649</td>
-      <td>8.904</td>
-      <td>1.827</td>
-      <td>36.985</td>
-      <td>0.090</td>
+      <td>19.645</td>
+      <td>8.873</td>
+      <td>1.844</td>
+      <td>37.125</td>
+      <td>0.091</td>
       <td>0.064</td>
-      <td>9816.0</td>
-      <td>10632.0</td>
+      <td>9620.0</td>
+      <td>10322.0</td>
       <td>1.0</td>
     </tr>
     <tr>
@@ -1087,20 +829,20 @@ Sampling: [taste_score]
       <td>0.015</td>
       <td>0.000</td>
       <td>0.000</td>
-      <td>10784.0</td>
-      <td>10427.0</td>
+      <td>10541.0</td>
+      <td>10135.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>sigma</th>
-      <td>10.435</td>
-      <td>1.492</td>
-      <td>7.768</td>
-      <td>13.419</td>
+      <td>10.433</td>
+      <td>1.514</td>
+      <td>7.614</td>
+      <td>13.377</td>
       <td>0.015</td>
-      <td>0.010</td>
-      <td>10784.0</td>
-      <td>10427.0</td>
+      <td>0.011</td>
+      <td>10541.0</td>
+      <td>10135.0</td>
       <td>1.0</td>
     </tr>
   </tbody>
@@ -1117,8 +859,8 @@ Sampling: [taste_score]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>r2        0.576332
-r2_std    0.075839
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>r2        0.577258
+r2_std    0.075810
 dtype: float64
 </pre></div>
 </div>
@@ -1212,28 +954,8 @@ dtype: float64
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling: [taste_score]
 </pre></div>
 </div>
-<div class="output text_html">
-<style>
-    /* Turns off some styling */
-    progress {
-        /* gets rid of default border in Firefox and Opera. */
-        border: none;
-        /* Needs to be in here for Safari polyfill so background images work as expected. */
-        background-size: auto;
-    }
-    progress:not([value]), progress:not([value])::-webkit-progress-bar {
-        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
-    }
-    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
-        background: #F44336;
-    }
-</style>
-</div><div class="output text_html">
-    <div>
-      <progress value='20000' class='' max='20000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-      100.00% [20000/20000 00:00&lt;00:00]
-    </div>
-    </div></div>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "775132d6abcf431089c8ed1a08944021", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
+</div></div>
 </details>
 </div>
 <p>The default behavior now is to give one prediction per y-value. The professor often asks for a single prediction based on the new data; the equivalent here would be to take the mean of the predicted values.</p>
@@ -1244,14 +966,14 @@ dtype: float64
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>mean            30.068067
-sd              11.205900
-hdi_2.5%         7.859233
-hdi_97.5%       52.049367
-mcse_mean        0.085567
-mcse_sd          0.060533
-ess_bulk     17181.033333
-ess_tail     18564.700000
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>mean            30.105300
+sd              11.192933
+hdi_2.5%         8.161233
+hdi_97.5%       52.277533
+mcse_mean        0.085700
+mcse_sd          0.060667
+ess_bulk     17107.966667
+ess_tail     18409.700000
 r_hat            1.000000
 dtype: float64
 </pre></div>
@@ -1266,19 +988,19 @@ dtype: float64
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Sun Mar 26 2023
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Mon Oct 28 2024
 
 Python implementation: CPython
-Python version       : 3.11.0
-IPython version      : 8.9.0
+Python version       : 3.12.7
+IPython version      : 8.29.0
 
-pytensor: 2.10.1
+pytensor: 2.25.5
 
-pymc      : 5.1.2
-pandas    : 1.5.3
-arviz     : 0.15.1
-matplotlib: 3.6.3
-numpy     : 1.24.2
+arviz     : 0.20.0
+pymc      : 5.17.0
+numpy     : 1.26.4
+pandas    : 2.2.3
+matplotlib: 3.9.2
 </pre></div>
 </div>
 </div>

@@ -593,8 +593,6 @@ document.write(`
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">arviz</span> <span class="k">as</span> <span class="nn">az</span>
-
-<span class="o">%</span><span class="k">load_ext</span> lab_black
 </pre></div>
 </div>
 </div>
@@ -650,19 +648,13 @@ memory usage: 214.1 KB
 <span class="n">clusters</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;ID3&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
 <span class="n">X</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s2">&quot;VACCODE&quot;</span><span class="p">,</span> <span class="s2">&quot;ID3&quot;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
 <span class="n">X_aug</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">)),</span> <span class="n">X</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">cols</span> <span class="o">=</span> <span class="n">X_aug</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 <span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">clusters</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">X_aug</span><span class="o">.</span><span class="n">shape</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>((3424,), (3424,), (3424, 7))
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cols</span> <span class="o">=</span> <span class="n">X_aug</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -680,15 +672,17 @@ memory usage: 214.1 KB
 <div class="cell_input above-output-prompt docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># note that the coords dict is passed to pm.Model call</span>
 <span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">coords</span><span class="o">=</span><span class="n">coords</span><span class="p">)</span> <span class="k">as</span> <span class="n">m</span><span class="p">:</span>
-    <span class="n">X_data</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Data</span><span class="p">(</span><span class="s2">&quot;X_data&quot;</span><span class="p">,</span> <span class="n">X_aug</span><span class="p">,</span> <span class="n">mutable</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">y_data</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Data</span><span class="p">(</span><span class="s2">&quot;y_data&quot;</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">mutable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-    <span class="n">clust_idx</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Data</span><span class="p">(</span><span class="s2">&quot;cluster_idx&quot;</span><span class="p">,</span> <span class="n">cluster_idx</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="n">mutable</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">X_data</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Data</span><span class="p">(</span><span class="s2">&quot;X_data&quot;</span><span class="p">,</span> <span class="n">X_aug</span><span class="p">)</span>
+    <span class="n">y_data</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Data</span><span class="p">(</span><span class="s2">&quot;y_data&quot;</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+    <span class="n">clust_idx</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Data</span><span class="p">(</span><span class="s2">&quot;cluster_idx&quot;</span><span class="p">,</span> <span class="n">cluster_idx</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="s2">&quot;id&quot;</span><span class="p">)</span>
 
     <span class="n">cluster_tau</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Gamma</span><span class="p">(</span><span class="s2">&quot;cluster_tau&quot;</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">)</span>
     <span class="n">cluster_variance</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;cluster_variance&quot;</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">cluster_tau</span><span class="p">)</span>
     <span class="n">beta</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;beta&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="n">cols</span><span class="p">)</span>
 
-    <span class="n">cluster_effect</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;cluster_effect&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="n">cluster_tau</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="s2">&quot;cluster&quot;</span><span class="p">)</span>
+    <span class="n">cluster_effect</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span>
+        <span class="s2">&quot;cluster_effect&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="n">cluster_tau</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="s2">&quot;cluster&quot;</span>
+    <span class="p">)</span>
     <span class="n">p</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">X_data</span><span class="p">,</span> <span class="n">beta</span><span class="p">)</span> <span class="o">+</span> <span class="n">cluster_effect</span><span class="p">[</span><span class="n">clust_idx</span><span class="p">]</span>
 
     <span class="n">pm</span><span class="o">.</span><span class="n">Bernoulli</span><span class="p">(</span><span class="s2">&quot;likelihood&quot;</span><span class="p">,</span> <span class="n">logit_p</span><span class="o">=</span><span class="n">p</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">y_data</span><span class="p">)</span>
@@ -709,28 +703,8 @@ Multiprocess sampling (4 chains in 4 jobs)
 NUTS: [cluster_tau, beta, cluster_effect]
 </pre></div>
 </div>
-<div class="output text_html">
-<style>
-    /* Turns off some styling */
-    progress {
-        /* gets rid of default border in Firefox and Opera. */
-        border: none;
-        /* Needs to be in here for Safari polyfill so background images work as expected. */
-        background-size: auto;
-    }
-    progress:not([value]), progress:not([value])::-webkit-progress-bar {
-        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
-    }
-    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
-        background: #F44336;
-    }
-</style>
-</div><div class="output text_html">
-    <div>
-      <progress value='16000' class='' max='16000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-      100.00% [16000/16000 00:29&lt;00:00 Sampling 4 chains, 0 divergences]
-    </div>
-    </div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 3_000 draw iterations (4_000 + 12_000 draws total) took 30 seconds.
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "54e17c2ccdad4b5f9f1453036afd0dcf", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 3_000 draw iterations (4_000 + 12_000 draws total) took 21 seconds.
 </pre></div>
 </div>
 </div>
@@ -739,7 +713,10 @@ NUTS: [cluster_tau, beta, cluster_effect]
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span>
-    <span class="n">trace</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;beta&quot;</span><span class="p">,</span> <span class="s2">&quot;cluster_variance&quot;</span><span class="p">],</span> <span class="n">filter_vars</span><span class="o">=</span><span class="s2">&quot;like&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;stats&quot;</span>
+    <span class="n">trace</span><span class="p">,</span>
+    <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;beta&quot;</span><span class="p">,</span> <span class="s2">&quot;cluster_variance&quot;</span><span class="p">],</span>
+    <span class="n">filter_vars</span><span class="o">=</span><span class="s2">&quot;like&quot;</span><span class="p">,</span>
+    <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;stats&quot;</span><span class="p">,</span>
 <span class="p">)</span>
 </pre></div>
 </div>
@@ -772,240 +749,65 @@ NUTS: [cluster_tau, beta, cluster_effect]
   <tbody>
     <tr>
       <th>beta[0]</th>
-      <td>1.444</td>
-      <td>0.131</td>
-      <td>1.205</td>
+      <td>1.445</td>
+      <td>0.130</td>
+      <td>1.206</td>
       <td>1.694</td>
     </tr>
     <tr>
       <th>beta[1]</th>
-      <td>-0.070</td>
+      <td>-0.071</td>
       <td>0.015</td>
-      <td>-0.100</td>
+      <td>-0.099</td>
       <td>-0.043</td>
     </tr>
     <tr>
       <th>beta[2]</th>
-      <td>-0.565</td>
-      <td>0.205</td>
-      <td>-0.959</td>
-      <td>-0.191</td>
+      <td>-0.566</td>
+      <td>0.204</td>
+      <td>-0.939</td>
+      <td>-0.175</td>
     </tr>
     <tr>
       <th>beta[3]</th>
       <td>-0.196</td>
-      <td>0.096</td>
-      <td>-0.378</td>
-      <td>-0.015</td>
+      <td>0.095</td>
+      <td>-0.370</td>
+      <td>-0.017</td>
     </tr>
     <tr>
       <th>beta[4]</th>
-      <td>-0.692</td>
+      <td>-0.693</td>
       <td>0.133</td>
-      <td>-0.935</td>
-      <td>-0.435</td>
+      <td>-0.943</td>
+      <td>-0.444</td>
     </tr>
     <tr>
       <th>beta[5]</th>
-      <td>-0.283</td>
+      <td>-0.285</td>
       <td>0.110</td>
-      <td>-0.488</td>
-      <td>-0.075</td>
+      <td>-0.483</td>
+      <td>-0.069</td>
     </tr>
     <tr>
       <th>beta[6]</th>
       <td>-0.621</td>
-      <td>0.099</td>
-      <td>-0.804</td>
-      <td>-0.435</td>
+      <td>0.098</td>
+      <td>-0.802</td>
+      <td>-0.428</td>
     </tr>
     <tr>
       <th>cluster_variance</th>
-      <td>0.530</td>
+      <td>0.529</td>
       <td>0.094</td>
-      <td>0.351</td>
-      <td>0.701</td>
+      <td>0.364</td>
+      <td>0.711</td>
     </tr>
   </tbody>
 </table>
 </div></div></div>
 </div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;cluster_effect&quot;</span><span class="p">])</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>mean</th>
-      <th>sd</th>
-      <th>hdi_3%</th>
-      <th>hdi_97%</th>
-      <th>mcse_mean</th>
-      <th>mcse_sd</th>
-      <th>ess_bulk</th>
-      <th>ess_tail</th>
-      <th>r_hat</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>cluster_effect[1]</th>
-      <td>-0.215</td>
-      <td>0.666</td>
-      <td>-1.502</td>
-      <td>1.029</td>
-      <td>0.005</td>
-      <td>0.007</td>
-      <td>20599.0</td>
-      <td>8145.0</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>cluster_effect[2]</th>
-      <td>-0.032</td>
-      <td>0.630</td>
-      <td>-1.188</td>
-      <td>1.193</td>
-      <td>0.005</td>
-      <td>0.006</td>
-      <td>18577.0</td>
-      <td>8663.0</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>cluster_effect[3]</th>
-      <td>0.205</td>
-      <td>0.666</td>
-      <td>-1.065</td>
-      <td>1.457</td>
-      <td>0.005</td>
-      <td>0.007</td>
-      <td>18365.0</td>
-      <td>8420.0</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>cluster_effect[4]</th>
-      <td>-0.319</td>
-      <td>0.609</td>
-      <td>-1.510</td>
-      <td>0.787</td>
-      <td>0.004</td>
-      <td>0.005</td>
-      <td>20585.0</td>
-      <td>8696.0</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>cluster_effect[5]</th>
-      <td>0.307</td>
-      <td>0.656</td>
-      <td>-0.898</td>
-      <td>1.551</td>
-      <td>0.004</td>
-      <td>0.006</td>
-      <td>21794.0</td>
-      <td>8582.0</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-    </tr>
-    <tr>
-      <th>cluster_effect[260]</th>
-      <td>0.417</td>
-      <td>0.581</td>
-      <td>-0.662</td>
-      <td>1.527</td>
-      <td>0.004</td>
-      <td>0.004</td>
-      <td>19641.0</td>
-      <td>9036.0</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>cluster_effect[261]</th>
-      <td>-0.258</td>
-      <td>0.539</td>
-      <td>-1.300</td>
-      <td>0.715</td>
-      <td>0.004</td>
-      <td>0.005</td>
-      <td>17799.0</td>
-      <td>8935.0</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>cluster_effect[262]</th>
-      <td>-0.239</td>
-      <td>0.687</td>
-      <td>-1.539</td>
-      <td>1.026</td>
-      <td>0.005</td>
-      <td>0.007</td>
-      <td>17423.0</td>
-      <td>8331.0</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>cluster_effect[263]</th>
-      <td>-0.084</td>
-      <td>0.522</td>
-      <td>-1.054</td>
-      <td>0.912</td>
-      <td>0.004</td>
-      <td>0.005</td>
-      <td>19809.0</td>
-      <td>8587.0</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>cluster_effect[264]</th>
-      <td>0.581</td>
-      <td>0.428</td>
-      <td>-0.242</td>
-      <td>1.363</td>
-      <td>0.003</td>
-      <td>0.003</td>
-      <td>18284.0</td>
-      <td>9180.0</td>
-      <td>1.0</td>
-    </tr>
-  </tbody>
-</table>
-<p>264 rows × 9 columns</p>
-</div></div></div>
-</div>
-<p>Based on this coordinates example:</p>
-<p><a class="reference external" href="https://oriolabrilpla.cat/python/arviz/pymc3/xarray/2020/09/22/pymc3-arviz.html">https://oriolabrilpla.cat/python/arviz/pymc3/xarray/2020/09/22/pymc3-arviz.html</a></p>
+<p>This was originally based on this <a class="reference external" href="https://oriolabrilpla.cat/python/arviz/pymc3/xarray/2020/09/22/pymc3-arviz.html">old coordinates example</a>.</p>
 <section id="no-clusters">
 <h2>No clusters<a class="headerlink" href="#no-clusters" title="Permalink to this headline">#</a></h2>
 <div class="cell tag_hide-output docutils container">
@@ -1030,34 +832,16 @@ NUTS: [cluster_tau, beta, cluster_effect]
 <span class="expanded">Hide code cell output</span>
 </summary>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Auto-assigning NUTS sampler...
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/miniforge3/envs/pymc_macos15/lib/python3.12/site-packages/pymc/data.py:440: FutureWarning: Data is now always mutable. Specifying the `mutable` kwarg will raise an error in a future release
+  warnings.warn(
+Auto-assigning NUTS sampler...
 Initializing NUTS using jitter+adapt_diag...
 Multiprocess sampling (4 chains in 4 jobs)
 NUTS: [beta]
 </pre></div>
 </div>
-<div class="output text_html">
-<style>
-    /* Turns off some styling */
-    progress {
-        /* gets rid of default border in Firefox and Opera. */
-        border: none;
-        /* Needs to be in here for Safari polyfill so background images work as expected. */
-        background-size: auto;
-    }
-    progress:not([value]), progress:not([value])::-webkit-progress-bar {
-        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
-    }
-    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
-        background: #F44336;
-    }
-</style>
-</div><div class="output text_html">
-    <div>
-      <progress value='16000' class='' max='16000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-      100.00% [16000/16000 00:20&lt;00:00 Sampling 4 chains, 0 divergences]
-    </div>
-    </div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 3_000 draw iterations (4_000 + 12_000 draws total) took 21 seconds.
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "ac20bc92922b43ee816894937779fb1c", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 3_000 draw iterations (4_000 + 12_000 draws total) took 13 seconds.
 </pre></div>
 </div>
 </div>
@@ -1066,7 +850,10 @@ NUTS: [beta]
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span>
-    <span class="n">trace_nc</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;beta&quot;</span><span class="p">,</span> <span class="s2">&quot;cluster_variance&quot;</span><span class="p">],</span> <span class="n">filter_vars</span><span class="o">=</span><span class="s2">&quot;like&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;stats&quot;</span>
+    <span class="n">trace_nc</span><span class="p">,</span>
+    <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;beta&quot;</span><span class="p">,</span> <span class="s2">&quot;cluster_variance&quot;</span><span class="p">],</span>
+    <span class="n">filter_vars</span><span class="o">=</span><span class="s2">&quot;like&quot;</span><span class="p">,</span>
+    <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;stats&quot;</span><span class="p">,</span>
 <span class="p">)</span>
 </pre></div>
 </div>
@@ -1101,50 +888,50 @@ NUTS: [beta]
       <th>beta[0]</th>
       <td>1.429</td>
       <td>0.107</td>
-      <td>1.225</td>
-      <td>1.626</td>
+      <td>1.227</td>
+      <td>1.631</td>
     </tr>
     <tr>
       <th>beta[1]</th>
       <td>-0.064</td>
-      <td>0.013</td>
-      <td>-0.090</td>
-      <td>-0.040</td>
+      <td>0.014</td>
+      <td>-0.089</td>
+      <td>-0.038</td>
     </tr>
     <tr>
       <th>beta[2]</th>
-      <td>-0.566</td>
-      <td>0.190</td>
-      <td>-0.927</td>
-      <td>-0.213</td>
+      <td>-0.565</td>
+      <td>0.193</td>
+      <td>-0.931</td>
+      <td>-0.202</td>
     </tr>
     <tr>
       <th>beta[3]</th>
-      <td>-0.188</td>
-      <td>0.086</td>
-      <td>-0.347</td>
-      <td>-0.025</td>
+      <td>-0.189</td>
+      <td>0.085</td>
+      <td>-0.344</td>
+      <td>-0.024</td>
     </tr>
     <tr>
       <th>beta[4]</th>
       <td>-0.716</td>
       <td>0.116</td>
-      <td>-0.943</td>
-      <td>-0.508</td>
+      <td>-0.934</td>
+      <td>-0.499</td>
     </tr>
     <tr>
       <th>beta[5]</th>
-      <td>-0.452</td>
+      <td>-0.451</td>
       <td>0.089</td>
-      <td>-0.618</td>
-      <td>-0.281</td>
+      <td>-0.622</td>
+      <td>-0.290</td>
     </tr>
     <tr>
       <th>beta[6]</th>
-      <td>-0.606</td>
+      <td>-0.607</td>
       <td>0.084</td>
-      <td>-0.769</td>
-      <td>-0.459</td>
+      <td>-0.764</td>
+      <td>-0.446</td>
     </tr>
   </tbody>
 </table>
@@ -1158,18 +945,18 @@ NUTS: [beta]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Wed Mar 22 2023
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Sat Nov 09 2024
 
 Python implementation: CPython
-Python version       : 3.11.0
-IPython version      : 8.9.0
+Python version       : 3.12.7
+IPython version      : 8.29.0
 
-pytensor: 2.10.1
+pytensor: 2.26.0
 
-numpy : 1.24.2
-pandas: 1.5.3
-arviz : 0.14.0
-pymc  : 5.1.2
+arviz : 0.20.0
+pymc  : 5.18.0
+pandas: 2.2.3
+numpy : 1.26.4
 </pre></div>
 </div>
 </div>

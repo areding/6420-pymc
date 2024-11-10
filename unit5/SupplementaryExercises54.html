@@ -619,7 +619,7 @@ document.write(`
 \[\begin{align*} 
 X|p &amp;\sim \text{Bin}(n, p) \\ 
 p &amp;\sim \text{Be}(\alpha, \beta)
-\end{align*}\]</div>
+\end{align*} \]</div>
 <p>This is conjugate, with an exact posterior of <span class="math notranslate nohighlight">\(\text{Be}(\alpha + x, \beta + n - x)\)</span>.</p>
 <p>The log-posterior (with fixed <span class="math notranslate nohighlight">\(n\)</span>) and one datapoint:</p>
 <div class="amsmath math notranslate nohighlight">
@@ -628,7 +628,7 @@ p &amp;\sim \text{Be}(\alpha, \beta)
 log \pi(p) &amp;\propto \log \left[ p^x (1-p)^{n-x} p^{\alpha - 1}(1-p)^{\beta - 1} \right]\\
 &amp;\propto \log \left[ p^{x +\alpha - 1}(1-p)^{n - x + \beta - 1} \right]\\
 &amp;\propto (x + \alpha -1)\log(p) + (n - x + \beta - 1)\log(1-p)
-\end{align*}\]</div>
+\end{align*} \]</div>
 <p>We could simplify further and find the mode but I’m just going to use code.</p>
 <ol class="arabic simple">
 <li><p><span class="math notranslate nohighlight">\(\alpha = \beta = 1\)</span></p></li>
