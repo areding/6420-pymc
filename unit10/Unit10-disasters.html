@@ -594,8 +594,6 @@ document.write(`
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">arviz</span> <span class="k">as</span> <span class="nn">az</span>
 <span class="kn">from</span> <span class="nn">pymc.math</span> <span class="kn">import</span> <span class="n">switch</span><span class="p">,</span> <span class="n">ge</span><span class="p">,</span> <span class="n">exp</span>
-
-<span class="o">%</span><span class="k">load_ext</span> lab_black
 </pre></div>
 </div>
 </div>
@@ -638,9 +636,9 @@ updated by Jarrett (1978). This data have been used by a number of authors to il
 <span class="n">δ</span> <span class="o">=</span> <span class="mi">1</span>
 
 <span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">m</span><span class="p">:</span>
-    <span class="n">year</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Uniform</span><span class="p">(</span><span class="s2">&quot;year&quot;</span><span class="p">,</span> <span class="mi">1851</span><span class="p">,</span> <span class="mi">1963</span><span class="p">)</span>
-    <span class="n">λ</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Gamma</span><span class="p">(</span><span class="s2">&quot;λ&quot;</span><span class="p">,</span> <span class="n">α</span><span class="p">,</span> <span class="n">β</span><span class="p">)</span>
-    <span class="n">μ</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Gamma</span><span class="p">(</span><span class="s2">&quot;μ&quot;</span><span class="p">,</span> <span class="n">γ</span><span class="p">,</span> <span class="n">δ</span><span class="p">)</span>
+    <span class="n">year</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">DiscreteUniform</span><span class="p">(</span><span class="s2">&quot;year&quot;</span><span class="p">,</span> <span class="mi">1851</span><span class="p">,</span> <span class="mi">1963</span><span class="p">)</span>
+    <span class="n">λ</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Gamma</span><span class="p">(</span><span class="s2">&quot;λ&quot;</span><span class="p">,</span> <span class="n">α</span><span class="p">,</span> <span class="n">β</span><span class="p">,</span> <span class="n">initval</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">μ</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Gamma</span><span class="p">(</span><span class="s2">&quot;μ&quot;</span><span class="p">,</span> <span class="n">γ</span><span class="p">,</span> <span class="n">δ</span><span class="p">,</span> <span class="n">initval</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
     <span class="n">diff</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;diff&quot;</span><span class="p">,</span> <span class="n">μ</span> <span class="o">-</span> <span class="n">λ</span><span class="p">)</span>
 
@@ -657,38 +655,14 @@ updated by Jarrett (1978). This data have been used by a number of authors to il
 <span class="expanded">Hide code cell output</span>
 </summary>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Auto-assigning NUTS sampler...
-Initializing NUTS using jitter+adapt_diag...
-Multiprocess sampling (4 chains in 4 jobs)
-NUTS: [year, λ, μ]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Multiprocess sampling (4 chains in 4 jobs)
+CompoundStep
+&gt;Metropolis: [year]
+&gt;NUTS: [λ, μ]
 </pre></div>
 </div>
-<div class="output text_html">
-<style>
-    /* Turns off some styling */
-    progress {
-        /* gets rid of default border in Firefox and Opera. */
-        border: none;
-        /* Needs to be in here for Safari polyfill so background images work as expected. */
-        background-size: auto;
-    }
-    progress:not([value]), progress:not([value])::-webkit-progress-bar {
-        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
-    }
-    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
-        background: #F44336;
-    }
-</style>
-</div><div class="output text_html">
-    <div>
-      <progress value='12000' class='' max='12000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-      100.00% [12000/12000 03:26&lt;00:00 Sampling 4 chains, 0 divergences]
-    </div>
-    </div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 2_000 draw iterations (4_000 + 8_000 draws total) took 206 seconds.
-Chain 0 reached the maximum tree depth. Increase `max_treedepth`, increase `target_accept` or reparameterize.
-Chain 1 reached the maximum tree depth. Increase `max_treedepth`, increase `target_accept` or reparameterize.
-Chain 2 reached the maximum tree depth. Increase `max_treedepth`, increase `target_accept` or reparameterize.
-Chain 3 reached the maximum tree depth. Increase `max_treedepth`, increase `target_accept` or reparameterize.
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "1962494e444f47178a852ed5aca562ce", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 2_000 draw iterations (4_000 + 8_000 draws total) took 1 seconds.
 </pre></div>
 </div>
 </div>
@@ -733,51 +707,51 @@ Chain 3 reached the maximum tree depth. Increase `max_treedepth`, increase `targ
   <tbody>
     <tr>
       <th>year</th>
-      <td>1890.405</td>
-      <td>2.405</td>
-      <td>1886.000</td>
-      <td>1894.461</td>
-      <td>0.108</td>
-      <td>0.076</td>
-      <td>537.0</td>
-      <td>500.0</td>
-      <td>1.0</td>
+      <td>1890.894</td>
+      <td>2.450</td>
+      <td>1887.000</td>
+      <td>1895.000</td>
+      <td>0.081</td>
+      <td>0.057</td>
+      <td>974.0</td>
+      <td>724.0</td>
+      <td>1.01</td>
     </tr>
     <tr>
       <th>λ</th>
-      <td>3.153</td>
-      <td>0.284</td>
-      <td>2.655</td>
-      <td>3.698</td>
-      <td>0.011</td>
-      <td>0.008</td>
-      <td>658.0</td>
-      <td>1025.0</td>
-      <td>1.0</td>
+      <td>3.142</td>
+      <td>0.291</td>
+      <td>2.585</td>
+      <td>3.680</td>
+      <td>0.004</td>
+      <td>0.003</td>
+      <td>4878.0</td>
+      <td>4824.0</td>
+      <td>1.00</td>
     </tr>
     <tr>
       <th>μ</th>
-      <td>0.916</td>
-      <td>0.115</td>
-      <td>0.698</td>
+      <td>0.917</td>
+      <td>0.116</td>
+      <td>0.704</td>
       <td>1.137</td>
-      <td>0.004</td>
-      <td>0.003</td>
-      <td>645.0</td>
-      <td>826.0</td>
-      <td>1.0</td>
+      <td>0.002</td>
+      <td>0.001</td>
+      <td>4930.0</td>
+      <td>4794.0</td>
+      <td>1.00</td>
     </tr>
     <tr>
       <th>diff</th>
-      <td>-2.237</td>
-      <td>0.301</td>
-      <td>-2.805</td>
-      <td>-1.681</td>
-      <td>0.012</td>
-      <td>0.008</td>
-      <td>670.0</td>
-      <td>1185.0</td>
-      <td>1.0</td>
+      <td>-2.226</td>
+      <td>0.304</td>
+      <td>-2.790</td>
+      <td>-1.641</td>
+      <td>0.004</td>
+      <td>0.003</td>
+      <td>6293.0</td>
+      <td>5268.0</td>
+      <td>1.00</td>
     </tr>
   </tbody>
 </table>
@@ -789,9 +763,9 @@ Chain 3 reached the maximum tree depth. Increase `max_treedepth`, increase `targ
 <div class="cell tag_hide-output docutils container">
 <div class="cell_input above-output-prompt docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">m</span><span class="p">:</span>
-    <span class="n">year</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Uniform</span><span class="p">(</span><span class="s2">&quot;year&quot;</span><span class="p">,</span> <span class="mi">1851</span><span class="p">,</span> <span class="mi">1963</span><span class="p">)</span>
-    <span class="n">z0</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;z0&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">0.00001</span><span class="p">)</span>
-    <span class="n">z1</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;z1&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">0.00001</span><span class="p">)</span>
+    <span class="n">year</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">DiscreteUniform</span><span class="p">(</span><span class="s2">&quot;year&quot;</span><span class="p">,</span> <span class="mi">1851</span><span class="p">,</span> <span class="mi">1963</span><span class="p">)</span>
+    <span class="n">z0</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;z0&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">initval</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">z1</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;z1&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">initval</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
 
     <span class="n">λ</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;λ&quot;</span><span class="p">,</span> <span class="n">exp</span><span class="p">(</span><span class="n">z0</span><span class="p">))</span>
     <span class="n">μ</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;μ&quot;</span><span class="p">,</span> <span class="n">exp</span><span class="p">(</span><span class="n">z0</span> <span class="o">+</span> <span class="n">z1</span><span class="p">))</span>
@@ -811,40 +785,14 @@ Chain 3 reached the maximum tree depth. Increase `max_treedepth`, increase `targ
 <span class="expanded">Hide code cell output</span>
 </summary>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Auto-assigning NUTS sampler...
-Initializing NUTS using jitter+adapt_diag...
-Multiprocess sampling (4 chains in 4 jobs)
-NUTS: [year, z0, z1]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Multiprocess sampling (4 chains in 4 jobs)
+CompoundStep
+&gt;Metropolis: [year]
+&gt;NUTS: [z0, z1]
 </pre></div>
 </div>
-<div class="output text_html">
-<style>
-    /* Turns off some styling */
-    progress {
-        /* gets rid of default border in Firefox and Opera. */
-        border: none;
-        /* Needs to be in here for Safari polyfill so background images work as expected. */
-        background-size: auto;
-    }
-    progress:not([value]), progress:not([value])::-webkit-progress-bar {
-        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
-    }
-    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
-        background: #F44336;
-    }
-</style>
-</div><div class="output text_html">
-    <div>
-      <progress value='12000' class='' max='12000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-      100.00% [12000/12000 05:01&lt;00:00 Sampling 4 chains, 0 divergences]
-    </div>
-    </div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 2_000 draw iterations (4_000 + 8_000 draws total) took 302 seconds.
-The rhat statistic is larger than 1.01 for some parameters. This indicates problems during sampling. See https://arxiv.org/abs/1903.08008 for details
-The effective sample size per chain is smaller than 100 for some parameters.  A higher number is needed for reliable rhat and ess computation. See https://arxiv.org/abs/1903.08008 for details
-Chain 0 reached the maximum tree depth. Increase `max_treedepth`, increase `target_accept` or reparameterize.
-Chain 1 reached the maximum tree depth. Increase `max_treedepth`, increase `target_accept` or reparameterize.
-Chain 2 reached the maximum tree depth. Increase `max_treedepth`, increase `target_accept` or reparameterize.
-Chain 3 reached the maximum tree depth. Increase `max_treedepth`, increase `target_accept` or reparameterize.
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "93c73cb789234b7798d61532d25bfb2a", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 2_000 draw iterations (4_000 + 8_000 draws total) took 1 seconds.
 </pre></div>
 </div>
 </div>
@@ -888,76 +836,76 @@ Chain 3 reached the maximum tree depth. Increase `max_treedepth`, increase `targ
   </thead>
   <tbody>
     <tr>
+      <th>year</th>
+      <td>1890.960</td>
+      <td>2.497</td>
+      <td>1886.000</td>
+      <td>1895.000</td>
+      <td>0.081</td>
+      <td>0.057</td>
+      <td>963.0</td>
+      <td>1148.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
       <th>z0</th>
-      <td>1.143</td>
-      <td>0.089</td>
-      <td>0.971</td>
-      <td>1.306</td>
-      <td>0.005</td>
-      <td>0.003</td>
-      <td>378.0</td>
-      <td>748.0</td>
-      <td>1.01</td>
+      <td>1.132</td>
+      <td>0.094</td>
+      <td>0.956</td>
+      <td>1.310</td>
+      <td>0.002</td>
+      <td>0.001</td>
+      <td>2595.0</td>
+      <td>3854.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>z1</th>
-      <td>-1.233</td>
-      <td>0.145</td>
-      <td>-1.519</td>
-      <td>-0.972</td>
-      <td>0.006</td>
-      <td>0.004</td>
-      <td>529.0</td>
-      <td>1039.0</td>
-      <td>1.01</td>
-    </tr>
-    <tr>
-      <th>year</th>
-      <td>1890.258</td>
-      <td>2.311</td>
-      <td>1886.003</td>
-      <td>1893.954</td>
-      <td>0.117</td>
-      <td>0.083</td>
-      <td>409.0</td>
-      <td>478.0</td>
-      <td>1.01</td>
+      <td>-1.220</td>
+      <td>0.152</td>
+      <td>-1.494</td>
+      <td>-0.924</td>
+      <td>0.002</td>
+      <td>0.002</td>
+      <td>4050.0</td>
+      <td>4486.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>λ</th>
-      <td>3.147</td>
-      <td>0.279</td>
-      <td>2.620</td>
-      <td>3.662</td>
-      <td>0.014</td>
-      <td>0.010</td>
-      <td>378.0</td>
-      <td>748.0</td>
-      <td>1.01</td>
+      <td>3.117</td>
+      <td>0.293</td>
+      <td>2.579</td>
+      <td>3.679</td>
+      <td>0.006</td>
+      <td>0.004</td>
+      <td>2595.0</td>
+      <td>3854.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>μ</th>
-      <td>0.921</td>
+      <td>0.924</td>
       <td>0.116</td>
       <td>0.703</td>
-      <td>1.141</td>
-      <td>0.004</td>
-      <td>0.003</td>
-      <td>946.0</td>
-      <td>1579.0</td>
-      <td>1.00</td>
+      <td>1.139</td>
+      <td>0.002</td>
+      <td>0.001</td>
+      <td>4328.0</td>
+      <td>5480.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>diff</th>
-      <td>-2.227</td>
-      <td>0.289</td>
-      <td>-2.766</td>
-      <td>-1.689</td>
-      <td>0.015</td>
-      <td>0.011</td>
-      <td>368.0</td>
-      <td>683.0</td>
-      <td>1.01</td>
+      <td>-2.193</td>
+      <td>0.308</td>
+      <td>-2.736</td>
+      <td>-1.587</td>
+      <td>0.006</td>
+      <td>0.004</td>
+      <td>2910.0</td>
+      <td>3148.0</td>
+      <td>1.0</td>
     </tr>
   </tbody>
 </table>
@@ -971,17 +919,17 @@ Chain 3 reached the maximum tree depth. Increase `max_treedepth`, increase `targ
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Wed Mar 22 2023
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Tue Nov 19 2024
 
 Python implementation: CPython
-Python version       : 3.11.0
-IPython version      : 8.9.0
+Python version       : 3.12.7
+IPython version      : 8.29.0
 
-pytensor: 2.10.1
+pytensor: 2.26.0
 
-pymc : 5.1.2
-arviz: 0.15.1
-numpy: 1.24.2
+arviz: 0.20.0
+pymc : 5.18.0
+numpy: 1.26.4
 </pre></div>
 </div>
 </div>
