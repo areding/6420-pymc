@@ -1,7 +1,5 @@
 # 1. Introduction to Hierarchical Models
 
-Contributed by [Amanuel Anteneh](https://github.com/amanuelanteneh).
-
 In his introductory textbook *A Student’s Guide to Bayesian Statistics* {cite:t}`lambert2018student` Ben Lambert provides a great introduction to the concept of hierarchial models with an example. We will go over a modified version of this example here.
 Hierarchical models can be seen as a compromise between two other types of models. The first is what Lambert calls 'fully pooled' models and the second are called 'heterogenous' models. Let's look to a specific example to compare and contrast the two models. 
 
@@ -54,3 +52,8 @@ This model allows us to capture the fact that the average test scores for school
 
 ## Non-spatially separated groups
 In the above example our data come in groups (the schools from Georgia) that are separated spatially however the groups that our data come in need not only be separated spatially. These groups can also be separated temporally such as the case from Gelfand et al (1990) we will cover later in this section or spatio-temporally in the case of a meta-analysis of different studies.
+
+
+## Authors
+
+[Amanuel Anteneh](https://github.com/amanuelanteneh), June 2024.

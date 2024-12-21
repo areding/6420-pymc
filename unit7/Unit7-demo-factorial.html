@@ -599,8 +599,6 @@ document.write(`
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">pytensor.tensor.subtensor</span> <span class="k">as</span> <span class="nn">st</span>
 <span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">combinations</span>
-
-<span class="o">%</span><span class="k">load_ext</span> lab_black
 </pre></div>
 </div>
 </div>
@@ -1294,11 +1292,15 @@ NUTS: [mu0, _alpha, _beta, _alphabeta, tau]
     <span class="n">sigma</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;sigma&quot;</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">tau</span><span class="o">**</span><span class="mf">0.5</span><span class="p">)</span>
 
     <span class="c1"># corner constraints: sets the first element of a dimension to zero</span>
-    <span class="n">alpha</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;alpha&quot;</span><span class="p">,</span> <span class="n">st</span><span class="o">.</span><span class="n">set_subtensor</span><span class="p">(</span><span class="n">_alpha</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">0</span><span class="p">),</span> <span class="n">dims</span><span class="o">=</span><span class="s2">&quot;conc&quot;</span><span class="p">)</span>
+    <span class="n">alpha</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span>
+        <span class="s2">&quot;alpha&quot;</span><span class="p">,</span> <span class="n">st</span><span class="o">.</span><span class="n">set_subtensor</span><span class="p">(</span><span class="n">_alpha</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">0</span><span class="p">),</span> <span class="n">dims</span><span class="o">=</span><span class="s2">&quot;conc&quot;</span>
+    <span class="p">)</span>
     <span class="n">beta</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;beta&quot;</span><span class="p">,</span> <span class="n">st</span><span class="o">.</span><span class="n">set_subtensor</span><span class="p">(</span><span class="n">_beta</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">0</span><span class="p">),</span> <span class="n">dims</span><span class="o">=</span><span class="s2">&quot;time&quot;</span><span class="p">)</span>
     <span class="n">_alphabeta</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">set_subtensor</span><span class="p">(</span><span class="n">_alphabeta</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="mi">0</span><span class="p">)</span>
     <span class="n">alphabeta</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span>
-        <span class="s2">&quot;alphabeta&quot;</span><span class="p">,</span> <span class="n">st</span><span class="o">.</span><span class="n">set_subtensor</span><span class="p">(</span><span class="n">_alphabeta</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:],</span> <span class="mi">0</span><span class="p">),</span> <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;conc&quot;</span><span class="p">,</span> <span class="s2">&quot;time&quot;</span><span class="p">)</span>
+        <span class="s2">&quot;alphabeta&quot;</span><span class="p">,</span>
+        <span class="n">st</span><span class="o">.</span><span class="n">set_subtensor</span><span class="p">(</span><span class="n">_alphabeta</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:],</span> <span class="mi">0</span><span class="p">),</span>
+        <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;conc&quot;</span><span class="p">,</span> <span class="s2">&quot;time&quot;</span><span class="p">),</span>
     <span class="p">)</span>
 
     <span class="n">mu</span> <span class="o">=</span> <span class="p">(</span>

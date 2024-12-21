@@ -554,7 +554,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
 </div></div>
       
     </div>
@@ -570,6 +572,14 @@ document.write(`
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#authors">Authors</a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -581,7 +591,6 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="multilevel-models">
 <h1>18. Multilevel Models<a class="headerlink" href="#multilevel-models" title="Permalink to this headline">#</a></h1>
-<p>Contributed by Jason Naramore.</p>
 <p>In multilevel models, we can model the parameters to be associated by group. Random effects models and mixed effects models are both examples of multilevel models.</p>
 <p>For example, we could have <span class="math notranslate nohighlight">\(J\)</span> intercepts in the following linear model that are associated with the students at school <span class="math notranslate nohighlight">\(j\)</span>:</p>
 <div class="math notranslate nohighlight">
@@ -597,6 +606,10 @@ y_{i} &amp; \sim Poisson(\lambda_i)\\
 \lambda_i &amp; = \text{exp}(\beta_{0} + \beta_{1} x_{i1} + ... + \beta_k x_{ik})
 \end{align*}\end{split}\]</div>
 <p>One of the model assumptions is that the expection and variance of <span class="math notranslate nohighlight">\(y_i\)</span> are equal. However, many times in real-life data the variance is larger. In order to account for the higher than expected variance, we can add the random effect term <span class="math notranslate nohighlight">\(\xi_{j(i)}\)</span> to the linear equation of covariates. This new term can act as a “sponge” to collect the excess variance, possibly for a better fitting model.</p>
+<section id="authors">
+<h2>Authors<a class="headerlink" href="#authors" title="Permalink to this headline">#</a></h2>
+<p>Jason Naramore, August 2024.</p>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -657,6 +670,20 @@ y_{i} &amp; \sim Poisson(\lambda_i)\\
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#authors">Authors</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>

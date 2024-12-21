@@ -579,11 +579,9 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#missing-example">Missing example</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pymc">PyMC</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#some-history">Some history</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#installation">Installation</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#troubleshooting">Troubleshooting</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#missing-dependencies">Missing dependencies</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#blas-implementation-issues">BLAS implementation issues</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#jupyter-notebook-lab-issues">Jupyter Notebook/Lab issues</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#installation">Installation</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#virtual-environment">Virtual environment</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#troubleshooting">Troubleshooting</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#using-scripts-instead-of-notebooks">Using scripts instead of notebooks</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#other-debugging-tips">Other debugging tips</a></li>
 </ul>
@@ -605,7 +603,7 @@ document.write(`
 <h1><span class="section-number">1. </span>Probabilistic Programming Languages<a class="headerlink" href="#probabilistic-programming-languages" title="Permalink to this headline">#</a></h1>
 <section id="graphical-models">
 <h2>Graphical models<a class="headerlink" href="#graphical-models" title="Permalink to this headline">#</a></h2>
-<p>The original lecture is about thinking of Bayesian models as graphical models. The professor talks a little bit about why they’re a useful way to think about the relationships between random variables, the Markovian property, and independence of nodes.</p>
+<p>The original lecture is about Bayesian models as graphical models. The professor talks a little bit about why they’re a useful way to think about the relationships between random variables, the Markovian property, and independence of nodes. A related concept is <a class="reference external" href="https://en.m.wikipedia.org/wiki/Plate_notation">plate notation</a>.</p>
 <p>He cites <em>Machine Learning: A Probabilistic Perspective</em>, which is the old version of <a class="reference external" href="https://probml.github.io/pml-book/"><em>Probabilistic Machine Learning: An Introduction</em></a> mentioned in the <a class="reference internal" href="../unit1/Unit1-about-this-course.html#content-other-resources"><span class="std std-ref">other recommended resources</span></a> section.</p>
 <p>Starting with this unit, we will be using <a class="reference internal" href="../unit1/Unit1-software.html"><span class="doc std std-doc">Probabilistic Programming Languages</span></a> (PPLs) to run our models. Check out <a class="reference external" href="https://bayesiancomputationbook.com/markdown/chp_10.html">Chapter 10 of <em>Bayesian Modeling and Computation in Python</em></a> for a look at what goes into creating a PPL and the components involved.</p>
 </section>
@@ -623,57 +621,54 @@ document.write(`
 </section>
 <section id="installation">
 <h3>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">#</a></h3>
-<p>This site is currently using PyMC version 5. Please follow the instructions at the <a class="reference external" href="https://www.pymc.io/projects/docs/en/latest/installation.html">PyMC website</a> when installing. You don’t need nutpie, blackjax, or numpyro for this course’s examples, but you are welcome to try them!</p>
+<p>This site is currently using PyMC version 5. The installation instructions below are based on the ones at the <a class="reference external" href="https://www.pymc.io/projects/docs/en/latest/installation.html">PyMC website</a>. I’m going to go into more detail here, though.</p>
+<section id="virtual-environment">
+<h4>Virtual environment<a class="headerlink" href="#virtual-environment" title="Permalink to this headline">#</a></h4>
+<p>I highly recommend using Miniforge and Mamba to manage the PyMC environment. Students seem to have issues with Anaconda every semester. If you have Anaconda, Conda, or Mamba already, please make sure you only use the conda-forge channel as a source.</p>
+<div class="highlight-{MacOS notranslate"><div class="highlight"><pre><span></span>For MacOS, make sure you have the Xcode command line tools installed with ```xcode-select --install``` in your terminal.
+</pre></div>
+</div>
+<ol class="arabic simple">
+<li><p>If you don’t have Conda already, install <a class="reference external" href="https://github.com/conda-forge/miniforge?tab=readme-ov-file#install">miniforge</a>. The Windows instructions are <a class="reference external" href="https://github.com/conda-forge/miniforge?tab=readme-ov-file#windows">here</a>.</p></li>
+<li><p>Confirm that you aren’t using the <a class="reference external" href="https://mamba.readthedocs.io/en/latest/user_guide/troubleshooting.html#using-the-defaults-channels">Anaconda default channels</a>.</p></li>
+<li><p>Install pymc to a new environment. If you’re using miniforge you can leave off the <code class="docutils literal notranslate"><span class="pre">-c</span> <span class="pre">conda-forge</span></code> part, because it will use that channel by default. If you aren’t using miniforge, definitely leave that in there and also replace <code class="docutils literal notranslate"><span class="pre">mamba</span></code> with <code class="docutils literal notranslate"><span class="pre">conda</span></code>.</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mamba<span class="w"> </span>create<span class="w"> </span>-c<span class="w"> </span>conda-forge<span class="w"> </span>-n<span class="w"> </span>your_pymc_env_name<span class="w"> </span><span class="s2">&quot;pymc&gt;=5&quot;</span>
+mamba<span class="w"> </span>activate<span class="w"> </span>your_pymc_env_name
+</pre></div>
+</div>
+<ol class="arabic simple" start="4">
+<li><p><strong>Optional</strong>: Install these useful packages to your new environment.</p></li>
+</ol>
+<p>For using Jupyter Lab or Jupyter notebooks:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mamba<span class="w"> </span>install<span class="w"> </span>-c<span class="w"> </span>conda-forge<span class="w"> </span>jupyterlab<span class="w"> </span>ipywidgets<span class="w"> </span>
+</pre></div>
+</div>
+<p>For using nutpie, a much faster implementation of the NUTS sampling algorithm:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mamba<span class="w"> </span>install<span class="w"> </span>-c<span class="w"> </span>conda-forge<span class="w"> </span>numba<span class="w"> </span>nutpie<span class="w"> </span>
+</pre></div>
+</div>
+<p>Once you’ve imported PyMC, if you’re getting a warning on Windows about g++ not being available, run:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mamba<span class="w"> </span>install<span class="w"> </span>-c<span class="w"> </span>conda-forge<span class="w"> </span>m2w64-toolchain
+</pre></div>
+</div>
+<p>For new or specialized PyMC features, try the <a class="reference external" href="https://pypi.org/project/pymc-extras/">PyMC Extras</a> package.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mamba<span class="w"> </span>install<span class="w"> </span>-c<span class="w"> </span>conda-forge<span class="w"> </span>pymc-extras
+</pre></div>
+</div>
 </section>
 <section id="troubleshooting">
-<h3>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permalink to this headline">#</a></h3>
-<p>If your model is running very slowly or you’re having other issues getting PyMC to work, there could be many causes.</p>
-<section id="missing-dependencies">
-<h4>Missing dependencies<a class="headerlink" href="#missing-dependencies" title="Permalink to this headline">#</a></h4>
-<p>This is by far the most common problem I’ve come across for ISYE 6420 students. Lots of people will just do <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">pymc</span></code>, or use PyCharm, or some other installation method. You might get a warning like this:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>WARNING (pytensor.configdefaults): g++ not available, if using conda: `conda install m2w64-toolchain`
-WARNING (pytensor.configdefaults): g++ not detected!  PyTensor will be unable to compile C-implementations and will default to Python. Performance may be severely degraded. To remove this warning, set PyTensor flags cxx to an empty string.
-WARNING (pytensor.tensor.blas): Using NumPy C-API based implementation for BLAS functions.
-</pre></div>
-</div>
-<p>I highly recommend installing using a Conda environment as in the official installation instructions. You don’t need to get the full Conda installation, let alone Anaconda. Try <a class="reference external" href="https://docs.conda.io/en/main/miniconda.html">Miniconda</a> or <a class="reference external" href="https://mamba.readthedocs.io/en/latest/user_guide/mamba.html">Mamba</a> for a more minimal install.</p>
-<p>If you’re having a similar issue, please try the following with a fresh environment:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>create<span class="w"> </span>--prefix<span class="w"> </span>your-environment-name<span class="w"> </span>-c<span class="w"> </span>conda-forge<span class="w"> </span>-c<span class="w"> </span>nodefaults<span class="w"> </span>pytensor
-conda<span class="w"> </span>activate<span class="w"> </span>your-environment-name
-conda<span class="w"> </span>install<span class="w"> </span>-c<span class="w"> </span>conda-forge<span class="w"> </span>pymc
-</pre></div>
-</div>
-<p>Installing PyTensor first seems to help make sure the correct dependencies are involved. And the extra nodefaults command is just for making extra sure you’re using the Conda Forge channel rather than the defaults. You can then activate the environment and install Py C.</p>
-</section>
-<section id="blas-implementation-issues">
-<h4>BLAS implementation issues<a class="headerlink" href="#blas-implementation-issues" title="Permalink to this headline">#</a></h4>
-<p><a class="reference external" href="https://netlib.org/blas/blast-forum/">BLAS</a> (Basic Linear Algebra Subprograms) is a standard specification for the low-level linear algebra routines. There are many implementations for different operating systems and hardware. NumPy or PyMC may give you a warning about
-Some people have had success speeding up their PyMC runtimes by changing implementations.</p>
-<p>For example, on ARM-based Macs (the ones using M1/M2 processors), you could try installing and switching to Apple’s BLAS implementation as in this <a class="reference external" href="https://discourse.pymc.io/t/performance-tip-if-youre-on-arm64-apples-m1-m2-chips-install-accelerate/12495">PyMC forum post</a>:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>install<span class="w"> </span><span class="s2">&quot;libblas=*=*accelerate&quot;</span>
-</pre></div>
-</div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>This may be unnecessary—this BLAS library should now be the default on ARM-based Macs.</p>
-</div>
-</section>
-<section id="jupyter-notebook-lab-issues">
-<h4>Jupyter Notebook/Lab issues<a class="headerlink" href="#jupyter-notebook-lab-issues" title="Permalink to this headline">#</a></h4>
+<h4>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permalink to this headline">#</a></h4>
+<p>If your model is running very slowly or you’re having other issues getting PyMC to work, there could be many causes. First, make sure you have followed the installation instructions above. Second, make sure you are actually using the newly created environment!</p>
 <p>PyMC works great with Jupyter Notebook or Lab, but sometimes people have installation issues depending on how they’ve installed everything and how they’re opening the notebooks.</p>
-<p>If you’re using Jupyter, make sure it’s pointing to the correct kernel. You’ll want to use your pymc environment as the kernel. One way to do this is to install Jupyter on that same environment using</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>install<span class="w"> </span>jupyterlab
+<p>If you’re using Jupyter, make sure it’s pointing to the correct kernel. You’ll want to use your new pymc environment as the kernel.</p>
+<p>To double-check that you’re using the right environment, try the following from your terminal with that environment activated. If you’re using Windows, I think the equivalent command is <code class="docutils literal notranslate"><span class="pre">where</span></code> rather than <code class="docutils literal notranslate"><span class="pre">which</span></code>.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mamba<span class="w"> </span>activate<span class="w"> </span>your_pymc_env_name
+which<span class="w"> </span>python
 </pre></div>
 </div>
-<p>then launch using</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>jupyter<span class="w"> </span>notebook
-</pre></div>
-</div>
-<p>or</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>jupyter<span class="w"> </span>lab
-</pre></div>
-</div>
-<p>from the terminal with that environment activated. Your kernel will show as <code class="docutils literal notranslate"><span class="pre">Python</span> <span class="pre">3</span> <span class="pre">(ipykernel)</span></code>, but you can try executing this in a code cell to see which Python installation you’re using (if you’re using Windows, I think the equivalent command is <code class="docutils literal notranslate"><span class="pre">where</span></code>:</p>
+<p>The output should be something like <code class="docutils literal notranslate"><span class="pre">/Users/aaron/mambaforge/envs/pymc/bin/python</span></code>. You can see from the folder structure that I’m using an environment named “pymc.”</p>
+<p>Now if you start Jupyter Lab or Notebook from this environment, your kernel will show as <code class="docutils literal notranslate"><span class="pre">Python</span> <span class="pre">3</span> <span class="pre">(ipykernel)</span></code>. You can confirm that you’re using the right environment by executing the same thing in a code cell, prepended by an exclamation point.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>which<span class="w"> </span>python
@@ -697,7 +692,7 @@ Some people have had success speeding up their PyMC runtimes by changing impleme
 <ul class="simple">
 <li><p>Try running a minimal model first, like the <a class="reference external" href="https://areding.github.io/6420-pymc/unit6/Unit6-loadingdata.html">taste of cheese</a> example to make sure your installation is working okay.</p></li>
 <li><p>Use Google Colab to see if it’s your model or your installation. You can open any of the notebooks on this site directly in Colab using the pop-up link from the rocket ship icon on the top of the page. Colab will likely be somewhat slower than your machine if you’re using the free version, but it works reliably well for newer versions of PyMC.</p></li>
-<li><p>Some students will directly translate BUGS models to PyMC and then use the same number of samples, like 100,000 or more. Don’t do that! You need far fewer samples when using the NUTS sampler, which is PyMC’s default. Start with 3,000 or fewer when first testing out your model.</p></li>
+<li><p>In the lecture examples, the professor often uses 100,000 or more samples. Don’t do that in PyMC! The NUTS sampler, which is PyMC’s default, can explore the posterior much more efficiently. Start with 1,000 or fewer when first testing out your model, then increase to a comfortable number.</p></li>
 </ul>
 </section>
 </section>
@@ -775,11 +770,9 @@ Some people have had success speeding up their PyMC runtimes by changing impleme
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#missing-example">Missing example</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pymc">PyMC</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#some-history">Some history</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#installation">Installation</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#troubleshooting">Troubleshooting</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#missing-dependencies">Missing dependencies</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#blas-implementation-issues">BLAS implementation issues</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#jupyter-notebook-lab-issues">Jupyter Notebook/Lab issues</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#installation">Installation</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#virtual-environment">Virtual environment</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#troubleshooting">Troubleshooting</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#using-scripts-instead-of-notebooks">Using scripts instead of notebooks</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#other-debugging-tips">Other debugging tips</a></li>
 </ul>

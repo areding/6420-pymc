@@ -554,7 +554,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
 </div></div>
       
     </div>
@@ -570,6 +572,14 @@ document.write(`
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#authors">Authors</a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -581,7 +591,6 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="simple-linear-regression">
 <h1>10. Simple Linear Regression<a class="headerlink" href="#simple-linear-regression" title="Permalink to this headline">#</a></h1>
-<p>Contributed by Jason Naramore.</p>
 <p>The simple linear regression model is:</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}\begin{align*}
@@ -612,6 +621,10 @@ y_{ij} &amp; \sim N(\mu,\sigma^2) &amp;&amp; \text{likelihood}\\ \\
 \sigma^2 &amp; =  1/\tau &amp;&amp; \text{deterministic relationship}\\
 \end{align*}\end{split}\]</div>
 <p>Typical non-informative priors for <span class="math notranslate nohighlight">\(\beta_0\)</span> and <span class="math notranslate nohighlight">\(\beta_1\)</span> are centered at zero, with a wide standard deviation. A non-informative prior for <span class="math notranslate nohighlight">\(\tau\)</span> could be <span class="math notranslate nohighlight">\(Ga(a = 0.001, b = 0.001)\)</span>. In <code class="docutils literal notranslate"><span class="pre">PyMC</span></code> we can define a Normal distribution with either the <span class="math notranslate nohighlight">\(\tau\)</span> or <span class="math notranslate nohighlight">\(\sigma\)</span> parameter, so we could define the <span class="math notranslate nohighlight">\(\sigma^2\)</span> distribution directly instead of using a deterministic relationship to <span class="math notranslate nohighlight">\(\tau\)</span>. Other possible non-negative priors for <span class="math notranslate nohighlight">\(\sigma^2\)</span> might be Inverse-Gamma, Half-Normal, or Half-flat.</p>
+<section id="authors">
+<h2>Authors<a class="headerlink" href="#authors" title="Permalink to this headline">#</a></h2>
+<p>Jason Naramore, July 2024.</p>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -672,6 +685,20 @@ y_{ij} &amp; \sim N(\mu,\sigma^2) &amp;&amp; \text{likelihood}\\ \\
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#authors">Authors</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>
