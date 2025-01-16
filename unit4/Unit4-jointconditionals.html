@@ -595,7 +595,16 @@ document.write(`
 <h1>3. Joint and Conditional Distributions<a class="headerlink" href="#joint-and-conditional-distributions" title="Permalink to this headline">#</a></h1>
 <section id="errata">
 <h2>Errata<a class="headerlink" href="#errata" title="Permalink to this headline">#</a></h2>
-<p>At 10:29 in the lecture, there’s an extra <span class="math notranslate nohighlight">\(e\)</span> in the denominator that shouldn’t be there. It appears to be a typo as it didn’t affect the final result.</p>
+<p>As part of the continuous 2d example, the slide that appears at 10:18 in the lecture has an extra <span class="math notranslate nohighlight">\(e\)</span> in the denominator that shouldn’t be there. It appears to be a typo as it didn’t affect the final result. This is what that slide should look like, with the corrected term in red:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+f(x, y) &amp;= \frac{1}{\pi} e^{-\frac{5}{2} \left( y^2 - \frac{2x}{5}y + \frac{x^2}{25} - \frac{x^2}{25} + \frac{x^2}{5} \right)}\\
+&amp;= \frac{1}{\pi} e^{-\frac{5}{2} \cdot \frac{4}{25} x^2} \cdot e^{-\frac{5}{2} \left(y - \frac{x}{5}\right)^2}\\
+&amp;= \frac{1}{\pi} \cdot e^{-\frac{2}{5}x^2} \cdot \sqrt{2\pi \cdot \frac{1}{5}} \cdot \frac{1}{\sqrt{2\pi \cdot \frac{1}{5}}} e^{-\frac{1}{2 \cdot \frac{1}{5}} \left(y - \frac{x}{5}\right)^2}\\
+f(x) &amp;= \frac{1}{\sqrt{2\pi \cdot \frac{5}{4}}} \textcolor{red}{e^{-\frac{x^2}{2 \cdot \frac{5}{4}}}} \cdot \int_{\mathbb{R}} \frac{1}{\sqrt{2\pi \cdot \frac{1}{5}}} e^{-\frac{1}{2 \cdot \frac{1}{5}} \left(y - \frac{x}{5}\right)^2} \, dy
+\end{align*}
+\end{split}\]</div>
 </section>
 <section id="joint-distributions">
 <h2>Joint Distributions<a class="headerlink" href="#joint-distributions" title="Permalink to this headline">#</a></h2>
