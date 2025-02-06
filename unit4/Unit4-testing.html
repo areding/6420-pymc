@@ -578,8 +578,33 @@ document.write(`
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lecture-errata">Lecture errata</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#point-masses">Point masses</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#scales-for-the-strength-of-evidence">Scales for the strength of evidence</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rewriting-the-slides">Rewriting the slides</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">1</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">2</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#prior-probabilities-of-hypotheses">Prior probabilities of hypotheses</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#precise-null-h-0-theta-theta-0-requires-a-prior-with-point-mass-at-theta-0">Precise null <span class="math notranslate nohighlight">\( H_0: \theta = \theta_0 \)</span> requires a prior with point mass at <span class="math notranslate nohighlight">\( \theta_0 \)</span>.</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">3</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#precise-null"><strong>Precise Null</strong></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">6</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">7</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#example-10-flips-of-a-coin-revised"><strong>Example:</strong> 10 flips of a coin revised</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">8</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#test-h-0-p-leq-0-5-vs-h-1-p-0-5">Test: <span class="math notranslate nohighlight">\(H_0: p \leq 0.5\)</span> vs. <span class="math notranslate nohighlight">\(H_1: p &gt; 0.5\)</span></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">9</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#precise-null-test"><strong>Precise Null Test</strong></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#very-poor-evidence-against-textcolor-red-h-0">Very poor evidence against <span class="math notranslate nohighlight">\(\textcolor{red}{H_0}\)</span>.</a></li>
 </ul>
             </nav>
         </div>
@@ -593,71 +618,286 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="bayesian-testing">
 <h1>12. Bayesian Testing<a class="headerlink" href="#bayesian-testing" title="Permalink to this headline">#</a></h1>
-<p>First, I recommend checking out 3blue1brown’s <a class="reference external" href="https://www.youtube.com/watch?v=lG4VkPoG3ko">video on Bayes’ factor</a> to help with intuition. There is a similar example in Professor Vidakov’s <a class="reference external" href="https://statbook.gatech.edu">statistics book</a>: <span id="id1">Vidakovic [<a class="reference internal" href="../backmatter/bibliography.html#id10" title="Brani Vidakovic. Engineering Biostatistics: An Introduction using MATLAB and WinBUGS. Wiley, 2017. ISBN 978-1-119-16896-6.">2017</a>]</span> page 103. Unlike the classical approach, Bayesian testing doesn’t prioritize the null hypothesis. Instead, we calculate the posterior probabilities for both hypotheses, then choose the one with the larger posterior probability.</p>
 <section id="lecture-errata">
 <h2>Lecture errata<a class="headerlink" href="#lecture-errata" title="Permalink to this headline">#</a></h2>
-<p>During the precise null example, the lecture has an incorrectly-labeled equation for the posterior. Instead of</p>
+<p>I’ve marked the lecture errors in red text in the rewritten slides below.</p>
+</section>
+<section id="rewriting-the-slides">
+<h2>Rewriting the slides<a class="headerlink" href="#rewriting-the-slides" title="Permalink to this headline">#</a></h2>
+<p>We’ve gotten a lot of questions about these slides for this lecture, so I’ve rewritten them here with some additional information.</p>
+<p>First, I recommend checking out 3blue1brown’s <a class="reference external" href="https://www.youtube.com/watch?v=lG4VkPoG3ko">video on Bayes’ factor</a> to help with intuition, particularly the part about expressing Bayes’ rule in terms of the prior and posterior odds.</p>
+<p>There is a similar example in Professor Vidakov’s <a class="reference external" href="https://statbook.gatech.edu">statistics book</a>: <span id="id1">Vidakovic [<a class="reference internal" href="../backmatter/bibliography.html#id10" title="Brani Vidakovic. Engineering Biostatistics: An Introduction using MATLAB and WinBUGS. Wiley, 2017. ISBN 978-1-119-16896-6.">2017</a>]</span> page 103. Unlike the classical approach, Bayesian testing doesn’t prioritize the null hypothesis. Instead, we calculate the posterior probabilities for both hypotheses, then choose the one with the larger posterior probability.</p>
+<hr class="docutils" />
+<section id="id2">
+<h3>1<a class="headerlink" href="#id2" title="Permalink to this headline">#</a></h3>
+<p>Assume that <span class="math notranslate nohighlight">\(\Theta_0\)</span> and <span class="math notranslate nohighlight">\(\Theta_1\)</span> are two non-overlapping sets of parameter <span class="math notranslate nohighlight">\(\theta\)</span>. We want to test<br />
+$<span class="math notranslate nohighlight">\(
+H_0: \theta \in \Theta_0 \quad \text{v.s.} \quad H_1: \theta \in \Theta_1
+\)</span>$</p>
+<p>The probabilities are:</p>
+<div class="math notranslate nohighlight">
+\[
+p_0 = \int_{\Theta_0} \pi(\theta | x) d\theta = \mathbb{P}^{\theta | X}(H_0)
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+p_1 = \int_{\Theta_1} \pi(\theta | x) d\theta = \mathbb{P}^{\theta | X}(H_1)
+\]</div>
+<p>See slides 5 and 6 for an example.</p>
+</section>
+<hr class="docutils" />
+<section id="id3">
+<h3>2<a class="headerlink" href="#id3" title="Permalink to this headline">#</a></h3>
+<section id="prior-probabilities-of-hypotheses">
+<h4>Prior probabilities of hypotheses<a class="headerlink" href="#prior-probabilities-of-hypotheses" title="Permalink to this headline">#</a></h4>
+<div class="math notranslate nohighlight">
+\[
+\pi_0 = \int_{\Theta_0} \pi(\theta) d\theta, \quad \pi_1 = \int_{\Theta_1} \pi(\theta) d\theta
+\]</div>
+<p><span class="math notranslate nohighlight">\( B_{01} \)</span> – Bayes Factor in favor of <span class="math notranslate nohighlight">\( H_0 \)</span>:
+$<span class="math notranslate nohighlight">\(
+B_{01} = \frac{p_0 / p_1}{\pi_0 / \pi_1}, \quad \text{(posterior odds / prior odds)}
+\)</span>$</p>
+<p><span class="math notranslate nohighlight">\( B_{10} \)</span> – Bayes Factor in favor of <span class="math notranslate nohighlight">\( H_1 \)</span> is the reciprocal:
+$<span class="math notranslate nohighlight">\(
+B_{10} = \frac{1}{B_{01}}
+\)</span>$</p>
+</section>
+<section id="precise-null-h-0-theta-theta-0-requires-a-prior-with-point-mass-at-theta-0">
+<h4>Precise null <span class="math notranslate nohighlight">\( H_0: \theta = \theta_0 \)</span> requires a prior with point mass at <span class="math notranslate nohighlight">\( \theta_0 \)</span>.<a class="headerlink" href="#precise-null-h-0-theta-theta-0-requires-a-prior-with-point-mass-at-theta-0" title="Permalink to this headline">#</a></h4>
+<p>See the example on slide 3.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="id4">
+<h3>3<a class="headerlink" href="#id4" title="Permalink to this headline">#</a></h3>
+<section id="precise-null">
+<h4><strong>Precise Null</strong><a class="headerlink" href="#precise-null" title="Permalink to this headline">#</a></h4>
+<p>The professor notes that, if you want to test a precise number, your overall prior needs to contain the point mass representing your precise null hypothesis.</p>
+<p>What he means here is that you can only test a hypothesis where your prior allows for a probability greater than 0. So if your prior is a continuous distribution, the probability at any given point is 0. At a high level, if your prior doesn’t contain your hypothesis, you are essentially ruling out the hypothesis before you even build the rest of your model. Without mixing in the point mass, you’ve already predetermined that your hypothesis is impossible.</p>
+<p>That’s why he mixes that point mass <span class="math notranslate nohighlight">\(\delta_{\theta_0}\)</span> and the “spread” distribution <span class="math notranslate nohighlight">\(\xi(\theta)\)</span> in the prior <span class="math notranslate nohighlight">\(\pi(\theta)\)</span>; you need a discrete distribution to test a specific point.
+$<span class="math notranslate nohighlight">\(
+H_0: \theta = \theta_0 \quad \text{v.s.} \quad H_1: \theta \neq \theta_0
+\)</span>$</p>
+<div class="math notranslate nohighlight">
+\[
+\pi(\theta) = \pi_0 \cdot \delta_{\theta_0} + (1 - \pi_0) \cdot \xi(\theta) \quad \text{where } (1 - \pi_0) = \pi_1
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+m(x) = \pi_0 \cdot f(x | \theta_0) + \pi_1 \cdot m_1(x)
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+m_1(x) = \int_{\{\theta \neq \theta_0\}} f(x | \theta) \xi(\theta) d\theta
+\]</div>
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \begin{align*}
-\pi(\theta \mid x) &amp;= \frac{f(x \mid \theta_0) \pi_0}{m(x)} = \frac{\pi_0 f(x|\theta_0)}{\pi_0 f(x|\theta_0) + \pi_1 m_1(x)} \\
-&amp;= \left(1 + \frac{\pi_1}{\pi_0} \cdot \frac{m_1(x)}{f(x \mid \theta_0}\right)^{-1}
+\textcolor{red}{\pi(\theta_0 | x)} &amp;= \frac{f(x | \theta_0) \pi_0}{m(x)} \\
+&amp;= \frac{\pi_0 f(x|\theta_0)}{\pi_0 f(x|\theta_0) + \pi_1 m_1(x)} \\
+&amp;= \frac{\pi_0 f(x|\theta_0)}{\pi_0 f(x|\theta_0)\left(1+ \frac{\pi_1 m_1(x)}{\pi_0 f(x\mid\theta_0)}\right)} \\
+&amp;= \frac{1}{\left(1+ \frac{\pi_1 m_1(x)}{\pi_0 f(x\mid\theta_0)}\right)} \\
+\textcolor{red}{\pi(\theta_0 | x)} &amp; = \left( 1 + \frac{\pi_1}{\pi_0} \cdot \frac{m_1(x)}{f(x | \theta_0)} \right)^{-1} \\
 \end{align*}
 \end{split}\]</div>
-<p>it should be <span class="math notranslate nohighlight">\(\pi(\theta_0 \mid x)\)</span> at the beginning.</p>
-<p>Also, the final part of the 10 flips of a coin example has an error where <span class="math notranslate nohighlight">\(B_{01}\)</span> is transposed and the incorrect hypothesis is stated as having poor evidence against it.</p>
-<p>The first equation should be <span class="math notranslate nohighlight">\(B_{01}\)</span> instead of <span class="math notranslate nohighlight">\(B_{10}\)</span>:</p>
+<p>Remembering that Bayes’ factor is what updates the prior odds to posterior odds,
+$$</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\text{Odds}(H_i \mid A) &amp;= BF \times \text{Odds}(H_i)\\
+
+\end{align*}\]</div>
 <div class="math notranslate nohighlight">
-\[B_{01} = \frac{f0|0.5}{m_1(0)} = \frac{0.0009765}{0.001021} = 0.9564\]</div>
-<p>Then the next part should be:</p>
+\[
+we see that
+\]</div>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+B_{01} &amp;= \frac{f(x | \theta_0)}{m_1(x)}\\
+&amp;= \frac{f(x | \theta_0)}{\int_{\{\theta \neq \theta_0\}} f(x | \theta) \xi(\theta) d\theta}
+\end{align*}\]</div>
 <div class="math notranslate nohighlight">
-\[\log_{10}B_{10} = - \log_{10}B_{01} = -\log_{10}(0.9564) =0.0194\]</div>
-<p>That’s very poor evidence against <span class="math notranslate nohighlight">\(H_0\)</span>.</p>
+\[ \begin{align}\begin{aligned}---
+### 4\\#### Scales for the strength of evidence\\The professor uses Jeffrey's scale ({cite:t}`jeffreystheoryofprob` Appendix B) in the lecture. \\| Grade | K Value       | Interpretation                                      |
+|------|--------------|:----------------------------------------------------|
+| 0     | $K &gt; 1$         | Null hypothesis supported.                           |
+| 1     | $1 &gt; K &gt; 10^{-1/2}$ | Evidence against q, but not worth more than a bare mention. |
+| 2     | $10^{-1/2} &gt; K &gt; 10^{-1}$ | Evidence against q substantial.                      |
+| 3     | $10^{-1} &gt; K &gt; 10^{-3/2}$ | Evidence against q strong.                           |
+| 4     | $10^{-3/2} &gt; K &gt; 10^{-2}$| Evidence against q very strong.                      |
+| 5     | $10^{-2} &gt; K$     | Evidence against q decisive.                         |\\This scale is just one of many, though. The Kass &amp; Raftery scale ({cite:t}`kass1995bayes`) and the Lee and Wagenmakers scale ({cite:t}`lee2013bayesian`) are two alternatives.\\---
+### 5
+#### **Example: Jeremy’s IQ**  \\In the context of Jeremy’s IQ example, test the hypotheses  \end{aligned}\end{align} \]</div>
+<p>H_0: \theta \leq 100 \quad \text{v.s.} \quad H_1: \theta &gt; 100
+$$</p>
+<div class="math notranslate nohighlight">
+\[
+\theta | x \sim N(102.8, 48)
+\]</div>
+<ul>
+<li><p><span class="math notranslate nohighlight">\( p_0 = \mathbb{P}^{\theta | X}(H_0) = \int_{-\infty}^{100} \frac{1}{\sqrt{2\pi \cdot 48}} \cdot e^{\frac{-(\theta - 102.8)^2}{2 \cdot 48}} d\theta \)</span></p>
+<div class="math notranslate nohighlight">
+\[
+  = \text{normcdf}(100, 102.8, \sqrt{48})
+  \]</div>
+<div class="math notranslate nohighlight">
+\[
+  = \boxed{0.3431}
+  \]</div>
+</li>
+<li><p><span class="math notranslate nohighlight">\( p_1 = \mathbb{P}^{\theta | X}(H_1) = 1 - 0.3431 = \boxed{0.6569} \)</span></p></li>
+</ul>
 </section>
-<section id="point-masses">
-<h2>Point masses<a class="headerlink" href="#point-masses" title="Permalink to this headline">#</a></h2>
-<p>The professor notes that your overall prior needs to contain the point mass representing your precise null hypothesis.</p>
-<p>What the professor means here is that you can only test a hypothesis where your prior allows for a probability greater than 0. So if your prior is just a continuous distribution, the probability at any given point is 0. At a high level, if your prior doesn’t contain your hypothesis, you are essentially ruling out the hypothesis before you even build the rest of your model. Without mixing in the point mass, you’ve already predetermined that your hypothesis is impossible.</p>
-<p>That’s why he mixes that point mass and the “spread” distribution; you need a discrete distribution to test a specific point.</p>
 </section>
-<section id="scales-for-the-strength-of-evidence">
-<h2>Scales for the strength of evidence<a class="headerlink" href="#scales-for-the-strength-of-evidence" title="Permalink to this headline">#</a></h2>
-<p>The professor uses Jeffrey’s scale (<span id="id2">Jeffreys [<a class="reference internal" href="../backmatter/bibliography.html#id12" title="Harold Jeffreys. Theory of probability, 3rd Edition. Oxford Classic Texts in the Physical Sciences. Clarendon Press, 3 edition, 2003. ISBN 0198503687; 9780198503682.">2003</a>]</span> Appendix B) in the lecture.</p>
-<table class="colwidths-auto table">
-<thead>
-<tr class="row-odd"><th class="head"><p>Grade</p></th>
-<th class="head"><p>K Value</p></th>
-<th class="text-left head"><p>Interpretation</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p>0</p></td>
-<td><p><span class="math notranslate nohighlight">\(K &gt; 1\)</span></p></td>
-<td class="text-left"><p>Null hypothesis supported.</p></td>
-</tr>
-<tr class="row-odd"><td><p>1</p></td>
-<td><p><span class="math notranslate nohighlight">\(1 &gt; K &gt; 10^{-1/2}\)</span></p></td>
-<td class="text-left"><p>Evidence against q, but not worth more than a bare mention.</p></td>
-</tr>
-<tr class="row-even"><td><p>2</p></td>
-<td><p><span class="math notranslate nohighlight">\(10^{-1/2} &gt; K &gt; 10^{-1}\)</span></p></td>
-<td class="text-left"><p>Evidence against q substantial.</p></td>
-</tr>
-<tr class="row-odd"><td><p>3</p></td>
-<td><p><span class="math notranslate nohighlight">\(10^{-1} &gt; K &gt; 10^{-3/2}\)</span></p></td>
-<td class="text-left"><p>Evidence against q strong.</p></td>
-</tr>
-<tr class="row-even"><td><p>4</p></td>
-<td><p><span class="math notranslate nohighlight">\(10^{-3/2} &gt; K &gt; 10^{-2}\)</span></p></td>
-<td class="text-left"><p>Evidence against q very strong.</p></td>
-</tr>
-<tr class="row-odd"><td><p>5</p></td>
-<td><p><span class="math notranslate nohighlight">\(10^{-2} &gt; K\)</span></p></td>
-<td class="text-left"><p>Evidence against q decisive.</p></td>
-</tr>
-</tbody>
-</table>
-<p>This scale is subjective, though. There are other ones out there: the Kass &amp; Raftery scale (<span id="id3">Kass and Raftery [<a class="reference internal" href="../backmatter/bibliography.html#id14" title="Robert E Kass and Adrian E Raftery. Bayes factors. Journal of the American Statistical Association, 90(430):773–795, 1995.">1995</a>]</span>) and the Lee and Wagenmakers scale (<span id="id4">Lee and Wagenmakers [<a class="reference internal" href="../backmatter/bibliography.html#id13" title="Michael D Lee and Eric J. Wagenmakers. Bayesian Cognitive Modeling: A Practical Course. Cambridge University Press, 2013.">2013</a>]</span>) are two alternatives.</p>
+<hr class="docutils" />
+<section id="id5">
+<h3>6<a class="headerlink" href="#id5" title="Permalink to this headline">#</a></h3>
+<ul>
+<li><p><span class="math notranslate nohighlight">\( \pi_0 = \mathbb{P}^{\theta}(H_0) = \int_{-\infty}^{100} \frac{1}{\sqrt{2\pi \cdot 120}} e^{\frac{-(\theta - 110)^2}{2 \cdot 120}} d\theta \)</span></p>
+<div class="math notranslate nohighlight">
+\[
+  = \text{normcdf}(100, 110, \sqrt{120})
+  \]</div>
+<div class="math notranslate nohighlight">
+\[
+  = \boxed{0.1807}
+  \]</div>
+</li>
+</ul>
+<div class="math notranslate nohighlight">
+\[
+\pi_1 = 1 - 0.1807 = \boxed{0.8193}
+\]</div>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\( B_{10} = \frac{p_1 / p_0}{\pi_1 / \pi_0} = \frac{0.6569 / 0.3431}{0.8193 / 0.1807} = \frac{1.9146}{4.5340} = \boxed{0.4223} \)</span></p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[
+\frac{p_1}{p_0} = B_{10} \times \frac{\pi_1}{\pi_0}
+\]</div>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\( \log_{10} B_{01} = -\log_{10} B_{10} = \boxed{0.3744} \quad \text{(poor evidence in favor of } H_0 \text{)} \)</span></p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="id6">
+<h3>7<a class="headerlink" href="#id6" title="Permalink to this headline">#</a></h3>
+<section id="example-10-flips-of-a-coin-revised">
+<h4><strong>Example:</strong> 10 flips of a coin revised<a class="headerlink" href="#example-10-flips-of-a-coin-revised" title="Permalink to this headline">#</a></h4>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+ \begin{align*}
+ X | p &amp;\sim \text{Bin}(n, p)\\
+ p &amp;\sim \text{Be}(500,500)\\
+ \end{align*}
+\end{split}\]</div>
+<p><strong>Posterior:</strong> <span class="math notranslate nohighlight">\(p | X \sim \text{Be}(500,510)\)</span></p>
+<hr class="docutils" />
+<ul>
+<li><p>We already found the posterior mean in a previous example:</p>
+<div class="math notranslate nohighlight">
+\[
+  \mathbb{E}(p | X) = \frac{500}{1010} = 0.4950495 \dots
+  \]</div>
+</li>
+<li><p>The <strong>mode</strong> for <span class="math notranslate nohighlight">\(\text{Be}(\alpha, \beta)\)</span> is given by:</p>
+<div class="math notranslate nohighlight">
+\[
+  \frac{\alpha - 1}{\alpha + \beta - 2}; \quad \text{here the posterior mode is } \frac{499}{1008} = 0.4950397 \dots
+  \]</div>
+</li>
+<li><p>The <strong>median</strong> (not explicit, uses special functions):</p>
+<div class="math notranslate nohighlight">
+\[
+  \text{betainv}(0.5, 500, 510) = 0.4950462 \dots
+  \]</div>
+<p><strong>Approximation:</strong></p>
+<div class="math notranslate nohighlight">
+\[
+  \frac{\alpha - 1/3}{\alpha + \beta - 2/3} = \frac{499.6666}{1009.3333} = 0.4950462 \dots
+  \]</div>
+</li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="id7">
+<h3>8<a class="headerlink" href="#id7" title="Permalink to this headline">#</a></h3>
+<section id="test-h-0-p-leq-0-5-vs-h-1-p-0-5">
+<h4>Test: <span class="math notranslate nohighlight">\(H_0: p \leq 0.5\)</span> vs. <span class="math notranslate nohighlight">\(H_1: p &gt; 0.5\)</span><a class="headerlink" href="#test-h-0-p-leq-0-5-vs-h-1-p-0-5" title="Permalink to this headline">#</a></h4>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+p_0 &amp;= \int_0^{0.5} \frac{1}{B(500,510)} p^{500-1} (1 - p)^{510-1} dp\\
+&amp;= \text{betacdf}(0.5,500,510) \\
+&amp;= \boxed{0.6235}\\
+p_1 &amp;= 1 - p_0 = \boxed{0.3765}
+\end{align*}
+\end{split}\]</div>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+\pi_0 &amp;= \int_0^{0.5} \frac{1}{B(500,500)} p^{500-1} (1 - p)^{500-1} dp\\
+&amp;= \text{betacdf}(0.5,500,500)\\
+&amp;= \boxed{0.5} \\
+\pi_1 &amp;= 1 - \pi_0 = \boxed{0.5}\\
+\end{align*}
+\end{split}\]</div>
+<hr class="docutils" />
+<div class="math notranslate nohighlight">
+\[
+B_{01} = \frac{p_0 / p_1}{\pi_0 / \pi_1} = \frac{0.6235}{0.3765} = \boxed{1.656}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\log_{10} B_{01} = \boxed{0.2191} \quad \text{(Poor evidence against } H_1 \text{)}
+\]</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="id8">
+<h3>9<a class="headerlink" href="#id8" title="Permalink to this headline">#</a></h3>
+<section id="precise-null-test">
+<h4><strong>Precise Null Test</strong><a class="headerlink" href="#precise-null-test" title="Permalink to this headline">#</a></h4>
+<p><span class="math notranslate nohighlight">\( H_0: p = 0.5 \)</span>  vs.  <span class="math notranslate nohighlight">\( H_1: p \neq 0.5 \)</span></p>
+<div class="math notranslate nohighlight">
+\[
+\pi(p) = 0.8 \cdot \delta_{0.5} + 0.2 \cdot \text{Be}(500,500)
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\pi_0 = 0.8, \quad \pi_1 = 0.2
+\]</div>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+m_1(x) \Big|_{X=0} &amp;= m_1(0)\\
+&amp;= \int_0^1 \binom{10}{0} p^0 (1-p)^{10} \frac{1}{B(500,500)} p^{500-1} (1-p)^{500-1} dp \\
+&amp;= \frac{B(500,510)}{B(500,500)} = \boxed{0.001021}
+\end{align*}
+\end{split}\]</div>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+f(x|p) \Big|_{x=0, p=0.5} &amp;= f(0|0.5)\\
+&amp;= \binom{10}{0} 0.5^0 \cdot 0.5^{10} 
+&amp;= \frac{1}{1024} = \boxed{0.0009765}\\
+\end{align*}
+\end{split}\]</div>
+<div class="math notranslate nohighlight">
+\[
+\textcolor{red}{B_{01}} = \frac{f(0|0.5)}{m_1(0)} = \frac{0.0009765}{0.001021} = \boxed{0.9564}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\textcolor{red}{\log_{10} B_{10} = -\log_{10} B_{01}} = -\log_{10} 0.9564 = \boxed{0.0194}
+\]</div>
+</section>
+</section>
+</section>
+<section id="very-poor-evidence-against-textcolor-red-h-0">
+<h2>Very poor evidence against <span class="math notranslate nohighlight">\(\textcolor{red}{H_0}\)</span>.<a class="headerlink" href="#very-poor-evidence-against-textcolor-red-h-0" title="Permalink to this headline">#</a></h2>
 </section>
 </section>
 
@@ -729,8 +969,33 @@ document.write(`
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lecture-errata">Lecture errata</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#point-masses">Point masses</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#scales-for-the-strength-of-evidence">Scales for the strength of evidence</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rewriting-the-slides">Rewriting the slides</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">1</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">2</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#prior-probabilities-of-hypotheses">Prior probabilities of hypotheses</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#precise-null-h-0-theta-theta-0-requires-a-prior-with-point-mass-at-theta-0">Precise null <span class="math notranslate nohighlight">\( H_0: \theta = \theta_0 \)</span> requires a prior with point mass at <span class="math notranslate nohighlight">\( \theta_0 \)</span>.</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">3</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#precise-null"><strong>Precise Null</strong></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">6</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">7</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#example-10-flips-of-a-coin-revised"><strong>Example:</strong> 10 flips of a coin revised</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">8</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#test-h-0-p-leq-0-5-vs-h-1-p-0-5">Test: <span class="math notranslate nohighlight">\(H_0: p \leq 0.5\)</span> vs. <span class="math notranslate nohighlight">\(H_1: p &gt; 0.5\)</span></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">9</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#precise-null-test"><strong>Precise Null Test</strong></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#very-poor-evidence-against-textcolor-red-h-0">Very poor evidence against <span class="math notranslate nohighlight">\(\textcolor{red}{H_0}\)</span>.</a></li>
 </ul>
   </nav></div>
 
