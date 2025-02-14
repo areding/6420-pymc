@@ -602,7 +602,7 @@ document.write(`
 <section class="tex2jax_ignore mathjax_ignore" id="metropolis-normal-cauchy">
 <h1>7. Metropolis: Normal-Cauchy*<a class="headerlink" href="#metropolis-normal-cauchy" title="Permalink to this headline">#</a></h1>
 <p>Adapted from <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/original_examples/Codes4Unit5/norcaumet.m">Unit 5: norcaumet.m</a>.</p>
-<p>For this example:</p>
+<p>For this example, our model is:</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \begin{align}
@@ -610,25 +610,87 @@ X \mid \theta &amp;\sim N(\theta, 1) \\
 \theta &amp;\sim \text{Cauchy}(0, 1)
 \end{align}
 \end{split}\]</div>
+<p>We have a single datapoint, <span class="math notranslate nohighlight">\(x=2\)</span>. The professor chose a <span class="math notranslate nohighlight">\(N(x, 1)\)</span> proposal. This is not symmetric around the current state of the chain, so it doesn’t satisfy <span class="math notranslate nohighlight">\(q(\theta^\prime| \theta) = q(\theta | \theta^\prime)\)</span> and we must use Metropolis-Hastings.</p>
 <section id="original-method">
 <h2>Original method<a class="headerlink" href="#original-method" title="Permalink to this headline">#</a></h2>
-<p>The professor chooses a <span class="math notranslate nohighlight">\(N(x, 1)\)</span> proposal (where <span class="math notranslate nohighlight">\(x=2\)</span> is our sole datapoint). This is not symmetric around the current state of the chain, so it doesn’t satisfy <span class="math notranslate nohighlight">\(q(\theta^\prime| \theta) = q(\theta | \theta^\prime)\)</span> and we must use Metropolis-Hastings. It does simplify the acceptance ratio quite a bit. Here’s how we get the ratio:</p>
+<p>Here’s how we set up this problem. Assuming we have <span class="math notranslate nohighlight">\(n\)</span> independent data points, the likelihood is:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+L(\theta; X) &amp;= \prod_{i=1}^n \frac{1}{\sqrt{2\pi}} \exp\!\left(-\frac{(x_i-\theta)^2}{2}\right) \\
+&amp;\propto \prod_{i=1}^n \exp\!\left(-\frac{(x_i-\theta)^2}{2}\right)
+\end{align*}
+\end{split}\]</div>
+<p>The Cauchy prior density is:</p>
+<div class="math notranslate nohighlight">
+\[
+\pi(\theta) = \frac{1}{\pi (1+\theta^2)}
+\]</div>
+<p>Then our posterior is proportional to:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+\pi(\theta \mid X) &amp;\propto L(\theta; x_{1:n}) \, \pi(\theta) \\
+&amp;\propto \left[\prod_{i=1}^n \exp\!\left(-\frac{(x_i-\theta)^2}{2}\right)\right] \frac{1}{1+\theta^2}
+\end{align*}
+\end{split}\]</div>
+<p>When proposing a new value <span class="math notranslate nohighlight">\(\theta'\)</span> from a proposal density <span class="math notranslate nohighlight">\( q(\theta' \mid \theta) \)</span>, the acceptance ratio is defined as:</p>
+<div class="math notranslate nohighlight">
+\[
+\rho = \frac{\pi(\theta' \mid X)\, q(\theta \mid \theta')}{\pi(\theta \mid X)\, q(\theta' \mid \theta)}
+\]</div>
+<p>Substituting the expression for the posterior, we get:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+\rho &amp;= \frac{\left\{\prod_{i=1}^n \exp\!\left(-\frac{(x_i-\theta')^2}{2}\right)\right\} \frac{1}{1+(\theta')^2}\, q(\theta \mid \theta')}{\left\{\prod_{i=1}^n \exp\!\left(-\frac{(x_i-\theta)^2}{2}\right)\right\} \frac{1}{1+\theta^2}\, q(\theta' \mid \theta)} \\
+&amp;= \frac{1+\theta^2}{1+(\theta')^2} \, \exp\!\left\{-\frac{1}{2}\sum_{i=1}^n \Bigl[ (x_i-\theta')^2 - (x_i-\theta)^2 \Bigr]\right\}\, \frac{q(\theta \mid \theta')}{q(\theta' \mid \theta)}\\
+&amp;= \frac{1+\theta^2}{1+(\theta')^2} \, \exp\!\left\{-\frac{1}{2} \Bigl[ (2-\theta')^2 - (2-\theta)^2 \Bigr]\right\}\, \frac{q(\theta \mid \theta')}{q(\theta' \mid \theta)}
+\end{align*}
+\end{split}\]</div>
+<p>Now there are a lot of ways to choose the proposal <span class="math notranslate nohighlight">\(q(\cdot)\)</span>. In this case, the professor has chosen one that will simplify our acceptance ratio expression quite a bit, <span class="math notranslate nohighlight">\(N(x, 1)\)</span>. I’ll also show how a random walk proposal would work later.</p>
+<p>For this example, remember <span class="math notranslate nohighlight">\(n=1\)</span> and <span class="math notranslate nohighlight">\(x=2\)</span>.</p>
+<p>Since the professor chooses an “independence” proposal, the proposal density is independent of the current state:</p>
+<div class="math notranslate nohighlight">
+\[
+q(\theta' \mid \theta) = q(\theta') = N(2, 1)
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+q(\theta \mid \theta') = q(\theta) = N(2, 1)
+\]</div>
+<p>The ratio of the proposal densities becomes</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+\frac{q(\theta \mid \theta')}{q(\theta' \mid \theta)} &amp;= \frac{N(2,1)(\theta)}{N(2,1)(\theta')} \\
+&amp;= \frac{\frac{1}{\sqrt{2\pi}} \exp\!\left(-\frac{1}{2}(\theta-2)^2\right)}
+{\frac{1}{\sqrt{2\pi}} \exp\!\left(-\frac{1}{2}(\theta'-2)^2\right)}\\
+&amp;= \exp\!\left\{-\frac{1}{2}\Bigl[(\theta-2)^2 - (\theta'-2)^2\Bigr]\right\}\\
+\end{align*}
+\end{split}\]</div>
+<p>Substitute this back into the acceptance ratio:</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \begin{align}
-\pi(\theta\mid X) &amp;\propto f(x|\theta)\pi(\theta) \\
-&amp;\propto \frac{e^{-\frac{(x - \theta)^2}{2}}}{1+\theta^2}
+\rho &amp;= \frac{1+\theta^2}{1+(\theta')^2}\, \exp\!\left\{-\frac{1}{2}\Bigl[(2-\theta')^2-(2-\theta)^2\Bigr]\\  -\frac{1}{2}\Bigl[(\theta-2)^2-(\theta'-2)^2\Bigr]\right\}
 \end{align}
 \end{split}\]</div>
+<p>Using the following fact:
+$<span class="math notranslate nohighlight">\(
+(2-\theta)^2 = (\theta-2)^2 \quad \text{and} \quad (2-\theta')^2 = (\theta'-2)^2
+\)</span>$</p>
+<p>So the exponential terms cancel:</p>
 <div class="math notranslate nohighlight">
-\[\begin{split}
-\begin{align}
-\rho &amp;= \frac{\pi(\theta')q(\theta\mid\theta')}{\pi(\theta)q(\theta'\mid\theta)} \\
-&amp;= \frac{\frac{e^{-\frac{(x - \theta')^2}{2}}}{1+{\theta'}^2}e^{-\frac{(\theta - x)^2}{2}}}{\frac{e^{-\frac{(x - \theta)^2}{2}}}{1+\theta^2}e^{-\frac{(\theta' - x)^2}{2}}}
-&amp;= \frac{1 + \theta^2}{1 + {\theta'}^2}
-\end{align}
-\end{split}\]</div>
-<p>Skipping some intermediate steps for now, but if you’d like to see them let me know and I’ll take some time to add them.</p>
+\[
+-\frac{1}{2}\Bigl[(2-\theta')^2-(2-\theta)^2\Bigr] -\frac{1}{2}\Bigl[(\theta-2)^2-(\theta'-2)^2\Bigr] = 0
+\]</div>
+<p>This leaves us with a simplified acceptance ratio:</p>
+<div class="math notranslate nohighlight">
+\[
+\rho = \frac{1+\theta^2}{1+\theta'^2}
+\]</div>
+<p>That’s all we need to code our sampler.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>I usually pre-generate arrays of random numbers (see <code class="docutils literal notranslate"><span class="pre">theta_prop</span></code> and <code class="docutils literal notranslate"><span class="pre">unif</span></code> variables in the below cell) because it’s computationally faster. However, that only works when those numbers don’t depend on the previous step in the sampling loop.</p>
@@ -643,7 +705,7 @@ X \mid \theta &amp;\sim N(\theta, 1) \\
 <span class="n">thetas</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
 <span class="n">x</span> <span class="o">=</span> <span class="mi">2</span>  <span class="c1"># observed</span>
 
-<span class="n">accepted</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+<span class="n">accepted</span> <span class="o">=</span> <span class="mi">0</span>
 
 <span class="c1"># generating necessary randoms as arrays is faster</span>
 <span class="n">theta_prop</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">standard_normal</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">+</span> <span class="n">x</span>
@@ -654,14 +716,14 @@ X \mid \theta &amp;\sim N(\theta, 1) \\
     <span class="n">rho</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">unif</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">rho</span><span class="p">:</span>
         <span class="n">theta</span> <span class="o">=</span> <span class="n">theta_prop</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-        <span class="n">accepted</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">accepted</span> <span class="o">+=</span> <span class="mi">1</span>
     <span class="n">thetas</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">theta</span>
 
 <span class="n">thetas</span> <span class="o">=</span> <span class="n">thetas</span><span class="p">[</span><span class="n">burn</span><span class="p">:]</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">thetas</span><span class="p">)</span><span class="si">=:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">thetas</span><span class="p">)</span><span class="si">=:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">accepted</span><span class="p">)</span><span class="o">/</span><span class="n">n</span><span class="si">=:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">accepted</span><span class="o">/</span><span class="n">n</span><span class="si">=:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
 <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
@@ -671,12 +733,12 @@ X \mid \theta &amp;\sim N(\theta, 1) \\
 </div>
 </div>
 <div class="cell_output docutils container">
-<script type="application/vnd.jupyter.widget-view+json">{"model_id": "e53c023b1c424f57915ae8b8427d0413", "version_major": 2, "version_minor": 0}</script><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>np.mean(thetas)=1.283
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "16e00bfe357a4e5b952d68da04116717", "version_major": 2, "version_minor": 0}</script><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>np.mean(thetas)=1.283
 np.var(thetas)=0.863
-np.sum(accepted)/n=0.588
+accepted/n=0.588
 </pre></div>
 </div>
-<img alt="../_images/eb319e3d081b362a072234000aff11d127c2e542963ee89edd7af350e9737931.png" src="../_images/eb319e3d081b362a072234000aff11d127c2e542963ee89edd7af350e9737931.png" />
+<img alt="../_images/56a0ec5b3b07cbea53b98e39ffc6ec16c62fe5e76846cd6b4317529f4e70a2ca.png" src="../_images/56a0ec5b3b07cbea53b98e39ffc6ec16c62fe5e76846cd6b4317529f4e70a2ca.png" />
 </div>
 </div>
 </section>
@@ -692,7 +754,7 @@ np.sum(accepted)/n=0.588
 <span class="n">thetas</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
 <span class="n">x</span> <span class="o">=</span> <span class="mi">2</span>
 
-<span class="n">accepted</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+<span class="n">accepted</span> <span class="o">=</span> <span class="mi">0</span>
 
 <span class="n">theta_prop</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">standard_normal</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
 <span class="n">unif</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">n</span><span class="p">)</span>
@@ -710,7 +772,7 @@ np.sum(accepted)/n=0.588
 
     <span class="k">if</span> <span class="n">unif</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">rho</span><span class="p">:</span>
         <span class="n">theta</span> <span class="o">=</span> <span class="n">theta_prop_current</span>
-        <span class="n">accepted</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">accepted</span> <span class="o">+=</span> <span class="mi">1</span>
 
     <span class="n">thetas</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">theta</span>
 
@@ -718,7 +780,7 @@ np.sum(accepted)/n=0.588
 
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">thetas</span><span class="p">)</span><span class="si">=:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">thetas</span><span class="p">)</span><span class="si">=:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">accepted</span><span class="p">)</span><span class="o">/</span><span class="n">n</span><span class="si">=:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">accepted</span><span class="o">/</span><span class="n">n</span><span class="si">=:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
 <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
@@ -728,15 +790,15 @@ np.sum(accepted)/n=0.588
 </div>
 </div>
 <div class="cell_output docutils container">
-<script type="application/vnd.jupyter.widget-view+json">{"model_id": "f44412ef6bac46829744d4a611b10779", "version_major": 2, "version_minor": 0}</script><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>np.mean(thetas)=1.283
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "9decb2647eed46c99ae88cb525c81b10", "version_major": 2, "version_minor": 0}</script><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>np.mean(thetas)=1.283
 np.var(thetas)=0.865
-np.sum(accepted)/n=0.686
+accepted/n=0.686
 </pre></div>
 </div>
-<img alt="../_images/e3bb8a1dbfb19c670dc3f348fa4dd0e3dd9609fc6e24e3b5bf206f5b7ecf2768.png" src="../_images/e3bb8a1dbfb19c670dc3f348fa4dd0e3dd9609fc6e24e3b5bf206f5b7ecf2768.png" />
+<img alt="../_images/bebcb5505c061452a0a75696dace60cd2ccee457c38da34fc60dc8de0d336865.png" src="../_images/bebcb5505c061452a0a75696dace60cd2ccee457c38da34fc60dc8de0d336865.png" />
 </div>
 </div>
-<p>The end results are the same, with a higher acceptance ratio!</p>
+<p>The end results are the same, with a higher acceptance rate! Something to consider: do we always want this behavior from the sampler?</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">load_ext</span> watermark
@@ -745,14 +807,15 @@ np.sum(accepted)/n=0.686
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Sat Oct 14 2023
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Thu Feb 13 2025
 
 Python implementation: CPython
-Python version       : 3.11.5
-IPython version      : 8.15.0
+Python version       : 3.12.7
+IPython version      : 8.29.0
 
-numpy     : 1.25.2
-matplotlib: 3.7.2
+matplotlib: 3.9.2
+tqdm      : 4.67.0
+numpy     : 1.26.4
 </pre></div>
 </div>
 </div>
