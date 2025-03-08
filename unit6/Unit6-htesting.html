@@ -347,6 +347,17 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="../unit10/Unit10-katla.html">6. Predicting Using Censored Data*</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../unit10/Unit10-sunspots.html">7. Prediction of Time Series*</a></li>
 </ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Appendix A</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../appendixA/BUGSVol1.html">BUGS Examples, Volume 1</a><input class="toctree-checkbox" id="toctree-checkbox-15" name="toctree-checkbox-15" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-15"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../appendixA/vol1-10-blocker.html">10 - Blocker</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../appendixA/BUGSVol2.html">BUGS Examples, Volume 2</a><input class="toctree-checkbox" id="toctree-checkbox-16" name="toctree-checkbox-16" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-16"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../appendixA/vol2-01-dugongs.html">01 - Dugongs</a></li>
+</ul>
+</li>
+</ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Back Matter</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../backmatter/bibliography.html">1. Bibliography</a></li>
@@ -594,6 +605,7 @@ document.write(`
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pymc</span> <span class="k">as</span> <span class="nn">pm</span>
 <span class="kn">from</span> <span class="nn">pymc.math</span> <span class="kn">import</span> <span class="n">switch</span><span class="p">,</span> <span class="n">ge</span>
+<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">stats</span>
 </pre></div>
 </div>
 </div>
@@ -606,18 +618,6 @@ document.write(`
 <p>Adapted from <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/original_examples/Codes4Unit6/psoriasis.odc">Unit 6: psoriasis.odc</a>.</p>
 <p>Woo and McKenna (2003) investigated the effect of broadband ultraviolet B (UVB) therapy and topical calcipotriol cream used together on areas of psoriasis. One of the outcome variables is the Psoriasis Area and Severity Index (PASI), where a lower score is better.</p>
 <p>The PASI scores for 20 subjects are measured at baseline and after 8 treatments.  Do these data provide sufficient evidence to indicate that the combination therapy reduces PASI scores?</p>
-<p>Classical Analysis:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>   <span class="n">d</span> <span class="o">=</span> <span class="n">baseline</span> <span class="o">-</span> <span class="n">after</span><span class="p">;</span>
-   <span class="n">n</span> <span class="o">=</span> <span class="n">length</span><span class="p">(</span><span class="n">d</span><span class="p">);</span>
-   <span class="n">dbar</span> <span class="o">=</span> <span class="n">mean</span><span class="p">(</span><span class="n">d</span><span class="p">);</span>  <span class="n">dbar</span> <span class="o">=</span> <span class="mf">6.3550</span>
-   <span class="n">sdd</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">var</span><span class="p">(</span><span class="n">d</span><span class="p">));</span>  <span class="n">sdd</span> <span class="o">=</span> <span class="mf">4.9309</span>
-   <span class="n">tstat</span> <span class="o">=</span> <span class="n">dbar</span><span class="o">/</span><span class="p">(</span><span class="n">sdd</span><span class="o">/</span><span class="n">sqrt</span><span class="p">(</span><span class="n">n</span><span class="p">));</span>  <span class="n">tstat</span> <span class="o">=</span> <span class="mf">5.7637</span>
-
-   <span class="n">Reject</span> <span class="n">H_0</span> <span class="n">at</span> <span class="n">the</span> <span class="n">level</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.05</span> <span class="n">since</span> <span class="n">the</span> <span class="n">p_value</span> <span class="o">=</span> <span class="mf">0.00000744</span> <span class="o">&lt;</span> <span class="mf">0.05</span>
-
-   <span class="mi">95</span><span class="o">%</span> <span class="n">CI</span> <span class="ow">is</span> <span class="p">[</span><span class="mf">4.0472</span><span class="p">,</span> <span class="mf">8.6628</span><span class="p">]</span>
-</pre></div>
-</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># fmt: off</span>
@@ -632,19 +632,58 @@ document.write(`
 </div>
 </div>
 </div>
+<p>I tried to recreate the classical analysis from the original example, but got slightly different values.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Classical Analysis</span>
+
+<span class="n">d</span> <span class="o">=</span> <span class="n">baseline</span> <span class="o">-</span> <span class="n">after</span>
+<span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+<span class="n">dbar</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+<span class="n">stdev</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+<span class="n">tstat</span> <span class="o">=</span> <span class="n">dbar</span> <span class="o">/</span> <span class="p">(</span><span class="n">stdev</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">n</span><span class="p">))</span>
+
+<span class="n">pval</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">stats</span><span class="o">.</span><span class="n">t</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">tstat</span><span class="p">),</span> <span class="n">df</span><span class="o">=</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;dbar  = </span><span class="si">{</span><span class="n">dbar</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;stdev = </span><span class="si">{</span><span class="n">stdev</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;tstat = </span><span class="si">{</span><span class="n">tstat</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;pval  = </span><span class="si">{</span><span class="n">pval</span><span class="si">:</span><span class="s2">.8f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.05</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span>
+<span class="n">tcrit</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">t</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">alpha</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">df</span><span class="o">=</span><span class="n">df</span><span class="p">)</span>
+<span class="n">ci_lower</span> <span class="o">=</span> <span class="n">dbar</span> <span class="o">-</span> <span class="n">tcrit</span> <span class="o">*</span> <span class="n">stdev</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+<span class="n">ci_upper</span> <span class="o">=</span> <span class="n">dbar</span> <span class="o">+</span> <span class="n">tcrit</span> <span class="o">*</span> <span class="n">stdev</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;95% CI = [</span><span class="si">{</span><span class="n">ci_lower</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">ci_upper</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">]&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>dbar  = 6.3550
+stdev = 4.8061
+tstat = 5.9134
+pval  = 0.00001080
+95% CI = [4.1057, 8.6043]
+</pre></div>
+</div>
+</div>
+</div>
 <div class="cell tag_hide-output docutils container">
 <div class="cell_input above-output-prompt docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">m</span><span class="p">:</span>
     <span class="c1"># priors</span>
     <span class="n">mu</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;mu&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">316</span><span class="p">)</span>
-    <span class="n">prec</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Gamma</span><span class="p">(</span><span class="s2">&quot;prec&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span>
-    <span class="n">sigma</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;sigma&quot;</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">pm</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">prec</span><span class="p">))</span>
+    <span class="c1"># prec = pm.Gamma(&quot;prec&quot;, alpha=0.001, beta=0.001) # From the lecture version</span>
+    <span class="c1"># sigma = pm.Deterministic(&quot;sigma&quot;, 1 / pm.math.sqrt(prec))</span>
+
+    <span class="n">sigma</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Exponential</span><span class="p">(</span><span class="s2">&quot;sigma&quot;</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">)</span>
 
     <span class="n">ph1</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;ph1&quot;</span><span class="p">,</span> <span class="n">switch</span><span class="p">(</span><span class="n">mu</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
 
-    <span class="n">diff</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;diff&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">baseline</span> <span class="o">-</span> <span class="n">after</span><span class="p">)</span>
+    <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;diff&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">baseline</span> <span class="o">-</span> <span class="n">after</span><span class="p">)</span>
 
-    <span class="c1"># start sampling</span>
     <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">5000</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -655,34 +694,13 @@ document.write(`
 <span class="expanded">Hide code cell output</span>
 </summary>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Auto-assigning NUTS sampler...
-Initializing NUTS using jitter+adapt_diag...
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Initializing NUTS using jitter+adapt_diag...
 Multiprocess sampling (4 chains in 4 jobs)
-NUTS: [mu, prec]
+NUTS: [mu, sigma]
 </pre></div>
 </div>
-<div class="output text_html">
-<style>
-    /* Turns off some styling */
-    progress {
-        /* gets rid of default border in Firefox and Opera. */
-        border: none;
-        /* Needs to be in here for Safari polyfill so background images work as expected. */
-        background-size: auto;
-    }
-    progress:not([value]), progress:not([value])::-webkit-progress-bar {
-        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
-    }
-    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
-        background: #F44336;
-    }
-</style>
-</div><div class="output text_html">
-    <div>
-      <progress value='24000' class='' max='24000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-      100.00% [24000/24000 00:01&lt;00:00 Sampling 4 chains, 0 divergences]
-    </div>
-    </div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 5_000 draw iterations (4_000 + 20_000 draws total) took 1 seconds.
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "93674a47bb95426aad4b306c7c173b52", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 5_000 draw iterations (4_000 + 20_000 draws total) took 1 seconds.
 </pre></div>
 </div>
 </div>
@@ -690,12 +708,21 @@ NUTS: [mu, prec]
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">hdi_prob</span><span class="o">=</span><span class="mf">0.95</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;~prec&quot;</span><span class="p">])</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pm</span><span class="o">.</span><span class="n">model_to_graphviz</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc/lib/python3.11/site-packages/arviz/stats/diagnostics.py:592: RuntimeWarning: invalid value encountered in scalar divide
+<img alt="../_images/14a0e39eec165494d9c18d88b433b4f82b941be431a61c9b2253b36b16c53612.svg" src="../_images/14a0e39eec165494d9c18d88b433b4f82b941be431a61c9b2253b36b16c53612.svg" /></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">hdi_prob</span><span class="o">=</span><span class="mf">0.95</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/miniforge3/envs/pymc_macos15/lib/python3.12/site-packages/arviz/stats/diagnostics.py:596: RuntimeWarning: invalid value encountered in scalar divide
   (between_chain_variance / within_chain_variance + num_samples - 1) / (num_samples)
 </pre></div>
 </div>
@@ -731,26 +758,26 @@ NUTS: [mu, prec]
   <tbody>
     <tr>
       <th>mu</th>
-      <td>6.355</td>
-      <td>1.167</td>
-      <td>4.149</td>
-      <td>8.766</td>
+      <td>6.359</td>
+      <td>1.193</td>
+      <td>4.004</td>
+      <td>8.704</td>
       <td>0.009</td>
       <td>0.007</td>
-      <td>16065.0</td>
-      <td>12098.0</td>
+      <td>16048.0</td>
+      <td>12442.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>sigma</th>
-      <td>5.125</td>
-      <td>0.883</td>
-      <td>3.568</td>
-      <td>6.887</td>
-      <td>0.007</td>
-      <td>0.005</td>
-      <td>15790.0</td>
-      <td>13476.0</td>
+      <td>5.244</td>
+      <td>0.916</td>
+      <td>3.686</td>
+      <td>7.137</td>
+      <td>0.008</td>
+      <td>0.006</td>
+      <td>14145.0</td>
+      <td>12706.0</td>
       <td>1.0</td>
     </tr>
     <tr>
@@ -855,17 +882,18 @@ NUTS: [mu, prec]
     <span class="n">mu2</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;mu2&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">316</span><span class="p">)</span>
     <span class="n">mudiff</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;mudiff&quot;</span><span class="p">,</span> <span class="n">mu1</span> <span class="o">-</span> <span class="n">mu2</span><span class="p">)</span>
     <span class="n">prec</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Gamma</span><span class="p">(</span><span class="s2">&quot;prec&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span>
-    <span class="n">sigma</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">pm</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">prec</span><span class="p">)</span>
+    <span class="n">sigma</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">pm</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span>
+        <span class="n">prec</span>
+    <span class="p">)</span>  <span class="c1"># lecture example. could also put prior on sigma directly</span>
 
     <span class="n">probint</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span>
         <span class="s2">&quot;probint&quot;</span><span class="p">,</span>
         <span class="n">switch</span><span class="p">(</span><span class="n">ge</span><span class="p">(</span><span class="n">mudiff</span> <span class="o">+</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">*</span> <span class="n">switch</span><span class="p">(</span><span class="n">ge</span><span class="p">(</span><span class="mi">2</span> <span class="o">-</span> <span class="n">mudiff</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
     <span class="p">)</span>
 
-    <span class="n">y_type1</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;y_type1&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu1</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">increase_type1</span><span class="p">)</span>
-    <span class="n">y_type2</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;y_type2&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu2</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">increase_type2</span><span class="p">)</span>
+    <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;y_type1&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu1</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">increase_type1</span><span class="p">)</span>
+    <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;y_type2&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu2</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">increase_type2</span><span class="p">)</span>
 
-    <span class="c1"># start sampling</span>
     <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">5000</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -876,34 +904,13 @@ NUTS: [mu, prec]
 <span class="expanded">Hide code cell output</span>
 </summary>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Auto-assigning NUTS sampler...
-Initializing NUTS using jitter+adapt_diag...
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Initializing NUTS using jitter+adapt_diag...
 Multiprocess sampling (4 chains in 4 jobs)
 NUTS: [mu1, mu2, prec]
 </pre></div>
 </div>
-<div class="output text_html">
-<style>
-    /* Turns off some styling */
-    progress {
-        /* gets rid of default border in Firefox and Opera. */
-        border: none;
-        /* Needs to be in here for Safari polyfill so background images work as expected. */
-        background-size: auto;
-    }
-    progress:not([value]), progress:not([value])::-webkit-progress-bar {
-        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
-    }
-    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
-        background: #F44336;
-    }
-</style>
-</div><div class="output text_html">
-    <div>
-      <progress value='24000' class='' max='24000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-      100.00% [24000/24000 00:01&lt;00:00 Sampling 4 chains, 0 divergences]
-    </div>
-    </div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 5_000 draw iterations (4_000 + 20_000 draws total) took 1 seconds.
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "ad5411b571eb4ea5ad5ed119d7773345", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 5_000 draw iterations (4_000 + 20_000 draws total) took 1 seconds.
 </pre></div>
 </div>
 </div>
@@ -948,62 +955,62 @@ NUTS: [mu1, mu2, prec]
   <tbody>
     <tr>
       <th>mu1</th>
-      <td>7.334</td>
-      <td>0.470</td>
-      <td>6.414</td>
-      <td>8.269</td>
+      <td>7.329</td>
+      <td>0.475</td>
+      <td>6.417</td>
+      <td>8.275</td>
       <td>0.003</td>
       <td>0.002</td>
-      <td>27558.0</td>
-      <td>15811.0</td>
+      <td>28401.0</td>
+      <td>15725.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>mu2</th>
-      <td>6.198</td>
-      <td>0.397</td>
-      <td>5.438</td>
-      <td>6.984</td>
+      <td>6.200</td>
+      <td>0.395</td>
+      <td>5.424</td>
+      <td>6.979</td>
       <td>0.002</td>
       <td>0.002</td>
-      <td>26341.0</td>
-      <td>14856.0</td>
+      <td>25971.0</td>
+      <td>16229.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>prec</th>
-      <td>0.264</td>
+      <td>0.263</td>
       <td>0.058</td>
-      <td>0.159</td>
-      <td>0.381</td>
+      <td>0.157</td>
+      <td>0.380</td>
       <td>0.000</td>
       <td>0.000</td>
-      <td>24987.0</td>
-      <td>13816.0</td>
+      <td>23926.0</td>
+      <td>14853.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>mudiff</th>
-      <td>1.136</td>
-      <td>0.613</td>
-      <td>-0.032</td>
-      <td>2.382</td>
+      <td>1.129</td>
+      <td>0.610</td>
+      <td>-0.042</td>
+      <td>2.345</td>
       <td>0.004</td>
       <td>0.003</td>
-      <td>28981.0</td>
-      <td>15171.0</td>
+      <td>27559.0</td>
+      <td>15641.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>probint</th>
-      <td>0.921</td>
-      <td>0.270</td>
+      <td>0.927</td>
+      <td>0.260</td>
       <td>0.000</td>
       <td>1.000</td>
       <td>0.002</td>
-      <td>0.002</td>
-      <td>16160.0</td>
-      <td>16160.0</td>
+      <td>0.001</td>
+      <td>16634.0</td>
+      <td>16634.0</td>
       <td>1.0</td>
     </tr>
   </tbody>
@@ -1085,17 +1092,18 @@ NUTS: [mu1, mu2, prec]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Mon Oct 30 2023
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Sat Mar 08 2025
 
 Python implementation: CPython
-Python version       : 3.11.5
-IPython version      : 8.15.0
+Python version       : 3.12.7
+IPython version      : 8.29.0
 
-pytensor: 2.17.1
+pytensor: 2.26.4
 
-pymc : 5.9.0
-numpy: 1.25.2
-arviz: 0.16.1
+pymc : 5.19.1
+scipy: 1.14.1
+arviz: 0.20.0
+numpy: 1.26.4
 </pre></div>
 </div>
 </div>
