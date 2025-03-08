@@ -613,8 +613,7 @@ document.write(`
 <h1>7. Coagulation*<a class="headerlink" href="#coagulation" title="Permalink to this headline">#</a></h1>
 <p>An example of Bayesian ANOVA.</p>
 <p>Adapted from <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/original_examples/Codes4Unit7/anovacoagulation.odc">Unit 7: anovacoagulation.odc</a>.</p>
-<p>Here 24 animals are randomly allocated to 4 different diets,  but the numbers allocated to different diets are not the same. The coagulation time for blood is measured for each animal. Are the diet-based differences significant?</p>
-<p><a class="reference external" href="https://pages.stat.wisc.edu/~yxu/Teaching/16%20spring%20Stat602/%5bGeorge_E._P._Box,_J._Stuart_Hunter,_William_G._Hu(BookZZ.org).pdf">Box, Hunter, Hunter; Statistics for Experimenters, p. 166</a></p>
+<p>Here 24 animals are randomly allocated to 4 different diets,  but the numbers allocated to different diets are not the same. The coagulation time for blood is measured for each animal. Are the diet-based differences significant? Example from page 166 of <a class="reference external" href="https://pages.stat.wisc.edu/~yxu/Teaching/16%20spring%20Stat602/%5bGeorge_E._P._Box,_J._Stuart_Hunter,_William_G._Hu(BookZZ.org).pdf">Statistics for Experimenters</a> <span id="id1">Box <em>et al.</em> [<a class="reference internal" href="../backmatter/bibliography.html#id60" title="George EP Box, J Stuart Hunter, William G Hunter, and others. Statistics for experimenters. In Wiley series in probability and statistics. Wiley Hoboken, NJ, 2005.">2005</a>]</span>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># cut and pasted data from .odc file</span>
@@ -647,31 +646,27 @@ document.write(`
 <div class="cell tag_hide-output docutils container">
 <div class="cell_input above-output-prompt docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">m</span><span class="p">:</span>
-    <span class="n">mu0</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;μ0&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">)</span>
-    <span class="n">tau</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Gamma</span><span class="p">(</span><span class="s2">&quot;τ&quot;</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">)</span>
+    <span class="n">mu0</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;mu_0&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">)</span>
+    <span class="n">tau</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Gamma</span><span class="p">(</span><span class="s2">&quot;tau&quot;</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">)</span>
 
-    <span class="n">alpha4</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;α4&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">)</span>
-    <span class="n">alpha3</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;α3&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">)</span>
-    <span class="n">alpha2</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;α2&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">)</span>
-    <span class="c1"># sum-to-zero constraint</span>
-    <span class="n">alpha1</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;α1&quot;</span><span class="p">,</span> <span class="o">-</span><span class="p">(</span><span class="n">alpha2</span> <span class="o">+</span> <span class="n">alpha3</span> <span class="o">+</span> <span class="n">alpha4</span><span class="p">))</span>
+    <span class="n">alpha</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">ZeroSumNormal</span><span class="p">(</span><span class="s2">&quot;alpha&quot;</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
 
-    <span class="n">mu_1</span> <span class="o">=</span> <span class="n">mu0</span> <span class="o">+</span> <span class="n">alpha1</span>
-    <span class="n">mu_2</span> <span class="o">=</span> <span class="n">mu0</span> <span class="o">+</span> <span class="n">alpha2</span>
-    <span class="n">mu_3</span> <span class="o">=</span> <span class="n">mu0</span> <span class="o">+</span> <span class="n">alpha3</span>
-    <span class="n">mu_4</span> <span class="o">=</span> <span class="n">mu0</span> <span class="o">+</span> <span class="n">alpha4</span>
+    <span class="n">mu_1</span> <span class="o">=</span> <span class="n">mu0</span> <span class="o">+</span> <span class="n">alpha</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">mu_2</span> <span class="o">=</span> <span class="n">mu0</span> <span class="o">+</span> <span class="n">alpha</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">mu_3</span> <span class="o">=</span> <span class="n">mu0</span> <span class="o">+</span> <span class="n">alpha</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">mu_4</span> <span class="o">=</span> <span class="n">mu0</span> <span class="o">+</span> <span class="n">alpha</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
 
     <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;lik1&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu_1</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="n">tau</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
     <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;lik2&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu_2</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="n">tau</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
     <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;lik3&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu_3</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="n">tau</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
     <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;lik4&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu_4</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="n">tau</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="mi">4</span><span class="p">])</span>
 
-    <span class="n">onetwo</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;α1-α2&quot;</span><span class="p">,</span> <span class="n">alpha1</span> <span class="o">-</span> <span class="n">alpha2</span><span class="p">)</span>
-    <span class="n">onethree</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;α1-α3&quot;</span><span class="p">,</span> <span class="n">alpha1</span> <span class="o">-</span> <span class="n">alpha3</span><span class="p">)</span>
-    <span class="n">onefour</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;α1-α4&quot;</span><span class="p">,</span> <span class="n">alpha1</span> <span class="o">-</span> <span class="n">alpha4</span><span class="p">)</span>
-    <span class="n">twothree</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;α2-α3&quot;</span><span class="p">,</span> <span class="n">alpha2</span> <span class="o">-</span> <span class="n">alpha3</span><span class="p">)</span>
-    <span class="n">twofour</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;α2-α4&quot;</span><span class="p">,</span> <span class="n">alpha2</span> <span class="o">-</span> <span class="n">alpha4</span><span class="p">)</span>
-    <span class="n">threefour</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;α3-α4&quot;</span><span class="p">,</span> <span class="n">alpha3</span> <span class="o">-</span> <span class="n">alpha4</span><span class="p">)</span>
+    <span class="n">onetwo</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;α1-α2&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">alpha</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">onethree</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;α1-α3&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">alpha</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+    <span class="n">onefour</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;α1-α4&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">alpha</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+    <span class="n">twothree</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;α2-α3&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">alpha</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+    <span class="n">twofour</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;α2-α4&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">alpha</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+    <span class="n">threefour</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;α3-α4&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="n">alpha</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
 
     <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">5000</span><span class="p">)</span>
 </pre></div>
@@ -683,34 +678,13 @@ document.write(`
 <span class="expanded">Hide code cell output</span>
 </summary>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Auto-assigning NUTS sampler...
-Initializing NUTS using jitter+adapt_diag...
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Initializing NUTS using jitter+adapt_diag...
 Multiprocess sampling (4 chains in 4 jobs)
-NUTS: [μ0, τ, α4, α3, α2]
+NUTS: [mu_0, tau, alpha]
 </pre></div>
 </div>
-<div class="output text_html">
-<style>
-    /* Turns off some styling */
-    progress {
-        /* gets rid of default border in Firefox and Opera. */
-        border: none;
-        /* Needs to be in here for Safari polyfill so background images work as expected. */
-        background-size: auto;
-    }
-    progress:not([value]), progress:not([value])::-webkit-progress-bar {
-        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
-    }
-    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
-        background: #F44336;
-    }
-</style>
-</div><div class="output text_html">
-    <div>
-      <progress value='24000' class='' max='24000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-      100.00% [24000/24000 00:03&lt;00:00 Sampling 4 chains, 0 divergences]
-    </div>
-    </div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 5_000 draw iterations (4_000 + 20_000 draws total) took 4 seconds.
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "93441a9f6cd6459d808cf1d083278b4c", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 5_000 draw iterations (4_000 + 20_000 draws total) took 2 seconds.
 </pre></div>
 </div>
 </div>
@@ -718,7 +692,7 @@ NUTS: [μ0, τ, α4, α3, α2]
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;α&quot;</span><span class="p">],</span> <span class="n">filter_vars</span><span class="o">=</span><span class="s2">&quot;like&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;stats&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -745,78 +719,157 @@ NUTS: [μ0, τ, α4, α3, α2]
       <th>sd</th>
       <th>hdi_3%</th>
       <th>hdi_97%</th>
+      <th>mcse_mean</th>
+      <th>mcse_sd</th>
+      <th>ess_bulk</th>
+      <th>ess_tail</th>
+      <th>r_hat</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <th>α4</th>
-      <td>-2.995</td>
-      <td>0.817</td>
-      <td>-4.569</td>
-      <td>-1.499</td>
+      <th>mu_0</th>
+      <td>63.995</td>
+      <td>0.527</td>
+      <td>63.016</td>
+      <td>65.002</td>
+      <td>0.004</td>
+      <td>0.003</td>
+      <td>22143.0</td>
+      <td>14304.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
-      <th>α3</th>
-      <td>3.994</td>
-      <td>0.877</td>
-      <td>2.378</td>
-      <td>5.707</td>
+      <th>tau</th>
+      <td>0.179</td>
+      <td>0.056</td>
+      <td>0.079</td>
+      <td>0.282</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>14655.0</td>
+      <td>13754.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
-      <th>α2</th>
-      <td>2.003</td>
-      <td>0.885</td>
-      <td>0.328</td>
-      <td>3.661</td>
+      <th>alpha[0]</th>
+      <td>-2.969</td>
+      <td>1.028</td>
+      <td>-4.888</td>
+      <td>-1.002</td>
+      <td>0.008</td>
+      <td>0.006</td>
+      <td>18356.0</td>
+      <td>14838.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
-      <th>α1</th>
-      <td>-3.002</td>
-      <td>1.008</td>
-      <td>-4.943</td>
-      <td>-1.137</td>
+      <th>alpha[1]</th>
+      <td>1.987</td>
+      <td>0.881</td>
+      <td>0.339</td>
+      <td>3.677</td>
+      <td>0.006</td>
+      <td>0.004</td>
+      <td>21811.0</td>
+      <td>14707.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>alpha[2]</th>
+      <td>3.964</td>
+      <td>0.889</td>
+      <td>2.228</td>
+      <td>5.595</td>
+      <td>0.007</td>
+      <td>0.005</td>
+      <td>17327.0</td>
+      <td>13918.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>alpha[3]</th>
+      <td>-2.981</td>
+      <td>0.816</td>
+      <td>-4.542</td>
+      <td>-1.460</td>
+      <td>0.005</td>
+      <td>0.004</td>
+      <td>23383.0</td>
+      <td>16548.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>α1-α2</th>
-      <td>-5.005</td>
-      <td>1.589</td>
-      <td>-8.087</td>
-      <td>-2.071</td>
+      <td>-4.956</td>
+      <td>1.605</td>
+      <td>-8.018</td>
+      <td>-1.969</td>
+      <td>0.012</td>
+      <td>0.008</td>
+      <td>19430.0</td>
+      <td>14471.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>α1-α3</th>
-      <td>-6.997</td>
-      <td>1.582</td>
-      <td>-9.985</td>
-      <td>-4.006</td>
+      <td>-6.933</td>
+      <td>1.608</td>
+      <td>-9.829</td>
+      <td>-3.745</td>
+      <td>0.012</td>
+      <td>0.009</td>
+      <td>17433.0</td>
+      <td>14669.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>α1-α4</th>
-      <td>-0.007</td>
-      <td>1.507</td>
-      <td>-2.815</td>
-      <td>2.912</td>
+      <td>0.012</td>
+      <td>1.534</td>
+      <td>-2.908</td>
+      <td>2.880</td>
+      <td>0.011</td>
+      <td>0.010</td>
+      <td>20750.0</td>
+      <td>15189.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>α2-α3</th>
-      <td>-1.991</td>
-      <td>1.419</td>
-      <td>-4.665</td>
-      <td>0.697</td>
+      <td>-1.977</td>
+      <td>1.430</td>
+      <td>-4.704</td>
+      <td>0.699</td>
+      <td>0.010</td>
+      <td>0.008</td>
+      <td>19332.0</td>
+      <td>14482.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>α2-α4</th>
-      <td>4.998</td>
-      <td>1.355</td>
-      <td>2.432</td>
-      <td>7.570</td>
+      <td>4.968</td>
+      <td>1.333</td>
+      <td>2.398</td>
+      <td>7.416</td>
+      <td>0.009</td>
+      <td>0.006</td>
+      <td>23561.0</td>
+      <td>15620.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>α3-α4</th>
-      <td>6.989</td>
-      <td>1.342</td>
-      <td>4.488</td>
-      <td>9.550</td>
+      <td>6.945</td>
+      <td>1.350</td>
+      <td>4.399</td>
+      <td>9.547</td>
+      <td>0.010</td>
+      <td>0.007</td>
+      <td>19356.0</td>
+      <td>13909.0</td>
+      <td>1.0</td>
     </tr>
   </tbody>
 </table>
@@ -824,30 +877,26 @@ NUTS: [μ0, τ, α4, α3, α2]
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">plot_forest</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;α1&quot;</span><span class="p">,</span> <span class="s2">&quot;α2&quot;</span><span class="p">,</span> <span class="s2">&quot;α3&quot;</span><span class="p">,</span> <span class="s2">&quot;α4&quot;</span><span class="p">],</span> <span class="n">combined</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([&lt;AxesSubplot: title={&#39;center&#39;: &#39;94.0% HDI&#39;}&gt;], dtype=object)
-</pre></div>
-</div>
-<img alt="../_images/180e0cb16210041b6a5376db7663c2d9cc4d1c5a7bb50ef08c822b0bc2686532.png" src="../_images/180e0cb16210041b6a5376db7663c2d9cc4d1c5a7bb50ef08c822b0bc2686532.png" />
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">plot_forest</span><span class="p">(</span>
-    <span class="n">trace</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;~τ&quot;</span><span class="p">,</span> <span class="s2">&quot;~μ0&quot;</span><span class="p">,</span> <span class="s2">&quot;~α1&quot;</span><span class="p">,</span> <span class="s2">&quot;~α2&quot;</span><span class="p">,</span> <span class="s2">&quot;~α3&quot;</span><span class="p">,</span> <span class="s2">&quot;~α4&quot;</span><span class="p">],</span> <span class="n">combined</span><span class="o">=</span><span class="kc">True</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">axes</span> <span class="o">=</span> <span class="n">az</span><span class="o">.</span><span class="n">plot_forest</span><span class="p">(</span>
+    <span class="n">trace</span><span class="p">,</span>
+    <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;~mu_0&quot;</span><span class="p">,</span> <span class="s2">&quot;~tau&quot;</span><span class="p">],</span>
+    <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;ridgeplot&quot;</span><span class="p">,</span>
+    <span class="n">combined</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">ridgeplot_truncate</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">ridgeplot_overlap</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+    <span class="n">ridgeplot_alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span>
+    <span class="n">colors</span><span class="o">=</span><span class="s2">&quot;white&quot;</span><span class="p">,</span>
 <span class="p">)</span>
+
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Ridgeplot of $</span><span class="se">\\</span><span class="s2">alpha$ and contrasts&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([&lt;AxesSubplot: title={&#39;center&#39;: &#39;94.0% HDI&#39;}&gt;], dtype=object)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, &#39;Ridgeplot of $\\alpha$ and contrasts&#39;)
 </pre></div>
 </div>
-<img alt="../_images/68112cb8c01f6cce5dfa9e9ad6f4e47a651d8cedff7e9a48e3cec4cc8aae91a3.png" src="../_images/68112cb8c01f6cce5dfa9e9ad6f4e47a651d8cedff7e9a48e3cec4cc8aae91a3.png" />
+<img alt="../_images/cbf2f1b3d729459648b9b90838667e0237763689732fa445ddc9f5f1f1b4ec93.png" src="../_images/cbf2f1b3d729459648b9b90838667e0237763689732fa445ddc9f5f1f1b4ec93.png" />
 </div>
 </div>
 </section>
@@ -871,30 +920,20 @@ NUTS: [μ0, τ, α4, α3, α2]
 <div class="cell tag_hide-output docutils container">
 <div class="cell_input above-output-prompt docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">m</span><span class="p">:</span>
-    <span class="n">mu0</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;μ0&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">)</span>
-    <span class="n">tau</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Gamma</span><span class="p">(</span><span class="s2">&quot;τ&quot;</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">)</span>
+    <span class="n">mu0</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;mu0&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">)</span>
+    <span class="n">tau</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Gamma</span><span class="p">(</span><span class="s2">&quot;tau&quot;</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">)</span>
 
-    <span class="n">alphas</span> <span class="o">=</span> <span class="p">[</span><span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;α</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">)]</span>
-
-    <span class="c1"># sum-to-zero constraint</span>
-    <span class="n">alphas</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span>
-        <span class="mi">0</span><span class="p">,</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;α1&quot;</span><span class="p">,</span> <span class="o">-</span><span class="p">(</span><span class="n">alphas</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">alphas</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">alphas</span><span class="p">[</span><span class="mi">2</span><span class="p">]))</span>
-    <span class="p">)</span>
-
+    <span class="n">alphas</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">ZeroSumNormal</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;αlpha&quot;</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
     <span class="n">mus</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;mu</span><span class="si">{</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">mu0</span> <span class="o">+</span> <span class="n">alpha</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">alpha</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">alphas</span><span class="p">)</span>
+        <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;mu</span><span class="si">{</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">mu0</span> <span class="o">+</span> <span class="n">alpha</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">alpha</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">alphas</span><span class="p">)</span>
     <span class="p">]</span>
 
-    <span class="n">likelihoods</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">[</span>
         <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;lik</span><span class="si">{</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mus</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">tau</span><span class="o">=</span><span class="n">tau</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])</span>
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">mu</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">mus</span><span class="p">)</span>
     <span class="p">]</span>
 
-    <span class="p">[</span>
-        <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;α</span><span class="si">{</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2"> - α</span><span class="si">{</span><span class="n">j</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">alphas</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">alphas</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
-        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">combos</span>
-    <span class="p">]</span>
+    <span class="p">[</span><span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;α</span><span class="si">{</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2"> - α</span><span class="si">{</span><span class="n">j</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">alphas</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">alphas</span><span class="p">[</span><span class="n">j</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">combos</span><span class="p">]</span>
 
     <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">5000</span><span class="p">)</span>
 </pre></div>
@@ -906,34 +945,13 @@ NUTS: [μ0, τ, α4, α3, α2]
 <span class="expanded">Hide code cell output</span>
 </summary>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Auto-assigning NUTS sampler...
-Initializing NUTS using jitter+adapt_diag...
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Initializing NUTS using jitter+adapt_diag...
 Multiprocess sampling (4 chains in 4 jobs)
-NUTS: [μ0, τ, α2, α3, α4]
+NUTS: [mu0, tau, αlpha]
 </pre></div>
 </div>
-<div class="output text_html">
-<style>
-    /* Turns off some styling */
-    progress {
-        /* gets rid of default border in Firefox and Opera. */
-        border: none;
-        /* Needs to be in here for Safari polyfill so background images work as expected. */
-        background-size: auto;
-    }
-    progress:not([value]), progress:not([value])::-webkit-progress-bar {
-        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
-    }
-    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
-        background: #F44336;
-    }
-</style>
-</div><div class="output text_html">
-    <div>
-      <progress value='24000' class='' max='24000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-      100.00% [24000/24000 00:03&lt;00:00 Sampling 4 chains, 0 divergences]
-    </div>
-    </div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 5_000 draw iterations (4_000 + 20_000 draws total) took 4 seconds.
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "532a62e22a144f3a90ecb46063fe3a42", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 5_000 draw iterations (4_000 + 20_000 draws total) took 2 seconds.
 </pre></div>
 </div>
 </div>
@@ -972,74 +990,74 @@ NUTS: [μ0, τ, α2, α3, α4]
   </thead>
   <tbody>
     <tr>
-      <th>α2</th>
-      <td>2.004</td>
-      <td>0.891</td>
-      <td>0.320</td>
-      <td>3.656</td>
+      <th>αlpha[0]</th>
+      <td>-2.939</td>
+      <td>1.011</td>
+      <td>-4.829</td>
+      <td>-0.999</td>
     </tr>
     <tr>
-      <th>α3</th>
-      <td>4.009</td>
-      <td>0.888</td>
-      <td>2.302</td>
-      <td>5.631</td>
+      <th>αlpha[1]</th>
+      <td>1.967</td>
+      <td>0.876</td>
+      <td>0.364</td>
+      <td>3.655</td>
     </tr>
     <tr>
-      <th>α4</th>
-      <td>-3.003</td>
-      <td>0.805</td>
-      <td>-4.530</td>
-      <td>-1.489</td>
+      <th>αlpha[2]</th>
+      <td>3.951</td>
+      <td>0.883</td>
+      <td>2.338</td>
+      <td>5.703</td>
     </tr>
     <tr>
-      <th>α1</th>
-      <td>-3.010</td>
-      <td>1.035</td>
-      <td>-4.925</td>
-      <td>-0.993</td>
+      <th>αlpha[3]</th>
+      <td>-2.979</td>
+      <td>0.806</td>
+      <td>-4.480</td>
+      <td>-1.425</td>
     </tr>
     <tr>
       <th>α1 - α2</th>
-      <td>-5.014</td>
-      <td>1.621</td>
-      <td>-8.095</td>
-      <td>-2.047</td>
+      <td>-4.906</td>
+      <td>1.583</td>
+      <td>-8.008</td>
+      <td>-1.957</td>
     </tr>
     <tr>
       <th>α1 - α3</th>
-      <td>-7.019</td>
-      <td>1.617</td>
-      <td>-9.971</td>
-      <td>-3.907</td>
+      <td>-6.890</td>
+      <td>1.590</td>
+      <td>-9.849</td>
+      <td>-3.831</td>
     </tr>
     <tr>
       <th>α1 - α4</th>
-      <td>-0.007</td>
-      <td>1.532</td>
-      <td>-2.914</td>
-      <td>2.883</td>
+      <td>0.040</td>
+      <td>1.509</td>
+      <td>-2.810</td>
+      <td>2.910</td>
     </tr>
     <tr>
       <th>α2 - α3</th>
-      <td>-2.005</td>
-      <td>1.438</td>
-      <td>-4.775</td>
-      <td>0.659</td>
+      <td>-1.985</td>
+      <td>1.423</td>
+      <td>-4.684</td>
+      <td>0.646</td>
     </tr>
     <tr>
       <th>α2 - α4</th>
-      <td>5.007</td>
-      <td>1.334</td>
-      <td>2.431</td>
-      <td>7.451</td>
+      <td>4.946</td>
+      <td>1.327</td>
+      <td>2.491</td>
+      <td>7.478</td>
     </tr>
     <tr>
       <th>α3 - α4</th>
-      <td>7.011</td>
-      <td>1.331</td>
-      <td>4.489</td>
-      <td>9.524</td>
+      <td>6.931</td>
+      <td>1.335</td>
+      <td>4.515</td>
+      <td>9.526</td>
     </tr>
   </tbody>
 </table>
@@ -1053,17 +1071,17 @@ NUTS: [μ0, τ, α2, α3, α4]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Wed Mar 22 2023
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Sat Mar 08 2025
 
 Python implementation: CPython
-Python version       : 3.11.0
-IPython version      : 8.9.0
+Python version       : 3.12.7
+IPython version      : 8.29.0
 
-pytensor: 2.10.1
+pytensor: 2.26.4
 
-arviz: 0.14.0
-pymc : 5.1.2
-numpy: 1.24.2
+numpy: 1.26.4
+arviz: 0.20.0
+pymc : 5.19.1
 </pre></div>
 </div>
 </div>

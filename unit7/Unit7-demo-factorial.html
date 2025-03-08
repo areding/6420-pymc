@@ -588,7 +588,6 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notes">Notes:</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model-1-with-sum-to-zero-constraints">Model 1 with sum-to-zero constraints</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model-2-with-corner-constraints">Model 2 with corner constraints</a></li>
 </ul>
@@ -619,11 +618,11 @@ document.write(`
 <p>This one is about factorial designs (2-way ANOVA) with sum-to-zero and corner constraints.</p>
 <p>Adapted from <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/original_examples/Codes4Unit7/simvastatin.odc">Unit 7: simvastatin.odc</a>.</p>
 <p>Data can be found <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/data/simvastatin_data.tsv">here</a>.</p>
-<p>Thanks to <a class="reference external" href="https://github.com/acmiyaguchi">Anthony Miyaguchi</a> for updating this example!</p>
 <p>In a quantitative physiology lab II at Georgia Tech, students were asked to find a therapeutic model to test on MC3T3-E1 cell line to enhance osteoblastic growth. The students found a drug called Simvastatin, a cholesterol lowering drug to test on these cells. Using a control and three different concentrations, <span class="math notranslate nohighlight">\(10^{-9}\)</span>, <span class="math notranslate nohighlight">\(10^{-8}\)</span> and <span class="math notranslate nohighlight">\(10^{-7}\)</span> M, cells were treated with the drug. These cells were plated on four, 24 well plates with each well plate having a different treatment. To test for osteoblastic differentiation an assay, pNPP, was used to test for alkaline phosphatase activity. The higher the alkaline phosphatase activity the better the cells are differentiating, and become more bone like. This assay was performed 6 times total within 11 days. Each time the assay was performed, four wells from each plate were used.</p>
-<section id="notes">
-<h2>Notes:<a class="headerlink" href="#notes" title="Permalink to this headline">#</a></h2>
-<p>A <a class="reference external" href="https://stats.stackexchange.com/questions/257778/sum-to-zero-constraint-in-one-way-anova">good explanation</a> of STZ constraints.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>We can now implement the sum-to-zero (STZ) constraints in PyMC with the <a class="reference external" href="https://www.pymc.io/projects/docs/en/stable/api/distributions/generated/pymc.ZeroSumNormal.html"><code class="docutils literal notranslate"><span class="pre">pm.ZeroSumNormal</span></code> class</a>. Previously, we were doing something similar to the corner constraint approach, below, for STZ constraints.</p>
+</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;../data/simvastatin_data.tsv&quot;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -700,14 +699,13 @@ document.write(`
         2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 4,
         4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5,
         5, 5, 5, 5, 5, 5, 5, 5]),
- {&#39;conc&#39;: Int64Index([1, 2, 3, 4], dtype=&#39;int64&#39;),
-  &#39;time&#39;: Int64Index([1, 2, 3, 4, 5, 6], dtype=&#39;int64&#39;),
+ {&#39;conc&#39;: Index([1, 2, 3, 4], dtype=&#39;int64&#39;),
+  &#39;time&#39;: Index([1, 2, 3, 4, 5, 6], dtype=&#39;int64&#39;),
   &#39;id&#39;: RangeIndex(start=0, stop=96, step=1)})
 </pre></div>
 </div>
 </div>
 </div>
-</section>
 <section id="model-1-with-sum-to-zero-constraints">
 <h2>Model 1 with sum-to-zero constraints<a class="headerlink" href="#model-1-with-sum-to-zero-constraints" title="Permalink to this headline">#</a></h2>
 <div class="cell tag_hide-output docutils container">
@@ -715,7 +713,7 @@ document.write(`
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">differences</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculate differences between levels with names like &quot;alpha[low] - alpha[high]&quot;.</span>
 
-<span class="sd">    var: aesara.tensor.var.TensorVariable</span>
+<span class="sd">    var: pytensor.tensor.var.TensorVariable</span>
 <span class="sd">    index: pandas.Index</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">name</span> <span class="o">=</span> <span class="n">var</span><span class="o">.</span><span class="n">name</span>
@@ -725,29 +723,18 @@ document.write(`
 
 
 <span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">coords</span><span class="o">=</span><span class="n">coords</span><span class="p">)</span> <span class="k">as</span> <span class="n">m</span><span class="p">:</span>
-    <span class="n">apa_data</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Data</span><span class="p">(</span><span class="s2">&quot;apa_data&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">apa</span><span class="p">,</span> <span class="n">mutable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-    <span class="n">time_idx_data</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Data</span><span class="p">(</span><span class="s2">&quot;time_idx_data&quot;</span><span class="p">,</span> <span class="n">time_idx</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="n">mutable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-    <span class="n">conc_idx_data</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Data</span><span class="p">(</span><span class="s2">&quot;conc_idx_data&quot;</span><span class="p">,</span> <span class="n">conc_idx</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="n">mutable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">apa_data</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Data</span><span class="p">(</span><span class="s2">&quot;apa_data&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">apa</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">())</span>
+    <span class="n">time_idx_data</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Data</span><span class="p">(</span><span class="s2">&quot;time_idx_data&quot;</span><span class="p">,</span> <span class="n">time_idx</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="s2">&quot;id&quot;</span><span class="p">)</span>
+    <span class="n">conc_idx_data</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Data</span><span class="p">(</span><span class="s2">&quot;conc_idx_data&quot;</span><span class="p">,</span> <span class="n">conc_idx</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="s2">&quot;id&quot;</span><span class="p">)</span>
 
-    <span class="n">mu0</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;mu0&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">)</span>
-    <span class="n">_alpha</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;_alpha&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="s2">&quot;conc&quot;</span><span class="p">)</span>
-    <span class="n">_beta</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;_beta&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="s2">&quot;time&quot;</span><span class="p">)</span>
-    <span class="n">_alphabeta</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;_alphabeta&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;conc&quot;</span><span class="p">,</span> <span class="s2">&quot;time&quot;</span><span class="p">))</span>
-    <span class="n">tau</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Gamma</span><span class="p">(</span><span class="s2">&quot;tau&quot;</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">)</span>
-    <span class="n">sigma</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;sigma&quot;</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">tau</span><span class="o">**</span><span class="mf">0.5</span><span class="p">)</span>
-
-    <span class="c1"># sum-to-zero constraints</span>
-    <span class="c1"># sets the first element of a dimension to the negative sum of the rest</span>
-    <span class="n">sst_1d_0</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">var</span><span class="p">:</span> <span class="n">st</span><span class="o">.</span><span class="n">set_subtensor</span><span class="p">(</span><span class="n">var</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">-</span><span class="n">var</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
-    <span class="n">sst_2d_0</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">var</span><span class="p">:</span> <span class="n">st</span><span class="o">.</span><span class="n">set_subtensor</span><span class="p">(</span><span class="n">var</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:],</span> <span class="o">-</span><span class="n">var</span><span class="p">[</span><span class="mi">1</span><span class="p">:,</span> <span class="p">:]</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
-    <span class="n">sst_2d_1</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">var</span><span class="p">:</span> <span class="n">st</span><span class="o">.</span><span class="n">set_subtensor</span><span class="p">(</span><span class="n">var</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="o">-</span><span class="n">var</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
-
-    <span class="n">alpha</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;alpha&quot;</span><span class="p">,</span> <span class="n">sst_1d_0</span><span class="p">(</span><span class="n">_alpha</span><span class="p">),</span> <span class="n">dims</span><span class="o">=</span><span class="s2">&quot;conc&quot;</span><span class="p">)</span>
-    <span class="n">beta</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;beta&quot;</span><span class="p">,</span> <span class="n">sst_1d_0</span><span class="p">(</span><span class="n">_beta</span><span class="p">),</span> <span class="n">dims</span><span class="o">=</span><span class="s2">&quot;time&quot;</span><span class="p">)</span>
-    <span class="n">_alphabeta</span> <span class="o">=</span> <span class="n">sst_2d_1</span><span class="p">(</span><span class="n">_alphabeta</span><span class="p">)</span>
-    <span class="n">alphabeta</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span>
-        <span class="s2">&quot;alphabeta&quot;</span><span class="p">,</span> <span class="n">sst_2d_0</span><span class="p">(</span><span class="n">_alphabeta</span><span class="p">),</span> <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;conc&quot;</span><span class="p">,</span> <span class="s2">&quot;time&quot;</span><span class="p">)</span>
+    <span class="n">mu0</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;mu0&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">alpha</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">ZeroSumNormal</span><span class="p">(</span><span class="s2">&quot;alpha&quot;</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="s2">&quot;conc&quot;</span><span class="p">)</span>
+    <span class="n">beta</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">ZeroSumNormal</span><span class="p">(</span><span class="s2">&quot;beta&quot;</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="s2">&quot;time&quot;</span><span class="p">)</span>
+    <span class="n">alphabeta</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">ZeroSumNormal</span><span class="p">(</span>
+        <span class="s2">&quot;alphabeta&quot;</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;conc&quot;</span><span class="p">,</span> <span class="s2">&quot;time&quot;</span><span class="p">),</span> <span class="n">n_zerosum_axes</span><span class="o">=</span><span class="mi">2</span>
     <span class="p">)</span>
+
+    <span class="n">sigma</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Exponential</span><span class="p">(</span><span class="s2">&quot;sigma&quot;</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">)</span>
 
     <span class="n">mu</span> <span class="o">=</span> <span class="p">(</span>
         <span class="n">mu0</span>
@@ -755,9 +742,9 @@ document.write(`
         <span class="o">+</span> <span class="n">beta</span><span class="p">[</span><span class="n">time_idx_data</span><span class="p">]</span>
         <span class="o">+</span> <span class="n">alphabeta</span><span class="p">[</span><span class="n">conc_idx_data</span><span class="p">,</span> <span class="n">time_idx_data</span><span class="p">]</span>
     <span class="p">)</span>
-    <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;apa&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="n">tau</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">apa_data</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="s2">&quot;id&quot;</span><span class="p">)</span>
+    <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;apa&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">apa_data</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="s2">&quot;id&quot;</span><span class="p">)</span>
 
-    <span class="c1"># calculate differences between levels with appropriate names</span>
+    <span class="c1"># calculate differences between levels (except interaction term)</span>
     <span class="n">differences</span><span class="p">(</span><span class="n">alpha</span><span class="p">,</span> <span class="n">coords</span><span class="p">[</span><span class="s2">&quot;conc&quot;</span><span class="p">])</span>
     <span class="n">differences</span><span class="p">(</span><span class="n">beta</span><span class="p">,</span> <span class="n">coords</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">])</span>
 
@@ -771,34 +758,13 @@ document.write(`
 <span class="expanded">Hide code cell output</span>
 </summary>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Auto-assigning NUTS sampler...
-Initializing NUTS using jitter+adapt_diag...
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Initializing NUTS using jitter+adapt_diag...
 Multiprocess sampling (4 chains in 4 jobs)
-NUTS: [mu0, _alpha, _beta, _alphabeta, tau]
+NUTS: [mu0, alpha, beta, alphabeta, sigma]
 </pre></div>
 </div>
-<div class="output text_html">
-<style>
-    /* Turns off some styling */
-    progress {
-        /* gets rid of default border in Firefox and Opera. */
-        border: none;
-        /* Needs to be in here for Safari polyfill so background images work as expected. */
-        background-size: auto;
-    }
-    progress:not([value]), progress:not([value])::-webkit-progress-bar {
-        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
-    }
-    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
-        background: #F44336;
-    }
-</style>
-</div><div class="output text_html">
-    <div>
-      <progress value='12000' class='' max='12000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-      100.00% [12000/12000 00:07&lt;00:00 Sampling 4 chains, 0 divergences]
-    </div>
-    </div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 2_000 draw iterations (4_000 + 8_000 draws total) took 8 seconds.
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "bc7ef773d2574ff7bb6417e94dfcb946", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 2_000 draw iterations (4_000 + 8_000 draws total) took 2 seconds.
 </pre></div>
 </div>
 </div>
@@ -806,7 +772,7 @@ NUTS: [mu0, _alpha, _beta, _alphabeta, tau]
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="s2">&quot;~_&quot;</span><span class="p">,</span> <span class="n">filter_vars</span><span class="o">=</span><span class="s2">&quot;like&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;stats&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -833,6 +799,11 @@ NUTS: [mu0, _alpha, _beta, _alphabeta, tau]
       <th>sd</th>
       <th>hdi_3%</th>
       <th>hdi_97%</th>
+      <th>mcse_mean</th>
+      <th>mcse_sd</th>
+      <th>ess_bulk</th>
+      <th>ess_tail</th>
+      <th>r_hat</th>
     </tr>
   </thead>
   <tbody>
@@ -841,406 +812,684 @@ NUTS: [mu0, _alpha, _beta, _alphabeta, tau]
       <td>0.239</td>
       <td>0.025</td>
       <td>0.192</td>
-      <td>0.286</td>
-    </tr>
-    <tr>
-      <th>tau</th>
-      <td>17.233</td>
-      <td>2.874</td>
-      <td>12.020</td>
-      <td>22.775</td>
-    </tr>
-    <tr>
-      <th>sigma</th>
-      <td>0.243</td>
-      <td>0.021</td>
-      <td>0.206</td>
-      <td>0.283</td>
+      <td>0.287</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>18305.0</td>
+      <td>5959.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>alpha[1]</th>
       <td>0.049</td>
-      <td>0.043</td>
-      <td>-0.033</td>
-      <td>0.130</td>
+      <td>0.044</td>
+      <td>-0.034</td>
+      <td>0.132</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>18019.0</td>
+      <td>6051.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>alpha[2]</th>
-      <td>0.068</td>
-      <td>0.044</td>
-      <td>-0.014</td>
-      <td>0.149</td>
+      <td>0.069</td>
+      <td>0.043</td>
+      <td>-0.016</td>
+      <td>0.147</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>18769.0</td>
+      <td>6314.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>alpha[3]</th>
       <td>-0.075</td>
       <td>0.043</td>
-      <td>-0.153</td>
-      <td>0.008</td>
+      <td>-0.154</td>
+      <td>0.007</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>18429.0</td>
+      <td>5879.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>alpha[4]</th>
-      <td>-0.042</td>
-      <td>0.042</td>
-      <td>-0.121</td>
-      <td>0.037</td>
+      <td>-0.043</td>
+      <td>0.043</td>
+      <td>-0.123</td>
+      <td>0.039</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>17358.0</td>
+      <td>5823.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>beta[1]</th>
       <td>0.046</td>
-      <td>0.055</td>
+      <td>0.057</td>
       <td>-0.058</td>
-      <td>0.149</td>
+      <td>0.156</td>
+      <td>0.000</td>
+      <td>0.001</td>
+      <td>18332.0</td>
+      <td>5680.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>beta[2]</th>
       <td>-0.150</td>
-      <td>0.055</td>
-      <td>-0.258</td>
-      <td>-0.047</td>
+      <td>0.056</td>
+      <td>-0.252</td>
+      <td>-0.041</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>16574.0</td>
+      <td>5740.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>beta[3]</th>
-      <td>-0.019</td>
-      <td>0.055</td>
-      <td>-0.118</td>
-      <td>0.090</td>
+      <td>-0.018</td>
+      <td>0.056</td>
+      <td>-0.124</td>
+      <td>0.087</td>
+      <td>0.000</td>
+      <td>0.001</td>
+      <td>18948.0</td>
+      <td>5824.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>beta[4]</th>
       <td>0.230</td>
-      <td>0.055</td>
-      <td>0.123</td>
-      <td>0.329</td>
+      <td>0.056</td>
+      <td>0.125</td>
+      <td>0.338</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>17769.0</td>
+      <td>5455.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>beta[5]</th>
       <td>-0.022</td>
-      <td>0.056</td>
-      <td>-0.129</td>
-      <td>0.081</td>
+      <td>0.057</td>
+      <td>-0.124</td>
+      <td>0.089</td>
+      <td>0.000</td>
+      <td>0.001</td>
+      <td>18672.0</td>
+      <td>5904.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>beta[6]</th>
       <td>-0.086</td>
-      <td>0.057</td>
-      <td>-0.190</td>
-      <td>0.023</td>
+      <td>0.056</td>
+      <td>-0.193</td>
+      <td>0.019</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>20164.0</td>
+      <td>5787.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>alphabeta[1, 1]</th>
       <td>-0.085</td>
-      <td>0.097</td>
-      <td>-0.267</td>
-      <td>0.099</td>
+      <td>0.095</td>
+      <td>-0.271</td>
+      <td>0.086</td>
+      <td>0.001</td>
+      <td>0.001</td>
+      <td>17619.0</td>
+      <td>6283.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>alphabeta[1, 2]</th>
-      <td>-0.083</td>
+      <td>-0.082</td>
       <td>0.096</td>
-      <td>-0.265</td>
-      <td>0.095</td>
+      <td>-0.264</td>
+      <td>0.099</td>
+      <td>0.001</td>
+      <td>0.001</td>
+      <td>17524.0</td>
+      <td>5155.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>alphabeta[1, 3]</th>
-      <td>-0.210</td>
+      <td>-0.212</td>
       <td>0.098</td>
-      <td>-0.393</td>
-      <td>-0.028</td>
+      <td>-0.394</td>
+      <td>-0.032</td>
+      <td>0.001</td>
+      <td>0.001</td>
+      <td>16744.0</td>
+      <td>5869.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>alphabeta[1, 4]</th>
-      <td>0.501</td>
-      <td>0.095</td>
-      <td>0.316</td>
-      <td>0.673</td>
+      <td>0.503</td>
+      <td>0.099</td>
+      <td>0.310</td>
+      <td>0.687</td>
+      <td>0.001</td>
+      <td>0.001</td>
+      <td>17708.0</td>
+      <td>5780.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>alphabeta[1, 5]</th>
-      <td>-0.019</td>
-      <td>0.097</td>
-      <td>-0.207</td>
-      <td>0.160</td>
+      <td>-0.021</td>
+      <td>0.099</td>
+      <td>-0.204</td>
+      <td>0.171</td>
+      <td>0.001</td>
+      <td>0.001</td>
+      <td>16979.0</td>
+      <td>6020.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>alphabeta[1, 6]</th>
       <td>-0.104</td>
-      <td>0.096</td>
-      <td>-0.276</td>
-      <td>0.081</td>
+      <td>0.097</td>
+      <td>-0.283</td>
+      <td>0.076</td>
+      <td>0.001</td>
+      <td>0.001</td>
+      <td>17375.0</td>
+      <td>5658.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>alphabeta[2, 1]</th>
-      <td>0.150</td>
+      <td>0.149</td>
       <td>0.097</td>
-      <td>-0.027</td>
-      <td>0.338</td>
+      <td>-0.029</td>
+      <td>0.342</td>
+      <td>0.001</td>
+      <td>0.001</td>
+      <td>17368.0</td>
+      <td>5963.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>alphabeta[2, 2]</th>
-      <td>-0.100</td>
-      <td>0.097</td>
-      <td>-0.283</td>
-      <td>0.081</td>
+      <td>-0.101</td>
+      <td>0.096</td>
+      <td>-0.282</td>
+      <td>0.079</td>
+      <td>0.001</td>
+      <td>0.001</td>
+      <td>19586.0</td>
+      <td>6266.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>alphabeta[2, 3]</th>
-      <td>0.354</td>
-      <td>0.097</td>
-      <td>0.173</td>
-      <td>0.535</td>
+      <td>0.355</td>
+      <td>0.099</td>
+      <td>0.175</td>
+      <td>0.550</td>
+      <td>0.001</td>
+      <td>0.001</td>
+      <td>18526.0</td>
+      <td>5746.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>alphabeta[2, 4]</th>
-      <td>-0.176</td>
-      <td>0.095</td>
-      <td>-0.362</td>
-      <td>-0.003</td>
+      <td>-0.177</td>
+      <td>0.098</td>
+      <td>-0.360</td>
+      <td>0.010</td>
+      <td>0.001</td>
+      <td>0.001</td>
+      <td>18864.0</td>
+      <td>5678.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>alphabeta[2, 5]</th>
-      <td>-0.187</td>
-      <td>0.094</td>
+      <td>-0.186</td>
+      <td>0.096</td>
       <td>-0.358</td>
-      <td>-0.006</td>
+      <td>-0.000</td>
+      <td>0.001</td>
+      <td>0.001</td>
+      <td>16503.0</td>
+      <td>6028.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>alphabeta[2, 6]</th>
-      <td>-0.042</td>
-      <td>0.098</td>
-      <td>-0.225</td>
-      <td>0.141</td>
+      <td>-0.041</td>
+      <td>0.097</td>
+      <td>-0.222</td>
+      <td>0.139</td>
+      <td>0.001</td>
+      <td>0.001</td>
+      <td>17823.0</td>
+      <td>5692.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>alphabeta[3, 1]</th>
-      <td>-0.043</td>
-      <td>0.098</td>
-      <td>-0.226</td>
-      <td>0.140</td>
+      <td>-0.044</td>
+      <td>0.097</td>
+      <td>-0.227</td>
+      <td>0.136</td>
+      <td>0.001</td>
+      <td>0.001</td>
+      <td>18540.0</td>
+      <td>6103.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>alphabeta[3, 2]</th>
       <td>0.056</td>
-      <td>0.097</td>
-      <td>-0.119</td>
-      <td>0.241</td>
+      <td>0.098</td>
+      <td>-0.128</td>
+      <td>0.244</td>
+      <td>0.001</td>
+      <td>0.001</td>
+      <td>16536.0</td>
+      <td>5758.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>alphabeta[3, 3]</th>
-      <td>-0.046</td>
-      <td>0.097</td>
-      <td>-0.228</td>
-      <td>0.133</td>
+      <td>-0.045</td>
+      <td>0.098</td>
+      <td>-0.227</td>
+      <td>0.145</td>
+      <td>0.001</td>
+      <td>0.001</td>
+      <td>16056.0</td>
+      <td>4913.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>alphabeta[3, 4]</th>
       <td>-0.138</td>
-      <td>0.096</td>
-      <td>-0.310</td>
-      <td>0.051</td>
+      <td>0.098</td>
+      <td>-0.324</td>
+      <td>0.040</td>
+      <td>0.001</td>
+      <td>0.001</td>
+      <td>17835.0</td>
+      <td>5980.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>alphabeta[3, 5]</th>
       <td>0.158</td>
-      <td>0.094</td>
-      <td>-0.020</td>
-      <td>0.335</td>
+      <td>0.095</td>
+      <td>-0.027</td>
+      <td>0.334</td>
+      <td>0.001</td>
+      <td>0.001</td>
+      <td>14776.0</td>
+      <td>5622.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>alphabeta[3, 6]</th>
-      <td>0.013</td>
-      <td>0.098</td>
-      <td>-0.171</td>
-      <td>0.198</td>
+      <td>0.012</td>
+      <td>0.100</td>
+      <td>-0.169</td>
+      <td>0.206</td>
+      <td>0.001</td>
+      <td>0.001</td>
+      <td>20252.0</td>
+      <td>5877.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>alphabeta[4, 1]</th>
-      <td>-0.022</td>
-      <td>0.095</td>
-      <td>-0.196</td>
-      <td>0.158</td>
+      <td>-0.020</td>
+      <td>0.096</td>
+      <td>-0.193</td>
+      <td>0.165</td>
+      <td>0.001</td>
+      <td>0.001</td>
+      <td>15889.0</td>
+      <td>5898.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>alphabeta[4, 2]</th>
       <td>0.126</td>
-      <td>0.094</td>
-      <td>-0.056</td>
-      <td>0.301</td>
+      <td>0.095</td>
+      <td>-0.045</td>
+      <td>0.314</td>
+      <td>0.001</td>
+      <td>0.001</td>
+      <td>17044.0</td>
+      <td>6308.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>alphabeta[4, 3]</th>
       <td>-0.098</td>
-      <td>0.095</td>
-      <td>-0.283</td>
-      <td>0.076</td>
+      <td>0.099</td>
+      <td>-0.279</td>
+      <td>0.093</td>
+      <td>0.001</td>
+      <td>0.001</td>
+      <td>18391.0</td>
+      <td>6117.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>alphabeta[4, 4]</th>
-      <td>-0.187</td>
-      <td>0.097</td>
-      <td>-0.353</td>
-      <td>0.012</td>
+      <td>-0.188</td>
+      <td>0.098</td>
+      <td>-0.371</td>
+      <td>-0.004</td>
+      <td>0.001</td>
+      <td>0.001</td>
+      <td>16286.0</td>
+      <td>5868.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>alphabeta[4, 5]</th>
       <td>0.048</td>
-      <td>0.095</td>
-      <td>-0.132</td>
-      <td>0.223</td>
+      <td>0.097</td>
+      <td>-0.134</td>
+      <td>0.233</td>
+      <td>0.001</td>
+      <td>0.001</td>
+      <td>16813.0</td>
+      <td>5797.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>alphabeta[4, 6]</th>
       <td>0.133</td>
-      <td>0.095</td>
-      <td>-0.047</td>
-      <td>0.311</td>
+      <td>0.096</td>
+      <td>-0.037</td>
+      <td>0.320</td>
+      <td>0.001</td>
+      <td>0.001</td>
+      <td>17687.0</td>
+      <td>5353.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>sigma</th>
+      <td>0.246</td>
+      <td>0.021</td>
+      <td>0.207</td>
+      <td>0.285</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>7538.0</td>
+      <td>5862.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>alpha[1] - alpha[2]</th>
       <td>-0.019</td>
       <td>0.071</td>
-      <td>-0.156</td>
+      <td>-0.158</td>
       <td>0.112</td>
+      <td>0.001</td>
+      <td>0.001</td>
+      <td>18310.0</td>
+      <td>5675.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>alpha[1] - alpha[3]</th>
-      <td>0.125</td>
-      <td>0.069</td>
-      <td>-0.004</td>
-      <td>0.258</td>
+      <td>0.124</td>
+      <td>0.071</td>
+      <td>-0.006</td>
+      <td>0.260</td>
+      <td>0.001</td>
+      <td>0.000</td>
+      <td>19153.0</td>
+      <td>5915.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>alpha[1] - alpha[4]</th>
       <td>0.092</td>
-      <td>0.069</td>
-      <td>-0.034</td>
-      <td>0.226</td>
+      <td>0.072</td>
+      <td>-0.047</td>
+      <td>0.227</td>
+      <td>0.001</td>
+      <td>0.001</td>
+      <td>16880.0</td>
+      <td>6068.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>alpha[2] - alpha[3]</th>
       <td>0.144</td>
-      <td>0.071</td>
-      <td>0.010</td>
-      <td>0.275</td>
+      <td>0.070</td>
+      <td>0.009</td>
+      <td>0.271</td>
+      <td>0.001</td>
+      <td>0.000</td>
+      <td>17987.0</td>
+      <td>5767.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>alpha[2] - alpha[4]</th>
       <td>0.111</td>
       <td>0.070</td>
-      <td>-0.021</td>
-      <td>0.241</td>
+      <td>-0.016</td>
+      <td>0.246</td>
+      <td>0.001</td>
+      <td>0.000</td>
+      <td>18426.0</td>
+      <td>6321.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>alpha[3] - alpha[4]</th>
-      <td>-0.033</td>
-      <td>0.069</td>
+      <td>-0.032</td>
+      <td>0.070</td>
       <td>-0.164</td>
-      <td>0.098</td>
+      <td>0.101</td>
+      <td>0.001</td>
+      <td>0.001</td>
+      <td>17249.0</td>
+      <td>5848.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>beta[1] - beta[2]</th>
       <td>0.195</td>
-      <td>0.086</td>
-      <td>0.041</td>
-      <td>0.365</td>
+      <td>0.088</td>
+      <td>0.020</td>
+      <td>0.355</td>
+      <td>0.001</td>
+      <td>0.001</td>
+      <td>17465.0</td>
+      <td>5963.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>beta[1] - beta[3]</th>
       <td>0.064</td>
-      <td>0.086</td>
-      <td>-0.100</td>
-      <td>0.224</td>
+      <td>0.087</td>
+      <td>-0.099</td>
+      <td>0.228</td>
+      <td>0.001</td>
+      <td>0.001</td>
+      <td>19128.0</td>
+      <td>6170.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>beta[1] - beta[4]</th>
-      <td>-0.185</td>
-      <td>0.086</td>
-      <td>-0.343</td>
-      <td>-0.019</td>
+      <td>-0.184</td>
+      <td>0.089</td>
+      <td>-0.349</td>
+      <td>-0.012</td>
+      <td>0.001</td>
+      <td>0.001</td>
+      <td>17355.0</td>
+      <td>5482.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>beta[1] - beta[5]</th>
       <td>0.068</td>
-      <td>0.086</td>
-      <td>-0.093</td>
-      <td>0.229</td>
+      <td>0.088</td>
+      <td>-0.097</td>
+      <td>0.232</td>
+      <td>0.001</td>
+      <td>0.001</td>
+      <td>19711.0</td>
+      <td>5602.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>beta[1] - beta[6]</th>
       <td>0.131</td>
       <td>0.087</td>
-      <td>-0.028</td>
-      <td>0.297</td>
+      <td>-0.025</td>
+      <td>0.300</td>
+      <td>0.001</td>
+      <td>0.001</td>
+      <td>19060.0</td>
+      <td>6037.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>beta[2] - beta[3]</th>
-      <td>-0.131</td>
-      <td>0.085</td>
-      <td>-0.292</td>
-      <td>0.027</td>
+      <td>-0.132</td>
+      <td>0.086</td>
+      <td>-0.290</td>
+      <td>0.030</td>
+      <td>0.001</td>
+      <td>0.001</td>
+      <td>18216.0</td>
+      <td>6101.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>beta[2] - beta[4]</th>
-      <td>-0.380</td>
-      <td>0.085</td>
-      <td>-0.542</td>
-      <td>-0.225</td>
+      <td>-0.379</td>
+      <td>0.086</td>
+      <td>-0.544</td>
+      <td>-0.219</td>
+      <td>0.001</td>
+      <td>0.001</td>
+      <td>16551.0</td>
+      <td>5215.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>beta[2] - beta[5]</th>
-      <td>-0.128</td>
-      <td>0.088</td>
-      <td>-0.293</td>
-      <td>0.039</td>
+      <td>-0.127</td>
+      <td>0.087</td>
+      <td>-0.297</td>
+      <td>0.034</td>
+      <td>0.001</td>
+      <td>0.001</td>
+      <td>18423.0</td>
+      <td>6135.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>beta[2] - beta[6]</th>
       <td>-0.064</td>
       <td>0.087</td>
-      <td>-0.227</td>
-      <td>0.099</td>
+      <td>-0.228</td>
+      <td>0.096</td>
+      <td>0.001</td>
+      <td>0.001</td>
+      <td>18243.0</td>
+      <td>5847.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>beta[3] - beta[4]</th>
-      <td>-0.249</td>
-      <td>0.086</td>
-      <td>-0.404</td>
-      <td>-0.088</td>
+      <td>-0.248</td>
+      <td>0.087</td>
+      <td>-0.417</td>
+      <td>-0.089</td>
+      <td>0.001</td>
+      <td>0.001</td>
+      <td>18764.0</td>
+      <td>5755.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>beta[3] - beta[5]</th>
-      <td>0.003</td>
-      <td>0.086</td>
-      <td>-0.160</td>
-      <td>0.158</td>
+      <td>0.004</td>
+      <td>0.088</td>
+      <td>-0.168</td>
+      <td>0.160</td>
+      <td>0.001</td>
+      <td>0.001</td>
+      <td>17994.0</td>
+      <td>5693.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>beta[3] - beta[6]</th>
-      <td>0.067</td>
-      <td>0.088</td>
-      <td>-0.093</td>
-      <td>0.235</td>
+      <td>0.068</td>
+      <td>0.089</td>
+      <td>-0.105</td>
+      <td>0.231</td>
+      <td>0.001</td>
+      <td>0.001</td>
+      <td>19690.0</td>
+      <td>5702.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>beta[4] - beta[5]</th>
       <td>0.252</td>
-      <td>0.086</td>
-      <td>0.081</td>
-      <td>0.406</td>
+      <td>0.089</td>
+      <td>0.091</td>
+      <td>0.420</td>
+      <td>0.001</td>
+      <td>0.001</td>
+      <td>17493.0</td>
+      <td>5808.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>beta[4] - beta[6]</th>
       <td>0.316</td>
-      <td>0.087</td>
-      <td>0.149</td>
-      <td>0.475</td>
+      <td>0.085</td>
+      <td>0.165</td>
+      <td>0.489</td>
+      <td>0.001</td>
+      <td>0.000</td>
+      <td>20280.0</td>
+      <td>5626.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>beta[5] - beta[6]</th>
       <td>0.064</td>
-      <td>0.087</td>
-      <td>-0.099</td>
-      <td>0.228</td>
+      <td>0.088</td>
+      <td>-0.100</td>
+      <td>0.232</td>
+      <td>0.001</td>
+      <td>0.001</td>
+      <td>19623.0</td>
+      <td>6121.0</td>
+      <td>1.0</td>
     </tr>
   </tbody>
 </table>
@@ -1253,10 +1502,10 @@ NUTS: [mu0, _alpha, _beta, _alphabeta, tau]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([&lt;AxesSubplot: title={&#39;center&#39;: &#39;94.0% HDI&#39;}&gt;], dtype=object)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([&lt;Axes: title={&#39;center&#39;: &#39;94.0% HDI&#39;}&gt;], dtype=object)
 </pre></div>
 </div>
-<img alt="../_images/b4427c8eb566c4cf34a9166a208660613d2b7be4d129e88abfe1ae942f70c001.png" src="../_images/b4427c8eb566c4cf34a9166a208660613d2b7be4d129e88abfe1ae942f70c001.png" />
+<img alt="../_images/f3002f9be6bbcd8b86e51a30dd2da3db75e60f66a91e58114d489e486aa97164.png" src="../_images/f3002f9be6bbcd8b86e51a30dd2da3db75e60f66a91e58114d489e486aa97164.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1266,10 +1515,10 @@ NUTS: [mu0, _alpha, _beta, _alphabeta, tau]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([&lt;AxesSubplot: title={&#39;center&#39;: &#39;94.0% HDI&#39;}&gt;], dtype=object)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([&lt;Axes: title={&#39;center&#39;: &#39;94.0% HDI&#39;}&gt;], dtype=object)
 </pre></div>
 </div>
-<img alt="../_images/7de04f21750dcc55fea8d72a291de2bf48ecc1ae24afb0f0441755f129373cf7.png" src="../_images/7de04f21750dcc55fea8d72a291de2bf48ecc1ae24afb0f0441755f129373cf7.png" />
+<img alt="../_images/0c41564626aeaa5783b8750f9a3bcab6a556352bf37cdeeefacdef858e6ede59.png" src="../_images/0c41564626aeaa5783b8750f9a3bcab6a556352bf37cdeeefacdef858e6ede59.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1279,10 +1528,10 @@ NUTS: [mu0, _alpha, _beta, _alphabeta, tau]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([&lt;AxesSubplot: title={&#39;center&#39;: &#39;94.0% HDI&#39;}&gt;], dtype=object)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([&lt;Axes: title={&#39;center&#39;: &#39;94.0% HDI&#39;}&gt;], dtype=object)
 </pre></div>
 </div>
-<img alt="../_images/90c92530d5eb3e1b0714010eccd8120aa61b3af8ff5b17e019a328bab32d330f.png" src="../_images/90c92530d5eb3e1b0714010eccd8120aa61b3af8ff5b17e019a328bab32d330f.png" />
+<img alt="../_images/49aa9eafeb0cb610fb43fc9c7645ac64ac0fe4830f2607ddc8eeed7b9730c927.png" src="../_images/49aa9eafeb0cb610fb43fc9c7645ac64ac0fe4830f2607ddc8eeed7b9730c927.png" />
 </div>
 </div>
 </section>
@@ -1291,9 +1540,9 @@ NUTS: [mu0, _alpha, _beta, _alphabeta, tau]
 <div class="cell tag_hide-output docutils container">
 <div class="cell_input above-output-prompt docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">coords</span><span class="o">=</span><span class="n">coords</span><span class="p">)</span> <span class="k">as</span> <span class="n">m</span><span class="p">:</span>
-    <span class="n">apa_data</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Data</span><span class="p">(</span><span class="s2">&quot;apa_data&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">apa</span><span class="p">,</span> <span class="n">mutable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-    <span class="n">time_idx_data</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Data</span><span class="p">(</span><span class="s2">&quot;time_idx_data&quot;</span><span class="p">,</span> <span class="n">time_idx</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="n">mutable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-    <span class="n">conc_idx_data</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Data</span><span class="p">(</span><span class="s2">&quot;conc_idx_data&quot;</span><span class="p">,</span> <span class="n">conc_idx</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="n">mutable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">apa_data</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Data</span><span class="p">(</span><span class="s2">&quot;apa_data&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">apa</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">())</span>
+    <span class="n">time_idx_data</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Data</span><span class="p">(</span><span class="s2">&quot;time_idx_data&quot;</span><span class="p">,</span> <span class="n">time_idx</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="s2">&quot;id&quot;</span><span class="p">)</span>
+    <span class="n">conc_idx_data</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Data</span><span class="p">(</span><span class="s2">&quot;conc_idx_data&quot;</span><span class="p">,</span> <span class="n">conc_idx</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="s2">&quot;id&quot;</span><span class="p">)</span>
 
     <span class="n">mu0</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;mu0&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">)</span>
     <span class="n">_alpha</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;_alpha&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="s2">&quot;conc&quot;</span><span class="p">)</span>
@@ -1303,9 +1552,7 @@ NUTS: [mu0, _alpha, _beta, _alphabeta, tau]
     <span class="n">sigma</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;sigma&quot;</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">tau</span><span class="o">**</span><span class="mf">0.5</span><span class="p">)</span>
 
     <span class="c1"># corner constraints: sets the first element of a dimension to zero</span>
-    <span class="n">alpha</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span>
-        <span class="s2">&quot;alpha&quot;</span><span class="p">,</span> <span class="n">st</span><span class="o">.</span><span class="n">set_subtensor</span><span class="p">(</span><span class="n">_alpha</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">0</span><span class="p">),</span> <span class="n">dims</span><span class="o">=</span><span class="s2">&quot;conc&quot;</span>
-    <span class="p">)</span>
+    <span class="n">alpha</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;alpha&quot;</span><span class="p">,</span> <span class="n">st</span><span class="o">.</span><span class="n">set_subtensor</span><span class="p">(</span><span class="n">_alpha</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">0</span><span class="p">),</span> <span class="n">dims</span><span class="o">=</span><span class="s2">&quot;conc&quot;</span><span class="p">)</span>
     <span class="n">beta</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;beta&quot;</span><span class="p">,</span> <span class="n">st</span><span class="o">.</span><span class="n">set_subtensor</span><span class="p">(</span><span class="n">_beta</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">0</span><span class="p">),</span> <span class="n">dims</span><span class="o">=</span><span class="s2">&quot;time&quot;</span><span class="p">)</span>
     <span class="n">_alphabeta</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">set_subtensor</span><span class="p">(</span><span class="n">_alphabeta</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="mi">0</span><span class="p">)</span>
     <span class="n">alphabeta</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span>
@@ -1335,34 +1582,13 @@ NUTS: [mu0, _alpha, _beta, _alphabeta, tau]
 <span class="expanded">Hide code cell output</span>
 </summary>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Auto-assigning NUTS sampler...
-Initializing NUTS using jitter+adapt_diag...
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Initializing NUTS using jitter+adapt_diag...
 Multiprocess sampling (4 chains in 4 jobs)
 NUTS: [mu0, _alpha, _beta, _alphabeta, tau]
 </pre></div>
 </div>
-<div class="output text_html">
-<style>
-    /* Turns off some styling */
-    progress {
-        /* gets rid of default border in Firefox and Opera. */
-        border: none;
-        /* Needs to be in here for Safari polyfill so background images work as expected. */
-        background-size: auto;
-    }
-    progress:not([value]), progress:not([value])::-webkit-progress-bar {
-        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
-    }
-    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
-        background: #F44336;
-    }
-</style>
-</div><div class="output text_html">
-    <div>
-      <progress value='12000' class='' max='12000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-      100.00% [12000/12000 00:10&lt;00:00 Sampling 4 chains, 0 divergences]
-    </div>
-    </div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 2_000 draw iterations (4_000 + 8_000 draws total) took 10 seconds.
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "34612a25289b4c31a6b90a67529a67bd", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 2_000 draw iterations (4_000 + 8_000 draws total) took 7 seconds.
 </pre></div>
 </div>
 </div>
@@ -1402,23 +1628,23 @@ NUTS: [mu0, _alpha, _beta, _alphabeta, tau]
   <tbody>
     <tr>
       <th>mu0</th>
-      <td>0.247</td>
-      <td>0.124</td>
-      <td>0.007</td>
-      <td>0.469</td>
+      <td>0.249</td>
+      <td>0.122</td>
+      <td>0.017</td>
+      <td>0.475</td>
     </tr>
     <tr>
       <th>tau</th>
-      <td>17.120</td>
-      <td>2.884</td>
-      <td>11.492</td>
-      <td>22.201</td>
+      <td>17.175</td>
+      <td>2.873</td>
+      <td>12.063</td>
+      <td>22.678</td>
     </tr>
     <tr>
       <th>sigma</th>
       <td>0.244</td>
       <td>0.021</td>
-      <td>0.206</td>
+      <td>0.207</td>
       <td>0.282</td>
     </tr>
     <tr>
@@ -1430,24 +1656,24 @@ NUTS: [mu0, _alpha, _beta, _alphabeta, tau]
     </tr>
     <tr>
       <th>alpha[2]</th>
-      <td>0.257</td>
-      <td>0.176</td>
-      <td>-0.086</td>
-      <td>0.573</td>
+      <td>0.256</td>
+      <td>0.172</td>
+      <td>-0.084</td>
+      <td>0.567</td>
     </tr>
     <tr>
       <th>alpha[3]</th>
-      <td>-0.082</td>
-      <td>0.173</td>
-      <td>-0.400</td>
-      <td>0.243</td>
+      <td>-0.085</td>
+      <td>0.172</td>
+      <td>-0.416</td>
+      <td>0.231</td>
     </tr>
     <tr>
       <th>alpha[4]</th>
       <td>-0.025</td>
-      <td>0.176</td>
-      <td>-0.355</td>
-      <td>0.302</td>
+      <td>0.172</td>
+      <td>-0.354</td>
+      <td>0.287</td>
     </tr>
     <tr>
       <th>beta[1]</th>
@@ -1458,38 +1684,38 @@ NUTS: [mu0, _alpha, _beta, _alphabeta, tau]
     </tr>
     <tr>
       <th>beta[2]</th>
-      <td>-0.191</td>
-      <td>0.174</td>
-      <td>-0.511</td>
-      <td>0.140</td>
+      <td>-0.193</td>
+      <td>0.172</td>
+      <td>-0.527</td>
+      <td>0.121</td>
     </tr>
     <tr>
       <th>beta[3]</th>
-      <td>-0.186</td>
-      <td>0.174</td>
-      <td>-0.513</td>
-      <td>0.145</td>
+      <td>-0.189</td>
+      <td>0.172</td>
+      <td>-0.504</td>
+      <td>0.139</td>
     </tr>
     <tr>
       <th>beta[4]</th>
-      <td>0.771</td>
-      <td>0.175</td>
-      <td>0.445</td>
-      <td>1.100</td>
+      <td>0.770</td>
+      <td>0.172</td>
+      <td>0.450</td>
+      <td>1.095</td>
     </tr>
     <tr>
       <th>beta[5]</th>
       <td>-0.001</td>
       <td>0.175</td>
-      <td>-0.347</td>
-      <td>0.309</td>
+      <td>-0.326</td>
+      <td>0.328</td>
     </tr>
     <tr>
       <th>beta[6]</th>
-      <td>-0.146</td>
-      <td>0.177</td>
+      <td>-0.148</td>
+      <td>0.172</td>
       <td>-0.472</td>
-      <td>0.195</td>
+      <td>0.173</td>
     </tr>
     <tr>
       <th>alphabeta[1, 1]</th>
@@ -1542,38 +1768,38 @@ NUTS: [mu0, _alpha, _beta, _alphabeta, tau]
     </tr>
     <tr>
       <th>alphabeta[2, 2]</th>
-      <td>-0.256</td>
-      <td>0.246</td>
-      <td>-0.708</td>
-      <td>0.212</td>
+      <td>-0.254</td>
+      <td>0.245</td>
+      <td>-0.714</td>
+      <td>0.202</td>
     </tr>
     <tr>
       <th>alphabeta[2, 3]</th>
-      <td>0.324</td>
-      <td>0.248</td>
-      <td>-0.137</td>
-      <td>0.787</td>
+      <td>0.330</td>
+      <td>0.243</td>
+      <td>-0.115</td>
+      <td>0.803</td>
     </tr>
     <tr>
       <th>alphabeta[2, 4]</th>
-      <td>-0.912</td>
-      <td>0.246</td>
-      <td>-1.384</td>
-      <td>-0.458</td>
+      <td>-0.913</td>
+      <td>0.249</td>
+      <td>-1.378</td>
+      <td>-0.443</td>
     </tr>
     <tr>
       <th>alphabeta[2, 5]</th>
-      <td>-0.406</td>
-      <td>0.251</td>
-      <td>-0.880</td>
-      <td>0.057</td>
+      <td>-0.404</td>
+      <td>0.248</td>
+      <td>-0.885</td>
+      <td>0.046</td>
     </tr>
     <tr>
       <th>alphabeta[2, 6]</th>
-      <td>-0.180</td>
-      <td>0.250</td>
-      <td>-0.656</td>
-      <td>0.287</td>
+      <td>-0.176</td>
+      <td>0.245</td>
+      <td>-0.636</td>
+      <td>0.285</td>
     </tr>
     <tr>
       <th>alphabeta[3, 1]</th>
@@ -1584,38 +1810,38 @@ NUTS: [mu0, _alpha, _beta, _alphabeta, tau]
     </tr>
     <tr>
       <th>alphabeta[3, 2]</th>
-      <td>0.096</td>
-      <td>0.246</td>
-      <td>-0.370</td>
-      <td>0.552</td>
+      <td>0.099</td>
+      <td>0.243</td>
+      <td>-0.360</td>
+      <td>0.551</td>
     </tr>
     <tr>
       <th>alphabeta[3, 3]</th>
-      <td>0.120</td>
-      <td>0.244</td>
-      <td>-0.334</td>
-      <td>0.583</td>
+      <td>0.126</td>
+      <td>0.247</td>
+      <td>-0.345</td>
+      <td>0.573</td>
     </tr>
     <tr>
       <th>alphabeta[3, 4]</th>
-      <td>-0.682</td>
-      <td>0.248</td>
-      <td>-1.140</td>
-      <td>-0.199</td>
+      <td>-0.678</td>
+      <td>0.244</td>
+      <td>-1.163</td>
+      <td>-0.247</td>
     </tr>
     <tr>
       <th>alphabeta[3, 5]</th>
-      <td>0.138</td>
-      <td>0.245</td>
-      <td>-0.335</td>
-      <td>0.586</td>
+      <td>0.137</td>
+      <td>0.246</td>
+      <td>-0.320</td>
+      <td>0.603</td>
     </tr>
     <tr>
       <th>alphabeta[3, 6]</th>
-      <td>0.069</td>
-      <td>0.246</td>
-      <td>-0.395</td>
-      <td>0.527</td>
+      <td>0.074</td>
+      <td>0.243</td>
+      <td>-0.389</td>
+      <td>0.515</td>
     </tr>
     <tr>
       <th>alphabeta[4, 1]</th>
@@ -1626,185 +1852,185 @@ NUTS: [mu0, _alpha, _beta, _alphabeta, tau]
     </tr>
     <tr>
       <th>alphabeta[4, 2]</th>
-      <td>0.141</td>
-      <td>0.249</td>
-      <td>-0.324</td>
-      <td>0.603</td>
+      <td>0.143</td>
+      <td>0.243</td>
+      <td>-0.325</td>
+      <td>0.586</td>
     </tr>
     <tr>
       <th>alphabeta[4, 3]</th>
-      <td>0.045</td>
-      <td>0.247</td>
-      <td>-0.428</td>
-      <td>0.502</td>
+      <td>0.047</td>
+      <td>0.241</td>
+      <td>-0.399</td>
+      <td>0.506</td>
     </tr>
     <tr>
       <th>alphabeta[4, 4]</th>
-      <td>-0.753</td>
-      <td>0.250</td>
-      <td>-1.230</td>
-      <td>-0.296</td>
+      <td>-0.756</td>
+      <td>0.242</td>
+      <td>-1.205</td>
+      <td>-0.308</td>
     </tr>
     <tr>
       <th>alphabeta[4, 5]</th>
-      <td>-0.002</td>
-      <td>0.249</td>
-      <td>-0.473</td>
-      <td>0.449</td>
+      <td>0.000</td>
+      <td>0.247</td>
+      <td>-0.460</td>
+      <td>0.452</td>
     </tr>
     <tr>
       <th>alphabeta[4, 6]</th>
-      <td>0.166</td>
-      <td>0.248</td>
-      <td>-0.283</td>
-      <td>0.639</td>
+      <td>0.168</td>
+      <td>0.242</td>
+      <td>-0.294</td>
+      <td>0.615</td>
     </tr>
     <tr>
       <th>alpha[1] - alpha[2]</th>
-      <td>-0.257</td>
-      <td>0.176</td>
-      <td>-0.573</td>
-      <td>0.086</td>
+      <td>-0.256</td>
+      <td>0.172</td>
+      <td>-0.567</td>
+      <td>0.084</td>
     </tr>
     <tr>
       <th>alpha[1] - alpha[3]</th>
-      <td>0.082</td>
-      <td>0.173</td>
-      <td>-0.243</td>
-      <td>0.400</td>
+      <td>0.085</td>
+      <td>0.172</td>
+      <td>-0.231</td>
+      <td>0.416</td>
     </tr>
     <tr>
       <th>alpha[1] - alpha[4]</th>
       <td>0.025</td>
-      <td>0.176</td>
-      <td>-0.302</td>
-      <td>0.355</td>
+      <td>0.172</td>
+      <td>-0.287</td>
+      <td>0.354</td>
     </tr>
     <tr>
       <th>alpha[2] - alpha[3]</th>
-      <td>0.338</td>
-      <td>0.176</td>
-      <td>0.013</td>
-      <td>0.672</td>
+      <td>0.340</td>
+      <td>0.172</td>
+      <td>0.031</td>
+      <td>0.677</td>
     </tr>
     <tr>
       <th>alpha[2] - alpha[4]</th>
-      <td>0.282</td>
-      <td>0.175</td>
-      <td>-0.041</td>
-      <td>0.619</td>
+      <td>0.280</td>
+      <td>0.171</td>
+      <td>-0.057</td>
+      <td>0.585</td>
     </tr>
     <tr>
       <th>alpha[3] - alpha[4]</th>
-      <td>-0.057</td>
-      <td>0.175</td>
-      <td>-0.378</td>
-      <td>0.276</td>
+      <td>-0.060</td>
+      <td>0.173</td>
+      <td>-0.382</td>
+      <td>0.269</td>
     </tr>
     <tr>
       <th>beta[1] - beta[2]</th>
-      <td>0.191</td>
-      <td>0.174</td>
-      <td>-0.140</td>
-      <td>0.511</td>
+      <td>0.193</td>
+      <td>0.172</td>
+      <td>-0.121</td>
+      <td>0.527</td>
     </tr>
     <tr>
       <th>beta[1] - beta[3]</th>
-      <td>0.186</td>
-      <td>0.174</td>
-      <td>-0.145</td>
-      <td>0.513</td>
+      <td>0.189</td>
+      <td>0.172</td>
+      <td>-0.139</td>
+      <td>0.504</td>
     </tr>
     <tr>
       <th>beta[1] - beta[4]</th>
-      <td>-0.771</td>
-      <td>0.175</td>
-      <td>-1.100</td>
-      <td>-0.445</td>
+      <td>-0.770</td>
+      <td>0.172</td>
+      <td>-1.095</td>
+      <td>-0.450</td>
     </tr>
     <tr>
       <th>beta[1] - beta[5]</th>
       <td>0.001</td>
       <td>0.175</td>
-      <td>-0.309</td>
-      <td>0.347</td>
+      <td>-0.328</td>
+      <td>0.326</td>
     </tr>
     <tr>
       <th>beta[1] - beta[6]</th>
-      <td>0.146</td>
-      <td>0.177</td>
-      <td>-0.195</td>
+      <td>0.148</td>
+      <td>0.172</td>
+      <td>-0.173</td>
       <td>0.472</td>
     </tr>
     <tr>
       <th>beta[2] - beta[3]</th>
-      <td>-0.005</td>
-      <td>0.176</td>
-      <td>-0.334</td>
-      <td>0.323</td>
+      <td>-0.003</td>
+      <td>0.171</td>
+      <td>-0.310</td>
+      <td>0.331</td>
     </tr>
     <tr>
       <th>beta[2] - beta[4]</th>
-      <td>-0.962</td>
-      <td>0.177</td>
-      <td>-1.297</td>
-      <td>-0.637</td>
+      <td>-0.963</td>
+      <td>0.172</td>
+      <td>-1.291</td>
+      <td>-0.641</td>
     </tr>
     <tr>
       <th>beta[2] - beta[5]</th>
-      <td>-0.190</td>
-      <td>0.175</td>
-      <td>-0.526</td>
-      <td>0.127</td>
+      <td>-0.192</td>
+      <td>0.174</td>
+      <td>-0.519</td>
+      <td>0.135</td>
     </tr>
     <tr>
       <th>beta[2] - beta[6]</th>
       <td>-0.045</td>
-      <td>0.176</td>
-      <td>-0.360</td>
-      <td>0.308</td>
+      <td>0.173</td>
+      <td>-0.364</td>
+      <td>0.293</td>
     </tr>
     <tr>
       <th>beta[3] - beta[4]</th>
-      <td>-0.956</td>
-      <td>0.173</td>
-      <td>-1.296</td>
-      <td>-0.645</td>
+      <td>-0.960</td>
+      <td>0.174</td>
+      <td>-1.276</td>
+      <td>-0.616</td>
     </tr>
     <tr>
       <th>beta[3] - beta[5]</th>
-      <td>-0.185</td>
-      <td>0.172</td>
-      <td>-0.515</td>
-      <td>0.126</td>
+      <td>-0.188</td>
+      <td>0.170</td>
+      <td>-0.510</td>
+      <td>0.127</td>
     </tr>
     <tr>
       <th>beta[3] - beta[6]</th>
-      <td>-0.040</td>
-      <td>0.173</td>
-      <td>-0.363</td>
-      <td>0.285</td>
+      <td>-0.042</td>
+      <td>0.171</td>
+      <td>-0.374</td>
+      <td>0.268</td>
     </tr>
     <tr>
       <th>beta[4] - beta[5]</th>
       <td>0.771</td>
-      <td>0.175</td>
-      <td>0.458</td>
-      <td>1.103</td>
+      <td>0.174</td>
+      <td>0.437</td>
+      <td>1.091</td>
     </tr>
     <tr>
       <th>beta[4] - beta[6]</th>
-      <td>0.916</td>
-      <td>0.177</td>
-      <td>0.600</td>
-      <td>1.264</td>
+      <td>0.918</td>
+      <td>0.173</td>
+      <td>0.576</td>
+      <td>1.232</td>
     </tr>
     <tr>
       <th>beta[5] - beta[6]</th>
-      <td>0.145</td>
-      <td>0.176</td>
-      <td>-0.184</td>
-      <td>0.474</td>
+      <td>0.147</td>
+      <td>0.175</td>
+      <td>-0.172</td>
+      <td>0.483</td>
     </tr>
   </tbody>
 </table>
@@ -1818,20 +2044,20 @@ NUTS: [mu0, _alpha, _beta, _alphabeta, tau]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Wed Mar 22 2023
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Sat Mar 08 2025
 
 Python implementation: CPython
-Python version       : 3.11.0
-IPython version      : 8.9.0
+Python version       : 3.12.7
+IPython version      : 8.29.0
 
-aesara: 2.8.10
-aeppl : 0.1.1
+aesara: not installed
+aeppl : not installed
 
-numpy   : 1.24.2
-pandas  : 1.5.3
-pytensor: 2.10.1
-arviz   : 0.14.0
-pymc    : 5.1.2
+pytensor: 2.26.4
+arviz   : 0.20.0
+numpy   : 1.26.4
+pymc    : 5.19.1
+pandas  : 2.2.3
 </pre></div>
 </div>
 </div>
@@ -1906,7 +2132,6 @@ pymc    : 5.1.2
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notes">Notes:</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model-1-with-sum-to-zero-constraints">Model 1 with sum-to-zero constraints</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model-2-with-corner-constraints">Model 2 with corner constraints</a></li>
 </ul>
