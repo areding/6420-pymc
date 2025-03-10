@@ -720,7 +720,7 @@ document.write(`
     <span class="n">mu</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">X_data</span><span class="p">,</span> <span class="n">beta</span><span class="p">)</span>
 
     <span class="c1"># likelihood</span>
-    <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;taste_score&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">y_data</span><span class="p">)</span>
+    <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;taste_score&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">y_data</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="n">X_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 
     <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">5000</span><span class="p">,</span> <span class="n">target_accept</span><span class="o">=</span><span class="mf">0.95</span><span class="p">)</span>
     <span class="n">pm</span><span class="o">.</span><span class="n">sample_posterior_predictive</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">extend_inferencedata</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -733,12 +733,12 @@ Multiprocess sampling (4 chains in 4 jobs)
 NUTS: [beta, tau]
 </pre></div>
 </div>
-<script type="application/vnd.jupyter.widget-view+json">{"model_id": "4d92b0bea79344d18b2b6eedd10035f7", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 5_000 draw iterations (4_000 + 20_000 draws total) took 14 seconds.
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "e899ef41c07d453795da3dddaec5b74e", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 5_000 draw iterations (4_000 + 20_000 draws total) took 12 seconds.
 Sampling: [taste_score]
 </pre></div>
 </div>
-<script type="application/vnd.jupyter.widget-view+json">{"model_id": "5048347eb69c4210b0ce29f6d9333d9b", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "3bb45d508dc74fe0aaa005b7eb196bd7", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
 </div></div>
 </div>
 <div class="cell docutils container">
@@ -780,50 +780,50 @@ Sampling: [taste_score]
   <tbody>
     <tr>
       <th>beta[0]</th>
-      <td>-28.984</td>
-      <td>20.049</td>
-      <td>-67.559</td>
-      <td>10.973</td>
-      <td>0.219</td>
-      <td>0.158</td>
-      <td>8376.0</td>
-      <td>9575.0</td>
+      <td>-29.098</td>
+      <td>20.297</td>
+      <td>-67.733</td>
+      <td>12.394</td>
+      <td>0.235</td>
+      <td>0.166</td>
+      <td>7438.0</td>
+      <td>9329.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>beta[1]</th>
       <td>0.367</td>
-      <td>4.547</td>
-      <td>-8.515</td>
-      <td>9.302</td>
-      <td>0.052</td>
-      <td>0.038</td>
-      <td>7653.0</td>
-      <td>8675.0</td>
+      <td>4.605</td>
+      <td>-8.522</td>
+      <td>9.589</td>
+      <td>0.055</td>
+      <td>0.039</td>
+      <td>7017.0</td>
+      <td>8133.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>beta[2]</th>
-      <td>3.933</td>
-      <td>1.283</td>
-      <td>1.483</td>
-      <td>6.509</td>
-      <td>0.013</td>
+      <td>3.895</td>
+      <td>1.304</td>
+      <td>1.324</td>
+      <td>6.453</td>
+      <td>0.014</td>
       <td>0.010</td>
-      <td>9175.0</td>
-      <td>10667.0</td>
+      <td>9139.0</td>
+      <td>10809.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>beta[3]</th>
-      <td>19.493</td>
-      <td>8.988</td>
-      <td>1.606</td>
-      <td>37.327</td>
-      <td>0.093</td>
-      <td>0.066</td>
-      <td>9353.0</td>
-      <td>9327.0</td>
+      <td>19.721</td>
+      <td>9.009</td>
+      <td>1.531</td>
+      <td>37.027</td>
+      <td>0.091</td>
+      <td>0.065</td>
+      <td>9940.0</td>
+      <td>11038.0</td>
       <td>1.0</td>
     </tr>
     <tr>
@@ -834,20 +834,20 @@ Sampling: [taste_score]
       <td>0.015</td>
       <td>0.000</td>
       <td>0.000</td>
-      <td>10943.0</td>
-      <td>11751.0</td>
+      <td>10938.0</td>
+      <td>10771.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>sigma</th>
-      <td>10.418</td>
-      <td>1.483</td>
-      <td>7.753</td>
-      <td>13.379</td>
-      <td>0.014</td>
-      <td>0.010</td>
-      <td>10943.0</td>
-      <td>11751.0</td>
+      <td>10.437</td>
+      <td>1.512</td>
+      <td>7.800</td>
+      <td>13.503</td>
+      <td>0.015</td>
+      <td>0.011</td>
+      <td>10938.0</td>
+      <td>10771.0</td>
       <td>1.0</td>
     </tr>
   </tbody>
@@ -864,8 +864,8 @@ Sampling: [taste_score]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>r2        0.575752
-r2_std    0.077272
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>r2        0.576221
+r2_std    0.076446
 dtype: float64
 </pre></div>
 </div>
@@ -1024,7 +1024,7 @@ Multiprocess sampling (4 chains in 4 jobs)
 NUTS: [tau_nonsmokers, mu_nonsmokers, tau_smokers, mu_smokers]
 </pre></div>
 </div>
-<script type="application/vnd.jupyter.widget-view+json">{"model_id": "ab4c9621279e467f8c97f8143c61f439", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "7efa733331ea420192410c1a94835a28", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
 </div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 5_000 draw iterations (4_000 + 20_000 draws total) took 2 seconds.
 </pre></div>
 </div>
@@ -1071,73 +1071,73 @@ NUTS: [tau_nonsmokers, mu_nonsmokers, tau_smokers, mu_smokers]
     <tr>
       <th>mu_nonsmokers</th>
       <td>0.912</td>
-      <td>0.044</td>
-      <td>0.823</td>
-      <td>0.997</td>
+      <td>0.045</td>
+      <td>0.820</td>
+      <td>1.000</td>
       <td>0.000</td>
       <td>0.000</td>
-      <td>15039.0</td>
-      <td>12858.0</td>
+      <td>15233.0</td>
+      <td>12039.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>mu_smokers</th>
-      <td>0.977</td>
-      <td>0.164</td>
-      <td>0.657</td>
-      <td>1.299</td>
+      <td>0.975</td>
+      <td>0.163</td>
+      <td>0.643</td>
+      <td>1.293</td>
       <td>0.001</td>
       <td>0.001</td>
-      <td>13926.0</td>
-      <td>10057.0</td>
+      <td>14256.0</td>
+      <td>10128.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>tau_nonsmokers</th>
-      <td>22.555</td>
-      <td>6.605</td>
-      <td>10.577</td>
-      <td>35.648</td>
-      <td>0.049</td>
-      <td>0.035</td>
-      <td>16900.0</td>
-      <td>12040.0</td>
+      <td>22.570</td>
+      <td>6.596</td>
+      <td>10.520</td>
+      <td>35.683</td>
+      <td>0.053</td>
+      <td>0.038</td>
+      <td>14810.0</td>
+      <td>12597.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>tau_smokers</th>
-      <td>6.508</td>
-      <td>3.468</td>
-      <td>0.985</td>
-      <td>13.391</td>
-      <td>0.027</td>
-      <td>0.019</td>
-      <td>14619.0</td>
-      <td>12003.0</td>
+      <td>6.521</td>
+      <td>3.530</td>
+      <td>0.761</td>
+      <td>13.378</td>
+      <td>0.029</td>
+      <td>0.021</td>
+      <td>13420.0</td>
+      <td>11155.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>test_mu</th>
-      <td>0.663</td>
-      <td>0.473</td>
+      <td>0.665</td>
+      <td>0.472</td>
       <td>0.000</td>
       <td>1.000</td>
       <td>0.004</td>
       <td>0.003</td>
-      <td>16426.0</td>
-      <td>16426.0</td>
+      <td>16922.0</td>
+      <td>16922.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>prec_ratio</th>
-      <td>4.860</td>
-      <td>4.387</td>
-      <td>0.658</td>
-      <td>12.068</td>
-      <td>0.041</td>
-      <td>0.029</td>
-      <td>14560.0</td>
-      <td>12394.0</td>
+      <td>4.896</td>
+      <td>4.343</td>
+      <td>0.652</td>
+      <td>12.053</td>
+      <td>0.043</td>
+      <td>0.031</td>
+      <td>13700.0</td>
+      <td>11313.0</td>
       <td>1.0</td>
     </tr>
   </tbody>
@@ -1152,7 +1152,7 @@ NUTS: [tau_nonsmokers, mu_nonsmokers, tau_smokers, mu_smokers]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Sat Mar 08 2025
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Sun Mar 09 2025
 
 Python implementation: CPython
 Python version       : 3.12.7
@@ -1160,10 +1160,10 @@ IPython version      : 8.29.0
 
 pytensor: 2.26.4
 
-arviz : 0.20.0
-pandas: 2.2.3
-pymc  : 5.19.1
 numpy : 1.26.4
+arviz : 0.20.0
+pymc  : 5.19.1
+pandas: 2.2.3
 </pre></div>
 </div>
 </div>

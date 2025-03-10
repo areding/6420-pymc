@@ -718,7 +718,7 @@ document.write(`
     <span class="n">mu</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">X_data</span><span class="p">,</span> <span class="n">beta</span><span class="p">)</span>
 
     <span class="c1"># likelihood</span>
-    <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;taste_score&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">y_data</span><span class="p">)</span>
+    <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;taste_score&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">y_data</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="n">X_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 
     <span class="c1"># start sampling</span>
     <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">5000</span><span class="p">,</span> <span class="n">target_accept</span><span class="o">=</span><span class="mf">0.95</span><span class="p">)</span>
@@ -732,18 +732,17 @@ document.write(`
 <span class="expanded">Hide code cell output</span>
 </summary>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Auto-assigning NUTS sampler...
-Initializing NUTS using jitter+adapt_diag...
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Initializing NUTS using jitter+adapt_diag...
 Multiprocess sampling (4 chains in 4 jobs)
 NUTS: [beta, tau]
 </pre></div>
 </div>
-<script type="application/vnd.jupyter.widget-view+json">{"model_id": "efe8dd9503f64ae5b0445a47c4e412b4", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 5_000 draw iterations (4_000 + 20_000 draws total) took 22 seconds.
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "402aae3866454fb58f2627b680fbe415", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 5_000 draw iterations (4_000 + 20_000 draws total) took 12 seconds.
 Sampling: [taste_score]
 </pre></div>
 </div>
-<script type="application/vnd.jupyter.widget-view+json">{"model_id": "9096cecd6462483eb26e47b35c4745dc", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "39bb9d321de545259b4f3a6a16d65f04", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
 </div></div>
 </details>
 </div>
@@ -786,50 +785,50 @@ Sampling: [taste_score]
   <tbody>
     <tr>
       <th>beta[0]</th>
-      <td>-28.574</td>
-      <td>20.332</td>
-      <td>-67.694</td>
-      <td>11.618</td>
-      <td>0.236</td>
-      <td>0.167</td>
-      <td>7415.0</td>
-      <td>9686.0</td>
+      <td>-28.978</td>
+      <td>21.005</td>
+      <td>-68.730</td>
+      <td>14.372</td>
+      <td>0.234</td>
+      <td>0.166</td>
+      <td>8043.0</td>
+      <td>9468.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>beta[1]</th>
-      <td>0.251</td>
-      <td>4.608</td>
-      <td>-8.735</td>
-      <td>9.307</td>
+      <td>0.347</td>
+      <td>4.758</td>
+      <td>-9.408</td>
+      <td>9.370</td>
       <td>0.055</td>
-      <td>0.039</td>
-      <td>6986.0</td>
-      <td>8855.0</td>
+      <td>0.040</td>
+      <td>7613.0</td>
+      <td>9108.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>beta[2]</th>
-      <td>3.936</td>
-      <td>1.302</td>
-      <td>1.341</td>
-      <td>6.459</td>
+      <td>3.915</td>
+      <td>1.321</td>
+      <td>1.359</td>
+      <td>6.570</td>
       <td>0.014</td>
       <td>0.010</td>
-      <td>8207.0</td>
-      <td>8851.0</td>
+      <td>9099.0</td>
+      <td>10491.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>beta[3]</th>
-      <td>19.645</td>
-      <td>8.873</td>
-      <td>1.844</td>
-      <td>37.125</td>
-      <td>0.091</td>
-      <td>0.064</td>
-      <td>9620.0</td>
-      <td>10322.0</td>
+      <td>19.644</td>
+      <td>9.006</td>
+      <td>1.539</td>
+      <td>37.053</td>
+      <td>0.089</td>
+      <td>0.065</td>
+      <td>10208.0</td>
+      <td>10434.0</td>
       <td>1.0</td>
     </tr>
     <tr>
@@ -840,20 +839,20 @@ Sampling: [taste_score]
       <td>0.015</td>
       <td>0.000</td>
       <td>0.000</td>
-      <td>10541.0</td>
-      <td>10135.0</td>
+      <td>10815.0</td>
+      <td>10486.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>sigma</th>
-      <td>10.433</td>
-      <td>1.514</td>
-      <td>7.614</td>
-      <td>13.377</td>
+      <td>10.484</td>
+      <td>1.540</td>
+      <td>7.704</td>
+      <td>13.522</td>
       <td>0.015</td>
       <td>0.011</td>
-      <td>10541.0</td>
-      <td>10135.0</td>
+      <td>10815.0</td>
+      <td>10486.0</td>
       <td>1.0</td>
     </tr>
   </tbody>
@@ -870,8 +869,8 @@ Sampling: [taste_score]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>r2        0.577258
-r2_std    0.075810
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>r2        0.576145
+r2_std    0.076283
 dtype: float64
 </pre></div>
 </div>
@@ -965,31 +964,63 @@ dtype: float64
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling: [taste_score]
 </pre></div>
 </div>
-<script type="application/vnd.jupyter.widget-view+json">{"model_id": "775132d6abcf431089c8ed1a08944021", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "1936eb637577456dbb5e92cab2ec8def", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
 </div></div>
 </details>
 </div>
 <p>The default behavior now is to give one prediction per y-value. The professor often asks for a single prediction based on the new data; the equivalent here would be to take the mean of the predicted values.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">ppc</span><span class="o">.</span><span class="n">predictions</span><span class="p">,</span> <span class="n">hdi_prob</span><span class="o">=</span><span class="mf">0.95</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">ppc</span><span class="o">.</span><span class="n">predictions</span><span class="p">,</span> <span class="n">hdi_prob</span><span class="o">=</span><span class="mf">0.95</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>mean            30.105300
-sd              11.192933
-hdi_2.5%         8.161233
-hdi_97.5%       52.277533
-mcse_mean        0.085700
-mcse_sd          0.060667
-ess_bulk     17107.966667
-ess_tail     18409.700000
-r_hat            1.000000
-dtype: float64
-</pre></div>
-</div>
-</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mean</th>
+      <th>sd</th>
+      <th>hdi_2.5%</th>
+      <th>hdi_97.5%</th>
+      <th>mcse_mean</th>
+      <th>mcse_sd</th>
+      <th>ess_bulk</th>
+      <th>ess_tail</th>
+      <th>r_hat</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>taste_score[0]</th>
+      <td>29.961</td>
+      <td>11.334</td>
+      <td>7.922</td>
+      <td>52.989</td>
+      <td>0.084</td>
+      <td>0.059</td>
+      <td>18324.0</td>
+      <td>19608.0</td>
+      <td>1.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -999,19 +1030,19 @@ dtype: float64
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Mon Oct 28 2024
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Sun Mar 09 2025
 
 Python implementation: CPython
 Python version       : 3.12.7
 IPython version      : 8.29.0
 
-pytensor: 2.25.5
+pytensor: 2.26.4
 
-arviz     : 0.20.0
-pymc      : 5.17.0
+pymc      : 5.19.1
 numpy     : 1.26.4
-pandas    : 2.2.3
+arviz     : 0.20.0
 matplotlib: 3.9.2
+pandas    : 2.2.3
 </pre></div>
 </div>
 </div>

@@ -633,37 +633,16 @@ Nonconjugate Bayesian Analysis, Statistics and Computing, 1, (2), 119†128.</p
 <span class="n">X</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mf">7.0</span><span class="p">,</span> <span class="mf">8.0</span><span class="p">,</span> <span class="mf">8.5</span><span class="p">,</span> <span class="mf">9.0</span><span class="p">,</span> <span class="mf">9.5</span><span class="p">,</span> 
      <span class="mf">9.5</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">,</span> <span class="mf">12.0</span><span class="p">,</span> <span class="mf">12.0</span><span class="p">,</span> <span class="mf">13.0</span><span class="p">,</span> <span class="mf">13.0</span><span class="p">,</span> <span class="mf">14.5</span><span class="p">,</span> <span class="mf">15.5</span><span class="p">,</span> <span class="mf">15.5</span><span class="p">,</span> <span class="mf">16.5</span><span class="p">,</span> <span class="mf">17.0</span><span class="p">,</span>
      <span class="mf">22.5</span><span class="p">,</span> <span class="mf">29.0</span><span class="p">,</span> <span class="mf">31.5</span><span class="p">]</span>
-<span class="n">y</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.80</span><span class="p">,</span> <span class="mf">1.85</span><span class="p">,</span> <span class="mf">1.87</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mf">2.02</span><span class="p">,</span> <span class="mf">2.27</span><span class="p">,</span> <span class="mf">2.15</span><span class="p">,</span> <span class="mf">2.26</span><span class="p">,</span> <span class="mf">2.47</span><span class="p">,</span> <span class="mf">2.19</span><span class="p">,</span> <span class="mf">2.26</span><span class="p">,</span>
+<span class="n">y</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.80</span><span class="p">,</span> <span class="mf">1.85</span><span class="p">,</span> <span class="mf">1.87</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="mf">2.02</span><span class="p">,</span> <span class="mf">2.27</span><span class="p">,</span> <span class="mf">2.15</span><span class="p">,</span> <span class="mf">2.26</span><span class="p">,</span> <span class="mf">2.47</span><span class="p">,</span> <span class="mf">2.19</span><span class="p">,</span> <span class="mf">2.26</span><span class="p">,</span>
      <span class="mf">2.40</span><span class="p">,</span> <span class="mf">2.39</span><span class="p">,</span> <span class="mf">2.41</span><span class="p">,</span> <span class="mf">2.50</span><span class="p">,</span> <span class="mf">2.32</span><span class="p">,</span> <span class="mf">2.32</span><span class="p">,</span> <span class="mf">2.43</span><span class="p">,</span> <span class="mf">2.47</span><span class="p">,</span> <span class="mf">2.56</span><span class="p">,</span> <span class="mf">2.65</span><span class="p">,</span> <span class="mf">2.47</span><span class="p">,</span>
-     <span class="mf">2.64</span><span class="p">,</span> <span class="mf">2.56</span><span class="p">,</span> <span class="mf">2.70</span><span class="p">,</span> <span class="mf">2.72</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+     <span class="mf">2.64</span><span class="p">,</span> <span class="mf">2.56</span><span class="p">,</span> <span class="mf">2.70</span><span class="p">,</span> <span class="mf">2.72</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">]</span>
 <span class="c1"># fmt: on</span>
 </pre></div>
 </div>
 </div>
 </div>
-<p>PyMC imputes missing data automatically, similar to BUGS, but it requires the missing data be input as a NumPy masked array. See the NumPy docs for <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ma.masked_values.html">np.ma.masked_values()</a>. For <code class="docutils literal notranslate"><span class="pre">y</span></code>, above, you can enter whatever number at the missing data positions, then plug it into the <code class="docutils literal notranslate"><span class="pre">value</span></code> parameter below. Just make sure the number you’re using isn’t actually in the data. I chose -1 above.</p>
-<p>Note that this method only works for missing <em>observed</em> data. We’ll learn about other types of missing data later.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_values</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">value</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">y</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>masked_array(data=[1.8, 1.85, 1.87, --, 2.02, 2.27, 2.15, 2.26, 2.47,
-                   2.19, 2.26, 2.4, 2.39, 2.41, 2.5, 2.32, 2.32, 2.43,
-                   2.47, 2.56, 2.65, 2.47, 2.64, 2.56, 2.7, 2.72, --],
-             mask=[False, False, False,  True, False, False, False, False,
-                   False, False, False, False, False, False, False, False,
-                   False, False, False, False, False, False, False, False,
-                   False, False,  True],
-       fill_value=-1.0)
-</pre></div>
-</div>
-</div>
-</div>
-<p>Check it out! The array now has a mask attribute.</p>
+<p>PyMC imputes missing data automatically, similar to BUGS.</p>
+<p>It used to be that you needed to create a masked Numpy array, but this is no longer the case. It now detects NaN values passed into the observed argument and imputes them automatically. Note that this method only works for missing <em>observed</em> data. We’ll learn about other types of missing data in Unit 8.</p>
 <div class="cell tag_hide-output docutils container">
 <div class="cell_input above-output-prompt docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">m</span><span class="p">:</span>
@@ -688,30 +667,16 @@ Nonconjugate Bayesian Analysis, Statistics and Computing, 1, (2), 119†128.</p
 <span class="expanded">Hide code cell output</span>
 </summary>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc_env2/lib/python3.11/site-packages/pymc/model.py:1402: ImputationWarning: Data in likelihood contains missing values and will be automatically imputed from the sampling distribution.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/miniforge3/envs/pymc_macos15/lib/python3.12/site-packages/pymc/model/core.py:1302: ImputationWarning: Data in likelihood contains missing values and will be automatically imputed from the sampling distribution.
   warnings.warn(impute_message, ImputationWarning)
-Auto-assigning NUTS sampler...
 Initializing NUTS using jitter+adapt_diag...
 Multiprocess sampling (4 chains in 4 jobs)
-NUTS: [alpha, beta, gamma, sigma, likelihood_missing]
-Sampling 4 chains for 500 tune and 10_000 draw iterations (2_000 + 40_000 draws total) took 25 seconds.
-There were 28 divergences after tuning. Increase `target_accept` or reparameterize.
-Chain &lt;xarray.DataArray &#39;chain&#39; ()&gt;
-array(0)
-Coordinates:
-    chain    int64 0 reached the maximum tree depth. Increase `max_treedepth`, increase `target_accept` or reparameterize.
-Chain &lt;xarray.DataArray &#39;chain&#39; ()&gt;
-array(1)
-Coordinates:
-    chain    int64 1 reached the maximum tree depth. Increase `max_treedepth`, increase `target_accept` or reparameterize.
-Chain &lt;xarray.DataArray &#39;chain&#39; ()&gt;
-array(2)
-Coordinates:
-    chain    int64 2 reached the maximum tree depth. Increase `max_treedepth`, increase `target_accept` or reparameterize.
-Chain &lt;xarray.DataArray &#39;chain&#39; ()&gt;
-array(3)
-Coordinates:
-    chain    int64 3 reached the maximum tree depth. Increase `max_treedepth`, increase `target_accept` or reparameterize.
+NUTS: [alpha, beta, gamma, sigma, likelihood_unobserved]
+</pre></div>
+</div>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "40d722d1fd0a455dbd2f2d4d55045040", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 5_000 draw iterations (4_000 + 20_000 draws total) took 8 seconds.
+There were 30 divergences after tuning. Increase `target_accept` or reparameterize.
 </pre></div>
 </div>
 </div>
@@ -755,75 +720,75 @@ Coordinates:
   </thead>
   <tbody>
     <tr>
-      <th>likelihood_missing[0]</th>
-      <td>1.907</td>
-      <td>0.110</td>
-      <td>1.691</td>
-      <td>2.125</td>
+      <th>likelihood_unobserved[0]</th>
+      <td>1.905</td>
+      <td>0.111</td>
+      <td>1.694</td>
+      <td>2.132</td>
       <td>0.001</td>
       <td>0.001</td>
-      <td>22080.0</td>
-      <td>21790.0</td>
+      <td>10455.0</td>
+      <td>10085.0</td>
       <td>1.0</td>
     </tr>
     <tr>
-      <th>likelihood_missing[1]</th>
-      <td>2.694</td>
-      <td>0.129</td>
-      <td>2.439</td>
-      <td>2.947</td>
+      <th>likelihood_unobserved[1]</th>
+      <td>2.697</td>
+      <td>0.127</td>
+      <td>2.446</td>
+      <td>2.945</td>
+      <td>0.002</td>
       <td>0.001</td>
-      <td>0.001</td>
-      <td>11806.0</td>
-      <td>12392.0</td>
+      <td>6013.0</td>
+      <td>4239.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>alpha</th>
-      <td>2.742</td>
-      <td>0.148</td>
+      <td>2.743</td>
+      <td>0.146</td>
       <td>2.519</td>
-      <td>3.015</td>
+      <td>3.017</td>
+      <td>0.003</td>
       <td>0.002</td>
-      <td>0.002</td>
-      <td>7872.0</td>
-      <td>5961.0</td>
+      <td>4000.0</td>
+      <td>2198.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>beta</th>
       <td>0.994</td>
-      <td>0.122</td>
-      <td>0.790</td>
-      <td>1.217</td>
+      <td>0.121</td>
+      <td>0.791</td>
+      <td>1.218</td>
       <td>0.002</td>
-      <td>0.001</td>
-      <td>10184.0</td>
-      <td>6771.0</td>
+      <td>0.002</td>
+      <td>4980.0</td>
+      <td>2841.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>gamma</th>
       <td>0.889</td>
       <td>0.035</td>
-      <td>0.816</td>
+      <td>0.818</td>
       <td>0.953</td>
       <td>0.000</td>
       <td>0.000</td>
-      <td>8259.0</td>
-      <td>6797.0</td>
+      <td>4174.0</td>
+      <td>2674.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>sigma</th>
-      <td>-2.339</td>
+      <td>-2.344</td>
       <td>0.156</td>
-      <td>-2.641</td>
-      <td>-2.033</td>
+      <td>-2.648</td>
+      <td>-2.042</td>
+      <td>0.002</td>
       <td>0.001</td>
-      <td>0.001</td>
-      <td>14593.0</td>
-      <td>17855.0</td>
+      <td>6996.0</td>
+      <td>7641.0</td>
       <td>1.0</td>
     </tr>
   </tbody>
@@ -1002,18 +967,19 @@ Coordinates:
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Sat Mar 18 2023
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The watermark extension is already loaded. To reload it, use:
+  %reload_ext watermark
+Last updated: Sun Mar 09 2025
 
 Python implementation: CPython
-Python version       : 3.11.0
-IPython version      : 8.9.0
+Python version       : 3.12.7
+IPython version      : 8.29.0
 
-pytensor: 2.10.1
+pytensor: 2.26.4
 
-arviz     : 0.14.0
-numpy     : 1.24.2
-pymc      : 5.1.1
-matplotlib: 3.6.3
+numpy: 1.26.4
+pymc : 5.19.1
+arviz: 0.20.0
 </pre></div>
 </div>
 </div>
