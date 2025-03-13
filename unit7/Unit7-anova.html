@@ -626,15 +626,17 @@ H_0 &amp; : a_1 = a_2 = ... = a_a \\
 <p>In classical statistics, an ANOVA table is built and an F-test is used to determine if <span class="math notranslate nohighlight">\(H_0\)</span> is rejected. In the case where <span class="math notranslate nohighlight">\(H_0\)</span> is rejected, we then would need to make additional models for each comparison of treatment groups to further analyze treatment effects.</p>
 <p>The Bayesian approach to ANOVA is to set priors on <span class="math notranslate nohighlight">\(\mu\)</span>, <span class="math notranslate nohighlight">\(a_1,a_2,...,a_a\)</span>, and <span class="math notranslate nohighlight">\(\sigma^2\)</span>. The Bayesian model is constructed as:</p>
 <div class="math notranslate nohighlight">
-\[\begin{split} \begin{align*}
+\[\begin{split} 
+\begin{align*}
 y_i &amp; \sim N(\mu_i,\sigma^2) &amp;&amp; \text{likelihood}\\ \\
-\mu &amp; \sim  N(\mu_i,\sigma_0^2) &amp;&amp; \text{prior: grand mean}\\
+\mu &amp; \sim  N(0,\sigma_0^2) &amp;&amp; \text{prior: grand mean}\\
 \mu_i &amp; = \mu + a_i &amp;&amp; \text{deterministic relationship}\\
 a_i &amp; \sim  N(0,\sigma_i^2) &amp;&amp; \text{prior: } a_i\\
 \tau &amp;\sim Ga(0.001,0.001) &amp;&amp; \text{prior: } \tau\\
 \sigma^2 &amp; =  1/\tau &amp;&amp; \text{deterministic relationship}\\ \\
 \text{Subject to: } &amp; \sum a_i = 0 &amp;&amp; \text{STZ constraint}\\
-\end{align*}\end{split}\]</div>
+\end{align*}
+\end{split}\]</div>
 <p>Here <span class="math notranslate nohighlight">\(\sigma_0^2\)</span> and <span class="math notranslate nohighlight">\(\sigma_i^2\)</span> are representing prior variances of the grand mean and treatment groups, respectively. Non-informative variances might be something like <span class="math notranslate nohighlight">\(\sigma_0^2 = 1000\)</span>. To assess <span class="math notranslate nohighlight">\(H_0\)</span>, we will look at the posterior distributions of the <span class="math notranslate nohighlight">\(a_i\)</span>’s to see if they are significantly different than zero. If we want to compare treatment groups, we can calculate their difference in the Bayesian model, and then look at the posterior distribution of the difference to see if it’s significantly different than zero.</p>
 </section>
 <section id="authors">
