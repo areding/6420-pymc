@@ -608,12 +608,9 @@ document.write(`
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pymc</span> <span class="k">as</span> <span class="nn">pm</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">arviz</span> <span class="k">as</span> <span class="nn">az</span>
-<span class="kn">from</span> <span class="nn">pymc.math</span> <span class="kn">import</span> <span class="n">logit</span><span class="p">,</span> <span class="n">exp</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-
-<span class="n">np</span><span class="o">.</span><span class="n">set_printoptions</span><span class="p">(</span><span class="n">suppress</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -633,30 +630,14 @@ document.write(`
 <p>As we said on the previous page, we want to evaluate the Empirical CDF at the values of our response variable to check how well our model fits the data. First, we’ll fit our model and add posterior predictive samples to the trace.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># fmt: off</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
     <span class="p">[</span>
-        <span class="mf">0.0</span><span class="p">,</span>
-        <span class="mf">1.0</span><span class="p">,</span>
-        <span class="mf">2.0</span><span class="p">,</span>
-        <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span>
-        <span class="mf">0.4</span><span class="p">,</span>
-        <span class="o">-</span><span class="mf">0.5</span><span class="p">,</span>
-        <span class="mf">0.7</span><span class="p">,</span>
-        <span class="o">-</span><span class="mf">1.2</span><span class="p">,</span>
-        <span class="mf">0.1</span><span class="p">,</span>
-        <span class="o">-</span><span class="mf">0.4</span><span class="p">,</span>
-        <span class="mf">0.2</span><span class="p">,</span>
-        <span class="o">-</span><span class="mf">0.5</span><span class="p">,</span>
-        <span class="o">-</span><span class="mf">1.4</span><span class="p">,</span>
-        <span class="mf">1.8</span><span class="p">,</span>
-        <span class="mf">0.2</span><span class="p">,</span>
-        <span class="mf">0.3</span><span class="p">,</span>
-        <span class="o">-</span><span class="mf">0.6</span><span class="p">,</span>
-        <span class="mf">1.1</span><span class="p">,</span>
-        <span class="mf">5.1</span><span class="p">,</span>
-        <span class="o">-</span><span class="mf">6.3</span><span class="p">,</span>
+        <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.2</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.4</span><span class="p">,</span> 
+        <span class="mf">0.2</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.4</span><span class="p">,</span> <span class="mf">1.8</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.6</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">,</span> <span class="mf">5.1</span><span class="p">,</span> <span class="o">-</span><span class="mf">6.3</span>
     <span class="p">]</span>
 <span class="p">)</span>
+<span class="c1"># fmt: on</span>
 </pre></div>
 </div>
 </div>
@@ -675,6 +656,7 @@ document.write(`
     <span class="c1"># Sampling</span>
     <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">2000</span><span class="p">)</span>
     <span class="n">pm</span><span class="o">.</span><span class="n">sample_posterior_predictive</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">extend_inferencedata</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">pm</span><span class="o">.</span><span class="n">compute_log_likelihood</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -684,59 +666,19 @@ document.write(`
 <span class="expanded">Hide code cell output</span>
 </summary>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Auto-assigning NUTS sampler...
-Initializing NUTS using jitter+adapt_diag...
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Initializing NUTS using jitter+adapt_diag...
 Multiprocess sampling (4 chains in 4 jobs)
 NUTS: [theta, ls]
 </pre></div>
 </div>
-<div class="output text_html">
-<style>
-    /* Turns off some styling */
-    progress {
-        /* gets rid of default border in Firefox and Opera. */
-        border: none;
-        /* Needs to be in here for Safari polyfill so background images work as expected. */
-        background-size: auto;
-    }
-    progress:not([value]), progress:not([value])::-webkit-progress-bar {
-        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
-    }
-    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
-        background: #F44336;
-    }
-</style>
-</div><div class="output text_html">
-    <div>
-      <progress value='12000' class='' max='12000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-      100.00% [12000/12000 00:00&lt;00:00 Sampling 4 chains, 0 divergences]
-    </div>
-    </div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 2_000 draw iterations (4_000 + 8_000 draws total) took 1 seconds.
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "97612908cf2c40c49cfd98f475e4e6fb", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 2_000 draw iterations (4_000 + 8_000 draws total) took 1 seconds.
 Sampling: [y]
 </pre></div>
 </div>
-<div class="output text_html">
-<style>
-    /* Turns off some styling */
-    progress {
-        /* gets rid of default border in Firefox and Opera. */
-        border: none;
-        /* Needs to be in here for Safari polyfill so background images work as expected. */
-        background-size: auto;
-    }
-    progress:not([value]), progress:not([value])::-webkit-progress-bar {
-        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
-    }
-    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
-        background: #F44336;
-    }
-</style>
-</div><div class="output text_html">
-    <div>
-      <progress value='8000' class='' max='8000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-      100.00% [8000/8000 00:00&lt;00:00]
-    </div>
-    </div></div>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "7285cf483ab24f8391ea1cb6b8d4dbce", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
+</div><script type="application/vnd.jupyter.widget-view+json">{"model_id": "de934121643b47998e4b50844e608eac", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
+</div></div>
 </details>
 </div>
 <div class="cell docutils container">
@@ -778,26 +720,26 @@ Sampling: [y]
   <tbody>
     <tr>
       <th>theta</th>
-      <td>0.052</td>
-      <td>0.486</td>
-      <td>-0.855</td>
-      <td>0.975</td>
+      <td>0.047</td>
+      <td>0.483</td>
+      <td>-0.828</td>
+      <td>0.984</td>
       <td>0.006</td>
       <td>0.006</td>
-      <td>6753.0</td>
-      <td>4931.0</td>
+      <td>6462.0</td>
+      <td>5336.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>ls</th>
-      <td>0.755</td>
-      <td>0.170</td>
-      <td>0.450</td>
-      <td>1.080</td>
+      <td>0.753</td>
+      <td>0.168</td>
+      <td>0.452</td>
+      <td>1.078</td>
       <td>0.002</td>
       <td>0.002</td>
-      <td>5754.0</td>
-      <td>5290.0</td>
+      <td>5884.0</td>
+      <td>4996.0</td>
       <td>1.0</td>
     </tr>
   </tbody>
@@ -816,7 +758,7 @@ Sampling: [y]
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/1bbd865e4c609040dfc798a9bcb8d09615a10bf706426f6b88f94cae6590bb02.png" src="../_images/1bbd865e4c609040dfc798a9bcb8d09615a10bf706426f6b88f94cae6590bb02.png" />
+<img alt="../_images/40e6135b1ae962fe1e2f6aab40c294d062848baaf81468b03603d2988df659a8.png" src="../_images/40e6135b1ae962fe1e2f6aab40c294d062848baaf81468b03603d2988df659a8.png" />
 </div>
 </div>
 <p>Doesn’t look like our posterior does a good job of fitting the observed data. The mean fits okay, but both tails have some issues because of some extreme values near the endpoints. This plot is just comparing individual ECDFs, though. It’s not evaluating the posterior ECDF at the observed <span class="math notranslate nohighlight">\(y\)</span> values.</p>
@@ -873,76 +815,309 @@ Sampling: [y]
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">prob</span> <span class="o">=</span> <span class="n">evaluate_ecdf</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="n">prob</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">prob</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">prob</span><span class="p">))</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>  <span class="c1"># squared logit</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[0.4905   0.668375 0.813875 0.304625 0.571    0.393625 0.610375 0.2775
- 0.508125 0.41075  0.528375 0.395    0.2455   0.79225  0.53125  0.540125
- 0.38525  0.681625 0.986875 0.005   ]
-[ 0.00144435  0.49118313  2.17677064  0.68123523  0.08175727  0.18671035
-  0.20150114  0.91565089  0.00105644  0.13022411  0.01290998  0.18176809
-  1.26058627  1.79169352  0.01566581  0.0258714   0.21839098  0.57950114
- 18.66261234 28.01907597]
-</pre></div>
-</div>
-</div>
-</div>
-<p>The last two values are the outliers. I’ve saved the old version of this code below, you should be able to click to expand it.</p>
-<div class="cell tag_hide-cell docutils container">
-<details class="hide above-input">
-<summary aria-label="Toggle hidden content">
-<span class="collapsed">Show code cell content</span>
-<span class="expanded">Hide code cell content</span>
-</summary>
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># old version</span>
-<span class="c1"># transforming data so we can broadcast</span>
-<span class="n">y_data</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;y_dim_2&quot;</span><span class="p">,))</span>
-<span class="n">y_sampled</span> <span class="o">=</span> <span class="n">trace</span><span class="o">.</span><span class="n">posterior_predictive</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">]</span>
-<span class="n">y_data</span> <span class="o">=</span> <span class="n">y_data</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span>
-    <span class="p">{</span><span class="s2">&quot;chain&quot;</span><span class="p">:</span> <span class="n">y_sampled</span><span class="o">.</span><span class="n">chain</span><span class="p">,</span> <span class="s2">&quot;draw&quot;</span><span class="p">:</span> <span class="n">y_sampled</span><span class="o">.</span><span class="n">draw</span><span class="p">},</span> <span class="n">axis</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">prob_ecdf_pit</span> <span class="o">=</span> <span class="n">evaluate_ecdf</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>
+<span class="n">loo_pit_output</span> <span class="o">=</span> <span class="n">az</span><span class="o">.</span><span class="n">loo_pit</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;y&quot;</span><span class="p">)</span>
+<span class="n">df_results</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+    <span class="p">{</span><span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="n">y</span><span class="p">,</span> <span class="s2">&quot;loo_pit&quot;</span><span class="p">:</span> <span class="n">loo_pit_output</span><span class="p">,</span> <span class="s2">&quot;ecdf_pit&quot;</span><span class="p">:</span> <span class="n">prob_ecdf_pit</span><span class="p">}</span>
 <span class="p">)</span>
+<span class="n">df_results</span><span class="p">[</span><span class="s2">&quot;squared_logit&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">prob_ecdf_pit</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">prob_ecdf_pit</span><span class="p">))</span> <span class="o">**</span> <span class="mi">2</span>
 
-<span class="c1"># &quot;cumulative(y_sampled, y_data)&quot;, equivalent of cumulative(y[i], y[i]) in BUGS.</span>
-<span class="n">cumulative_sum</span> <span class="o">=</span> <span class="p">(</span><span class="n">y_sampled</span> <span class="o">&lt;=</span> <span class="n">y_data</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;chain&quot;</span><span class="p">,</span> <span class="s2">&quot;draw&quot;</span><span class="p">])</span>
-<span class="n">probabilities</span> <span class="o">=</span> <span class="n">cumulative_sum</span> <span class="o">/</span> <span class="p">(</span><span class="n">y_sampled</span><span class="o">.</span><span class="n">chain</span><span class="o">.</span><span class="n">size</span> <span class="o">*</span> <span class="n">y_sampled</span><span class="o">.</span><span class="n">draw</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
+<span class="n">df_display</span> <span class="o">=</span> <span class="n">df_results</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s2">&quot;squared_logit&quot;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="n">probabilities</span><span class="p">)</span>
-
-<span class="c1"># add[i] = pow(logit(cuy[i]),2)</span>
-<span class="n">add_probabilities</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">probabilities</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">probabilities</span><span class="p">))</span> <span class="o">**</span> <span class="mi">2</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">add_probabilities</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">add_probabilities</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+<span class="n">df_display</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+    <span class="n">subset</span><span class="o">=</span><span class="n">df_display</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="s2">&quot;number&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="n">formatter</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">{:.3f}</span><span class="s2">&quot;</span>
+<span class="p">)</span><span class="o">.</span><span class="n">background_gradient</span><span class="p">(</span>
+    <span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;loo_pit&quot;</span><span class="p">,</span> <span class="s2">&quot;ecdf_pit&quot;</span><span class="p">],</span>
+    <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;binary&quot;</span><span class="p">,</span>
+    <span class="n">vmin</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+    <span class="n">vmax</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;xarray.DataArray (y_dim_2: 20)&gt;
-array([0.4905  , 0.668375, 0.813875, 0.304625, 0.571   , 0.393625,
-       0.610375, 0.2775  , 0.508125, 0.41075 , 0.528375, 0.395   ,
-       0.2455  , 0.79225 , 0.53125 , 0.540125, 0.38525 , 0.681625,
-       0.986875, 0.005   ])
-Coordinates:
-  * y_dim_2  (y_dim_2) int64 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19
-&lt;xarray.DataArray (y_dim_2: 20)&gt;
-array([ 0.00144435,  0.49118313,  2.17677064,  0.68123523,  0.08175727,
-        0.18671035,  0.20150114,  0.91565089,  0.00105644,  0.13022411,
-        0.01290998,  0.18176809,  1.26058627,  1.79169352,  0.01566581,
-        0.0258714 ,  0.21839098,  0.57950114, 18.66261234, 28.01907597])
-Coordinates:
-  * y_dim_2  (y_dim_2) int64 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19
-&lt;xarray.DataArray ()&gt;
-array(55.63560904)
-</pre></div>
+<div class="output text_html"><style type="text/css">
+#T_9b89b_row0_col1 {
+  background-color: #ffffff;
+  color: #000000;
+}
+#T_9b89b_row0_col2 {
+  background-color: #fefefe;
+  color: #000000;
+}
+#T_9b89b_row1_col1 {
+  background-color: #010101;
+  color: #f1f1f1;
+}
+#T_9b89b_row1_col2 {
+  background-color: #030303;
+  color: #f1f1f1;
+}
+#T_9b89b_row2_col1 {
+  background-color: #2d2d2d;
+  color: #f1f1f1;
+}
+#T_9b89b_row2_col2 {
+  background-color: #303030;
+  color: #f1f1f1;
+}
+#T_9b89b_row3_col1 {
+  background-color: #323232;
+  color: #f1f1f1;
+}
+#T_9b89b_row3_col2 {
+  background-color: #353535;
+  color: #f1f1f1;
+}
+#T_9b89b_row4_col1 {
+  background-color: #c3c3c3;
+  color: #000000;
+}
+#T_9b89b_row4_col2 {
+  background-color: #c2c2c2;
+  color: #000000;
+}
+#T_9b89b_row5_col1 {
+  background-color: #b9b9b9;
+  color: #000000;
+}
+#T_9b89b_row5_col2 {
+  background-color: #b7b7b7;
+  color: #000000;
+}
+#T_9b89b_row6_col1 {
+  background-color: #4d4d4d;
+  color: #f1f1f1;
+}
+#T_9b89b_row6_col2 {
+  background-color: #4e4e4e;
+  color: #f1f1f1;
+}
+#T_9b89b_row7_col1 {
+  background-color: #b0b0b0;
+  color: #000000;
+}
+#T_9b89b_row7_col2 {
+  background-color: #afafaf;
+  color: #000000;
+}
+#T_9b89b_row8_col1 {
+  background-color: #525252;
+  color: #f1f1f1;
+}
+#T_9b89b_row8_col2 {
+  background-color: #535353;
+  color: #f1f1f1;
+}
+#T_9b89b_row9_col1 {
+  background-color: #5f5f5f;
+  color: #f1f1f1;
+}
+#T_9b89b_row9_col2 {
+  background-color: #606060;
+  color: #f1f1f1;
+}
+#T_9b89b_row10_col1 {
+  background-color: #9e9e9e;
+  color: #f1f1f1;
+}
+#T_9b89b_row10_col2 {
+  background-color: #9d9d9d;
+  color: #f1f1f1;
+}
+#T_9b89b_row11_col1 {
+  background-color: #9a9a9a;
+  color: #f1f1f1;
+}
+#T_9b89b_row11_col2, #T_9b89b_row12_col1, #T_9b89b_row12_col2 {
+  background-color: #999999;
+  color: #f1f1f1;
+}
+#T_9b89b_row13_col1, #T_9b89b_row13_col2 {
+  background-color: #929292;
+  color: #f1f1f1;
+}
+#T_9b89b_row14_col1 {
+  background-color: #6e6e6e;
+  color: #f1f1f1;
+}
+#T_9b89b_row14_col2 {
+  background-color: #6f6f6f;
+  color: #f1f1f1;
+}
+#T_9b89b_row15_col1, #T_9b89b_row15_col2 {
+  background-color: #737373;
+  color: #f1f1f1;
+}
+#T_9b89b_row16_col1, #T_9b89b_row16_col2, #T_9b89b_row17_col1, #T_9b89b_row17_col2 {
+  background-color: #787878;
+  color: #f1f1f1;
+}
+#T_9b89b_row18_col1, #T_9b89b_row18_col2 {
+  background-color: #808080;
+  color: #f1f1f1;
+}
+#T_9b89b_row19_col1, #T_9b89b_row19_col2 {
+  background-color: #7f7f7f;
+  color: #f1f1f1;
+}
+</style>
+<table id="T_9b89b">
+  <thead>
+    <tr>
+      <th class="blank level0" >&nbsp;</th>
+      <th id="T_9b89b_level0_col0" class="col_heading level0 col0" >y</th>
+      <th id="T_9b89b_level0_col1" class="col_heading level0 col1" >loo_pit</th>
+      <th id="T_9b89b_level0_col2" class="col_heading level0 col2" >ecdf_pit</th>
+      <th id="T_9b89b_level0_col3" class="col_heading level0 col3" >squared_logit</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th id="T_9b89b_level0_row0" class="row_heading level0 row0" >19</th>
+      <td id="T_9b89b_row0_col0" class="data row0 col0" >-6.300</td>
+      <td id="T_9b89b_row0_col1" class="data row0 col1" >0.000</td>
+      <td id="T_9b89b_row0_col2" class="data row0 col2" >0.005</td>
+      <td id="T_9b89b_row0_col3" class="data row0 col3" >28.567</td>
+    </tr>
+    <tr>
+      <th id="T_9b89b_level0_row1" class="row_heading level0 row1" >18</th>
+      <td id="T_9b89b_row1_col0" class="data row1 col0" >5.100</td>
+      <td id="T_9b89b_row1_col1" class="data row1 col1" >0.995</td>
+      <td id="T_9b89b_row1_col2" class="data row1 col2" >0.985</td>
+      <td id="T_9b89b_row1_col3" class="data row1 col3" >17.302</td>
+    </tr>
+    <tr>
+      <th id="T_9b89b_level0_row2" class="row_heading level0 row2" >2</th>
+      <td id="T_9b89b_row2_col0" class="data row2 col0" >2.000</td>
+      <td id="T_9b89b_row2_col1" class="data row2 col1" >0.823</td>
+      <td id="T_9b89b_row2_col2" class="data row2 col2" >0.812</td>
+      <td id="T_9b89b_row2_col3" class="data row2 col3" >2.141</td>
+    </tr>
+    <tr>
+      <th id="T_9b89b_level0_row3" class="row_heading level0 row3" >13</th>
+      <td id="T_9b89b_row3_col0" class="data row3 col0" >1.800</td>
+      <td id="T_9b89b_row3_col1" class="data row3 col1" >0.801</td>
+      <td id="T_9b89b_row3_col2" class="data row3 col2" >0.792</td>
+      <td id="T_9b89b_row3_col3" class="data row3 col3" >1.788</td>
+    </tr>
+    <tr>
+      <th id="T_9b89b_level0_row4" class="row_heading level0 row4" >12</th>
+      <td id="T_9b89b_row4_col0" class="data row4 col0" >-1.400</td>
+      <td id="T_9b89b_row4_col1" class="data row4 col1" >0.236</td>
+      <td id="T_9b89b_row4_col2" class="data row4 col2" >0.241</td>
+      <td id="T_9b89b_row4_col3" class="data row4 col3" >1.311</td>
+    </tr>
+    <tr>
+      <th id="T_9b89b_level0_row5" class="row_heading level0 row5" >7</th>
+      <td id="T_9b89b_row5_col0" class="data row5 col0" >-1.200</td>
+      <td id="T_9b89b_row5_col1" class="data row5 col1" >0.277</td>
+      <td id="T_9b89b_row5_col2" class="data row5 col2" >0.282</td>
+      <td id="T_9b89b_row5_col3" class="data row5 col3" >0.876</td>
+    </tr>
+    <tr>
+      <th id="T_9b89b_level0_row6" class="row_heading level0 row6" >17</th>
+      <td id="T_9b89b_row6_col0" class="data row6 col0" >1.100</td>
+      <td id="T_9b89b_row6_col1" class="data row6 col1" >0.696</td>
+      <td id="T_9b89b_row6_col2" class="data row6 col2" >0.692</td>
+      <td id="T_9b89b_row6_col3" class="data row6 col3" >0.653</td>
+    </tr>
+    <tr>
+      <th id="T_9b89b_level0_row7" class="row_heading level0 row7" >3</th>
+      <td id="T_9b89b_row7_col0" class="data row7 col0" >-1.000</td>
+      <td id="T_9b89b_row7_col1" class="data row7 col1" >0.309</td>
+      <td id="T_9b89b_row7_col2" class="data row7 col2" >0.315</td>
+      <td id="T_9b89b_row7_col3" class="data row7 col3" >0.607</td>
+    </tr>
+    <tr>
+      <th id="T_9b89b_level0_row8" class="row_heading level0 row8" >1</th>
+      <td id="T_9b89b_row8_col0" class="data row8 col0" >1.000</td>
+      <td id="T_9b89b_row8_col1" class="data row8 col1" >0.678</td>
+      <td id="T_9b89b_row8_col2" class="data row8 col2" >0.675</td>
+      <td id="T_9b89b_row8_col3" class="data row8 col3" >0.533</td>
+    </tr>
+    <tr>
+      <th id="T_9b89b_level0_row9" class="row_heading level0 row9" >6</th>
+      <td id="T_9b89b_row9_col0" class="data row9 col0" >0.700</td>
+      <td id="T_9b89b_row9_col1" class="data row9 col1" >0.627</td>
+      <td id="T_9b89b_row9_col2" class="data row9 col2" >0.624</td>
+      <td id="T_9b89b_row9_col3" class="data row9 col3" >0.257</td>
+    </tr>
+    <tr>
+      <th id="T_9b89b_level0_row10" class="row_heading level0 row10" >16</th>
+      <td id="T_9b89b_row10_col0" class="data row10 col0" >-0.600</td>
+      <td id="T_9b89b_row10_col1" class="data row10 col1" >0.383</td>
+      <td id="T_9b89b_row10_col2" class="data row10 col2" >0.384</td>
+      <td id="T_9b89b_row10_col3" class="data row10 col3" >0.222</td>
+    </tr>
+    <tr>
+      <th id="T_9b89b_level0_row11" class="row_heading level0 row11" >5</th>
+      <td id="T_9b89b_row11_col0" class="data row11 col0" >-0.500</td>
+      <td id="T_9b89b_row11_col1" class="data row11 col1" >0.396</td>
+      <td id="T_9b89b_row11_col2" class="data row11 col2" >0.399</td>
+      <td id="T_9b89b_row11_col3" class="data row11 col3" >0.168</td>
+    </tr>
+    <tr>
+      <th id="T_9b89b_level0_row12" class="row_heading level0 row12" >11</th>
+      <td id="T_9b89b_row12_col0" class="data row12 col0" >-0.500</td>
+      <td id="T_9b89b_row12_col1" class="data row12 col1" >0.399</td>
+      <td id="T_9b89b_row12_col2" class="data row12 col2" >0.402</td>
+      <td id="T_9b89b_row12_col3" class="data row12 col3" >0.157</td>
+    </tr>
+    <tr>
+      <th id="T_9b89b_level0_row13" class="row_heading level0 row13" >9</th>
+      <td id="T_9b89b_row13_col0" class="data row13 col0" >-0.400</td>
+      <td id="T_9b89b_row13_col1" class="data row13 col1" >0.426</td>
+      <td id="T_9b89b_row13_col2" class="data row13 col2" >0.427</td>
+      <td id="T_9b89b_row13_col3" class="data row13 col3" >0.085</td>
+    </tr>
+    <tr>
+      <th id="T_9b89b_level0_row14" class="row_heading level0 row14" >4</th>
+      <td id="T_9b89b_row14_col0" class="data row14 col0" >0.400</td>
+      <td id="T_9b89b_row14_col1" class="data row14 col1" >0.567</td>
+      <td id="T_9b89b_row14_col2" class="data row14 col2" >0.566</td>
+      <td id="T_9b89b_row14_col3" class="data row14 col3" >0.071</td>
+    </tr>
+    <tr>
+      <th id="T_9b89b_level0_row15" class="row_heading level0 row15" >15</th>
+      <td id="T_9b89b_row15_col0" class="data row15 col0" >0.300</td>
+      <td id="T_9b89b_row15_col1" class="data row15 col1" >0.550</td>
+      <td id="T_9b89b_row15_col2" class="data row15 col2" >0.550</td>
+      <td id="T_9b89b_row15_col3" class="data row15 col3" >0.040</td>
+    </tr>
+    <tr>
+      <th id="T_9b89b_level0_row16" class="row_heading level0 row16" >14</th>
+      <td id="T_9b89b_row16_col0" class="data row16 col0" >0.200</td>
+      <td id="T_9b89b_row16_col1" class="data row16 col1" >0.530</td>
+      <td id="T_9b89b_row16_col2" class="data row16 col2" >0.530</td>
+      <td id="T_9b89b_row16_col3" class="data row16 col3" >0.014</td>
+    </tr>
+    <tr>
+      <th id="T_9b89b_level0_row17" class="row_heading level0 row17" >10</th>
+      <td id="T_9b89b_row17_col0" class="data row17 col0" >0.200</td>
+      <td id="T_9b89b_row17_col1" class="data row17 col1" >0.528</td>
+      <td id="T_9b89b_row17_col2" class="data row17 col2" >0.527</td>
+      <td id="T_9b89b_row17_col3" class="data row17 col3" >0.012</td>
+    </tr>
+    <tr>
+      <th id="T_9b89b_level0_row18" class="row_heading level0 row18" >0</th>
+      <td id="T_9b89b_row18_col0" class="data row18 col0" >0.000</td>
+      <td id="T_9b89b_row18_col1" class="data row18 col1" >0.496</td>
+      <td id="T_9b89b_row18_col2" class="data row18 col2" >0.498</td>
+      <td id="T_9b89b_row18_col3" class="data row18 col3" >0.000</td>
+    </tr>
+    <tr>
+      <th id="T_9b89b_level0_row19" class="row_heading level0 row19" >8</th>
+      <td id="T_9b89b_row19_col0" class="data row19 col0" >0.100</td>
+      <td id="T_9b89b_row19_col1" class="data row19 col1" >0.500</td>
+      <td id="T_9b89b_row19_col2" class="data row19 col2" >0.500</td>
+      <td id="T_9b89b_row19_col3" class="data row19 col3" >0.000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
 </div>
-</div>
-</details>
-</div>
+<p>The last two values (indices 18 and 19) are the outliers. Notice the squared logit transformation is useful because it’s sortable by magnitude.</p>
 </section>
 <section id="another-cool-arviz-plot">
 <h2>Another cool Arviz plot<a class="headerlink" href="#another-cool-arviz-plot" title="Permalink to this headline">#</a></h2>
@@ -954,7 +1129,7 @@ array(55.63560904)
 <span class="n">y</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(</span><span class="n">copy</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">X</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;X8&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(</span><span class="n">copy</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-<span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">m</span><span class="p">:</span>
+<span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">():</span>
     <span class="n">sigma</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Exponential</span><span class="p">(</span><span class="s2">&quot;sigma&quot;</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">)</span>
     <span class="n">beta0</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;intercept&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
     <span class="n">beta1</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;slope&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
@@ -973,62 +1148,20 @@ array(55.63560904)
 <span class="expanded">Hide code cell output</span>
 </summary>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Auto-assigning NUTS sampler...
-Initializing NUTS using jitter+adapt_diag...
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Initializing NUTS using jitter+adapt_diag...
 Multiprocess sampling (4 chains in 4 jobs)
 NUTS: [sigma, intercept, slope]
 </pre></div>
 </div>
-<div class="output text_html">
-<style>
-    /* Turns off some styling */
-    progress {
-        /* gets rid of default border in Firefox and Opera. */
-        border: none;
-        /* Needs to be in here for Safari polyfill so background images work as expected. */
-        background-size: auto;
-    }
-    progress:not([value]), progress:not([value])::-webkit-progress-bar {
-        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
-    }
-    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
-        background: #F44336;
-    }
-</style>
-</div><div class="output text_html">
-    <div>
-      <progress value='12000' class='' max='12000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-      100.00% [12000/12000 00:03&lt;00:00 Sampling 4 chains, 0 divergences]
-    </div>
-    </div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 2_000 draw iterations (4_000 + 8_000 draws total) took 4 seconds.
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "5ac450c1f88a4e49a712f98ef7db1142", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 2_000 draw iterations (4_000 + 8_000 draws total) took 2 seconds.
 Sampling: [y]
 </pre></div>
 </div>
-<div class="output text_html">
-<style>
-    /* Turns off some styling */
-    progress {
-        /* gets rid of default border in Firefox and Opera. */
-        border: none;
-        /* Needs to be in here for Safari polyfill so background images work as expected. */
-        background-size: auto;
-    }
-    progress:not([value]), progress:not([value])::-webkit-progress-bar {
-        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
-    }
-    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
-        background: #F44336;
-    }
-</style>
-</div><div class="output text_html">
-    <div>
-      <progress value='8000' class='' max='8000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-      100.00% [8000/8000 00:00&lt;00:00]
-    </div>
-    </div></div>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "722af33fc1c44762aeecb809b2a72972", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
+</div></div>
 </details>
 </div>
-<p>Unfortunately, I haven’t been able to get this working for a year or two now.</p>
 <div class="cell tag_hide-output docutils container">
 <div class="cell_input above-output-prompt docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">252</span><span class="p">))</span>
@@ -1045,78 +1178,12 @@ Sampling: [y]
 <span class="expanded">Hide code cell output</span>
 </summary>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">ValueError</span><span class="g g-Whitespace">                                </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">11</span><span class="p">],</span> <span class="n">line</span> <span class="mi">3</span>
-<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="n">x</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">252</span><span class="p">))</span>
-<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="n">trace</span><span class="o">.</span><span class="n">posterior</span><span class="p">[</span><span class="s2">&quot;y_model&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">trace</span><span class="o">.</span><span class="n">posterior</span><span class="p">[</span><span class="s2">&quot;intercept&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">trace</span><span class="o">.</span><span class="n">posterior</span><span class="p">[</span><span class="s2">&quot;slope&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="n">x</span>
-<span class="ne">----&gt; </span><span class="mi">3</span> <span class="n">az</span><span class="o">.</span><span class="n">plot_lm</span><span class="p">(</span><span class="n">idata</span><span class="o">=</span><span class="n">trace</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">)</span>
-
-<span class="nn">File ~/mambaforge/envs/pymc/lib/python3.11/site-packages/arviz/plots/lmplot.py:351,</span> in <span class="ni">plot_lm</span><span class="nt">(y, idata, x, y_model, y_hat, num_samples, kind_pp, kind_model, xjitter, plot_dim, backend, y_kwargs, y_hat_plot_kwargs, y_hat_fill_kwargs, y_model_plot_kwargs, y_model_fill_kwargs, y_model_mean_kwargs, backend_kwargs, show, figsize, textsize, axes, legend, grid)</span>
-<span class="g g-Whitespace">    </span><span class="mi">348</span> <span class="n">backend</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
-<span class="g g-Whitespace">    </span><span class="mi">350</span> <span class="n">plot</span> <span class="o">=</span> <span class="n">get_plotting_function</span><span class="p">(</span><span class="s2">&quot;plot_lm&quot;</span><span class="p">,</span> <span class="s2">&quot;lmplot&quot;</span><span class="p">,</span> <span class="n">backend</span><span class="p">)</span>
-<span class="ne">--&gt; </span><span class="mi">351</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plot</span><span class="p">(</span><span class="o">**</span><span class="n">lmplot_kwargs</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">352</span> <span class="k">return</span> <span class="n">ax</span>
-
-<span class="nn">File ~/mambaforge/envs/pymc/lib/python3.11/site-packages/arviz/plots/backends/matplotlib/lmplot.py:108,</span> in <span class="ni">plot_lm</span><span class="nt">(x, y, y_model, y_hat, num_samples, kind_pp, kind_model, xjitter, length_plotters, rows, cols, y_kwargs, y_hat_plot_kwargs, y_hat_fill_kwargs, y_model_plot_kwargs, y_model_fill_kwargs, y_model_mean_kwargs, backend_kwargs, show, figsize, textsize, axes, legend, grid)</span>
-<span class="g g-Whitespace">    </span><span class="mi">106</span>             <span class="n">ax_i</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_plotters_jitter</span><span class="p">,</span> <span class="n">y_hat_plotters</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">j</span><span class="p">],</span> <span class="o">**</span><span class="n">y_hat_plot_kwargs</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">107</span>         <span class="k">else</span><span class="p">:</span>
-<span class="ne">--&gt; </span><span class="mi">108</span>             <span class="n">ax_i</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_plotters</span><span class="p">,</span> <span class="n">y_hat_plotters</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">j</span><span class="p">],</span> <span class="o">**</span><span class="n">y_hat_plot_kwargs</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">109</span>     <span class="n">ax_i</span><span class="o">.</span><span class="n">plot</span><span class="p">([],</span> <span class="o">**</span><span class="n">y_hat_plot_kwargs</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Posterior predictive samples&quot;</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">110</span> <span class="k">else</span><span class="p">:</span>
-
-<span class="nn">File ~/mambaforge/envs/pymc/lib/python3.11/site-packages/matplotlib/axes/_axes.py:1688,</span> in <span class="ni">Axes.plot</span><span class="nt">(self, scalex, scaley, data, *args, **kwargs)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1445</span><span class="w"> </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="g g-Whitespace">   </span><span class="mi">1446</span><span class="sd"> Plot y versus x as lines and/or markers.</span>
-<span class="g g-Whitespace">   </span><span class="mi">1447</span><span class="sd"> </span>
-<span class="sd">   (...)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1685</span><span class="sd"> (``&#39;green&#39;``) or hex strings (``&#39;#008000&#39;``).</span>
-<span class="g g-Whitespace">   </span><span class="mi">1686</span><span class="sd"> &quot;&quot;&quot;</span>
-<span class="g g-Whitespace">   </span><span class="mi">1687</span> <span class="n">kwargs</span> <span class="o">=</span> <span class="n">cbook</span><span class="o">.</span><span class="n">normalize_kwargs</span><span class="p">(</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">mlines</span><span class="o">.</span><span class="n">Line2D</span><span class="p">)</span>
-<span class="ne">-&gt; </span><span class="mi">1688</span> <span class="n">lines</span> <span class="o">=</span> <span class="p">[</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_lines</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)]</span>
-<span class="g g-Whitespace">   </span><span class="mi">1689</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">:</span>
-<span class="g g-Whitespace">   </span><span class="mi">1690</span>     <span class="bp">self</span><span class="o">.</span><span class="n">add_line</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
-
-<span class="nn">File ~/mambaforge/envs/pymc/lib/python3.11/site-packages/matplotlib/axes/_base.py:311,</span> in <span class="ni">_process_plot_var_args.__call__</span><span class="nt">(self, data, *args, **kwargs)</span>
-<span class="g g-Whitespace">    </span><span class="mi">309</span>     <span class="n">this</span> <span class="o">+=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
-<span class="g g-Whitespace">    </span><span class="mi">310</span>     <span class="n">args</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
-<span class="ne">--&gt; </span><span class="mi">311</span> <span class="k">yield from</span> <span class="bp">self</span><span class="o">.</span><span class="n">_plot_args</span><span class="p">(</span>
-<span class="g g-Whitespace">    </span><span class="mi">312</span>     <span class="n">this</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">,</span> <span class="n">ambiguous_fmt_datakey</span><span class="o">=</span><span class="n">ambiguous_fmt_datakey</span><span class="p">)</span>
-
-<span class="nn">File ~/mambaforge/envs/pymc/lib/python3.11/site-packages/matplotlib/axes/_base.py:504,</span> in <span class="ni">_process_plot_var_args._plot_args</span><span class="nt">(self, tup, kwargs, return_kwargs, ambiguous_fmt_datakey)</span>
-<span class="g g-Whitespace">    </span><span class="mi">501</span>     <span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">update_units</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">503</span> <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
-<span class="ne">--&gt; </span><span class="mi">504</span>     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;x and y must have same first dimension, but &quot;</span>
-<span class="g g-Whitespace">    </span><span class="mi">505</span>                      <span class="sa">f</span><span class="s2">&quot;have shapes </span><span class="si">{</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2"> and </span><span class="si">{</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">506</span> <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&gt;</span> <span class="mi">2</span> <span class="ow">or</span> <span class="n">y</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">507</span>     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;x and y can be no greater than 2D, but have &quot;</span>
-<span class="g g-Whitespace">    </span><span class="mi">508</span>                      <span class="sa">f</span><span class="s2">&quot;shapes </span><span class="si">{</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2"> and </span><span class="si">{</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-
-<span class="ne">ValueError</span>: x and y must have same first dimension, but have shapes (252,) and (1,)
-</pre></div>
-</div>
-<img alt="../_images/1b52d5f5a1167b90b37b030e5b54aa97d1a9547d3f3adaf06f3dda9d2beade31.png" src="../_images/1b52d5f5a1167b90b37b030e5b54aa97d1a9547d3f3adaf06f3dda9d2beade31.png" />
-</div>
-</details>
-</div>
-<p>The below example from the <a class="reference external" href="https://python.arviz.org/en/v0.16.1/api/generated/arviz.plot_lm.html">Arviz docs</a> still works, but the idata here was generated using PyMC 3. Maybe there’s some subtle difference that I’m missing. Let me know if you figure it out!</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">idata</span> <span class="o">=</span> <span class="n">az</span><span class="o">.</span><span class="n">load_arviz_data</span><span class="p">(</span><span class="s2">&quot;regression1d&quot;</span><span class="p">)</span>
-<span class="n">x</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">100</span><span class="p">))</span>
-<span class="n">idata</span><span class="o">.</span><span class="n">posterior</span><span class="p">[</span><span class="s2">&quot;y_model&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="n">idata</span><span class="o">.</span><span class="n">posterior</span><span class="p">[</span><span class="s2">&quot;intercept&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">idata</span><span class="o">.</span><span class="n">posterior</span><span class="p">[</span><span class="s2">&quot;slope&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="n">x</span>
-<span class="p">)</span>
-<span class="n">az</span><span class="o">.</span><span class="n">plot_lm</span><span class="p">(</span><span class="n">idata</span><span class="o">=</span><span class="n">idata</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[&lt;Axes: ylabel=&#39;y&#39;&gt;]], dtype=object)
 </pre></div>
 </div>
-<img alt="../_images/a2873e84b439d423b95aade4bd911493b4fda1e87dcfa8b3346aa053078ae422.png" src="../_images/a2873e84b439d423b95aade4bd911493b4fda1e87dcfa8b3346aa053078ae422.png" />
+<img alt="../_images/c6a6cb89530f4d6cf9f89c1b51a37cc22b8770303165367ec2b6b6f9453856fb.png" src="../_images/c6a6cb89530f4d6cf9f89c1b51a37cc22b8770303165367ec2b6b6f9453856fb.png" />
 </div>
+</details>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1126,20 +1193,20 @@ Sampling: [y]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Tue Nov 07 2023
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Thu Apr 03 2025
 
 Python implementation: CPython
-Python version       : 3.11.5
-IPython version      : 8.15.0
+Python version       : 3.12.7
+IPython version      : 8.29.0
 
-pytensor: 2.17.1
+pytensor: 2.30.2
 
-arviz     : 0.16.1
-pymc      : 5.9.0
-pandas    : 2.1.0
-numpy     : 1.25.2
-xarray    : 2023.8.0
-matplotlib: 3.7.2
+pymc      : 5.22.0
+xarray    : 2024.11.0
+matplotlib: 3.9.2
+pandas    : 2.2.3
+numpy     : 1.26.4
+arviz     : 0.21.0
 </pre></div>
 </div>
 </div>
