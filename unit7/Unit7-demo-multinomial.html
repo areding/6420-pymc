@@ -65,6 +65,8 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'unit7/Unit7-demo-multinomial';</script>
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -587,6 +589,7 @@ document.write(`
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#problem-statement">Problem statement</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#author">Author</a></li>
 </ul>
             </nav>
         </div>
@@ -603,7 +606,7 @@ document.write(`
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pymc</span> <span class="k">as</span> <span class="nn">pm</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">arviz</span> <span class="k">as</span> <span class="nn">az</span>
-<span class="kn">from</span> <span class="nn">pytensor.tensor</span> <span class="kn">import</span> <span class="n">subtensor</span> <span class="k">as</span> <span class="n">st</span>
+<span class="kn">import</span> <span class="nn">pytensor.tensor</span> <span class="k">as</span> <span class="nn">pt</span>
 </pre></div>
 </div>
 </div>
@@ -614,7 +617,7 @@ document.write(`
 <section id="problem-statement">
 <h2>Problem statement<a class="headerlink" href="#problem-statement" title="Permalink to this headline">#</a></h2>
 <p>The National Health and Nutrition Examination Survey (NHANES) is a program of studies designed to assess the health and nutritional status of adults and children in the United States. The survey is unique in that it combines interviews and physical examinations.</p>
-<p>Assume that N subjects select a choice form K categories. The i-th subject is characterized by 3 covariates x[i,1], x[i,2], and x[i,3]. Given the covariates, model the probability of a subject selecting the category k, k=1,…,K.</p>
+<p>Assume that <span class="math notranslate nohighlight">\(N\)</span> subjects select a choice fromm <span class="math notranslate nohighlight">\(K\)</span> categories. The <span class="math notranslate nohighlight">\(i\text{-th}\)</span> subject is characterized by 3 covariates <code class="docutils literal notranslate"><span class="pre">x[i,</span> <span class="pre">1]</span></code>, <code class="docutils literal notranslate"><span class="pre">x[i,</span> <span class="pre">2]</span></code>, and <code class="docutils literal notranslate"><span class="pre">x[i,</span> <span class="pre">3]</span></code>. Given the covariates, model the probability of a subject selecting the category <span class="math notranslate nohighlight">\(k\)</span>, where <span class="math notranslate nohighlight">\(k \in \{1,...,K\}\)</span>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># data</span>
@@ -630,16 +633,16 @@ document.write(`
               <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
               <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]])</span>
 
-<span class="n">X</span> <span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">9</span><span class="p">],</span>
-             <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span>
-             <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">14</span><span class="p">],</span>
-             <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">21</span><span class="p">],</span>
-             <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">22</span><span class="p">],</span>
-             <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">30</span><span class="p">],</span>
-             <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">33</span><span class="p">],</span>
-             <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">36</span><span class="p">],</span>
-             <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">40</span><span class="p">],</span>
-             <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">44</span><span class="p">]])</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">9</span><span class="p">],</span>
+              <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span>
+              <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">14</span><span class="p">],</span>
+              <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">21</span><span class="p">],</span>
+              <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">22</span><span class="p">],</span>
+              <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">30</span><span class="p">],</span>
+              <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">33</span><span class="p">],</span>
+              <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">36</span><span class="p">],</span>
+              <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">40</span><span class="p">],</span>
+              <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">44</span><span class="p">]])</span>
 <span class="c1"># fmt: on</span>
 </pre></div>
 </div>
@@ -647,41 +650,48 @@ document.write(`
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y</span><span class="o">.</span><span class="n">shape</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(10, 5)
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X_aug</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">)),</span> <span class="n">X</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">X_aug</span><span class="o">.</span><span class="n">shape</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(10, 4)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># N = 10, P = 4  (intercept + 3 predictors)</span>
+<span class="n">X_aug</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">)),</span> <span class="n">X</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">N</span><span class="p">,</span> <span class="n">P</span> <span class="o">=</span> <span class="n">X_aug</span><span class="o">.</span><span class="n">shape</span>
+<span class="n">K</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
 </div>
+<p>The Multinomial distribution has two parameters, <span class="math notranslate nohighlight">\(n\)</span> and <span class="math notranslate nohighlight">\(p\)</span>. See the PyMC Documentation for the <a class="reference external" href="https://www.pymc.io/projects/docs/en/stable/api/distributions/generated/pymc.Multinomial.html">Multinomial distribution class</a></p>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Argument</p></th>
+<th class="head"><p>What it means</p></th>
+<th class="head"><p>In this model</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">n</span></code></p></td>
+<td><p>Total number of independent trials per replicate.  A Multinomial with <span class="math notranslate nohighlight">\(n = 1\)</span> is a one‑hot vector. Must equal the sum (per-row) of the corresponding observed values.</p></td>
+<td><p>Each survey respondent makes exactly one choice, so <code class="docutils literal notranslate"><span class="pre">n</span> <span class="pre">=</span> <span class="pre">1</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">p</span></code></p></td>
+<td><p>Vector (or matrix) of category probabilities.  Must sum to 1 along the last axis.</p></td>
+<td><p>We generate <code class="docutils literal notranslate"><span class="pre">p</span></code> with a softmax of the linear predictor <span class="math notranslate nohighlight">\(\eta = X\beta\)</span>.  Its shape is <span class="math notranslate nohighlight">\((N, K)\)</span>, one probability vector per observation.</p></td>
+</tr>
+<tr class="row-even"><td><p><strong><code class="docutils literal notranslate"><span class="pre">observed</span></code></strong></p></td>
+<td><p>Either a one‑hot matrix (<span class="math notranslate nohighlight">\(n = 1\)</span>) or a count matrix (if <span class="math notranslate nohighlight">\(n &gt; 1\)</span>).  Shape must match <code class="docutils literal notranslate"><span class="pre">p</span></code>.</p></td>
+<td><p>For this example every row of <code class="docutils literal notranslate"><span class="pre">y</span></code> is one‑hot encoded.</p></td>
+</tr>
+</tbody>
+</table>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">m</span><span class="p">:</span>
     <span class="n">y_data</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Data</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
     <span class="n">X_data</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Data</span><span class="p">(</span><span class="s2">&quot;X&quot;</span><span class="p">,</span> <span class="n">X_aug</span><span class="p">)</span>
 
-    <span class="n">_beta</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;_beta&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
-    <span class="c1"># first col in BUGS example is assigned 0</span>
-    <span class="c1"># might be better to prepend a column of zeroes rather than overwrite</span>
-    <span class="n">beta</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;beta&quot;</span><span class="p">,</span> <span class="n">st</span><span class="o">.</span><span class="n">set_subtensor</span><span class="p">(</span><span class="n">_beta</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="mi">0</span><span class="p">))</span>
-    <span class="n">eta</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">pm</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">X_data</span><span class="p">,</span> <span class="n">beta</span><span class="p">))</span>
-    <span class="n">p</span> <span class="o">=</span> <span class="n">eta</span> <span class="o">/</span> <span class="n">pm</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">eta</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">_beta</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;_beta&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">K</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="n">beta</span> <span class="o">=</span> <span class="n">pt</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">pt</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">P</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span> <span class="n">_beta</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">eta</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">X_data</span><span class="p">,</span> <span class="n">beta</span><span class="p">)</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">eta</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
     <span class="n">pm</span><span class="o">.</span><span class="n">Multinomial</span><span class="p">(</span><span class="s2">&quot;likelihood&quot;</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">p</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">y_data</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="n">X_data</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 
@@ -695,8 +705,8 @@ Multiprocess sampling (4 chains in 4 jobs)
 NUTS: [_beta]
 </pre></div>
 </div>
-<script type="application/vnd.jupyter.widget-view+json">{"model_id": "9a56f03f885e48389da0728a220e140c", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 10_000 draw iterations (4_000 + 40_000 draws total) took 25 seconds.
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "b78aa2ebb8b049efbd4d7d43753b063f", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 10_000 draw iterations (4_000 + 40_000 draws total) took 23 seconds.
 </pre></div>
 </div>
 </div>
@@ -715,7 +725,7 @@ NUTS: [_beta]
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling: [likelihood]
 </pre></div>
 </div>
-<script type="application/vnd.jupyter.widget-view+json">{"model_id": "752b49e1f5ee4c0cadfa53e83ed90ca3", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "b6e5459236f64dcca64ec7dcab38f832", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
 </div></div>
 </div>
 <div class="cell docutils container">
@@ -757,61 +767,61 @@ NUTS: [_beta]
   <tbody>
     <tr>
       <th>likelihood[0, 0]</th>
-      <td>0.008</td>
-      <td>0.090</td>
+      <td>0.007</td>
+      <td>0.086</td>
       <td>0.0</td>
       <td>0.0</td>
       <td>0.000</td>
-      <td>0.000</td>
-      <td>38988.0</td>
-      <td>38988.0</td>
+      <td>0.002</td>
+      <td>39808.0</td>
+      <td>39808.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>likelihood[0, 1]</th>
-      <td>0.039</td>
-      <td>0.194</td>
+      <td>0.038</td>
+      <td>0.191</td>
       <td>0.0</td>
       <td>0.0</td>
       <td>0.001</td>
-      <td>0.001</td>
-      <td>40973.0</td>
-      <td>40973.0</td>
+      <td>0.002</td>
+      <td>39180.0</td>
+      <td>39180.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>likelihood[0, 2]</th>
-      <td>0.119</td>
-      <td>0.324</td>
+      <td>0.116</td>
+      <td>0.320</td>
       <td>0.0</td>
       <td>1.0</td>
       <td>0.002</td>
-      <td>0.001</td>
-      <td>40603.0</td>
+      <td>0.002</td>
+      <td>40635.0</td>
       <td>40000.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>likelihood[0, 3]</th>
-      <td>0.683</td>
-      <td>0.465</td>
+      <td>0.686</td>
+      <td>0.464</td>
       <td>0.0</td>
       <td>1.0</td>
       <td>0.002</td>
-      <td>0.002</td>
-      <td>40085.0</td>
+      <td>0.001</td>
+      <td>40664.0</td>
       <td>40000.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>likelihood[0, 4]</th>
-      <td>0.150</td>
-      <td>0.357</td>
+      <td>0.153</td>
+      <td>0.360</td>
       <td>0.0</td>
       <td>1.0</td>
       <td>0.002</td>
-      <td>0.001</td>
-      <td>40403.0</td>
+      <td>0.002</td>
+      <td>40308.0</td>
       <td>40000.0</td>
       <td>1.0</td>
     </tr>
@@ -819,26 +829,28 @@ NUTS: [_beta]
 </table>
 </div></div></div>
 </div>
+</section>
+<section id="author">
+<h2>Author<a class="headerlink" href="#author" title="Permalink to this headline">#</a></h2>
+<p>Aaron Reding, May 2022 (updated April 2025)</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">load_ext</span> watermark
-<span class="o">%</span><span class="k">watermark</span> -n -u -v -iv -p pytensor
+<span class="o">%</span><span class="k">watermark</span> -n -u -v -iv
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Sun Mar 09 2025
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Sun Apr 20 2025
 
 Python implementation: CPython
 Python version       : 3.12.7
 IPython version      : 8.29.0
 
-pytensor: 2.26.4
-
-arviz   : 0.20.0
-pymc    : 5.19.1
-pytensor: 2.26.4
 numpy   : 1.26.4
+pytensor: 2.30.2
+arviz   : 0.21.0
+pymc    : 5.22.0
 </pre></div>
 </div>
 </div>
@@ -914,6 +926,7 @@ numpy   : 1.26.4
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#problem-statement">Problem statement</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#author">Author</a></li>
 </ul>
   </nav></div>
 

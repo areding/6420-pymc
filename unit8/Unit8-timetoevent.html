@@ -65,6 +65,8 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'unit8/Unit8-timetoevent';</script>
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -587,6 +589,17 @@ document.write(`
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lecture-errata">Lecture errata:</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#survival-models">Survival models</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exponential-distribution">Exponential Distribution</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#weibull-distribution">Weibull Distribution</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#rate-model-bugs">Rate model (BUGS)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#scale-model-pymc">Scale model (PyMC)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#converting-from-bugs-to-pymc-parameterization">Converting from BUGS to PyMC parameterization</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#censoring-and-truncation">Censoring and Truncation</a></li>
 </ul>
             </nav>
         </div>
@@ -600,17 +613,138 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="time-to-event-models">
 <h1>3. Time-to-event Models<a class="headerlink" href="#time-to-event-models" title="Permalink to this headline">#</a></h1>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>This page is a stub. I will try to update it over the semester with supplementary lecture notes—if you would like to request a certain page be finished first, please make an Ed Discussion post with your questions about the lecture.</p>
-</div>
 <section id="lecture-errata">
 <h2>Lecture errata:<a class="headerlink" href="#lecture-errata" title="Permalink to this headline">#</a></h2>
-<p>There are a couple errors in the lecture slides, please see the PDF on Ed Discussion for now.</p>
-<p>interesting links:</p>
-<p><a class="reference external" href="https://eng.uber.com/modeling-censored-time-to-event-data-using-pyro/">https://eng.uber.com/modeling-censored-time-to-event-data-using-pyro/</a></p>
-<p><a class="reference external" href="https://www.publichealth.columbia.edu/research/population-health-methods/time-event-data-analysis">https://www.publichealth.columbia.edu/research/population-health-methods/time-event-data-analysis</a></p>
-<p><a class="reference external" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3297827/">https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3297827/</a></p>
+<p>There is a typo that says:</p>
+<div class="math notranslate nohighlight">
+\[
+\text{Bayesian inference about}  \longrightarrow L(\theta \mid y_1, \ldots, y_n) + \pi(\theta)
+\]</div>
+<p>Which should instead be:</p>
+<div class="math notranslate nohighlight">
+\[
+ \text{Bayesian inference about} \longrightarrow L(\theta \mid y_1, \ldots, y_n) \cdot \pi(\theta)
+ \]</div>
+</section>
+<section id="survival-models">
+<h2>Survival models<a class="headerlink" href="#survival-models" title="Permalink to this headline">#</a></h2>
+<p>Survival analysis studies the time <span class="math notranslate nohighlight">\(T\)</span> until an event occurs (<span class="math notranslate nohighlight">\(T \ge 0\)</span>). Key functions:</p>
+<ul class="simple">
+<li><p>Cumulative Distribution Function (CDF): <span class="math notranslate nohighlight">\(F(t) = P(T \le t)\)</span>, probability event occurs by time <span class="math notranslate nohighlight">\(t\)</span>.</p></li>
+<li><p>Survival Function: <span class="math notranslate nohighlight">\(S(t) = P(T &gt; t) = 1 - F(t)\)</span>, probability event has not occurred by time <span class="math notranslate nohighlight">\(t\)</span>.</p></li>
+<li><p>Probability Density Function (PDF): <span class="math notranslate nohighlight">\(f(t) = \frac{d}{dt}F(t) = -\frac{d}{dt}S(t)\)</span>, instantaneous rate of event at time <span class="math notranslate nohighlight">\(t\)</span>.</p></li>
+<li><p>Hazard Function (Hazard Rate): <span class="math notranslate nohighlight">\(h(t) = \lim_{\Delta t \to 0} \frac{P(t \le T &lt; t+\Delta t | T \ge t)}{\Delta t}\)</span>. Instantaneous potential for event at <span class="math notranslate nohighlight">\(t\)</span>, given survival up to <span class="math notranslate nohighlight">\(t\)</span>.</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[
+h(t) = \frac{f(t)}{S(t)} = -\frac{d}{dt} \ln(S(t)) 
+\]</div>
+<ul class="simple">
+<li><p>Cumulative Hazard Function: <span class="math notranslate nohighlight">\(H(t) = \int_0^t h(u) du\)</span>. Related to survival by:</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[ 
+S(t) = e^{-H(t)} = e^{-\int_0^t h(u) du} 
+\]</div>
+<p>Probability of event between <span class="math notranslate nohighlight">\(a\)</span> and <span class="math notranslate nohighlight">\(b\)</span> (<span class="math notranslate nohighlight">\(a&lt;b\)</span>) is <span class="math notranslate nohighlight">\(P(a &lt; T \le b) = F(b) - F(a) = S(a) - S(b)\)</span>.</p>
+<section id="exponential-distribution">
+<h3>Exponential Distribution<a class="headerlink" href="#exponential-distribution" title="Permalink to this headline">#</a></h3>
+<p>Has a constant hazard rate <span class="math notranslate nohighlight">\(\lambda\)</span>.</p>
+<ul class="simple">
+<li><p>Parameter: Rate <span class="math notranslate nohighlight">\(\lambda &gt; 0\)</span>.</p></li>
+<li><p>PDF: <span class="math notranslate nohighlight">\(f(t|\lambda) = \lambda e^{-\lambda t}\)</span>, for <span class="math notranslate nohighlight">\(t \ge 0\)</span>.</p></li>
+<li><p>CDF: <span class="math notranslate nohighlight">\(F(t|\lambda) = 1 - e^{-\lambda t}\)</span>.</p></li>
+<li><p>Survival Function: <span class="math notranslate nohighlight">\(S(t|\lambda) = e^{-\lambda t}\)</span>.</p></li>
+<li><p>Hazard Function: <span class="math notranslate nohighlight">\(h(t|\lambda) = \frac{\lambda e^{-\lambda t}}{e^{-\lambda t}} = \lambda\)</span>.</p></li>
+<li><p>Cumulative Hazard Function: <span class="math notranslate nohighlight">\(H(t|\lambda) = \lambda t\)</span>.</p></li>
+</ul>
+</section>
+<section id="weibull-distribution">
+<h3>Weibull Distribution<a class="headerlink" href="#weibull-distribution" title="Permalink to this headline">#</a></h3>
+<p>Allows hazard rates to increase (<span class="math notranslate nohighlight">\(\alpha &gt; 1\)</span>), decrease (<span class="math notranslate nohighlight">\(\alpha &lt; 1\)</span>), or be constant (<span class="math notranslate nohighlight">\(\alpha = 1\)</span>, Exponential case). Two common parameterizations exist.</p>
+<section id="rate-model-bugs">
+<h4>Rate model (BUGS)<a class="headerlink" href="#rate-model-bugs" title="Permalink to this headline">#</a></h4>
+<ul class="simple">
+<li><p>Parameters: Shape <span class="math notranslate nohighlight">\(r &gt; 0\)</span>, Rate <span class="math notranslate nohighlight">\(\lambda &gt; 0\)</span>.</p></li>
+<li><p>PDF: <span class="math notranslate nohighlight">\(f(t|r, \lambda) = \lambda r t^{r-1} e^{-\lambda t^r}\)</span>, for <span class="math notranslate nohighlight">\(t &gt; 0\)</span>.</p></li>
+<li><p>CDF: <span class="math notranslate nohighlight">\(F(t|r, \lambda) = 1 - e^{-\lambda t^r}\)</span>.</p></li>
+<li><p>Survival Function: <span class="math notranslate nohighlight">\(S(t|r, \lambda) = e^{-\lambda t^r}\)</span>.</p></li>
+<li><p>Hazard Function: <span class="math notranslate nohighlight">\(h(t|r, \lambda) = \frac{\lambda r t^{r-1} e^{-\lambda t^r}}{e^{-\lambda t^r}} = \lambda r t^{r-1}\)</span>.</p></li>
+<li><p>Cumulative Hazard Function: <span class="math notranslate nohighlight">\(H(t|r, \lambda) = \lambda t^r\)</span>.</p></li>
+</ul>
+</section>
+<section id="scale-model-pymc">
+<h4>Scale model (PyMC)<a class="headerlink" href="#scale-model-pymc" title="Permalink to this headline">#</a></h4>
+<ul class="simple">
+<li><p>Parameters: Shape <span class="math notranslate nohighlight">\(\alpha &gt; 0\)</span>, Scale <span class="math notranslate nohighlight">\(\beta &gt; 0\)</span>.</p></li>
+<li><p>PDF: <span class="math notranslate nohighlight">\(f(t|\alpha, \beta) = \frac{\alpha}{\beta} \left(\frac{t}{\beta}\right)^{\alpha - 1} e^{-(t/\beta)^{\alpha}} = \frac{\alpha}{\beta^\alpha} t^{\alpha - 1} e^{-(t/\beta)^{\alpha}}\)</span>, for <span class="math notranslate nohighlight">\(t &gt; 0\)</span>.</p></li>
+<li><p>CDF: <span class="math notranslate nohighlight">\(F(t|\alpha, \beta) = 1 - e^{-(t/\beta)^\alpha}\)</span>.</p></li>
+<li><p>Survival Function: <span class="math notranslate nohighlight">\(S(t|\alpha, \beta) = e^{-(t/\beta)^\alpha}\)</span>.</p></li>
+<li><p>Hazard Function: <span class="math notranslate nohighlight">\(h(t|\alpha, \beta) = \frac{\frac{\alpha}{\beta^\alpha} t^{\alpha - 1} e^{-(t/\beta)^{\alpha}}}{e^{-(t/\beta)^\alpha}} = \frac{\alpha}{\beta^\alpha} t^{\alpha - 1} = \frac{\alpha}{\beta} \left(\frac{t}{\beta}\right)^{\alpha-1}\)</span>.</p></li>
+<li><p>Cumulative Hazard Function: <span class="math notranslate nohighlight">\(H(t|\alpha, \beta) = (t/\beta)^\alpha\)</span>.</p></li>
+</ul>
+</section>
+<section id="converting-from-bugs-to-pymc-parameterization">
+<h4>Converting from BUGS to PyMC parameterization<a class="headerlink" href="#converting-from-bugs-to-pymc-parameterization" title="Permalink to this headline">#</a></h4>
+<p>Let <span class="math notranslate nohighlight">\(X\)</span> be Weibull distributed.</p>
+<p>BUGS parameterization: shape <span class="math notranslate nohighlight">\(r &gt; 0\)</span>, rate <span class="math notranslate nohighlight">\(\lambda &gt; 0\)</span>.</p>
+<div class="math notranslate nohighlight">
+\[ 
+f_{BUGS}(x|r, \lambda) = \lambda r x^{r-1} e^{-\lambda x^r}, \quad \text{for } x &gt; 0 
+\]</div>
+<p>PyMC parameterization: shape <span class="math notranslate nohighlight">\(\alpha &gt; 0\)</span>, scale <span class="math notranslate nohighlight">\(\beta &gt; 0\)</span>.</p>
+<div class="math notranslate nohighlight">
+\[ 
+f_{PyMC}(x|\alpha, \beta) = \frac{\alpha}{\beta^\alpha} x^{\alpha - 1} e^{-(x/\beta)^{\alpha}}, \quad \text{for } x &gt; 0 
+\]</div>
+<p>Relationship:</p>
+<ol class="arabic simple">
+<li><p><span class="math notranslate nohighlight">\(\alpha = r\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\beta = \lambda^{-1/r} = \lambda^{-1/\alpha}\)</span></p></li>
+</ol>
+<p>From (2), <span class="math notranslate nohighlight">\(\lambda = 1/\beta^\alpha\)</span>.</p>
+<p>Substituting BUGS parameters with PyMC equivalents:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+f_{BUGS}(x|r, \lambda) &amp;= \lambda r x^{r-1} e^{-\lambda x^r} \\
+&amp;= \left(\frac{1}{\beta^\alpha}\right) \alpha x^{\alpha-1} e^{-\left(\frac{1}{\beta^\alpha}\right) x^\alpha} \\
+&amp;= \frac{\alpha}{\beta^\alpha} x^{\alpha-1} e^{-\frac{x^\alpha}{\beta^\alpha}} \\
+&amp;= \frac{\alpha}{\beta^\alpha} x^{\alpha-1} e^{-\left(\frac{x}{\beta}\right)^\alpha} \\
+&amp;= f_{PyMC}(x|\alpha, \beta)
+\end{align*}
+\end{split}\]</div>
+<p>The parameterizations are equivalent if <span class="math notranslate nohighlight">\(\alpha = r\)</span> and <span class="math notranslate nohighlight">\(\beta = \lambda^{-1/\alpha}\)</span>.</p>
+</section>
+</section>
+</section>
+<section id="censoring-and-truncation">
+<h2>Censoring and Truncation<a class="headerlink" href="#censoring-and-truncation" title="Permalink to this headline">#</a></h2>
+<p>Event time <span class="math notranslate nohighlight">\(T\)</span> may not be fully observed.</p>
+<p>Right-Censoring: Most common. Study ends or subject lost before event. True event time <span class="math notranslate nohighlight">\(T_i &gt;\)</span> observed censoring time <span class="math notranslate nohighlight">\(C_i\)</span>. Data is <span class="math notranslate nohighlight">\((y_i, \delta_i)\)</span>, where <span class="math notranslate nohighlight">\(y_i = \min(T_i, C_i)\)</span> and <span class="math notranslate nohighlight">\(\delta_i\)</span> indicates censoring:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\delta_i = 0\)</span> if event observed (<span class="math notranslate nohighlight">\(T_i \le C_i\)</span>).</p></li>
+<li><p><span class="math notranslate nohighlight">\(\delta_i = 1\)</span> if censored (<span class="math notranslate nohighlight">\(T_i &gt; C_i\)</span>).</p></li>
+</ul>
+<p>Left-Censoring: Event occurred before time <span class="math notranslate nohighlight">\(C_i\)</span>, exact time unknown (<span class="math notranslate nohighlight">\(T_i &lt; C_i\)</span>).</p>
+<p>Truncation: Differs from censoring. Subjects included only if event time is within a range (e.g., left-truncation: only subjects with <span class="math notranslate nohighlight">\(T_i &gt; T_{start}\)</span> are observed).</p>
+<p>Likelihood with Right-Censoring:</p>
+<p>For <span class="math notranslate nohighlight">\(n\)</span> subjects (<span class="math notranslate nohighlight">\(k\)</span> observed events, <span class="math notranslate nohighlight">\(n-k\)</span> censored), likelihood <span class="math notranslate nohighlight">\(L\)</span> for parameters <span class="math notranslate nohighlight">\(\theta\)</span>:</p>
+<ul class="simple">
+<li><p>Observed event <span class="math notranslate nohighlight">\(y_i\)</span> (<span class="math notranslate nohighlight">\(\delta_i=0\)</span>): contribution is PDF <span class="math notranslate nohighlight">\(f(y_i|\theta)\)</span>.</p></li>
+<li><p>Censored time <span class="math notranslate nohighlight">\(y_i\)</span> (<span class="math notranslate nohighlight">\(\delta_i=1\)</span>): contribution is Survival <span class="math notranslate nohighlight">\(S(y_i|\theta) = P(T_i &gt; y_i | \theta)\)</span>.</p></li>
+</ul>
+<p>Total likelihood:</p>
+<div class="math notranslate nohighlight">
+\[ 
+L(\theta | \mathbf{y}, \boldsymbol{\delta}) = \prod_{i=1}^n [f(y_i|\theta)]^{1-\delta_i} [S(y_i|\theta)]^{\delta_i} 
+\]</div>
+<p>Used for inference (MLE, Bayesian).</p>
+<p>Types of Censoring:</p>
+<ul class="simple">
+<li><p>Type I Censoring: Study ends at fixed time <span class="math notranslate nohighlight">\(C\)</span>. Number of events is random.</p></li>
+<li><p>Type II Censoring: Study ends after fixed number of events <span class="math notranslate nohighlight">\(k\)</span>. Time <span class="math notranslate nohighlight">\(C\)</span> is random.</p></li>
+</ul>
 </section>
 </section>
 
@@ -682,6 +816,17 @@ document.write(`
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lecture-errata">Lecture errata:</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#survival-models">Survival models</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exponential-distribution">Exponential Distribution</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#weibull-distribution">Weibull Distribution</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#rate-model-bugs">Rate model (BUGS)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#scale-model-pymc">Scale model (PyMC)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#converting-from-bugs-to-pymc-parameterization">Converting from BUGS to PyMC parameterization</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#censoring-and-truncation">Censoring and Truncation</a></li>
 </ul>
   </nav></div>
 

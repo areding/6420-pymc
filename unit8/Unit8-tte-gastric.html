@@ -65,6 +65,8 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'unit8/Unit8-tte-gastric';</script>
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -671,23 +673,46 @@ document.write(`
 </div>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>PyMC and BUGS do not specify the Weibull distribution in the same way!</p>
-<p>α = v</p>
-<p>β = λ ** (-1 / α)</p>
+<p>PyMC and BUGS do not specify the Weibull distribution in the same way! The below model is meant to be a direct translation of the lecture model, so we converted the parameters:</p>
+<div class="math notranslate nohighlight">
+\[
+\alpha = \nu
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\beta = \lambda ** (-1 / \alpha)
+\]</div>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>We have noticed that using the tau (precision) parameter to define the coefficients is also unstable. In order to stay as close as possible to the lecture model, I’ve kept it here, but when using <a class="reference external" href="https://www.pymc.io/projects/docs/en/latest/api/distributions/censored.html"><code class="docutils literal notranslate"><span class="pre">pm.Censored</span></code></a>, it’s better to define the normal priors for your coefficients and intercept with sigma (standard deviation).</p>
+<p>This:</p>
+</div>
+<p>beta0 = pm.Normal(“beta0”, 0, sigma=10)
+beta1 = pm.Normal(“beta1”, 0, sigma=5)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
+<span class="n">Not</span> <span class="n">this</span><span class="p">:</span>
+
+</pre></div>
+</div>
+<p>beta0 = pm.Normal(“beta0”, 0, tau=0.01)
+beta1 = pm.Normal(“beta1”, 0, tau=0.1)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
 </div>
 <div class="cell tag_hide-output docutils container">
 <div class="cell_input above-output-prompt docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">log2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
 
-<span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">m</span><span class="p">:</span>
+<span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">m_censored</span><span class="p">:</span>
     <span class="n">beta0</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;beta0&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
     <span class="n">beta1</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;beta1&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
-    <span class="n">α</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Gamma</span><span class="p">(</span><span class="s2">&quot;α&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">,</span> <span class="n">initval</span><span class="o">=</span><span class="mf">0.25</span><span class="p">)</span>
+    <span class="n">alpha</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Gamma</span><span class="p">(</span><span class="s2">&quot;alpha&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">)</span>
 
-    <span class="n">λ</span> <span class="o">=</span> <span class="n">exp</span><span class="p">(</span><span class="n">beta0</span> <span class="o">+</span> <span class="n">beta1</span> <span class="o">*</span> <span class="n">x</span><span class="p">)</span>
-    <span class="n">β</span> <span class="o">=</span> <span class="n">λ</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span> <span class="o">/</span> <span class="n">α</span><span class="p">)</span>
+    <span class="n">lamb</span> <span class="o">=</span> <span class="n">exp</span><span class="p">(</span><span class="n">beta0</span> <span class="o">+</span> <span class="n">beta1</span> <span class="o">*</span> <span class="n">x</span><span class="p">)</span>
+    <span class="n">beta</span> <span class="o">=</span> <span class="n">lamb</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span> <span class="o">/</span> <span class="n">alpha</span><span class="p">)</span>
 
-    <span class="n">obs_latent</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Weibull</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="n">α</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="n">β</span><span class="p">)</span>
+    <span class="n">obs_latent</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Weibull</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="n">beta</span><span class="p">)</span>
     <span class="n">likelihood</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Censored</span><span class="p">(</span>
         <span class="s2">&quot;likelihood&quot;</span><span class="p">,</span>
         <span class="n">obs_latent</span><span class="p">,</span>
@@ -696,20 +721,17 @@ document.write(`
         <span class="n">observed</span><span class="o">=</span><span class="n">y</span><span class="p">,</span>
     <span class="p">)</span>
 
-    <span class="n">median0</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;median0&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">log2</span> <span class="o">*</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">beta0</span><span class="p">))</span> <span class="o">**</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">α</span><span class="p">))</span>
+    <span class="n">median0</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;median0&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">log2</span> <span class="o">*</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">beta0</span><span class="p">))</span> <span class="o">**</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">alpha</span><span class="p">))</span>
     <span class="n">median1</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span>
-        <span class="s2">&quot;median1&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">log2</span> <span class="o">*</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">beta0</span> <span class="o">-</span> <span class="n">beta1</span><span class="p">))</span> <span class="o">**</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">α</span><span class="p">)</span>
+        <span class="s2">&quot;median1&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">log2</span> <span class="o">*</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">beta0</span> <span class="o">-</span> <span class="n">beta1</span><span class="p">))</span> <span class="o">**</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">alpha</span><span class="p">)</span>
     <span class="p">)</span>
 
-    <span class="n">S</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;S&quot;</span><span class="p">,</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">λ</span> <span class="o">*</span> <span class="p">(</span><span class="n">likelihood</span><span class="o">**</span><span class="n">α</span><span class="p">)))</span>
-    <span class="n">f</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;f&quot;</span><span class="p">,</span> <span class="n">λ</span> <span class="o">*</span> <span class="n">α</span> <span class="o">*</span> <span class="p">(</span><span class="n">likelihood</span> <span class="o">**</span> <span class="p">(</span><span class="n">α</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span> <span class="o">*</span> <span class="n">S</span><span class="p">)</span>
-    <span class="n">h</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;h&quot;</span><span class="p">,</span> <span class="n">f</span> <span class="o">/</span> <span class="n">S</span><span class="p">)</span>
+    <span class="n">S</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;survival&quot;</span><span class="p">,</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">lamb</span> <span class="o">*</span> <span class="p">(</span><span class="n">likelihood</span><span class="o">**</span><span class="n">alpha</span><span class="p">)))</span>
+    <span class="n">pdf</span> <span class="o">=</span> <span class="n">lamb</span> <span class="o">*</span> <span class="n">alpha</span> <span class="o">*</span> <span class="p">(</span><span class="n">likelihood</span> <span class="o">**</span> <span class="p">(</span><span class="n">alpha</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span> <span class="o">*</span> <span class="n">S</span>
+    <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;hazard&quot;</span><span class="p">,</span> <span class="n">pdf</span> <span class="o">/</span> <span class="n">S</span><span class="p">)</span>
 
     <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span>
-        <span class="mi">10000</span><span class="p">,</span>
-        <span class="n">tune</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span>
-        <span class="n">init</span><span class="o">=</span><span class="s2">&quot;jitter+adapt_diag_grad&quot;</span><span class="p">,</span>
-        <span class="n">target_accept</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span>
+        <span class="mi">10000</span><span class="p">,</span> <span class="n">tune</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">initvals</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;alpha&quot;</span><span class="p">:</span> <span class="mf">0.25</span><span class="p">},</span> <span class="n">target_accept</span><span class="o">=</span><span class="mf">0.9</span>
     <span class="p">)</span>
 </pre></div>
 </div>
@@ -720,14 +742,13 @@ document.write(`
 <span class="expanded">Hide code cell output</span>
 </summary>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Auto-assigning NUTS sampler...
-Initializing NUTS using jitter+adapt_diag_grad...
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Initializing NUTS using jitter+adapt_diag...
 Multiprocess sampling (4 chains in 4 jobs)
-NUTS: [beta0, beta1, α]
+NUTS: [beta0, beta1, alpha]
 </pre></div>
 </div>
-<script type="application/vnd.jupyter.widget-view+json">{"model_id": "d5a680d570cb48cbbd785a1ba47964f6", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 2_000 tune and 10_000 draw iterations (8_000 + 40_000 draws total) took 14 seconds.
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "879470dd3fe24af49d4de686415d37c6", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 2_000 tune and 10_000 draw iterations (8_000 + 40_000 draws total) took 11 seconds.
 </pre></div>
 </div>
 </div>
@@ -772,62 +793,208 @@ NUTS: [beta0, beta1, α]
   <tbody>
     <tr>
       <th>beta0</th>
-      <td>-6.794</td>
+      <td>-6.764</td>
       <td>0.669</td>
-      <td>-7.918</td>
-      <td>-5.721</td>
-      <td>0.008</td>
+      <td>-7.839</td>
+      <td>-5.638</td>
       <td>0.006</td>
-      <td>7103.0</td>
-      <td>9414.0</td>
+      <td>0.004</td>
+      <td>12567.0</td>
+      <td>15165.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>beta1</th>
-      <td>0.262</td>
+      <td>0.261</td>
       <td>0.232</td>
-      <td>-0.114</td>
-      <td>0.648</td>
+      <td>-0.120</td>
+      <td>0.639</td>
+      <td>0.002</td>
       <td>0.001</td>
-      <td>0.001</td>
-      <td>24321.0</td>
-      <td>19909.0</td>
+      <td>18180.0</td>
+      <td>17129.0</td>
       <td>1.0</td>
     </tr>
     <tr>
-      <th>α</th>
-      <td>1.028</td>
+      <th>alpha</th>
+      <td>1.024</td>
       <td>0.098</td>
-      <td>0.867</td>
-      <td>1.188</td>
+      <td>0.868</td>
+      <td>1.189</td>
       <td>0.001</td>
       <td>0.001</td>
-      <td>7153.0</td>
-      <td>9646.0</td>
+      <td>12742.0</td>
+      <td>15317.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>median0</th>
-      <td>524.207</td>
-      <td>88.400</td>
-      <td>383.214</td>
-      <td>664.780</td>
+      <td>523.222</td>
+      <td>88.206</td>
+      <td>381.286</td>
+      <td>664.081</td>
       <td>0.587</td>
-      <td>0.415</td>
-      <td>22412.0</td>
-      <td>25454.0</td>
+      <td>0.485</td>
+      <td>22881.0</td>
+      <td>26115.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>median1</th>
-      <td>405.738</td>
-      <td>70.421</td>
-      <td>295.325</td>
-      <td>522.211</td>
-      <td>0.446</td>
-      <td>0.315</td>
-      <td>24736.0</td>
-      <td>26524.0</td>
+      <td>405.071</td>
+      <td>69.937</td>
+      <td>294.164</td>
+      <td>518.142</td>
+      <td>0.454</td>
+      <td>0.412</td>
+      <td>23896.0</td>
+      <td>25037.0</td>
+      <td>1.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>This is the preferred way to implement the model in PyMC.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">log2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">m_censored</span><span class="p">:</span>
+    <span class="n">beta0</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;beta0&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">beta1</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;beta1&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mf">3.2</span><span class="p">)</span>
+    <span class="n">alpha</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Gamma</span><span class="p">(</span><span class="s2">&quot;alpha&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">)</span>
+
+    <span class="n">beta</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">exp</span><span class="p">(</span><span class="n">beta0</span> <span class="o">+</span> <span class="n">beta1</span> <span class="o">*</span> <span class="n">x</span><span class="p">)</span>
+
+    <span class="n">obs_latent</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Weibull</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="n">beta</span><span class="p">)</span>
+    <span class="n">likelihood</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Censored</span><span class="p">(</span>
+        <span class="s2">&quot;likelihood&quot;</span><span class="p">,</span>
+        <span class="n">obs_latent</span><span class="p">,</span>
+        <span class="n">lower</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">upper</span><span class="o">=</span><span class="n">censored</span><span class="p">,</span>
+        <span class="n">observed</span><span class="o">=</span><span class="n">y</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">median0</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;median0&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">log2</span> <span class="o">*</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">beta0</span><span class="p">))</span> <span class="o">**</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">alpha</span><span class="p">))</span>
+    <span class="n">median1</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span>
+        <span class="s2">&quot;median1&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">log2</span> <span class="o">*</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">beta0</span> <span class="o">-</span> <span class="n">beta1</span><span class="p">))</span> <span class="o">**</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">alpha</span><span class="p">)</span>
+    <span class="p">)</span>
+
+    <span class="n">S</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;survival&quot;</span><span class="p">,</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">((</span><span class="n">likelihood</span> <span class="o">/</span> <span class="n">beta</span><span class="p">)</span> <span class="o">**</span> <span class="n">alpha</span><span class="p">)))</span>
+    <span class="n">pdf</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="p">(</span><span class="n">alpha</span> <span class="o">/</span> <span class="n">beta</span><span class="p">)</span>
+        <span class="o">*</span> <span class="p">((</span><span class="n">likelihood</span> <span class="o">/</span> <span class="n">beta</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="n">alpha</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="o">*</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">((</span><span class="n">likelihood</span> <span class="o">/</span> <span class="n">beta</span><span class="p">)</span> <span class="o">**</span> <span class="n">alpha</span><span class="p">))</span>
+    <span class="p">)</span>
+    <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;hazard&quot;</span><span class="p">,</span> <span class="n">pdf</span> <span class="o">/</span> <span class="n">S</span><span class="p">)</span>
+
+    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span>
+        <span class="mi">10000</span><span class="p">,</span> <span class="n">tune</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">initvals</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;alpha&quot;</span><span class="p">:</span> <span class="mf">0.25</span><span class="p">},</span> <span class="n">target_accept</span><span class="o">=</span><span class="mf">0.9</span>
+    <span class="p">)</span>
+
+<span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;~survival&quot;</span><span class="p">,</span> <span class="s2">&quot;~hazard&quot;</span><span class="p">],</span> <span class="n">hdi_prob</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Initializing NUTS using jitter+adapt_diag...
+Multiprocess sampling (4 chains in 4 jobs)
+NUTS: [beta0, beta1, alpha]
+</pre></div>
+</div>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "bb6dc1fcf5f64937bd896c7f09795946", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 2_000 tune and 10_000 draw iterations (8_000 + 40_000 draws total) took 4 seconds.
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mean</th>
+      <th>sd</th>
+      <th>hdi_5%</th>
+      <th>hdi_95%</th>
+      <th>mcse_mean</th>
+      <th>mcse_sd</th>
+      <th>ess_bulk</th>
+      <th>ess_tail</th>
+      <th>r_hat</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>beta0</th>
+      <td>-6.604</td>
+      <td>0.164</td>
+      <td>-6.865</td>
+      <td>-6.327</td>
+      <td>0.001</td>
+      <td>0.001</td>
+      <td>22467.0</td>
+      <td>22594.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>beta1</th>
+      <td>0.255</td>
+      <td>0.233</td>
+      <td>-0.132</td>
+      <td>0.632</td>
+      <td>0.002</td>
+      <td>0.001</td>
+      <td>21877.0</td>
+      <td>22078.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>alpha</th>
+      <td>1.011</td>
+      <td>0.098</td>
+      <td>0.857</td>
+      <td>1.177</td>
+      <td>0.001</td>
+      <td>0.001</td>
+      <td>22416.0</td>
+      <td>23873.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>median0</th>
+      <td>632.289</td>
+      <td>559.645</td>
+      <td>121.467</td>
+      <td>1173.620</td>
+      <td>3.886</td>
+      <td>20.380</td>
+      <td>22038.0</td>
+      <td>24899.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>median1</th>
+      <td>475.234</td>
+      <td>383.121</td>
+      <td>106.540</td>
+      <td>862.676</td>
+      <td>2.585</td>
+      <td>18.081</td>
+      <td>23324.0</td>
+      <td>25162.0</td>
       <td>1.0</td>
     </tr>
   </tbody>
@@ -872,29 +1039,29 @@ NUTS: [beta0, beta1, α]
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">log2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
 
-<span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">m</span><span class="p">:</span>
+<span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">m_potential</span><span class="p">:</span>
     <span class="n">beta0</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;beta0&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
     <span class="n">beta1</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;beta1&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
-    <span class="n">α</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Gamma</span><span class="p">(</span><span class="s2">&quot;α&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">,</span> <span class="n">initval</span><span class="o">=</span><span class="mf">0.25</span><span class="p">)</span>
+    <span class="n">alpha</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Gamma</span><span class="p">(</span><span class="s2">&quot;alpha&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">,</span> <span class="n">initval</span><span class="o">=</span><span class="mf">0.25</span><span class="p">)</span>
 
-    <span class="n">λ_censored</span> <span class="o">=</span> <span class="n">exp</span><span class="p">(</span><span class="n">beta0</span> <span class="o">+</span> <span class="n">beta1</span> <span class="o">*</span> <span class="n">x_censored</span><span class="p">)</span>
-    <span class="n">β_censored</span> <span class="o">=</span> <span class="n">λ_censored</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span> <span class="o">/</span> <span class="n">α</span><span class="p">)</span>
+    <span class="n">lamb_censored</span> <span class="o">=</span> <span class="n">exp</span><span class="p">(</span><span class="n">beta0</span> <span class="o">+</span> <span class="n">beta1</span> <span class="o">*</span> <span class="n">x_censored</span><span class="p">)</span>
+    <span class="n">beta_censored</span> <span class="o">=</span> <span class="n">lamb_censored</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span> <span class="o">/</span> <span class="n">alpha</span><span class="p">)</span>
 
-    <span class="n">λ_uncensored</span> <span class="o">=</span> <span class="n">exp</span><span class="p">(</span><span class="n">beta0</span> <span class="o">+</span> <span class="n">beta1</span> <span class="o">*</span> <span class="n">x_uncensored</span><span class="p">)</span>
-    <span class="n">β_uncensored</span> <span class="o">=</span> <span class="n">λ_uncensored</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span> <span class="o">/</span> <span class="n">α</span><span class="p">)</span>
+    <span class="n">lamb_uncensored</span> <span class="o">=</span> <span class="n">exp</span><span class="p">(</span><span class="n">beta0</span> <span class="o">+</span> <span class="n">beta1</span> <span class="o">*</span> <span class="n">x_uncensored</span><span class="p">)</span>
+    <span class="n">beta_uncensored</span> <span class="o">=</span> <span class="n">lamb_uncensored</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span> <span class="o">/</span> <span class="n">alpha</span><span class="p">)</span>
 
     <span class="n">pm</span><span class="o">.</span><span class="n">Weibull</span><span class="p">(</span>
         <span class="s2">&quot;observed&quot;</span><span class="p">,</span>
-        <span class="n">alpha</span><span class="o">=</span><span class="n">α</span><span class="p">,</span>
-        <span class="n">beta</span><span class="o">=</span><span class="n">β_uncensored</span><span class="p">,</span>
+        <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span>
+        <span class="n">beta</span><span class="o">=</span><span class="n">beta_uncensored</span><span class="p">,</span>
         <span class="n">observed</span><span class="o">=</span><span class="n">y_uncensored</span><span class="p">,</span>
         <span class="n">shape</span><span class="o">=</span><span class="n">n_observed</span><span class="p">,</span>
     <span class="p">)</span>
-    <span class="n">pm</span><span class="o">.</span><span class="n">Potential</span><span class="p">(</span><span class="s2">&quot;censored&quot;</span><span class="p">,</span> <span class="n">weibull_lccdf</span><span class="p">(</span><span class="n">y_censored</span><span class="p">,</span> <span class="n">α</span><span class="p">,</span> <span class="n">β_censored</span><span class="p">))</span>
+    <span class="n">pm</span><span class="o">.</span><span class="n">Potential</span><span class="p">(</span><span class="s2">&quot;censored&quot;</span><span class="p">,</span> <span class="n">weibull_lccdf</span><span class="p">(</span><span class="n">y_censored</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">beta_censored</span><span class="p">))</span>
 
-    <span class="n">median0</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;median0&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">log2</span> <span class="o">*</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">beta0</span><span class="p">))</span> <span class="o">**</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">α</span><span class="p">))</span>
+    <span class="n">median0</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;median0&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">log2</span> <span class="o">*</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">beta0</span><span class="p">))</span> <span class="o">**</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">alpha</span><span class="p">))</span>
     <span class="n">median1</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span>
-        <span class="s2">&quot;median1&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">log2</span> <span class="o">*</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">beta0</span> <span class="o">-</span> <span class="n">beta1</span><span class="p">))</span> <span class="o">**</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">α</span><span class="p">)</span>
+        <span class="s2">&quot;median1&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">log2</span> <span class="o">*</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">beta0</span> <span class="o">-</span> <span class="n">beta1</span><span class="p">))</span> <span class="o">**</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">alpha</span><span class="p">)</span>
     <span class="p">)</span>
 
     <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">10000</span><span class="p">,</span> <span class="n">tune</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">target_accept</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
@@ -902,14 +1069,13 @@ NUTS: [beta0, beta1, α]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Auto-assigning NUTS sampler...
-Initializing NUTS using jitter+adapt_diag...
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Initializing NUTS using jitter+adapt_diag...
 Multiprocess sampling (4 chains in 4 jobs)
-NUTS: [beta0, beta1, α]
+NUTS: [beta0, beta1, alpha]
 </pre></div>
 </div>
-<script type="application/vnd.jupyter.widget-view+json">{"model_id": "5b3e7e963f1540159a7954b7d97dd6b9", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 2_000 tune and 10_000 draw iterations (8_000 + 40_000 draws total) took 15 seconds.
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "3ed675d47d8a44a0a668e1b0088b6f23", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 2_000 tune and 10_000 draw iterations (8_000 + 40_000 draws total) took 10 seconds.
 </pre></div>
 </div>
 </div>
@@ -953,62 +1119,62 @@ NUTS: [beta0, beta1, α]
   <tbody>
     <tr>
       <th>beta0</th>
-      <td>-6.768</td>
-      <td>0.666</td>
-      <td>-7.842</td>
-      <td>-5.656</td>
+      <td>-6.764</td>
+      <td>0.662</td>
+      <td>-7.828</td>
+      <td>-5.652</td>
       <td>0.006</td>
-      <td>0.004</td>
-      <td>13330.0</td>
-      <td>14984.0</td>
+      <td>0.005</td>
+      <td>12566.0</td>
+      <td>14049.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>beta1</th>
-      <td>0.262</td>
-      <td>0.232</td>
-      <td>-0.121</td>
-      <td>0.641</td>
+      <td>0.259</td>
+      <td>0.234</td>
+      <td>-0.127</td>
+      <td>0.638</td>
       <td>0.002</td>
       <td>0.001</td>
-      <td>17578.0</td>
-      <td>16409.0</td>
+      <td>16451.0</td>
+      <td>16081.0</td>
       <td>1.0</td>
     </tr>
     <tr>
-      <th>α</th>
-      <td>1.025</td>
+      <th>alpha</th>
+      <td>1.024</td>
       <td>0.097</td>
-      <td>0.869</td>
-      <td>1.187</td>
+      <td>0.864</td>
+      <td>1.181</td>
       <td>0.001</td>
       <td>0.001</td>
-      <td>13312.0</td>
-      <td>15338.0</td>
+      <td>12864.0</td>
+      <td>13806.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>median0</th>
-      <td>522.726</td>
-      <td>88.403</td>
-      <td>376.215</td>
-      <td>658.102</td>
-      <td>0.582</td>
-      <td>0.413</td>
-      <td>23193.0</td>
-      <td>26359.0</td>
+      <td>522.005</td>
+      <td>88.886</td>
+      <td>373.861</td>
+      <td>656.463</td>
+      <td>0.625</td>
+      <td>0.534</td>
+      <td>20871.0</td>
+      <td>23343.0</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>median1</th>
-      <td>404.411</td>
-      <td>69.819</td>
-      <td>292.821</td>
-      <td>517.047</td>
-      <td>0.460</td>
-      <td>0.326</td>
-      <td>22932.0</td>
-      <td>25841.0</td>
+      <td>405.233</td>
+      <td>70.329</td>
+      <td>287.568</td>
+      <td>513.743</td>
+      <td>0.469</td>
+      <td>0.377</td>
+      <td>22645.0</td>
+      <td>25564.0</td>
       <td>1.0</td>
     </tr>
   </tbody>
@@ -1049,32 +1215,32 @@ NUTS: [beta0, beta1, α]
 <span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">m</span><span class="p">:</span>
     <span class="n">beta0</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;beta0&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">)</span>
     <span class="n">beta1</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;beta1&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">)</span>
-    <span class="n">α</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Exponential</span><span class="p">(</span><span class="s2">&quot;α&quot;</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="n">alpha</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Exponential</span><span class="p">(</span><span class="s2">&quot;alpha&quot;</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
 
-    <span class="n">λ_censored</span> <span class="o">=</span> <span class="n">exp</span><span class="p">(</span><span class="n">beta0</span> <span class="o">+</span> <span class="n">beta1</span> <span class="o">*</span> <span class="n">x_censored</span><span class="p">)</span>
-    <span class="n">β_censored</span> <span class="o">=</span> <span class="n">λ_censored</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span> <span class="o">/</span> <span class="n">α</span><span class="p">)</span>
+    <span class="n">lamb_censored</span> <span class="o">=</span> <span class="n">exp</span><span class="p">(</span><span class="n">beta0</span> <span class="o">+</span> <span class="n">beta1</span> <span class="o">*</span> <span class="n">x_censored</span><span class="p">)</span>
+    <span class="n">beta_censored</span> <span class="o">=</span> <span class="n">lamb_censored</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span> <span class="o">/</span> <span class="n">alpha</span><span class="p">)</span>
 
-    <span class="n">λ_uncensored</span> <span class="o">=</span> <span class="n">exp</span><span class="p">(</span><span class="n">beta0</span> <span class="o">+</span> <span class="n">beta1</span> <span class="o">*</span> <span class="n">x_uncensored</span><span class="p">)</span>
-    <span class="n">β_uncensored</span> <span class="o">=</span> <span class="n">λ_uncensored</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span> <span class="o">/</span> <span class="n">α</span><span class="p">)</span>
+    <span class="n">lamb_uncensored</span> <span class="o">=</span> <span class="n">exp</span><span class="p">(</span><span class="n">beta0</span> <span class="o">+</span> <span class="n">beta1</span> <span class="o">*</span> <span class="n">x_uncensored</span><span class="p">)</span>
+    <span class="n">beta_uncensored</span> <span class="o">=</span> <span class="n">lamb_uncensored</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span> <span class="o">/</span> <span class="n">alpha</span><span class="p">)</span>
 
     <span class="n">impute_censored</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Bound</span><span class="p">(</span>
         <span class="s2">&quot;impute_censored&quot;</span><span class="p">,</span>
-        <span class="n">pm</span><span class="o">.</span><span class="n">Weibull</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="n">α</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="n">β_censored</span><span class="p">),</span>
+        <span class="n">pm</span><span class="o">.</span><span class="n">Weibull</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="n">beta_censored</span><span class="p">),</span>
         <span class="n">lower</span><span class="o">=</span><span class="n">censored</span><span class="p">,</span>
         <span class="n">shape</span><span class="o">=</span><span class="n">censored</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
     <span class="p">)</span>
 
     <span class="n">likelihood</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Weibull</span><span class="p">(</span>
         <span class="s2">&quot;likelihood&quot;</span><span class="p">,</span>
-        <span class="n">alpha</span><span class="o">=</span><span class="n">α</span><span class="p">,</span>
-        <span class="n">beta</span><span class="o">=</span><span class="n">β_uncensored</span><span class="p">,</span>
+        <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span>
+        <span class="n">beta</span><span class="o">=</span><span class="n">beta_uncensored</span><span class="p">,</span>
         <span class="n">observed</span><span class="o">=</span><span class="n">y_uncensored</span><span class="p">,</span>
         <span class="n">shape</span><span class="o">=</span><span class="n">y_uncensored</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
     <span class="p">)</span>
 
-    <span class="n">median0</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;median0&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">log2</span> <span class="o">*</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">beta0</span><span class="p">))</span> <span class="o">**</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">α</span><span class="p">))</span>
+    <span class="n">median0</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;median0&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">log2</span> <span class="o">*</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">beta0</span><span class="p">))</span> <span class="o">**</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">alpha</span><span class="p">))</span>
     <span class="n">median1</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span>
-        <span class="s2">&quot;median1&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">log2</span> <span class="o">*</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">beta0</span> <span class="o">-</span> <span class="n">beta1</span><span class="p">))</span> <span class="o">**</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">α</span><span class="p">)</span>
+        <span class="s2">&quot;median1&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">log2</span> <span class="o">*</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">beta0</span> <span class="o">-</span> <span class="n">beta1</span><span class="p">))</span> <span class="o">**</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">alpha</span><span class="p">)</span>
     <span class="p">)</span>
 
     <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">10000</span><span class="p">,</span> <span class="n">tune</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">target_accept</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
@@ -1089,22 +1255,22 @@ NUTS: [beta0, beta1, α]
 <div class="cell_output docutils container">
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
 <span class="ne">AttributeError</span><span class="g g-Whitespace">                            </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">13</span><span class="p">],</span> <span class="n">line</span> <span class="mi">14</span>
-<span class="g g-Whitespace">     </span><span class="mi">11</span> <span class="n">λ_uncensored</span> <span class="o">=</span> <span class="n">exp</span><span class="p">(</span><span class="n">beta0</span> <span class="o">+</span> <span class="n">beta1</span> <span class="o">*</span> <span class="n">x_uncensored</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">12</span> <span class="n">β_uncensored</span> <span class="o">=</span> <span class="n">λ_uncensored</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span> <span class="o">/</span> <span class="n">α</span><span class="p">)</span>
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">11</span><span class="p">],</span> <span class="n">line</span> <span class="mi">14</span>
+<span class="g g-Whitespace">     </span><span class="mi">11</span> <span class="n">lamb_uncensored</span> <span class="o">=</span> <span class="n">exp</span><span class="p">(</span><span class="n">beta0</span> <span class="o">+</span> <span class="n">beta1</span> <span class="o">*</span> <span class="n">x_uncensored</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">12</span> <span class="n">beta_uncensored</span> <span class="o">=</span> <span class="n">lamb_uncensored</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span> <span class="o">/</span> <span class="n">alpha</span><span class="p">)</span>
 <span class="ne">---&gt; </span><span class="mi">14</span> <span class="n">impute_censored</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Bound</span><span class="p">(</span>
 <span class="g g-Whitespace">     </span><span class="mi">15</span>     <span class="s2">&quot;impute_censored&quot;</span><span class="p">,</span>
-<span class="g g-Whitespace">     </span><span class="mi">16</span>     <span class="n">pm</span><span class="o">.</span><span class="n">Weibull</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="n">α</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="n">β_censored</span><span class="p">),</span>
+<span class="g g-Whitespace">     </span><span class="mi">16</span>     <span class="n">pm</span><span class="o">.</span><span class="n">Weibull</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="n">beta_censored</span><span class="p">),</span>
 <span class="g g-Whitespace">     </span><span class="mi">17</span>     <span class="n">lower</span><span class="o">=</span><span class="n">censored</span><span class="p">,</span>
 <span class="g g-Whitespace">     </span><span class="mi">18</span>     <span class="n">shape</span><span class="o">=</span><span class="n">censored</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
 <span class="g g-Whitespace">     </span><span class="mi">19</span> <span class="p">)</span>
 <span class="g g-Whitespace">     </span><span class="mi">21</span> <span class="n">likelihood</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Weibull</span><span class="p">(</span>
 <span class="g g-Whitespace">     </span><span class="mi">22</span>     <span class="s2">&quot;likelihood&quot;</span><span class="p">,</span>
-<span class="g g-Whitespace">     </span><span class="mi">23</span>     <span class="n">alpha</span><span class="o">=</span><span class="n">α</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">23</span>     <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span>
    <span class="p">(</span><span class="o">...</span><span class="p">)</span>
 <span class="g g-Whitespace">     </span><span class="mi">26</span>     <span class="n">shape</span><span class="o">=</span><span class="n">y_uncensored</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
 <span class="g g-Whitespace">     </span><span class="mi">27</span> <span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">29</span> <span class="n">median0</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;median0&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">log2</span> <span class="o">*</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">beta0</span><span class="p">))</span> <span class="o">**</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">α</span><span class="p">))</span>
+<span class="g g-Whitespace">     </span><span class="mi">29</span> <span class="n">median0</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;median0&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">log2</span> <span class="o">*</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">beta0</span><span class="p">))</span> <span class="o">**</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">alpha</span><span class="p">))</span>
 
 <span class="ne">AttributeError</span>: module &#39;pymc&#39; has no attribute &#39;Bound&#39;
 </pre></div>
@@ -1303,17 +1469,17 @@ NUTS: [beta0, beta1, α]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Wed Mar 22 2023
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Sun Apr 13 2025
 
 Python implementation: CPython
-Python version       : 3.11.0
-IPython version      : 8.9.0
+Python version       : 3.12.7
+IPython version      : 8.29.0
 
-pytensor: 2.10.1
+pytensor: 2.30.2
 
-numpy: 1.24.2
-arviz: 0.14.0
-pymc : 5.1.2
+arviz: 0.21.0
+pymc : 5.22.0
+numpy: 1.26.4
 </pre></div>
 </div>
 </div>

@@ -602,47 +602,70 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="multinomial-logit">
 <h1>16. Multinomial Logit<a class="headerlink" href="#multinomial-logit" title="Permalink to this headline">#</a></h1>
-<p>Multinomial logit models are a generalization of logistic regression when there are more than 2 categories in the response. If there are <span class="math notranslate nohighlight">\(n\)</span> categories, the multinomial logit model is:</p>
+<p>Multinomial logit models are a generalization of logistic regression when there are more than 2 categories in the response. Assume <strong>K</strong> possible categories and <strong>N</strong> independent observations.</p>
 <div class="math notranslate nohighlight">
-\[\begin{split} 
+\[\begin{split}
 \begin{align*}
-y_1, y_2, ... , y_n &amp; \sim Mn(\textbf{p} , 1) \\
-\textbf{p} &amp; = (p_1, p_2, ... , p_K) \\
-y_i &amp; = (y_{i1}, y_{i2}, ... , y_{iK}), y_{ij} = 1, y_{i, \neq j} = 0, \space j \in \{1,...,K\} \\
-\end{align*} 
+y_i &amp; \sim \text{Multinomial}(\mathbf{p}_i , n_i), \qquad i=1,\dots,N\\
+\mathbf{p}_i &amp; = (p_{i1}, p_{i2}, \dots , p_{iK}) \\
+y_i &amp; = (y_{i1}, y_{i2}, \dots , y_{iK}),\; y_{ij}=1,\; y_{ik}=0 \;\text{for } k\neq j,\; j \in \{1,\dots,K\}
+\end{align*}
 \end{split}\]</div>
-<p>The second parameter in the Multinomial distribution is the number of trials, which is <span class="math notranslate nohighlight">\(n = 1\)</span> in the case of Multinomial logit.</p>
-<p>For example, the <span class="math notranslate nohighlight">\(i\)</span>th response could be <span class="math notranslate nohighlight">\(y_i = (0,0,0,1,0)\)</span>, meaning the 4th category is true, and categories 1, 2, 3, and 5 are false. The notation would be:</p>
+<p>The second parameter in the Multinomial distribution is the number of trials, <span class="math notranslate nohighlight">\(n_i\)</span>.</p>
+<p>For example, the <span class="math notranslate nohighlight">\(i\)</span>‑th response could be <span class="math notranslate nohighlight">\(y_i = (0,0,0,1,0)\)</span>, meaning the 4th category is true and categories 1, 2, 3, and 5 are false:</p>
 <div class="math notranslate nohighlight">
-\[\begin{split} 
+\[\begin{split}
 \begin{align*}
 y_i &amp; = (0,0,0,1,0) \\
 K &amp; = 5 \\
 y_{i4} &amp; = 1 \\
-y_{i, \neq 4} &amp; = 0 \\
-\end{align*} 
-\end{split}\]</div>
-<p>similar to the probability <span class="math notranslate nohighlight">\(p\)</span> in a logistic regression for predicting category 1 over category 0, a vector of probabilities <span class="math notranslate nohighlight">\(p = (p_1, p_2, ... , p_K)\)</span> is produced in the Multinomial logit model. In order to do this, the liniear combination of <span class="math notranslate nohighlight">\(\beta\)</span> coefficients and <span class="math notranslate nohighlight">\(x\)</span> predictors are calculated for each category into <span class="math notranslate nohighlight">\(\eta\)</span>, and the <span class="math notranslate nohighlight">\(\eta\)</span>’s are normalized so that the sum of <span class="math notranslate nohighlight">\(p's\)</span> equals 1:</p>
-<div class="math notranslate nohighlight">
-\[\begin{split} 
-\begin{align*}
-\eta_{ij} &amp; = \beta_{0j} + \beta_{1j} x_{i1} + ... + \beta_{p-1,j} x_{i,p-1}\\
-p_{ij} &amp; = \frac{e^{\eta_{ij}}}{\sum_{k=1}^K e^{\eta_{ik}}} \\
-\end{align*} 
-\end{split}\]</div>
-<p>so there is a <span class="math notranslate nohighlight">\(\beta\)</span> coefficient for each category <span class="math notranslate nohighlight">\(k\)</span> and each <span class="math notranslate nohighlight">\(x\)</span> predictor <span class="math notranslate nohighlight">\(i\)</span>. To put it all together, the Bayesian model is:</p>
-<div class="math notranslate nohighlight">
-\[\begin{split} 
-\begin{align*}
-y_1, y_2, ... , y_n &amp; \sim Mn(\textbf{p} , 1) &amp;&amp; \text{likelihood}\\ \\
-\eta_{ij} &amp; = \beta_{0j} + \beta_{1j} x_{i1} + ... + \beta_{p-1,j} x_{i,p-1} &amp;&amp; \text{deterministic relationship} \\
-p_{ij} &amp; = \frac{e^{\eta_{ij}}}{\sum_{k=1}^K e^{\eta_{ik}}} &amp;&amp; \text{deterministic relationship} \\
-\beta_{ij} &amp; \sim  N(0,\sigma_j^2) &amp;&amp; \text{prior: } \beta_{ij} \\
+y_{ik} &amp; = 0 \quad \text{for } k \neq 4 \\
+n_i &amp;= 1 \\ 
 \end{align*}
 \end{split}\]</div>
+<p>Similar to the probability <span class="math notranslate nohighlight">\(p\)</span> in a logistic regression for predicting category 1 over category 0, a vector of probabilities <span class="math notranslate nohighlight">\(\mathbf{p}_i = (p_{i1}, p_{i2}, \dots , p_{iK})\)</span> is produced in the Multinomial logit model. To obtain these probabilities, the linear combination of <span class="math notranslate nohighlight">\(\beta\)</span> coefficients and <span class="math notranslate nohighlight">\(x\)</span> predictors is calculated for each category into <span class="math notranslate nohighlight">\(\eta\)</span>, and the <span class="math notranslate nohighlight">\(\eta\)</span>’s are normalized using the <a class="reference external" href="https://en.wikipedia.org/wiki/Softmax_function">softmax function</a> so that the sum of the probabilities equals 1:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+\eta_{ij} &amp; = \beta_{0j} + \beta_{1j} x_{i1} + \dots + \beta_{p-1,j} x_{i,p-1}\\
+p_{ij} &amp; = \frac{e^{\eta_{ij}}}{\sum_{k=1}^K e^{\eta_{ik}}}
+\end{align*}
+\end{split}\]</div>
+<p>There is a <span class="math notranslate nohighlight">\(\beta\)</span> coefficient for each category <span class="math notranslate nohighlight">\(j\)</span> and each predictor. Putting it all together, the Bayesian model is:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+y_i &amp; \sim \text{Multinomial}(\mathbf{p}_i , n_i) &amp;&amp; \text{likelihood}\\[4pt]
+\eta_{ij} &amp; = \beta_{0j} + \beta_{1j} x_{i1} + \dots + \beta_{p-1,j} x_{i,p-1} &amp;&amp; \text{deterministic} \\[4pt]
+p_{ij} &amp; = \frac{e^{\eta_{ij}}}{\sum_{k=1}^K e^{\eta_{ik}}} &amp;&amp; \text{deterministic} \\[4pt]
+\beta_{ij} &amp; \sim N(0,\sigma_j^2) &amp;&amp; \text{prior}
+\end{align*}
+\end{split}\]</div>
+<p>Because this model is over‑parametrised, one category must be chosen as a reference or baseline to make the model identifiable.</p>
+<p>The usual choice is <span class="math notranslate nohighlight">\(j = 1\)</span>, in which case</p>
+<div class="math notranslate nohighlight">
+\[
+\beta_{0 1} = \beta_{1 1} = \dots = \beta_{p-1,\,1} = 0 ,
+\]</div>
+<p>and only the <span class="math notranslate nohighlight">\(P\,(K-1)\)</span> coefficients for <span class="math notranslate nohighlight">\(j=2,\dots ,K\)</span> are estimated.</p>
+<p>With this constraint the model can be interpreted in familiar log‑odds form:</p>
+<div class="math notranslate nohighlight">
+\[
+\log\frac{p_{ij}}{p_{i1}}
+   \;=\;
+   \beta_{0j} + \beta_{1j}x_{i1} + \dots + \beta_{p-1,\,j}x_{i,p-1},
+   \qquad j = 2,\dots ,K .
+\]</div>
+<p>So each <span class="math notranslate nohighlight">\(\beta_{i j}\)</span> measures the change in the log‑odds of choosing
+category <span class="math notranslate nohighlight">\(j\)</span> versus the baseline category per one‑unit increase in predictor <span class="math notranslate nohighlight">\(x_{i}\)</span>.</p>
+<p>You can also enforce a different identifiability constraint (e.g., sum‑to‑zero, as we learned for ANOVA).</p>
+<p>Just like binary logistic regression, the link doesn’t need to be logit. Multinomial probit or clog‑log links are possible by replacing the soft‑max with the appropriate multivariate CDF. In practice, the logit link is the most common.</p>
 <section id="authors">
 <h2>Authors<a class="headerlink" href="#authors" title="Permalink to this headline">#</a></h2>
-<p>Jason Naramore, August 2024.</p>
+<ul class="simple">
+<li><p>Jason Naramore, August 2024.</p></li>
+<li><p>Aaron Reding, April 2025.</p></li>
+</ul>
 </section>
 </section>
 
