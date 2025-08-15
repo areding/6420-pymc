@@ -1,5 +1,9 @@
 # Software
 
+::::{important}
+Starting in Fall 2025, we will be switching to PyMC only for the course PPL. You are still welcome to use other programming languages prior to Unit 6, but it is probably a good idea to start getting used to Python if you aren't already.
+::::
+
 ## Probabilistic programming languages
 
 As the professor says, [BUGS](https://www.mrc-bsu.cam.ac.uk/software/bugs/) (Bayesian Inference using Gibbs Sampling) is actually a pretty good choice for learning the basics of Bayesian inference. There are things that BUGS can do that are still a pain to implement in PyMC. PyMC is also under active development; since Spring 2022 when this site went up, it's already gone through two major version changes. Every semester there are changes to be researched and worked around, whereas BUGS hasn't changed much for 15 years. So I understand why the professor stuck with it, even in 2018 when putting this course online.

@@ -1,0 +1,2177 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>15. GLM Examples* &#8212; ISYE 6420 - BUGS to PyMC</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/proof.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-bootstrap.5fd3999ee7762ccc51105388f4a9d115.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'unit7/Unit7-arrhythmia';</script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="16. Multinomial Logit" href="Unit7-multinomial.html" />
+    <link rel="prev" title="14. Generalized Linear Models" href="Unit7-other.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo2.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../_static/logo2.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Introduction
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Unit 1</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../unit1/Unit1-about-this-course.html">1. About This Course</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit1/Unit1-topics.html">2. Topics Covered</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit1/Unit1-software.html">3. Software</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit1/Unit1-simple-regression.html">4. A Simple Regression*</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Unit 2</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../unit2/Unit2-history.html">1. History of Bayesian Statistics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit2/Unit2-history2.html">2. Historic Overview Links</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit2/Unit2-bayesianvsclassical.html">3. Bayesian vs. Frequentist</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit2/Unit2-10flips.html">4. Ten Coin Flips*</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit2/Unit2-fda.html">5. FDA Recommendations</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Unit 3</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../unit3/Unit3-NecessaryProbability.html">1. A Review of Necessary Probability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit3/Unit3-conditioning1.html">2. Conditioning, Part 1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit3/Unit3-conditioning2.html">3. Conditioning, Part 2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit3/Unit3-Bayes-theorem.html">4. Bayes’ Theorem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit3/Unit3-ManufacturingBayes.html">5. Manufacturing Bayes*</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit3/Unit3-TwoHeadedCoin.html">6. Two-headed Coin*</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit3/Unit3-bayesnetworks.html">7. Bayes Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit3/Unit3-Alarm.html">8. Alarm*</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../unit3/moreexamples3.html">More Examples</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../unit3/Unit3-Emily.html">Supplementary Problem: Emily’s Vacation*</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit3/SupplementaryExercises35.html">Supplementary Exercises*</a></li>
+</ul>
+</li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Unit 4</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../unit4/distributions.html">Probability Distributions</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../unit4/Unit4-basicdist.html">1. Basic Distributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit4/Unit4-numericalchar.html">2. Numerical Characteristics of Random Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit4/Unit4-jointconditionals.html">3. Joint and Conditional Distributions</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../unit4/bayestheorem.html">Bayes’ Theorem</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../unit4/Unit4-ingredients.html">4. Ingredients for Bayesian Inference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit4/Unit4-conjugatefamilies.html">5. Conjugate Families</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit4/Unit4-IQexample.html">6. Example: Jeremy’s IQ</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit4/Unit4-BetaPriors.html">7. Ten Coin Flips Revisited: Beta Plots*</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit4/Unit4-poissongamma.html">8. Poisson–Gamma Model</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../unit4/conjugatecases.html">Bayesian Inference in Conjugate Cases</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../unit4/Unit4-estimation.html">9. Estimation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit4/Unit4-crediblesets.html">10. Credible Intervals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit4/Unit4-GammaGamma.html">11. Gamma Gamma*</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit4/Unit4-testing.html">12. Bayesian Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit4/Unit4-prediction.html">13. Prediction</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../unit4/priors.html">Priors</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../unit4/Unit4-elicitation.html">14. Prior Elicitation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit4/Unit4-noninform.html">15. Non-informative Priors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit4/Unit4-samplesize.html">16. Prior Sample Size</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit4/Unit4-eBay.html">17. eBay Purchase Example*</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../unit4/empiricalbayes.html">Empirical Bayes</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../unit4/Unit4-parametric.html">18. Parametric</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit4/Unit4-nonpara.html">19. Non-parametric</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../unit4/moreexamples.html">More Examples</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../unit4/Unit4-AlphaParticles.html">Counts of Alpha Particles*</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit4/SupplementaryExercises43.html">Supplementary Exercises 4.3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit4/SupplementaryExercises48.html">Supplementary Exercises 4.8</a></li>
+</ul>
+</li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Unit 5</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../unit5/bayesian-computation.html">Bayesian Computation</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-numericalapproaches.html">1. Numerical Approaches</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-norcau1.html">2. Normal–Cauchy Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-Laplace.html">3. Laplace’s Method</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-demo-Laplaces-method.html">4. Laplace’s Method Demo*</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-mcmc.html">5. Markov Chain Monte Carlo</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../unit5/metropolis-hastings.html">The Metropolis Algorithm</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-9"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-Metropolis.html">6. Metropolis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-Metropolis1.html">7. Metropolis: Normal-Cauchy*</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-MetropolisHastings.html">8. Metropolis–Hastings: Weibull-Exponential Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-MetropolisHastings2.html">9. Weibull Lifetimes*</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../unit5/gibbs-sampling.html">Gibbs Sampling</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-10"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-gibbsintro.html">10. Introduction to Gibbs Sampling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-GibbsSampler.html">11. Normal-Cauchy Gibbs Sampler*</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-gibbs2.html">12. Conjugate Gamma-Poisson Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-PumpsMCMC.html">13. Pumps*</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-gibbsex3math.html">14. Change Point Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-Gibbs3.html">15. Coal Mining Disasters in the UK*</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../unit5/other.html">Other Algorithms</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-11"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-hamiltonian.html">16. Hamiltonian Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-other-methods.html">17. Going Further</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../unit5/SupplementaryExercises54.html">Supplementary Exercises</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Unit 6</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../unit6/Unit6-probabilisticprogramming.html">1. Probabilistic Programming Languages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit6/Unit6-doodlebug.html">2. Creating a Graphical Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit6/Unit6-demo-doodle.html">3. Joint Probability Graphs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit6/Unit6-moreaboutpymc.html">4. More About PyMC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit6/Unit6-loadingdata.html">5. Loading Data, Step Function, and Deterministic Variables*</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit6/Unit6-missingdata.html">6. Missing Data*</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit6/Unit6-htesting.html">7. Hypothesis Testing*</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit6/Unit6-prediction.html">8. Prediction*</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit6/Unit6-censoring.html">9. Type-1 Censoring*</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit6/Unit6-customlikelihood.html">10. The Zero Trick and Custom Likelihoods*</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Unit 7</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="hierarchical.html">Hierarchical Models</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-12"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="Unit7-introduction.html">1. Introduction to Hierarchical Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Unit7-why.html">2. Reasons to Use Hierarchical Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Unit7-priors.html">3. Priors with Structural Information</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Unit7-hiddenmixtures.html">4. Priors as Hidden Mixtures*</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Unit7-metaanalysis.html">5. Meta-analysis via Hierarchical Models*</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="linearmodels.html">Linear Models</a><input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-13"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="Unit7-anova.html">6. Analysis of Variance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Unit7-coagulation.html">7. Coagulation*</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Unit7-factorial.html">8. Factorial Designs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Unit7-demo-factorial.html">9. Simvastatin*</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Unit7-regression.html">10. Simple Linear Regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Unit7-demo-regression.html">11. Brozek index prediction*</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Unit7-multipleregression.html">12. Multiple Linear Regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Unit7-demo-multiple.html">13. Multiple Regression: Brozek Index Prediction*</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="othermodels.html">Other Models</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-14" name="toctree-checkbox-14" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-14"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="Unit7-other.html">14. Generalized Linear Models</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">15. GLM Examples*</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Unit7-multinomial.html">16. Multinomial Logit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Unit7-demo-multinomial.html">17. Multinomial regression*</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Unit7-multilevel.html">18. Multilevel Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Unit7-demo-multilevel.html">19. Paraguay Vaccination Status*</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="SupplementaryExercises74.html">Supplementary Exercises</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Unit 8</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../unit8/Unit8-missing.html">1. Missing Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit8/Unit8-missrats.html">2. Rats Example with Missing Data*</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit8/Unit8-timetoevent.html">3. Time-to-event Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit8/Unit8-tteex1.html">4. Time-to-event Models: Example 1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit8/Unit8-tteex2.html">5. Time-to-event Models: Example 2*</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit8/Unit8-tte-gastric.html">6. Time-to-event Models: Gastric Cancer*</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit8/SupplementaryExercises83.html">Supplementary Exercises</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Unit 9</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-fit-selection-diagnostics.html">1. Model Fit, Selection, and Diagnostics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-dic.html">2. Deviance Information Criterion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-fitsel.html">3. Model Fit and Selection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-hald.html">4. Hald*</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-cpo.html">5. Conditional Predictive Ordinate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-cumulative.html">7. Using the Empirical CDF and the Probability Integral Transform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-cumulative2.html">8. Cumulative Example*</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-ssvs.html">9. Stochastic Search Variable Selection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-hald2.html">10. SSVS: Hald*</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit9/SupplementaryExercises93.html">Supplementary Exercises</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Unit 10</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../unit10/Unit10-lister.html">1. Lister*</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit10/Unit10-growth.html">2. Dental Development*</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit10/Unit10-disasters.html">3. Revisiting UK Coal Mining Disasters*</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit10/Unit10-rasch.html">4. Rasch*</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit10/Unit10-italywines123.html">5. Wine Classification*</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit10/Unit10-katla.html">6. Predicting Using Censored Data*</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit10/Unit10-sunspots.html">7. Prediction of Time Series*</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Appendix A</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../appendixA/BUGSVol1.html">BUGS Examples, Volume 1</a><input class="toctree-checkbox" id="toctree-checkbox-15" name="toctree-checkbox-15" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-15"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../appendixA/vol1-10-blocker.html">10 - Blocker</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../appendixA/BUGSVol2.html">BUGS Examples, Volume 2</a><input class="toctree-checkbox" id="toctree-checkbox-16" name="toctree-checkbox-16" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-16"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../appendixA/vol2-01-dugongs.html">01 - Dugongs</a></li>
+</ul>
+</li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Back Matter</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../backmatter/bibliography.html">1. Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../backmatter/latex_reference.html">2. Latex Reference</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/areding/6420-pymc/blob/main/unit7/Unit7-arrhythmia.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch onColab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img src="../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/areding/6420-pymc" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/areding/6420-pymc/issues/new?title=Issue%20on%20page%20%2Funit7/Unit7-arrhythmia.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/unit7/Unit7-arrhythmia.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>15. GLM Examples*</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#arrhythmia">Arrhythmia</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#data-descriptions">Data descriptions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#background">Background</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#model">Model</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ants">Ants</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#data-description">Data description</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#poisson-regression-model">Poisson regression model</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <div class="cell tag_hide-output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">arviz</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">az</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pymc</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pm</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pymc.math</span><span class="w"> </span><span class="kn">import</span> <span class="n">dot</span><span class="p">,</span> <span class="n">invlogit</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section class="tex2jax_ignore mathjax_ignore" id="glm-examples">
+<h1>15. GLM Examples*<a class="headerlink" href="#glm-examples" title="Permalink to this headline">#</a></h1>
+<section id="arrhythmia">
+<h2>Arrhythmia<a class="headerlink" href="#arrhythmia" title="Permalink to this headline">#</a></h2>
+<p>A logistic regression example, adapted from <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/original_examples/Codes4Unit7/arrhythmia.odc">Unit 7: arrhythmia.odc</a>.</p>
+<section id="data-descriptions">
+<h3>Data descriptions<a class="headerlink" href="#data-descriptions" title="Permalink to this headline">#</a></h3>
+<p>I mirrored the data <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/data/arrhythmia.csv">here</a>.</p>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Variable ID</p></th>
+<th class="head"><p>Name</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Y</p></td>
+<td><p>Fibrillation</p></td>
+<td><p>Outcome variable: presence of fibrillation.</p></td>
+</tr>
+<tr class="row-odd"><td><p>X1</p></td>
+<td><p>Age</p></td>
+<td><p>Age of the patient.</p></td>
+</tr>
+<tr class="row-even"><td><p>X2</p></td>
+<td><p>Aortic Cross Clamp Time</p></td>
+<td><p>Duration of time the aortic valve is clamped during surgery.</p></td>
+</tr>
+<tr class="row-odd"><td><p>X3</p></td>
+<td><p>Cardiopulmonary Bypass Time</p></td>
+<td><p>Bypass of the heart and lungs. Involves diverting blood through a heart-lung machine, which performs the functions of the heart and lungs.</p></td>
+</tr>
+<tr class="row-even"><td><p>X4</p></td>
+<td><p>ICU Time</p></td>
+<td><p>Time spent in the Intensive Care Unit.</p></td>
+</tr>
+<tr class="row-odd"><td><p>X5</p></td>
+<td><p>Avg Heart Rate</p></td>
+<td><p>Average heart rate of the patient.</p></td>
+</tr>
+<tr class="row-even"><td><p>X6</p></td>
+<td><p>Left Ventricle Ejection Fraction</p></td>
+<td><p>Measure of how well the left ventricle pumps blood out to the body.</p></td>
+</tr>
+<tr class="row-odd"><td><p>X7</p></td>
+<td><p>Hypertension</p></td>
+<td><p>Binary: Presence (1) or absence (0) of high blood pressure.</p></td>
+</tr>
+<tr class="row-even"><td><p>X8</p></td>
+<td><p>Gender</p></td>
+<td><p>Binary: 1 for female; 0 for male.</p></td>
+</tr>
+<tr class="row-odd"><td><p>X9</p></td>
+<td><p>Diabetes</p></td>
+<td><p>Binary: Presence (1) or absence (0) of diabetes.</p></td>
+</tr>
+<tr class="row-even"><td><p>X10</p></td>
+<td><p>Previous MI</p></td>
+<td><p>Binary: Presence (1) or absence (0) of a previous myocardial infarction (heart attack).</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="background">
+<h3>Background<a class="headerlink" href="#background" title="Permalink to this headline">#</a></h3>
+<p>Patients who undergo Coronary Artery Bypass Graft Surgery (CABG) have an approximate 19–40% chance of developing atrial fibrillation (AF). AF can lead to the formation of blood clots, resulting in increased in-hospital mortality, strokes, and longer hospital stays. While drugs can prevent this condition, they are expensive and can be dangerous if not warranted. Ideally, identifying several risk factors that indicate an increased risk of developing AF could save lives and money by showing which patients need pharmacological intervention. Researchers have begun collecting data such as demographics, heart rate, cholesterol, and operation time from CABG patients during their hospital stays. They have also recorded which patients developed AF. The goal now is to identify the data points that signal a high risk of AF. In the past, factors such as age, hypertension, and body surface area (BSA) have been useful indicators, although they have not provided a satisfactory solution on their own.</p>
+<p>Fibrillation occurs when the heart muscle begins a quivering motion instead of maintaining a normal, healthy pumping rhythm. Fibrillation can affect either the atrium (atrial fibrillation) or the ventricle (ventricular fibrillation); the latter is imminently life-threatening.</p>
+<p>Atrial fibrillation involves quivering, chaotic motion in the upper chambers of the heart, known as the atria. It is often linked to serious underlying medical conditions and should be evaluated by a physician. Although it is not typically a medical emergency, it still requires medical attention.</p>
+<p>Ventricular fibrillation occurs in the ventricles (lower chambers) of the heart and is always a medical emergency. If left untreated, ventricular fibrillation (VF, or V-fib) can lead to death within minutes. When the heart enters V-fib, effective blood pumping ceases. V-fib is considered a form of cardiac arrest, and an individual experiencing it will not survive unless immediate cardiopulmonary resuscitation (CPR) and defibrillation are administered.</p>
+</section>
+<section id="model">
+<h3>Model<a class="headerlink" href="#model" title="Permalink to this headline">#</a></h3>
+<p>This is a logistic regression model. We consider each patient’s outcome a single Bernoulli event.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+y_i | \boldsymbol{\beta}, \mathbf{x}_i &amp;\sim \text{Bernoulli}(p_i) \\
+g(p_i) &amp;= \beta_0 + \sum_{j=1}^p \beta_j x_{ij} \\
+\beta_0 &amp;\sim \mathcal{N}(0, \sigma_0^2) &amp;&amp; \text{Intercept variance may be higher than coefficient variance.}\\
+\beta_j &amp;\sim \mathcal{N}(0, \sigma^2), \quad j = 1, 2, \ldots, k
+\end{align*}
+\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(k\)</span> is the number of predictors and <span class="math notranslate nohighlight">\(g(\cdot)\)</span> is the logit function: <span class="math notranslate nohighlight">\(\text{logit}(p) = \ln\left(\frac{p}{1-p}\right)\)</span>, and its inverse <span class="math notranslate nohighlight">\(g^{-1}(\cdot)\)</span> is the logistic function: <span class="math notranslate nohighlight">\(\text{logistic}(x) = \frac{1}{1 + e^{-x}}\)</span>.</p>
+<p>If your data is in an aggregated format, you should consider going with a Binomial likelihood. The model can be equivalently stated this way:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+y_i | \boldsymbol{\beta}, \mathbf{x}_i &amp;\sim \text{Binomial}(n_i, p_i) \\
+g(p_i) &amp;= \beta_0 + \sum_{j=1}^p \beta_j x_{ij} \\
+\beta_0 &amp;\sim \mathcal{N}(0, \sigma_0^2) &amp;&amp; \text{Intercept variance may be higher than coefficient variance.}\\
+\beta_j &amp;\sim \mathcal{N}(0, \sigma^2), \quad j = 1, 2 \ldots, k
+\end{align*}
+\end{split}\]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;../data/arrhythmia.csv&quot;</span><span class="p">)</span>
+<span class="n">data_df</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">data_df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">:]</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">data_df</span><span class="p">[</span><span class="s2">&quot;Fibrillation&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+RangeIndex: 81 entries, 0 to 80
+Data columns (total 11 columns):
+ #   Column                         Non-Null Count  Dtype  
+---  ------                         --------------  -----  
+ 0   Fibrillation                   81 non-null     float64
+ 1   Age                            81 non-null     float64
+ 2   AorticCrossClampTime           81 non-null     float64
+ 3   CardiopulmonaryBypassTime      81 non-null     float64
+ 4   ICUTime                        81 non-null     float64
+ 5   AvgHeartRate                   81 non-null     float64
+ 6   LeftVentricleEjectionFraction  81 non-null     float64
+ 7   Hypertension                   81 non-null     float64
+ 8   Gender                         81 non-null     float64
+ 9   Diabetes                       81 non-null     float64
+ 10  PreviousMI                     81 non-null     float64
+dtypes: float64(11)
+memory usage: 7.1 KB
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data_df</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Fibrillation</th>
+      <th>Age</th>
+      <th>AorticCrossClampTime</th>
+      <th>CardiopulmonaryBypassTime</th>
+      <th>ICUTime</th>
+      <th>AvgHeartRate</th>
+      <th>LeftVentricleEjectionFraction</th>
+      <th>Hypertension</th>
+      <th>Gender</th>
+      <th>Diabetes</th>
+      <th>PreviousMI</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>81.000000</td>
+      <td>81.000000</td>
+      <td>81.000000</td>
+      <td>81.000000</td>
+      <td>81.000000</td>
+      <td>81.000000</td>
+      <td>81.000000</td>
+      <td>81.000000</td>
+      <td>81.000000</td>
+      <td>81.000000</td>
+      <td>81.000000</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>0.345679</td>
+      <td>66.654321</td>
+      <td>81.753086</td>
+      <td>131.123457</td>
+      <td>16.148716</td>
+      <td>85.683951</td>
+      <td>56.401235</td>
+      <td>0.666667</td>
+      <td>0.308642</td>
+      <td>0.419753</td>
+      <td>0.469136</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>0.478552</td>
+      <td>10.429718</td>
+      <td>30.322241</td>
+      <td>56.196170</td>
+      <td>3.672736</td>
+      <td>11.847557</td>
+      <td>13.634153</td>
+      <td>0.474342</td>
+      <td>0.464811</td>
+      <td>0.496593</td>
+      <td>0.502156</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>0.000000</td>
+      <td>44.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>2.000000</td>
+      <td>50.000000</td>
+      <td>18.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>0.000000</td>
+      <td>61.000000</td>
+      <td>67.000000</td>
+      <td>109.000000</td>
+      <td>13.500000</td>
+      <td>77.200000</td>
+      <td>50.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>0.000000</td>
+      <td>69.000000</td>
+      <td>82.000000</td>
+      <td>128.000000</td>
+      <td>16.000000</td>
+      <td>86.700000</td>
+      <td>59.000000</td>
+      <td>1.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>1.000000</td>
+      <td>73.000000</td>
+      <td>98.000000</td>
+      <td>148.000000</td>
+      <td>19.000000</td>
+      <td>94.800000</td>
+      <td>65.000000</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>1.000000</td>
+      <td>88.000000</td>
+      <td>193.000000</td>
+      <td>487.000000</td>
+      <td>23.000000</td>
+      <td>111.800000</td>
+      <td>82.000000</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Our predictors have very different scales. With non-informative priors as the professor uses in the BUGS model, the coefficients should have no trouble fitting the data. However, since PyMC uses a different sampling algorithm it seems to be having trouble with the shape of the posterior. Actually, this used to work fine in PyMC (as of version 5.1.2, at least), but students in Fall 2023 discovered that PyMC could no longer sample this model without divergences (using version 5.9.0 or above).</p>
+<div class="cell tag_hide-output docutils container">
+<div class="cell_input above-output-prompt docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">m</span><span class="p">:</span>
+    <span class="n">X_data</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Data</span><span class="p">(</span><span class="s2">&quot;X_data&quot;</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">mutable</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">y_data</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Data</span><span class="p">(</span><span class="s2">&quot;y_data&quot;</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">mutable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="n">alpha</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;alpha&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">betas</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;beta&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+    <span class="n">p</span> <span class="o">=</span> <span class="n">invlogit</span><span class="p">(</span><span class="n">alpha</span> <span class="o">+</span> <span class="n">dot</span><span class="p">(</span><span class="n">X_data</span><span class="p">,</span> <span class="n">betas</span><span class="p">))</span>
+
+    <span class="n">pm</span><span class="o">.</span><span class="n">Bernoulli</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">p</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">y_data</span><span class="p">)</span>
+
+    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">5000</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<details class="hide below-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell output</span>
+<span class="expanded">Hide code cell output</span>
+</summary>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/miniforge3/envs/pymc_macos15/lib/python3.12/site-packages/pymc/data.py:440: FutureWarning: Data is now always mutable. Specifying the `mutable` kwarg will raise an error in a future release
+  warnings.warn(
+Initializing NUTS using jitter+adapt_diag...
+Multiprocess sampling (4 chains in 4 jobs)
+NUTS: [alpha, beta]
+</pre></div>
+</div>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "b533826647d0427f8e7bda11dd85b5ba", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 5_000 draw iterations (4_000 + 20_000 draws total) took 3 seconds.
+There were 20000 divergences after tuning. Increase `target_accept` or reparameterize.
+The rhat statistic is larger than 1.01 for some parameters. This indicates problems during sampling. See https://arxiv.org/abs/1903.08008 for details
+The effective sample size per chain is smaller than 100 for some parameters.  A higher number is needed for reliable rhat and ess computation. See https://arxiv.org/abs/1903.08008 for details
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">hdi_prob</span><span class="o">=</span><span class="mf">0.95</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mean</th>
+      <th>sd</th>
+      <th>hdi_2.5%</th>
+      <th>hdi_97.5%</th>
+      <th>mcse_mean</th>
+      <th>mcse_sd</th>
+      <th>ess_bulk</th>
+      <th>ess_tail</th>
+      <th>r_hat</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>alpha</th>
+      <td>-0.341</td>
+      <td>0.414</td>
+      <td>-0.729</td>
+      <td>0.299</td>
+      <td>0.207</td>
+      <td>0.158</td>
+      <td>4.0</td>
+      <td>4.0</td>
+      <td>6.09</td>
+    </tr>
+    <tr>
+      <th>beta[0]</th>
+      <td>0.165</td>
+      <td>0.629</td>
+      <td>-0.779</td>
+      <td>0.853</td>
+      <td>0.314</td>
+      <td>0.241</td>
+      <td>4.0</td>
+      <td>13.0</td>
+      <td>5.45</td>
+    </tr>
+    <tr>
+      <th>beta[1]</th>
+      <td>-0.213</td>
+      <td>0.464</td>
+      <td>-0.798</td>
+      <td>0.303</td>
+      <td>0.232</td>
+      <td>0.178</td>
+      <td>4.0</td>
+      <td>4.0</td>
+      <td>12.44</td>
+    </tr>
+    <tr>
+      <th>beta[2]</th>
+      <td>0.200</td>
+      <td>0.405</td>
+      <td>-0.176</td>
+      <td>0.868</td>
+      <td>0.202</td>
+      <td>0.155</td>
+      <td>4.0</td>
+      <td>4.0</td>
+      <td>18.68</td>
+    </tr>
+    <tr>
+      <th>beta[3]</th>
+      <td>-0.296</td>
+      <td>0.591</td>
+      <td>-0.978</td>
+      <td>0.619</td>
+      <td>0.296</td>
+      <td>0.226</td>
+      <td>4.0</td>
+      <td>4.0</td>
+      <td>6.16</td>
+    </tr>
+    <tr>
+      <th>beta[4]</th>
+      <td>0.047</td>
+      <td>0.303</td>
+      <td>-0.448</td>
+      <td>0.465</td>
+      <td>0.151</td>
+      <td>0.116</td>
+      <td>4.0</td>
+      <td>11.0</td>
+      <td>6.19</td>
+    </tr>
+    <tr>
+      <th>beta[5]</th>
+      <td>-0.095</td>
+      <td>0.371</td>
+      <td>-0.498</td>
+      <td>0.476</td>
+      <td>0.185</td>
+      <td>0.142</td>
+      <td>4.0</td>
+      <td>4.0</td>
+      <td>18.68</td>
+    </tr>
+    <tr>
+      <th>beta[6]</th>
+      <td>-0.063</td>
+      <td>0.428</td>
+      <td>-0.506</td>
+      <td>0.504</td>
+      <td>0.214</td>
+      <td>0.164</td>
+      <td>4.0</td>
+      <td>4.0</td>
+      <td>16.05</td>
+    </tr>
+    <tr>
+      <th>beta[7]</th>
+      <td>0.187</td>
+      <td>0.386</td>
+      <td>-0.322</td>
+      <td>0.684</td>
+      <td>0.193</td>
+      <td>0.148</td>
+      <td>4.0</td>
+      <td>4.0</td>
+      <td>14.14</td>
+    </tr>
+    <tr>
+      <th>beta[8]</th>
+      <td>-0.047</td>
+      <td>0.723</td>
+      <td>-0.792</td>
+      <td>0.855</td>
+      <td>0.361</td>
+      <td>0.277</td>
+      <td>4.0</td>
+      <td>4.0</td>
+      <td>15.53</td>
+    </tr>
+    <tr>
+      <th>beta[9]</th>
+      <td>0.242</td>
+      <td>0.605</td>
+      <td>-0.411</td>
+      <td>0.961</td>
+      <td>0.302</td>
+      <td>0.231</td>
+      <td>4.0</td>
+      <td>33.0</td>
+      <td>8.99</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">m</span><span class="o">.</span><span class="n">to_graphviz</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/6559f7ee520d0faaaa2b1148d48ea97181b1f254cbecf7d9e9e63d111a2c86c8.svg" src="../_images/6559f7ee520d0faaaa2b1148d48ea97181b1f254cbecf7d9e9e63d111a2c86c8.svg" /></div>
+</div>
+<p>With that many divergences, there’s no way the model fit correctly, and that’s borne out in the summary statistics with each r_hat being well above 1.01. So we may need to standardize our data. Andrew Gelman <span id="id1">Gelman [<a class="reference internal" href="../backmatter/bibliography.html#id40" title="Andrew Gelman. Scaling regression inputs by dividing by two standard deviations. Statistics in Medicine, 27(15):2865-2873, 2008. URL: https://onlinelibrary.wiley.com/doi/abs/10.1002/sim.3107, arXiv:https://onlinelibrary.wiley.com/doi/pdf/10.1002/sim.3107, doi:https://doi.org/10.1002/sim.3107.">2008</a>]</span> <a class="reference external" href="https://stat.columbia.edu/~gelman/research/published/standardizing7.pdf">suggests</a> standardizing by two standard deviations.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">standardize</span><span class="p">(</span><span class="n">X_df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Standardize input variables by 2 std dev.</span>
+
+<span class="sd">    See https://stat.columbia.edu/~gelman/research/published/standardizing7.pdf.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># find and store means and std, then standardize</span>
+    <span class="n">means</span> <span class="o">=</span> <span class="n">X_df</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">stdevs</span> <span class="o">=</span> <span class="n">X_df</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">X_standardized</span> <span class="o">=</span> <span class="p">(</span><span class="n">X_df</span> <span class="o">-</span> <span class="n">means</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">stdevs</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">X_standardized</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X_std</span> <span class="o">=</span> <span class="n">standardize</span><span class="p">(</span><span class="n">data_df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">:])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">m</span><span class="p">:</span>
+    <span class="n">pm</span><span class="o">.</span><span class="n">set_data</span><span class="p">({</span><span class="s2">&quot;X_data&quot;</span><span class="p">:</span> <span class="n">X_std</span><span class="p">})</span>
+    <span class="n">trace_std</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">5000</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Initializing NUTS using jitter+adapt_diag...
+Multiprocess sampling (4 chains in 4 jobs)
+NUTS: [alpha, beta]
+</pre></div>
+</div>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "d0aa54f4be814cc9b8d985dff05d2712", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 5_000 draw iterations (4_000 + 20_000 draws total) took 2 seconds.
+</pre></div>
+</div>
+</div>
+</div>
+<p>Looks like the model fit just fine this time.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace_std</span><span class="p">,</span> <span class="n">hdi_prob</span><span class="o">=</span><span class="mf">0.95</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mean</th>
+      <th>sd</th>
+      <th>hdi_2.5%</th>
+      <th>hdi_97.5%</th>
+      <th>mcse_mean</th>
+      <th>mcse_sd</th>
+      <th>ess_bulk</th>
+      <th>ess_tail</th>
+      <th>r_hat</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>alpha</th>
+      <td>-1.208</td>
+      <td>0.358</td>
+      <td>-1.941</td>
+      <td>-0.535</td>
+      <td>0.003</td>
+      <td>0.002</td>
+      <td>14434.0</td>
+      <td>14377.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>beta[0]</th>
+      <td>3.705</td>
+      <td>0.970</td>
+      <td>1.889</td>
+      <td>5.626</td>
+      <td>0.008</td>
+      <td>0.006</td>
+      <td>14855.0</td>
+      <td>13548.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>beta[1]</th>
+      <td>1.599</td>
+      <td>1.382</td>
+      <td>-1.001</td>
+      <td>4.447</td>
+      <td>0.013</td>
+      <td>0.010</td>
+      <td>11768.0</td>
+      <td>12302.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>beta[2]</th>
+      <td>-2.139</td>
+      <td>1.592</td>
+      <td>-5.215</td>
+      <td>0.918</td>
+      <td>0.015</td>
+      <td>0.011</td>
+      <td>11791.0</td>
+      <td>11846.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>beta[3]</th>
+      <td>-1.066</td>
+      <td>0.684</td>
+      <td>-2.404</td>
+      <td>0.299</td>
+      <td>0.005</td>
+      <td>0.004</td>
+      <td>18636.0</td>
+      <td>14453.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>beta[4]</th>
+      <td>0.104</td>
+      <td>0.721</td>
+      <td>-1.306</td>
+      <td>1.532</td>
+      <td>0.005</td>
+      <td>0.005</td>
+      <td>18776.0</td>
+      <td>15498.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>beta[5]</th>
+      <td>0.638</td>
+      <td>0.744</td>
+      <td>-0.855</td>
+      <td>2.044</td>
+      <td>0.006</td>
+      <td>0.004</td>
+      <td>16116.0</td>
+      <td>14988.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>beta[6]</th>
+      <td>-0.596</td>
+      <td>0.626</td>
+      <td>-1.816</td>
+      <td>0.612</td>
+      <td>0.005</td>
+      <td>0.004</td>
+      <td>18015.0</td>
+      <td>15016.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>beta[7]</th>
+      <td>-0.279</td>
+      <td>0.626</td>
+      <td>-1.468</td>
+      <td>0.984</td>
+      <td>0.004</td>
+      <td>0.004</td>
+      <td>21042.0</td>
+      <td>15519.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>beta[8]</th>
+      <td>1.235</td>
+      <td>0.662</td>
+      <td>-0.057</td>
+      <td>2.544</td>
+      <td>0.005</td>
+      <td>0.004</td>
+      <td>18430.0</td>
+      <td>15550.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>beta[9]</th>
+      <td>0.397</td>
+      <td>0.680</td>
+      <td>-0.935</td>
+      <td>1.753</td>
+      <td>0.005</td>
+      <td>0.004</td>
+      <td>18485.0</td>
+      <td>15050.0</td>
+      <td>1.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+</section>
+<section id="ants">
+<h2>Ants<a class="headerlink" href="#ants" title="Permalink to this headline">#</a></h2>
+<p>An example of Poisson regression, adapted from <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/original_examples/Codes4Unit7/ants.odc">Unit 7: ants.odc</a>.</p>
+<section id="data-description">
+<h3>Data description<a class="headerlink" href="#data-description" title="Permalink to this headline">#</a></h3>
+<p>Data can be found <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/data/ants.csv">here</a>.</p>
+<p>The data discussed in Gotelli and Ellison (2002) provide the ant species richness (number of ant species) found in 64-square-meter sampling grids in 22 forests (coded as 1) and 22 bogs (coded as 2) surrounding the forests in  Connecticut, Massachusetts, and Vermont. The sites span 3 degrees of latitude in New England. There are 44 observations on four variables (columns in data set):</p>
+<ul class="simple">
+<li><p>Ants: number of species,</p></li>
+<li><p>Habitat: forests (1) and bogs (2),</p></li>
+<li><p>Elevation: in meters above sea level.</p></li>
+</ul>
+<p>(a) Using Poisson regression, model the number of ant species (Ants) with covariates Habitat and Elevation.<br />
+(b) For a sampling grid unit located in a forest at the elevation of 100 m how many species the model from (a) predicts? For the model coefficients and the prediction report 95% credible  sets.</p>
+</section>
+<section id="poisson-regression-model">
+<h3>Poisson regression model<a class="headerlink" href="#poisson-regression-model" title="Permalink to this headline">#</a></h3>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+y_i | \boldsymbol{\theta}, \mathbf{X} &amp;\sim \text{Poisson}(\lambda_i) \\
+\lambda_i &amp;= g^{-1}(\beta_0 + \sum_{j=1}^p \beta_j x_{ij}) \\
+\beta_0 &amp;\sim \mathcal{N}(0, \sigma_0^2) &amp;&amp; \text{Intercept variance may be higher than coefficient variance.}\\
+\beta_j &amp;\sim \mathcal{N}(0, \sigma^2) \\
+\end{align*}
+\end{split}\]</div>
+<p>For Poisson regression our link function <span class="math notranslate nohighlight">\(g(\cdot)\)</span> is the natural logarithm and its inverse <span class="math notranslate nohighlight">\(g^{-1}(\cdot)\)</span> is the exponential function.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;../data/ants.csv&quot;</span><span class="p">)</span>
+<span class="n">data</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+RangeIndex: 44 entries, 0 to 43
+Data columns (total 3 columns):
+ #   Column     Non-Null Count  Dtype
+---  ------     --------------  -----
+ 0   ants       44 non-null     int64
+ 1   habitat    44 non-null     int64
+ 2   elevation  44 non-null     int64
+dtypes: int64(3)
+memory usage: 1.2 KB
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_hide-output docutils container">
+<div class="cell_input above-output-prompt docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">m</span><span class="p">:</span>
+    <span class="n">ant_species</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Data</span><span class="p">(</span><span class="s2">&quot;ant_species&quot;</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;ants&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">())</span>
+    <span class="n">habitat</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Data</span><span class="p">(</span><span class="s2">&quot;habitat&quot;</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;habitat&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">())</span>
+    <span class="n">elevation</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Data</span><span class="p">(</span><span class="s2">&quot;elevation&quot;</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;elevation&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">())</span>
+
+    <span class="n">beta0</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;beta0_intercept&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">)</span>
+    <span class="n">beta1</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;beta1_habitat&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">)</span>
+    <span class="n">beta2</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;beta2_elevation&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">)</span>
+
+    <span class="n">μ</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">beta0</span> <span class="o">+</span> <span class="n">beta1</span> <span class="o">*</span> <span class="n">habitat</span> <span class="o">+</span> <span class="n">beta2</span> <span class="o">*</span> <span class="n">elevation</span><span class="p">)</span>
+
+    <span class="n">y</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Poisson</span><span class="p">(</span>
+        <span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">μ</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">ant_species</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="n">habitat</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="p">)</span>  <span class="c1"># assuming elevation and habitat have same shape</span>
+
+    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">5000</span><span class="p">,</span> <span class="n">tune</span><span class="o">=</span><span class="mi">2000</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<details class="hide below-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell output</span>
+<span class="expanded">Hide code cell output</span>
+</summary>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Initializing NUTS using jitter+adapt_diag...
+Multiprocess sampling (4 chains in 4 jobs)
+NUTS: [beta0_intercept, beta1_habitat, beta2_elevation]
+</pre></div>
+</div>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "44bac1629281459695a2fd49fb71ff15", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 2_000 tune and 5_000 draw iterations (8_000 + 20_000 draws total) took 4 seconds.
+There were 1 divergences after tuning. Increase `target_accept` or reparameterize.
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mean</th>
+      <th>sd</th>
+      <th>hdi_3%</th>
+      <th>hdi_97%</th>
+      <th>mcse_mean</th>
+      <th>mcse_sd</th>
+      <th>ess_bulk</th>
+      <th>ess_tail</th>
+      <th>r_hat</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>beta0_intercept</th>
+      <td>3.169</td>
+      <td>0.186</td>
+      <td>2.823</td>
+      <td>3.524</td>
+      <td>0.002</td>
+      <td>0.002</td>
+      <td>6613.0</td>
+      <td>7951.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>beta1_habitat</th>
+      <td>-0.637</td>
+      <td>0.119</td>
+      <td>-0.861</td>
+      <td>-0.410</td>
+      <td>0.001</td>
+      <td>0.001</td>
+      <td>6760.0</td>
+      <td>8404.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>beta2_elevation</th>
+      <td>-0.001</td>
+      <td>0.000</td>
+      <td>-0.002</td>
+      <td>-0.001</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>8888.0</td>
+      <td>8823.0</td>
+      <td>1.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell tag_hide-output docutils container">
+<div class="cell_input above-output-prompt docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># prediction</span>
+<span class="k">with</span> <span class="n">m</span><span class="p">:</span>
+    <span class="n">pm</span><span class="o">.</span><span class="n">set_data</span><span class="p">({</span><span class="s2">&quot;habitat&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;elevation&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">100</span><span class="p">]})</span>
+    <span class="n">ppc</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample_posterior_predictive</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">predictions</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<details class="hide below-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell output</span>
+<span class="expanded">Hide code cell output</span>
+</summary>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling: [y]
+</pre></div>
+</div>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "9cbedf701a9a41b490e42f5ce980a072", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
+</div></div>
+</details>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ppc</span><span class="o">.</span><span class="n">predictions</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div><svg style="position: absolute; width: 0; height: 0; overflow: hidden">
+<defs>
+<symbol id="icon-database" viewBox="0 0 32 32">
+<path d="M16 0c-8.837 0-16 2.239-16 5v4c0 2.761 7.163 5 16 5s16-2.239 16-5v-4c0-2.761-7.163-5-16-5z"></path>
+<path d="M16 17c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
+<path d="M16 26c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
+</symbol>
+<symbol id="icon-file-text2" viewBox="0 0 32 32">
+<path d="M28.681 7.159c-0.694-0.947-1.662-2.053-2.724-3.116s-2.169-2.030-3.116-2.724c-1.612-1.182-2.393-1.319-2.841-1.319h-15.5c-1.378 0-2.5 1.121-2.5 2.5v27c0 1.378 1.122 2.5 2.5 2.5h23c1.378 0 2.5-1.122 2.5-2.5v-19.5c0-0.448-0.137-1.23-1.319-2.841zM24.543 5.457c0.959 0.959 1.712 1.825 2.268 2.543h-4.811v-4.811c0.718 0.556 1.584 1.309 2.543 2.268zM28 29.5c0 0.271-0.229 0.5-0.5 0.5h-23c-0.271 0-0.5-0.229-0.5-0.5v-27c0-0.271 0.229-0.5 0.5-0.5 0 0 15.499-0 15.5 0v7c0 0.552 0.448 1 1 1h7v19.5z"></path>
+<path d="M23 26h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+<path d="M23 22h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+<path d="M23 18h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+</symbol>
+</defs>
+</svg>
+<style>/* CSS stylesheet for displaying xarray objects in jupyterlab.
+ *
+ */
+
+:root {
+  --xr-font-color0: var(--jp-content-font-color0, rgba(0, 0, 0, 1));
+  --xr-font-color2: var(--jp-content-font-color2, rgba(0, 0, 0, 0.54));
+  --xr-font-color3: var(--jp-content-font-color3, rgba(0, 0, 0, 0.38));
+  --xr-border-color: var(--jp-border-color2, #e0e0e0);
+  --xr-disabled-color: var(--jp-layout-color3, #bdbdbd);
+  --xr-background-color: var(--jp-layout-color0, white);
+  --xr-background-color-row-even: var(--jp-layout-color1, white);
+  --xr-background-color-row-odd: var(--jp-layout-color2, #eeeeee);
+}
+
+html[theme="dark"],
+html[data-theme="dark"],
+body[data-theme="dark"],
+body.vscode-dark {
+  --xr-font-color0: rgba(255, 255, 255, 1);
+  --xr-font-color2: rgba(255, 255, 255, 0.54);
+  --xr-font-color3: rgba(255, 255, 255, 0.38);
+  --xr-border-color: #1f1f1f;
+  --xr-disabled-color: #515151;
+  --xr-background-color: #111111;
+  --xr-background-color-row-even: #111111;
+  --xr-background-color-row-odd: #313131;
+}
+
+.xr-wrap {
+  display: block !important;
+  min-width: 300px;
+  max-width: 700px;
+}
+
+.xr-text-repr-fallback {
+  /* fallback to plain text repr when CSS is not injected (untrusted notebook) */
+  display: none;
+}
+
+.xr-header {
+  padding-top: 6px;
+  padding-bottom: 6px;
+  margin-bottom: 4px;
+  border-bottom: solid 1px var(--xr-border-color);
+}
+
+.xr-header > div,
+.xr-header > ul {
+  display: inline;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.xr-obj-type,
+.xr-array-name {
+  margin-left: 2px;
+  margin-right: 10px;
+}
+
+.xr-obj-type {
+  color: var(--xr-font-color2);
+}
+
+.xr-sections {
+  padding-left: 0 !important;
+  display: grid;
+  grid-template-columns: 150px auto auto 1fr 0 20px 0 20px;
+}
+
+.xr-section-item {
+  display: contents;
+}
+
+.xr-section-item input {
+  display: inline-block;
+  opacity: 0;
+  height: 0;
+}
+
+.xr-section-item input + label {
+  color: var(--xr-disabled-color);
+}
+
+.xr-section-item input:enabled + label {
+  cursor: pointer;
+  color: var(--xr-font-color2);
+}
+
+.xr-section-item input:focus + label {
+  border: 2px solid var(--xr-font-color0);
+}
+
+.xr-section-item input:enabled + label:hover {
+  color: var(--xr-font-color0);
+}
+
+.xr-section-summary {
+  grid-column: 1;
+  color: var(--xr-font-color2);
+  font-weight: 500;
+}
+
+.xr-section-summary > span {
+  display: inline-block;
+  padding-left: 0.5em;
+}
+
+.xr-section-summary-in:disabled + label {
+  color: var(--xr-font-color2);
+}
+
+.xr-section-summary-in + label:before {
+  display: inline-block;
+  content: "►";
+  font-size: 11px;
+  width: 15px;
+  text-align: center;
+}
+
+.xr-section-summary-in:disabled + label:before {
+  color: var(--xr-disabled-color);
+}
+
+.xr-section-summary-in:checked + label:before {
+  content: "▼";
+}
+
+.xr-section-summary-in:checked + label > span {
+  display: none;
+}
+
+.xr-section-summary,
+.xr-section-inline-details {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+.xr-section-inline-details {
+  grid-column: 2 / -1;
+}
+
+.xr-section-details {
+  display: none;
+  grid-column: 1 / -1;
+  margin-bottom: 5px;
+}
+
+.xr-section-summary-in:checked ~ .xr-section-details {
+  display: contents;
+}
+
+.xr-array-wrap {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 20px auto;
+}
+
+.xr-array-wrap > label {
+  grid-column: 1;
+  vertical-align: top;
+}
+
+.xr-preview {
+  color: var(--xr-font-color3);
+}
+
+.xr-array-preview,
+.xr-array-data {
+  padding: 0 5px !important;
+  grid-column: 2;
+}
+
+.xr-array-data,
+.xr-array-in:checked ~ .xr-array-preview {
+  display: none;
+}
+
+.xr-array-in:checked ~ .xr-array-data,
+.xr-array-preview {
+  display: inline-block;
+}
+
+.xr-dim-list {
+  display: inline-block !important;
+  list-style: none;
+  padding: 0 !important;
+  margin: 0;
+}
+
+.xr-dim-list li {
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+}
+
+.xr-dim-list:before {
+  content: "(";
+}
+
+.xr-dim-list:after {
+  content: ")";
+}
+
+.xr-dim-list li:not(:last-child):after {
+  content: ",";
+  padding-right: 5px;
+}
+
+.xr-has-index {
+  font-weight: bold;
+}
+
+.xr-var-list,
+.xr-var-item {
+  display: contents;
+}
+
+.xr-var-item > div,
+.xr-var-item label,
+.xr-var-item > .xr-var-name span {
+  background-color: var(--xr-background-color-row-even);
+  margin-bottom: 0;
+}
+
+.xr-var-item > .xr-var-name:hover span {
+  padding-right: 5px;
+}
+
+.xr-var-list > li:nth-child(odd) > div,
+.xr-var-list > li:nth-child(odd) > label,
+.xr-var-list > li:nth-child(odd) > .xr-var-name span {
+  background-color: var(--xr-background-color-row-odd);
+}
+
+.xr-var-name {
+  grid-column: 1;
+}
+
+.xr-var-dims {
+  grid-column: 2;
+}
+
+.xr-var-dtype {
+  grid-column: 3;
+  text-align: right;
+  color: var(--xr-font-color2);
+}
+
+.xr-var-preview {
+  grid-column: 4;
+}
+
+.xr-index-preview {
+  grid-column: 2 / 5;
+  color: var(--xr-font-color2);
+}
+
+.xr-var-name,
+.xr-var-dims,
+.xr-var-dtype,
+.xr-preview,
+.xr-attrs dt {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 10px;
+}
+
+.xr-var-name:hover,
+.xr-var-dims:hover,
+.xr-var-dtype:hover,
+.xr-attrs dt:hover {
+  overflow: visible;
+  width: auto;
+  z-index: 1;
+}
+
+.xr-var-attrs,
+.xr-var-data,
+.xr-index-data {
+  display: none;
+  background-color: var(--xr-background-color) !important;
+  padding-bottom: 5px !important;
+}
+
+.xr-var-attrs-in:checked ~ .xr-var-attrs,
+.xr-var-data-in:checked ~ .xr-var-data,
+.xr-index-data-in:checked ~ .xr-index-data {
+  display: block;
+}
+
+.xr-var-data > table {
+  float: right;
+}
+
+.xr-var-name span,
+.xr-var-data,
+.xr-index-name div,
+.xr-index-data,
+.xr-attrs {
+  padding-left: 25px !important;
+}
+
+.xr-attrs,
+.xr-var-attrs,
+.xr-var-data,
+.xr-index-data {
+  grid-column: 1 / -1;
+}
+
+dl.xr-attrs {
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: 125px auto;
+}
+
+.xr-attrs dt,
+.xr-attrs dd {
+  padding: 0;
+  margin: 0;
+  float: left;
+  padding-right: 10px;
+  width: auto;
+}
+
+.xr-attrs dt {
+  font-weight: normal;
+  grid-column: 1;
+}
+
+.xr-attrs dt:hover span {
+  display: inline-block;
+  background: var(--xr-background-color);
+  padding-right: 10px;
+}
+
+.xr-attrs dd {
+  grid-column: 2;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.xr-icon-database,
+.xr-icon-file-text2,
+.xr-no-icon {
+  display: inline-block;
+  vertical-align: middle;
+  width: 1em;
+  height: 1.5em !important;
+  stroke-width: 0;
+  stroke: currentColor;
+  fill: currentColor;
+}
+</style><pre class='xr-text-repr-fallback'>&lt;xarray.Dataset&gt; Size: 200kB
+Dimensions:  (chain: 4, draw: 5000, y_dim_2: 1)
+Coordinates:
+  * chain    (chain) int64 32B 0 1 2 3
+  * draw     (draw) int64 40kB 0 1 2 3 4 5 6 ... 4994 4995 4996 4997 4998 4999
+  * y_dim_2  (y_dim_2) int64 8B 0
+Data variables:
+    y        (chain, draw, y_dim_2) int64 160kB 14 7 9 14 14 9 ... 16 8 11 14 13
+Attributes:
+    created_at:                 2025-03-09T23:10:25.576972+00:00
+    arviz_version:              0.20.0
+    inference_library:          pymc
+    inference_library_version:  5.19.1</pre><div class='xr-wrap' style='display:none'><div class='xr-header'><div class='xr-obj-type'>xarray.Dataset</div></div><ul class='xr-sections'><li class='xr-section-item'><input id='section-98ea0f01-518a-4e51-9f00-11d4e156e40e' class='xr-section-summary-in' type='checkbox' disabled ><label for='section-98ea0f01-518a-4e51-9f00-11d4e156e40e' class='xr-section-summary'  title='Expand/collapse section'>Dimensions:</label><div class='xr-section-inline-details'><ul class='xr-dim-list'><li><span class='xr-has-index'>chain</span>: 4</li><li><span class='xr-has-index'>draw</span>: 5000</li><li><span class='xr-has-index'>y_dim_2</span>: 1</li></ul></div><div class='xr-section-details'></div></li><li class='xr-section-item'><input id='section-0de0d66d-9807-4c3b-9617-3f7defc66386' class='xr-section-summary-in' type='checkbox'  checked><label for='section-0de0d66d-9807-4c3b-9617-3f7defc66386' class='xr-section-summary' >Coordinates: <span>(3)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>chain</span></div><div class='xr-var-dims'>(chain)</div><div class='xr-var-dtype'>int64</div><div class='xr-var-preview xr-preview'>0 1 2 3</div><input id='attrs-aa28c143-6052-4af5-9d9f-f862e3262aca' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-aa28c143-6052-4af5-9d9f-f862e3262aca' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-9189b17b-7d55-4a85-ad55-6d519b88b8a4' class='xr-var-data-in' type='checkbox'><label for='data-9189b17b-7d55-4a85-ad55-6d519b88b8a4' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([0, 1, 2, 3])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>draw</span></div><div class='xr-var-dims'>(draw)</div><div class='xr-var-dtype'>int64</div><div class='xr-var-preview xr-preview'>0 1 2 3 4 ... 4996 4997 4998 4999</div><input id='attrs-e2ce02f1-c3de-4eef-adf8-97f3abe72e0c' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-e2ce02f1-c3de-4eef-adf8-97f3abe72e0c' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-28ca2370-14b7-467b-a34b-7c0da7bd20ca' class='xr-var-data-in' type='checkbox'><label for='data-28ca2370-14b7-467b-a34b-7c0da7bd20ca' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([   0,    1,    2, ..., 4997, 4998, 4999])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>y_dim_2</span></div><div class='xr-var-dims'>(y_dim_2)</div><div class='xr-var-dtype'>int64</div><div class='xr-var-preview xr-preview'>0</div><input id='attrs-c95e97b2-2475-4087-8c25-9f8ab5ad7005' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-c95e97b2-2475-4087-8c25-9f8ab5ad7005' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-6c745895-02d7-4a52-b462-09a48c45434a' class='xr-var-data-in' type='checkbox'><label for='data-6c745895-02d7-4a52-b462-09a48c45434a' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([0])</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-e03eaad2-c5b5-47b2-9166-b4c5143c84a5' class='xr-section-summary-in' type='checkbox'  checked><label for='section-e03eaad2-c5b5-47b2-9166-b4c5143c84a5' class='xr-section-summary' >Data variables: <span>(1)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span>y</span></div><div class='xr-var-dims'>(chain, draw, y_dim_2)</div><div class='xr-var-dtype'>int64</div><div class='xr-var-preview xr-preview'>14 7 9 14 14 9 ... 7 16 8 11 14 13</div><input id='attrs-97071d53-5ac0-48c4-ba6a-367e6ed4fad5' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-97071d53-5ac0-48c4-ba6a-367e6ed4fad5' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-d72d155d-5bc2-4b91-8886-6cfefc20ca37' class='xr-var-data-in' type='checkbox'><label for='data-d72d155d-5bc2-4b91-8886-6cfefc20ca37' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([[[14],
+        [ 7],
+        [ 9],
+        ...,
+        [ 7],
+        [14],
+        [10]],
+
+       [[12],
+        [ 8],
+        [16],
+        ...,
+        [14],
+        [11],
+        [ 7]],
+
+       [[ 9],
+        [ 9],
+        [ 8],
+        ...,
+        [11],
+        [ 8],
+        [14]],
+
+       [[11],
+        [15],
+        [14],
+        ...,
+        [11],
+        [14],
+        [13]]])</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-e7b13b56-2c93-4e9f-828a-190b2bee3cac' class='xr-section-summary-in' type='checkbox'  ><label for='section-e7b13b56-2c93-4e9f-828a-190b2bee3cac' class='xr-section-summary' >Indexes: <span>(3)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-index-name'><div>chain</div></div><div class='xr-index-preview'>PandasIndex</div><input type='checkbox' disabled/><label></label><input id='index-f2d17aa1-2dfa-4a1a-8c9c-ce5e9e38ad4f' class='xr-index-data-in' type='checkbox'/><label for='index-f2d17aa1-2dfa-4a1a-8c9c-ce5e9e38ad4f' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(Index([0, 1, 2, 3], dtype=&#x27;int64&#x27;, name=&#x27;chain&#x27;))</pre></div></li><li class='xr-var-item'><div class='xr-index-name'><div>draw</div></div><div class='xr-index-preview'>PandasIndex</div><input type='checkbox' disabled/><label></label><input id='index-deaf52b8-a228-4a08-a220-0c4126b9bd7a' class='xr-index-data-in' type='checkbox'/><label for='index-deaf52b8-a228-4a08-a220-0c4126b9bd7a' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(Index([   0,    1,    2,    3,    4,    5,    6,    7,    8,    9,
+       ...
+       4990, 4991, 4992, 4993, 4994, 4995, 4996, 4997, 4998, 4999],
+      dtype=&#x27;int64&#x27;, name=&#x27;draw&#x27;, length=5000))</pre></div></li><li class='xr-var-item'><div class='xr-index-name'><div>y_dim_2</div></div><div class='xr-index-preview'>PandasIndex</div><input type='checkbox' disabled/><label></label><input id='index-a96e3a45-27db-4059-ba5b-3d5582f8a874' class='xr-index-data-in' type='checkbox'/><label for='index-a96e3a45-27db-4059-ba5b-3d5582f8a874' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(Index([0], dtype=&#x27;int64&#x27;, name=&#x27;y_dim_2&#x27;))</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-6156be2a-f510-4a1d-b015-2e99797fbca5' class='xr-section-summary-in' type='checkbox'  checked><label for='section-6156be2a-f510-4a1d-b015-2e99797fbca5' class='xr-section-summary' >Attributes: <span>(4)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><dl class='xr-attrs'><dt><span>created_at :</span></dt><dd>2025-03-09T23:10:25.576972+00:00</dd><dt><span>arviz_version :</span></dt><dd>0.20.0</dd><dt><span>inference_library :</span></dt><dd>pymc</dd><dt><span>inference_library_version :</span></dt><dd>5.19.1</dd></dl></div></li></ul></div></div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">ppc</span><span class="o">.</span><span class="n">predictions</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mean</th>
+      <th>sd</th>
+      <th>hdi_3%</th>
+      <th>hdi_97%</th>
+      <th>mcse_mean</th>
+      <th>mcse_sd</th>
+      <th>ess_bulk</th>
+      <th>ess_tail</th>
+      <th>r_hat</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>y[0]</th>
+      <td>10.853</td>
+      <td>3.411</td>
+      <td>5.0</td>
+      <td>17.0</td>
+      <td>0.025</td>
+      <td>0.018</td>
+      <td>18097.0</td>
+      <td>19070.0</td>
+      <td>1.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">load_ext</span> watermark
+<span class="o">%</span><span class="k">watermark</span> -n -u -v -iv -p pytensor
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Sun Mar 09 2025
+
+Python implementation: CPython
+Python version       : 3.12.7
+IPython version      : 8.29.0
+
+pytensor: 2.26.4
+
+numpy   : 1.26.4
+xarray  : 2024.11.0
+pytensor: 2.26.4
+seaborn : 0.13.2
+arviz   : 0.20.0
+pandas  : 2.2.3
+pymc    : 5.19.1
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./unit7"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="Unit7-other.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">14. Generalized Linear Models</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="Unit7-multinomial.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">16. Multinomial Logit</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#arrhythmia">Arrhythmia</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#data-descriptions">Data descriptions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#background">Background</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#model">Model</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ants">Ants</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#data-description">Data description</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#poisson-regression-model">Poisson regression model</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Georgia Tech ISYE 6420 Staff
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2024.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

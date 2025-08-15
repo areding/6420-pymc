@@ -1,0 +1,2246 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Supplementary Exercises 4.3 &#8212; ISYE 6420 - BUGS to PyMC</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/proof.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-bootstrap.5fd3999ee7762ccc51105388f4a9d115.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'unit4/SupplementaryExercises43';</script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Supplementary Exercises 4.8" href="SupplementaryExercises48.html" />
+    <link rel="prev" title="Counts of Alpha Particles*" href="Unit4-AlphaParticles.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo2.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../_static/logo2.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Introduction
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Unit 1</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../unit1/Unit1-about-this-course.html">1. About This Course</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit1/Unit1-topics.html">2. Topics Covered</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit1/Unit1-software.html">3. Software</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit1/Unit1-simple-regression.html">4. A Simple Regression*</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Unit 2</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../unit2/Unit2-history.html">1. History of Bayesian Statistics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit2/Unit2-history2.html">2. Historic Overview Links</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit2/Unit2-bayesianvsclassical.html">3. Bayesian vs. Frequentist</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit2/Unit2-10flips.html">4. Ten Coin Flips*</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit2/Unit2-fda.html">5. FDA Recommendations</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Unit 3</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../unit3/Unit3-NecessaryProbability.html">1. A Review of Necessary Probability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit3/Unit3-conditioning1.html">2. Conditioning, Part 1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit3/Unit3-conditioning2.html">3. Conditioning, Part 2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit3/Unit3-Bayes-theorem.html">4. Bayes’ Theorem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit3/Unit3-ManufacturingBayes.html">5. Manufacturing Bayes*</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit3/Unit3-TwoHeadedCoin.html">6. Two-headed Coin*</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit3/Unit3-bayesnetworks.html">7. Bayes Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit3/Unit3-Alarm.html">8. Alarm*</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../unit3/moreexamples3.html">More Examples</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../unit3/Unit3-Emily.html">Supplementary Problem: Emily’s Vacation*</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit3/SupplementaryExercises35.html">Supplementary Exercises*</a></li>
+</ul>
+</li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Unit 4</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="distributions.html">Probability Distributions</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="Unit4-basicdist.html">1. Basic Distributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Unit4-numericalchar.html">2. Numerical Characteristics of Random Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Unit4-jointconditionals.html">3. Joint and Conditional Distributions</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="bayestheorem.html">Bayes’ Theorem</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="Unit4-ingredients.html">4. Ingredients for Bayesian Inference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Unit4-conjugatefamilies.html">5. Conjugate Families</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Unit4-IQexample.html">6. Example: Jeremy’s IQ</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Unit4-BetaPriors.html">7. Ten Coin Flips Revisited: Beta Plots*</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Unit4-poissongamma.html">8. Poisson–Gamma Model</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="conjugatecases.html">Bayesian Inference in Conjugate Cases</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="Unit4-estimation.html">9. Estimation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Unit4-crediblesets.html">10. Credible Intervals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Unit4-GammaGamma.html">11. Gamma Gamma*</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Unit4-testing.html">12. Bayesian Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Unit4-prediction.html">13. Prediction</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="priors.html">Priors</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="Unit4-elicitation.html">14. Prior Elicitation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Unit4-noninform.html">15. Non-informative Priors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Unit4-samplesize.html">16. Prior Sample Size</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Unit4-eBay.html">17. eBay Purchase Example*</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="empiricalbayes.html">Empirical Bayes</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="Unit4-parametric.html">18. Parametric</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Unit4-nonpara.html">19. Non-parametric</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="moreexamples.html">More Examples</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="Unit4-AlphaParticles.html">Counts of Alpha Particles*</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Supplementary Exercises 4.3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SupplementaryExercises48.html">Supplementary Exercises 4.8</a></li>
+</ul>
+</li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Unit 5</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../unit5/bayesian-computation.html">Bayesian Computation</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-numericalapproaches.html">1. Numerical Approaches</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-norcau1.html">2. Normal–Cauchy Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-Laplace.html">3. Laplace’s Method</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-demo-Laplaces-method.html">4. Laplace’s Method Demo*</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-mcmc.html">5. Markov Chain Monte Carlo</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../unit5/metropolis-hastings.html">The Metropolis Algorithm</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-9"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-Metropolis.html">6. Metropolis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-Metropolis1.html">7. Metropolis: Normal-Cauchy*</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-MetropolisHastings.html">8. Metropolis–Hastings: Weibull-Exponential Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-MetropolisHastings2.html">9. Weibull Lifetimes*</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../unit5/gibbs-sampling.html">Gibbs Sampling</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-10"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-gibbsintro.html">10. Introduction to Gibbs Sampling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-GibbsSampler.html">11. Normal-Cauchy Gibbs Sampler*</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-gibbs2.html">12. Conjugate Gamma-Poisson Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-PumpsMCMC.html">13. Pumps*</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-gibbsex3math.html">14. Change Point Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-Gibbs3.html">15. Coal Mining Disasters in the UK*</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../unit5/other.html">Other Algorithms</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-11"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-hamiltonian.html">16. Hamiltonian Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-other-methods.html">17. Going Further</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../unit5/SupplementaryExercises54.html">Supplementary Exercises</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Unit 6</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../unit6/Unit6-probabilisticprogramming.html">1. Probabilistic Programming Languages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit6/Unit6-doodlebug.html">2. Creating a Graphical Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit6/Unit6-demo-doodle.html">3. Joint Probability Graphs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit6/Unit6-moreaboutpymc.html">4. More About PyMC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit6/Unit6-loadingdata.html">5. Loading Data, Step Function, and Deterministic Variables*</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit6/Unit6-missingdata.html">6. Missing Data*</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit6/Unit6-htesting.html">7. Hypothesis Testing*</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit6/Unit6-prediction.html">8. Prediction*</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit6/Unit6-censoring.html">9. Type-1 Censoring*</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit6/Unit6-customlikelihood.html">10. The Zero Trick and Custom Likelihoods*</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Unit 7</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../unit7/hierarchical.html">Hierarchical Models</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-12"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../unit7/Unit7-introduction.html">1. Introduction to Hierarchical Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit7/Unit7-why.html">2. Reasons to Use Hierarchical Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit7/Unit7-priors.html">3. Priors with Structural Information</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit7/Unit7-hiddenmixtures.html">4. Priors as Hidden Mixtures*</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit7/Unit7-metaanalysis.html">5. Meta-analysis via Hierarchical Models*</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../unit7/linearmodels.html">Linear Models</a><input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-13"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../unit7/Unit7-anova.html">6. Analysis of Variance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit7/Unit7-coagulation.html">7. Coagulation*</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit7/Unit7-factorial.html">8. Factorial Designs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit7/Unit7-demo-factorial.html">9. Simvastatin*</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit7/Unit7-regression.html">10. Simple Linear Regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit7/Unit7-demo-regression.html">11. Brozek index prediction*</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit7/Unit7-multipleregression.html">12. Multiple Linear Regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit7/Unit7-demo-multiple.html">13. Multiple Regression: Brozek Index Prediction*</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../unit7/othermodels.html">Other Models</a><input class="toctree-checkbox" id="toctree-checkbox-14" name="toctree-checkbox-14" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-14"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../unit7/Unit7-other.html">14. Generalized Linear Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit7/Unit7-arrhythmia.html">15. GLM Examples*</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit7/Unit7-multinomial.html">16. Multinomial Logit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit7/Unit7-demo-multinomial.html">17. Multinomial regression*</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit7/Unit7-multilevel.html">18. Multilevel Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit7/Unit7-demo-multilevel.html">19. Paraguay Vaccination Status*</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../unit7/SupplementaryExercises74.html">Supplementary Exercises</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Unit 8</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../unit8/Unit8-missing.html">1. Missing Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit8/Unit8-missrats.html">2. Rats Example with Missing Data*</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit8/Unit8-timetoevent.html">3. Time-to-event Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit8/Unit8-tteex1.html">4. Time-to-event Models: Example 1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit8/Unit8-tteex2.html">5. Time-to-event Models: Example 2*</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit8/Unit8-tte-gastric.html">6. Time-to-event Models: Gastric Cancer*</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit8/SupplementaryExercises83.html">Supplementary Exercises</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Unit 9</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-fit-selection-diagnostics.html">1. Model Fit, Selection, and Diagnostics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-dic.html">2. Deviance Information Criterion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-fitsel.html">3. Model Fit and Selection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-hald.html">4. Hald*</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-cpo.html">5. Conditional Predictive Ordinate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-cumulative.html">7. Using the Empirical CDF and the Probability Integral Transform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-cumulative2.html">8. Cumulative Example*</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-ssvs.html">9. Stochastic Search Variable Selection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-hald2.html">10. SSVS: Hald*</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit9/SupplementaryExercises93.html">Supplementary Exercises</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Unit 10</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../unit10/Unit10-lister.html">1. Lister*</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit10/Unit10-growth.html">2. Dental Development*</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit10/Unit10-disasters.html">3. Revisiting UK Coal Mining Disasters*</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit10/Unit10-rasch.html">4. Rasch*</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit10/Unit10-italywines123.html">5. Wine Classification*</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit10/Unit10-katla.html">6. Predicting Using Censored Data*</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit10/Unit10-sunspots.html">7. Prediction of Time Series*</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Appendix A</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../appendixA/BUGSVol1.html">BUGS Examples, Volume 1</a><input class="toctree-checkbox" id="toctree-checkbox-15" name="toctree-checkbox-15" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-15"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../appendixA/vol1-10-blocker.html">10 - Blocker</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../appendixA/BUGSVol2.html">BUGS Examples, Volume 2</a><input class="toctree-checkbox" id="toctree-checkbox-16" name="toctree-checkbox-16" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-16"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../appendixA/vol2-01-dugongs.html">01 - Dugongs</a></li>
+</ul>
+</li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Back Matter</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../backmatter/bibliography.html">1. Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../backmatter/latex_reference.html">2. Latex Reference</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/areding/6420-pymc/blob/main/unit4/SupplementaryExercises43.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch onColab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img src="../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/areding/6420-pymc" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/areding/6420-pymc/issues/new?title=Issue%20on%20page%20%2Funit4/SupplementaryExercises43.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/unit4/SupplementaryExercises43.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Supplementary Exercises 4.3</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#expectation-and-variance">1. Expectation and Variance</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#uniform-on-unit-circle">2. Uniform on Unit Circle</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fungi-spores">3. Fungi Spores</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#joint-marginals-and-conditionals-1">4. Joint, Marginals and Conditionals #1</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#joint-marginals-and-conditionals-2">5. Joint, Marginals and Conditionals #2</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#joint-marginals-and-conditionals-3">6. Joint, Marginals and Conditionals #3</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#joint-marginals-and-conditionals-4">7. Joint, Marginals and Conditionals #4</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-2d-pdf">8. A 2D PDF</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#in-a-circle">9. In a Circle</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#weibull-gamma">10. Weibull - Gamma</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#normal-inverse-gamma">11. Normal - Inverse Gamma</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#uniform-pareto">12. Uniform - Pareto</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gamma-inverse-gamma">13. Gamma - Inverse Gamma</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#negative-binomial-beta">14. Negative Binomial - Beta</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#horse-kick-fatalities-and-gamma-prior">15. Horse-Kick Fatalities and Gamma Prior</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#counts-of-alpha">16. Counts of Alpha</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#estimating-chemotherapy-response-rates">17. Estimating Chemotherapy Response Rates</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#jeremy-and-variance-from-single-observation">18. Jeremy and Variance from Single Observation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#easy-2d">19. Easy 2D</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bayes-and-bats">20. Bayes and Bats</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="supplementary-exercises-4-3">
+<h1>Supplementary Exercises 4.3<a class="headerlink" href="#supplementary-exercises-4-3" title="Permalink to this headline">#</a></h1>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This page contains solutions! We recommend attempting each problem before peeking.</p>
+</div>
+<section id="expectation-and-variance">
+<h2>1. Expectation and Variance<a class="headerlink" href="#expectation-and-variance" title="Permalink to this headline">#</a></h2>
+<p>Find <span class="math notranslate nohighlight">\(E(X)\)</span> and <span class="math notranslate nohighlight">\(\text{Var}(X)\)</span> if <span class="math notranslate nohighlight">\(X\)</span> has a density:</p>
+<ol class="arabic simple">
+<li><p><span class="math notranslate nohighlight">\(f(x) = 3x^2\)</span>, <span class="math notranslate nohighlight">\(0 \le x \le 1\)</span>;</p></li>
+<li><p><span class="math notranslate nohighlight">\(f(x) = \sin(x)\)</span>, <span class="math notranslate nohighlight">\(0 \le x \le \pi/2\)</span>.</p></li>
+</ol>
+<div class="tip dropdown admonition">
+<p class="admonition-title">Solution</p>
+<ol class="arabic simple">
+<li><p><span class="math notranslate nohighlight">\(E(X) = \frac{3}{4}\)</span>, <span class="math notranslate nohighlight">\(E(X^k) = \frac{3}{3+k}\)</span>, <span class="math notranslate nohighlight">\(\text{Var}(X) = \frac{3}{80}\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(E(X) = 1\)</span>, <span class="math notranslate nohighlight">\(E(X^2) = \pi - 2\)</span>, <span class="math notranslate nohighlight">\(\text{Var}(X) = \pi - 3\)</span></p></li>
+</ol>
+</div>
+</section>
+<section id="uniform-on-unit-circle">
+<h2>2. Uniform on Unit Circle<a class="headerlink" href="#uniform-on-unit-circle" title="Permalink to this headline">#</a></h2>
+<p>Let bivariate random variable <span class="math notranslate nohighlight">\((X, Y)\)</span> have a density</p>
+<div class="math notranslate nohighlight">
+\[f(x, y) = \frac{1}{\pi}, \quad x^2 + y^2 \le 1.\]</div>
+<ol class="arabic simple">
+<li><p>Find <span class="math notranslate nohighlight">\(f_{Y|X}(y | x)\)</span>.</p></li>
+<li><p>What is the conditional density <span class="math notranslate nohighlight">\(f(y | x)\)</span> for <span class="math notranslate nohighlight">\(x = 0\)</span>?</p></li>
+</ol>
+<div class="tip dropdown admonition">
+<p class="admonition-title">Solution</p>
+<p>We have <span class="math notranslate nohighlight">\( f(x, y) = \frac{1}{\pi} \)</span> for <span class="math notranslate nohighlight">\( x^2 + y^2 \le 1 \)</span>. We know that <span class="math notranslate nohighlight">\( f(y|x) = \frac{f(x,y)}{f_X(x)} \)</span>, so we need to figure out <span class="math notranslate nohighlight">\( f_X(x) = \int_{-\sqrt{1 - x^2}}^{\sqrt{1 - x^2}} f(x, y) \, dy \)</span>. Since we know <span class="math notranslate nohighlight">\( x^2 + y^2 \le 1 \)</span>, the bounds for integration will occur on the unit circle. Rearranging and solving for <span class="math notranslate nohighlight">\( y \)</span>, we find two solutions of <span class="math notranslate nohighlight">\( y = \sqrt{1 - x^2} \)</span> and <span class="math notranslate nohighlight">\( y = -\sqrt{1 - x^2} \)</span>. We can then integrate:</p>
+<div class="math notranslate nohighlight">
+\[
+f_X(x) = \int_{-\sqrt{1 - x^2}}^{\sqrt{1 - x^2}} \frac{1}{\pi} \, dy = \frac{2 \sqrt{1 - x^2}}{\pi}
+\]</div>
+<p>Logically, the domain for this half-circle is <span class="math notranslate nohighlight">\(-1 \le x \le 1\)</span> but I would still verify that</p>
+<div class="math notranslate nohighlight">
+\[
+\int_{-1}^{1} \frac{2 \sqrt{1 - x^2}}{\pi} \, dx = 1
+\]</div>
+<p>to make sure.</p>
+</div>
+</section>
+<section id="fungi-spores">
+<h2>3. Fungi Spores<a class="headerlink" href="#fungi-spores" title="Permalink to this headline">#</a></h2>
+<p>Fungi spores are elliptical in shape with minor and major axes used to describe their size. Let <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span> denote lengths of the minor and major axes (in micrometers):</p>
+<div class="math notranslate nohighlight">
+\[X \sim Exp(1)\]</div>
+<div class="math notranslate nohighlight">
+\[Y \mid X = x \sim f(y | x) = e^{- (y-x)} \quad \text{for} \space y \geq x \]</div>
+<p>Find:</p>
+<ol class="arabic simple">
+<li><p>joint distribution <span class="math notranslate nohighlight">\(f_{(X,Y)}(x, y)\)</span>;</p></li>
+<li><p><span class="math notranslate nohighlight">\(P(Y \leq 2 | X = 1)\)</span>;</p></li>
+<li><p><span class="math notranslate nohighlight">\(E(Y | X = 1)\)</span>;</p></li>
+<li><p>constant <span class="math notranslate nohighlight">\(C\)</span>, such that <span class="math notranslate nohighlight">\(P(Y \leq c) = 0.5\)</span>;</p></li>
+<li><p>Are <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span> independent?</p></li>
+</ol>
+<div class="tip dropdown admonition">
+<p class="admonition-title">Solution</p>
+<ol class="arabic simple">
+<li><p>Since <span class="math notranslate nohighlight">\( f(y|x) = \frac{f(x,y)}{f_X(x)} \)</span>, we have <span class="math notranslate nohighlight">\( f(x, y) = f(y|x) \cdot f_X(x) = e^{-y} \)</span>.</p></li>
+<li><p>We use the given <span class="math notranslate nohighlight">\( Y | X \)</span> equation with <span class="math notranslate nohighlight">\( X = 1 \)</span>. We have</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[
+P(Y \le 2|X = 1) = \int_{1}^{2} e^{-(y-1)} \, dy = 1 - e^{-1} = 0.63212.
+\]</div>
+<ol class="arabic simple" start="3">
+<li><p><span class="math notranslate nohighlight">\( E(Y | X = 1) = \int_{1}^{\infty} y e^{-(y-1)} \, dy = 2 \)</span>.</p></li>
+<li><p>We need to find the marginal distribution of <span class="math notranslate nohighlight">\( Y \)</span> by integrating out <span class="math notranslate nohighlight">\( X \)</span> from the joint likelihood from part (a). Once we have that, we can find the desired constant by integration/numerical solvers. We do this in two parts:</p></li>
+</ol>
+<p>First, find <span class="math notranslate nohighlight">\( f_Y(y) \)</span> from <span class="math notranslate nohighlight">\( f(x, y) = e^{-y} \)</span> by integrating out the <span class="math notranslate nohighlight">\( x \)</span> variable over its region of definition. Since we have the relation <span class="math notranslate nohighlight">\( x \le y \)</span>, we know that <span class="math notranslate nohighlight">\( x \)</span> can range from 0 to <span class="math notranslate nohighlight">\( y \)</span>. We then construct the integral:</p>
+<div class="math notranslate nohighlight">
+\[
+f_Y(y) = \int_{0}^{y} e^{-y} \, dx = y e^{-y}, \quad \text{for } 0 \le y &lt; \infty.
+\]</div>
+<p>Then, we would like to match this to a known distribution if possible. We know that a Gamma distribution has the pdf of <span class="math notranslate nohighlight">\( f(y | a, b) = \frac{b^a}{\Gamma(a)} y^{a-1} e^{-by} \)</span>. We can ignore  the constant terms for now and just state <span class="math notranslate nohighlight">\( f(y | a, b) \propto y^{a-1} e^{-by} \)</span>. We can match this to <span class="math notranslate nohighlight">\( f_Y(y) = y e^{-y} \)</span> by setting <span class="math notranslate nohighlight">\( a = 2 \)</span> and <span class="math notranslate nohighlight">\( b = 1 \)</span>. Finally, to find the median value, it is the value of <span class="math notranslate nohighlight">\( c \)</span> that solves</p>
+<div class="math notranslate nohighlight">
+\[
+\int_{0}^{c} y e^{-y} \, dy = 0.5.
+\]</div>
+<ol class="arabic simple" start="5">
+<li><p>For independence to be the case, we would have to be able to separate out the joint pdf <span class="math notranslate nohighlight">\( f(x, y) \)</span> into two separate functions <span class="math notranslate nohighlight">\( f_X(x) \)</span> and <span class="math notranslate nohighlight">\( f_Y(y) \)</span>, i.e., <span class="math notranslate nohighlight">\( f(x, y) = f_X(x) f_Y(y) \)</span>. Pay special attention to the region of definition for the functions. If you can do this, <span class="math notranslate nohighlight">\( X \)</span> and <span class="math notranslate nohighlight">\( Y \)</span> are independent.</p></li>
+</ol>
+</div>
+</section>
+<section id="joint-marginals-and-conditionals-1">
+<h2>4. Joint, Marginals and Conditionals #1<a class="headerlink" href="#joint-marginals-and-conditionals-1" title="Permalink to this headline">#</a></h2>
+<p>Let random variables <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span> have joint density:</p>
+<div class="math notranslate nohighlight">
+\[ f_{(X,Y)}(x, y) = \lambda^2 e^{-\lambda y}, \quad 0 \le x \le y \]</div>
+<p>Find:</p>
+<ol class="arabic simple">
+<li><p>marginal densities <span class="math notranslate nohighlight">\(f_X(x)\)</span> and <span class="math notranslate nohighlight">\(f_Y(y)\)</span>;</p></li>
+<li><p>conditional densities of <span class="math notranslate nohighlight">\(X\)</span> given <span class="math notranslate nohighlight">\(Y = y\)</span>, <span class="math notranslate nohighlight">\(f_{X|Y}(x | y)\)</span>, and of <span class="math notranslate nohighlight">\(Y\)</span> given <span class="math notranslate nohighlight">\(X = x\)</span>, <span class="math notranslate nohighlight">\(f_{Y|X}(y|x)\)</span>;</p></li>
+<li><p>the CDF of <span class="math notranslate nohighlight">\((X, Y)\)</span>, <span class="math notranslate nohighlight">\(F_{(X,Y)}(x, y) = P(X \le x, Y \le y)\)</span>.</p></li>
+</ol>
+<div class="tip dropdown admonition">
+<p class="admonition-title">Solution</p>
+<p>It is useful to draw the support (domain) of the joint density. This is an unbounded region in the first quadrant of the <span class="math notranslate nohighlight">\(xy\)</span> plane above the line <span class="math notranslate nohighlight">\(y = x\)</span>. There <span class="math notranslate nohighlight">\(x \in [0, y]\)</span> for <span class="math notranslate nohighlight">\(y \ge 0\)</span>, or equivalently, <span class="math notranslate nohighlight">\(y \in [x, \infty)\)</span>, for <span class="math notranslate nohighlight">\(x \ge 0\)</span>.</p>
+<ol class="arabic simple">
+<li><p>From <span class="math notranslate nohighlight">\( f_X(x) = \int_x^\infty f_{X,Y}(x, y) \, dy \)</span> we find <span class="math notranslate nohighlight">\( X \sim \text{Exp}(\lambda) \)</span>.<br />
+From <span class="math notranslate nohighlight">\( f_Y(y) = \int_0^y f_{X,Y}(x, y) \, dx \)</span> we find <span class="math notranslate nohighlight">\( Y \sim \text{Ga}(2, \lambda) \)</span>.</p></li>
+<li><p><span class="math notranslate nohighlight">\( X | Y = y \sim U(0, y) \)</span><br />
+<span class="math notranslate nohighlight">\( Y | X = x \sim \lambda e^{-\lambda(y-x)}, \, y \ge x \)</span>.</p></li>
+<li></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[
+F(x, y) = \iint_D f_{X,Y}(u, v) \, dudv
+\]</div>
+<p>where the domain of integration <span class="math notranslate nohighlight">\(D\)</span> depends on whether <span class="math notranslate nohighlight">\(x \le y\)</span> or not.</p>
+<p>If <span class="math notranslate nohighlight">\(x \le y\)</span> then the domain of integration of <span class="math notranslate nohighlight">\( f(u, v) = \lambda^2 e^{-\lambda v} \)</span> is:</p>
+<div class="math notranslate nohighlight">
+\[
+\{0 \le u \le x; u \le v \le y\}
+\]</div>
+<p><img alt="domain plot" src="../_images/q4_plot1.png" /></p>
+<p>If <span class="math notranslate nohighlight">\(x &gt; y\)</span> then the domain is as follows:</p>
+<div class="math notranslate nohighlight">
+\[
+\{0 \le u \le y; u \le v \le y\}
+\]</div>
+<p><img alt="domain plot" src="../_images/q4_plot2.png" /></p>
+<p>For <span class="math notranslate nohighlight">\(x \le y\)</span>, we have</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+F(x, y) &amp;= \int_0^x \int_u^y \lambda^2 e^{-\lambda v} \, dv \, du \\
+&amp;= \int_0^x \left[ - \lambda e^{-\lambda v} \right]_u^y \, du \\
+&amp;= \int_0^x \left( - \lambda e^{-\lambda y} + \lambda e^{-\lambda u} \right) \, du \\
+&amp;= - \lambda e^{-\lambda y} x + \lambda \int_0^x e^{-\lambda u} \, du \\
+&amp;= - \lambda e^{-\lambda y} x + \lambda \left[ \frac{e^{-\lambda u}}{-\lambda} \right]_0^x \\
+&amp;= - \lambda e^{-\lambda y} x + \left( 1 - e^{-\lambda x} \right) \\
+&amp;= 1 - e^{-\lambda x} - \lambda x e^{-\lambda y}
+\end{align*}
+\end{split}\]</div>
+<p>For <span class="math notranslate nohighlight">\(x &gt; y\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+F(x, y) &amp;= \int_0^y \int_u^y \lambda^2 e^{-\lambda v} \, dv \, du \\
+&amp;= 1 - e^{-\lambda y} - \lambda y e^{-\lambda y} \\
+&amp;= 1 - e^{-\lambda y} - \lambda y e^{-\lambda y} \quad (\text{plug in } y \text{ for } x)
+\end{align*}
+\end{split}\]</div>
+<p>So after integration, our joint CDF is:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+F(x, y) = 
+\begin{cases}
+1 - e^{-\lambda y} - \lambda y e^{-\lambda y}, &amp; x &gt; y \\
+1 - e^{-\lambda x} - \lambda x e^{-\lambda y}, &amp; x \le y
+\end{cases}
+\end{split}\]</div>
+</div>
+<div class="cell tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">myst_nb</span><span class="w"> </span><span class="kn">import</span> <span class="n">glue</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">y</span> <span class="o">=</span> <span class="mi">3</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+
+<span class="c1"># region to fill</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">fill_between</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">x</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">x</span><span class="p">],</span> <span class="n">y</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;lightcoral&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+
+<span class="c1"># x = y</span>
+<span class="n">x_vals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span> <span class="mi">400</span><span class="p">)</span>
+<span class="n">y_vals</span> <span class="o">=</span> <span class="n">x_vals</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_vals</span><span class="p">,</span> <span class="n">y_vals</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;$x = y$&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">)</span>
+
+<span class="c1"># domain boundaries</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">y</span><span class="p">],</span> <span class="s2">&quot;g--&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">x</span><span class="p">],</span> <span class="p">[</span><span class="n">y</span><span class="p">,</span> <span class="n">y</span><span class="p">],</span> <span class="s2">&quot;g--&quot;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="o">*</span> <span class="mf">1.1</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="o">*</span> <span class="mf">1.1</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;$x$&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;$y$&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Integration Domain&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;../images/q4_plot1.png&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/9137b8ad4e5198b47cf8396b3bf30b1ff64165bbf083a02f5b6d872c531a6676.png" src="../_images/9137b8ad4e5198b47cf8396b3bf30b1ff64165bbf083a02f5b6d872c531a6676.png" />
+</div>
+</details>
+</div>
+<div class="cell tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="n">y</span> <span class="o">=</span> <span class="mi">2</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+
+<span class="c1"># region to fill</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">fill_between</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">y</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">y</span><span class="p">],</span> <span class="n">y</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;lightcoral&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+
+<span class="c1"># x = y</span>
+<span class="n">x_vals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span> <span class="mi">400</span><span class="p">)</span>
+<span class="n">y_vals</span> <span class="o">=</span> <span class="n">x_vals</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_vals</span><span class="p">,</span> <span class="n">y_vals</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;$x = y$&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">)</span>
+
+<span class="c1"># domain boundaries</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">y</span><span class="p">],</span> <span class="s2">&quot;g--&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">x</span><span class="p">],</span> <span class="p">[</span><span class="n">y</span><span class="p">,</span> <span class="n">y</span><span class="p">],</span> <span class="s2">&quot;g--&quot;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="o">*</span> <span class="mf">1.1</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="o">*</span> <span class="mf">1.1</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;$x$&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;$y$&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Integration Domain&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;../images/q4_plot2.png&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/6a83abf56e9aa9dd12402f7aa82ba6ef991e6a7c88f10ac05e82dafe1afd99a0.png" src="../_images/6a83abf56e9aa9dd12402f7aa82ba6ef991e6a7c88f10ac05e82dafe1afd99a0.png" />
+</div>
+</details>
+</div>
+</section>
+<section id="joint-marginals-and-conditionals-2">
+<h2>5. Joint, Marginals and Conditionals #2<a class="headerlink" href="#joint-marginals-and-conditionals-2" title="Permalink to this headline">#</a></h2>
+<p>Let random variables <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span> have joint density</p>
+<div class="math notranslate nohighlight">
+\[ 
+f_{(X,Y)}(x, y) = Cxy^2, \quad x \ge 0, \quad y \ge 0, \quad x + y \le 1
+\]</div>
+<ol class="arabic simple">
+<li><p>Show that</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[ 
+C = 60, \quad f_X(x) = 20x(1 - x)^3, \quad 0 \le x \le 1 
+\]</div>
+<p>and</p>
+<div class="math notranslate nohighlight">
+\[
+f_{Y|X}(y | x) = \frac{3y^2}{(1-x)^3}, \quad 0 \le y \le 1 - x. 
+\]</div>
+<ol class="arabic simple" start="2">
+<li><p>Find <span class="math notranslate nohighlight">\(f_Y(y)\)</span> and <span class="math notranslate nohighlight">\(f_{X|Y}(x | y)\)</span>.</p></li>
+</ol>
+<div class="tip dropdown admonition">
+<p class="admonition-title">Solution</p>
+<ol class="arabic simple">
+<li><p>Show that</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[
+C = 60, \quad f_X(x) = 20x(1 - x)^3, \quad 0 \le x \le 1
+\]</div>
+<p>and</p>
+<div class="math notranslate nohighlight">
+\[
+f_{Y|X}(y | x) = \frac{3y^2}{(1-x)^3}, \quad 0 \le y \le 1 - x.
+\]</div>
+<p>First, plotting really does help me get an idea of what’s going on.</p>
+<p><img alt="domain plot" src="../_images/q5_plot.png" /></p>
+<p>To show that <span class="math notranslate nohighlight">\(C=60\)</span>, we make use of one of the properties of PDFs, which is that they must integrate to 1. This is a joint PDF, so we need to integrate over both of the random variables, set that equal to 1, and solve for <span class="math notranslate nohighlight">\(C\)</span>.</p>
+<div class="math notranslate nohighlight">
+\[
+1 = \int_0^1 \int_0^{1-x} Cxy^2 dy \space dx = C/60
+\]</div>
+<p>The limits here are from the problem description. You could also do it this way:</p>
+<div class="math notranslate nohighlight">
+\[
+1 = \int_0^1 \int_0^{1-y} Cxy^2 dx \space dy = C/60
+\]</div>
+<p>Now let’s find <span class="math notranslate nohighlight">\(f_X(x)\)</span>, which is the marginal density of <span class="math notranslate nohighlight">\(X\)</span>. Here the limits of integration are the full domain of <span class="math notranslate nohighlight">\(Y\)</span>.</p>
+<div class="math notranslate nohighlight">
+\[
+\int_0^{1-x} 60xy^2 dy = 20x(1-x)^3
+\]</div>
+<p>Then</p>
+<div class="math notranslate nohighlight">
+\[
+f_{Y\mid X}(y\mid x) = \frac{f_{X,Y}(x,y)}{f_X(x)} = \frac{60xy^2}{20x(1-x)^3} = \frac{3y^2}{(1-x)^3}
+\]</div>
+<ol class="arabic simple" start="2">
+<li><p>Find <span class="math notranslate nohighlight">\(f_Y(y)\)</span> and <span class="math notranslate nohighlight">\(f_{X|Y}(x | y)\)</span>.</p></li>
+</ol>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+f_Y(y) &amp;= \int_0^{1-y} 60xy^2 \, dx \\
+ &amp;= 60y^2 \int_0^{1-y} x \, dx \\
+&amp;= 60y^2 \left[\frac{x^2}{2}\right]_0^{1-y} \\
+&amp;= 30y^2 (1-y)^2
+\end{align*}\]</div>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+f_{X|Y}(x | y) &amp;= \frac{f_{(X,Y)}(x, y)}{f_Y(y)} \\
+&amp;= \frac{60xy^2}{30y^2 (1-y)^2} \\
+&amp;= \frac{2x}{(1-y)^2}
+\end{align*}\]</div>
+</div>
+<div class="cell tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">myst_nb</span><span class="w"> </span><span class="kn">import</span> <span class="n">glue</span>
+
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">x</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;lightblue&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Domain of $(X, Y)$&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;blue&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;$y = 1 - x$&quot;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;../images/q5_plot.png&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/e7e001e1a0cf2135b2b701fcf7ec41d51a0a1b55e25a7cf2b40e9d8bced28eb6.png" src="../_images/e7e001e1a0cf2135b2b701fcf7ec41d51a0a1b55e25a7cf2b40e9d8bced28eb6.png" />
+</div>
+</details>
+</div>
+</section>
+<section id="joint-marginals-and-conditionals-3">
+<h2>6. Joint, Marginals and Conditionals #3<a class="headerlink" href="#joint-marginals-and-conditionals-3" title="Permalink to this headline">#</a></h2>
+<p>Let random variables <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span> have joint density</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+f_{X,Y}(x, y) = 
+\begin{cases} 
+\frac{1+xy}{4}, &amp; -1 \le x \le 1, -1 \le y \le 1 \\ 
+0, &amp; \text{else} 
+\end{cases}
+\end{split}\]</div>
+<p>Find:</p>
+<ol class="arabic simple">
+<li><p>marginal densities <span class="math notranslate nohighlight">\(f_X(x)\)</span> and <span class="math notranslate nohighlight">\(f_Y(y)\)</span>;</p></li>
+<li><p>conditional densities of <span class="math notranslate nohighlight">\(X\)</span> given <span class="math notranslate nohighlight">\(Y = y\)</span>, <span class="math notranslate nohighlight">\(f_{X|Y}(x | y)\)</span>, and of <span class="math notranslate nohighlight">\(Y\)</span> given <span class="math notranslate nohighlight">\(X = x\)</span>, <span class="math notranslate nohighlight">\(f_{Y|X}(y | x)\)</span>.</p></li>
+<li><p>Are <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span> independent?</p></li>
+</ol>
+<div class="tip dropdown admonition">
+<p class="admonition-title">Solution</p>
+<ol class="arabic simple">
+<li></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[
+f_X(x) = \frac{1}{2}, \quad -1 \le x \le 1
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+f_Y(y) = \frac{1}{2}, \quad -1 \le y \le 1
+\]</div>
+<ol class="arabic simple" start="2">
+<li></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[
+f_{X|Y}(x | y) = \frac{1+xy}{2}, \quad -1 \le x \le 1
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+f_{Y|X}(y | x) = \frac{1+xy}{2}, \quad -1 \le y \le 1
+\]</div>
+<ol class="arabic simple" start="3">
+<li><p>Since <span class="math notranslate nohighlight">\( f_{X|Y}(x | y) \neq f_X(x) \)</span>, the components <span class="math notranslate nohighlight">\( X \)</span> and <span class="math notranslate nohighlight">\( Y \)</span> are not independent.</p></li>
+</ol>
+</div>
+</section>
+<section id="joint-marginals-and-conditionals-4">
+<h2>7. Joint, Marginals and Conditionals #4<a class="headerlink" href="#joint-marginals-and-conditionals-4" title="Permalink to this headline">#</a></h2>
+<p>Let random variables <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span> have joint density <span class="math notranslate nohighlight">\(f_{X,Y}(x, y)\)</span> given by:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+f_{X,Y}(x, y) = 
+\begin{cases} 
+C(x^2 - y^2)e^{-x} &amp; \text{for } 0 \leq x &lt; \infty, -x \leq y \leq x \\
+0 &amp; \text{else}
+\end{cases}
+\end{split}\]</div>
+<p>Find</p>
+<ol class="arabic simple">
+<li><p>constant <span class="math notranslate nohighlight">\(C\)</span>.</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[
+1 = \int_{0}^{\infty} \int_{-x}^{x} C (x^2 - y^2) e^{-x} \, dy \, dx = \frac{4C}{3} \int_{0}^{\infty} x^3 e^{-x} \, dx = \frac{4C}{3} \times \Gamma(4) = 8C.
+\]</div>
+<p>Thus, <span class="math notranslate nohighlight">\(C = \frac{1}{8}\)</span>. (Recall, <span class="math notranslate nohighlight">\(\Gamma(n) = (n − 1)!\)</span>)</p>
+<ol class="arabic simple" start="2">
+<li><p>marginal densities <span class="math notranslate nohighlight">\(f_X(x)\)</span> and <span class="math notranslate nohighlight">\(f_Y(y)\)</span>.</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[f_X(x) = \frac{1}{6} x^3 e^{-x} = \frac{x^{4-1}}{\Gamma(4)} e^{-1 \cdot x}, x \geq 0\]</div>
+<p>This is Gamma <span class="math notranslate nohighlight">\(Ga(4, 1)\)</span> distribution. To find <span class="math notranslate nohighlight">\(f_Y(y)\)</span>, when integrating out <span class="math notranslate nohighlight">\(x\)</span>, for <span class="math notranslate nohighlight">\(y \geq 0\)</span>, the integration is <span class="math notranslate nohighlight">\(\int_{y}^{\infty}\)</span>, and for <span class="math notranslate nohighlight">\(y &lt; 0\)</span> the integration is <span class="math notranslate nohighlight">\(\int_{-y}^{\infty}\)</span>. You will need to do integration by parts. When the smoke clears,</p>
+<ol class="arabic simple" start="3">
+<li><p>conditional distributions <span class="math notranslate nohighlight">\(f_{X|Y}(x|y)\)</span> and <span class="math notranslate nohighlight">\(f_{Y|X}(y|x)\)</span>.</p></li>
+</ol>
+<div class="tip dropdown admonition">
+<p class="admonition-title">Solution</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+f_Y(y) = 
+\begin{cases} 
+\frac{1}{4} (1 + y) e^{-y} &amp; \text{for } y \geq 0 \\
+\frac{1}{4} (1 - y) e^y &amp; \text{for } y &lt; 0
+\end{cases}
+\end{split}\]</div>
+<p>or simpler, <span class="math notranslate nohighlight">\(f_Y(y) = \frac{1}{4} (1 + |y|) e^{-|y|}\)</span>, <span class="math notranslate nohighlight">\(-\infty &lt; y &lt; \infty\)</span>.</p>
+<p><img alt="domain plot" src="../_images/q7_plot.png" /></p>
+<p>For the marginal density of x, we integrate over the domain of y. We’re interested in varying y values for fixed x. But we still need to pay attention to the other constraint that <span class="math notranslate nohighlight">\(0 \leq x &lt; \infty\)</span>, it’s just that it doesn’t change anything here.</p>
+<div class="math notranslate nohighlight">
+\[
+f_X(x) = \int_{-x}^{x} 0.125(x^2 - y^2) e^{-x} dy = \frac{1}{6} e^{-x}x^3=\frac{1^4}{\Gamma(4)}x^{4-1}e^{-1x}, x\ge 0
+\]</div>
+<p>Which is <span class="math notranslate nohighlight">\(Ga(4, 1)\)</span>.</p>
+<p>For the marginal density of y, we integrate over the domain of x, but what is the domain of x?</p>
+<p>We can rewrite the second condition as <span class="math notranslate nohighlight">\(x \ge |y|\)</span>.</p>
+<p>Then the full domain for x is <span class="math notranslate nohighlight">\(|y| \leq x &lt; \infty\)</span>. That’s why we have to do two separate definite integrals, one from -y to infinity and one from y to infinity.</p>
+<p>The conditional <span class="math notranslate nohighlight">\(f_{Y|X}(y|x) = \frac{3}{4} \left( \frac{1}{x} - \frac{y^2}{x^3} \right)\)</span>, <span class="math notranslate nohighlight">\(-x \leq y \leq x\)</span>. The conditional <span class="math notranslate nohighlight">\(f_{X|Y}(x|y)\)</span> is simply <span class="math notranslate nohighlight">\(\frac{f(x,y)}{f_Y(y)}\)</span>, <span class="math notranslate nohighlight">\(|y| \leq x &lt; \infty\)</span>.</p>
+</div>
+<div class="cell tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="c1"># x values (this could go to infinity but this is enough to get an idea)</span>
+<span class="n">x_vals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+
+<span class="c1"># upper and lower bounds for y based on x</span>
+<span class="n">y_upper</span> <span class="o">=</span> <span class="n">x_vals</span>
+<span class="n">y_lower</span> <span class="o">=</span> <span class="o">-</span><span class="n">x_vals</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">x_vals</span><span class="p">,</span> <span class="n">y_lower</span><span class="p">,</span> <span class="n">y_upper</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;blue&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;X&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Y&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Domain of $f_{X,Y}(x, y)$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;../images/q7_plot.png&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/9e19bc5eb6ae5e0b0749d4a3878e1cb8af086000fe46f7054f85fcf942a33331.png" src="../_images/9e19bc5eb6ae5e0b0749d4a3878e1cb8af086000fe46f7054f85fcf942a33331.png" />
+</div>
+</details>
+</div>
+</section>
+<section id="a-2d-pdf">
+<h2>8. A 2D PDF<a class="headerlink" href="#a-2d-pdf" title="Permalink to this headline">#</a></h2>
+<p>Let</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+f(x, y) = 
+\begin{cases} 
+\frac{3}{8} (x^2 + 2xy), &amp; 0 \le x \le 1, 0 \le y \le 2 \\ 
+0, &amp; \text{else} 
+\end{cases}
+\end{split}\]</div>
+<p>be a bivariate PDF of a random vector <span class="math notranslate nohighlight">\((X, Y)\)</span>.</p>
+<ol class="arabic simple">
+<li><p>Show that <span class="math notranslate nohighlight">\(f(x, y)\)</span> is a density.</p></li>
+<li><p>Show that marginal distributions are</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[
+f_X(x) = \frac{3}{2}x + \frac{3}{4}x^2 , 0 \le x \le 1
+\]</div>
+<p>and</p>
+<div class="math notranslate nohighlight">
+\[
+f_Y(y) = \frac{1}{8} + \frac{3}{8}y , 0 \le y \le 2
+\]</div>
+<ol class="arabic simple" start="3">
+<li><p>Show <span class="math notranslate nohighlight">\(E(X) = \frac{11}{16}\)</span> and <span class="math notranslate nohighlight">\(E(Y) = \frac{5}{4}\)</span>.</p></li>
+<li><p>Show that conditional distributions are</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[
+f(x | y) = \frac{3x(x + 2y)}{1 + 3y}, \quad 0 \le x \le 1, \text{ for any fixed } y \in [0, 2],
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+f(y | x) = \frac{2y + x}{4 + 2x}, \quad 0 \le y \le 2, \text{ for any fixed } x \in [0, 1].
+\]</div>
+<div class="tip dropdown admonition">
+<p class="admonition-title">Solution</p>
+<p>Contributed by Jason Naramore:</p>
+<ol class="arabic simple">
+<li><p>Show that the integral evaluates to 1:</p></li>
+</ol>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\int_0^2 \int_0^1 \frac{3}{8}(x^2 + 2xy) dx dy
+&amp; =\frac{3}{8} \int_0^2 (\frac{x^3}{3} + x^2y)\bigm|_0^1 dy \\
+&amp; =\frac{3}{8} \int_0^2 (\frac{1}{3} + y) dy \\
+&amp; =\frac{3}{8} (\frac{y}{3} + \frac{y^2}{2}) \bigm|_0^2 \\
+&amp; =\frac{3}{8} (\frac{2}{3} + \frac{2^2}{2}) \\
+&amp; =\frac{3}{8} (\frac{8}{3}) \\
+&amp; =1
+\end{align*}\]</div>
+<ol class="arabic simple" start="2">
+<li></li>
+</ol>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+f_X(x) &amp; = \int_0^2  \frac{3}{8}(x^2 + 2xy) dy \\
+&amp; =\frac{3}{8} (yx^2 + xy^2)\bigm|_0^2 \\
+&amp; =\frac{3}{8} (2x^2 + 4x) \\
+&amp; =\frac{3}{2}x + \frac{3}{4}x^2 , \space \space 0 \leq x \leq 1 \\
+\end{align*}\]</div>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+f_Y(y) &amp; = \int_0^1 \frac{3}{8}(x^2 + 2xy) dx \\
+&amp; =\frac{3}{8} (\frac{x^3}{3} + x^2y)\bigm|_0^1 \\
+&amp; =\frac{3}{8} (\frac{1}{3} + y) \\
+&amp; =\frac{1}{8} + \frac{3}{8}y , \space \space 0 \leq y \leq 2 \\
+\end{align*}\]</div>
+<ol class="arabic simple" start="3">
+<li></li>
+</ol>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\mathbb{E}X &amp; = \int_0^1  x f_X(x) dx \\
+&amp; =\int_0^1 x (\frac{3}{2}x + \frac{3}{4}x^2)dx \\
+&amp; =\int_0^1 (\frac{3}{2}x^2 + \frac{3}{4}x^3)dx \\
+&amp; =\frac{1}{2}x^3 + \frac{3}{16}x^4 \bigm|_0^1\\
+&amp; =\frac{1}{2} + \frac{3}{16} \\
+&amp; = \frac{11}{16}
+\end{align*}\]</div>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\mathbb{E}Y &amp; = \int_0^2  y f_Y(y) dy \\
+&amp; =\int_0^2 y (\frac{1}{8} + \frac{3}{8}y)dy \\
+&amp; =\int_0^2 (\frac{1}{8}y + \frac{3}{8}y^2)dy \\
+&amp; =(\frac{1}{16}y^2 + \frac{3}{24}y^3)\bigm|_0^2 \\
+&amp; = (\frac{4}{16} + \frac{24}{24}) \\
+&amp; = \frac{5}{4}
+\end{align*}\]</div>
+<ol class="arabic simple" start="4">
+<li></li>
+</ol>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+f(x|y) &amp; = \frac{f(x,y)}{f_Y(y)} \\
+&amp; =\frac{\frac{3}{8}(x^2 + 2xy)}{\frac{1}{8} + \frac{3}{8}y} \\
+&amp; =\frac{\frac{1}{8}3x(x + 2y)}{\frac{1}{8}(1 + 3y)} \\
+&amp; =\frac{3x(x + 2y)}{1 + 3y} , \space \space 0 \leq x \leq 1 \space \space \text{for any fixed } y \in [0,2]\\
+\end{align*}\]</div>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+f(y|x) &amp; = \frac{f(x,y)}{f_X(x)} \\
+&amp; =\frac{\frac{3}{8}(x^2 + 2xy)}{\frac{3}{2}x + \frac{3}{4}x^2} \\
+&amp; =\frac{\frac{3}{8}x(x + 2y)}{3x(\frac{1}{2} + \frac{1}{4}x)} \\
+&amp; =\frac{x + 2y}{4 + 2x} , \space \space 0 \leq y \leq 2 \space \space \text{for any fixed } x \in [0,1] \\
+\end{align*}\]</div>
+</div>
+</section>
+<section id="in-a-circle">
+<h2>9. In a Circle<a class="headerlink" href="#in-a-circle" title="Permalink to this headline">#</a></h2>
+<p>Let random variables <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span> have joint density</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+f_{X,Y}(x, y) = 
+\begin{cases} 
+C \sqrt{1 - x^2 - y^2}, &amp; x^2 + y^2 \le 1 \\ 
+0, &amp; \text{else} 
+\end{cases}
+\end{split}\]</div>
+<p>Find:</p>
+<ol class="arabic simple">
+<li><p>constant <span class="math notranslate nohighlight">\(C\)</span>, and</p></li>
+<li><p>marginal densities <span class="math notranslate nohighlight">\(f_X(x)\)</span> and <span class="math notranslate nohighlight">\(f_Y(y)\)</span>.</p></li>
+</ol>
+<div class="tip dropdown admonition">
+<p class="admonition-title">Solution</p>
+<ol class="arabic simple">
+<li><p>Use polar coordinates:</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[
+\int_{x^2+y^2 \le 1} C \sqrt{1 - x^2 - y^2} \, dx \, dy = C \int_0^{2\pi} \int_0^1 r \sqrt{1 - r^2} \, dr \, d\theta
+\]</div>
+<p>After some calculation, <span class="math notranslate nohighlight">\( C = \frac{3}{2\pi} \)</span>.</p>
+<ol class="arabic simple" start="2">
+<li></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[
+f_X(x) = \int_{-\sqrt{1-x^2}}^{\sqrt{1-x^2}} \frac{3}{2\pi} \sqrt{1 - x^2 - y^2} \, dy
+\]</div>
+<p>After setting <span class="math notranslate nohighlight">\( a = \sqrt{1 - x^2} \ge 0 \)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+= \frac{3}{2\pi} \int_{-a}^a \sqrt{a^2 - y^2} \, dy = \frac{3}{2\pi} \times \frac{\pi a^2}{2} = \frac{3}{4} (1 - x^2), \quad -1 \le x \le 1
+\]</div>
+<p>Because of symmetry:</p>
+<div class="math notranslate nohighlight">
+\[
+f_Y(y) = \frac{3}{4} (1 - y^2), \quad -1 \le y \le 1
+\]</div>
+</div>
+</section>
+<section id="weibull-gamma">
+<h2>10. Weibull - Gamma<a class="headerlink" href="#weibull-gamma" title="Permalink to this headline">#</a></h2>
+<p>Let <span class="math notranslate nohighlight">\(X\)</span> be distributed as Weibull <span class="math notranslate nohighlight">\(Wei(r, \lambda)\)</span>, <span class="math notranslate nohighlight">\(r &gt; 0\)</span> known, with a density</p>
+<div class="math notranslate nohighlight">
+\[
+f(x | \lambda) = \lambda r x^{r-1} \exp \{-\lambda x^r \}, \quad \lambda &gt; 0, \, x \ge 0.
+\]</div>
+<p>Assume a <span class="math notranslate nohighlight">\(Ga(\alpha, \beta)\)</span> prior on <span class="math notranslate nohighlight">\(\lambda\)</span>,</p>
+<div class="math notranslate nohighlight">
+\[
+\pi(\lambda | \alpha, \beta) = \frac{\beta^\alpha \lambda^{\alpha-1}}{\Gamma(\alpha)} \exp\{-\beta \lambda\}, \quad \lambda \ge 0, \, \alpha, \beta &gt; 0.
+\]</div>
+<ol class="arabic simple">
+<li><p>Is the problem conjugate?</p></li>
+<li><p>Find the posterior distribution.</p></li>
+<li><p>If <span class="math notranslate nohighlight">\(X_1 = 5\)</span>, <span class="math notranslate nohighlight">\(X_2 = 3\)</span>, and <span class="math notranslate nohighlight">\(X_3 = 1\)</span> are observed from <span class="math notranslate nohighlight">\(Wei(2, \lambda)\)</span> and <span class="math notranslate nohighlight">\(\pi(\lambda)\)</span> is gamma <span class="math notranslate nohighlight">\(Ga(3, 5)\)</span>, what is the posterior in this case? What are the mean and variance of <span class="math notranslate nohighlight">\(\lambda\)</span> according to this posterior distribution?</p></li>
+</ol>
+<div class="tip dropdown admonition">
+<p class="admonition-title">Solution</p>
+<p>Greg’s solution from S21:</p>
+<p>Assume a Gamma(α, β) prior on λ, we have associated pdf:</p>
+<div class="math notranslate nohighlight">
+\[
+\pi(\lambda | \alpha, \beta) = \frac{\beta^\alpha \lambda^{\alpha-1}}{\Gamma(\alpha)} \exp\{-\beta \lambda\}, \quad \lambda \ge 0, \, \alpha, \beta &gt; 0
+\]</div>
+<p>(1, 2): Is the problem conjugate? For that to be the case, since the prior is a Gamma distribution, the posterior would have to also be gamma. First we calculate the joint likelihood:</p>
+<div class="math notranslate nohighlight">
+\[
+\prod_{i=1}^n f(x_i | \lambda) = \prod_{i=1}^n \lambda r x_i^{r-1} \exp \{-\lambda x_i^r\} = \lambda^{n} r^n (x_1 x_2 \cdots x_n)^{r-1} \exp \left(-\lambda \sum_{i=1}^n x_i^r\right)
+\]</div>
+<p>Then we calculate the posterior:</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\pi(\lambda | X, \alpha, \beta) &amp;= \left(\prod_{i=1}^n f(x_i | \lambda)\right) \cdot \pi(\lambda | \alpha, \beta) \\
+&amp;= \lambda^{n} r^n (x_1 x_2 \cdots x_n)^{r-1} \exp \left(-\lambda \sum_{i=1}^n x_i^r\right) \cdot \frac{\beta^\alpha \lambda^{\alpha-1}}{\Gamma(\alpha)} \exp\{-\beta \lambda\} \\
+&amp;= \frac{\beta^\alpha r^n (x_1 x_2 \cdots x_n)^{r-1}}{\Gamma(\alpha)} \lambda^{\alpha + n - 1} \exp \left(-\lambda \left(\sum_{i=1}^n x_i^r + \beta\right)\right) \\
+&amp;\propto \lambda^{\alpha + n - 1} \exp \left(-\lambda \left(\sum_{i=1}^n x_i^r + \beta\right)\right)
+\end{align*}\]</div>
+<p>which is the kernel of a Gamma(a, b) distribution with parameters <span class="math notranslate nohighlight">\( a = \alpha + n \)</span> and <span class="math notranslate nohighlight">\( b = \sum_{i=1}^n x_i^r + \beta \)</span>. The problem is thus conjugate, and we have found the posterior distribution as Gamma(α + n, <span class="math notranslate nohighlight">\( \sum_{i=1}^n x_i^r + \beta \)</span>).</p>
+<p>(3) If <span class="math notranslate nohighlight">\( X_1 = 5, X_2 = 3, \)</span> and <span class="math notranslate nohighlight">\( X_3 = 1 \)</span> (n = 3) are observed from <span class="math notranslate nohighlight">\( Wei(2, \lambda) \)</span> (meaning <span class="math notranslate nohighlight">\( r = 2 \)</span>) and <span class="math notranslate nohighlight">\( \pi(\lambda) \)</span> is Gamma(3, 5) (meaning <span class="math notranslate nohighlight">\( \alpha = 3 \)</span> and <span class="math notranslate nohighlight">\( \beta = 5 \)</span>), what is the posterior in this case?</p>
+<p>Answer: the posterior has the following distribution:</p>
+<div class="math notranslate nohighlight">
+\[
+\text{Gamma}(\alpha + n, \sum_{i=1}^n x_i^r + \beta) = \text{Gamma}(3 + 3, (5^2 + 3^2 + 1^2) + 5) = \text{Gamma}(6, 40)
+\]</div>
+<p>The mean and variance of a <span class="math notranslate nohighlight">\( \theta \sim \text{Gamma}(a, b) \)</span> distribution are <span class="math notranslate nohighlight">\( E(\theta) = \frac{a}{b} \)</span> and <span class="math notranslate nohighlight">\( \text{Var}(\theta) = \frac{a}{b^2} \)</span>. Hence we have <span class="math notranslate nohighlight">\( E(\lambda) = \frac{6}{40} \)</span> and <span class="math notranslate nohighlight">\( \text{Var}(\lambda) = \frac{6}{1600} \)</span>.</p>
+</div>
+</section>
+<section id="normal-inverse-gamma">
+<h2>11. Normal - Inverse Gamma<a class="headerlink" href="#normal-inverse-gamma" title="Permalink to this headline">#</a></h2>
+<p>Let <span class="math notranslate nohighlight">\(X \sim N(\mu, \sigma^2)\)</span>, with <span class="math notranslate nohighlight">\(\mu\)</span> known, and <span class="math notranslate nohighlight">\(\sigma^2\)</span> is inverse gamma <span class="math notranslate nohighlight">\(IG(\alpha, \beta)\)</span>, with a density</p>
+<div class="math notranslate nohighlight">
+\[
+\pi(\sigma^2 | \alpha, \beta) = \frac{\beta^\alpha}{\Gamma(\alpha)} (\sigma^2)^{-\alpha-1} \exp \left( -\frac{\beta}{\sigma^2} \right), \quad \sigma^2 \ge 0, \, \alpha, \beta &gt; 0.
+\]</div>
+<ol class="arabic simple">
+<li><p>Is the problem conjugate?</p></li>
+<li><p>If the sample <span class="math notranslate nohighlight">\((X_1, \ldots, X_n)\)</span>:</p></li>
+</ol>
+<p>[4.3430, 0.5850, 4.4345, 6.2605, 3.9778, 4.4538, 2.3931, 3.5877, 1.4254, 5.0694]</p>
+<p>comes from normal <span class="math notranslate nohighlight">\(N(3, \sigma^2)\)</span> distribution, find the posterior distribution of <span class="math notranslate nohighlight">\(\sigma^2\)</span> when the prior is <span class="math notranslate nohighlight">\(IG(0.1, 0.1)\)</span>.</p>
+<div class="tip dropdown admonition">
+<p class="admonition-title">Solution</p>
+<p>Given the information:</p>
+<div class="math notranslate nohighlight">
+\[
+\sigma^2 | X_1, X_2, \ldots, X_N \sim IG(5.1, 15.5)
+\]</div>
+<p>The posterior distribution is derived from the joint likelihood of the observations and the prior distribution. The joint likelihood is given by:</p>
+<div class="math notranslate nohighlight">
+\[
+f(\sigma^2 | X_1, X_2, \ldots, X_N) = f(X_1 | \sigma^2) f(X_2 | \sigma^2) \cdots f(X_N | \sigma^2) \times \pi(\sigma^2 | \alpha, \beta)
+\]</div>
+<p>For the normal likelihood:</p>
+<div class="math notranslate nohighlight">
+\[
+f(X_i | \sigma^2) = \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left(-\frac{(X_i - \mu)^2}{2\sigma^2}\right)
+\]</div>
+<p>And for the inverse gamma prior:</p>
+<div class="math notranslate nohighlight">
+\[
+\pi(\sigma^2 | \alpha, β) = \frac{β^\alpha}{\Gamma(\alpha)} \left(\frac{1}{\sigma^2}\right)^{\alpha+1} \exp\left(-\frac{β}{\sigma^2}\right)
+\]</div>
+<p>Combining these, we get:</p>
+<div class="math notranslate nohighlight">
+\[
+f(\sigma^2 | X_1, X_2, \ldots, X_N) \propto \left(\frac{1}{\sigma^2}\right)^{N/2} \exp\left(-\frac{\sum_{i=1}^N (X_i - \mu)^2}{2\sigma^2}\right) \times \frac{β^\alpha}{\Gamma(\alpha)} \left(\frac{1}{\sigma^2}\right)^{\alpha+1} \exp\left(-\frac{β}{\sigma^2}\right)
+\]</div>
+<p>Simplifying, we get:</p>
+<div class="math notranslate nohighlight">
+\[
+f(\sigma^2 | X_1, X_2, \ldots, X_N) \propto \left(\frac{1}{\sigma^2}\right)^{(N/2 + \alpha + 1)} \exp\left(-\frac{\sum_{i=1}^N (X_i - \mu)^2 + 2β}{2\sigma^2}\right)
+\]</div>
+<p>This is the kernel of an inverse gamma distribution:</p>
+<div class="math notranslate nohighlight">
+\[
+\sigma^2 | X_1, X_2, \ldots, X_N \sim IG\left(\frac{N}{2} + \alpha, \frac{1}{2} \sum_{i=1}^N (X_i - \mu)^2 + β\right)
+\]</div>
+<p>Plugging in the provided data yields <span class="math notranslate nohighlight">\( IG(5.1, 15.5) \)</span>.</p>
+</div>
+</section>
+<section id="uniform-pareto">
+<h2>12. Uniform - Pareto<a class="headerlink" href="#uniform-pareto" title="Permalink to this headline">#</a></h2>
+<p>Suppose <span class="math notranslate nohighlight">\(X = (X_1, \ldots, X_n)\)</span> is a sample from <span class="math notranslate nohighlight">\(U(0, \theta)\)</span>. Let <span class="math notranslate nohighlight">\(\theta\)</span> have Pareto <span class="math notranslate nohighlight">\(Pa (\theta_0, \alpha)\)</span> distribution. Show that the posterior distribution is <span class="math notranslate nohighlight">\(Pa (\max \{\theta_0, x_1, \ldots, x_n\}, \alpha + n)\)</span>.</p>
+<div class="tip dropdown admonition">
+<p class="admonition-title">Solution</p>
+<p><strong>Likelihood Function</strong></p>
+<p>The likelihood function is calculated using the product of <span class="math notranslate nohighlight">\(n\)</span> uniform distributions as follows:</p>
+<div class="math notranslate nohighlight">
+\[
+L(\theta) = \frac{1}{\theta^n} \prod_{i=1}^n 1 (0 \leq X_i \leq \theta)
+\]</div>
+<p><strong>Prior Distribution (Pareto)</strong></p>
+<p>The pdf of the Pareto distribution (prior) is given by:</p>
+<div class="math notranslate nohighlight">
+\[
+\pi(\theta) = \frac{\alpha \theta_0^\alpha}{\theta^{\alpha + 1}} \quad \text{for} \, \theta \ge \theta_0
+\]</div>
+<p><strong>Posterior Distribution</strong>:
+With the likelihood and prior provided above, the posterior is proportional to the product of those two in the case of a conjugate pair. After removing constants, the posterior is:</p>
+<div class="math notranslate nohighlight">
+\[
+\propto \frac{1}{\theta^{\alpha + 1}} (\theta \ge \theta_0) \cdot \frac{1}{\theta^n} \cdot \prod_{i=1}^n 1 (0 \leq X_i \leq \theta)
+\]</div>
+<p>To ensure that all the indicator functions give 1, you need to have:</p>
+<div class="math notranslate nohighlight">
+\[
+\theta \ge \max(\theta_0, X_1, X_2, \ldots, X_n)
+\]</div>
+<p>This is where the first parameter of the posterior comes from. The second parameter can be directly found by comparing the posterior and the kernel of the Pareto distribution. This equates to:</p>
+<div class="math notranslate nohighlight">
+\[
+\text{Pareto}(\max \{\theta_0, x_1, \ldots, x_n\}, \alpha + n)
+\]</div>
+<p>You may refer to <a class="reference external" href="https://en.wikipedia.org/wiki/Pareto_distribution">Pareto distribution on Wikipedia</a> for the correct form of the prior for <span class="math notranslate nohighlight">\( \text{Pareto}(\theta_0, \alpha) \)</span>.</p>
+</div>
+</section>
+<section id="gamma-inverse-gamma">
+<h2>13. Gamma - Inverse Gamma<a class="headerlink" href="#gamma-inverse-gamma" title="Permalink to this headline">#</a></h2>
+<p>Let <span class="math notranslate nohighlight">\(X \sim Ga \left(\frac{n}{2}, \frac{1}{2\theta}\right)\)</span>, so that <span class="math notranslate nohighlight">\(X/\theta\)</span> is <span class="math notranslate nohighlight">\(\chi^2_n\)</span>. Let <span class="math notranslate nohighlight">\(\theta \sim IG(\alpha, \beta)\)</span>. Show that the posterior is <span class="math notranslate nohighlight">\(IG\left(\frac{n}{2} + \alpha, \frac{x}{2} + \beta\right)\)</span>.</p>
+<div class="tip dropdown admonition">
+<p class="admonition-title">Solution</p>
+<p>The likelihood is proportional to:</p>
+<div class="math notranslate nohighlight">
+\[
+x^{\frac{n}{2}-1} (2\theta)^{-\frac{n}{2}} \exp\left(-\frac{x}{2\theta}\right)
+\]</div>
+<p>And the prior is proportional to:</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\beta^\alpha}{\theta^{\alpha+1}} \exp\left(-\frac{\beta}{\theta}\right)
+\]</div>
+<p>Find their product and match the distribution for <span class="math notranslate nohighlight">\(\theta\)</span>. There is no need to find the marginal and apply Bayes’ theorem since the problem is conjugate.</p>
+<div class="math notranslate nohighlight">
+\[
+L(\theta) \propto x^{\frac{n}{2}-1} (2\theta)^{-\frac{n}{2}} \exp\left(-\frac{x}{2\theta}\right)
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\pi(\theta) \propto \frac{\beta^\alpha}{\theta^{\alpha+1}} \exp\left(-\frac{\beta}{\theta}\right)
+\]</div>
+<p>The product of the likelihood and the prior is:</p>
+<div class="math notranslate nohighlight">
+\[
+L(\theta) \cdot \pi(\theta) \propto x^{\frac{n}{2}-1} (2\theta)^{-\frac{n}{2}} \exp\left(-\frac{x}{2\theta}\right) \cdot \frac{\beta^\alpha}{\theta^{\alpha+1}} \exp\left(-\frac{\beta}{\theta}\right)
+\]</div>
+<p>Ignoring the constant terms, this simplifies to:</p>
+<div class="math notranslate nohighlight">
+\[
+\propto \frac{1}{\theta^{\frac{n}{2} + \alpha + 1}} \exp\left(-\frac{x/2 + \beta}{\theta}\right)
+\]</div>
+<p>This is the un-normalized density of the inverse gamma distribution <span class="math notranslate nohighlight">\( \text{IG}\left(\frac{n}{2} + \alpha, \frac{x}{2} + \beta\right) \)</span>.</p>
+<p>The posterior distribution for <span class="math notranslate nohighlight">\( \theta \)</span> given <span class="math notranslate nohighlight">\( X \)</span> is:</p>
+<div class="math notranslate nohighlight">
+\[
+\theta | X \sim \text{IG}\left(\frac{n}{2} + \alpha, \frac{x}{2} + \beta\right)
+\]</div>
+</div>
+</section>
+<section id="negative-binomial-beta">
+<h2>14. Negative Binomial - Beta<a class="headerlink" href="#negative-binomial-beta" title="Permalink to this headline">#</a></h2>
+<p>If <span class="math notranslate nohighlight">\(X = (X_1, \ldots, X_n)\)</span> is a sample from <span class="math notranslate nohighlight">\(NB(m, \theta)\)</span> and <span class="math notranslate nohighlight">\(\theta \sim Be(\alpha, \beta)\)</span>, show that the posterior for <span class="math notranslate nohighlight">\(\theta\)</span> is beta <span class="math notranslate nohighlight">\(Be \left(\alpha + mn, \beta + \sum_{i=1}^n x_i\right)\)</span>.</p>
+<div class="tip dropdown admonition">
+<p class="admonition-title">Solution</p>
+<p>The negative binomial <span class="math notranslate nohighlight">\(NB(r, p)\)</span> distribution is given by the pmf:</p>
+<div class="math notranslate nohighlight">
+\[
+f(x) = \binom{r + x - 1}{x} p^r (1 - p)^x, \quad x = 0, 1, 2, \ldots
+\]</div>
+<p>A random variable <span class="math notranslate nohighlight">\(X\)</span> with a negative binomial distribution represents the number of failures before the <span class="math notranslate nohighlight">\(r\)</span>th success in repeated Bernoulli experiments.</p>
+<p>Here the likelihood is proportional to:</p>
+<div class="math notranslate nohighlight">
+\[
+\theta^{mn} (1 - \theta)^{\sum_{i=1}^n x_i}
+\]</div>
+<p>The prior <span class="math notranslate nohighlight">\( \pi(\theta) \propto \theta^{\alpha-1} (1 - \theta)^{\beta-1} \)</span> leads to a posterior proportional to:</p>
+<div class="math notranslate nohighlight">
+\[
+\theta^{mn} (1 - \theta)^{\sum_{i=1}^n x_i} \times \theta^{\alpha-1} (1 - \theta)^{\beta-1} = \theta^{mn + \alpha - 1} (1 - \theta)^{\sum_{i=1}^n x_i + \beta - 1}
+\]</div>
+<p>which is a kernel of the beta <span class="math notranslate nohighlight">\( \text{Be}(mn + \alpha, \sum_{i=1}^n x_i + \beta) \)</span> distribution.</p>
+</div>
+</section>
+<section id="horse-kick-fatalities-and-gamma-prior">
+<h2>15. Horse-Kick Fatalities and Gamma Prior<a class="headerlink" href="#horse-kick-fatalities-and-gamma-prior" title="Permalink to this headline">#</a></h2>
+<p>During the latter part of the nineteenth century, Prussian officials gathered information on the hazards that horses posed to cavalry soldiers. Fatal accidents for 10 cavalry corps were collected over a period of 20 years (Preussischen Statistik). The number of fatalities due to kicks, <span class="math notranslate nohighlight">\(x\)</span>, was recorded for each year and each corps. The table below shows the distribution of <span class="math notranslate nohighlight">\(x\)</span> for these 200 “corps-years.”</p>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="head"><p><span class="math notranslate nohighlight">\(x\)</span> (number of deaths)</p></th>
+<th class="head"><p>Observed number of corps-years</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0</p></td>
+<td><p>109</p></td>
+</tr>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p>65</p></td>
+</tr>
+<tr class="row-even"><td><p>2</p></td>
+<td><p>22</p></td>
+</tr>
+<tr class="row-odd"><td><p>3</p></td>
+<td><p>3</p></td>
+</tr>
+<tr class="row-even"><td><p>4</p></td>
+<td><p>1</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Total</strong></p></td>
+<td><p><strong>200</strong></p></td>
+</tr>
+</tbody>
+</table>
+<p>Altogether there were 122 fatalities (<span class="math notranslate nohighlight">\(109(0) + 65(1) + 22(2) + 3(3) + 1(4)\)</span>), meaning that the observed fatality rate was <span class="math notranslate nohighlight">\(\frac{122}{200}\)</span>, or 0.61 fatalities per corps-year. Von Bortkiewicz (1898) proposed a Poisson model for <span class="math notranslate nohighlight">\(x\)</span> with a rate <span class="math notranslate nohighlight">\(\lambda\)</span>.</p>
+<p>If the prior on <span class="math notranslate nohighlight">\(\lambda\)</span> is gamma <span class="math notranslate nohighlight">\(Ga(5, 9)\)</span>, find the posterior for <span class="math notranslate nohighlight">\(\lambda\)</span>. What are the posterior mean and variance?</p>
+<div class="tip dropdown admonition">
+<p class="admonition-title">Solution</p>
+<p>Show that the likelihood is proportional to:</p>
+<div class="math notranslate nohighlight">
+\[\lambda^{122} e^{-200\lambda} \propto \left( \frac{\lambda^0 e^{-\lambda}}{0!} \right)^{109} \times \left( \frac{\lambda^1 e^{-\lambda}}{1!} \right)^{65} \cdots\]</div>
+<p>Use the conjugate structure of the likelihood/prior pair.</p>
+<ul class="simple">
+<li><p><strong>Prior:</strong> <span class="math notranslate nohighlight">\(\text{Gamma}(5, 9) \propto \lambda^4 e^{-9\lambda}\)</span></p></li>
+<li><p><strong>Likelihood:</strong> <span class="math notranslate nohighlight">\(\text{Gamma}(123, 200) \propto \lambda^{122} e^{-200\lambda}\)</span></p></li>
+<li><p><strong>Posterior:</strong> <span class="math notranslate nohighlight">\(\text{Gamma}(127, 209) \propto \lambda^{127-1} e^{-209\lambda}\)</span></p></li>
+</ul>
+</div>
+</section>
+<section id="counts-of-alpha">
+<h2>16. Counts of Alpha<a class="headerlink" href="#counts-of-alpha" title="Permalink to this headline">#</a></h2>
+<p>Rutherford and Geiger (Rutherford, Geiger and Bateman, Phil. Mag. 20, 698, 19) provided counts of α-particles in their experiment. The counts, given in the table below, can be well–modeled by the Poisson distribution:</p>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Particle ct.</p></th>
+<th class="head"><p>0</p></th>
+<th class="head"><p>1</p></th>
+<th class="head"><p>2</p></th>
+<th class="head"><p>3</p></th>
+<th class="head"><p>4</p></th>
+<th class="head"><p>5</p></th>
+<th class="head"><p>6</p></th>
+<th class="head"><p>7</p></th>
+<th class="head"><p>8</p></th>
+<th class="head"><p>9</p></th>
+<th class="head"><p>10</p></th>
+<th class="head"><p>11</p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(\ge\)</span>12</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Interval ct.</p></td>
+<td><p>57</p></td>
+<td><p>203</p></td>
+<td><p>383</p></td>
+<td><p>525</p></td>
+<td><p>532</p></td>
+<td><p>408</p></td>
+<td><p>273</p></td>
+<td><p>139</p></td>
+<td><p>45</p></td>
+<td><p>27</p></td>
+<td><p>10</p></td>
+<td><p>4</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-odd"><td><p>Theoretical</p></td>
+<td><p>54</p></td>
+<td><p>210</p></td>
+<td><p>407</p></td>
+<td><p>525</p></td>
+<td><p>508</p></td>
+<td><p>394</p></td>
+<td><p>254</p></td>
+<td><p>140</p></td>
+<td><p>68</p></td>
+<td><p>29</p></td>
+<td><p>11</p></td>
+<td><p>4</p></td>
+<td><p>6</p></td>
+</tr>
+</tbody>
+</table>
+<ol class="arabic simple">
+<li><p>Find sample size n and sample mean <span class="math notranslate nohighlight">\(\bar{X}\)</span>. In calculations for <span class="math notranslate nohighlight">\(\bar{X}\)</span> take ≥ 12 as 12.</p></li>
+<li><p>Elicit a gamma prior for λ with rate parameter β = 10 and shape parameter α selected in such a way that the prior mean is 7.</p></li>
+<li><p>Find the Bayes estimator of λ using the prior from (1). Is the problem conjugate? Use the fact that <span class="math notranslate nohighlight">\(\sum_{i=1}^n X_i \sim Poi(n\lambda)\)</span>.</p></li>
+<li><p>Write a script that simulates the Bayes estimator for λ and compare its output with the analytic solution from (3).</p></li>
+</ol>
+<div class="tip dropdown admonition">
+<p class="admonition-title">Solution</p>
+<p>See <a class="reference external" href="https://areding.github.io/6420-pymc/unit4/Unit4-AlphaParticles.html">this page</a></p>
+</div>
+</section>
+<section id="estimating-chemotherapy-response-rates">
+<h2>17. Estimating Chemotherapy Response Rates<a class="headerlink" href="#estimating-chemotherapy-response-rates" title="Permalink to this headline">#</a></h2>
+<p>An oncologist believes that <span class="math notranslate nohighlight">\(90\%\)</span> of cancer patients will respond to a new chemotherapy treatment and that it is unlikely that this proportion will be below <span class="math notranslate nohighlight">\(80\%\)</span>. Elicit a beta prior that models the oncologist’s beliefs. During the trial, with 30 patients treated, 22 responded.</p>
+<p><em>Hint</em>: For elicitation of the prior use <span class="math notranslate nohighlight">\(\mu = 0.9\)</span>, <span class="math notranslate nohighlight">\(\mu − 2\sigma = 0.8\)</span> and expressions for <span class="math notranslate nohighlight">\(\mu\)</span> and <span class="math notranslate nohighlight">\(\sigma\)</span> for beta.</p>
+<ol class="arabic simple">
+<li><p>What are the likelihood and posterior distributions?</p></li>
+<li><p>Plot the prior, likelihood, and posterior in a single figure.</p></li>
+<li><p>Using a PPL, find the Bayes estimator of the response rate and compare it to the posterior mean.</p></li>
+</ol>
+<div class="tip dropdown admonition">
+<p class="admonition-title">Solution</p>
+<ol class="arabic simple">
+<li><p>What are the likelihood and posterior distributions?</p></li>
+</ol>
+<p>A binomial likelihood fits the available data and is conjugate with the beta prior. We’ll call the number of total experiments <span class="math notranslate nohighlight">\(m\)</span>. In this situation, we have one Binomial experience, so <span class="math notranslate nohighlight">\(m=1\)</span> and this full derivation is unnecessary.</p>
+<p>I will show the full derivation of the conjugacy below anyways because of some confusion around the binomial parameters <span class="math notranslate nohighlight">\(n\)</span> and <span class="math notranslate nohighlight">\(p\)</span> and the idea of a joint likelihood over independent binomial experiments.</p>
+<p><strong>Beta prior and binomial likelihood conjugate posterior derivation</strong></p>
+<p>Let’s assume you have <span class="math notranslate nohighlight">\( m \)</span> independent and identically distributed (i.i.d) binomial experiments. Each experiment has <span class="math notranslate nohighlight">\( n \)</span> trials and you want to find the probability <span class="math notranslate nohighlight">\( p \)</span> of success.</p>
+<p><strong>Prior</strong></p>
+<p>Let’s assume the prior distribution for <span class="math notranslate nohighlight">\( p \)</span> follows a beta distribution:</p>
+<div class="math notranslate nohighlight">
+\[
+\text{Beta}(p; \alpha, \beta) = \frac{p^{\alpha-1}(1-p)^{\beta-1}}{B(\alpha, \beta)}
+\]</div>
+<p><strong>Likelihood</strong></p>
+<p>For each of the <span class="math notranslate nohighlight">\( m \)</span> experiments, the likelihood for observing <span class="math notranslate nohighlight">\( x \)</span> successes in <span class="math notranslate nohighlight">\( n \)</span> trials is given by the binomial distribution:</p>
+<div class="math notranslate nohighlight">
+\[
+\text{Binomial}(x; n, p) = \binom{n}{x} p^x (1-p)^{(n-x)}
+\]</div>
+<p>Since there are <span class="math notranslate nohighlight">\( m \)</span> experiments, the combined likelihood of observing <span class="math notranslate nohighlight">\( x_1, x_2, \ldots, x_m \)</span> successes is:</p>
+<div class="math notranslate nohighlight">
+\[
+\text{Likelihood} = \prod_{i=1}^{m} \binom{n}{x_i} p^{x_i} (1-p)^{(n-x_i)}
+\]</div>
+<p><strong>Posterior</strong></p>
+<div class="math notranslate nohighlight">
+\[
+\text{Posterior} \propto p^{\alpha-1}(1-p)^{\beta-1} \times \prod_{i=1}^{m} p^{x_i} (1-p)^{(n-x_i)}
+\]</div>
+<p>Combining terms, we get:</p>
+<div class="math notranslate nohighlight">
+\[
+\text{Posterior} \propto p^{\left(\alpha-1 + \sum_{i=1}^{m} x_i\right)} (1-p)^{\left(\beta-1 + m \times n - \sum_{i=1}^{m} x_i\right)}
+\]</div>
+<p>Recognizing this as another beta distribution, we identify the posterior as:</p>
+<div class="math notranslate nohighlight">
+\[
+\text{Beta}\left(p; \alpha + \sum_{i=1}^{m} x_i, \beta + m \times n - \sum_{i=1}^{m} x_i\right)
+\]</div>
+<p>I realize now after writing this that the conjugate table does the opposite with <span class="math notranslate nohighlight">\(m\)</span> and <span class="math notranslate nohighlight">\(n\)</span>. But I wanted to keep the <span class="math notranslate nohighlight">\(n\)</span> the same as this problem’s description. You could switch them and the derivation remains the same.</p>
+<p>We need to elicit a beta prior where the mean is <span class="math notranslate nohighlight">\(.9\)</span> and <span class="math notranslate nohighlight">\(.8\)</span> is within two standard deviations of the mean.</p>
+<p>The beta distribution mean is :<span class="math notranslate nohighlight">\(\frac{\alpha}{\alpha + \beta}\)</span> and the variance is <span class="math notranslate nohighlight">\(\frac{\alpha\beta}{(\alpha + \beta)^2(\alpha + \beta + 1)}\)</span>.</p>
+<p>Based on the hint, we have <span class="math notranslate nohighlight">\(.9=\frac{\alpha}{\alpha + \beta}\)</span> and <span class="math notranslate nohighlight">\(\sigma^2 =\left(\frac{.9 - .8}{2}\right)^2 =\frac{\alpha\beta}{(\alpha + \beta)^2(\alpha + \beta + 1)}\)</span>. We can solve the system of equations for <span class="math notranslate nohighlight">\(\alpha=63/2\)</span> and <span class="math notranslate nohighlight">\(\beta=7/2\)</span> using a <a class="reference external" href="https://www.wolframalpha.com/input?i=systems+of+equations+calculator&amp;assumption=%7B%22F%22%2C+%22SolveSystemOf2EquationsCalculator%22%2C+%22equation1%22%7D+-%3E%22.9+%3D+a%2F%28a%2Bb%29%22&amp;assumption=%22FSelect%22+-%3E+%7B%7B%22SolveSystemOf2EquationsCalculator%22%7D%2C+%22dflt%22%7D&amp;assumption=%7B%22F%22%2C+%22SolveSystemOf2EquationsCalculator%22%2C+%22equation2%22%7D+-%3E%22%28.1%2F2%29%5E2+%3D+%28a*b%29%2F%28%28a+%2B+b%29%5E2+%28a+%2B+b+%2B+1%29%29%22">system of equations solver</a></p>
+<p>Then our beta prior will be:</p>
+<div class="math notranslate nohighlight">
+\[
+\text{Beta}(31.5, 3.5)
+\]</div>
+<p>making our posterior:</p>
+<div class="math notranslate nohighlight">
+\[
+\text{Beta}(31.5 + 22, 3.5+30 - 22) = \text{Beta}(53.5, 11.5)
+\]</div>
+<ol class="arabic simple" start="2">
+<li><p>Plot the prior, likelihood, and posterior in a single figure.</p></li>
+</ol>
+<p><img alt="domain plot" src="../_images/q17_plot.png" /></p>
+<ol class="arabic simple" start="3">
+<li><p>Using a PPL, find the Bayes estimator of the response rate and compare it to the posterior mean.</p></li>
+</ol>
+<p>See the second hidden code cell below.</p>
+</div>
+<div class="cell tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">beta</span><span class="p">,</span> <span class="n">binom</span>
+
+<span class="n">xx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+
+<span class="n">prior_alpha</span><span class="p">,</span> <span class="n">prior_beta</span> <span class="o">=</span> <span class="mf">31.5</span><span class="p">,</span> <span class="mf">3.5</span>
+<span class="n">post_alpha</span><span class="p">,</span> <span class="n">post_beta</span> <span class="o">=</span> <span class="mf">53.5</span><span class="p">,</span> <span class="mf">11.5</span>
+
+<span class="n">prior_densities</span> <span class="o">=</span> <span class="n">beta</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">prior_alpha</span><span class="p">,</span> <span class="n">prior_beta</span><span class="p">)</span>
+<span class="n">posterior_densities</span> <span class="o">=</span> <span class="n">beta</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">post_alpha</span><span class="p">,</span> <span class="n">post_beta</span><span class="p">)</span>
+
+<span class="n">n</span> <span class="o">=</span> <span class="mi">30</span>  <span class="c1"># trials</span>
+<span class="n">k</span> <span class="o">=</span> <span class="mi">22</span>  <span class="c1"># successes</span>
+<span class="n">p</span> <span class="o">=</span> <span class="n">xx</span>
+<span class="n">likelihood</span> <span class="o">=</span> <span class="n">binom</span><span class="o">.</span><span class="n">pmf</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+
+<span class="c1"># Normalize the likelihood for comparison</span>
+<span class="n">likelihood</span> <span class="o">/=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">likelihood</span><span class="p">)</span>
+
+<span class="c1"># Plotting the prior, likelihood and posterior</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s2">&quot;Chemotherapy Response Rate&quot;</span><span class="p">)</span>
+
+<span class="c1"># Plot prior</span>
+<span class="n">prior_mean</span> <span class="o">=</span> <span class="n">prior_alpha</span> <span class="o">/</span> <span class="p">(</span><span class="n">prior_alpha</span> <span class="o">+</span> <span class="n">prior_beta</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">prior_densities</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Prior&quot;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">prior_mean</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;g&quot;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
+    <span class="n">prior_mean</span> <span class="o">+</span> <span class="mf">0.01</span><span class="p">,</span>
+    <span class="n">y</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">prior_densities</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.5</span><span class="p">,</span>
+    <span class="n">s</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">prior_mean</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+    <span class="n">color</span><span class="o">=</span><span class="s2">&quot;g&quot;</span><span class="p">,</span>
+    <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="mf">0.02</span><span class="p">,</span>
+    <span class="n">y</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">prior_densities</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.85</span><span class="p">,</span>
+    <span class="n">s</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Be(</span><span class="si">{</span><span class="n">prior_alpha</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">prior_beta</span><span class="si">}</span><span class="s2">) prior&quot;</span><span class="p">,</span>
+    <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Density&quot;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Plot likelihood</span>
+<span class="n">mle</span> <span class="o">=</span> <span class="n">k</span> <span class="o">/</span> <span class="n">n</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">likelihood</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Likelihood&quot;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">mle</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;g&quot;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="n">mle</span> <span class="o">+</span> <span class="mf">0.01</span><span class="p">,</span>
+    <span class="n">y</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">likelihood</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.5</span><span class="p">,</span>
+    <span class="n">s</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">mle</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+    <span class="n">color</span><span class="o">=</span><span class="s2">&quot;g&quot;</span><span class="p">,</span>
+    <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="mf">0.02</span><span class="p">,</span>
+    <span class="n">y</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">likelihood</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.85</span><span class="p">,</span>
+    <span class="n">s</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Bin(n=</span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2">, x=</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">, p)&quot;</span><span class="p">,</span>
+    <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Density&quot;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Plot posterior</span>
+<span class="n">post_mean</span> <span class="o">=</span> <span class="n">post_alpha</span> <span class="o">/</span> <span class="p">(</span><span class="n">post_alpha</span> <span class="o">+</span> <span class="n">post_beta</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">posterior_densities</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Posterior&quot;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">post_mean</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;g&quot;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="n">post_mean</span> <span class="o">+</span> <span class="mf">0.01</span><span class="p">,</span>
+    <span class="n">y</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">posterior_densities</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.5</span><span class="p">,</span>
+    <span class="n">s</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">post_mean</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+    <span class="n">color</span><span class="o">=</span><span class="s2">&quot;g&quot;</span><span class="p">,</span>
+    <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="mf">0.02</span><span class="p">,</span>
+    <span class="n">y</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">posterior_densities</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.85</span><span class="p">,</span>
+    <span class="n">s</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Be(</span><span class="si">{</span><span class="n">post_alpha</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">post_beta</span><span class="si">}</span><span class="s2">) posterior&quot;</span><span class="p">,</span>
+    <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Density&quot;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Probability of Success&quot;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;../images/q17_plot.png&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/0d86a03c63b4a31c9e9b511cab0c0d1e2a64f9d2b9ccfd81b7a547e84da9c403.png" src="../_images/0d86a03c63b4a31c9e9b511cab0c0d1e2a64f9d2b9ccfd81b7a547e84da9c403.png" />
+</div>
+</details>
+</div>
+<div class="cell tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pymc</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pm</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">arviz</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">az</span>
+
+<span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">():</span>
+    <span class="n">prior_p</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Beta</span><span class="p">(</span><span class="s2">&quot;p&quot;</span><span class="p">,</span> <span class="mf">31.5</span><span class="p">,</span> <span class="mf">3.5</span><span class="p">)</span>
+    <span class="n">pm</span><span class="o">.</span><span class="n">Binomial</span><span class="p">(</span><span class="s2">&quot;likelihood&quot;</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">n</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">prior_p</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">k</span><span class="p">)</span>
+
+    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">3000</span><span class="p">)</span>
+
+<span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Auto-assigning NUTS sampler...
+Initializing NUTS using jitter+adapt_diag...
+Multiprocess sampling (4 chains in 4 jobs)
+NUTS: [p]
+</pre></div>
+</div>
+<div class="output text_html">
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    progress:not([value]), progress:not([value])::-webkit-progress-bar {
+        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div><div class="output text_html">
+    <div>
+      <progress value='16000' class='' max='16000' style='width:300px; height:20px; vertical-align: middle;'></progress>
+      100.00% [16000/16000 00:00&lt;00:00 Sampling 4 chains, 0 divergences]
+    </div>
+    </div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 3_000 draw iterations (4_000 + 12_000 draws total) took 1 seconds.
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mean</th>
+      <th>sd</th>
+      <th>hdi_3%</th>
+      <th>hdi_97%</th>
+      <th>mcse_mean</th>
+      <th>mcse_sd</th>
+      <th>ess_bulk</th>
+      <th>ess_tail</th>
+      <th>r_hat</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>p</th>
+      <td>0.823</td>
+      <td>0.047</td>
+      <td>0.735</td>
+      <td>0.907</td>
+      <td>0.001</td>
+      <td>0.0</td>
+      <td>4950.0</td>
+      <td>7351.0</td>
+      <td>1.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</details>
+</div>
+</section>
+<section id="jeremy-and-variance-from-single-observation">
+<h2>18. Jeremy and Variance from Single Observation<a class="headerlink" href="#jeremy-and-variance-from-single-observation" title="Permalink to this headline">#</a></h2>
+<p>Jeremy believes that his IQ test scores have a normal distribution with mean 110 and unknown variance <span class="math notranslate nohighlight">\(\sigma^2\)</span>. He takes a test and scores <span class="math notranslate nohighlight">\(X = 98\)</span>.</p>
+<ol class="arabic">
+<li><p>Show that inverse gamma prior <span class="math notranslate nohighlight">\(IG(\alpha, \beta)\)</span> is the conjugate for <span class="math notranslate nohighlight">\(\sigma^2\)</span> if the observation <span class="math notranslate nohighlight">\(X\)</span> is normal <span class="math notranslate nohighlight">\(N(\mu, \sigma^2)\)</span> with <span class="math notranslate nohighlight">\(\mu\)</span> known. What is the posterior?</p></li>
+<li><p>Find a Bayes estimator of <span class="math notranslate nohighlight">\(\sigma^2\)</span> and its standard deviation in Jeremy’s model if the prior on <span class="math notranslate nohighlight">\(\sigma^2\)</span> is an inverse gamma <span class="math notranslate nohighlight">\(IG(3, 100)\)</span>.</p>
+<ul>
+<li><p>Hint: Random variable <span class="math notranslate nohighlight">\(Y\)</span> is said to have an inverse gamma <span class="math notranslate nohighlight">\(IG(\alpha, \beta)\)</span> distribution if its density is given by:</p>
+<div class="math notranslate nohighlight">
+\[
+     f(y | \alpha, \beta) = \frac{\beta^\alpha}{\Gamma(\alpha)} y^{-\alpha-1} \exp \left( -\frac{\beta}{y} \right), \quad \alpha, \beta &gt; 0.
+     \]</div>
+<p>The mean of <span class="math notranslate nohighlight">\(Y\)</span> is <span class="math notranslate nohighlight">\(E(Y) = \frac{\beta}{\alpha-1}\)</span>, <span class="math notranslate nohighlight">\(\alpha &gt; 1\)</span> and the variance is <span class="math notranslate nohighlight">\(Var(Y) = \frac{\beta^2}{(\alpha-1)^2(\alpha-2)}\)</span>, <span class="math notranslate nohighlight">\(\alpha &gt; 2\)</span>.</p>
+</li>
+</ul>
+</li>
+<li><p>Use WinBUGS to solve this problem and compare the MCMC approximations with exact values from (2).</p>
+<ul class="simple">
+<li><p>Hint: Express the likelihood in terms of precision <span class="math notranslate nohighlight">\(\tau\)</span> with gamma <span class="math notranslate nohighlight">\(Ga(\alpha, \beta)\)</span> prior, but then calculate and monitor <span class="math notranslate nohighlight">\(\sigma^2 = \frac{1}{\tau}\)</span>.</p></li>
+</ul>
+</li>
+</ol>
+<div class="tip dropdown admonition">
+<p class="admonition-title">Solution</p>
+<ol class="arabic simple">
+<li></li>
+</ol>
+<p>The posterior is proportional to</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{1}{\sqrt{\sigma^2}} \exp \left( -\frac{1}{2} \cdot \frac{(X - \mu)^2}{\sigma^2} \right) \times \frac{1}{(\sigma^2)^{\alpha-1}} \exp \left( -\frac{\beta}{\sigma^2} \right)
+\]</div>
+<p>so we conclude that the posterior is inverse gamma:</p>
+<div class="math notranslate nohighlight">
+\[
+\text{IG} \left( \alpha + \frac{1}{2}, \beta + \frac{1}{2} (X - \mu)^2 \right)
+\]</div>
+<ol class="arabic simple" start="2">
+<li><p>For Jeremy’s data,</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[
+\sigma^2 \mid X \sim \text{IG} \left( \frac{7}{2}, 172 \right)
+\]</div>
+<p>leading to</p>
+<div class="math notranslate nohighlight">
+\[
+E[\sigma^2] = \frac{172}{2.5} = 68.8, \quad \text{Var} (\sigma^2) = \frac{(172)^2}{(5/2)^2 \cdot (3/2)} = 3155.626666, \quad \text{std} (\sigma^2) = 56.175
+\]</div>
+<ol class="arabic simple" start="3">
+<li><p>See the hidden code cell below.</p></li>
+</ol>
+</div>
+<div class="cell tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pymc</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pm</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">arviz</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">az</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="mi">98</span>
+<span class="n">mu</span> <span class="o">=</span> <span class="mi">110</span>
+
+<span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">m</span><span class="p">:</span>
+    <span class="n">sigma2</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">InverseGamma</span><span class="p">(</span><span class="s2">&quot;sigma2&quot;</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+
+    <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;likelihood&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">pm</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">sigma2</span><span class="p">),</span> <span class="n">observed</span><span class="o">=</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">10000</span><span class="p">)</span>
+
+<span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Auto-assigning NUTS sampler...
+Initializing NUTS using jitter+adapt_diag...
+Multiprocess sampling (4 chains in 4 jobs)
+NUTS: [sigma2]
+</pre></div>
+</div>
+<div class="output text_html">
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    progress:not([value]), progress:not([value])::-webkit-progress-bar {
+        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div><div class="output text_html">
+    <div>
+      <progress value='44000' class='' max='44000' style='width:300px; height:20px; vertical-align: middle;'></progress>
+      100.00% [44000/44000 00:01&lt;00:00 Sampling 4 chains, 0 divergences]
+    </div>
+    </div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 10_000 draw iterations (4_000 + 40_000 draws total) took 2 seconds.
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mean</th>
+      <th>sd</th>
+      <th>hdi_3%</th>
+      <th>hdi_97%</th>
+      <th>mcse_mean</th>
+      <th>mcse_sd</th>
+      <th>ess_bulk</th>
+      <th>ess_tail</th>
+      <th>r_hat</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>sigma2</th>
+      <td>69.07</td>
+      <td>58.186</td>
+      <td>15.007</td>
+      <td>149.345</td>
+      <td>0.577</td>
+      <td>0.408</td>
+      <td>13099.0</td>
+      <td>14720.0</td>
+      <td>1.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</details>
+</div>
+</section>
+<section id="easy-2d">
+<h2>19. Easy 2D<a class="headerlink" href="#easy-2d" title="Permalink to this headline">#</a></h2>
+<p>Joint distribution for <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(\Theta\)</span> is</p>
+<div class="math notranslate nohighlight">
+\[
+f(x, \theta) = 2x, \quad 0 \le x \le 1, \, 0 \le \theta \le 1.
+\]</div>
+<p>Find:</p>
+<ol class="arabic simple">
+<li><p>Marginal distributions <span class="math notranslate nohighlight">\(m_X(x)\)</span> and <span class="math notranslate nohighlight">\(m_\Theta(\theta)\)</span>.</p></li>
+<li><p>Conditional distributions <span class="math notranslate nohighlight">\(f(x | \theta)\)</span> and <span class="math notranslate nohighlight">\(\pi(\theta | x)\)</span>.</p></li>
+<li><p><span class="math notranslate nohighlight">\(P(\Theta^2 \le X \le \Theta)\)</span>.</p></li>
+<li><p><span class="math notranslate nohighlight">\(P(X^2 \le \Theta \le X)\)</span>.</p></li>
+</ol>
+<p>Hint: Because of the factorization theorem, <span class="math notranslate nohighlight">\(\Theta\)</span> and <span class="math notranslate nohighlight">\(X\)</span> are independent and you should obtain <span class="math notranslate nohighlight">\(f(x | \theta) = m_X(x)\)</span> and <span class="math notranslate nohighlight">\(\pi(\theta | x) = m_\Theta(\theta)\)</span>.</p>
+<p>For (3) and (4) conditioning is needed. For example, for random variables <span class="math notranslate nohighlight">\(X\)</span>, <span class="math notranslate nohighlight">\(Y\)</span> and functions <span class="math notranslate nohighlight">\(g_1\)</span>, <span class="math notranslate nohighlight">\(g_2\)</span>:</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+P(g_1(Y) \le X \le g_2(Y)) &amp;= E \left[P(g_1(Y) \le X \le g_2(Y)) \mid Y\right] \\
+&amp;= \int P(g_1(y) \le X \le g_2(y)) f_Y(y) \, dy \\
+&amp;= \int \left[F_X(g_2(y)) - F_X(g_1(y))\right] f_Y(y) \, dy.
+\end{align*}\]</div>
+<div class="tip dropdown admonition">
+<p class="admonition-title">Solution</p>
+<p>No solution written up for this yet!</p>
+</div>
+</section>
+<section id="bayes-and-bats">
+<h2>20. Bayes and Bats<a class="headerlink" href="#bayes-and-bats" title="Permalink to this headline">#</a></h2>
+<p>By careful examination of sound and film records it is possible to measure the distance at which a bat first detects an insect. The measurements are modeled by a normal distribution <span class="math notranslate nohighlight">\(N(\theta, 10^2)\)</span>, where <span class="math notranslate nohighlight">\(\theta\)</span> is the unknown mean distance (in cm).</p>
+<p>Experts believe that the prior suitably expressing uncertainty about <span class="math notranslate nohighlight">\(\theta\)</span> is <span class="math notranslate nohighlight">\(\theta \sim N(50, 10^2)\)</span>. Three measurements are obtained: 62, 52, and 68.</p>
+<ol class="arabic simple">
+<li><p>Find the posterior distribution of <span class="math notranslate nohighlight">\(\theta\)</span> given these observations.</p></li>
+<li><p>Test the hypothesis, <span class="math notranslate nohighlight">\(H_0\)</span>, that <span class="math notranslate nohighlight">\(\theta \gt 50\)</span> in a Bayesian fashion.</p></li>
+<li><p>What is the 95% credible set for <span class="math notranslate nohighlight">\(\theta\)</span>?</p></li>
+</ol>
+<p>For 2 and 3, use the posterior obtained in 1.</p>
+<div class="tip dropdown admonition">
+<p class="admonition-title">Solution</p>
+<ol class="arabic simple">
+<li><p>Find the posterior distribution of <span class="math notranslate nohighlight">\(\theta\)</span> given these observations.</p></li>
+</ol>
+<p>Hint: since three measurements are taken and <span class="math notranslate nohighlight">\(\bar{X}\)</span> is sufficient for the parameter <span class="math notranslate nohighlight">\(\theta\)</span>, for your model’s likelihood use <span class="math notranslate nohighlight">\(\bar{X} \mid \theta\)</span>.</p>
+<p>This is the first conjugate pair on the <a class="reference external" href="https://areding.github.io/6420-pymc/unit4/Unit4-conjugatefamilies.html#conjugate-table">table</a>. We can use the following to find our posterior:</p>
+<p><span class="math notranslate nohighlight">\(N\left(\frac{\tau^2}{\tau^2 +\sigma^2/n}\bar{X} + \frac{\sigma^2/n}{\tau^2 + \sigma^2/n}\mu, \frac{\tau^2\sigma^2/n}{\tau^2+ \sigma^2/n}\right)\)</span></p>
+<p>where <span class="math notranslate nohighlight">\(\tau^2 = 100\)</span>, <span class="math notranslate nohighlight">\(\mu = 50\)</span>, <span class="math notranslate nohighlight">\(\sigma^2 = 100\)</span>, <span class="math notranslate nohighlight">\(n=3\)</span>, <span class="math notranslate nohighlight">\(\bar{X} = \frac{62 + 52 + 68}{3} \approx 60.67\)</span>​.</p>
+<p>This makes our posterior <span class="math notranslate nohighlight">\(N\left(58, 25\right)\)</span>.</p>
+<ol class="arabic simple" start="2">
+<li><p>Test the hypothesis, <span class="math notranslate nohighlight">\(H_0\)</span>, that <span class="math notranslate nohighlight">\(\theta \gt 50\)</span> in a Bayesian fashion.
+See code below.</p></li>
+</ol>
+<p>‘Probability of H_0: 0.9452’</p>
+<ol class="arabic simple" start="3">
+<li><p>What is the 95% credible set for <span class="math notranslate nohighlight">\(\theta\)</span>?
+See code below.</p></li>
+</ol>
+<p>‘Equi-tailed credible set: (48.2002, 67.7998)’</p>
+<p>‘HPD credible set: (48.2002, 67.7998)’</p>
+</div>
+<div class="cell tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">scipy.optimize</span><span class="w"> </span><span class="kn">import</span> <span class="n">fsolve</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">norm</span>
+
+<span class="n">posterior</span> <span class="o">=</span> <span class="n">norm</span><span class="p">(</span><span class="mi">58</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Probability of H_0: </span><span class="si">{</span><span class="mi">1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">posterior</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>  <span class="c1"># 0.9452</span>
+
+<span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.05</span>
+<span class="nb">print</span><span class="p">(</span>
+    <span class="sa">f</span><span class="s2">&quot;Equi-tailed credible set: (</span><span class="si">{</span><span class="n">posterior</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="n">alpha</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">posterior</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">alpha</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">)&quot;</span>  <span class="c1"># &#39;Equi-tailed credible set: (48.2002, 67.7998)&#39;</span>
+<span class="p">)</span>
+
+<span class="n">guess_lwr</span><span class="p">,</span> <span class="n">guess_upr</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">70</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">conditions</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">posterior</span><span class="p">,</span> <span class="n">alpha</span><span class="p">):</span>
+    <span class="n">lwr</span><span class="p">,</span> <span class="n">upr</span> <span class="o">=</span> <span class="n">x</span>
+
+    <span class="n">cond_1</span> <span class="o">=</span> <span class="n">posterior</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">upr</span><span class="p">)</span> <span class="o">-</span> <span class="n">posterior</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">lwr</span><span class="p">)</span>
+    <span class="n">cond_2</span> <span class="o">=</span> <span class="n">posterior</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">upr</span><span class="p">)</span> <span class="o">-</span> <span class="n">posterior</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">lwr</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">alpha</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">cond_1</span><span class="p">,</span> <span class="n">cond_2</span>
+
+
+<span class="c1"># since this distribution is symmetrical, HPD should be the same as EQT</span>
+<span class="n">hpd</span> <span class="o">=</span> <span class="n">fsolve</span><span class="p">(</span><span class="n">conditions</span><span class="p">,</span> <span class="p">(</span><span class="n">guess_lwr</span><span class="p">,</span> <span class="n">guess_upr</span><span class="p">),</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">posterior</span><span class="p">,</span> <span class="n">alpha</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span>
+    <span class="sa">f</span><span class="s2">&quot;HPD credible set: (</span><span class="si">{</span><span class="n">hpd</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">hpd</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">)&quot;</span>
+<span class="p">)</span>  <span class="c1"># &#39;HPD credible set: (48.2002, 67.7998)&#39;</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./unit4"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="Unit4-AlphaParticles.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Counts of Alpha Particles*</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="SupplementaryExercises48.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Supplementary Exercises 4.8</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#expectation-and-variance">1. Expectation and Variance</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#uniform-on-unit-circle">2. Uniform on Unit Circle</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fungi-spores">3. Fungi Spores</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#joint-marginals-and-conditionals-1">4. Joint, Marginals and Conditionals #1</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#joint-marginals-and-conditionals-2">5. Joint, Marginals and Conditionals #2</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#joint-marginals-and-conditionals-3">6. Joint, Marginals and Conditionals #3</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#joint-marginals-and-conditionals-4">7. Joint, Marginals and Conditionals #4</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-2d-pdf">8. A 2D PDF</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#in-a-circle">9. In a Circle</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#weibull-gamma">10. Weibull - Gamma</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#normal-inverse-gamma">11. Normal - Inverse Gamma</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#uniform-pareto">12. Uniform - Pareto</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gamma-inverse-gamma">13. Gamma - Inverse Gamma</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#negative-binomial-beta">14. Negative Binomial - Beta</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#horse-kick-fatalities-and-gamma-prior">15. Horse-Kick Fatalities and Gamma Prior</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#counts-of-alpha">16. Counts of Alpha</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#estimating-chemotherapy-response-rates">17. Estimating Chemotherapy Response Rates</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#jeremy-and-variance-from-single-observation">18. Jeremy and Variance from Single Observation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#easy-2d">19. Easy 2D</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bayes-and-bats">20. Bayes and Bats</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Georgia Tech ISYE 6420 Staff
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2024.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
