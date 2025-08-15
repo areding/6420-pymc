@@ -332,7 +332,6 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-fitsel.html">3. Model Fit and Selection</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-hald.html">4. Hald*</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-cpo.html">5. Conditional Predictive Ordinate</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-gessell.html">6. Gesell*</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-cumulative.html">7. Using the Empirical CDF and the Probability Integral Transform</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-cumulative2.html">8. Cumulative Example*</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-ssvs.html">9. Stochastic Search Variable Selection</a></li>
@@ -612,13 +611,13 @@ document.write(`
                   
   <div class="cell tag_hide-output docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">arviz</span> <span class="k">as</span> <span class="nn">az</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">pymc</span> <span class="k">as</span> <span class="nn">pm</span>
-<span class="kn">from</span> <span class="nn">pymc.math</span> <span class="kn">import</span> <span class="n">dot</span><span class="p">,</span> <span class="n">invlogit</span>
-<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">arviz</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">az</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pymc</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pm</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pymc.math</span><span class="w"> </span><span class="kn">import</span> <span class="n">dot</span><span class="p">,</span> <span class="n">invlogit</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
 </pre></div>
 </div>
 </div>
@@ -1129,7 +1128,7 @@ The effective sample size per chain is smaller than 100 for some parameters.  A 
 <p>With that many divergences, there’s no way the model fit correctly, and that’s borne out in the summary statistics with each r_hat being well above 1.01. So we may need to standardize our data. Andrew Gelman <span id="id1">Gelman [<a class="reference internal" href="../backmatter/bibliography.html#id40" title="Andrew Gelman. Scaling regression inputs by dividing by two standard deviations. Statistics in Medicine, 27(15):2865-2873, 2008. URL: https://onlinelibrary.wiley.com/doi/abs/10.1002/sim.3107, arXiv:https://onlinelibrary.wiley.com/doi/pdf/10.1002/sim.3107, doi:https://doi.org/10.1002/sim.3107.">2008</a>]</span> <a class="reference external" href="https://stat.columbia.edu/~gelman/research/published/standardizing7.pdf">suggests</a> standardizing by two standard deviations.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">standardize</span><span class="p">(</span><span class="n">X_df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">standardize</span><span class="p">(</span><span class="n">X_df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Standardize input variables by 2 std dev.</span>
 

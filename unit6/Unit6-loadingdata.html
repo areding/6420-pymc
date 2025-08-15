@@ -65,6 +65,8 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'unit6/Unit6-loadingdata';</script>
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -330,7 +332,6 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-fitsel.html">3. Model Fit and Selection</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-hald.html">4. Hald*</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-cpo.html">5. Conditional Predictive Ordinate</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-gessell.html">6. Gesell*</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-cumulative.html">7. Using the Empirical CDF and the Probability Integral Transform</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-cumulative2.html">8. Cumulative Example*</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-ssvs.html">9. Stochastic Search Variable Selection</a></li>
@@ -605,11 +606,11 @@ document.write(`
                   
   <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">arviz</span> <span class="k">as</span> <span class="nn">az</span>
-<span class="kn">import</span> <span class="nn">pymc</span> <span class="k">as</span> <span class="nn">pm</span>
-<span class="kn">from</span> <span class="nn">pymc.math</span> <span class="kn">import</span> <span class="n">switch</span><span class="p">,</span> <span class="n">ge</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">arviz</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">az</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pymc</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pm</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pymc.math</span><span class="w"> </span><span class="kn">import</span> <span class="n">switch</span><span class="p">,</span> <span class="n">ge</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 </pre></div>
 </div>
 </div>
@@ -621,15 +622,11 @@ document.write(`
 <h2>Taste of Cheese<a class="headerlink" href="#taste-of-cheese" title="Permalink to this headline">#</a></h2>
 <p>Adapted from <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/original_examples/Codes4Unit6/cheese.odc">Unit 6: cheese.odc</a>.</p>
 <p>The link in the original .odc file is dead. I downloaded the data from <a class="reference external" href="https://www3.nd.edu/~busiforc/handouts/Data%20and%20Stories/multicollinearity/Cheese%20Taste/Cheddar%20Cheese%20Data.html">here</a> and have a copy <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/data/cheese.csv">here</a>.</p>
-<p>As cheddar cheese matures, a variety of chemical processes take place. The taste of matured cheese is related to the concentration of several chemicals in the final product. In a study of cheddar cheese from the LaTrobe Valley of Victoria, Australia, samples of cheese were analyzed for their chemical composition and were subjected to taste tests. Overall taste scores were obtained by combining the scores from several tasters.</p>
+<p>As cheddar cheese matures, a variety of chemical processes take place. The taste of matured cheese is related to the concentration of several chemicals in the final product. In a study of cheddar cheese from the Latrobe Valley of Victoria, Australia, samples of cheese were analyzed for their chemical composition and were subjected to taste tests. Overall taste scores were obtained by combining the scores from several tasters.</p>
 <p>Can the score be predicted well by the predictors: Acetic, H2S, and Lactic?</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;../data/cheese.csv&quot;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">X</span> <span class="o">=</span> <span class="n">data</span><span class="p">[[</span><span class="s2">&quot;Acetic&quot;</span><span class="p">,</span> <span class="s2">&quot;H2S&quot;</span><span class="p">,</span> <span class="s2">&quot;Lactic&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
-<span class="c1"># add intercept column to X</span>
-<span class="n">X_aug</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">)),</span> <span class="n">X</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">y</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;taste&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -704,6 +701,52 @@ document.write(`
   </tbody>
 </table>
 </div></div></div>
+</div>
+<p>The main goal of this exercise is to practice loading the data and implementing a simple model.  Let’s first specify the model structure, then write the code.  Since our goal is to model the relationship between chemical compounds and perceived taste, we can use a Bayesian linear regression model:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+\texttt{taste}_{i} &amp;\sim \mathcal{N}(\mu_{i} , \sigma^{2})\\
+\mu_{i} &amp;= \beta_{0} + \beta_{1}\cdot\texttt{Acetic}_{i} + \beta_{2}\cdot\texttt{H2S}_{i} + \beta_{3}\cdot\texttt{Lactic}_{i}\\
+\boldsymbol{\beta} &amp;\sim \mathcal{N}(0,\sigma^{2} = 100000)\\
+\sigma &amp;= \frac{1}{\sqrt{\tau}}\\
+\tau  &amp;\sim \text{Gamma(0.001, 0.001)}\\ 
+\end{align*}
+\end{split}\]</div>
+<p>This model assumes that the taste score for each observation follows a normal distribution with mean <span class="math notranslate nohighlight">\(\mu_i\)</span> and variance <span class="math notranslate nohighlight">\(\sigma^2\)</span>, where <span class="math notranslate nohighlight">\(\mu_i\)</span> is a linear combination of the chemical predictors. We place vague normal priors on the regression coefficients and a weakly informative Gamma prior on the precision parameter <span class="math notranslate nohighlight">\(\tau\)</span> (inverse variance).</p>
+<p>It’s often more practical to express the linear model in <em>matrix/vector form</em> rather than writing out each term separately:</p>
+<div class="math notranslate nohighlight">
+\[
+\boldsymbol{\eta} = \mathbf{X}\boldsymbol{\beta}
+\]</div>
+<p>Here <span class="math notranslate nohighlight">\(\boldsymbol{\eta}\)</span> is the linear predictor, without adding any random noise.  If you’re not familiar with the matrix notation for multiple linear regression, <span class="math notranslate nohighlight">\(\mathbf{X}\)</span> and <span class="math notranslate nohighlight">\(\boldsymbol{\beta}\)</span> are:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\mathbf{X} = \begin{bmatrix}
+1 &amp; \texttt{Acetic}_1 &amp; \texttt{H2S}_1 &amp; \texttt{Lactic}_1 \\
+1 &amp; \texttt{Acetic}_2 &amp; \texttt{H2S}_2 &amp; \texttt{Lactic}_2 \\
+\vdots &amp; \vdots &amp; \vdots &amp; \vdots \\
+1 &amp; \texttt{Acetic}_n &amp; \texttt{H2S}_n &amp; \texttt{Lactic}_n
+\end{bmatrix}
+\text{ and }
+\beta = 
+\begin{bmatrix}
+\text{Coefficient for Intercept}\\
+\text{Coefficient for }\texttt{Acetic}\\
+\text{Coefficient for }\texttt{H2S}\\
+\text{Coefficient for }\texttt{Lactic}\\
+\end{bmatrix}
+\end{split}\]</div>
+<p><span class="math notranslate nohighlight">\(\mathbf{X}\)</span> is the design matrix: which contains all predictor columns along with a column of ones to account for the intercept <span class="math notranslate nohighlight">\(\beta_{0}\)</span>.  To make this clear in our code, we’ll call it <code class="docutils literal notranslate"><span class="pre">X_aug</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="n">data</span><span class="p">[[</span><span class="s2">&quot;Acetic&quot;</span><span class="p">,</span> <span class="s2">&quot;H2S&quot;</span><span class="p">,</span> <span class="s2">&quot;Lactic&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+<span class="c1"># add intercept column to X</span>
+<span class="n">X_aug</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">)),</span> <span class="n">X</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;taste&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">

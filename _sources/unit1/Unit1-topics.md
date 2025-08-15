@@ -35,7 +35,7 @@ The midterm could include anything from the first half, but tends to focus on Un
 
 Units covered: 6–7
 
-This is where we start using Probabilistic Programming Languages (PPLs) like BUGS, Stan, or PyMC. We start with linear regression and move into hierarchical models.
+This is where we start using Probabilistic Programming Languages (PPLs). Starting in Fall 2025, PyMC will be the only option we allow. We start with linear regression and move into hierarchical models.
 
 **Homework 6**
 

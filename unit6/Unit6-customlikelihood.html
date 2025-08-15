@@ -332,7 +332,6 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-fitsel.html">3. Model Fit and Selection</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-hald.html">4. Hald*</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-cpo.html">5. Conditional Predictive Ordinate</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-gessell.html">6. Gesell*</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-cumulative.html">7. Using the Empirical CDF and the Probability Integral Transform</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-cumulative2.html">8. Cumulative Example*</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-ssvs.html">9. Stochastic Search Variable Selection</a></li>
@@ -589,7 +588,10 @@ document.write(`
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#zero-trick-jeremy">Zero-trick Jeremy</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#custom-likelihoods-in-pymc">Custom likelihoods in PyMC</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#custom-likelihoods-in-pymc">Custom likelihoods in PyMC</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pm-customdist-motivating-example-survival-model"><code class="docutils literal notranslate"><span class="pre">pm.CustomDist</span></code> Motivating Example: Survival Model</a></li>
+</ul>
+</li>
 </ul>
             </nav>
         </div>
@@ -603,9 +605,9 @@ document.write(`
                   
   <div class="cell tag_hide-output docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">arviz</span> <span class="k">as</span> <span class="nn">az</span>
-<span class="kn">import</span> <span class="nn">pymc</span> <span class="k">as</span> <span class="nn">pm</span>
-<span class="kn">from</span> <span class="nn">pymc.math</span> <span class="kn">import</span> <span class="n">log</span><span class="p">,</span> <span class="n">sqr</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">arviz</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">az</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pymc</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pm</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pymc.math</span><span class="w"> </span><span class="kn">import</span> <span class="n">log</span><span class="p">,</span> <span class="n">sqr</span>
 </pre></div>
 </div>
 </div>
@@ -680,7 +682,7 @@ Multiprocess sampling (4 chains in 4 jobs)
 NUTS: [θ]
 </pre></div>
 </div>
-<script type="application/vnd.jupyter.widget-view+json">{"model_id": "cef1a6941fdb4441aab60f755c518b90", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "0201bcfcb7184ab3b521194ac9a59e2a", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
 </div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 5_000 draw iterations (4_000 + 20_000 draws total) took 1 seconds.
 </pre></div>
 </div>
@@ -721,10 +723,10 @@ NUTS: [θ]
   <tbody>
     <tr>
       <th>θ</th>
-      <td>102.75</td>
-      <td>6.915</td>
-      <td>89.207</td>
-      <td>116.315</td>
+      <td>102.742</td>
+      <td>6.841</td>
+      <td>89.26</td>
+      <td>115.994</td>
     </tr>
   </tbody>
 </table>
@@ -734,7 +736,118 @@ NUTS: [θ]
 <section id="custom-likelihoods-in-pymc">
 <h2>Custom likelihoods in PyMC<a class="headerlink" href="#custom-likelihoods-in-pymc" title="Permalink to this headline">#</a></h2>
 <p>PyMC is a lot more flexible. For one, many more built-in <a class="reference external" href="https://www.pymc.io/projects/docs/en/stable/api/distributions.html">distributions</a> are available, including mixtures and zero-inflated models, which is where I’ve seen the zero trick used most often (<span id="id3">Karlis and Ntzoufras [<a class="reference internal" href="../backmatter/bibliography.html#id29" title="Dimitris Karlis and Ioannis Ntzoufras. Bayesian modelling of football outcomes: using the Skellam's distribution for the goal difference. IMA Journal of Management Mathematics, 20(2):133-145, 09 2008. URL: https://doi.org/10.1093/imaman/dpn026, arXiv:https://academic.oup.com/imaman/article-pdf/20/2/133/2118878/dpn026.pdf, doi:10.1093/imaman/dpn026.">2008</a>]</span>, <span id="id4">Ntzoufras [<a class="reference internal" href="../backmatter/bibliography.html#id28" title="Ioannis Ntzoufras. Bayesian Modeling Using WinBUGS. John Wiley &amp; Sons, Inc., Hoboken, New Jersey, 1 edition, 2009. ISBN 978-0-470-14114-4.">2009</a>]</span> page 288).</p>
-<p>If you need a custom likelihood, take a look at the <a class="reference external" href="https://www.pymc.io/projects/docs/en/stable/api/generated/pymc.Potential.html">pm.Potential</a> or <a class="reference external" href="https://www.pymc.io/projects/docs/en/stable/api/distributions/generated/pymc.CustomDist.html">pm.CustomDist</a> classes.</p>
+<p>If you need a custom likelihood, take a look at the <a class="reference external" href="https://www.pymc.io/projects/docs/en/stable/api/generated/pymc.Potential.html">pm.Potential</a> or <a class="reference external" href="https://www.pymc.io/projects/docs/en/stable/api/distributions/generated/pymc.CustomDist.html">pm.CustomDist</a> classes. <code class="docutils literal notranslate"><span class="pre">pm.Potential</span></code> is used to adjust the likelihood, as we can see in the censored model ahead in <a class="reference external" href="https://areding.github.io/6420-pymc/unit8/Unit8-tte-gastric.html">Unit 8.6</a>. For now, let’s take a look at how to use <code class="docutils literal notranslate"><span class="pre">pm.CustomDist</span></code>.</p>
+<section id="pm-customdist-motivating-example-survival-model">
+<h3><code class="docutils literal notranslate"><span class="pre">pm.CustomDist</span></code> Motivating Example: Survival Model<a class="headerlink" href="#pm-customdist-motivating-example-survival-model" title="Permalink to this headline">#</a></h3>
+<p>We can alternatively build the survival model in in <a class="reference external" href="https://areding.github.io/6420-pymc/unit6/Unit6-censoring.html">Unit 6.9</a> with the custom distribution based on this <a class="reference external" href="https://www.pymc.io/projects/docs/en/stable/guides/Probability_Distributions.html#custom-distributions">post</a> (but with equations corrected):</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}f(c,t) = \begin{cases} 
+      \lambda \exp(-\lambda t) &amp; \text{if } c = 1 \\
+      \exp(-\lambda t) &amp; \text{if } c = 0 \\
+   \end{cases}\end{split}\]</div>
+<p><code class="docutils literal notranslate"><span class="pre">c</span></code> is an indicator variable. The data point is censored if <code class="docutils literal notranslate"><span class="pre">c=0</span></code>, and a failure or non-survival is denoted by <code class="docutils literal notranslate"><span class="pre">c=1</span></code>. When the point is not censored, the probability distribution is exponential. When the point is censored, the probability is the exponential distribution’s complementary CDF, which accounts for the probability to the right of the censored point.</p>
+<p>To build this as a custom distribution, we create a <code class="docutils literal notranslate"><span class="pre">logp</span></code> or log-probability function, as PyMC prefers to work with log-probabilities. One tricky part for this distribution is that both observed data arrays (<code class="docutils literal notranslate"><span class="pre">t</span></code> and <code class="docutils literal notranslate"><span class="pre">c</span></code>) need to be concatenated into a matrix as input into the <code class="docutils literal notranslate"><span class="pre">observed</span></code> argument. We can see the summary results match those on <a class="reference external" href="https://areding.github.io/6420-pymc/unit6/Unit6-censoring.html">Unit 6.9</a>, which uses the different <code class="docutils literal notranslate"><span class="pre">pm.Censored</span></code> function.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="c1"># gamma dist parameters</span>
+<span class="n">α</span> <span class="o">=</span> <span class="mf">0.01</span>
+<span class="n">β</span> <span class="o">=</span> <span class="mf">0.1</span>
+
+<span class="c1"># observed life within experiment dates</span>
+<span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">72</span><span class="p">,</span> <span class="mi">51</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">33</span><span class="p">,</span> <span class="mi">27</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">24</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">21</span><span class="p">])</span>
+<span class="c1"># censored indicator</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span>  <span class="mi">0</span><span class="p">,</span>  <span class="mi">1</span><span class="p">,</span>  <span class="mi">0</span><span class="p">,</span>  <span class="mi">1</span><span class="p">,</span>  <span class="mi">1</span><span class="p">,</span>  <span class="mi">1</span><span class="p">,</span>  <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span>  <span class="mi">0</span><span class="p">])</span>
+<span class="c1"># CustomDist requires all data to be together in a matrix</span>
+<span class="n">val</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concat</span><span class="p">([[</span><span class="n">t</span><span class="p">],[</span><span class="n">c</span><span class="p">]])</span>
+
+<span class="c1"># log-probability of custom distribution</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">logp</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">lam</span><span class="p">):</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">value</span><span class="p">[</span><span class="mi">0</span><span class="p">,:]</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">value</span><span class="p">[</span><span class="mi">1</span><span class="p">,:]</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">c</span> <span class="o">*</span> <span class="n">log</span><span class="p">(</span><span class="n">lam</span><span class="p">)</span> <span class="o">-</span> <span class="n">lam</span> <span class="o">*</span> <span class="n">t</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+
+<span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">m</span><span class="p">:</span>
+    <span class="n">λ</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Gamma</span><span class="p">(</span><span class="s2">&quot;λ&quot;</span><span class="p">,</span> <span class="n">α</span><span class="p">,</span> <span class="n">β</span><span class="p">)</span>
+    <span class="n">μ</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;μ&quot;</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">λ</span><span class="p">)</span>
+    
+    <span class="n">exp_surv</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">CustomDist</span><span class="p">(</span><span class="s1">&#39;exp_surv&#39;</span><span class="p">,</span> <span class="n">λ</span><span class="p">,</span> <span class="n">logp</span><span class="o">=</span><span class="n">logp</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">val</span><span class="p">)</span>
+
+    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">5000</span><span class="p">)</span>
+
+<span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Initializing NUTS using jitter+adapt_diag...
+Multiprocess sampling (4 chains in 4 jobs)
+NUTS: [λ]
+</pre></div>
+</div>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "fe72f2968e234d5d84c6cfc45e9abcdf", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 5_000 draw iterations (4_000 + 20_000 draws total) took 1 seconds.
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mean</th>
+      <th>sd</th>
+      <th>hdi_3%</th>
+      <th>hdi_97%</th>
+      <th>mcse_mean</th>
+      <th>mcse_sd</th>
+      <th>ess_bulk</th>
+      <th>ess_tail</th>
+      <th>r_hat</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>λ</th>
+      <td>0.023</td>
+      <td>0.008</td>
+      <td>0.008</td>
+      <td>0.038</td>
+      <td>0.00</td>
+      <td>0.000</td>
+      <td>7786.0</td>
+      <td>11573.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>μ</th>
+      <td>51.157</td>
+      <td>22.767</td>
+      <td>20.026</td>
+      <td>90.397</td>
+      <td>0.26</td>
+      <td>0.613</td>
+      <td>7786.0</td>
+      <td>11573.0</td>
+      <td>1.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">load_ext</span> watermark
@@ -743,20 +856,22 @@ NUTS: [θ]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Sun Mar 09 2025
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Fri Jun 13 2025
 
 Python implementation: CPython
-Python version       : 3.12.7
-IPython version      : 8.29.0
+Python version       : 3.13.3
+IPython version      : 9.2.0
 
-pytensor: 2.26.4
+pytensor: 2.30.3
 
-arviz: 0.20.0
-pymc : 5.19.1
+pymc : 5.22.0
+numpy: 2.2.6
+arviz: 0.21.0
 </pre></div>
 </div>
 </div>
 </div>
+</section>
 </section>
 </section>
 
@@ -828,7 +943,10 @@ pymc : 5.19.1
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#zero-trick-jeremy">Zero-trick Jeremy</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#custom-likelihoods-in-pymc">Custom likelihoods in PyMC</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#custom-likelihoods-in-pymc">Custom likelihoods in PyMC</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pm-customdist-motivating-example-survival-model"><code class="docutils literal notranslate"><span class="pre">pm.CustomDist</span></code> Motivating Example: Survival Model</a></li>
+</ul>
+</li>
 </ul>
   </nav></div>
 

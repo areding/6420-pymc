@@ -65,6 +65,8 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'unit7/Unit7-why';</script>
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -330,7 +332,6 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-fitsel.html">3. Model Fit and Selection</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-hald.html">4. Hald*</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-cpo.html">5. Conditional Predictive Ordinate</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-gessell.html">6. Gesell*</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-cumulative.html">7. Using the Empirical CDF and the Probability Integral Transform</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-cumulative2.html">8. Cumulative Example*</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-ssvs.html">9. Stochastic Search Variable Selection</a></li>
@@ -532,7 +533,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
 </div></div>
       
     </div>
@@ -548,6 +551,15 @@ document.write(`
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-the-heirarchy">Why the heirarchy?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example">Example</a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -559,10 +571,34 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="reasons-to-use-hierarchical-models">
 <h1>2. Reasons to Use Hierarchical Models<a class="headerlink" href="#reasons-to-use-hierarchical-models" title="Permalink to this headline">#</a></h1>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>This page is a stub. I will try to update it over the semester with supplementary lecture notes—if you would like to request a certain page be finished first, please make an Ed Discussion post with your questions about the lecture.</p>
-</div>
+<section id="why-the-heirarchy">
+<h2>Why the heirarchy?<a class="headerlink" href="#why-the-heirarchy" title="Permalink to this headline">#</a></h2>
+<ol class="arabic simple">
+<li><p>Modeling requirement. For example, a <a class="reference external" href="https://areding.github.io/6420-pymc/unit7/Unit7-metaanalysis.html">meta-analysis</a></p></li>
+<li><p>Prior information can be separated into structural and subjective/noninformative part (<a class="reference external" href="https://areding.github.io/6420-pymc/unit7/Unit7-priors.html">like this example</a>)</p></li>
+<li><p>Robustness + objectivity, let the data “talk” about the hyperparameters</p></li>
+<li><p>Computing issues (MCMC efficiency, perhaps to a lesser extent now than in the past)</p></li>
+</ol>
+</section>
+<section id="example">
+<h2>Example<a class="headerlink" href="#example" title="Permalink to this headline">#</a></h2>
+<p>Posterior with single parameter <span class="math notranslate nohighlight">\(\theta\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[\prod_{i=1}^n f(y_i | \theta) \pi(\theta)\]</div>
+<p>Posterior with an independent <span class="math notranslate nohighlight">\(\theta_i\)</span> for each <span class="math notranslate nohighlight">\(y_i\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[\prod_{i=1}^n f(y_i | \theta_i) \pi(\theta_i)\]</div>
+<p>Now let’s create a heirarchical posterior with a <span class="math notranslate nohighlight">\(\theta_i\)</span> for each <span class="math notranslate nohighlight">\(y_i\)</span>, and shared prior <span class="math notranslate nohighlight">\(\phi\)</span> on the <span class="math notranslate nohighlight">\(\theta_i\)</span>’s. The <span class="math notranslate nohighlight">\(\theta_i\)</span>’s are no longer independent, but <em>exchangeable</em>, meaning the order of the <span class="math notranslate nohighlight">\(y_i\)</span>’s does not impact the posterior distribution.</p>
+<div class="math notranslate nohighlight">
+\[\pi(\phi)\prod_{i=1}^n f(y_i | \theta_i) \pi(\theta_i | \phi)\]</div>
+<p>If <span class="math notranslate nohighlight">\(y_i\)</span>’s are independent, then they are automatically exchangeable, because of the communative property when they are multiplied together in the joint distribution.</p>
+<p>However, exchangeable variables may be dependent. For example, the 2-dimensional multivariate Normal,</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}(X,Y) \sim \text{MVN}_2(0,\left( \begin{matrix}
+    1 &amp; \rho \\
+    \rho &amp; 1 \end{matrix}\right)), \space \rho \in (-1,1) \end{split}\]</div>
+<p>the 2 variable <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span> are not independent, they are correlated, and yet the are exchangeable because the distribution of <span class="math notranslate nohighlight">\((Y,X)\)</span> is the same as the distribution of <span class="math notranslate nohighlight">\((X,Y)\)</span>.</p>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -623,6 +659,21 @@ document.write(`
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-the-heirarchy">Why the heirarchy?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example">Example</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>

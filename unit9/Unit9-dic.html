@@ -65,6 +65,8 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'unit9/Unit9-dic';</script>
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -330,7 +332,6 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="Unit9-fitsel.html">3. Model Fit and Selection</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Unit9-hald.html">4. Hald*</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Unit9-cpo.html">5. Conditional Predictive Ordinate</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Unit9-gessell.html">6. Gesell*</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Unit9-cumulative.html">7. Using the Empirical CDF and the Probability Integral Transform</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Unit9-cumulative2.html">8. Cumulative Example*</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Unit9-ssvs.html">9. Stochastic Search Variable Selection</a></li>
@@ -563,7 +564,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
 </div></div>
       
     </div>
@@ -579,6 +582,15 @@ document.write(`
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#widely-applicable-information-criteria-waic">Widely Applicable Information Criteria (WAIC)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#az-compare"><code class="docutils literal notranslate"><span class="pre">az.compare</span></code></a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -590,10 +602,198 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="deviance-information-criterion">
 <h1>2. Deviance Information Criterion<a class="headerlink" href="#deviance-information-criterion" title="Permalink to this headline">#</a></h1>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>This page is a stub. I will try to update it over the semester with supplementary lecture notes—if you would like to request a certain page be finished first, please make an Ed Discussion post with your questions about the lecture.</p>
+<p>Deviance Information Criterion (DIC) is similar in spirit to Akaike Information Criteria (AIC)</p>
+<div class="math notranslate nohighlight">
+\[ \text{AIC} = -2\log f(y|\hat{\theta}) + 2p \]</div>
+<p>where <span class="math notranslate nohighlight">\(\hat{\theta}\)</span> is the MLE of <span class="math notranslate nohighlight">\(\theta\)</span>, and <span class="math notranslate nohighlight">\(p\)</span> is the number of parameters. A model with lower AIC is favored.</p>
+<p>The Bayesian version of DIC was introduced by <a class="reference external" href="https://rss.onlinelibrary.wiley.com/doi/abs/10.1111/1467-9868.00353">Spiegelhalter, 2002</a>.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{align*}
+\bar{D} &amp; = \text{E}^{\pi(\cdot|y)}(-2\log f(y|\theta)) \\
+D(\bar{\theta}) &amp; = -2 \log f(y|\bar{\theta}), \space \bar{\theta} \text{ Bayes Estimator of } \theta \\
+p_D &amp; = \bar{D} - D(\bar{\theta}) \equiv \text{ Effective number of parameters} \\
+DIC &amp; = \bar{D} + p_D = D(\bar{\theta}) + 2 p_D
+\end{align*}\end{split}\]</div>
+<section id="widely-applicable-information-criteria-waic">
+<h2>Widely Applicable Information Criteria (WAIC)<a class="headerlink" href="#widely-applicable-information-criteria-waic" title="Permalink to this headline">#</a></h2>
+<p>The DIC described above was available as an automatic calculation in BUGS. In practice, we use a newer model fit metric called Widely Applicable Information Criteria (WAIC) available in Arviz. We won’t go into it’s formula, but you can read more about it at <a class="reference external" href="https://python.arviz.org/en/stable/api/generated/arviz.waic.html">arviz.waic</a>, with referenced papers.</p>
+<p>Let’s see how it works with the same Weibull and exponential models. One extra thing we need to do is save the log-likehood in the trace object using the <code class="docutils literal notranslate"><span class="pre">idata_kwargs=dict(log_likelihood=True)</span></code> argument in <code class="docutils literal notranslate"><span class="pre">pm.sample</span></code>.</p>
+<p>By default, <code class="docutils literal notranslate"><span class="pre">az.waic</span></code> provides WAIC on a <em>log</em> score scale, where the prefered model is the higher value. Alternatively, we can specifiy the <em>deviance</em> scale, where a lower score is prefered, like the AIC and DIC defined above.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pymc</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pm</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">arviz</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">az</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">8</span><span class="p">])</span>
+</pre></div>
 </div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Weibull Model</span>
+<span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">m1</span><span class="p">:</span>
+    <span class="c1">#priors</span>
+    <span class="n">mu</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;mu&quot;</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">tau</span><span class="o">=</span><span class="mf">.001</span><span class="p">)</span>
+    <span class="n">gamma</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Gamma</span><span class="p">(</span><span class="s2">&quot;gamma&quot;</span><span class="p">,</span><span class="mf">0.001</span><span class="p">,</span><span class="mf">0.001</span><span class="p">)</span>
+
+    <span class="c1">#convert Weibull parameterization</span>
+    <span class="n">beta</span> <span class="o">=</span> <span class="n">gamma</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span> <span class="o">/</span> <span class="n">mu</span><span class="p">)</span>
+
+    <span class="c1">#likelihood</span>
+    <span class="n">like</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Weibull</span><span class="p">(</span><span class="s2">&quot;like&quot;</span><span class="p">,</span><span class="n">mu</span><span class="p">,</span><span class="n">beta</span><span class="p">,</span><span class="n">observed</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
+    
+    <span class="n">trace1</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">idata_kwargs</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">log_likelihood</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+
+<span class="c1">#Exponential Model</span>
+<span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">m2</span><span class="p">:</span>
+    <span class="c1">#prior</span>
+    <span class="n">lambda_</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Gamma</span><span class="p">(</span><span class="s2">&quot;lambda_&quot;</span><span class="p">,</span><span class="mf">0.001</span><span class="p">,</span><span class="mf">0.001</span><span class="p">)</span>
+
+    <span class="c1">#likelihood</span>
+    <span class="n">like</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Exponential</span><span class="p">(</span><span class="s2">&quot;like&quot;</span><span class="p">,</span><span class="n">lambda_</span><span class="p">,</span><span class="n">observed</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
+
+    <span class="n">trace2</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">idata_kwargs</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">log_likelihood</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Initializing NUTS using jitter+adapt_diag...
+Multiprocess sampling (4 chains in 4 jobs)
+NUTS: [mu, gamma]
+</pre></div>
+</div>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "5d09a86290c145aeb35c2a5363e9f3ba", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws total) took 0 seconds.
+There were 13 divergences after tuning. Increase `target_accept` or reparameterize.
+Initializing NUTS using jitter+adapt_diag...
+Multiprocess sampling (4 chains in 4 jobs)
+NUTS: [lambda_]
+</pre></div>
+</div>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "8687567850974fe59c78f5461a01200e", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws total) took 0 seconds.
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">waic</span><span class="p">(</span><span class="n">trace1</span><span class="p">,</span><span class="n">scale</span><span class="o">=</span><span class="s1">&#39;deviance&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/opt/anaconda3/envs/pymc_env/lib/python3.13/site-packages/arviz/stats/stats.py:1655: UserWarning: For one or more samples the posterior variance of the log predictive densities exceeds 0.4. This could be indication of WAIC starting to fail. 
+See http://arxiv.org/abs/1507.04544 for details
+  warnings.warn(
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Computed from 4000 posterior samples and 10 observations log-likelihood matrix.
+
+              Estimate       SE
+deviance_waic    44.76     4.72
+p_waic            1.73        -
+
+There has been a warning during the calculation. Please check the results.
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">waic</span><span class="p">(</span><span class="n">trace2</span><span class="p">,</span><span class="n">scale</span><span class="o">=</span><span class="s1">&#39;deviance&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Computed from 4000 posterior samples and 10 observations log-likelihood matrix.
+
+              Estimate       SE
+deviance_waic    46.52     3.82
+p_waic            0.40        -
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="az-compare">
+<h2><code class="docutils literal notranslate"><span class="pre">az.compare</span></code><a class="headerlink" href="#az-compare" title="Permalink to this headline">#</a></h2>
+<p>We see a lower deviance_waic for the Weibull model, as expected. Another way to compare 2 models is with <code class="docutils literal notranslate"><span class="pre">az.compare</span></code></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">compare</span><span class="p">({</span><span class="s2">&quot;Weibull&quot;</span><span class="p">:</span><span class="n">trace1</span><span class="p">,</span><span class="s2">&quot;Exponential&quot;</span><span class="p">:</span><span class="n">trace2</span><span class="p">},</span>
+           <span class="n">ic</span><span class="o">=</span><span class="s1">&#39;waic&#39;</span><span class="p">,</span>
+           <span class="n">scale</span><span class="o">=</span><span class="s1">&#39;deviance&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/opt/anaconda3/envs/pymc_env/lib/python3.13/site-packages/arviz/stats/stats.py:1655: UserWarning: For one or more samples the posterior variance of the log predictive densities exceeds 0.4. This could be indication of WAIC starting to fail. 
+See http://arxiv.org/abs/1507.04544 for details
+  warnings.warn(
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>rank</th>
+      <th>elpd_waic</th>
+      <th>p_waic</th>
+      <th>elpd_diff</th>
+      <th>weight</th>
+      <th>se</th>
+      <th>dse</th>
+      <th>warning</th>
+      <th>scale</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Weibull</th>
+      <td>0</td>
+      <td>44.759743</td>
+      <td>1.728281</td>
+      <td>0.000000</td>
+      <td>0.828696</td>
+      <td>4.715606</td>
+      <td>0.000000</td>
+      <td>True</td>
+      <td>deviance</td>
+    </tr>
+    <tr>
+      <th>Exponential</th>
+      <td>1</td>
+      <td>46.515467</td>
+      <td>0.401046</td>
+      <td>1.755724</td>
+      <td>0.171304</td>
+      <td>3.815093</td>
+      <td>3.252716</td>
+      <td>False</td>
+      <td>deviance</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -654,6 +854,21 @@ document.write(`
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#widely-applicable-information-criteria-waic">Widely Applicable Information Criteria (WAIC)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#az-compare"><code class="docutils literal notranslate"><span class="pre">az.compare</span></code></a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>

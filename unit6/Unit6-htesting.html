@@ -65,6 +65,8 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'unit6/Unit6-htesting';</script>
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -330,7 +332,6 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-fitsel.html">3. Model Fit and Selection</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-hald.html">4. Hald*</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-cpo.html">5. Conditional Predictive Ordinate</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-gessell.html">6. Gesell*</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-cumulative.html">7. Using the Empirical CDF and the Probability Integral Transform</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-cumulative2.html">8. Cumulative Example*</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-ssvs.html">9. Stochastic Search Variable Selection</a></li>
@@ -586,7 +587,11 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#psoriasis-two-sample-problem-with-paired-data">Psoriasis: Two-sample problem with paired data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#psoriasis-two-sample-problem-with-paired-data">Psoriasis: Two-sample problem with paired data</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-classical-approach">The Classical Approach:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-bayesian-approach">The Bayesian Approach:</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#equivalence-of-generic-and-brand-name-drugs">Equivalence of generic and brand-name drugs</a></li>
 </ul>
             </nav>
@@ -601,11 +606,11 @@ document.write(`
                   
   <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">arviz</span> <span class="k">as</span> <span class="nn">az</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">pymc</span> <span class="k">as</span> <span class="nn">pm</span>
-<span class="kn">from</span> <span class="nn">pymc.math</span> <span class="kn">import</span> <span class="n">switch</span><span class="p">,</span> <span class="n">ge</span>
-<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">stats</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">arviz</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">az</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pymc</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pm</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pymc.math</span><span class="w"> </span><span class="kn">import</span> <span class="n">switch</span><span class="p">,</span> <span class="n">ge</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy</span><span class="w"> </span><span class="kn">import</span> <span class="n">stats</span>
 </pre></div>
 </div>
 </div>
@@ -618,32 +623,64 @@ document.write(`
 <p>Adapted from <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/original_examples/Codes4Unit6/psoriasis.odc">Unit 6: psoriasis.odc</a>.</p>
 <p>Woo and McKenna (2003) investigated the effect of broadband ultraviolet B (UVB) therapy and topical calcipotriol cream used together on areas of psoriasis. One of the outcome variables is the Psoriasis Area and Severity Index (PASI), where a lower score is better.</p>
 <p>The PASI scores for 20 subjects are measured at baseline and after 8 treatments.  Do these data provide sufficient evidence to indicate that the combination therapy reduces PASI scores?</p>
+<section id="the-classical-approach">
+<h3>The Classical Approach:<a class="headerlink" href="#the-classical-approach" title="Permalink to this headline">#</a></h3>
+<p>Two measurements from each participant (before and after treatment) were collected.  We want to know if the mean of the differences between paired observations is significantly different from zero.  In the classical approach:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+d_{i} &amp;= \texttt{baseline}_{i} - \texttt{after}_{i}\\
+\mu_{d} &amp;= \text{Population mean of the $i$th Paired Difference }(i=1,2, \cdots , 20)
+\end{align*}
+\end{split}\]</div>
+<p>Since we are interested whether treatment <em>reduces</em> scores, the null and alternative hypotheses are:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+H_{0} &amp;: \mu_{d} =0 \text{ (On average, no change)}\\
+H_{A} &amp;: \mu_{d} &gt; 0\text{ (On average, mean score at baseline is greater than the mean score after)}\\
+\end{align*}
+\end{split}\]</div>
+<p>The statistics we need for this hypothesis test are the mean difference <span class="math notranslate nohighlight">\(\bar{d}\)</span> , standard deviation for the differences <span class="math notranslate nohighlight">\(s_{d}\)</span>, and the test statistic:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+\bar{d} &amp;= \frac{1}{n}\sum_{i=1}^{n}d_{i}\\
+s_{d} &amp;= \sqrt{\frac{1}{n-1}\sum_{i=1}^{n}(d_{i} - \bar{d})^{2}}\\
+t &amp;= \frac{\bar{d}}{s_{d}/\sqrt{n}}
+\end{align*}
+\end{split}\]</div>
+<p>Recalling that the <span class="math notranslate nohighlight">\(t\)</span> statistic is <span class="math notranslate nohighlight">\(t\)</span>-distributed with <span class="math notranslate nohighlight">\(n-1\)</span> (19) degrees of freedom:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># fmt: off</span>
-<span class="n">baseline</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">((</span><span class="mf">5.9</span><span class="p">,</span> <span class="mf">7.6</span><span class="p">,</span> <span class="mf">12.8</span><span class="p">,</span> <span class="mf">16.5</span><span class="p">,</span> <span class="mf">6.1</span><span class="p">,</span> <span class="mf">14.4</span><span class="p">,</span> <span class="mf">6.6</span><span class="p">,</span> <span class="mf">5.4</span><span class="p">,</span> <span class="mf">9.6</span><span class="p">,</span> <span class="mf">11.6</span><span class="p">,</span> 
-                     <span class="mf">11.1</span><span class="p">,</span> <span class="mf">15.6</span><span class="p">,</span> <span class="mf">9.6</span><span class="p">,</span> <span class="mf">15.2</span><span class="p">,</span> <span class="mf">21.0</span><span class="p">,</span> <span class="mf">5.9</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">,</span> <span class="mf">12.2</span><span class="p">,</span> <span class="mf">20.2</span><span class="p">,</span> 
-                     <span class="mf">6.2</span><span class="p">))</span>
+<span class="n">baseline</span><span class="o">=</span>  <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>   <span class="mf">5.9</span><span class="p">,</span>	<span class="mf">7.6</span><span class="p">,</span>	<span class="mf">12.8</span><span class="p">,</span>	<span class="mf">16.5</span><span class="p">,</span>	<span class="mf">6.1</span><span class="p">,</span>
+		                <span class="mf">14.4</span><span class="p">,</span>	<span class="mf">6.6</span><span class="p">,</span>	<span class="mf">5.4</span><span class="p">,</span>	<span class="mf">9.6</span><span class="p">,</span>	<span class="mf">11.6</span><span class="p">,</span>
+		                <span class="mf">11.1</span><span class="p">,</span>	<span class="mf">15.6</span><span class="p">,</span>	<span class="mf">9.6</span><span class="p">,</span>	<span class="mf">15.2</span><span class="p">,</span>	<span class="mf">21.0</span><span class="p">,</span>
+		                <span class="mf">5.9</span><span class="p">,</span>	<span class="mf">10.0</span><span class="p">,</span>	<span class="mf">12.2</span><span class="p">,</span>	<span class="mf">20.2</span><span class="p">,</span>	<span class="mf">6.2</span><span class="p">])</span>
 
-<span class="n">after</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">((</span><span class="mf">5.2</span><span class="p">,</span> <span class="mf">12.2</span><span class="p">,</span> <span class="mf">4.6</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">3.8</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">3.1</span><span class="p">,</span> <span class="mf">3.5</span><span class="p">,</span> <span class="mf">4.9</span><span class="p">,</span> <span class="mf">11.1</span><span class="p">,</span>
-                  <span class="mf">8.4</span><span class="p">,</span> <span class="mf">5.8</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mf">6.4</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">2.7</span><span class="p">,</span> <span class="mf">5.1</span><span class="p">,</span> <span class="mf">4.8</span><span class="p">,</span> <span class="mf">4.2</span><span class="p">))</span>
+<span class="n">after</span><span class="o">=</span>     <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>   <span class="mf">5.2</span><span class="p">,</span>	<span class="mf">12.2</span><span class="p">,</span>	<span class="mf">4.6</span><span class="p">,</span>	<span class="mf">4.0</span><span class="p">,</span>	<span class="mf">0.4</span><span class="p">,</span>
+		                <span class="mf">3.8</span><span class="p">,</span>	<span class="mf">1.2</span><span class="p">,</span>	<span class="mf">3.1</span><span class="p">,</span>	<span class="mf">3.5</span><span class="p">,</span>	<span class="mf">4.9</span><span class="p">,</span>
+		                <span class="mf">11.1</span><span class="p">,</span>	<span class="mf">8.4</span><span class="p">,</span>	<span class="mf">5.8</span><span class="p">,</span>	<span class="mf">5.0</span><span class="p">,</span>	<span class="mf">6.4</span><span class="p">,</span>
+		                <span class="mf">0.0</span><span class="p">,</span>	<span class="mf">2.7</span><span class="p">,</span>	<span class="mf">5.1</span><span class="p">,</span>	<span class="mf">4.8</span><span class="p">,</span>	<span class="mf">4.2</span><span class="p">])</span>
 <span class="c1"># fmt: on</span>
 </pre></div>
 </div>
 </div>
 </div>
-<p>I tried to recreate the classical analysis from the original example, but got slightly different values.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Classical Analysis</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Classical Hypothesis Test:</span>
+<span class="c1">##################################################</span>
 
-<span class="n">d</span> <span class="o">=</span> <span class="n">baseline</span> <span class="o">-</span> <span class="n">after</span>
-<span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
-<span class="n">dbar</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
-<span class="n">stdev</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+<span class="n">diffs</span> <span class="o">=</span> <span class="n">baseline</span> <span class="o">-</span> <span class="n">after</span>
+<span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">diffs</span><span class="p">)</span>
+<span class="n">dbar</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">diffs</span><span class="p">)</span>
+<span class="n">stdev</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">diffs</span><span class="p">,</span><span class="n">ddof</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 <span class="n">tstat</span> <span class="o">=</span> <span class="n">dbar</span> <span class="o">/</span> <span class="p">(</span><span class="n">stdev</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">n</span><span class="p">))</span>
 
-<span class="n">pval</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">stats</span><span class="o">.</span><span class="n">t</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">tstat</span><span class="p">),</span> <span class="n">df</span><span class="o">=</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+<span class="c1">#One sided test!</span>
+<span class="n">pval</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">stats</span><span class="o">.</span><span class="n">t</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">tstat</span><span class="p">),</span> <span class="n">df</span><span class="o">=</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;dbar  = </span><span class="si">{</span><span class="n">dbar</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;stdev = </span><span class="si">{</span><span class="n">stdev</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -662,14 +699,37 @@ document.write(`
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>dbar  = 6.3550
-stdev = 4.8061
-tstat = 5.9134
-pval  = 0.00001080
-95% CI = [4.1057, 8.6043]
+stdev = 4.9309
+tstat = 5.7637
+pval  = 0.00000744
+95% CI = [4.0472, 8.6628]
 </pre></div>
 </div>
 </div>
 </div>
+<p>At significance level <span class="math notranslate nohighlight">\(\alpha = 0.05\)</span>, we reject the null hypothesis and conclude that there is strong evidence that treatments reduced PASI scores.  The model in the hypothesis test is <span class="math notranslate nohighlight">\(d_{i}\overset{\text{iid}}{\sim}\mathcal{N}(\mu_{d} , \sigma_{d}^{2})\)</span>.</p>
+</section>
+<section id="the-bayesian-approach">
+<h3>The Bayesian Approach:<a class="headerlink" href="#the-bayesian-approach" title="Permalink to this headline">#</a></h3>
+<p>A Bayesian version of our hypothesis test involves placing priors on the distribution of the differences:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+d_{i} &amp;\overset{\text{iid}}{\sim}\mathcal{N}(\mu_{d} , \sigma_{d}^{2})\\
+\sigma_{d} &amp;\sim \text{Exponential}(\text{Rate}=0.05)\\
+\mu_{d} &amp;\sim \mathcal{N}(0,99856)\\
+\end{align*}
+\end{split}\]</div>
+<p>We specify these components as normal, but we also include <code class="docutils literal notranslate"><span class="pre">ph1</span></code>.  Note how the vectorized implementation using <code class="docutils literal notranslate"><span class="pre">pm.math.switch</span></code> is equivalent to an indicator function:</p>
+<div class="math notranslate nohighlight">
+\[
+\texttt{ph1}_{i} = \mathbb{I}(\mu_{d}^{(i)} &gt; 0)
+\]</div>
+<p>After sampling <span class="math notranslate nohighlight">\(\texttt{ns}\)</span> times, the postrior mean and credible intervals  for <code class="docutils literal notranslate"><span class="pre">ph1</span></code> can be used as an empirical estimate for <span class="math notranslate nohighlight">\(P(\mu_{d} &gt; 0)\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+\hat{\mathbb{E}}[\texttt{ph1}\vert \texttt{diffs}] = \frac{1}{\texttt{ns}}\sum_{i=1}^{\texttt{ns}}\mathbb{I}(\mu_{d}^{(i)} &gt; 0)_{i} = \frac{\text{Number of 1's}}{\text{Number of 1's} + \text{Number of 0's}}
+\]</div>
 <div class="cell tag_hide-output docutils container">
 <div class="cell_input above-output-prompt docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">m</span><span class="p">:</span>
@@ -796,63 +856,14 @@ NUTS: [mu, sigma]
 </table>
 </div></div></div>
 </div>
-<p>Our model agrees with the BUGS results:</p>
-<table class="colwidths-auto table">
-<thead>
-<tr class="row-odd"><th class="head"><p></p></th>
-<th class="head"><p>mean</p></th>
-<th class="head"><p>sd</p></th>
-<th class="head"><p>MC_error</p></th>
-<th class="head"><p>val2.5pc</p></th>
-<th class="head"><p>median</p></th>
-<th class="head"><p>val97.5pc</p></th>
-<th class="head"><p>start</p></th>
-<th class="head"><p>sample</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p>pH1</p></td>
-<td><p>1</p></td>
-<td><p>0</p></td>
-<td><p>3.16E-13</p></td>
-<td><p>1</p></td>
-<td><p>1</p></td>
-<td><p>1</p></td>
-<td><p>1001</p></td>
-<td><p>100000</p></td>
-</tr>
-<tr class="row-odd"><td><p>mu</p></td>
-<td><p>6.352</p></td>
-<td><p>1.169</p></td>
-<td><p>0.003657</p></td>
-<td><p>4.043</p></td>
-<td><p>6.351</p></td>
-<td><p>8.666</p></td>
-<td><p>1001</p></td>
-<td><p>100000</p></td>
-</tr>
-<tr class="row-even"><td><p>sigma</p></td>
-<td><p>5.142</p></td>
-<td><p>0.8912</p></td>
-<td><p>0.003126</p></td>
-<td><p>3.74</p></td>
-<td><p>5.026</p></td>
-<td><p>7.203</p></td>
-<td><p>1001</p></td>
-<td><p>100000</p></td>
-</tr>
-<tr class="row-odd"><td><p>pval</p></td>
-<td><p>4.20E-04</p></td>
-<td><p>0.02049</p></td>
-<td><p>6.04E-05</p></td>
-<td><p>0</p></td>
-<td><p>0</p></td>
-<td><p>0</p></td>
-<td><p>1001</p></td>
-<td><p>100000</p></td>
-</tr>
-</tbody>
-</table>
+<p>This test also gives us evidence that treatments reduced PASI scores.  The two tests, however, answered very different questions.  Let’s briefly return to the first half of the course.</p>
+<p>In the Bayesian approach, we are directly estimating the posterior probability that the treatment effect is positive, given the observed data in the real world. Classical <span class="math notranslate nohighlight">\(p\)</span>-values are prone to such misinterpretation.  A <span class="math notranslate nohighlight">\(p\)</span>-value in a classical test only helps us in answering:</p>
+<blockquote>
+<div><p>“If the treatment truly had no effect, how likely
+is it that we would observe data this extreme?”</p>
+</div></blockquote>
+<p>It only tells us how surprising our data would be in a world that is hypothetical: one where there is “certainly no treatment effect”.  In contrast, the Bayesian framework provides a probabilistic belief about the treatment’s ability to reduce PASI scores in the same world where the data were collected.</p>
+</section>
 </section>
 <section id="equivalence-of-generic-and-brand-name-drugs">
 <h2>Equivalence of generic and brand-name drugs<a class="headerlink" href="#equivalence-of-generic-and-brand-name-drugs" title="Permalink to this headline">#</a></h2>
@@ -1178,7 +1189,11 @@ numpy: 1.26.4
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#psoriasis-two-sample-problem-with-paired-data">Psoriasis: Two-sample problem with paired data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#psoriasis-two-sample-problem-with-paired-data">Psoriasis: Two-sample problem with paired data</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-classical-approach">The Classical Approach:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-bayesian-approach">The Bayesian Approach:</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#equivalence-of-generic-and-brand-name-drugs">Equivalence of generic and brand-name drugs</a></li>
 </ul>
   </nav></div>

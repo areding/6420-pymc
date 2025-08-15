@@ -65,6 +65,8 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'unit9/Unit9-fitsel';</script>
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -330,7 +332,6 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">3. Model Fit and Selection</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Unit9-hald.html">4. Hald*</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Unit9-cpo.html">5. Conditional Predictive Ordinate</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Unit9-gessell.html">6. Gesell*</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Unit9-cumulative.html">7. Using the Empirical CDF and the Probability Integral Transform</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Unit9-cumulative2.html">8. Cumulative Example*</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Unit9-ssvs.html">9. Stochastic Search Variable Selection</a></li>
@@ -563,7 +564,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
 </div></div>
       
     </div>
@@ -579,6 +582,14 @@ document.write(`
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#laud-ibrahim-criteria">Laud-Ibrahim Criteria</a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -590,10 +601,21 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="model-fit-and-selection">
 <h1>3. Model Fit and Selection<a class="headerlink" href="#model-fit-and-selection" title="Permalink to this headline">#</a></h1>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>This page is a stub. I will try to update it over the semester with supplementary lecture notes—if you would like to request a certain page be finished first, please make an Ed Discussion post with your questions about the lecture.</p>
-</div>
+<section id="laud-ibrahim-criteria">
+<h2>Laud-Ibrahim Criteria<a class="headerlink" href="#laud-ibrahim-criteria" title="Permalink to this headline">#</a></h2>
+<p><a class="reference external" href="https://rss.onlinelibrary.wiley.com/doi/abs/10.1111/j.2517-6161.1995.tb02028.x">Laud-Ibrahim Criteria</a> is another model comparison tool.</p>
+<p>Consider <span class="math notranslate nohighlight">\(M\)</span> family of models, and <span class="math notranslate nohighlight">\(\theta^{(m)}\)</span> are the <span class="math notranslate nohighlight">\(m\)</span> model’s parameters. By Bayes theorem, the posterior of <span class="math notranslate nohighlight">\(\theta^{(m)}\)</span> is</p>
+<div class="math notranslate nohighlight">
+\[\pi(\theta^{(m)} | m, y) = \frac{f(y | \theta^{(m)},m) \pi(\theta^{(m)})}{\int f(y | \theta^{(m)},m) \pi(\theta^{(m)}) d \theta^{(m)}} \]</div>
+<p>The posterior predictive distribution <span class="math notranslate nohighlight">\(z|y,m\)</span> is</p>
+<div class="math notranslate nohighlight">
+\[ f(z|y,m) \sim \int f(z|\theta^{(m)},m) \pi(\theta^{(m)}|y,m)d\theta^{(m)}\]</div>
+<p>So for a fixed <span class="math notranslate nohighlight">\(m\)</span>, Laud-Ibrahim Criteria is</p>
+<div class="math notranslate nohighlight">
+\[L_m^2 = \text{E}(Z - y)'(Z-y) = \sum_{i=1}^n (\text{E} Z_i - y_i)^2 + \text{Var}(Z_i) \]</div>
+<p>where <span class="math notranslate nohighlight">\(Z \sim f(z|y,m)\)</span>.</p>
+<p><span class="math notranslate nohighlight">\(\text{L}_m = \sqrt{\text{L}_m^2} \)</span> is essentially a discrepancy measure, and is in the same units as the response <span class="math notranslate nohighlight">\(y\)</span>. The model that minimizes <span class="math notranslate nohighlight">\(\text{L}_m\)</span> is prefered. On the next page, we can see an example of comparing models with Laud-Ibrahim Criteria in <code class="docutils literal notranslate"><span class="pre">PyMC</span></code>.</p>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -654,6 +676,20 @@ document.write(`
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#laud-ibrahim-criteria">Laud-Ibrahim Criteria</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>

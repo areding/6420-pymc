@@ -65,6 +65,8 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'unit9/Unit9-ssvs';</script>
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -330,7 +332,6 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="Unit9-fitsel.html">3. Model Fit and Selection</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Unit9-hald.html">4. Hald*</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Unit9-cpo.html">5. Conditional Predictive Ordinate</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Unit9-gessell.html">6. Gesell*</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Unit9-cumulative.html">7. Using the Empirical CDF and the Probability Integral Transform</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Unit9-cumulative2.html">8. Cumulative Example*</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">9. Stochastic Search Variable Selection</a></li>
@@ -590,10 +591,15 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="stochastic-search-variable-selection">
 <h1>9. Stochastic Search Variable Selection<a class="headerlink" href="#stochastic-search-variable-selection" title="Permalink to this headline">#</a></h1>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>This page is a stub. I will try to update it over the semester with supplementary lecture notes—if you would like to request a certain page be finished first, please make an Ed Discussion post with your questions about the lecture.</p>
-</div>
+<p>SSVS is a variable selection technique for linear models and GLMs. Consider the linear equation for <span class="math notranslate nohighlight">\(\mu\)</span></p>
+<div class="math notranslate nohighlight">
+\[\begin{split} \begin{align*} \mu &amp; = \beta_0 + \beta_1 x_1 + ... + \beta_k x_k \\
+\beta_i &amp; = \delta_i \alpha_i \\
+\alpha_i &amp; \sim N(0,\tau) \\
+\delta_i &amp; \sim Bern(p_i)
+\end{align*} \end{split}\]</div>
+<p>where each <span class="math notranslate nohighlight">\(\beta_i\)</span> coefficient consists of a Normally-distributed <span class="math notranslate nohighlight">\(\alpha_i\)</span> multiplied by a <span class="math notranslate nohighlight">\(\delta_i\)</span> indicatator that is Bernoulli-distributed. If the indicator equals 1, then its <span class="math notranslate nohighlight">\(\beta_i\)</span> equals <span class="math notranslate nohighlight">\(\alpha_i\)</span>, otherwise the coefficient is zero and the variable is not selected.</p>
+<p>A posteriori, we can analyze the number of times each variable is selected in the MCMC samples, and then choose the model (combination of <span class="math notranslate nohighlight">\(\delta\)</span>’s) visited most.</p>
 </section>
 
     <script type="text/x-thebe-config">

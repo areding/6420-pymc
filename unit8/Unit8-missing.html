@@ -65,6 +65,8 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'unit8/Unit8-missing';</script>
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -330,7 +332,6 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-fitsel.html">3. Model Fit and Selection</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-hald.html">4. Hald*</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-cpo.html">5. Conditional Predictive Ordinate</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-gessell.html">6. Gesell*</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-cumulative.html">7. Using the Empirical CDF and the Probability Integral Transform</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-cumulative2.html">8. Cumulative Example*</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-ssvs.html">9. Stochastic Search Variable Selection</a></li>
@@ -563,7 +564,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
 </div></div>
       
     </div>
@@ -579,6 +582,16 @@ document.write(`
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#taxonomy-of-missing-data">Taxonomy of Missing Data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#multiple-imputations">Multiple imputations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pymc-implementation">PyMC Implementation</a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -590,10 +603,73 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="missing-data">
 <h1>1. Missing Data<a class="headerlink" href="#missing-data" title="Permalink to this headline">#</a></h1>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>This page is a stub. I will try to update it over the semester with supplementary lecture notes—if you would like to request a certain page be finished first, please make an Ed Discussion post with your questions about the lecture.</p>
+<section id="taxonomy-of-missing-data">
+<h2>Taxonomy of Missing Data<a class="headerlink" href="#taxonomy-of-missing-data" title="Permalink to this headline">#</a></h2>
+<ol class="arabic">
+<li><p>Missing comlpetely at random (MCAR)</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span> Missingness does not depend on observed or unobserved data.
+</pre></div>
 </div>
+</li>
+<li><p>Missing at random (MAR)</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span> Missingness depends only on observed data
+</pre></div>
+</div>
+</li>
+<li><p>Missing not at random (MNAR)</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span> Neither MCAR nor MAR hold, missingness may depend on the data that is missing, say the magnitute
+</pre></div>
+</div>
+</li>
+</ol>
+<p>MCAR and MAR are considered <em>ignorable</em> missingness, while MNAR is considered <em>non-ignorable</em>.</p>
+</section>
+<section id="multiple-imputations">
+<h2>Multiple imputations<a class="headerlink" href="#multiple-imputations" title="Permalink to this headline">#</a></h2>
+<p>Single imputations of missing values are not preferred because they do not estimate the error correctly or account for the uncertainty in imputed data. Multiple imputations is a method developed by <a class="reference external" href="https://pubmed.ncbi.nlm.nih.gov/2057657/">Rubin</a>.</p>
+<p>The actual posterior distribution of <span class="math notranslate nohighlight">\(\theta\)</span> is:</p>
+<div class="math notranslate nohighlight">
+\[\text{P}(\theta | Y_{obs}) = \int \text{P}(\theta | Y_{obs},Y_{mis})\text{P}(Y_{mis},Y_{obs})d Y_{mis}\]</div>
+<p>i.e. (actual posterior distribution of <span class="math notranslate nohighlight">\(\theta\)</span>) = AVE(complete posterior distribution of <span class="math notranslate nohighlight">\(\theta\)</span>)</p>
+<p>Posterior mean of <span class="math notranslate nohighlight">\(\theta\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[\text{E}(\theta | Y_{obs}) = \text{E}(\text{E}(\theta | Y_{obs}, Y_{mis})|Y_{obs})\]</div>
+<p>i.e. (posterior mean of <span class="math notranslate nohighlight">\(\theta\)</span>) = AVE(repeated complete data posterior means of <span class="math notranslate nohighlight">\(\theta\)</span>)</p>
+<p>Posterior variance is:</p>
+<div class="math notranslate nohighlight">
+\[\text{Var}(\theta | Y_{obs}) = \text{E}(\text{Var}(\theta | Y_{obs}, Y_{mis})|Y_{obs}) + \text{Var}(\text{E}(\theta | Y_{obs}, Y_{mis})|Y_{obs})\]</div>
+<p>i.e. (posterior variance of <span class="math notranslate nohighlight">\(\theta\)</span>) = AVE(repeated complete data variances of <span class="math notranslate nohighlight">\(\theta\)</span>) + Var(repeated complete data posterior eans of <span class="math notranslate nohighlight">\(\theta\)</span>)</p>
+</section>
+<section id="pymc-implementation">
+<h2>PyMC Implementation<a class="headerlink" href="#pymc-implementation" title="Permalink to this headline">#</a></h2>
+<p>Luckily, <code class="docutils literal notranslate"><span class="pre">PyMC</span></code> automatically takes care of imputations for missing observed (or ‘y’) values, when they are encoded is NaN. PyMC provides samples for each missing value, from which we can calculate stats like mean, variance, and HDI.</p>
+<p>The next page has examples of ignorable missingness (Models 1 and 2), followed by Model 3 with non-ignoarable missingness.</p>
+<ul class="simple">
+<li><p>Model 1: Imputing observed (or y/response) values</p></li>
+<li><p>Model 2: Imputing predictors (or x) values</p></li>
+<li><p>Model 3: y is missing depending on size</p></li>
+</ul>
+<p>To lay the groundwork, this is a linear regression model with slope and intercept (<span class="math notranslate nohighlight">\(\alpha\)</span> and <span class="math notranslate nohighlight">\(\beta\)</span>) coefficients for each subject in the experiment.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{align*}
+y_{i,j} &amp; = \alpha_j + \beta_j x_{i} + \epsilon_i, \space \space i = 1 , ... , n, \space \space j = 1 , ... , m \\
+\epsilon_i &amp; \overset{iid}{\sim} N (0,\sigma^2) \\
+\alpha_j &amp; \sim N (\alpha_c,1/\alpha_\tau) \\
+\alpha_c &amp; \sim N (0,1/1e^{-4}) \\
+\alpha_\tau &amp; \sim Gamma (0.001,.001) \\
+\beta_j &amp; \sim N (\beta_c,1/\beta_\tau) \\
+\beta_c &amp; \sim N (0,1/1e^{-4}) \\
+\beta_\tau &amp; \sim Gamma (0.001,.001) \\
+\end{align*} \end{split}\]</div>
+<p>In Model 2, we need to provide a a prior distribution for the missing x’s, which is <span class="math notranslate nohighlight">\(N (20,5^2)\)</span>. In Model 3, the probability of missingness depends on size, specified by:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{align*}
+\text{miss}[i] &amp; \sim Bern(p[i])  \\
+p[i] &amp; = invlogit \left ( a + b \times y[i] \right ) \\
+a &amp; \sim Logistic(0,s=10) \\
+b &amp; = \log(1.01) \\
+\end{align*} \end{split}\]</div>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -654,6 +730,22 @@ document.write(`
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#taxonomy-of-missing-data">Taxonomy of Missing Data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#multiple-imputations">Multiple imputations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pymc-implementation">PyMC Implementation</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>

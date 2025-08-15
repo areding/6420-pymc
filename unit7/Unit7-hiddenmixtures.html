@@ -332,7 +332,6 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-fitsel.html">3. Model Fit and Selection</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-hald.html">4. Hald*</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-cpo.html">5. Conditional Predictive Ordinate</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-gessell.html">6. Gesell*</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-cumulative.html">7. Using the Empirical CDF and the Probability Integral Transform</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-cumulative2.html">8. Cumulative Example*</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-ssvs.html">9. Stochastic Search Variable Selection</a></li>
@@ -588,6 +587,7 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mixture-distributions-scale-mixtures">Mixture Distributions / Scale Mixtures:</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#student-t-likelihood-with-normal-prior-vs-normal-likelihood-with-gamma-prior">Student T likelihood with Normal prior vs Normal likelihood with Gamma prior</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#jeremys-iq-normal-prior-as-a-scale-mixture-of-uniforms">Jeremy’s IQ - Normal prior as a scale mixture of uniforms</a></li>
 </ul>
@@ -603,16 +603,51 @@ document.write(`
                   
   <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pymc</span> <span class="k">as</span> <span class="nn">pm</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">arviz</span> <span class="k">as</span> <span class="nn">az</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pymc</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pm</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">arviz</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">az</span>
 </pre></div>
 </div>
 </div>
 </div>
 <section class="tex2jax_ignore mathjax_ignore" id="priors-as-hidden-mixtures">
 <h1>4. Priors as Hidden Mixtures*<a class="headerlink" href="#priors-as-hidden-mixtures" title="Permalink to this headline">#</a></h1>
+<section id="mixture-distributions-scale-mixtures">
+<h2>Mixture Distributions / Scale Mixtures:<a class="headerlink" href="#mixture-distributions-scale-mixtures" title="Permalink to this headline">#</a></h2>
+<p>A mixture distribution is a probability distribution that is constructed as a weighted combination of two or more other probability distributions.  Weights can be deterministic or random.  For example, if a distribution is parameterized by a location and scale parameter, then the following procedure creates a new distribution called a <em>scale mixture</em>:</p>
+<ul class="simple">
+<li><p>Fix the location parameter to a constant</p></li>
+<li><p>Vary the scale parameter according to another distribution</p></li>
+</ul>
+<p>This idea alone is not inherently Bayesian, but does leverage the hierarchical structure that we’ve talked about.  You might be surprised to know that some of the most important distributions you’ve encountered in frequentist courses can be constructed the same way.</p>
+<p>Consider <span class="math notranslate nohighlight">\(X\sim \mathcal{N}(0,\sigma^{2})\)</span> If instead of explicitly defining <span class="math notranslate nohighlight">\(\sigma^{2}\)</span>, we decide to draw it from an <span class="math notranslate nohighlight">\(\text{Inverse Gamma}(\frac{\nu}{2} , \frac{\nu}{2})\)</span> distribution, where <span class="math notranslate nohighlight">\(\nu\)</span> is  some <em>fixed</em> positive real value:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+X&amp;\sim \mathcal{N}(0,\sigma^{2})\\
+\sigma^{2} &amp;\sim \text{InvGamma}(\frac{\nu}{2} , \frac{\nu}{2})
+\end{align*}
+\end{split}\]</div>
+<p>We can apply <a class="reference external" href="https://en.wikipedia.org/wiki/Mixture_distribution/#Uncountable_mixtures">The definition of Mixture Distribution from Wikipedia</a> (<em>See “Uncountable mixtures” heading</em>) to derive the resulting density function:</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+p(x) &amp;= \int_0^\infty \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left( -\frac{x^2}{2\sigma^2} \right)
+    \cdot \frac{(\nu/2)^{\nu/2}}{\Gamma(\nu/2)} (\sigma^2)^{-\nu/2-1} \exp\left( -\frac{\nu/2}{\sigma^2} \right) d\sigma^2 \\[2em]
+&amp;= \frac{(\nu/2)^{\nu/2}}{\Gamma(\nu/2)\sqrt{2\pi}}
+    \int_0^\infty (\sigma^2)^{-\frac{1}{2}-\frac{\nu}{2}-1} \exp\left( -\frac{x^2+\nu}{2\sigma^2} \right) d\sigma^2 \\[2em]
+&amp;= \frac{(\nu/2)^{\nu/2}}{\Gamma(\nu/2)\sqrt{2\pi}}
+    \int_0^\infty (\sigma^2)^{-\frac{\nu+1}{2}-1} \exp\left( -\frac{x^2+\nu}{2\sigma^2} \right) d\sigma^2\\
+
+&amp;= \frac{(\nu/2)^{\nu/2}}{\Gamma(\nu/2)\sqrt{2\pi}}
+    \int_0^\infty s^{\frac{\nu+1}{2}-1} \exp\left( -\frac{x^2+\nu}{2} s \right) ds\\
+&amp;= \frac{(\nu/2)^{\nu/2}}{\Gamma(\nu/2)\sqrt{2\pi}}
+    \cdot \frac{\Gamma\left( \frac{\nu+1}{2} \right)}{\left( \frac{x^2+\nu}{2} \right)^{(\nu+1)/2}}\\
+&amp;= \frac{\Gamma\left( \frac{\nu+1}{2} \right)}
+         {\Gamma(\nu/2)\sqrt{\nu\pi} }\left(1+\frac{x^2}{\nu}\right)^{-(\nu+1)/2}
+\end{align*}\]</div>
+<p>which shows that <span class="math notranslate nohighlight">\(X\)</span> has a Student’s <span class="math notranslate nohighlight">\(t\)</span>-Distribution with <span class="math notranslate nohighlight">\(\nu\)</span> degrees of freedom.  Notice that we never observe <span class="math notranslate nohighlight">\(\sigma^{2}\)</span>: we integrate it out.  This is the hallmark of a <strong>hidden mixture</strong>: when the mixture component (here, <span class="math notranslate nohighlight">\(\sigma^{2}\)</span>) is <em>latent</em>.</p>
 <p>Adapted from <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/original_examples/Codes4Unit7/tasmixture.odc">Unit 7: tasmixture.odc</a> and <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/original_examples/Codes4Unit7/Jeremymus.odc">Jeremymus.odc</a></p>
+</section>
 <section id="student-t-likelihood-with-normal-prior-vs-normal-likelihood-with-gamma-prior">
 <h2>Student T likelihood with Normal prior vs Normal likelihood with Gamma prior<a class="headerlink" href="#student-t-likelihood-with-normal-prior-vs-normal-likelihood-with-gamma-prior" title="Permalink to this headline">#</a></h2>
 <p>This example demonstrates the equivalence of a couple methods. Variable names from original problem are retained right now, but they are kind of a mess. Will fix later.</p>
@@ -635,7 +670,7 @@ document.write(`
     <span class="n">mu2</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;mu2&quot;</span><span class="p">,</span> <span class="n">mu0</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="n">prec</span><span class="p">)</span>
     <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;Y&quot;</span><span class="p">,</span> <span class="n">mu2</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="n">tau1</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
 
-    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">3000</span><span class="p">)</span>
+    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">30000</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -645,115 +680,17 @@ document.write(`
 <span class="expanded">Hide code cell output</span>
 </summary>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Auto-assigning NUTS sampler...
-Initializing NUTS using jitter+adapt_diag...
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Initializing NUTS using jitter+adapt_diag...
 Multiprocess sampling (4 chains in 4 jobs)
 NUTS: [mu1, prec, mu2]
 </pre></div>
 </div>
-<div class="output text_html">
-<style>
-    /* Turns off some styling */
-    progress {
-        /* gets rid of default border in Firefox and Opera. */
-        border: none;
-        /* Needs to be in here for Safari polyfill so background images work as expected. */
-        background-size: auto;
-    }
-    progress:not([value]), progress:not([value])::-webkit-progress-bar {
-        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
-    }
-    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
-        background: #F44336;
-    }
-</style>
-</div><div class="output text_html">
-    <div>
-      <progress value='16000' class='' max='16000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-      100.00% [16000/16000 00:01&lt;00:00 Sampling 4 chains, 0 divergences]
-    </div>
-    </div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 3_000 draw iterations (4_000 + 12_000 draws total) took 1 seconds.
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "10c29da178524dd4b01a1a2d4be85814", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 30_000 draw iterations (4_000 + 120_000 draws total) took 6 seconds.
 </pre></div>
 </div>
 </div>
 </details>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>mean</th>
-      <th>sd</th>
-      <th>hdi_3%</th>
-      <th>hdi_97%</th>
-      <th>mcse_mean</th>
-      <th>mcse_sd</th>
-      <th>ess_bulk</th>
-      <th>ess_tail</th>
-      <th>r_hat</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>mu1</th>
-      <td>9.824</td>
-      <td>0.322</td>
-      <td>9.204</td>
-      <td>10.408</td>
-      <td>0.003</td>
-      <td>0.002</td>
-      <td>15555.0</td>
-      <td>9439.0</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>mu2</th>
-      <td>9.909</td>
-      <td>0.318</td>
-      <td>9.312</td>
-      <td>10.502</td>
-      <td>0.003</td>
-      <td>0.002</td>
-      <td>12622.0</td>
-      <td>9347.0</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>prec</th>
-      <td>0.233</td>
-      <td>0.126</td>
-      <td>0.036</td>
-      <td>0.460</td>
-      <td>0.001</td>
-      <td>0.001</td>
-      <td>14735.0</td>
-      <td>8701.0</td>
-      <td>1.0</td>
-    </tr>
-  </tbody>
-</table>
-</div></div></div>
 </div>
 </section>
 <section id="jeremys-iq-normal-prior-as-a-scale-mixture-of-uniforms">
@@ -1013,6 +950,7 @@ arviz: 0.14.0
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mixture-distributions-scale-mixtures">Mixture Distributions / Scale Mixtures:</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#student-t-likelihood-with-normal-prior-vs-normal-likelihood-with-gamma-prior">Student T likelihood with Normal prior vs Normal likelihood with Gamma prior</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#jeremys-iq-normal-prior-as-a-scale-mixture-of-uniforms">Jeremy’s IQ - Normal prior as a scale mixture of uniforms</a></li>
 </ul>

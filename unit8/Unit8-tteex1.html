@@ -65,6 +65,8 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'unit8/Unit8-tteex1';</script>
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -330,7 +332,6 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-fitsel.html">3. Model Fit and Selection</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-hald.html">4. Hald*</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-cpo.html">5. Conditional Predictive Ordinate</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-gessell.html">6. Gesell*</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-cumulative.html">7. Using the Empirical CDF and the Probability Integral Transform</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-cumulative2.html">8. Cumulative Example*</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-ssvs.html">9. Stochastic Search Variable Selection</a></li>
@@ -590,10 +591,37 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="time-to-event-models-example-1">
 <h1>4. Time-to-event Models: Example 1<a class="headerlink" href="#time-to-event-models-example-1" title="Permalink to this headline">#</a></h1>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>This page is a stub. I will try to update it over the semester with supplementary lecture notes—if you would like to request a certain page be finished first, please make an Ed Discussion post with your questions about the lecture.</p>
-</div>
+<p>Consider an exponential survival model:</p>
+<div class="math notranslate nohighlight">
+\[Y_1, Y_2, ... Y_n \sim Exp (\lambda) \]</div>
+<p>Let <span class="math notranslate nohighlight">\(\delta_i\)</span> be an indicator to represent censored points. There are <span class="math notranslate nohighlight">\(k\)</span> uncensored points, and <span class="math notranslate nohighlight">\(n-k\)</span> censored points</p>
+<div class="math notranslate nohighlight">
+\[\begin{split} \begin{align*} \delta_i &amp; = 0, \space \space i = 1, ... , k \\
+\delta_i &amp; = 1, \space \space i = k + 1, ... , n \\
+\end{align*} \end{split}\]</div>
+<p>What is the (frequentist) estimator of <span class="math notranslate nohighlight">\(\lambda\)</span>? If all data points were observed, the MLE of <span class="math notranslate nohighlight">\(\lambda\)</span> would be</p>
+<div class="math notranslate nohighlight">
+\[\frac{n}{\sum_{i=1}^n Y_i} = \frac{1}{\bar{Y}} \]</div>
+<p>Should we ignore censored points? The estimator would be</p>
+<div class="math notranslate nohighlight">
+\[\hat{\lambda} = \frac{k}{\sum_{i=1}^k Y_i}\]</div>
+<p>which is wrong because it is biased to the non-censored data. So, should we consider censored points as observed?</p>
+<div class="math notranslate nohighlight">
+\[\hat{\lambda} = \frac{n}{\sum_{i=1}^n Y_i} = \frac{1}{\bar{Y}}\]</div>
+<p>This is also incorrect, because the censored values are likely larger than what was observed.</p>
+<p>Now let’s consider the likelihood as</p>
+<div class="math notranslate nohighlight">
+\[ L (y_1,...,y_n | \lambda) = \lambda^k e^{-(\lambda \sum_{i=1}^{n} Y_i)}\]</div>
+<p>We arrive at this likelihood by taking into account both censored and uncensored points. The non-censored points follow an exponential PDF, while the censored points have probability of the exponential’s complementary CDF.</p>
+<div class="math notranslate nohighlight">
+\[ \begin{align*}
+L (y_1,...,y_n | \lambda) &amp; = \prod_{i=1}^k\lambda e^{-\lambda y_{i}}\times \prod_{i=k+1}^n e^{-\lambda y_i}
+\end{align*}
+\]</div>
+<p>The MLE of <span class="math notranslate nohighlight">\(\lambda\)</span> is</p>
+<div class="math notranslate nohighlight">
+\[\hat{\lambda} = \frac{k}{\sum_{i=1}^n Y_i} = \frac{k}{n \bar{Y}}\]</div>
+<p>which is correct!</p>
 </section>
 
     <script type="text/x-thebe-config">

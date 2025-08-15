@@ -65,6 +65,8 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'unit8/Unit8-tteex2';</script>
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -330,7 +332,6 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-fitsel.html">3. Model Fit and Selection</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-hald.html">4. Hald*</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-cpo.html">5. Conditional Predictive Ordinate</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-gessell.html">6. Gesell*</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-cumulative.html">7. Using the Empirical CDF and the Probability Integral Transform</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-cumulative2.html">8. Cumulative Example*</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-ssvs.html">9. Stochastic Search Variable Selection</a></li>
@@ -563,7 +564,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
 </div></div>
       
     </div>
@@ -579,6 +582,14 @@ document.write(`
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pymc-implementation"><code class="docutils literal notranslate"><span class="pre">PyMC</span></code> implementation</a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -590,18 +601,53 @@ document.write(`
                   
   <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">arviz</span> <span class="k">as</span> <span class="nn">az</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">pymc</span> <span class="k">as</span> <span class="nn">pm</span>
-<span class="kn">from</span> <span class="nn">pymc.math</span> <span class="kn">import</span> <span class="n">exp</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">arviz</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">az</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pymc</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pm</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pymc.math</span><span class="w"> </span><span class="kn">import</span> <span class="n">exp</span>
 </pre></div>
 </div>
 </div>
 </div>
 <section class="tex2jax_ignore mathjax_ignore" id="time-to-event-models-example-2">
 <h1>5. Time-to-event Models: Example 2*<a class="headerlink" href="#time-to-event-models-example-2" title="Permalink to this headline">#</a></h1>
+<p>Consider the model</p>
+<div class="math notranslate nohighlight">
+\[\begin{split} \begin{align*} 
+Y_i &amp; \sim Wei(\nu,\lambda) \\
+\nu &amp; = \frac{3}{2} \\
+\lambda &amp; \sim Ga(2,3) \\
+\end{align*}\end{split}\]</div>
+<p>with data</p>
+<div class="math notranslate nohighlight">
+\[ Y_1 = 2, Y_2 = 3, Y_3 = 1^*, Y_4 = \frac{5}{2}, Y_5 = 3^*\]</div>
+<p>where *’s represent censored points. The goal is to estimate the parameter <span class="math notranslate nohighlight">\(\lambda\)</span> in Bayesian fashion. The likelihood is the Weibull PDF and Survival function for non-censored and censored points, respectively</p>
+<div class="math notranslate nohighlight">
+\[\begin{split} \begin{align*}
+L(\lambda | \nu, y_1, ...,y_n) &amp; = \prod_{i=1}^k \nu \lambda y_i ^ {\nu-1} e^{-\lambda y_{i} ^\nu}\times \prod_{i=k+1}^n e^{-\lambda y_i ^nu} \\
+&amp; = \nu^k \lambda^k \left ( \prod_{i=1}^k y_i\right )^{\nu-1} e^{-\lambda \sum_{i=1}^n y_i^\nu}
+\end{align*}
+\end{split}\]</div>
+<p>We can elimate constants, and see that the likelihood is proportional to</p>
+<div class="math notranslate nohighlight">
+\[ L(\lambda | \nu, y_1, ...,y_n) \propto \lambda^k e^{-\lambda \sum_{i=1}^n y_i^\nu} \]</div>
+<p>Prior of <span class="math notranslate nohighlight">\(\lambda\)</span> is specified as <span class="math notranslate nohighlight">\(Ga(\alpha,\beta)\)</span>, which is also simplified</p>
+<div class="math notranslate nohighlight">
+\[ \pi(\lambda | \alpha, \beta) \propto \lambda^{\alpha-1} e^{-\beta \lambda}\]</div>
+<p>With the joint likelihood and prior, we can find the posterior distribution</p>
+<div class="math notranslate nohighlight">
+\[\pi(\lambda | \nu, y_1,...,y_n,\alpha,\beta) \propto \lambda^{k+\alpha-1} e^{-\lambda (\beta + \sum_{i=1}^n y_i^\nu)}\]</div>
+<p>And by substituting in the known values, we arrive at</p>
+<div class="math notranslate nohighlight">
+\[\pi(\lambda | \nu, y_1,...,y_n,\alpha,\beta) \propto Ga(3 + 2, 18.1736 +3)\]</div>
+<p>The estimator <span class="math notranslate nohighlight">\(\hat{\lambda}_{bayes}\)</span> is the mean of this Gamma distribution</p>
+<div class="math notranslate nohighlight">
+\[ \hat{\lambda}_{bayes} = \frac{5}{21.1736} = 0.2361\]</div>
+<section id="pymc-implementation">
+<h2><code class="docutils literal notranslate"><span class="pre">PyMC</span></code> implementation<a class="headerlink" href="#pymc-implementation" title="Permalink to this headline">#</a></h2>
+<p>Now, let’s use PyMC to find the <span class="math notranslate nohighlight">\( \hat{\lambda}_{bayes} \)</span>. Note, we are converting between Weibull parameterizations to be compatible with the courses historical solution in WINBUGS.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">censored</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
@@ -730,6 +776,7 @@ arviz     : 0.14.0
 </div>
 </div>
 </section>
+</section>
 
     <script type="text/x-thebe-config">
     {
@@ -789,6 +836,20 @@ arviz     : 0.14.0
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pymc-implementation"><code class="docutils literal notranslate"><span class="pre">PyMC</span></code> implementation</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>

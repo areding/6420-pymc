@@ -332,7 +332,6 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-fitsel.html">3. Model Fit and Selection</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-hald.html">4. Hald*</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-cpo.html">5. Conditional Predictive Ordinate</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-gessell.html">6. Gesell*</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-cumulative.html">7. Using the Empirical CDF and the Probability Integral Transform</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-cumulative2.html">8. Cumulative Example*</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../unit9/Unit9-ssvs.html">9. Stochastic Search Variable Selection</a></li>
@@ -605,26 +604,44 @@ document.write(`
 <h1>6. Analysis of Variance<a class="headerlink" href="#analysis-of-variance" title="Permalink to this headline">#</a></h1>
 <section id="one-way-anova">
 <h2>One-Way ANOVA<a class="headerlink" href="#one-way-anova" title="Permalink to this headline">#</a></h2>
-<p>In an ANOVA model, we are trying to discern whether the means of multiple treatment groups are equivalent or different. The null hypothesis is that the mean of all treatment groups are equal:</p>
+<p>In an ANOVA model, we are trying to discern whether the means of <span class="math notranslate nohighlight">\(G\)</span> different treatment groups are equivalent or different. The null hypothesis is that the mean of all treatment groups are equal:</p>
 <div class="math notranslate nohighlight">
-\[\begin{split}\begin{align*}
-H_0 &amp; : \mu_1 = \mu_2 = ... = \mu_a \\
-H_1 &amp; : \text{one or more groups have a different } \mu
-\end{align*}\end{split}\]</div>
+\[\begin{split}
+\begin{align*}
+H_0 &amp;: \mu_1 = \mu_2 = \cdots = \mu_G \\
+H_1 &amp;: \text{At least one group mean $\mu_{i}$ is different}\\
+ &amp;\phantom{:}\text{from the others}
+\end{align*}
+\end{split}\]</div>
 <p>The ANOVA model is defined as</p>
 <div class="math notranslate nohighlight">
-\[\begin{split}\begin{align*}
+\[\begin{split}
+\begin{align*}
 y_{ij} &amp; \sim N(\mu_i, \sigma^2) \\
-\mu_i &amp; = \mu + a_i, \space i = 1,...,a \space ; j = 1,...,n_i
-\end{align*}\end{split}\]</div>
-<p>where <span class="math notranslate nohighlight">\(i\)</span> represents the treatment group and <span class="math notranslate nohighlight">\(j\)</span> is the sample number. Variance <span class="math notranslate nohighlight">\(\sigma^2\)</span> is assumed to be common among all groups. <span class="math notranslate nohighlight">\(\mu\)</span> is the grand mean of all the data, and <span class="math notranslate nohighlight">\(a_i\)</span> is the treatment effect of the <span class="math notranslate nohighlight">\(i\)</span>th group. Now we can re-define the null hypothesis as:</p>
+\mu_i &amp; = \mu + a_i, \space i = 1,\cdots, G \space ; j = 1, \cdots 
+,n_i\\
+&amp;\phantom{=} \text{s.t. }\sum a_{i} = 0\phantom{\_}(see\phantom{\_}below)
+\end{align*}
+\end{split}\]</div>
+<p>Here, <span class="math notranslate nohighlight">\(i\)</span> enumerates the treatment groups, <span class="math notranslate nohighlight">\(j\)</span> enumerates the sample points, <span class="math notranslate nohighlight">\(\mu\)</span> is the overall mean (grand mean), and <span class="math notranslate nohighlight">\(a_{i}\)</span> represents the <span class="math notranslate nohighlight">\(i\)</span>-th treatment’s deviation from the grand mean (treatment effect size).  Notice the implication of the hierarchical structure introduced earlier in Unit 7.</p>
+<p>Since under the null hypothesis, the group means are equal to the grand mean:</p>
 <div class="math notranslate nohighlight">
-\[\begin{split}\begin{align*}
-H_0 &amp; : a_1 = a_2 = ... = a_a \\
-\end{align*}\end{split}\]</div>
-<p>which basically is interpreted as the difference in treatment groups is equal to zero. In the model, we will need to use one of 2 constraints to have an acceptable degrees of freedom. In the sum-to-zero (STZ) constraint, the sum of <span class="math notranslate nohighlight">\(a\)</span>’s are equal to zero. Or, we can set one of the <span class="math notranslate nohighlight">\(a\)</span>’s, say <span class="math notranslate nohighlight">\(a_1\)</span>, to zero.</p>
-<p>In classical statistics, an ANOVA table is built and an F-test is used to determine if <span class="math notranslate nohighlight">\(H_0\)</span> is rejected. In the case where <span class="math notranslate nohighlight">\(H_0\)</span> is rejected, we then would need to make additional models for each comparison of treatment groups to further analyze treatment effects.</p>
-<p>The Bayesian approach to ANOVA is to set priors on <span class="math notranslate nohighlight">\(\mu\)</span>, <span class="math notranslate nohighlight">\(a_1,a_2,...,a_a\)</span>, and <span class="math notranslate nohighlight">\(\sigma^2\)</span>. The Bayesian model is constructed as:</p>
+\[\begin{split}
+\begin{align*}
+\mu_i &amp; = \mu + a_i\\
+\mu_{i} - \mu &amp;= a_{i}\\
+a_{i} &amp;= 0 \text{ ; }\forall i\\
+\end{align*}
+\end{split}\]</div>
+<p>Observe we could also write our null hypothesis as:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+H_0 &amp; : a_1 = a_2 = \cdots =a_{G} = 0 \\
+\end{align*}
+\end{split}\]</div>
+<p>In classical statistics, an ANOVA table is built and an <span class="math notranslate nohighlight">\(F\)</span>-test is used to determine if <span class="math notranslate nohighlight">\(H_0\)</span> is rejected.  Note that the rejection of <span class="math notranslate nohighlight">\(H_{0}\)</span> only implies that presence of a difference was detected.  Additional methods are required to identify which group means are significantly different from each other.</p>
+<p>The Bayesian approach to ANOVA is to set priors on <span class="math notranslate nohighlight">\(\mu\)</span>, <span class="math notranslate nohighlight">\(a_1,a_2,...,a_G\)</span>, and <span class="math notranslate nohighlight">\(\sigma^2\)</span>. The Bayesian model is constructed as:</p>
 <div class="math notranslate nohighlight">
 \[\begin{split} 
 \begin{align*}
@@ -638,10 +655,53 @@ a_i &amp; \sim  N(0,\sigma_i^2) &amp;&amp; \text{prior: } a_i\\
 \end{align*}
 \end{split}\]</div>
 <p>Here <span class="math notranslate nohighlight">\(\sigma_0^2\)</span> and <span class="math notranslate nohighlight">\(\sigma_i^2\)</span> are representing prior variances of the grand mean and treatment groups, respectively. Non-informative variances might be something like <span class="math notranslate nohighlight">\(\sigma_0^2 = 1000\)</span>. To assess <span class="math notranslate nohighlight">\(H_0\)</span>, we will look at the posterior distributions of the <span class="math notranslate nohighlight">\(a_i\)</span>’s to see if they are significantly different than zero. If we want to compare treatment groups, we can calculate their difference in the Bayesian model, and then look at the posterior distribution of the difference to see if it’s significantly different than zero.</p>
+<p>This is another example of how Bayesian modeling allows for direct specification and interpretation of hypotheses in the “same world that the data live in”.  Other methods for Bayesian model evaluation exist, and you will be exposed to a few throughout the remainder of the course.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Suppose instead that we specified only:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+y_{ij} &amp; \sim N(\mu_i, \sigma^2) \\
+\mu_i &amp; = \mu + a_i, \space i = 1,...,a \space ; j = 1,...,n_i
+\end{align*}
+\end{split}\]</div>
+<p>The joint log-likelihood would be:</p>
+<div class="math notranslate nohighlight">
+\[
+\log \mathcal{L}(\mathbf{y} \mid \mu, \mathbf{a}, \sigma^2)
+= -\frac{1}{2\sigma^2} \sum_{i=1}^{G} \sum_{j=1}^{n_i} (y_{ij} - \mu - a_i)^2
+\]</div>
+<p>Now consider a shifted parameterization:</p>
+<div class="math notranslate nohighlight">
+\[
+\mu' = \mu + c, \quad a_i' = a_i - c
+\]</div>
+<p>The new joint likelihood is:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+\log \mathcal{L}(\mathbf{y} \mid \mu', \mathbf{a}', \sigma^2)
+&amp;= -\frac{1}{2\sigma^2} \sum_{i=1}^{G} \sum_{j=1}^{n_i} (y_{ij} - (\mu + c) - (a_i - c))^2\\
+&amp;= -\frac{1}{2\sigma^2} \sum_{i=1}^{G} \sum_{j=1}^{n_i} (y_{ij} - \mu - a_i)^2\\
+&amp;= \log \mathcal{L}(\mathbf{y} \mid \mu, \mathbf{a}, \sigma^2)
+\end{align*}
+\end{split}\]</div>
+<p>…the same as the first joint log likelihood.  This is problematic.  Without constraints on <span class="math notranslate nohighlight">\(\mathbf{a}\)</span>, there exist infinitely many combinations of <span class="math notranslate nohighlight">\((\mu' , \mathbf{a}')\)</span> that yield the same likelihood value.  When this happens, the model is said to be <strong>non-identifiable</strong> or <strong>unidentifiable</strong>.  You can learn more about the concept of identifiability in statistics <a href="https://en.wikipedia.org/wiki/Identifiability" target="_blank" rel="noopener noreferrer">here</a>.</p>
+<p>In the frequentist paradigm this results in a non-unique maximum likelihood estimate (MLE).  In the Bayesian paradigm, the posterior may, under circumstances, become non-integrable.  In both cases, computational methods such as optimization or MCMC sampling may fail to converge, resulting in unreliable parameter estimates.</p>
+<p>If, in your assignments or projects you define a Bayesian ANOVA but convergence fails, check to make sure you have specified your model in a way that is identifiable.</p>
+<p>Recall that in any mean-centered sample, the signed deviations from the mean sum to zero.  In a similar manner, imposing the sum to zero (STZ) constraint on <span class="math notranslate nohighlight">\(\mathbf{a}\)</span> ensures a unique solution and preserves the interpretability of each <span class="math notranslate nohighlight">\(a_{i}\)</span> as a centered deviation from the grand mean.  In fact, subtracting the mean of <span class="math notranslate nohighlight">\(\mathbf{a}\)</span> at each sampling iteration ensures that <span class="math notranslate nohighlight">\(\sum_i a_i = 0\)</span>, satisfying the STZ constraint.  Some examples of how to do this in PyMC are provided in future lessons.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Notice that in the frequentist formulation, there is no <span class="math notranslate nohighlight">\(\sigma_i^2\)</span> , <span class="math notranslate nohighlight">\(\sigma_j^2\)</span>, or <span class="math notranslate nohighlight">\(\sigma_{ij}^2\)</span>. This is deliberate: frequentist ANOVA assumes <strong>homoscedasticity</strong>, meaning constant variance across all groups. If this assumption is violated—especially when sample sizes differ—it can lead to increased risk of Type I or Type II errors.</p>
+<p>In the Bayesian framework, we may place separate priors on each <span class="math notranslate nohighlight">\(\sigma_i^2\)</span>, allowing us to relax the homoscedasticity assumption when appropriate. However, because the choice of priors on variance components can affect both model behavior and interpretation, homoscedasticity is often retained by choice, even though it is not strictly required.</p>
+</div>
 </section>
 <section id="authors">
 <h2>Authors<a class="headerlink" href="#authors" title="Permalink to this headline">#</a></h2>
 <p>Jason Naramore, August 2024.</p>
+<p>Rob Bennett, June 2025.</p>
 </section>
 </section>
 

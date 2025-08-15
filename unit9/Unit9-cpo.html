@@ -65,11 +65,13 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'unit9/Unit9-cpo';</script>
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="6. Gesell*" href="Unit9-gessell.html" />
+    <link rel="next" title="7. Using the Empirical CDF and the Probability Integral Transform" href="Unit9-cumulative.html" />
     <link rel="prev" title="4. Hald*" href="Unit9-hald.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -330,7 +332,6 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="Unit9-fitsel.html">3. Model Fit and Selection</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Unit9-hald.html">4. Hald*</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">5. Conditional Predictive Ordinate</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Unit9-gessell.html">6. Gesell*</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Unit9-cumulative.html">7. Using the Empirical CDF and the Probability Integral Transform</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Unit9-cumulative2.html">8. Cumulative Example*</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Unit9-ssvs.html">9. Stochastic Search Variable Selection</a></li>
@@ -563,7 +564,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
 </div></div>
       
     </div>
@@ -579,6 +582,14 @@ document.write(`
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#authors">Authors</a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -590,10 +601,103 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="conditional-predictive-ordinate">
 <h1>5. Conditional Predictive Ordinate<a class="headerlink" href="#conditional-predictive-ordinate" title="Permalink to this headline">#</a></h1>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>This page is a stub. I will try to update it over the semester with supplementary lecture notes—if you would like to request a certain page be finished first, please make an Ed Discussion post with your questions about the lecture.</p>
-</div>
+<p>From lecture, we  learned that the CPO can be defined as:</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{equation*}
+\text{CPO}_{i} = f(y_{i}\vert y_{-i})
+=\int_{\Theta}f(y_{i}\vert \theta)\pi(\theta \vert y_{-i})d\theta
+\end{equation*}\]</div>
+<p>Where <span class="math notranslate nohighlight">\(y_{-i}\)</span> denotes all of the data <strong>exclusive of the <span class="math notranslate nohighlight">\(i\)</span>-th observation</strong> .  Here, we will derive the formula for CPO (somewhat rigorously) and allude to how it is well-calculated from an appropriate number of posterior samples (less rigorously).</p>
+<p>Starting with Bayes’ Theorem, and noting that the likelihood term <span class="math notranslate nohighlight">\(p(y\vert \theta)\)</span> factorizes into <span class="math notranslate nohighlight">\(p(y_{i}\vert \theta)\cdot p(y_{-i}\vert \theta)\)</span></p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{equation*}
+p(\theta \vert y) = \frac{p(y\vert \theta) p(\theta)}{p(y)}
+= \frac{p(y_{i}\vert \theta)p(y_{-i}\vert \theta)p(\theta)}{p(y)}
+\end{equation*}\]</div>
+<p>Which gives us:</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{equation*}
+p(y_{-i}\vert \theta) = \frac{p(y)p(\theta \vert y)}{p(y\vert \theta)p(\theta)}
+\end{equation*}\]</div>
+<p>and</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{equation*}
+p(\theta \vert y_{-i}) = \frac{p(y_{-i}\vert \theta)p(\theta)}{p(y_{-i})}
+\end{equation*}\]</div>
+<p>The ratio <span class="math notranslate nohighlight">\(\frac{p(\theta \vert y_{-i})}{p(\theta \vert y)}\)</span> is helpful here:</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\frac{p(\theta \vert y_{-i})}{p(\theta \vert y)} &amp;=
+\frac{\frac{p(y_{-i}\vert \theta)\cancel{p(\theta)}}{p(y_{-i})}}{\frac{p(y\vert \theta)\cancel{p(\theta)}}{p(y)}}
+=\frac{p(y_{-i}\vert \theta)p(y)}{p(y\vert \theta)p(y_{-i})}\\ &amp;=\frac{p(y)}{p(y_{-i})}\cdot\frac{\cancel{p(y_{-i}\vert \theta)}}{p(y_{i}\vert \theta)\cancel{p(y_{-i}\vert \theta)}}\\
+\frac{p(\theta \vert y_{-i})}{p(\theta \vert y)} &amp;= \frac{p(y)}{p(y_{-i})}\cdot\frac{1}{p(y_{i}\vert \theta)}\\
+\frac{p(\theta \vert y_{-i})}{\cancel{p(\theta \vert y)}} \cancel{\textcolor{blue}{p(\theta\vert y)}} &amp;= \frac{p(y)}{p(y_{-i})}\cdot\frac{1}{p(y_{i}\vert \theta)}\textcolor{blue}{p(\theta\vert y)}\\
+p(\theta \vert y_{-i}) &amp;= \frac{p(y)}{p(y_{-i})}\cdot\frac{1}{p(y_{i}\vert \theta)}p(\theta\vert y)\\
+%first integral line
+\int_{\Theta}p(\theta \vert y_{-i})d\theta &amp;= \frac{p(y)}{p(y_{-i})}\cdot \int_{\Theta}\frac{1}{p(y_{i}\vert \theta)}p(\theta\vert y)d\theta
+\end{align*}\]</div>
+<p>Since the left-hand side above is a probability distribution integrated over the entire parameter space:</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+1 &amp;= \frac{p(y)}{p(y_{-i})}\cdot \int_{\Theta}\frac{1}{p(y_{i}\vert \theta)}p(\theta\vert y)d\theta\\
+\end{align*}\]</div>
+<div class="amsmath math notranslate nohighlight" id="equation-af2fca10-57bb-4a67-80f1-2f715cc3490d">
+<span class="eqno">(1)<a class="headerlink" href="#equation-af2fca10-57bb-4a67-80f1-2f715cc3490d" title="Permalink to this equation">#</a></span>\[\begin{equation}
+\frac{p(y_{-i})}{p(y)} = \int_{\theta}\bigg[ \frac{1}{p(y_{i}\vert \theta)} \bigg]\cdot p(\theta \vert y)d\theta\tag{1}
+\end{equation}\]</div>
+<p>The right-hand side of equation (1) should remind you of LOTUS (Law of The Unconscious Statistician): It’s just an expectation.  Recall that for a continuous random variable <span class="math notranslate nohighlight">\(X\)</span> with density function <span class="math notranslate nohighlight">\(p(x)\)</span>, if <span class="math notranslate nohighlight">\(Y=g(x)\)</span> then:</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{equation*}
+\mathbb{E}[Y]=\mathbb{E}[g(x)]=\int_{-\infty}^{\infty}g(x)\cdot p(x)dx
+\end{equation*}\]</div>
+<p>To clarify that the density function for the expectation is a posterior, we use the following notation:</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{equation*}
+\frac{p(y_{-i})}{p(y)} = \mathbb{E}_{\theta \sim p(\theta \vert y)}\bigg[ \frac{1}{p(y_{i}\vert \theta)} \bigg]
+\end{equation*}\]</div>
+<p>In other words, the right-hand side of (1) represents the expectation of <span class="math notranslate nohighlight">\(\frac{1}{p(y_{i}\vert \theta)}\)</span> over <span class="math notranslate nohighlight">\(\theta\)</span> when <span class="math notranslate nohighlight">\(\theta\)</span> is distributed according to <span class="math notranslate nohighlight">\(p(\theta \vert y)\)</span>.  Taking the reciprocal of both sides gives:</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{equation*}
+\frac{p(y)}{p(y_{-i})} = 
+\bigg( \mathbb{E}_{\theta \sim p(\theta \vert y)}\bigg[ \frac{1}{p(y_{i}\vert \theta)} \bigg] \bigg)^{-1}
+\end{equation*}\]</div>
+<p>Let’s reframe <span class="math notranslate nohighlight">\(p(y)\)</span>.  It’s the marginal distribution of all the data, but we could just as well think of it as the joint distribution of <span class="math notranslate nohighlight">\(y_{i}\)</span> and <span class="math notranslate nohighlight">\(y_{-i}\)</span>: they’re one in the same.  This will allow us to apply the definition of conditional probability</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{equation*}
+p(y) = p(y_{i} , y_{-i}) = \textcolor{blue}{p(y_{i}\vert y_{-i})}p(y_{-i})
+\end{equation*}\]</div>
+<p>notice that the blue factor is the <span class="math notranslate nohighlight">\(\text{CPO}_{i}\)</span> defined at the beginning.  Since (6) can be re-written as:</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\frac{p(y_{i}\vert y_{-i})\cancel{p(y_{-i}})}{\cancel{p(y_{-i})}} &amp;= 
+\bigg( \mathbb{E}_{\theta \sim p(\theta \vert y)}\bigg[ \frac{1}{p(y_{i}\vert \theta)} \bigg] \bigg)^{-1}\\
+p(y_{i}\vert y_{-i})&amp;= 
+\bigg( \mathbb{E}_{\theta \sim p(\theta \vert y)}\bigg[ \frac{1}{p(y_{i}\vert \theta)} \bigg] \bigg)^{-1}\\
+&amp;=\text{CPO}_{i}\blacksquare
+\end{align*}\]</div>
+<p>We can estimate this using:</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{equation*}
+\hat{\text{CPO}}_{i}=
+\bigg(
+\frac{1}{B}\sum_{b=1}^{B}\frac{1}{f(y_{i}\vert \theta^{(b)})}
+\bigg)^{-1}
+\end{equation*}\]</div>
+<p>Where <span class="math notranslate nohighlight">\(\theta^{(b)}\)</span> is an individual posterior sample.</p>
+<ol class="arabic">
+<li><p>For each posterior sample <span class="math notranslate nohighlight">\(\theta^{(b)}\)</span>:</p>
+<p>a. Evaluate the likelihood at the same <span class="math notranslate nohighlight">\(y_{i}\)</span> but use the posterior sample <span class="math notranslate nohighlight">\(\theta^{(b)}\)</span> as the parameter value.</p>
+<p>b. Take the reciprocal of the calculation above.</p>
+</li>
+<li><p>Take the mean of all values from step (1)</p></li>
+<li><p>Take the reciprocal of the value from step (2), this is the final calculation for <span class="math notranslate nohighlight">\(\text{CPO}_{i}\)</span></p></li>
+</ol>
+<section id="authors">
+<h2>Authors<a class="headerlink" href="#authors" title="Permalink to this headline">#</a></h2>
+<ul class="simple">
+<li><p>Rob Bennett, Jul 2025</p></li>
+</ul>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -637,11 +741,11 @@ document.write(`
       </div>
     </a>
     <a class="right-next"
-       href="Unit9-gessell.html"
+       href="Unit9-cumulative.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">6. Gesell*</p>
+        <p class="prev-next-title">7. Using the Empirical CDF and the Probability Integral Transform</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -654,6 +758,20 @@ document.write(`
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#authors">Authors</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>
