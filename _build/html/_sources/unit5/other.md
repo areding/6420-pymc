@@ -1,4 +1,0 @@
-# Other Algorithms
-
-```{tableofcontents}
-```

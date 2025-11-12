@@ -1,4 +1,0 @@
-# Bayesian Computation
-
-```{tableofcontents}
-```

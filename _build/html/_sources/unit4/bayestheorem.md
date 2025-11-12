@@ -1,4 +1,0 @@
-# Bayes' Theorem
-
-```{tableofcontents}
-```
