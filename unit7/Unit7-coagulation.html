@@ -65,6 +65,8 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'unit7/Unit7-coagulation';</script>
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -587,7 +589,11 @@ document.write(`
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#simple-method">Simple method</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-more-concise-method">A more concise method</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#more-concise-methods">More concise methods</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#method-1">Method 1</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#method-2">Method 2</a></li>
 </ul>
             </nav>
         </div>
@@ -604,7 +610,10 @@ document.write(`
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pymc</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pm</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">arviz</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">az</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">itertools</span><span class="w"> </span><span class="kn">import</span> <span class="n">combinations</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pytensor.tensor</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytensor.tensor.variable</span><span class="w"> </span><span class="kn">import</span> <span class="n">TensorVariable</span>
 </pre></div>
 </div>
 </div>
@@ -642,10 +651,10 @@ document.write(`
 </div>
 <section id="simple-method">
 <h2>Simple method<a class="headerlink" href="#simple-method" title="Permalink to this headline">#</a></h2>
-<p>No loops! If you’re using this style, 4 treatments is probably the max before it starts to get too annoying to type out.</p>
+<p>Conceptually, this is the simplest method to set up this model and look at the contrasts, but it’s not very concise. It would be inefficient to type out all this code every time, especially if there were more groups.</p>
 <div class="cell tag_hide-output docutils container">
 <div class="cell_input above-output-prompt docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">m</span><span class="p">:</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">m0</span><span class="p">:</span>
     <span class="n">mu0</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;mu_0&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">)</span>
     <span class="n">tau</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Gamma</span><span class="p">(</span><span class="s2">&quot;tau&quot;</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">)</span>
 
@@ -683,277 +692,7 @@ Multiprocess sampling (4 chains in 4 jobs)
 NUTS: [mu_0, tau, alpha]
 </pre></div>
 </div>
-<script type="application/vnd.jupyter.widget-view+json">{"model_id": "cae2be733a1d41a2ae4515c79ff14043", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 5_000 draw iterations (4_000 + 20_000 draws total) took 2 seconds.
-</pre></div>
-</div>
-</div>
-</details>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>mean</th>
-      <th>sd</th>
-      <th>hdi_3%</th>
-      <th>hdi_97%</th>
-      <th>mcse_mean</th>
-      <th>mcse_sd</th>
-      <th>ess_bulk</th>
-      <th>ess_tail</th>
-      <th>r_hat</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>mu_0</th>
-      <td>64.002</td>
-      <td>0.527</td>
-      <td>63.001</td>
-      <td>64.989</td>
-      <td>0.004</td>
-      <td>0.003</td>
-      <td>16804.0</td>
-      <td>14148.0</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>tau</th>
-      <td>0.178</td>
-      <td>0.057</td>
-      <td>0.079</td>
-      <td>0.284</td>
-      <td>0.000</td>
-      <td>0.000</td>
-      <td>16225.0</td>
-      <td>13057.0</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>alpha[0]</th>
-      <td>-2.956</td>
-      <td>1.023</td>
-      <td>-4.909</td>
-      <td>-1.033</td>
-      <td>0.007</td>
-      <td>0.005</td>
-      <td>18953.0</td>
-      <td>14236.0</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>alpha[1]</th>
-      <td>1.975</td>
-      <td>0.885</td>
-      <td>0.327</td>
-      <td>3.700</td>
-      <td>0.006</td>
-      <td>0.005</td>
-      <td>20308.0</td>
-      <td>15274.0</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>alpha[2]</th>
-      <td>3.960</td>
-      <td>0.891</td>
-      <td>2.326</td>
-      <td>5.695</td>
-      <td>0.006</td>
-      <td>0.004</td>
-      <td>22633.0</td>
-      <td>14953.0</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>alpha[3]</th>
-      <td>-2.979</td>
-      <td>0.808</td>
-      <td>-4.491</td>
-      <td>-1.433</td>
-      <td>0.005</td>
-      <td>0.004</td>
-      <td>24695.0</td>
-      <td>16552.0</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>α1-α2</th>
-      <td>-4.931</td>
-      <td>1.606</td>
-      <td>-7.999</td>
-      <td>-1.931</td>
-      <td>0.012</td>
-      <td>0.008</td>
-      <td>18919.0</td>
-      <td>13622.0</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>α1-α3</th>
-      <td>-6.915</td>
-      <td>1.608</td>
-      <td>-9.936</td>
-      <td>-3.912</td>
-      <td>0.012</td>
-      <td>0.008</td>
-      <td>19548.0</td>
-      <td>13791.0</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>α1-α4</th>
-      <td>0.023</td>
-      <td>1.515</td>
-      <td>-2.889</td>
-      <td>2.791</td>
-      <td>0.011</td>
-      <td>0.010</td>
-      <td>20838.0</td>
-      <td>15546.0</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>α2-α3</th>
-      <td>-1.984</td>
-      <td>1.433</td>
-      <td>-4.657</td>
-      <td>0.784</td>
-      <td>0.010</td>
-      <td>0.008</td>
-      <td>22336.0</td>
-      <td>15018.0</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>α2-α4</th>
-      <td>4.955</td>
-      <td>1.333</td>
-      <td>2.497</td>
-      <td>7.563</td>
-      <td>0.009</td>
-      <td>0.006</td>
-      <td>22343.0</td>
-      <td>15142.0</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>α3-α4</th>
-      <td>6.939</td>
-      <td>1.347</td>
-      <td>4.396</td>
-      <td>9.458</td>
-      <td>0.009</td>
-      <td>0.006</td>
-      <td>25176.0</td>
-      <td>15523.0</td>
-      <td>1.0</td>
-    </tr>
-  </tbody>
-</table>
-</div></div></div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">axes</span> <span class="o">=</span> <span class="n">az</span><span class="o">.</span><span class="n">plot_forest</span><span class="p">(</span>
-    <span class="n">trace</span><span class="p">,</span>
-    <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;~mu_0&quot;</span><span class="p">,</span> <span class="s2">&quot;~tau&quot;</span><span class="p">],</span>
-    <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;ridgeplot&quot;</span><span class="p">,</span>
-    <span class="n">combined</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">ridgeplot_truncate</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-    <span class="n">ridgeplot_overlap</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
-    <span class="n">ridgeplot_alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span>
-    <span class="n">colors</span><span class="o">=</span><span class="s2">&quot;white&quot;</span><span class="p">,</span>
-<span class="p">)</span>
-
-<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Ridgeplot of $</span><span class="se">\\</span><span class="s2">alpha$ and contrasts&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, &#39;Ridgeplot of $\\alpha$ and contrasts&#39;)
-</pre></div>
-</div>
-<img alt="../_images/7a91fc2ecfe4a2bab5a2a5f570db475ff41926073109db1d3056505c37b4e658.png" src="../_images/7a91fc2ecfe4a2bab5a2a5f570db475ff41926073109db1d3056505c37b4e658.png" />
-</div>
-</div>
-</section>
-<section id="a-more-concise-method">
-<h2>A more concise method<a class="headerlink" href="#a-more-concise-method" title="Permalink to this headline">#</a></h2>
-<p>Not necessarily pretty, but easier to extend to more treatments. I’m interested in seeing other peoples’ methods here; I feel like this could still be a lot cleaner.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">itertools</span><span class="w"> </span><span class="kn">import</span> <span class="n">combinations</span>
-
-
-<span class="k">def</span><span class="w"> </span><span class="nf">contrasts</span><span class="p">(</span><span class="n">var</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculate differences between all pairs of levels with names like &quot;alpha[i] - alpha[j]&quot;.</span>
-
-<span class="sd">    var: pytensor.tensor.var.TensorVariable</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="n">var</span><span class="o">.</span><span class="n">name</span>
-    <span class="n">n</span> <span class="o">=</span> <span class="n">var</span><span class="o">.</span><span class="n">shape</span><span class="o">.</span><span class="n">eval</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># use eval method to get shape within model context</span>
-    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">combinations</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">),</span> <span class="mi">2</span><span class="p">):</span>
-        <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">[</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">] - </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">[</span><span class="si">{</span><span class="n">j</span><span class="si">}</span><span class="s2">]&quot;</span><span class="p">,</span> <span class="n">var</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">var</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell tag_hide-output docutils container">
-<div class="cell_input above-output-prompt docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">m</span><span class="p">:</span>
-    <span class="n">mu0</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;mu0&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">)</span>
-    <span class="n">tau</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Gamma</span><span class="p">(</span><span class="s2">&quot;tau&quot;</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">)</span>
-
-    <span class="n">alphas</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">ZeroSumNormal</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;αlpha&quot;</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
-    <span class="n">mus</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;mu</span><span class="si">{</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">mu0</span> <span class="o">+</span> <span class="n">alpha</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">alpha</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">alphas</span><span class="p">)</span>
-    <span class="p">]</span>
-
-    <span class="p">[</span>
-        <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;lik</span><span class="si">{</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mus</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">tau</span><span class="o">=</span><span class="n">tau</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])</span>
-        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">mu</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">mus</span><span class="p">)</span>
-    <span class="p">]</span>
-
-    <span class="n">contrasts</span><span class="p">(</span><span class="n">alphas</span><span class="p">)</span>
-    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">5000</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<details class="hide below-input">
-<summary aria-label="Toggle hidden content">
-<span class="collapsed">Show code cell output</span>
-<span class="expanded">Hide code cell output</span>
-</summary>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Initializing NUTS using jitter+adapt_diag...
-Multiprocess sampling (4 chains in 4 jobs)
-NUTS: [mu0, tau, αlpha]
-</pre></div>
-</div>
-<script type="application/vnd.jupyter.widget-view+json">{"model_id": "2c609efefafc4d559ec11d5d1667bf67", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "b8337e4e8b7149949788b160a29f2d36", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
 </div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 5_000 draw iterations (4_000 + 20_000 draws total) took 2 seconds.
 </pre></div>
 </div>
@@ -993,120 +732,532 @@ NUTS: [mu0, tau, αlpha]
   </thead>
   <tbody>
     <tr>
-      <th>mu0</th>
-      <td>64.010</td>
-      <td>0.527</td>
-      <td>63.023</td>
-      <td>65.006</td>
+      <th>mu_0</th>
+      <td>64.001</td>
+      <td>0.523</td>
+      <td>63.034</td>
+      <td>65.003</td>
     </tr>
     <tr>
       <th>tau</th>
       <td>0.179</td>
-      <td>0.056</td>
-      <td>0.082</td>
-      <td>0.286</td>
+      <td>0.057</td>
+      <td>0.079</td>
+      <td>0.284</td>
     </tr>
     <tr>
-      <th>αlpha[0]</th>
-      <td>-2.945</td>
-      <td>1.007</td>
-      <td>-4.846</td>
-      <td>-1.032</td>
+      <th>alpha[0]</th>
+      <td>-2.955</td>
+      <td>1.021</td>
+      <td>-4.934</td>
+      <td>-1.104</td>
     </tr>
     <tr>
-      <th>αlpha[1]</th>
-      <td>1.981</td>
-      <td>0.880</td>
-      <td>0.367</td>
-      <td>3.686</td>
+      <th>alpha[1]</th>
+      <td>1.980</td>
+      <td>0.878</td>
+      <td>0.313</td>
+      <td>3.634</td>
     </tr>
     <tr>
-      <th>αlpha[2]</th>
-      <td>3.953</td>
-      <td>0.887</td>
-      <td>2.315</td>
-      <td>5.682</td>
+      <th>alpha[2]</th>
+      <td>3.954</td>
+      <td>0.895</td>
+      <td>2.245</td>
+      <td>5.608</td>
     </tr>
     <tr>
-      <th>αlpha[3]</th>
-      <td>-2.989</td>
-      <td>0.813</td>
-      <td>-4.515</td>
-      <td>-1.469</td>
+      <th>alpha[3]</th>
+      <td>-2.979</td>
+      <td>0.800</td>
+      <td>-4.520</td>
+      <td>-1.491</td>
     </tr>
     <tr>
-      <th>mu1</th>
-      <td>61.065</td>
-      <td>1.230</td>
-      <td>58.777</td>
-      <td>63.405</td>
+      <th>α1-α2</th>
+      <td>-4.935</td>
+      <td>1.597</td>
+      <td>-7.996</td>
+      <td>-1.997</td>
     </tr>
     <tr>
-      <th>mu2</th>
-      <td>65.991</td>
-      <td>1.002</td>
-      <td>64.097</td>
-      <td>67.857</td>
+      <th>α1-α3</th>
+      <td>-6.909</td>
+      <td>1.608</td>
+      <td>-9.875</td>
+      <td>-3.832</td>
     </tr>
     <tr>
-      <th>mu3</th>
-      <td>67.963</td>
-      <td>1.022</td>
-      <td>65.994</td>
-      <td>69.865</td>
+      <th>α1-α4</th>
+      <td>0.025</td>
+      <td>1.511</td>
+      <td>-2.750</td>
+      <td>2.953</td>
     </tr>
     <tr>
-      <th>mu4</th>
-      <td>61.021</td>
-      <td>0.883</td>
-      <td>59.363</td>
-      <td>62.679</td>
+      <th>α2-α3</th>
+      <td>-1.974</td>
+      <td>1.436</td>
+      <td>-4.607</td>
+      <td>0.820</td>
     </tr>
     <tr>
-      <th>αlpha[0] - αlpha[1]</th>
-      <td>-4.926</td>
-      <td>1.591</td>
-      <td>-7.867</td>
-      <td>-1.863</td>
+      <th>α2-α4</th>
+      <td>4.959</td>
+      <td>1.312</td>
+      <td>2.456</td>
+      <td>7.417</td>
     </tr>
     <tr>
-      <th>αlpha[0] - αlpha[2]</th>
-      <td>-6.898</td>
-      <td>1.581</td>
-      <td>-9.846</td>
-      <td>-3.855</td>
-    </tr>
-    <tr>
-      <th>αlpha[0] - αlpha[3]</th>
-      <td>0.044</td>
-      <td>1.502</td>
-      <td>-2.762</td>
-      <td>2.933</td>
-    </tr>
-    <tr>
-      <th>αlpha[1] - αlpha[2]</th>
-      <td>-1.973</td>
-      <td>1.425</td>
-      <td>-4.727</td>
-      <td>0.631</td>
-    </tr>
-    <tr>
-      <th>αlpha[1] - αlpha[3]</th>
-      <td>4.970</td>
-      <td>1.331</td>
-      <td>2.447</td>
-      <td>7.495</td>
-    </tr>
-    <tr>
-      <th>αlpha[2] - αlpha[3]</th>
-      <td>6.942</td>
-      <td>1.360</td>
-      <td>4.361</td>
-      <td>9.515</td>
+      <th>α3-α4</th>
+      <td>6.934</td>
+      <td>1.344</td>
+      <td>4.397</td>
+      <td>9.484</td>
     </tr>
   </tbody>
 </table>
 </div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">axes</span> <span class="o">=</span> <span class="n">az</span><span class="o">.</span><span class="n">plot_forest</span><span class="p">(</span>
+    <span class="n">trace</span><span class="p">,</span>
+    <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;~mu_0&quot;</span><span class="p">,</span> <span class="s2">&quot;~tau&quot;</span><span class="p">],</span>
+    <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;ridgeplot&quot;</span><span class="p">,</span>
+    <span class="n">combined</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">ridgeplot_truncate</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">ridgeplot_overlap</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+    <span class="n">ridgeplot_alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span>
+    <span class="n">colors</span><span class="o">=</span><span class="s2">&quot;white&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Ridgeplot of $</span><span class="se">\\</span><span class="s2">alpha$ and contrasts&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, &#39;Ridgeplot of $\\alpha$ and contrasts&#39;)
+</pre></div>
+</div>
+<img alt="../_images/8719b17c11a6b4a09ce826cfb949074c4528201b1c202ac887f0ef6f62b46caf.png" src="../_images/8719b17c11a6b4a09ce826cfb949074c4528201b1c202ac887f0ef6f62b46caf.png" />
+</div>
+</div>
+<p>Another downside to this method is how <code class="docutils literal notranslate"><span class="pre">pm.model_to_graphviz</span></code> comes out.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pm</span><span class="o">.</span><span class="n">model_to_graphviz</span><span class="p">(</span><span class="n">m0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/682e67503dfc6addf5e6356571b4bee33048805f7eb9234fcc3349229fdd0170.svg" src="../_images/682e67503dfc6addf5e6356571b4bee33048805f7eb9234fcc3349229fdd0170.svg" /></div>
+</div>
+</section>
+<section id="more-concise-methods">
+<h2>More concise methods<a class="headerlink" href="#more-concise-methods" title="Permalink to this headline">#</a></h2>
+<p>We’ve been meaning to update this part for quite a while. Recently, one of our excellent students, Nhan Quach, helped us out. The rest of the page is their work. Both of these methods are completely equivalent to the above. They just approach the problem from different perspectives. You can pick which one makes the most sense to you.</p>
+<p>Huge thanks to Nhan for updating this!</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># switching to a Pandas Dataframe for these models</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">diets</span><span class="p">,</span> <span class="n">times</span><span class="p">),</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;diets&quot;</span><span class="p">,</span> <span class="s2">&quot;times&quot;</span><span class="p">])</span>
+<span class="n">diets_idx</span><span class="p">,</span> <span class="n">diet</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">factorize</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;diets&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="method-1">
+<h3>Method 1<a class="headerlink" href="#method-1" title="Permalink to this headline">#</a></h3>
+<p>The first method is based on how each pair-wise contrast can be written out as a series of equations:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{align*} \alpha_1 - \alpha_2 + 0\alpha_3 + \dots + 0\alpha_k \\  \alpha_1 + 0\alpha_2 -\alpha_3 + \dots + 0\alpha_k \\  \dots \\ \alpha_1 + 0\alpha_2 + 0\alpha_3 + \dots - \alpha_k \\ 0\alpha_1 + \alpha_2 - \alpha_3 + \dots + 0\alpha_k \\ \dots \end{align*}\end{split}\]</div>
+<p>This could be rewritten into a multiplication between a <span class="math notranslate nohighlight">\({k \choose 2} \times k\)</span> matrix and a <span class="math notranslate nohighlight">\(k \times 1\)</span> vector as such:</p>
+<div class="math notranslate nohighlight">
+\[ \begin{align}\begin{aligned}\begin{split}\begin{bmatrix} 1 &amp;-1 &amp;0 &amp;0 &amp;\dots &amp;0 \\ \end{split}\\\begin{split}1 &amp;0 &amp;-1 &amp;0 &amp;\dots &amp;0 \\\end{split}\\\begin{split}1 &amp;0 &amp;0 &amp;-1 &amp;\dots &amp;0 \\\end{split}\\\begin{split}\dots &amp; \dots &amp;\dots &amp;\dots &amp;\dots &amp;\dots \end{bmatrix} \times \begin{bmatrix} \alpha_1 \\ \alpha_2 \\ \alpha_3 \\ \dots \\ \alpha_k \end{bmatrix}\end{split}\end{aligned}\end{align} \]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">pairwise_contrasts_v1</span><span class="p">(</span>
+    <span class="n">groups</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">group_labels</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">parameter_label</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;⍺&quot;</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">typing</span><span class="o">.</span><span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">int_</span><span class="p">],</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Builds out a matrix of which pair-wise differences to perform along with names to assign each contrast&quot;&quot;&quot;</span>
+    <span class="n">names</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">num_pairs</span> <span class="o">=</span> <span class="p">(</span><span class="n">groups</span> <span class="o">*</span> <span class="p">(</span><span class="n">groups</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span> <span class="o">//</span> <span class="mi">2</span>
+    <span class="n">matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">num_pairs</span><span class="p">,</span> <span class="n">groups</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">pair_idx</span><span class="p">,</span> <span class="p">(</span><span class="n">g1</span><span class="p">,</span> <span class="n">g2</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">combinations</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">groups</span><span class="p">),</span> <span class="mi">2</span><span class="p">)):</span>
+        <span class="n">matrix</span><span class="p">[</span><span class="n">pair_idx</span><span class="p">,</span> <span class="n">g1</span><span class="p">],</span> <span class="n">matrix</span><span class="p">[</span><span class="n">pair_idx</span><span class="p">,</span> <span class="n">g2</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="k">if</span> <span class="n">group_labels</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">parameter_label</span><span class="si">}</span><span class="s2">[</span><span class="si">{</span><span class="n">group_labels</span><span class="p">[</span><span class="n">g1</span><span class="p">]</span><span class="si">}</span><span class="s2">] - </span><span class="si">{</span><span class="n">parameter_label</span><span class="si">}</span><span class="s2">[</span><span class="si">{</span><span class="n">group_labels</span><span class="p">[</span><span class="n">g2</span><span class="p">]</span><span class="si">}</span><span class="s2">]&quot;</span>
+            <span class="p">)</span>
+    <span class="k">return</span> <span class="n">matrix</span><span class="p">,</span> <span class="n">names</span>
+
+
+<span class="n">pairwise_contrast_matrix</span><span class="p">,</span> <span class="n">contrast_labels</span> <span class="o">=</span> <span class="n">pairwise_contrasts_v1</span><span class="p">(</span>
+    <span class="mi">4</span><span class="p">,</span> <span class="n">diet</span><span class="p">,</span> <span class="s2">&quot;αlpha&quot;</span>
+<span class="p">)</span>
+
+<span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">coords</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;diets&quot;</span><span class="p">:</span> <span class="n">diet</span><span class="p">,</span> <span class="s2">&quot;contrast_labels&quot;</span><span class="p">:</span> <span class="n">contrast_labels</span><span class="p">})</span> <span class="k">as</span> <span class="n">m1</span><span class="p">:</span>
+    <span class="n">mu0</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;mu[0]&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">)</span>
+    <span class="n">tau</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Gamma</span><span class="p">(</span><span class="s2">&quot;tau&quot;</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">)</span>
+
+    <span class="n">alphas</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">ZeroSumNormal</span><span class="p">(</span><span class="s2">&quot;αlpha&quot;</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="s2">&quot;diets&quot;</span><span class="p">)</span>
+    <span class="n">mus</span> <span class="o">=</span> <span class="n">mu0</span> <span class="o">+</span> <span class="n">alphas</span>
+    <span class="c1"># Index each mus similar to how is done in the Simvastatin Example</span>
+    <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;Likelihood&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mus</span><span class="p">[</span><span class="n">diets_idx</span><span class="p">],</span> <span class="n">tau</span><span class="o">=</span><span class="n">tau</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;times&quot;</span><span class="p">])</span>
+    <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span>
+        <span class="s2">&quot;Contrast&quot;</span><span class="p">,</span>
+        <span class="n">pm</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">pairwise_contrast_matrix</span><span class="p">,</span> <span class="n">alphas</span><span class="p">),</span>
+        <span class="n">dims</span><span class="o">=</span><span class="s2">&quot;contrast_labels&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">5000</span><span class="p">)</span>
+
+<span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;stats&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Initializing NUTS using jitter+adapt_diag...
+Multiprocess sampling (4 chains in 4 jobs)
+NUTS: [mu[0], tau, αlpha]
+</pre></div>
+</div>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "25f2b58b7b8b4cbe8af6508df810b45d", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 5_000 draw iterations (4_000 + 20_000 draws total) took 2 seconds.
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mean</th>
+      <th>sd</th>
+      <th>hdi_3%</th>
+      <th>hdi_97%</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>mu[0]</th>
+      <td>64.007</td>
+      <td>0.521</td>
+      <td>63.060</td>
+      <td>65.034</td>
+    </tr>
+    <tr>
+      <th>tau</th>
+      <td>0.178</td>
+      <td>0.057</td>
+      <td>0.078</td>
+      <td>0.285</td>
+    </tr>
+    <tr>
+      <th>αlpha[1]</th>
+      <td>-2.942</td>
+      <td>1.026</td>
+      <td>-4.910</td>
+      <td>-1.056</td>
+    </tr>
+    <tr>
+      <th>αlpha[2]</th>
+      <td>1.974</td>
+      <td>0.883</td>
+      <td>0.232</td>
+      <td>3.579</td>
+    </tr>
+    <tr>
+      <th>αlpha[3]</th>
+      <td>3.951</td>
+      <td>0.888</td>
+      <td>2.232</td>
+      <td>5.578</td>
+    </tr>
+    <tr>
+      <th>αlpha[4]</th>
+      <td>-2.983</td>
+      <td>0.820</td>
+      <td>-4.512</td>
+      <td>-1.427</td>
+    </tr>
+    <tr>
+      <th>Contrast[αlpha[1] - αlpha[2]]</th>
+      <td>-4.916</td>
+      <td>1.601</td>
+      <td>-7.969</td>
+      <td>-1.978</td>
+    </tr>
+    <tr>
+      <th>Contrast[αlpha[1] - αlpha[3]]</th>
+      <td>-6.893</td>
+      <td>1.605</td>
+      <td>-9.947</td>
+      <td>-3.891</td>
+    </tr>
+    <tr>
+      <th>Contrast[αlpha[1] - αlpha[4]]</th>
+      <td>0.040</td>
+      <td>1.538</td>
+      <td>-2.807</td>
+      <td>2.957</td>
+    </tr>
+    <tr>
+      <th>Contrast[αlpha[2] - αlpha[3]]</th>
+      <td>-1.977</td>
+      <td>1.433</td>
+      <td>-4.833</td>
+      <td>0.600</td>
+    </tr>
+    <tr>
+      <th>Contrast[αlpha[2] - αlpha[4]]</th>
+      <td>4.957</td>
+      <td>1.341</td>
+      <td>2.493</td>
+      <td>7.583</td>
+    </tr>
+    <tr>
+      <th>Contrast[αlpha[3] - αlpha[4]]</th>
+      <td>6.934</td>
+      <td>1.351</td>
+      <td>4.364</td>
+      <td>9.481</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+</section>
+<section id="method-2">
+<h2>Method 2<a class="headerlink" href="#method-2" title="Permalink to this headline">#</a></h2>
+<p>The second method takes advantage of NumPy’s broadcasting so that we can take a 1-dimensional array of <span class="math notranslate nohighlight">\(\alpha = [\alpha_1, \alpha_2, \alpha_3, \dots, \alpha_k]\)</span> and broadcast it into a 2-dimensional <span class="math notranslate nohighlight">\(k \times 1\)</span> array called <span class="math notranslate nohighlight">\(A\)</span>.</p>
+<p>Doing <span class="math notranslate nohighlight">\(A - \alpha\)</span> would yield the following results</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{array}{c|ccccc}
+A \backslash \alpha 
+    &amp; \alpha_1 
+    &amp; \alpha_2 
+    &amp; \alpha_3 
+    &amp; \cdots 
+    &amp; \alpha_k \\ \hline
+\alpha_1 
+    &amp; 0 
+    &amp; \alpha_1 - \alpha_2 
+    &amp; \alpha_1 - \alpha_3 
+    &amp; \cdots 
+    &amp; \alpha_1 - \alpha_k \\
+\alpha_2 
+    &amp; \alpha_2 - \alpha_1 
+    &amp; 0 
+    &amp; \alpha_2 - \alpha_3 
+    &amp; \cdots 
+    &amp; \alpha_2 - \alpha_k \\
+\alpha_3 
+    &amp; \alpha_3 - \alpha_1 
+    &amp; \alpha_3 - \alpha_2 
+    &amp; 0 
+    &amp; \cdots 
+    &amp; \alpha_3 - \alpha_k \\
+\vdots 
+    &amp; \vdots 
+    &amp; \vdots 
+    &amp; \vdots 
+    &amp; \ddots 
+    &amp; \vdots \\
+\alpha_k 
+    &amp; \alpha_k - \alpha_1 
+    &amp; \alpha_k - \alpha_2 
+    &amp; \alpha_k - \alpha_3 
+    &amp; \cdots 
+    &amp; 0
+\end{array}
+\end{split}\]</div>
+<p>Only the upper triangle is needed offset by the first diagonal (since the first diagonal would be all 0s). NumPy and Pytensor both support the ability of pulling out the first upper triangle.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">pairwise_contrasts_v2</span><span class="p">(</span><span class="n">tensor</span><span class="p">:</span> <span class="n">TensorVariable</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Returns the array of pair-wise differences&quot;&quot;&quot;</span>
+    <span class="n">differences</span> <span class="o">=</span> <span class="n">tensor</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">-</span> <span class="n">tensor</span>
+    <span class="n">upper_tri</span> <span class="o">=</span> <span class="n">pt</span><span class="o">.</span><span class="n">triu_indices_from</span><span class="p">(</span><span class="n">differences</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">differences</span><span class="p">[</span><span class="n">upper_tri</span><span class="p">]</span>
+
+
+<span class="n">contrast_labels</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="sa">f</span><span class="s2">&quot;alpha[</span><span class="si">{</span><span class="n">c1</span><span class="si">}</span><span class="s2">] - alpha[</span><span class="si">{</span><span class="n">c2</span><span class="si">}</span><span class="s2">]&quot;</span> <span class="k">for</span> <span class="n">c1</span><span class="p">,</span> <span class="n">c2</span> <span class="ow">in</span> <span class="n">combinations</span><span class="p">(</span><span class="n">diet</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="p">]</span>
+
+<span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">coords</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;diets&quot;</span><span class="p">:</span> <span class="n">diet</span><span class="p">,</span> <span class="s2">&quot;contrast_labels&quot;</span><span class="p">:</span> <span class="n">contrast_labels</span><span class="p">})</span> <span class="k">as</span> <span class="n">m2</span><span class="p">:</span>
+    <span class="n">mu0</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;mu[0]&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">)</span>
+    <span class="n">tau</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Gamma</span><span class="p">(</span><span class="s2">&quot;tau&quot;</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">)</span>
+
+    <span class="n">alphas</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">ZeroSumNormal</span><span class="p">(</span><span class="s2">&quot;αlpha&quot;</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="s2">&quot;diets&quot;</span><span class="p">)</span>
+    <span class="n">mus</span> <span class="o">=</span> <span class="n">mu0</span> <span class="o">+</span> <span class="n">alphas</span>
+    <span class="c1"># Index each mus similar to how is done in the Simvastatin Example</span>
+    <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;Likelihood&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mus</span><span class="p">[</span><span class="n">diets_idx</span><span class="p">],</span> <span class="n">tau</span><span class="o">=</span><span class="n">tau</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;times&quot;</span><span class="p">])</span>
+    <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span>
+        <span class="s2">&quot;Contrast&quot;</span><span class="p">,</span> <span class="n">pairwise_contrasts_v2</span><span class="p">(</span><span class="n">alphas</span><span class="p">),</span> <span class="n">dims</span><span class="o">=</span><span class="s2">&quot;contrast_labels&quot;</span>
+    <span class="p">)</span>
+    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">5000</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Initializing NUTS using jitter+adapt_diag...
+Multiprocess sampling (4 chains in 4 jobs)
+NUTS: [mu[0], tau, αlpha]
+</pre></div>
+</div>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "ad0d94d714e4489293ba279c66bf78ea", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 5_000 draw iterations (4_000 + 20_000 draws total) took 2 seconds.
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;stats&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mean</th>
+      <th>sd</th>
+      <th>hdi_3%</th>
+      <th>hdi_97%</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>mu[0]</th>
+      <td>64.001</td>
+      <td>0.522</td>
+      <td>63.023</td>
+      <td>64.996</td>
+    </tr>
+    <tr>
+      <th>tau</th>
+      <td>0.179</td>
+      <td>0.057</td>
+      <td>0.082</td>
+      <td>0.290</td>
+    </tr>
+    <tr>
+      <th>αlpha[1]</th>
+      <td>-2.961</td>
+      <td>1.015</td>
+      <td>-4.838</td>
+      <td>-1.029</td>
+    </tr>
+    <tr>
+      <th>αlpha[2]</th>
+      <td>1.974</td>
+      <td>0.892</td>
+      <td>0.283</td>
+      <td>3.653</td>
+    </tr>
+    <tr>
+      <th>αlpha[3]</th>
+      <td>3.971</td>
+      <td>0.885</td>
+      <td>2.318</td>
+      <td>5.639</td>
+    </tr>
+    <tr>
+      <th>αlpha[4]</th>
+      <td>-2.984</td>
+      <td>0.816</td>
+      <td>-4.471</td>
+      <td>-1.376</td>
+    </tr>
+    <tr>
+      <th>Contrast[alpha[1] - alpha[2]]</th>
+      <td>-4.935</td>
+      <td>1.599</td>
+      <td>-8.029</td>
+      <td>-1.963</td>
+    </tr>
+    <tr>
+      <th>Contrast[alpha[1] - alpha[3]]</th>
+      <td>-6.932</td>
+      <td>1.588</td>
+      <td>-9.984</td>
+      <td>-4.020</td>
+    </tr>
+    <tr>
+      <th>Contrast[alpha[1] - alpha[4]]</th>
+      <td>0.023</td>
+      <td>1.523</td>
+      <td>-2.723</td>
+      <td>2.996</td>
+    </tr>
+    <tr>
+      <th>Contrast[alpha[2] - alpha[3]]</th>
+      <td>-1.997</td>
+      <td>1.443</td>
+      <td>-4.723</td>
+      <td>0.670</td>
+    </tr>
+    <tr>
+      <th>Contrast[alpha[2] - alpha[4]]</th>
+      <td>4.958</td>
+      <td>1.349</td>
+      <td>2.325</td>
+      <td>7.469</td>
+    </tr>
+    <tr>
+      <th>Contrast[alpha[3] - alpha[4]]</th>
+      <td>6.955</td>
+      <td>1.343</td>
+      <td>4.487</td>
+      <td>9.546</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Both of these methods make nicer model diagrams as well as seen below from the pm.model_to_graphviz output.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pm</span><span class="o">.</span><span class="n">model_to_graphviz</span><span class="p">(</span><span class="n">m1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/83eac85803635f3de4bcb50ebc7d537dd670f6082fb95ddfd8f7fdd3c9da4588.svg" src="../_images/83eac85803635f3de4bcb50ebc7d537dd670f6082fb95ddfd8f7fdd3c9da4588.svg" /></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1116,17 +1267,19 @@ NUTS: [mu0, tau, αlpha]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Sun Mar 09 2025
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Tue Nov 25 2025
 
 Python implementation: CPython
-Python version       : 3.12.7
-IPython version      : 8.29.0
+Python version       : 3.13.8
+IPython version      : 9.6.0
 
-pytensor: 2.26.4
+pytensor: 2.28.3
 
-arviz: 0.20.0
-pymc : 5.19.1
-numpy: 1.26.4
+pandas  : 2.3.3
+arviz   : 0.22.0
+numpy   : 2.3.3
+pymc    : 5.21.1
+pytensor: 2.28.3
 </pre></div>
 </div>
 </div>
@@ -1202,7 +1355,11 @@ numpy: 1.26.4
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#simple-method">Simple method</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-more-concise-method">A more concise method</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#more-concise-methods">More concise methods</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#method-1">Method 1</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#method-2">Method 2</a></li>
 </ul>
   </nav></div>
 
