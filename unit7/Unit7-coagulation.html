@@ -874,25 +874,24 @@ NUTS: [mu_0, tau, alpha]
 \[\begin{split}
 \begin{align*} \alpha_1 - \alpha_2 + 0\alpha_3 + \dots + 0\alpha_k \\  \alpha_1 + 0\alpha_2 -\alpha_3 + \dots + 0\alpha_k \\  \dots \\ \alpha_1 + 0\alpha_2 + 0\alpha_3 + \dots - \alpha_k \\ 0\alpha_1 + \alpha_2 - \alpha_3 + \dots + 0\alpha_k \\ \dots \end{align*}
 \end{split}\]</div>
-<p>This could be rewritten into a multiplication between a <span class="math notranslate nohighlight">\({k \choose 2} \times k\)</span> matrix and a <span class="math notranslate nohighlight">\(k \times 1\)</span> vector as such:
-$$</p>
-<div class="amsmath math notranslate nohighlight" id="equation-c7fe3705-ecd8-4ee0-9218-7ef977dbeaa1">
-<span class="eqno">(1)<a class="headerlink" href="#equation-c7fe3705-ecd8-4ee0-9218-7ef977dbeaa1" title="Permalink to this equation">#</a></span>\[\begin{bmatrix}
+<p>This could be rewritten into a multiplication between a <span class="math notranslate nohighlight">\({k \choose 2} \times k\)</span> matrix and a <span class="math notranslate nohighlight">\(k \times 1\)</span> vector as such:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{bmatrix}
 1 &amp; -1 &amp; 0 &amp; 0 &amp; \cdots &amp; 0 \\
 1 &amp; 0  &amp; -1 &amp; 0 &amp; \cdots &amp; 0 \\
 1 &amp; 0  &amp; 0  &amp; -1 &amp; \cdots &amp; 0 \\
 \vdots &amp; \vdots &amp; \vdots &amp; \vdots &amp; \ddots &amp; \vdots
-\end{bmatrix}\]</div>
-<p>\times</p>
-<div class="amsmath math notranslate nohighlight" id="equation-9fe95284-ff18-47e6-aafd-c5f3dbb6338d">
-<span class="eqno">(2)<a class="headerlink" href="#equation-9fe95284-ff18-47e6-aafd-c5f3dbb6338d" title="Permalink to this equation">#</a></span>\[\begin{bmatrix}
+\end{bmatrix}
+\times
+\begin{bmatrix}
 \alpha_1 \\
 \alpha_2 \\
 \alpha_3 \\
 \vdots \\
 \alpha_k
-\end{bmatrix}\]</div>
-<p>$$</p>
+\end{bmatrix}
+\end{split}\]</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">pairwise_contrasts_v1</span><span class="p">(</span>
