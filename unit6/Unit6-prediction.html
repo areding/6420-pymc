@@ -590,12 +590,6 @@ document.write(`
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#taste-of-cheese">Taste of Cheese*</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#problem-statement">Problem Statement</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#intuition-from-posterior-trace-to-posterior-predictive-summary">Intuition: From posterior trace to posterior predictive summary:</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#understanding-the-pymc-posterior-trace-structure">Understanding the PyMC Posterior Trace Structure:</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pre-selecting-random-joint-posterior-indices">Pre-Selecting Random Joint Posterior Indices:</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#generate-the-posterior-predictive-samples-from-the-posterior-samples">Generate the Posterior Predictive Samples from the Posterior Samples:</a></li>
-</ul>
-</li>
 </ul>
             </nav>
         </div>
@@ -732,7 +726,13 @@ f(x_{n+1}\vert x_{1} , \cdots , x_{n}) = \int_{\Theta}f(x_{n+1} \vert \mathbf{\t
     <span class="n">mu</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">X_data</span><span class="p">,</span> <span class="n">beta</span><span class="p">)</span>
 
     <span class="c1"># likelihood</span>
-    <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;taste_score&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">y_data</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="n">X_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span>
+        <span class="s2">&quot;taste_score&quot;</span><span class="p">,</span>
+        <span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span>
+        <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">,</span>
+        <span class="n">observed</span><span class="o">=</span><span class="n">y_data</span><span class="p">,</span>
+        <span class="n">shape</span><span class="o">=</span><span class="n">X_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+    <span class="p">)</span>
 
     <span class="c1"># start sampling</span>
     <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">5000</span><span class="p">,</span> <span class="n">target_accept</span><span class="o">=</span><span class="mf">0.95</span><span class="p">)</span>
@@ -969,109 +969,6 @@ dtype: float64
 </table>
 </div></div></div>
 </div>
-</section>
-<section id="intuition-from-posterior-trace-to-posterior-predictive-summary">
-<h2>Intuition: From posterior trace to posterior predictive summary:<a class="headerlink" href="#intuition-from-posterior-trace-to-posterior-predictive-summary" title="Permalink to this headline">#</a></h2>
-<p>Let’s “manually” simulate the posterior predictive distribution from the posterior samples in <code class="docutils literal notranslate"><span class="pre">trace</span></code>: without the help of <code class="docutils literal notranslate"><span class="pre">pm.sample_posterior_predictive</span></code>.</p>
-<section id="understanding-the-pymc-posterior-trace-structure">
-<h3>Understanding the PyMC Posterior Trace Structure:<a class="headerlink" href="#understanding-the-pymc-posterior-trace-structure" title="Permalink to this headline">#</a></h3>
-<p>When we fit a model in PyMC, the results are stored in an arviz.InferenceData object: what we saved as <code class="docutils literal notranslate"><span class="pre">trace</span></code> above. For each parameter, PyMC stores the samples as an xarray DataArray with two main sampling dimensions:</p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">chain</span></code>: The MCMC chain index (typically 4 chains by default)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">draw</span></code>: The sequential draw within each chain (e.g., 5000 in this case: as determined by our use of <code class="docutils literal notranslate"><span class="pre">draws=5000</span></code>)</p></li>
-</ul>
-<p>Specifically:</p>
-<ul class="simple">
-<li><p>Since <code class="docutils literal notranslate"><span class="pre">beta</span></code> is vector-valued in our implementation above: the shape of beta within <code class="docutils literal notranslate"><span class="pre">trace</span></code> is <code class="docutils literal notranslate"><span class="pre">(num_chains,num_draws,num_coefficients)</span></code>, IE : <code class="docutils literal notranslate"><span class="pre">(4,5000,4)</span></code></p></li>
-<li><p>Since <code class="docutils literal notranslate"><span class="pre">sigma</span></code> is scalar valued its shape is <code class="docutils literal notranslate"><span class="pre">(4,5000,1)</span></code></p></li>
-</ul>
-<p>To work with these samples in a vectorized manner, we flatten the chain and draw dimensions into a single “samples” dimension to make them easier to work with.  The resulting shapes are:</p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">posterior_betas</span></code> has shape <code class="docutils literal notranslate"><span class="pre">(4,20000)</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">posterior_sigmas</span></code> has shape <code class="docutils literal notranslate"><span class="pre">(1,20000)</span></code></p></li>
-</ul>
-<p>This is done using <code class="docutils literal notranslate"><span class="pre">xarray.DataArray.stack</span></code>.  You can check out the documentation <a class="reference external" href="https://docs.xarray.dev/en/latest/generated/xarray.DataArray.stack.html">here</a> if you need more guidance.  adding on <code class="docutils literal notranslate"><span class="pre">.values</span></code> converts the resulting xarray to a NumPy array.</p>
-</section>
-<section id="pre-selecting-random-joint-posterior-indices">
-<h3>Pre-Selecting Random Joint Posterior Indices:<a class="headerlink" href="#pre-selecting-random-joint-posterior-indices" title="Permalink to this headline">#</a></h3>
-<p>To draw from the joint posterior, we first predefine a list of random indices—each corresponding to a complete joint sample of all model parameters.  Each entry in <code class="docutils literal notranslate"><span class="pre">indices</span></code> tells us which sample (across all chains and draws) to use for a full set of parameters.  <strong>This is important:</strong> If we sampled each parameter from different indices, we would effectively be sampling from the marginals, which is incorrect for generating predictive samples.</p>
-</section>
-<section id="generate-the-posterior-predictive-samples-from-the-posterior-samples">
-<h3>Generate the Posterior Predictive Samples from the Posterior Samples:<a class="headerlink" href="#generate-the-posterior-predictive-samples-from-the-posterior-samples" title="Permalink to this headline">#</a></h3>
-<p>For each posterior predictive sample:</p>
-<ul class="simple">
-<li><p>Extract the corresponding set of <code class="docutils literal notranslate"><span class="pre">beta</span></code> coefficients and <code class="docutils literal notranslate"><span class="pre">sigma</span></code> value using the same index from <code class="docutils literal notranslate"><span class="pre">indices</span></code></p></li>
-<li><p>Compute the mean prediction: dot product of the <code class="docutils literal notranslate"><span class="pre">new_obs</span></code> vector and the sampled <code class="docutils literal notranslate"><span class="pre">beta</span></code></p></li>
-<li><p>Add random noise that is sampled from a Normal distribution with mean 0 and standard deviation <code class="docutils literal notranslate"><span class="pre">sigma[i]</span></code></p></li>
-</ul>
-<p>We will then summarize our results manually using a <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code>.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">num_ppd_samples</span> <span class="o">=</span> <span class="mi">1000</span>
-
-<span class="c1">#Create a stacked ArviZ/xarray Dataset object containing your posterior samples for beta and sigma. </span>
-
-<span class="n">posterior_betas</span> <span class="o">=</span> <span class="n">trace</span><span class="o">.</span><span class="n">posterior</span><span class="o">.</span><span class="n">beta</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">samples</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;chain&#39;</span><span class="p">,</span><span class="s1">&#39;draw&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">values</span>
-<span class="n">posterior_sigmas</span> <span class="o">=</span> <span class="n">trace</span><span class="o">.</span><span class="n">posterior</span><span class="o">.</span><span class="n">sigma</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">samples</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;chain&#39;</span><span class="p">,</span><span class="s1">&#39;draw&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">values</span>
-
-<span class="n">_</span><span class="p">,</span><span class="n">num_samples</span> <span class="o">=</span> <span class="n">posterior_betas</span><span class="o">.</span><span class="n">shape</span>
-
-
-<span class="c1">#pre-defined list of indices</span>
-<span class="n">indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="n">num_samples</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="n">num_ppd_samples</span><span class="p">)</span>
-
-<span class="c1">#noise term:</span>
-<span class="n">noise</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">posterior_sigmas</span><span class="p">[</span><span class="n">indices</span><span class="p">])</span>
-
-<span class="c1">#posterior predictive samples:</span>
-<span class="n">ppd</span> <span class="o">=</span> <span class="p">((</span><span class="n">new_obs</span> <span class="o">@</span> <span class="n">posterior_betas</span><span class="p">[:,</span><span class="n">indices</span><span class="p">])</span> <span class="o">+</span> <span class="n">noise</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
-
-<span class="c1">#manually constructed summary:</span>
-<span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>   <span class="p">[</span><span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span>
-                <span class="p">[</span><span class="s1">&#39;mean&#39;</span><span class="p">,</span> <span class="s1">&#39;sd&#39;</span><span class="p">,</span> <span class="s1">&#39;hdi_2.5%&#39;</span><span class="p">,</span> <span class="s1">&#39;hdi_97.5%&#39;</span><span class="p">],</span>
-                <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">ppd</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">ppd</span><span class="o">.</span><span class="n">std</span><span class="p">()],</span> <span class="n">az</span><span class="o">.</span><span class="n">hdi</span><span class="p">(</span><span class="n">ppd</span><span class="p">,</span> <span class="n">hdi_prob</span><span class="o">=</span><span class="mf">0.95</span><span class="p">))</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">)))],</span>
-                <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;taste_score[0]&#39;</span><span class="p">])</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>mean</th>
-      <th>sd</th>
-      <th>hdi_2.5%</th>
-      <th>hdi_97.5%</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>taste_score[0]</th>
-      <td>30.325</td>
-      <td>11.233</td>
-      <td>7.877</td>
-      <td>51.912</td>
-    </tr>
-  </tbody>
-</table>
-</div></div></div>
-</div>
-<p>The results are fairly close to the results from <code class="docutils literal notranslate"><span class="pre">az.summary(ppc.predictions,</span> <span class="pre">hdi_prob=0.95)</span></code>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">load_ext</span> watermark
@@ -1097,7 +994,6 @@ pandas    : 2.2.3
 </div>
 </div>
 </div>
-</section>
 </section>
 </section>
 
@@ -1170,12 +1066,6 @@ pandas    : 2.2.3
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#taste-of-cheese">Taste of Cheese*</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#problem-statement">Problem Statement</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#intuition-from-posterior-trace-to-posterior-predictive-summary">Intuition: From posterior trace to posterior predictive summary:</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#understanding-the-pymc-posterior-trace-structure">Understanding the PyMC Posterior Trace Structure:</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pre-selecting-random-joint-posterior-indices">Pre-Selecting Random Joint Posterior Indices:</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#generate-the-posterior-predictive-samples-from-the-posterior-samples">Generate the Posterior Predictive Samples from the Posterior Samples:</a></li>
-</ul>
-</li>
 </ul>
   </nav></div>
 
