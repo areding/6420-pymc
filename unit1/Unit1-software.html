@@ -561,10 +561,7 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#multibugs-jags-and-nimble">MultiBUGS, JAGS, and NIMBLE</a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-wider-ppl-ecosystem">The wider PPL ecosystem</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#a-note-about-bambi-and-other-higher-level-interfaces">A note about BAMBI and other higher-level interfaces</a></li>
-</ul>
-</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-wider-ppl-ecosystem">The wider PPL ecosystem</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#general-purpose-programming-languages">General purpose programming languages</a></li>
@@ -583,13 +580,13 @@ document.write(`
 <h1><span class="section-number">3. </span>Software<a class="headerlink" href="#software" title="Permalink to this headline">#</a></h1>
 <div class="admonition important">
 <p class="admonition-title">Important</p>
-<p>Starting in Fall 2025, we will be switching to PyMC only for the course PPL. You are still welcome to use other programming languages prior to Unit 6, but it is probably a good idea to start getting used to Python if you aren’t already.</p>
+<p>Starting in Fall 2025, we will be switching to PyMC and Python only for all course coding.</p>
 </div>
 <section id="probabilistic-programming-languages">
 <h2>Probabilistic programming languages<a class="headerlink" href="#probabilistic-programming-languages" title="Permalink to this headline">#</a></h2>
 <p>As the professor says, <a class="reference external" href="https://www.mrc-bsu.cam.ac.uk/software/bugs/">BUGS</a> (Bayesian Inference using Gibbs Sampling) is actually a pretty good choice for learning the basics of Bayesian inference. There are things that BUGS can do that are still a pain to implement in PyMC. PyMC is also under active development; since Spring 2022 when this site went up, it’s already gone through two major version changes. Every semester there are changes to be researched and worked around, whereas BUGS hasn’t changed much for 15 years. So I understand why the professor stuck with it, even in 2018 when putting this course online.</p>
-<p>But there’s a tension there between students who are looking to practice career skills—they tend to want to use something Python or R-based. So I’ve redone most of the course examples in PyMC and provide Python solutions to any homework or exam problems we ask.</p>
-<p>Students are welcome to use any PPL for our course. If you’re only interested in the underlying theory and don’t want to add learning new software to your workload, you might be happiest sticking with OpenBUGS since it has a GUI and you’ll be able to pick it up easily.</p>
+<p>But there’s a tension there between students who are looking to practice career skills—they tend to want to use something Python or R-based. So we’ve redone most of the course examples in PyMC and provide Python solutions to any homework or exam problems we ask.</p>
+<p>Students are now required to use PyMC for our course. We are leaving this list of other PPLs below if you are interested and are no longer updating it.</p>
 <section id="bugs-and-family">
 <h3>BUGS and family<a class="headerlink" href="#bugs-and-family" title="Permalink to this headline">#</a></h3>
 <section id="winbugs-and-openbugs">
@@ -608,23 +605,13 @@ document.write(`
 <section id="the-wider-ppl-ecosystem">
 <h3>The wider PPL ecosystem<a class="headerlink" href="#the-wider-ppl-ecosystem" title="Permalink to this headline">#</a></h3>
 <p>If you want something a little more challenging and are comfortable with, or interested in, learning Python, try <a class="reference external" href="https://www.pymc.io/welcome.html">PyMC</a> along with the examples on this site.</p>
-<p>If you want to learn a more stable tool with excellent documentation, try <a class="reference external" href="https://mc-stan.org/">Stan</a>. One of the other TAs is working on creating course examples in Stan now, and I’ll link to his repository when they are ready.</p>
+<p>If you want to learn a more stable tool with excellent documentation, try <a class="reference external" href="https://mc-stan.org/">Stan</a>.</p>
 <p>If you’re really adventurous and want to learn Julia, maybe try <a class="reference external" href="https://github.com/TuringLang/Turing.jl">Turing.jl</a>. If you love trying the absolute latest thing and you want to go into completely uncharted territory for this class, you could look at <a class="reference external" href="https://github.com/aesara-devs/aemcmc">AeMCMC</a>, <a class="reference external" href="https://blackjax-devs.github.io/blackjax/examples/quickstart.html#">Blackjax</a>, <a class="reference external" href="https://github.com/pyro-ppl/numpyro">NumPyro</a>, <a class="reference external" href="https://github.com/jax-ml/oryx">Oryx</a>, <a class="reference external" href="https://www.tensorflow.org/probability">Tensorflow Probability</a>, <a class="reference external" href="https://github.com/deepmind/distrax">Distrax</a>, or go find something I’ve never heard of (and tell me about it)!</p>
-<p>If you redo any of the course examples in a new language I would love to hear about it. Even better, if you host your examples somewhere, let me know and I’ll add a link here.</p>
-<section id="a-note-about-bambi-and-other-higher-level-interfaces">
-<h4>A note about BAMBI and other higher-level interfaces<a class="headerlink" href="#a-note-about-bambi-and-other-higher-level-interfaces" title="Permalink to this headline">#</a></h4>
-<p>Please be careful if you choose to use interfaces like <a class="reference external" href="https://github.com/bambinos/bambi">BAMBI</a>. These abstraction layers will add an interface on top of a lower-level PPL. BAMBI, for example, will look very familiar to people who’ve used R’s <code class="docutils literal notranslate"><span class="pre">glm()</span></code> function for general linear models. It uses PyMC under the hood, but you can specify models like this:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">bmb</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="s2">&quot;y ~ x1 + x2&quot;</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
-<span class="n">fitted</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
-</pre></div>
-</div>
-<p>These are really cool packages. But students often run into trouble when using them for the homeworks and exams because this simplicity means making a lot of decisions for you. I don’t want to discourage anyone from using them, but sometimes it can be useful to explicitly write out each part of the model, especially when learning. There have been past exam questions that weren’t possible in BAMBI but were doable in PyMC!</p>
-</section>
 </section>
 </section>
 <section id="general-purpose-programming-languages">
 <h2>General purpose programming languages<a class="headerlink" href="#general-purpose-programming-languages" title="Permalink to this headline">#</a></h2>
-<p>Most people use Python, but quite a few also use R. MATLAB or Octave work fine for the first half of the course. I’ve almost never seen them used for the second half. A few students have tried Julia. It’s up to you. I’m most comfortable with Python so that’s what I’m using for these examples.</p>
+<p>Python is now required for our course.</p>
 </section>
 </section>
 
@@ -701,10 +688,7 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#multibugs-jags-and-nimble">MultiBUGS, JAGS, and NIMBLE</a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-wider-ppl-ecosystem">The wider PPL ecosystem</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#a-note-about-bambi-and-other-higher-level-interfaces">A note about BAMBI and other higher-level interfaces</a></li>
-</ul>
-</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-wider-ppl-ecosystem">The wider PPL ecosystem</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#general-purpose-programming-languages">General purpose programming languages</a></li>
