@@ -648,10 +648,11 @@ document.write(`
 <hr class="docutils" />
 <section id="id2">
 <h3>1<a class="headerlink" href="#id2" title="Permalink to this headline">#</a></h3>
-<p>Assume that <span class="math notranslate nohighlight">\(\Theta_0\)</span> and <span class="math notranslate nohighlight">\(\Theta_1\)</span> are two non-overlapping sets of parameter <span class="math notranslate nohighlight">\(\theta\)</span>. We want to test<br />
-$<span class="math notranslate nohighlight">\(
+<p>Assume that <span class="math notranslate nohighlight">\(\Theta_0\)</span> and <span class="math notranslate nohighlight">\(\Theta_1\)</span> are two non-overlapping sets of parameter <span class="math notranslate nohighlight">\(\theta\)</span>. We want to test</p>
+<div class="math notranslate nohighlight">
+\[
 H_0: \theta \in \Theta_0 \quad \text{v.s.} \quad H_1: \theta \in \Theta_1
-\)</span>$</p>
+\]</div>
 <p>The probabilities are:</p>
 <div class="math notranslate nohighlight">
 \[
@@ -672,14 +673,16 @@ p_1 = \int_{\Theta_1} \pi(\theta | x) d\theta = \mathbb{P}^{\theta | X}(H_1)
 \[
 \pi_0 = \int_{\Theta_0} \pi(\theta) d\theta, \quad \pi_1 = \int_{\Theta_1} \pi(\theta) d\theta
 \]</div>
-<p><span class="math notranslate nohighlight">\( B_{01} \)</span> – Bayes Factor in favor of <span class="math notranslate nohighlight">\( H_0 \)</span>:
-$<span class="math notranslate nohighlight">\(
+<p><span class="math notranslate nohighlight">\( B_{01} \)</span> – Bayes Factor in favor of <span class="math notranslate nohighlight">\( H_0 \)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
 B_{01} = \frac{p_0 / p_1}{\pi_0 / \pi_1}, \quad \text{(posterior odds / prior odds)}
-\)</span>$</p>
-<p><span class="math notranslate nohighlight">\( B_{10} \)</span> – Bayes Factor in favor of <span class="math notranslate nohighlight">\( H_1 \)</span> is the reciprocal:
-$<span class="math notranslate nohighlight">\(
+\]</div>
+<p><span class="math notranslate nohighlight">\( B_{10} \)</span> – Bayes Factor in favor of <span class="math notranslate nohighlight">\( H_1 \)</span> is the reciprocal:</p>
+<div class="math notranslate nohighlight">
+\[
 B_{10} = \frac{1}{B_{01}}
-\)</span>$</p>
+\]</div>
 </section>
 <section id="precise-null-h-0-theta-theta-0-requires-a-prior-with-point-mass-at-theta-0">
 <h4>Precise null <span class="math notranslate nohighlight">\( H_0: \theta = \theta_0 \)</span> requires a prior with point mass at <span class="math notranslate nohighlight">\( \theta_0 \)</span>.<a class="headerlink" href="#precise-null-h-0-theta-theta-0-requires-a-prior-with-point-mass-at-theta-0" title="Permalink to this headline">#</a></h4>
@@ -693,10 +696,11 @@ B_{10} = \frac{1}{B_{01}}
 <h4><strong>Precise Null</strong><a class="headerlink" href="#precise-null" title="Permalink to this headline">#</a></h4>
 <p>The professor notes that, if you want to test a precise number, your overall prior needs to contain the point mass representing your precise null hypothesis.</p>
 <p>What he means here is that you can only test a hypothesis where your prior allows for a probability greater than 0. So if your prior is a continuous distribution, the probability at any given point is 0. At a high level, if your prior doesn’t contain your hypothesis, you are essentially ruling out the hypothesis before you even build the rest of your model. Without mixing in the point mass, you’ve already predetermined that your hypothesis is impossible.</p>
-<p>That’s why he mixes that point mass <span class="math notranslate nohighlight">\(\delta_{\theta_0}\)</span> and the “spread” distribution <span class="math notranslate nohighlight">\(\xi(\theta)\)</span> in the prior <span class="math notranslate nohighlight">\(\pi(\theta)\)</span>; you need a discrete distribution to test a specific point.
-$<span class="math notranslate nohighlight">\(
+<p>That’s why he mixes that point mass <span class="math notranslate nohighlight">\(\delta_{\theta_0}\)</span> and the “spread” distribution <span class="math notranslate nohighlight">\(\xi(\theta)\)</span> in the prior <span class="math notranslate nohighlight">\(\pi(\theta)\)</span>; you need a discrete distribution to test a specific point.</p>
+<div class="math notranslate nohighlight">
+\[
 H_0: \theta = \theta_0 \quad \text{v.s.} \quad H_1: \theta \neq \theta_0
-\)</span>$</p>
+\]</div>
 <div class="math notranslate nohighlight">
 \[
 \pi(\theta) = \pi_0 \cdot \delta_{\theta_0} + (1 - \pi_0) \cdot \xi(\theta) \quad \text{where } (1 - \pi_0) = \pi_1
