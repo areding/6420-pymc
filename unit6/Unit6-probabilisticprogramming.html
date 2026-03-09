@@ -625,6 +625,10 @@ document.write(`
 </section>
 <section id="bugs">
 <h2>BUGS<a class="headerlink" href="#bugs" title="Permalink to this headline">#</a></h2>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Since Fall 2025, we use PyMC as our only PPL. I’m leaving this information here for reference, but don’t use BUGS for the class.</p>
+</div>
 <p>The course lecture examples use OpenBUGS from this point forward. I’ve mirrored the last version of OpenBUGS on this site:</p>
 <ul class="simple">
 <li><p>Windows, <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/BUGS/OpenBUGS323setup.zip">version 3.2.3</a></p></li>
@@ -638,15 +642,15 @@ document.write(`
 <section id="some-history">
 <h3>Some history<a class="headerlink" href="#some-history" title="Permalink to this headline">#</a></h3>
 <p>In 2003, Chris Fonnesbeck <a class="reference external" href="https://www.pymc.io/blog/PyMC_Past_Present_Future.html">started</a> writing PyMC (<span id="id1">Wiecki <em>et al.</em> [<a class="reference internal" href="../backmatter/bibliography.html#id38" title="Thomas Wiecki, John Salvatier, Ricardo Vieira, Maxim Kochurov, Anand Patil, Michael Osthege, Brandon T. Willard, Bill Engels, Colin Carroll, Osvaldo A Martin, Adrian Seyboldt, Austin Rochford, Luciano Paz, rpgoldman, Kyle Meyer, Peadar Coyle, Marco Edward Gorelli, Oriol Abril-Pla, Ravin Kumar, Junpeng Lao, Virgile Andreani, Taku Yoshioka, George Ho, Thomas Kluyver, Kyle Beauchamp, Alexandre Andorra, Demetri Pananos, Eelke Spaak, Benjamin Edwards, and Eric Ma. Pymc-devs/pymc: v5.7.2. aug 2023. URL: https://doi.org/10.5281/zenodo.8227797, doi:10.5281/zenodo.8227797.">2023</a>]</span>) as a graduate student at the University of Georgia—partly out of frustration with WinBUGS. Eventually, PyMC3 became popular as a Python-based alternative to <a class="reference external" href="https://mc-stan.org/">Stan</a>. Both used implementations of the NUTS algorithm for sampling (<span id="id2">Hoffman and Gelman [<a class="reference internal" href="../backmatter/bibliography.html#id39" title="Matthew D. Hoffman and Andrew Gelman. The no-u-turn sampler: adaptively setting path lengths in hamiltonian monte carlo. 2011. arXiv:1111.4246.">2011</a>]</span>). PyMC3 was based on Theano, a tensor library for doing machine learning-related math. In 2016, PyMC was sponsored by <a class="reference external" href="https://numfocus.org/uncategorized/numfocus-announces-new-fiscally-sponsored-project-pymc3">NumFOCUS</a>, an organization started in part by the authors of NumPy, Matplotlib, and IPython and others to promote open scientific computing.</p>
-<p>I started converting the course examples to PyMC3 in 2022. Later that year, PyMC version 4.0 was <a class="reference external" href="https://www.pymc.io/blog/v4_announcement.html">released</a>. The backend switched to Aesara, a rewrite of Theano based on JAX. Towards the end of 2022, the PyMC devs forked Aesara to create <a class="reference external" href="https://www.pymc.io/blog/pytensor_announcement.html">Pytensor</a> over some governance conflicts, and the current major version, PyMC v5, came out.</p>
+<p>Aaron started converting the course examples to PyMC3 in 2022. Later that year, PyMC version 4.0 was <a class="reference external" href="https://www.pymc.io/blog/v4_announcement.html">released</a>. The backend switched to Aesara, a rewrite of Theano based on JAX. Towards the end of 2022, the PyMC devs forked Aesara to create <a class="reference external" href="https://www.pymc.io/blog/pytensor_announcement.html">Pytensor</a> over some governance conflicts, and the current major version, PyMC v5, came out.</p>
 <p>There have been lots of changes and I’ve had to update the code examples a few times. In fact, there are still some that need to be updated that used to work in PyMC3 or v4. I’m going to copy the practice of using the <a class="reference external" href="https://github.com/rasbt/watermark">watermark extension</a> as in the <a class="reference external" href="https://www.pymc.io/projects/examples/en/latest/gallery.html">PyMC Example Gallery</a> to show the exact versions each example was last run on.</p>
 </section>
 <section id="installation">
 <h3>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">#</a></h3>
-<p>This site is currently using PyMC version 5. The installation instructions below are based on the ones at the <a class="reference external" href="https://www.pymc.io/projects/docs/en/latest/installation.html">PyMC website</a>. I’m going to go into more detail here, though.</p>
+<p>This site is currently using PyMC version 5. The installation instructions below are based on the ones at the <a class="reference external" href="https://www.pymc.io/projects/docs/en/latest/installation.html">PyMC website</a>. We will try to add more detail based on our experiences helping 300+ students per semester get it installed.</p>
 <section id="virtual-environment">
 <h4>Virtual environment<a class="headerlink" href="#virtual-environment" title="Permalink to this headline">#</a></h4>
-<p>I highly recommend using Miniforge and Mamba to manage the PyMC environment. Students seem to have issues with Anaconda every semester. If you have Anaconda, Conda, or Mamba already, please make sure you only use the conda-forge channel as a source.</p>
+<p>I highly recommend using Miniforge and Mamba to manage the PyMC environment. Students seem to have issues with Anaconda every semester. If you have Anaconda, Conda, or Mamba already, please make sure you only use the conda-forge channel as a source. You are welcome to try other package managers like pip or uv as well, but it will be difficult for the TAs to support all methods.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>For MacOS, make sure you have the Xcode command line tools installed with <code class="docutils literal notranslate"><span class="pre">xcode-select</span> <span class="pre">--install</span></code> in your terminal.</p>
@@ -708,12 +712,16 @@ which<span class="w"> </span>python
 </section>
 <section id="using-scripts-instead-of-notebooks">
 <h4>Using scripts instead of notebooks<a class="headerlink" href="#using-scripts-instead-of-notebooks" title="Permalink to this headline">#</a></h4>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Since Spring 2026, we require Jupyter notebooks for homeworks and exams. Just leaving this note for your information.</p>
+</div>
 <p>If you prefer to use <code class="docutils literal notranslate"><span class="pre">.py</span></code> scripts that will be run directly from the command line, be aware that for multiprocessing to work correctly, you must use the <code class="docutils literal notranslate"><span class="pre">if</span> <span class="pre">__name__</span> <span class="pre">==</span> <span class="pre">'__main__':</span></code> <a class="reference external" href="https://docs.python.org/3/library/__main__.html#idiomatic-usage">Python idiom</a>.</p>
 </section>
 <section id="other-debugging-tips">
 <h4>Other debugging tips<a class="headerlink" href="#other-debugging-tips" title="Permalink to this headline">#</a></h4>
 <ul class="simple">
-<li><p>Try running a minimal model first, like the <a class="reference external" href="https://areding.github.io/6420-pymc/unit6/Unit6-loadingdata.html">taste of cheese</a> example to make sure your installation is working okay.</p></li>
+<li><p>Try running a minimal model first, like the <a class="reference external" href="https://areding.github.io/6420-pymc/unit6/Unit6-loadingdata.html">Taste of Cheese</a> example to make sure your installation is working okay.</p></li>
 <li><p>Use Google Colab to see if it’s your model or your installation. You can open any of the notebooks on this site directly in Colab using the pop-up link from the rocket ship icon on the top of the page. Colab will likely be somewhat slower than your machine if you’re using the free version, but it works reliably well for newer versions of PyMC.</p></li>
 <li><p>In the lecture examples, the professor often uses 100,000 or more samples. Don’t do that in PyMC! The NUTS sampler, which is PyMC’s default, can explore the posterior much more efficiently. Start with 1,000 or fewer when first testing out your model, then increase to a comfortable number.</p></li>
 </ul>
