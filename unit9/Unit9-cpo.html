@@ -273,7 +273,7 @@ const thebe_selector_output = ".output, .cell_output"
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Unit 6</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../unit6/Unit6-probabilisticprogramming.html">1. Probabilistic Programming Languages</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../unit6/Unit6-doodlebug.html">2. Creating a Graphical Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unit6/Unit6-graphicalmodels.html">2. A Gentle Introduction to DAGs for Bayesian Models</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../unit6/Unit6-demo-doodle.html">3. Joint Probability Graphs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../unit6/Unit6-moreaboutpymc.html">4. More About PyMC</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../unit6/Unit6-loadingdata.html">5. Loading Data, Step Function, and Deterministic Variables*</a></li>
@@ -642,8 +642,8 @@ p(\theta \vert y_{-i}) &amp;= \frac{p(y)}{p(y_{-i})}\cdot\frac{1}{p(y_{i}\vert \
 \[\begin{align*}
 1 &amp;= \frac{p(y)}{p(y_{-i})}\cdot \int_{\Theta}\frac{1}{p(y_{i}\vert \theta)}p(\theta\vert y)d\theta\\
 \end{align*}\]</div>
-<div class="amsmath math notranslate nohighlight" id="equation-574c3b36-7ddd-44e1-a60c-7804f3321172">
-<span class="eqno">(1)<a class="headerlink" href="#equation-574c3b36-7ddd-44e1-a60c-7804f3321172" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-3ea9b1d4-d734-42f2-a2e4-7a74cdb8f4f6">
+<span class="eqno">(1)<a class="headerlink" href="#equation-3ea9b1d4-d734-42f2-a2e4-7a74cdb8f4f6" title="Permalink to this equation">#</a></span>\[\begin{equation}
 \frac{p(y_{-i})}{p(y)} = \int_{\theta}\bigg[ \frac{1}{p(y_{i}\vert \theta)} \bigg]\cdot p(\theta \vert y)d\theta\tag{1}
 \end{equation}\]</div>
 <p>The right-hand side of equation (1) should remind you of LOTUS (Law of The Unconscious Statistician): It’s just an expectation.  Recall that for a continuous random variable <span class="math notranslate nohighlight">\(X\)</span> with density function <span class="math notranslate nohighlight">\(p(x)\)</span>, if <span class="math notranslate nohighlight">\(Y=g(x)\)</span> then:</p>

@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>2. Creating a Graphical Model &#8212; ISYE 6420 - BUGS to PyMC</title>
+    <title>2. A Gentle Introduction to DAGs for Bayesian Models &#8212; ISYE 6420 - BUGS to PyMC</title>
   
   
   
@@ -65,7 +65,9 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'unit6/Unit6-doodlebug';</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'unit6/Unit6-graphicalmodels';</script>
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -271,7 +273,7 @@ const thebe_selector_output = ".output, .cell_output"
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Unit 6</span></p>
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="Unit6-probabilisticprogramming.html">1. Probabilistic Programming Languages</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">2. Creating a Graphical Model</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">2. A Gentle Introduction to DAGs for Bayesian Models</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Unit6-demo-doodle.html">3. Joint Probability Graphs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Unit6-moreaboutpymc.html">4. More About PyMC</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Unit6-loadingdata.html">5. Loading Data, Step Function, and Deterministic Variables*</a></li>
@@ -416,7 +418,7 @@ const thebe_selector_output = ".output, .cell_output"
       
       
       
-      <li><a href="https://colab.research.google.com/github/areding/6420-pymc/blob/main/unit6/Unit6-doodlebug.ipynb" target="_blank"
+      <li><a href="https://colab.research.google.com/github/areding/6420-pymc/blob/main/unit6/Unit6-graphicalmodels.ipynb" target="_blank"
    class="btn btn-sm dropdown-item"
    title="Launch onColab"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -464,7 +466,7 @@ const thebe_selector_output = ".output, .cell_output"
       
       
       
-      <li><a href="https://github.com/areding/6420-pymc/issues/new?title=Issue%20on%20page%20%2Funit6/Unit6-doodlebug.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/areding/6420-pymc/issues/new?title=Issue%20on%20page%20%2Funit6/Unit6-graphicalmodels.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -494,7 +496,7 @@ const thebe_selector_output = ".output, .cell_output"
       
       
       
-      <li><a href="../_sources/unit6/Unit6-doodlebug.ipynb" target="_blank"
+      <li><a href="../_sources/unit6/Unit6-graphicalmodels.ipynb" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -563,7 +565,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
 </div></div>
       
     </div>
@@ -574,11 +578,22 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Creating a Graphical Model</h1>
+    <h1>A Gentle Introduction to DAGs for Bayesian Models</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-a-graph">What is a Graph?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bayesian-models-as-graphs">Bayesian Models as Graphs:</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-graphs-why-dags">Why Graphs?  Why DAGs?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#connecting-this-to-the-markov-property">Connecting this to the Markov Property:</a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -588,13 +603,107 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="creating-a-graphical-model">
-<h1><span class="section-number">2. </span>Creating a Graphical Model<a class="headerlink" href="#creating-a-graphical-model" title="Permalink to this headline">#</a></h1>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>This page is a stub. I will try to update it over the semester with supplementary lecture notes—if you would like to request a certain page be finished first, please make an Ed Discussion post with your questions about the lecture.</p>
+  <section class="tex2jax_ignore mathjax_ignore" id="a-gentle-introduction-to-dags-for-bayesian-models">
+<h1><span class="section-number">2. </span>A Gentle Introduction to DAGs for Bayesian Models<a class="headerlink" href="#a-gentle-introduction-to-dags-for-bayesian-models" title="Permalink to this headline">#</a></h1>
+<p>In this unit, we begin our exploration of Bayesian models. In the second half of the course, we will implement these models using PyMC. Before diving into code, however, we must first introduce some foundational concepts that allow us to express Bayesian models precisely. Among the most essential tools for this purpose are ideas from graph theory.</p>
+<section id="what-is-a-graph">
+<h2>What is a Graph?<a class="headerlink" href="#what-is-a-graph" title="Permalink to this headline">#</a></h2>
+<p>A graph is a collection of <strong>nodes</strong> (sometimes called <strong>vertices</strong>) and the <strong>edges</strong> that connect them.  It’s helpful to think of a node as representing an entity, and an edge as representing a relationship or interaction between two entities:</p>
+<br>
+<div align="center">
+<p><img alt="Some Graphs" src="../_images/unit6_graph_theory.jpg" /></p>
 </div>
-<p>The corresponding lecture here is called “Creating a Doodle Running Doodleplot.” I’m not going to talk about that. In fact, this lecture can safely be skipped unless you are, for some reason, determined to use DoodleBUGS in this class. I don’t think I’ve ever seen anyone do that, but maybe you will!</p>
+<p align="center">
+  <span style="font-size:smaller;"><b>Examples of Graphs:</b>
+Left: a transit map; Center: a social network; Right: a molecular structure (2-phenylethanol).
+Each is an everyday construct that can be represented as a graph—a set of nodes and edges.</span>
+</p><p>Graphs come in two main forms:</p>
+<ul class="simple">
+<li><p>An <strong>undirected graph</strong> has edges with no direction. If there is an edge between nodes
+<span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span>, we write <span class="math notranslate nohighlight">\(A\)</span>–<span class="math notranslate nohighlight">\(B\)</span>, and the relationship is symmetric.  These types of graphs are often used to represent mutual relationships.  Think of ‘friendships’ in a social network.</p></li>
+<li><p>A <strong>directed graph</strong> (digraph) has edges that point from one node to another.  Using social media as an example, with nodes <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span> here are some ways we could write relationships between them:</p>
+<ul>
+<li><p><span class="math notranslate nohighlight">\(A\rightarrow B\)</span> : Person <span class="math notranslate nohighlight">\(A\)</span> follows person <span class="math notranslate nohighlight">\(B\)</span>, but person <span class="math notranslate nohighlight">\(B\)</span> does <em>not</em> follow person <span class="math notranslate nohighlight">\(A\)</span>.</p></li>
+<li><p><span class="math notranslate nohighlight">\(B\rightarrow A\)</span> : Person <span class="math notranslate nohighlight">\(B\)</span> follows person <span class="math notranslate nohighlight">\(A\)</span>, but person <span class="math notranslate nohighlight">\(A\)</span> does <em>not</em> follow person <span class="math notranslate nohighlight">\(B\)</span>.</p></li>
+<li><p><span class="math notranslate nohighlight">\(A\leftrightarrow B\)</span> : <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span> are friends with each other</p></li>
+</ul>
+</li>
+</ul>
+<p>Each of these can also be <em>cyclic</em> or <em>acyclic</em>:</p>
+<ul class="simple">
+<li><p>A <strong>cyclic graph</strong> contains at at least one path that allows you to start at a node and return to the same place.  Using websites as an example: If Site <span class="math notranslate nohighlight">\(A\)</span> links to Site <span class="math notranslate nohighlight">\(B\)</span>, Site <span class="math notranslate nohighlight">\(B\)</span> links to Site <span class="math notranslate nohighlight">\(C\)</span>, and Site <span class="math notranslate nohighlight">\(C\)</span> links back to Site <span class="math notranslate nohighlight">\(A\)</span>, that forms a cycle.</p></li>
+<li><p>An <strong>acyclic graph</strong> has <strong>no cycles</strong>. You cannot return to a starting point by following a sequence of edges.</p></li>
+</ul>
+</section>
+<section id="bayesian-models-as-graphs">
+<h2>Bayesian Models as Graphs:<a class="headerlink" href="#bayesian-models-as-graphs" title="Permalink to this headline">#</a></h2>
+<p>Bayesian models are expressible as <em>Directed Acyclic Graphs (DAGs)</em>.  We have previously seen some simple Bayes networks where the nodes are events.  Now, the nodes represent the random variables in the model and edges denote the statistical dependencies between the nodes.</p>
+</section>
+<section id="why-graphs-why-dags">
+<h2>Why Graphs?  Why DAGs?<a class="headerlink" href="#why-graphs-why-dags" title="Permalink to this headline">#</a></h2>
+<p>Nodes and edges are a useful way to track the relationships between variables and the dependence structure of your model.  The <em>absence</em> of an edge between nodes means there is no direct dependence between those random variables.  This method is intuitive and compact but also allows us to leverage the Markovian property.  This is useful in inference later.</p>
+<p>Consider first the graph (U6 L1 Video, 4:23 , Lecture Slide #5 in PDF) <span class="math notranslate nohighlight">\(A\rightarrow B \rightarrow C\)</span></p>
+<p>Each arrow between nodes encodes a conditional dependence:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(B\)</span> depends on <span class="math notranslate nohighlight">\(A\)</span>.</p></li>
+<li><p><span class="math notranslate nohighlight">\(C\)</span> depends on <span class="math notranslate nohighlight">\(B\)</span></p></li>
+<li><p>Therefore <span class="math notranslate nohighlight">\(B\)</span> influences <span class="math notranslate nohighlight">\(C\)</span></p></li>
+</ul>
+<p>Note that <span class="math notranslate nohighlight">\(A\)</span> cannot <em>directly</em> influence <span class="math notranslate nohighlight">\(C\)</span>.  It can only influence <span class="math notranslate nohighlight">\(C\)</span> through <span class="math notranslate nohighlight">\(B\)</span>.  This structure has important implicatons for how we factor the joint distribution <span class="math notranslate nohighlight">\(P(A,B,C)\)</span>.</p>
+<p>Recall that the <strong>chain rule</strong> (or <strong>general product rule</strong>) allows us to decompose the joint probability into a product of conditional probabilities:</p>
+<div class="math notranslate nohighlight">
+\[
+P(X_{1} , X_{2} , \cdots , X_{n}) = \prod_{k=1}^{n}P(X_{k} \vert X_{1} , \cdots , X_{k-1})
+\]</div>
+</section>
+<section id="connecting-this-to-the-markov-property">
+<h2>Connecting this to the Markov Property:<a class="headerlink" href="#connecting-this-to-the-markov-property" title="Permalink to this headline">#</a></h2>
+<p>In the context of our Bayesian models, the Markov property states that a node is conditionally independent of <strong>the node’s non-descendants given the node’s parents</strong>.  Applied to our graph:</p>
+<div align='center'>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>Explanations:</strong></p></th>
+<th class="head"><p><strong>Graph <span class="math notranslate nohighlight">\(A\rightarrow B \rightarrow C\)</span>:</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Parent(s)</strong><br>The immediate nodes that have arrows pointing into a node.<br></p></td>
+<td><p><strong>Variable <span class="math notranslate nohighlight">\(A\)</span></strong><br>• Parents: None<br>• Descendants: <span class="math notranslate nohighlight">\(B\)</span>, <span class="math notranslate nohighlight">\(C\)</span><br>• Non-Descendants : None</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Descendants</strong><br>All nodes that can be reached by following directed edges starting from the node.</p></td>
+<td><p><strong>Variable B</strong><br>• Parents: <span class="math notranslate nohighlight">\(A\)</span><br>• Descendants: <span class="math notranslate nohighlight">\(C\)</span><br>• Non-descendants: <span class="math notranslate nohighlight">\(A\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Non-descendants</strong><br>All nodes in the graph except:<br>• the node itself<br>• its descendants</p></td>
+<td><p><strong>Variable C</strong><br>• Parents: <span class="math notranslate nohighlight">\(B\)</span><br>• Descendants: None<br>• Non-descendants: <span class="math notranslate nohighlight">\(A,B\)</span></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Note that for node <span class="math notranslate nohighlight">\(C\)</span>, the Markov property applies: <span class="math notranslate nohighlight">\(C \perp\!\!\!\perp A \vert B\)</span>.  We take this as ground truth and proceed to show something interesting about <span class="math notranslate nohighlight">\(A\)</span>.  We can prove that even though we are conditioning on <span class="math notranslate nohighlight">\(B\)</span> and <span class="math notranslate nohighlight">\(C\)</span>, the additional information from <span class="math notranslate nohighlight">\(C\)</span> is redundant once <span class="math notranslate nohighlight">\(B\)</span> is known.  We can do this using only Bayes’ Rule, Conditional Probability, and the chain rule from above:  Consider <span class="math notranslate nohighlight">\(P(A\vert B,C)\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+P(A \mid B, C) 
+    &amp;= \frac{P(B, C \mid A) \cdot P(A)}{P(B, C)} 
+    &amp;&amp; \leftarrow \textcolor{blue}{\text{Bayes' Rule}} \\
+    &amp;= \frac{P(A, B, C)}{P(B, C)} 
+    &amp;&amp; \leftarrow \textcolor{blue}{\text{Conditional Probability}} \\
+    &amp;= \frac{P(A) \cdot P(B \mid A) \cdot P(C \mid B)}{P(B, C)} 
+    &amp;&amp; \leftarrow \textcolor{blue}{\text{Chain rule/general product rule}} \\
+    &amp;= \frac{P(A) \cdot P(B \mid A) \cdot \cancel{P(C \mid B})}{\cancel{P(C \mid B)} \cdot P(B)} 
+    &amp;&amp; \leftarrow \textcolor{blue}{\text{Conditional Probability}} \\
+    &amp;= \frac{P(B \mid A) \cdot P(A)}{P(B)}\\ 
+    &amp;= P(A \mid B)\square
+    &amp;&amp; \leftarrow \textcolor{blue}{\text{Bayes' Rule}}
+\end{align*}
+\end{split}\]</div>
+<p>Applying both the Markov Property and the chain rule gives us:</p>
+<div class="math notranslate nohighlight">
+\[
+P(ABC) = P(A)\times P(B\vert A) \times P(C\vert B)
+\]</div>
+<p>What we have observed here is a simple case of <strong><span class="math notranslate nohighlight">\(d\)</span>-separation</strong>: a graphical criterion that determines when two sets of nodes are conditionally independent, given a third set.</p>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -655,6 +764,23 @@ document.write(`
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-a-graph">What is a Graph?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bayesian-models-as-graphs">Bayesian Models as Graphs:</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-graphs-why-dags">Why Graphs?  Why DAGs?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#connecting-this-to-the-markov-property">Connecting this to the Markov Property:</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>
