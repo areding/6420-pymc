@@ -65,6 +65,8 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'unit6/Unit6-demo-doodle';</script>
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -563,7 +565,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
 </div></div>
       
     </div>
@@ -579,6 +583,15 @@ document.write(`
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#normal-cauchy-model-example">Normal-Cauchy model example</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pymc-model-specification">PyMC model specification</a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -590,7 +603,322 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="joint-probability-graphs">
 <h1><span class="section-number">3. </span>Joint Probability Graphs<a class="headerlink" href="#joint-probability-graphs" title="Permalink to this headline">#</a></h1>
-<p>This is a placeholder for now. The original lecture is “Creating a Doodle Running Doodleplot,” so it’s safe to skip.</p>
+<p>PyMC relies on PyTensor for its mathematical expressions and array processing. PyTensor also compiles the model into one joint log-probability before sampling takes place. If we think back to Unit 5, this is the target function or un-normalized posterior expression that we are giving to the MCMC sampler. Using the log of that expression is generally preferred for computational stability.</p>
+<p>PyTensor actually performs a lot of optimizations automatically to speed up sampling. Things like automatically simplifying the arithmetic to have fewer operations, switching to more numerically stable but equivalent expressions, and computing/storing constants instead of repeatedly calculating them. This all happens away from the user-level.</p>
+<section id="normal-cauchy-model-example">
+<h2>Normal-Cauchy model example<a class="headerlink" href="#normal-cauchy-model-example" title="Permalink to this headline">#</a></h2>
+<p>This is the model from Unit 5 Lessons 6 and 7. I’m going to define it directly in PyTensor right now to show a printout of what the uncompiled model graph looks like, then the compiled version. I’m also adding in some unnecessary operations to show how they get optimized away. Don’t worry too much about the syntax here, we do not need this much of this for PyMC models.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pytensor</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pytensor.tensor</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytensor.printing</span><span class="w"> </span><span class="kn">import</span> <span class="n">debugprint</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pymc.logprob</span><span class="w"> </span><span class="kn">import</span> <span class="n">conditional_logp</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+
+<span class="c1"># values</span>
+<span class="n">theta_value</span> <span class="o">=</span> <span class="n">pt</span><span class="o">.</span><span class="n">scalar</span><span class="p">(</span><span class="s2">&quot;theta_value&quot;</span><span class="p">)</span>
+<span class="n">x_observed</span> <span class="o">=</span> <span class="n">pt</span><span class="o">.</span><span class="n">scalar</span><span class="p">(</span><span class="s2">&quot;x_observed&quot;</span><span class="p">)</span>
+
+<span class="c1"># random variables</span>
+<span class="n">theta_rv</span> <span class="o">=</span> <span class="n">pt</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">cauchy</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;theta&quot;</span><span class="p">)</span>
+<span class="n">mu</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="o">-</span><span class="n">theta_rv</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="mf">2.0</span> <span class="o">*</span> <span class="mf">3.0</span> <span class="o">-</span> <span class="mf">6.0</span><span class="p">)</span>  <span class="c1"># extra 0 and double negative</span>
+<span class="n">x_rv</span> <span class="o">=</span> <span class="n">pt</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">mu</span><span class="p">,</span> <span class="n">pt</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">1.0</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">)</span>  <span class="c1"># unnecessary sqrt</span>
+
+<span class="n">logp_terms</span> <span class="o">=</span> <span class="n">conditional_logp</span><span class="p">(</span>
+    <span class="p">{</span>
+        <span class="n">theta_rv</span><span class="p">:</span> <span class="n">theta_value</span><span class="p">,</span>
+        <span class="n">x_rv</span><span class="p">:</span> <span class="n">x_observed</span><span class="p">,</span>
+    <span class="p">}</span>
+<span class="p">)</span>
+<span class="n">joint_logp</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">logp_terms</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Uncompiled graph:&quot;</span><span class="p">)</span>
+<span class="n">debugprint</span><span class="p">(</span><span class="n">joint_logp</span><span class="p">)</span>
+
+<span class="n">logp_fn</span> <span class="o">=</span> <span class="n">pytensor</span><span class="o">.</span><span class="n">function</span><span class="p">(</span>
+    <span class="p">[</span><span class="n">theta_value</span><span class="p">,</span> <span class="n">x_observed</span><span class="p">],</span>
+    <span class="n">joint_logp</span><span class="p">,</span>
+    <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;FAST_RUN&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Uncompiled graph:
+Add [id A]
+ ├─ Add [id B]
+ │  ├─ 0 [id C]
+ │  └─ Check{beta &gt; 0} [id D] &#39;theta_value_logprob&#39;
+ │     ├─ Sub [id E]
+ │     │  ├─ Sub [id F]
+ │     │  │  ├─ Neg [id G]
+ │     │  │  │  └─ Log [id H]
+ │     │  │  │     └─ 3.141592653589793 [id I]
+ │     │  │  └─ Log [id J]
+ │     │  │     └─ 1.0 [id K]
+ │     │  └─ Log1p [id L]
+ │     │     └─ Pow [id M]
+ │     │        ├─ True_div [id N]
+ │     │        │  ├─ Sub [id O]
+ │     │        │  │  ├─ theta_value [id P]
+ │     │        │  │  └─ 0.0 [id Q]
+ │     │        │  └─ 1.0 [id K]
+ │     │        └─ 2 [id R]
+ │     └─ ScalarFromTensor [id S]
+ │        └─ All{axes=None} [id T]
+ │           └─ MakeVector{dtype=&#39;bool&#39;} [id U]
+ │              └─ All{axes=None} [id V]
+ │                 └─ Gt [id W]
+ │                    ├─ 1.0 [id K]
+ │                    └─ 0 [id X]
+ └─ Check{sigma &gt; 0} [id Y] &#39;x_observed_logprob&#39;
+    ├─ Sub [id Z]
+    │  ├─ Sub [id BA]
+    │  │  ├─ Mul [id BB]
+    │  │  │  ├─ -0.5 [id BC]
+    │  │  │  └─ Pow [id BD]
+    │  │  │     ├─ True_div [id BE]
+    │  │  │     │  ├─ Sub [id BF]
+    │  │  │     │  │  ├─ x_observed [id BG]
+    │  │  │     │  │  └─ theta_value [id P]
+    │  │  │     │  └─ 1.0 [id K]
+    │  │  │     └─ 2 [id BH]
+    │  │  └─ Log [id BI]
+    │  │     └─ Sqrt [id BJ]
+    │  │        └─ 6.283185307179586 [id BK]
+    │  └─ Log [id BL]
+    │     └─ 1.0 [id K]
+    └─ ScalarFromTensor [id BM]
+       └─ All{axes=None} [id BN]
+          └─ MakeVector{dtype=&#39;bool&#39;} [id BO]
+             └─ All{axes=None} [id BP]
+                └─ Gt [id BQ]
+                   ├─ 1.0 [id K]
+                   └─ 0 [id BR]
+</pre></div>
+</div>
+</div>
+</div>
+<p>Above is the uncompiled log-probability graph output. Below is the compiled version and an evaluation at theta=0 and the observed x value.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Compiled graph:&quot;</span><span class="p">)</span>
+<span class="n">debugprint</span><span class="p">(</span><span class="n">logp_fn</span><span class="o">.</span><span class="n">maker</span><span class="o">.</span><span class="n">fgraph</span><span class="o">.</span><span class="n">outputs</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">logp(theta=0, x=2):&quot;</span><span class="p">,</span> <span class="n">logp_fn</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Compiled graph:
+Composite{((-1.1447298858494002 - log1p(sqr(i0))) + -0.9189385332046727 + (-0.5 * sqr((i1 - i0))))} [id A]
+ ├─ theta_value [id B]
+ └─ x_observed [id C]
+
+Inner graphs:
+
+Composite{((-1.1447298858494002 - log1p(sqr(i0))) + -0.9189385332046727 + (-0.5 * sqr((i1 - i0))))} [id A]
+ ← add [id D] &#39;o0&#39;
+    ├─ sub [id E]
+    │  ├─ -1.1447298858494002 [id F]
+    │  └─ log1p [id G]
+    │     └─ sqr [id H]
+    │        └─ i0 [id I]
+    ├─ -0.9189385332046727 [id J]
+    └─ mul [id K]
+       ├─ -0.5 [id L]
+       └─ sqr [id M]
+          └─ sub [id N]
+             ├─ i1 [id O]
+             └─ i0 [id I]
+
+logp(theta=0, x=2): -4.063668419054073
+</pre></div>
+</div>
+</div>
+</div>
+<p>For Unit 5 Lesson 7, with one datapoint <span class="math notranslate nohighlight">\(x=2\)</span>, the posterior kernel is</p>
+<div class="math notranslate nohighlight">
+\[
+\pi(\theta \mid x) \propto \frac{\exp\!\left(-\frac12 (x-\theta)^2\right)}{1+\theta^2}.
+\]</div>
+<p>The compiled log-probability output, above, is the log of that same expression, with some extra constants:</p>
+<div class="math notranslate nohighlight">
+\[
+-\log(1+\theta^2)\;-\;\frac12(x-\theta)^2\;+\;\text{constant}.
+\]</div>
+</section>
+<section id="pymc-model-specification">
+<h2>PyMC model specification<a class="headerlink" href="#pymc-model-specification" title="Permalink to this headline">#</a></h2>
+<p>Here is how we would specify this model in PyMC.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pymc</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pm</span>
+
+<span class="n">x_observed</span> <span class="o">=</span> <span class="mf">2.0</span>
+
+<span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">normal_cauchy_model</span><span class="p">:</span>
+    <span class="n">theta</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Cauchy</span><span class="p">(</span><span class="s2">&quot;theta&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+
+    <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">theta</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">x_observed</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>You can see that the model matches the above PyTensor version.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">logp_terms</span> <span class="o">=</span> <span class="n">normal_cauchy_model</span><span class="o">.</span><span class="n">logp</span><span class="p">(</span><span class="nb">sum</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">debugprint</span><span class="p">(</span><span class="n">logp_terms</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Check{beta &gt; 0} [id A] &#39;theta_logprob&#39;
+ ├─ Sub [id B]
+ │  ├─ Sub [id C]
+ │  │  ├─ Neg [id D]
+ │  │  │  └─ Log [id E]
+ │  │  │     └─ 3.141592653589793 [id F]
+ │  │  └─ Log [id G]
+ │  │     └─ 1.0 [id H]
+ │  └─ Log1p [id I]
+ │     └─ Pow [id J]
+ │        ├─ True_div [id K]
+ │        │  ├─ Sub [id L]
+ │        │  │  ├─ theta [id M]
+ │        │  │  └─ 0.0 [id N]
+ │        │  └─ 1.0 [id H]
+ │        └─ 2 [id O]
+ └─ ScalarFromTensor [id P]
+    └─ All{axes=None} [id Q]
+       └─ MakeVector{dtype=&#39;bool&#39;} [id R]
+          └─ All{axes=None} [id S]
+             └─ Gt [id T]
+                ├─ 1.0 [id H]
+                └─ 0 [id U]
+Alloc [id V] &#39;x_logprob&#39;
+ └─ Check{sigma &gt; 0} [id W]
+    ├─ Sub [id X]
+    │  ├─ Sub [id Y]
+    │  │  ├─ Mul [id Z]
+    │  │  │  ├─ -0.5 [id BA]
+    │  │  │  └─ Pow [id BB]
+    │  │  │     ├─ True_div [id BC]
+    │  │  │     │  ├─ Sub [id BD]
+    │  │  │     │  │  ├─ x{2.0} [id BE]
+    │  │  │     │  │  └─ theta [id M]
+    │  │  │     │  └─ 1 [id BF]
+    │  │  │     └─ 2 [id BG]
+    │  │  └─ Log [id BH]
+    │  │     └─ Sqrt [id BI]
+    │  │        └─ 6.283185307179586 [id BJ]
+    │  └─ Log [id BK]
+    │     └─ 1 [id BF]
+    └─ ScalarFromTensor [id BL]
+       └─ All{axes=None} [id BM]
+          └─ MakeVector{dtype=&#39;bool&#39;} [id BN]
+             └─ All{axes=None} [id BO]
+                └─ Gt [id BP]
+                   ├─ 1 [id BF]
+                   └─ 0 [id BQ]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;ipykernel.iostream.OutStream at 0x10a2668f0&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<p>This is the theoretical model printed out in plate notation.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pm</span><span class="o">.</span><span class="n">model_to_graphviz</span><span class="p">(</span><span class="n">normal_cauchy_model</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/e994e05b26280a630519eafa06090e6e8a53dfd8292b217417ea9b3a0637c9bb.svg" src="../_images/e994e05b26280a630519eafa06090e6e8a53dfd8292b217417ea9b3a0637c9bb.svg" /></div>
+</div>
+<p>Finally, this is how we would sample the model and use a random seed, then look at a summary of the results.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">6420</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="n">normal_cauchy_model</span><span class="p">:</span>
+    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Initializing NUTS using jitter+adapt_diag...
+Multiprocess sampling (4 chains in 4 jobs)
+NUTS: [theta]
+</pre></div>
+</div>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "f618128ebc124b78a82cac324a8b4fc9", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws total) took 0 seconds.
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">arviz</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">az</span>
+
+<span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mean</th>
+      <th>sd</th>
+      <th>hdi_3%</th>
+      <th>hdi_97%</th>
+      <th>mcse_mean</th>
+      <th>mcse_sd</th>
+      <th>ess_bulk</th>
+      <th>ess_tail</th>
+      <th>r_hat</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>theta</th>
+      <td>1.299</td>
+      <td>0.936</td>
+      <td>-0.333</td>
+      <td>3.061</td>
+      <td>0.023</td>
+      <td>0.015</td>
+      <td>1717.0</td>
+      <td>2097.0</td>
+      <td>1.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -651,6 +979,21 @@ document.write(`
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#normal-cauchy-model-example">Normal-Cauchy model example</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pymc-model-specification">PyMC model specification</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>
