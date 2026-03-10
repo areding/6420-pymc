@@ -2,7 +2,7 @@
 
 
 ```{note}
-This page is a stub. It will be updated over summer 2023 with supplementary lecture notes.
+This page is a stub. It will be updated soon with supplementary lecture notes.
 ```
 
 
