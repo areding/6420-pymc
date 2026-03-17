@@ -28,6 +28,6 @@ Any necessary data will either have a download link or, if the data is compact e
 
 [Taylor Bosier](https://github.com/tbosier), a TA in the Fall 2024 semester, contributed code and writing on PyMC best practices.
 
-Former students [Amanuel Anteneh](https://github.com/amanuelanteneh) and [Anthony Miyaguchi](https://github.com/acmiyaguchi) have contributed code and notes.
+Former students [Amanuel Anteneh](https://github.com/amanuelanteneh), [Anthony Miyaguchi](https://github.com/acmiyaguchi), and Nhan Quach have contributed code and notes.
 
 Thank you to everyone who has contributed, both directly and indirectly by asking great questions on the class discussion forums.
