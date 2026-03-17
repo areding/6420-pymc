@@ -614,8 +614,6 @@ document.write(`
 <span class="kn">import</span><span class="w"> </span><span class="nn">pytensor.tensor</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pt</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pytensor.printing</span><span class="w"> </span><span class="kn">import</span> <span class="n">debugprint</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pymc.logprob</span><span class="w"> </span><span class="kn">import</span> <span class="n">conditional_logp</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-
 
 <span class="c1"># values</span>
 <span class="n">theta_value</span> <span class="o">=</span> <span class="n">pt</span><span class="o">.</span><span class="n">scalar</span><span class="p">(</span><span class="s2">&quot;theta_value&quot;</span><span class="p">)</span>
@@ -844,7 +842,9 @@ Alloc [id V] &#39;x_logprob&#39;
 <p>Finally, this is how we would sample the model and use a random seed, then look at a summary of the results.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">6420</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">6420</span><span class="p">)</span>
 
 <span class="k">with</span> <span class="n">normal_cauchy_model</span><span class="p">:</span>
     <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span>
