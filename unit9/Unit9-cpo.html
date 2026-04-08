@@ -630,9 +630,12 @@ p(\theta \vert y_{-i}) = \frac{p(y_{-i}\vert \theta)p(\theta)}{p(y_{-i})}
 \[\begin{align*}
 \frac{p(\theta \vert y_{-i})}{p(\theta \vert y)} &amp;=
 \frac{\frac{p(y_{-i}\vert \theta)\cancel{p(\theta)}}{p(y_{-i})}}{\frac{p(y\vert \theta)\cancel{p(\theta)}}{p(y)}}
-=\frac{p(y_{-i}\vert \theta)p(y)}{p(y\vert \theta)p(y_{-i})}\\ &amp;=\frac{p(y)}{p(y_{-i})}\cdot\frac{\cancel{p(y_{-i}\vert \theta)}}{p(y_{i}\vert \theta)\cancel{p(y_{-i}\vert \theta)}}\\
-\frac{p(\theta \vert y_{-i})}{p(\theta \vert y)} &amp;= \frac{p(y)}{p(y_{-i})}\cdot\frac{1}{p(y_{i}\vert \theta)}\\
-\frac{p(\theta \vert y_{-i})}{\cancel{p(\theta \vert y)}} \cancel{\textcolor{blue}{p(\theta\vert y)}} &amp;= \frac{p(y)}{p(y_{-i})}\cdot\frac{1}{p(y_{i}\vert \theta)}\textcolor{blue}{p(\theta\vert y)}\\
+=\frac{p(y_{-i}\vert \theta)p(y)}{p(y\vert \theta)p(y_{-i})}\\ 
+&amp;=\frac{p(y)}{p(y_{-i})}\cdot\frac{\cancel{p(y_{-i}\vert \theta)}}{p(y_{i}\vert \theta)\cancel{p(y_{-i}\vert \theta)}}\\
+\frac{p(\theta \vert y_{-i})}{p(\theta \vert y)} 
+&amp;= \frac{p(y)}{p(y_{-i})}\cdot\frac{1}{p(y_{i}\vert \theta)}\\
+\frac{p(\theta \vert y_{-i})}{\cancel{p(\theta \vert y)}} \cancel{\textcolor{blue}{p(\theta\vert y)}} 
+&amp;= \frac{p(y)}{p(y_{-i})}\cdot\frac{1}{p(y_{i}\vert \theta)}\textcolor{blue}{p(\theta\vert y)}\\
 p(\theta \vert y_{-i}) &amp;= \frac{p(y)}{p(y_{-i})}\cdot\frac{1}{p(y_{i}\vert \theta)}p(\theta\vert y)\\
 %first integral line
 \int_{\Theta}p(\theta \vert y_{-i})d\theta &amp;= \frac{p(y)}{p(y_{-i})}\cdot \int_{\Theta}\frac{1}{p(y_{i}\vert \theta)}p(\theta\vert y)d\theta
@@ -642,9 +645,9 @@ p(\theta \vert y_{-i}) &amp;= \frac{p(y)}{p(y_{-i})}\cdot\frac{1}{p(y_{i}\vert \
 \[\begin{align*}
 1 &amp;= \frac{p(y)}{p(y_{-i})}\cdot \int_{\Theta}\frac{1}{p(y_{i}\vert \theta)}p(\theta\vert y)d\theta\\
 \end{align*}\]</div>
-<div class="amsmath math notranslate nohighlight" id="equation-cf36d7ad-ae99-495f-b29f-b279c92f0873">
-<span class="eqno">(1)<a class="headerlink" href="#equation-cf36d7ad-ae99-495f-b29f-b279c92f0873" title="Permalink to this equation">#</a></span>\[\begin{equation}
-\frac{p(y_{-i})}{p(y)} = \int_{\theta}\bigg[ \frac{1}{p(y_{i}\vert \theta)} \bigg]\cdot p(\theta \vert y)d\theta\tag{1}
+<div class="amsmath math notranslate nohighlight" id="equation-76c627de-5228-4692-acf0-b548f8f79252">
+<span class="eqno">(1)<a class="headerlink" href="#equation-76c627de-5228-4692-acf0-b548f8f79252" title="Permalink to this equation">#</a></span>\[\begin{equation}
+\frac{p(y_{-i})}{p(y)} = \int_{\Theta}\bigg[ \frac{1}{p(y_{i}\vert \theta)} \bigg]\cdot p(\theta \vert y)d\theta
 \end{equation}\]</div>
 <p>The right-hand side of equation (1) should remind you of LOTUS (Law of The Unconscious Statistician): It’s just an expectation.  Recall that for a continuous random variable <span class="math notranslate nohighlight">\(X\)</span> with density function <span class="math notranslate nohighlight">\(p(x)\)</span>, if <span class="math notranslate nohighlight">\(Y=g(x)\)</span> then:</p>
 <div class="amsmath math notranslate nohighlight">
@@ -657,20 +660,20 @@ p(\theta \vert y_{-i}) &amp;= \frac{p(y)}{p(y_{-i})}\cdot\frac{1}{p(y_{i}\vert \
 \frac{p(y_{-i})}{p(y)} = \mathbb{E}_{\theta \sim p(\theta \vert y)}\bigg[ \frac{1}{p(y_{i}\vert \theta)} \bigg]
 \end{equation*}\]</div>
 <p>In other words, the right-hand side of (1) represents the expectation of <span class="math notranslate nohighlight">\(\frac{1}{p(y_{i}\vert \theta)}\)</span> over <span class="math notranslate nohighlight">\(\theta\)</span> when <span class="math notranslate nohighlight">\(\theta\)</span> is distributed according to <span class="math notranslate nohighlight">\(p(\theta \vert y)\)</span>.  Taking the reciprocal of both sides gives:</p>
-<div class="amsmath math notranslate nohighlight">
-\[\begin{equation*}
+<div class="amsmath math notranslate nohighlight" id="equation-c93d8b97-363a-4af4-b422-276453dc02e7">
+<span class="eqno">(2)<a class="headerlink" href="#equation-c93d8b97-363a-4af4-b422-276453dc02e7" title="Permalink to this equation">#</a></span>\[\begin{equation}
 \frac{p(y)}{p(y_{-i})} = 
 \bigg( \mathbb{E}_{\theta \sim p(\theta \vert y)}\bigg[ \frac{1}{p(y_{i}\vert \theta)} \bigg] \bigg)^{-1}
-\end{equation*}\]</div>
-<p>Let’s reframe <span class="math notranslate nohighlight">\(p(y)\)</span>.  It’s the marginal distribution of all the data, but we could just as well think of it as the joint distribution of <span class="math notranslate nohighlight">\(y_{i}\)</span> and <span class="math notranslate nohighlight">\(y_{-i}\)</span>: they’re one in the same.  This will allow us to apply the definition of conditional probability</p>
+\end{equation}\]</div>
+<p>Let’s reframe <span class="math notranslate nohighlight">\(p(y)\)</span>.  It’s the marginal distribution of all the data, but we could just as well think of it as the joint distribution of <span class="math notranslate nohighlight">\(y_{i}\)</span> and <span class="math notranslate nohighlight">\(y_{-i}\)</span>: they’re one and the same.  This will allow us to apply the definition of conditional probability</p>
 <div class="amsmath math notranslate nohighlight">
 \[\begin{equation*}
 p(y) = p(y_{i} , y_{-i}) = \textcolor{blue}{p(y_{i}\vert y_{-i})}p(y_{-i})
 \end{equation*}\]</div>
-<p>notice that the blue factor is the <span class="math notranslate nohighlight">\(\text{CPO}_{i}\)</span> defined at the beginning.  Since (6) can be re-written as:</p>
+<p>Notice that the blue factor is the <span class="math notranslate nohighlight">\(\text{CPO}_{i}\)</span> defined at the beginning.  Since (2) can be re-written as:</p>
 <div class="amsmath math notranslate nohighlight">
 \[\begin{align*}
-\frac{p(y_{i}\vert y_{-i})\cancel{p(y_{-i}})}{\cancel{p(y_{-i})}} &amp;= 
+\frac{p(y_{i}\vert y_{-i})\cancel{p(y_{-i})}}{\cancel{p(y_{-i})}} &amp;= 
 \bigg( \mathbb{E}_{\theta \sim p(\theta \vert y)}\bigg[ \frac{1}{p(y_{i}\vert \theta)} \bigg] \bigg)^{-1}\\
 p(y_{i}\vert y_{-i})&amp;= 
 \bigg( \mathbb{E}_{\theta \sim p(\theta \vert y)}\bigg[ \frac{1}{p(y_{i}\vert \theta)} \bigg] \bigg)^{-1}\\
