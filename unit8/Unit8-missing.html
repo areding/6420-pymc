@@ -607,7 +607,7 @@ document.write(`
 <section id="taxonomy-of-missing-data">
 <h2>Taxonomy of Missing Data<a class="headerlink" href="#taxonomy-of-missing-data" title="Permalink to this headline">#</a></h2>
 <ol class="arabic">
-<li><p>Missing comlpetely at random (MCAR)</p>
+<li><p>Missing completely at random (MCAR)</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span> Missingness does not depend on observed or unobserved data.
 </pre></div>
 </div>
@@ -639,7 +639,7 @@ document.write(`
 <p>Posterior variance is:</p>
 <div class="math notranslate nohighlight">
 \[\text{Var}(\theta | Y_{obs}) = \text{E}(\text{Var}(\theta | Y_{obs}, Y_{mis})|Y_{obs}) + \text{Var}(\text{E}(\theta | Y_{obs}, Y_{mis})|Y_{obs})\]</div>
-<p>i.e. (posterior variance of <span class="math notranslate nohighlight">\(\theta\)</span>) = AVE(repeated complete data variances of <span class="math notranslate nohighlight">\(\theta\)</span>) + Var(repeated complete data posterior eans of <span class="math notranslate nohighlight">\(\theta\)</span>)</p>
+<p>i.e. (posterior variance of <span class="math notranslate nohighlight">\(\theta\)</span>) = AVE(repeated complete data variances of <span class="math notranslate nohighlight">\(\theta\)</span>) + Var(repeated complete data posterior means of <span class="math notranslate nohighlight">\(\theta\)</span>)</p>
 </section>
 <section id="pymc-implementation">
 <h2>PyMC Implementation<a class="headerlink" href="#pymc-implementation" title="Permalink to this headline">#</a></h2>
@@ -662,7 +662,7 @@ y_{i,j} &amp; = \alpha_j + \beta_j x_{i} + \epsilon_i, \space \space i = 1 , ...
 \beta_c &amp; \sim N (0,1/1e^{-4}) \\
 \beta_\tau &amp; \sim Gamma (0.001,.001) \\
 \end{align*} \end{split}\]</div>
-<p>In Model 2, we need to provide a a prior distribution for the missing x’s, which is <span class="math notranslate nohighlight">\(N (20,5^2)\)</span>. In Model 3, the probability of missingness depends on size, specified by:</p>
+<p>In Model 2, we need to provide a prior distribution for the missing x’s, which is <span class="math notranslate nohighlight">\(N (20,5^2)\)</span>. In Model 3, the probability of missingness depends on size, specified by:</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}\begin{align*}
 \text{miss}[i] &amp; \sim Bern(p[i])  \\
