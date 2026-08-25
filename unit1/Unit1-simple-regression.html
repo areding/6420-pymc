@@ -65,6 +65,8 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'unit1/Unit1-simple-regression';</script>
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -673,28 +675,8 @@ document.write(`
 <span class="expanded">Hide code cell output</span>
 </summary>
 <div class="cell_output docutils container">
-<div class="output text_html">
-<style>
-    /* Turns off some styling */
-    progress {
-        /* gets rid of default border in Firefox and Opera. */
-        border: none;
-        /* Needs to be in here for Safari polyfill so background images work as expected. */
-        background-size: auto;
-    }
-    progress:not([value]), progress:not([value])::-webkit-progress-bar {
-        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
-    }
-    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
-        background: #F44336;
-    }
-</style>
-</div><div class="output text_html">
-    <div>
-      <progress value='14000' class='' max='14000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-      100.00% [14000/14000 00:01&lt;00:00 Sampling 4 chains, 0 divergences]
-    </div>
-    </div></div>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "d4eb946f7d2c4c0f917caafba441216a", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
+</div></div>
 </details>
 </div>
 <p>Every semester, someone asks why the professor is mean-centering X. There are a few possible reasons, which are mostly not specific to Bayesian modeling. One might be interpretability—consider how the interpretation of the intercept alpha changes in a mean-centered model. A more Bayesian reason might be to help with sampling efficiency. The prior on the coefficient beta is going to be closer to the posterior if the data is mean-centered.</p>
@@ -710,7 +692,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/64ed001e9795fb5971bf47b8c266772409765d20db356c50c01ec0fecbdf2484.svg" src="../_images/64ed001e9795fb5971bf47b8c266772409765d20db356c50c01ec0fecbdf2484.svg" /></div>
+<img alt="../_images/adbdf786e4fec2a8c59840eeebb5f4818c4b255b9fa4616255df6d2230952439.svg" src="../_images/adbdf786e4fec2a8c59840eeebb5f4818c4b255b9fa4616255df6d2230952439.svg" /></div>
 </div>
 </section>
 <section id="tuning-and-burning-samples">
@@ -733,105 +715,77 @@ document.write(`
 <p>Arviz has a variety of functions to view the results of the model. One of the most useful is <code class="docutils literal notranslate"><span class="pre">az.summary</span></code>. Professor Vidakovic arbitrarily asks for the 95% credible set (also called the highest density interval), so we can specify hdi_prob=.95 to get that. This is the HPD, or minimum-width, credible set.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace_burned</span><span class="p">,</span> <span class="n">hdi_prob</span><span class="o">=</span><span class="mf">0.95</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace_burned</span><span class="p">,</span> <span class="n">ci_prob</span><span class="o">=</span><span class="mf">0.95</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
+<div class="output text_html"><table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
       <th></th>
       <th>mean</th>
       <th>sd</th>
-      <th>hdi_2.5%</th>
-      <th>hdi_97.5%</th>
-      <th>mcse_mean</th>
-      <th>mcse_sd</th>
+      <th>eti95_lb</th>
+      <th>eti95_ub</th>
       <th>ess_bulk</th>
       <th>ess_tail</th>
       <th>r_hat</th>
+      <th>mcse_mean</th>
+      <th>mcse_sd</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <th>alpha</th>
-      <td>3.003</td>
-      <td>0.553</td>
-      <td>1.933</td>
-      <td>4.002</td>
-      <td>0.009</td>
-      <td>0.007</td>
-      <td>4519.0</td>
-      <td>3418.0</td>
-      <td>1.0</td>
+      <td>2.99</td>
+      <td>0.56</td>
+      <td>1.8</td>
+      <td>4</td>
+      <td>4129</td>
+      <td>3155</td>
+      <td>1.00</td>
+      <td>0.011</td>
+      <td>0.02</td>
     </tr>
     <tr>
       <th>beta</th>
-      <td>0.805</td>
-      <td>0.391</td>
-      <td>0.129</td>
-      <td>1.590</td>
-      <td>0.006</td>
-      <td>0.006</td>
-      <td>5311.0</td>
-      <td>3434.0</td>
-      <td>1.0</td>
+      <td>0.8</td>
+      <td>0.37</td>
+      <td>0.091</td>
+      <td>1.5</td>
+      <td>5480</td>
+      <td>3666</td>
+      <td>1.00</td>
+      <td>0.0055</td>
+      <td>0.013</td>
     </tr>
     <tr>
       <th>tau</th>
-      <td>1.857</td>
-      <td>1.507</td>
-      <td>0.008</td>
-      <td>4.821</td>
-      <td>0.027</td>
-      <td>0.019</td>
-      <td>2293.0</td>
-      <td>1931.0</td>
-      <td>1.0</td>
+      <td>1.93</td>
+      <td>1.61</td>
+      <td>0.14</td>
+      <td>6.1</td>
+      <td>1922</td>
+      <td>2101</td>
+      <td>1.00</td>
+      <td>0.032</td>
+      <td>0.039</td>
     </tr>
     <tr>
       <th>sigma</th>
-      <td>1.013</td>
-      <td>0.752</td>
-      <td>0.336</td>
-      <td>2.156</td>
+      <td>1</td>
+      <td>0.7</td>
+      <td>0.4</td>
+      <td>2.7</td>
+      <td>1922</td>
+      <td>2101</td>
+      <td>1.00</td>
       <td>0.018</td>
-      <td>0.013</td>
-      <td>2293.0</td>
-      <td>1931.0</td>
-      <td>1.0</td>
+      <td>0.076</td>
     </tr>
   </tbody>
-</table>
-</div></div></div>
-</div>
-<p>You can also get the HDI directly:</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">hdi</span><span class="p">(</span><span class="n">trace_burned</span><span class="p">,</span> <span class="n">hdi_prob</span><span class="o">=</span><span class="mf">0.95</span><span class="p">)[</span><span class="s2">&quot;beta&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([0.1293742 , 1.58985855])
-</pre></div>
-</div>
-</div>
+</table></div></div>
 </div>
 <p>There are a variety of plots available. Commonly used to diagnose problems are the trace (see <a class="reference external" href="https://jpreszler.rbind.io/post/2019-09-28-bad-traceplots/">When Traceplots go Bad</a>) and rank plots (see “Maybe it’s time to let traceplots die” from <a class="reference external" href="https://statmodeling.stat.columbia.edu/2019/03/19/maybe-its-time-to-let-the-old-ways-die-or-we-broke-r-hat-so-now-we-have-to-fix-it/">this post</a>).</p>
 <div class="cell docutils container">
@@ -842,7 +796,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/53501f52466ea016467f8c0bda43aa518fee2e4309584a27128aef8968221d5e.png" src="../_images/53501f52466ea016467f8c0bda43aa518fee2e4309584a27128aef8968221d5e.png" />
+<img alt="../_images/35168cc277d13cc7c64aa57c580f04481d23adc5837677da58d35e96e01a7498.png" src="../_images/35168cc277d13cc7c64aa57c580f04481d23adc5837677da58d35e96e01a7498.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -853,7 +807,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/4575ca2d825003e61a937763b5f2f5bf8e266a180197454b319a9c0657acb623.png" src="../_images/4575ca2d825003e61a937763b5f2f5bf8e266a180197454b319a9c0657acb623.png" />
+<img alt="../_images/a01c630a6b29922dc4d4646a378052199e656e86e429f837048581ed5067ee70.png" src="../_images/a01c630a6b29922dc4d4646a378052199e656e86e429f837048581ed5067ee70.png" />
 </div>
 </div>
 </section>
@@ -872,7 +826,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array(0.58860146)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array(0.58076299)
 </pre></div>
 </div>
 </div>
@@ -928,22 +882,6 @@ document.write(`
 <p>The two most well-known libraries for this in Python are <a class="reference external" href="https://scikit-learn.org/stable/index.html">Scikit-learn</a> and <a class="reference external" href="https://www.statsmodels.org/">Statsmodels</a>. Sklearn is more focused on predictive modeling. If you’re looking for nice summary printouts like <code class="docutils literal notranslate"><span class="pre">lm()</span></code> in R, Statsmodels will be more familiar.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.linear_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">LinearRegression</span>
-
-<span class="n">reg</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">y</span><span class="p">)</span>
-<span class="c1"># compare with intercept and beta from above</span>
-<span class="n">reg</span><span class="o">.</span><span class="n">intercept_</span><span class="p">,</span> <span class="n">reg</span><span class="o">.</span><span class="n">coef_</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(0.5999999999999996, array([0.8]))
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">statsmodels.api</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sm</span>
 
 <span class="n">X</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">add_constant</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>  <span class="c1"># add intercept column</span>
@@ -954,7 +892,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/mambaforge/envs/pymc_env2/lib/python3.11/site-packages/statsmodels/stats/stattools.py:74: ValueWarning: omni_normtest is not valid with less than 8 observations; 5 samples were given.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/miniforge3/envs/pymc_f26/lib/python3.14/site-packages/statsmodels/stats/stattools.py:74: ValueWarning: omni_normtest is not valid with less than 8 observations; 5 samples were given.
   warn(&quot;omni_normtest is not valid with less than 8 observations; %i &quot;
 </pre></div>
 </div>
@@ -970,10 +908,10 @@ document.write(`
   <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   12.00</td>
 </tr>
 <tr>
-  <th>Date:</th>             <td>Mon, 15 May 2023</td> <th>  Prob (F-statistic):</th>  <td>0.0405</td> 
+  <th>Date:</th>             <td>Mon, 24 Aug 2026</td> <th>  Prob (F-statistic):</th>  <td>0.0405</td> 
 </tr>
 <tr>
-  <th>Time:</th>                 <td>22:51:58</td>     <th>  Log-Likelihood:    </th> <td> -4.2461</td>
+  <th>Time:</th>                 <td>17:12:10</td>     <th>  Log-Likelihood:    </th> <td> -4.2461</td>
 </tr>
 <tr>
   <th>No. Observations:</th>      <td>     5</td>      <th>  AIC:               </th> <td>   12.49</td>
@@ -1022,19 +960,19 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Mon May 15 2023
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Mon, 24 Aug 2026
 
 Python implementation: CPython
-Python version       : 3.11.0
-IPython version      : 8.9.0
+Python version       : 3.14.7
+IPython version      : 9.16.1
 
-pytensor: 2.11.1
+pytensor: 3.3.0
 
-statsmodels: 0.13.5
-pymc       : 5.3.0
-matplotlib : 3.6.3
-numpy      : 1.24.2
-arviz      : 0.15.1
+arviz      : 1.3.0
+matplotlib : 3.11.1
+numpy      : 2.4.6
+pymc       : 6.3.1
+statsmodels: 0.14.6
 </pre></div>
 </div>
 </div>
