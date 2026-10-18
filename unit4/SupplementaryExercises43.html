@@ -1,13 +1,12 @@
 
-
 <!DOCTYPE html>
 
 
-<html lang="en" >
+<html lang="en" data-content_root="../" >
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>Supplementary Exercises 4.3 &#8212; ISYE 6420 - BUGS to PyMC</title>
   
@@ -15,66 +14,65 @@
   
   <script data-cfasync="false">
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
-    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
-  
-  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
-
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../_static/proof.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/panels-bootstrap.5fd3999ee7762ccc51105388f4a9d115.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=65f6aa99" />
   
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-    <script src="../_static/jquery.js"></script>
-    <script src="../_static/underscore.js"></script>
-    <script src="../_static/doctools.js"></script>
-    <script src="../_static/clipboard.min.js"></script>
-    <script src="../_static/copybutton.js"></script>
-    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
-    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
-    <script src="../_static/design-tabs.js"></script>
-    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
-const thebe_selector = ".thebe,.cell"
-const thebe_selector_input = "pre"
-const thebe_selector_output = ".output, .cell_output"
-</script>
-    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'unit4/SupplementaryExercises43';</script>
-    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Supplementary Exercises 4.8" href="SupplementaryExercises48.html" />
     <link rel="prev" title="Counts of Alpha Particles*" href="Unit4-AlphaParticles.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
   </head>
   
   
@@ -82,23 +80,16 @@ const thebe_selector_output = ".output, .cell_output"
 
   
   
-  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          name="__primary"
-          id="__primary"/>
-  <label class="overlay overlay-primary" for="__primary"></label>
+  <div id="pst-scroll-pixel-helper"></div>
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          name="__secondary"
-          id="__secondary"/>
-  <label class="overlay overlay-secondary" for="__secondary"></label>
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
   
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="../search.html"
       method="get">
@@ -106,7 +97,6 @@ const thebe_selector_output = ".output, .cell_output"
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search this book..."
          aria-label="Search this book..."
          autocomplete="off"
@@ -114,16 +104,25 @@ const thebe_selector_output = ".output, .cell_output"
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
   
-    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
-    </nav>
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
   
+
   <div class="bd-container">
     <div class="bd-container__inner bd-page-width">
       
-      <div class="bd-sidebar-primary bd-sidebar">
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -136,9 +135,13 @@ const thebe_selector_output = ".output, .cell_output"
   
     <div class="sidebar-primary-items__start sidebar-primary__section">
         <div class="sidebar-primary-item">
+
+  
+    
   
 
 <a class="navbar-brand logo" href="../intro.html">
+  
   
   
   
@@ -148,12 +151,19 @@ const thebe_selector_output = ".output, .cell_output"
       
     
     
-    <img src="../_static/logo2.png" class="logo__image only-light" alt="Logo image"/>
-    <script>document.write(`<img src="../_static/logo2.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+    <img src="../_static/logo2.png" class="logo__image only-light" alt="ISYE 6420 - BUGS to PyMC - Home"/>
+    <img src="../_static/logo2.png" class="logo__image only-dark pst-js-only" alt="ISYE 6420 - BUGS to PyMC - Home"/>
   
   
 </a></div>
-        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         
         <ul class="nav bd-sidenav bd-sidenav__home-link">
@@ -188,73 +198,73 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="../unit3/Unit3-TwoHeadedCoin.html">6. Two-headed Coin*</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../unit3/Unit3-bayesnetworks.html">7. Bayes Networks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../unit3/Unit3-Alarm.html">8. Alarm*</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../unit3/moreexamples3.html">More Examples</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../unit3/moreexamples3.html">More Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../unit3/Unit3-Emily.html">Supplementary Problem: Emily’s Vacation*</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../unit3/SupplementaryExercises35.html">Supplementary Exercises*</a></li>
 </ul>
-</li>
+</details></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Unit 4</span></p>
 <ul class="current nav bd-sidenav">
-<li class="toctree-l1 has-children"><a class="reference internal" href="distributions.html">Probability Distributions</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="distributions.html">Probability Distributions</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="Unit4-basicdist.html">1. Basic Distributions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Unit4-numericalchar.html">2. Numerical Characteristics of Random Variables</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Unit4-jointconditionals.html">3. Joint and Conditional Distributions</a></li>
 </ul>
-</li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="bayestheorem.html">Bayes’ Theorem</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="bayestheorem.html">Bayes’ Theorem</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="Unit4-ingredients.html">4. Ingredients for Bayesian Inference</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Unit4-conjugatefamilies.html">5. Conjugate Families</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Unit4-IQexample.html">6. Example: Jeremy’s IQ</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Unit4-BetaPriors.html">7. Ten Coin Flips Revisited: Beta Plots*</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Unit4-poissongamma.html">8. Poisson–Gamma Model</a></li>
 </ul>
-</li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="conjugatecases.html">Bayesian Inference in Conjugate Cases</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="conjugatecases.html">Bayesian Inference in Conjugate Cases</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="Unit4-estimation.html">9. Estimation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Unit4-crediblesets.html">10. Credible Intervals</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Unit4-GammaGamma.html">11. Gamma Gamma*</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Unit4-testing.html">12. Bayesian Testing</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Unit4-prediction.html">13. Prediction</a></li>
 </ul>
-</li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="priors.html">Priors</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="priors.html">Priors</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="Unit4-elicitation.html">14. Prior Elicitation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Unit4-noninform.html">15. Non-informative Priors</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Unit4-samplesize.html">16. Prior Sample Size</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Unit4-eBay.html">17. eBay Purchase Example*</a></li>
 </ul>
-</li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="empiricalbayes.html">Empirical Bayes</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="empiricalbayes.html">Empirical Bayes</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="Unit4-parametric.html">18. Parametric</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Unit4-nonpara.html">19. Non-parametric</a></li>
 </ul>
-</li>
-<li class="toctree-l1 current active has-children"><a class="reference internal" href="moreexamples.html">More Examples</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="moreexamples.html">More Examples</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="Unit4-AlphaParticles.html">Counts of Alpha Particles*</a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">Supplementary Exercises 4.3</a></li>
 <li class="toctree-l2"><a class="reference internal" href="SupplementaryExercises48.html">Supplementary Exercises 4.8</a></li>
 </ul>
-</li>
+</details></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Unit 5</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1 has-children"><a class="reference internal" href="../unit5/bayesian-computation.html">Bayesian Computation</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../unit5/bayesian-computation.html">Bayesian Computation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-numericalapproaches.html">1. Numerical Approaches</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-norcau1.html">2. Normal–Cauchy Example</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-Laplace.html">3. Laplace’s Method</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-demo-Laplaces-method.html">4. Laplace’s Method Demo*</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-mcmc.html">5. Markov Chain Monte Carlo</a></li>
 </ul>
-</li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../unit5/metropolis-hastings.html">The Metropolis Algorithm</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-9"><i class="fa-solid fa-chevron-down"></i></label><ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../unit5/metropolis-hastings.html">The Metropolis Algorithm</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-Metropolis.html">6. Metropolis</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-Metropolis1.html">7. Metropolis: Normal-Cauchy*</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-MetropolisHastings.html">8. Metropolis–Hastings: Weibull-Exponential Example</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-MetropolisHastings2.html">9. Weibull Lifetimes*</a></li>
 </ul>
-</li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../unit5/gibbs-sampling.html">Gibbs Sampling</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-10"><i class="fa-solid fa-chevron-down"></i></label><ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../unit5/gibbs-sampling.html">Gibbs Sampling</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-gibbsintro.html">10. Introduction to Gibbs Sampling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-GibbsSampler.html">11. Normal-Cauchy Gibbs Sampler*</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-gibbs2.html">12. Conjugate Gamma-Poisson Model</a></li>
@@ -262,12 +272,12 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-gibbsex3math.html">14. Change Point Problem</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-Gibbs3.html">15. Coal Mining Disasters in the UK*</a></li>
 </ul>
-</li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../unit5/other.html">Other Algorithms</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-11"><i class="fa-solid fa-chevron-down"></i></label><ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../unit5/other.html">Other Algorithms</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-hamiltonian.html">16. Hamiltonian Monte Carlo</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-other-methods.html">17. Going Further</a></li>
 </ul>
-</li>
+</details></li>
 <li class="toctree-l1"><a class="reference internal" href="../unit5/SupplementaryExercises54.html">Supplementary Exercises</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Unit 6</span></p>
@@ -285,15 +295,15 @@ const thebe_selector_output = ".output, .cell_output"
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Unit 7</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1 has-children"><a class="reference internal" href="../unit7/hierarchical.html">Hierarchical Models</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-12"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../unit7/hierarchical.html">Hierarchical Models</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../unit7/Unit7-introduction.html">1. Introduction to Hierarchical Models</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../unit7/Unit7-why.html">2. Reasons to Use Hierarchical Models</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../unit7/Unit7-priors.html">3. Priors with Structural Information</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../unit7/Unit7-hiddenmixtures.html">4. Priors as Hidden Mixtures*</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../unit7/Unit7-metaanalysis.html">5. Meta-analysis via Hierarchical Models*</a></li>
 </ul>
-</li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../unit7/linearmodels.html">Linear Models</a><input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-13"><i class="fa-solid fa-chevron-down"></i></label><ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../unit7/linearmodels.html">Linear Models</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../unit7/Unit7-anova.html">6. Analysis of Variance</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../unit7/Unit7-coagulation.html">7. Coagulation*</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../unit7/Unit7-factorial.html">8. Factorial Designs</a></li>
@@ -303,8 +313,8 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l2"><a class="reference internal" href="../unit7/Unit7-multipleregression.html">12. Multiple Linear Regression</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../unit7/Unit7-demo-multiple.html">13. Multiple Regression: Brozek Index Prediction*</a></li>
 </ul>
-</li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../unit7/othermodels.html">Other Models</a><input class="toctree-checkbox" id="toctree-checkbox-14" name="toctree-checkbox-14" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-14"><i class="fa-solid fa-chevron-down"></i></label><ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../unit7/othermodels.html">Other Models</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../unit7/Unit7-other.html">14. Generalized Linear Models</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../unit7/Unit7-arrhythmia.html">15. GLM Examples*</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../unit7/Unit7-multinomial.html">16. Multinomial Logit</a></li>
@@ -312,7 +322,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l2"><a class="reference internal" href="../unit7/Unit7-multilevel.html">18. Multilevel Models</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../unit7/Unit7-demo-multilevel.html">19. Paraguay Vaccination Status*</a></li>
 </ul>
-</li>
+</details></li>
 <li class="toctree-l1"><a class="reference internal" href="../unit7/SupplementaryExercises74.html">Supplementary Exercises</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Unit 8</span></p>
@@ -351,14 +361,14 @@ const thebe_selector_output = ".output, .cell_output"
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Appendix A</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1 has-children"><a class="reference internal" href="../appendixA/BUGSVol1.html">BUGS Examples, Volume 1</a><input class="toctree-checkbox" id="toctree-checkbox-15" name="toctree-checkbox-15" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-15"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../appendixA/BUGSVol1.html">BUGS Examples, Volume 1</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../appendixA/vol1-10-blocker.html">10 - Blocker</a></li>
 </ul>
-</li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../appendixA/BUGSVol2.html">BUGS Examples, Volume 2</a><input class="toctree-checkbox" id="toctree-checkbox-16" name="toctree-checkbox-16" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-16"><i class="fa-solid fa-chevron-down"></i></label><ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../appendixA/BUGSVol2.html">BUGS Examples, Volume 2</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../appendixA/vol2-01-dugongs.html">01 - Dugongs</a></li>
 </ul>
-</li>
+</details></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Back Matter</span></p>
 <ul class="nav bd-sidenav">
@@ -372,14 +382,19 @@ const thebe_selector_output = ".output, .cell_output"
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
       
-      <main id="main-content" class="bd-main">
+      <main id="main-content" class="bd-main" role="main">
         
         
 
@@ -388,14 +403,14 @@ const thebe_selector_output = ".output, .cell_output"
           <div class="bd-content">
             <div class="bd-article-container">
               
-              <div class="bd-header-article">
+              <div class="bd-header-article d-print-none">
 <div class="header-article-items header-article__inner">
   
     <div class="header-article-items__start">
       
-        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
   <span class="fa-solid fa-bars"></span>
-</label></div>
+</button></div>
       
     </div>
   
@@ -420,14 +435,14 @@ const thebe_selector_output = ".output, .cell_output"
       
       <li><a href="https://colab.research.google.com/github/areding/6420-pymc/blob/main/unit4/SupplementaryExercises43.ipynb" target="_blank"
    class="btn btn-sm dropdown-item"
-   title="Launch onColab"
+   title="Launch on Colab"
    data-bs-placement="left" data-bs-toggle="tooltip"
 >
   
 
 <span class="btn__icon-container">
   
-    <img src="../_static/images/logo_colab.png">
+    <img alt="Colab logo" src="../_static/images/logo_colab.png">
   </span>
 <span class="btn__text-container">Colab</span>
 </a>
@@ -535,7 +550,7 @@ const thebe_selector_output = ".output, .cell_output"
 
 
 <button onclick="toggleFullScreen()"
-  class="btn btn-sm btn-fullscreen-button"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
   title="Fullscreen mode"
   data-bs-placement="bottom" data-bs-toggle="tooltip"
 >
@@ -548,26 +563,20 @@ const thebe_selector_output = ".output, .cell_output"
 </button>
 
 
-<script>
-document.write(`
-  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
-    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
-    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
-  </button>
-`);
-</script>
 
-<script>
-document.write(`
-  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-  </button>
-`);
-</script>
-<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <span class="fa-solid fa-list"></span>
-</label>
+</button>
 </div></div>
       
     </div>
@@ -617,16 +626,16 @@ document.write(`
               
                 
 <div id="searchbox"></div>
-                <article class="bd-article" role="main">
+                <article class="bd-article">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="supplementary-exercises-4-3">
-<h1>Supplementary Exercises 4.3<a class="headerlink" href="#supplementary-exercises-4-3" title="Permalink to this headline">#</a></h1>
+<h1>Supplementary Exercises 4.3<a class="headerlink" href="#supplementary-exercises-4-3" title="Link to this heading">#</a></h1>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>This page contains solutions! We recommend attempting each problem before peeking.</p>
 </div>
 <section id="expectation-and-variance">
-<h2>1. Expectation and Variance<a class="headerlink" href="#expectation-and-variance" title="Permalink to this headline">#</a></h2>
+<h2>1. Expectation and Variance<a class="headerlink" href="#expectation-and-variance" title="Link to this heading">#</a></h2>
 <p>Find <span class="math notranslate nohighlight">\(E(X)\)</span> and <span class="math notranslate nohighlight">\(\text{Var}(X)\)</span> if <span class="math notranslate nohighlight">\(X\)</span> has a density:</p>
 <ol class="arabic simple">
 <li><p><span class="math notranslate nohighlight">\(f(x) = 3x^2\)</span>, <span class="math notranslate nohighlight">\(0 \le x \le 1\)</span>;</p></li>
@@ -641,7 +650,7 @@ document.write(`
 </div>
 </section>
 <section id="uniform-on-unit-circle">
-<h2>2. Uniform on Unit Circle<a class="headerlink" href="#uniform-on-unit-circle" title="Permalink to this headline">#</a></h2>
+<h2>2. Uniform on Unit Circle<a class="headerlink" href="#uniform-on-unit-circle" title="Link to this heading">#</a></h2>
 <p>Let bivariate random variable <span class="math notranslate nohighlight">\((X, Y)\)</span> have a density</p>
 <div class="math notranslate nohighlight">
 \[f(x, y) = \frac{1}{\pi}, \quad x^2 + y^2 \le 1.\]</div>
@@ -665,7 +674,7 @@ f_X(x) = \int_{-\sqrt{1 - x^2}}^{\sqrt{1 - x^2}} \frac{1}{\pi} \, dy = \frac{2 \
 </div>
 </section>
 <section id="fungi-spores">
-<h2>3. Fungi Spores<a class="headerlink" href="#fungi-spores" title="Permalink to this headline">#</a></h2>
+<h2>3. Fungi Spores<a class="headerlink" href="#fungi-spores" title="Link to this heading">#</a></h2>
 <p>Fungi spores are elliptical in shape with minor and major axes used to describe their size. Let <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span> denote lengths of the minor and major axes (in micrometers):</p>
 <div class="math notranslate nohighlight">
 \[X \sim Exp(1)\]</div>
@@ -709,7 +718,7 @@ f_Y(y) = \int_{0}^{y} e^{-y} \, dx = y e^{-y}, \quad \text{for } 0 \le y &lt; \i
 </div>
 </section>
 <section id="joint-marginals-and-conditionals-1">
-<h2>4. Joint, Marginals and Conditionals #1<a class="headerlink" href="#joint-marginals-and-conditionals-1" title="Permalink to this headline">#</a></h2>
+<h2>4. Joint, Marginals and Conditionals #1<a class="headerlink" href="#joint-marginals-and-conditionals-1" title="Link to this heading">#</a></h2>
 <p>Let random variables <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span> have joint density:</p>
 <div class="math notranslate nohighlight">
 \[ f_{(X,Y)}(x, y) = \lambda^2 e^{-\lambda y}, \quad 0 \le x \le y \]</div>
@@ -779,10 +788,10 @@ F(x, y) =
 \end{split}\]</div>
 </div>
 <div class="cell tag_hide-cell docutils container">
-<details class="hide above-input">
+<details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
-<span class="collapsed">Show code cell content</span>
-<span class="expanded">Hide code cell content</span>
+<p class="collapsed admonition-title">Show code cell content</p>
+<p class="expanded admonition-title">Hide code cell content</p>
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
@@ -795,26 +804,26 @@ F(x, y) =
 <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
 
 <span class="c1"># region to fill</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">fill_between</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">x</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">x</span><span class="p">],</span> <span class="n">y</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;lightcoral&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">fill_between</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">x</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">x</span><span class="p">],</span> <span class="n">y</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"lightcoral"</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
 
 <span class="c1"># x = y</span>
 <span class="n">x_vals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span> <span class="mi">400</span><span class="p">)</span>
 <span class="n">y_vals</span> <span class="o">=</span> <span class="n">x_vals</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_vals</span><span class="p">,</span> <span class="n">y_vals</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;$x = y$&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_vals</span><span class="p">,</span> <span class="n">y_vals</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"$x = y$"</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"black"</span><span class="p">)</span>
 
 <span class="c1"># domain boundaries</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">y</span><span class="p">],</span> <span class="s2">&quot;g--&quot;</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">x</span><span class="p">],</span> <span class="p">[</span><span class="n">y</span><span class="p">,</span> <span class="n">y</span><span class="p">],</span> <span class="s2">&quot;g--&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">y</span><span class="p">],</span> <span class="s2">"g--"</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">x</span><span class="p">],</span> <span class="p">[</span><span class="n">y</span><span class="p">,</span> <span class="n">y</span><span class="p">],</span> <span class="s2">"g--"</span><span class="p">)</span>
 
 <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="o">*</span> <span class="mf">1.1</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="o">*</span> <span class="mf">1.1</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;$x$&quot;</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;$y$&quot;</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Integration Domain&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">"$x$"</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">"$y$"</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">"Integration Domain"</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
 
-<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;../images/q4_plot1.png&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">"../images/q4_plot1.png"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -824,10 +833,10 @@ F(x, y) =
 </details>
 </div>
 <div class="cell tag_hide-cell docutils container">
-<details class="hide above-input">
+<details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
-<span class="collapsed">Show code cell content</span>
-<span class="expanded">Hide code cell content</span>
+<p class="collapsed admonition-title">Show code cell content</p>
+<p class="expanded admonition-title">Hide code cell content</p>
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="mi">4</span>
@@ -836,26 +845,26 @@ F(x, y) =
 <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
 
 <span class="c1"># region to fill</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">fill_between</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">y</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">y</span><span class="p">],</span> <span class="n">y</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;lightcoral&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">fill_between</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">y</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">y</span><span class="p">],</span> <span class="n">y</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"lightcoral"</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
 
 <span class="c1"># x = y</span>
 <span class="n">x_vals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span> <span class="mi">400</span><span class="p">)</span>
 <span class="n">y_vals</span> <span class="o">=</span> <span class="n">x_vals</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_vals</span><span class="p">,</span> <span class="n">y_vals</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;$x = y$&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_vals</span><span class="p">,</span> <span class="n">y_vals</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"$x = y$"</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"black"</span><span class="p">)</span>
 
 <span class="c1"># domain boundaries</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">y</span><span class="p">],</span> <span class="s2">&quot;g--&quot;</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">x</span><span class="p">],</span> <span class="p">[</span><span class="n">y</span><span class="p">,</span> <span class="n">y</span><span class="p">],</span> <span class="s2">&quot;g--&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">y</span><span class="p">],</span> <span class="s2">"g--"</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">x</span><span class="p">],</span> <span class="p">[</span><span class="n">y</span><span class="p">,</span> <span class="n">y</span><span class="p">],</span> <span class="s2">"g--"</span><span class="p">)</span>
 
 <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="o">*</span> <span class="mf">1.1</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="o">*</span> <span class="mf">1.1</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;$x$&quot;</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;$y$&quot;</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Integration Domain&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">"$x$"</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">"$y$"</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">"Integration Domain"</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
 
-<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;../images/q4_plot2.png&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">"../images/q4_plot2.png"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -866,7 +875,7 @@ F(x, y) =
 </div>
 </section>
 <section id="joint-marginals-and-conditionals-2">
-<h2>5. Joint, Marginals and Conditionals #2<a class="headerlink" href="#joint-marginals-and-conditionals-2" title="Permalink to this headline">#</a></h2>
+<h2>5. Joint, Marginals and Conditionals #2<a class="headerlink" href="#joint-marginals-and-conditionals-2" title="Link to this heading">#</a></h2>
 <p>Let random variables <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span> have joint density</p>
 <div class="math notranslate nohighlight">
 \[ 
@@ -941,10 +950,10 @@ f_{X|Y}(x | y) &amp;= \frac{f_{(X,Y)}(x, y)}{f_Y(y)} \\
 \end{align*}\]</div>
 </div>
 <div class="cell tag_hide-cell docutils container">
-<details class="hide above-input">
+<details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
-<span class="collapsed">Show code cell content</span>
-<span class="expanded">Hide code cell content</span>
+<p class="collapsed admonition-title">Show code cell content</p>
+<p class="expanded admonition-title">Hide code cell content</p>
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
@@ -957,13 +966,13 @@ f_{X|Y}(x | y) &amp;= \frac{f_{(X,Y)}(x, y)}{f_Y(y)} \\
 
 <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
 
-<span class="n">ax</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;lightblue&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Domain of $(X, Y)$&quot;</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;blue&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;$y = 1 - x$&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"lightblue"</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"Domain of $(X, Y)$"</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"blue"</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"$y = 1 - x$"</span><span class="p">)</span>
 
-<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">"x"</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">"y"</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;../images/q5_plot.png&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">"../images/q5_plot.png"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -974,7 +983,7 @@ f_{X|Y}(x | y) &amp;= \frac{f_{(X,Y)}(x, y)}{f_Y(y)} \\
 </div>
 </section>
 <section id="joint-marginals-and-conditionals-3">
-<h2>6. Joint, Marginals and Conditionals #3<a class="headerlink" href="#joint-marginals-and-conditionals-3" title="Permalink to this headline">#</a></h2>
+<h2>6. Joint, Marginals and Conditionals #3<a class="headerlink" href="#joint-marginals-and-conditionals-3" title="Link to this heading">#</a></h2>
 <p>Let random variables <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span> have joint density</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
@@ -1020,7 +1029,7 @@ f_{Y|X}(y | x) = \frac{1+xy}{2}, \quad -1 \le y \le 1
 </div>
 </section>
 <section id="joint-marginals-and-conditionals-4">
-<h2>7. Joint, Marginals and Conditionals #4<a class="headerlink" href="#joint-marginals-and-conditionals-4" title="Permalink to this headline">#</a></h2>
+<h2>7. Joint, Marginals and Conditionals #4<a class="headerlink" href="#joint-marginals-and-conditionals-4" title="Link to this heading">#</a></h2>
 <p>Let random variables <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span> have joint density <span class="math notranslate nohighlight">\(f_{X,Y}(x, y)\)</span> given by:</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
@@ -1072,10 +1081,10 @@ f_X(x) = \int_{-x}^{x} 0.125(x^2 - y^2) e^{-x} dy = \frac{1}{6} e^{-x}x^3=\frac{
 <p>The conditional <span class="math notranslate nohighlight">\(f_{Y|X}(y|x) = \frac{3}{4} \left( \frac{1}{x} - \frac{y^2}{x^3} \right)\)</span>, <span class="math notranslate nohighlight">\(-x \leq y \leq x\)</span>. The conditional <span class="math notranslate nohighlight">\(f_{X|Y}(x|y)\)</span> is simply <span class="math notranslate nohighlight">\(\frac{f(x,y)}{f_Y(y)}\)</span>, <span class="math notranslate nohighlight">\(|y| \leq x &lt; \infty\)</span>.</p>
 </div>
 <div class="cell tag_hide-cell docutils container">
-<details class="hide above-input">
+<details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
-<span class="collapsed">Show code cell content</span>
-<span class="expanded">Hide code cell content</span>
+<p class="collapsed admonition-title">Show code cell content</p>
+<p class="expanded admonition-title">Hide code cell content</p>
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
@@ -1088,13 +1097,13 @@ f_X(x) = \int_{-x}^{x} 0.125(x^2 - y^2) e^{-x} dy = \frac{1}{6} e^{-x}x^3=\frac{
 <span class="n">y_upper</span> <span class="o">=</span> <span class="n">x_vals</span>
 <span class="n">y_lower</span> <span class="o">=</span> <span class="o">-</span><span class="n">x_vals</span>
 
-<span class="n">plt</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">x_vals</span><span class="p">,</span> <span class="n">y_lower</span><span class="p">,</span> <span class="n">y_upper</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;blue&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;X&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Y&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Domain of $f_{X,Y}(x, y)$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">x_vals</span><span class="p">,</span> <span class="n">y_lower</span><span class="p">,</span> <span class="n">y_upper</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"blue"</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">"X"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">"Y"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"Domain of $f_{X,Y}(x, y)$"</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
 
-<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;../images/q7_plot.png&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">"../images/q7_plot.png"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1105,7 +1114,7 @@ f_X(x) = \int_{-x}^{x} 0.125(x^2 - y^2) e^{-x} dy = \frac{1}{6} e^{-x}x^3=\frac{
 </div>
 </section>
 <section id="a-2d-pdf">
-<h2>8. A 2D PDF<a class="headerlink" href="#a-2d-pdf" title="Permalink to this headline">#</a></h2>
+<h2>8. A 2D PDF<a class="headerlink" href="#a-2d-pdf" title="Link to this heading">#</a></h2>
 <p>Let</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
@@ -1215,7 +1224,7 @@ f(y|x) &amp; = \frac{f(x,y)}{f_X(x)} \\
 </div>
 </section>
 <section id="in-a-circle">
-<h2>9. In a Circle<a class="headerlink" href="#in-a-circle" title="Permalink to this headline">#</a></h2>
+<h2>9. In a Circle<a class="headerlink" href="#in-a-circle" title="Link to this heading">#</a></h2>
 <p>Let random variables <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span> have joint density</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
@@ -1260,7 +1269,7 @@ f_Y(y) = \frac{3}{4} (1 - y^2), \quad -1 \le y \le 1
 </div>
 </section>
 <section id="weibull-gamma">
-<h2>10. Weibull - Gamma<a class="headerlink" href="#weibull-gamma" title="Permalink to this headline">#</a></h2>
+<h2>10. Weibull - Gamma<a class="headerlink" href="#weibull-gamma" title="Link to this heading">#</a></h2>
 <p>Let <span class="math notranslate nohighlight">\(X\)</span> be distributed as Weibull <span class="math notranslate nohighlight">\(Wei(r, \lambda)\)</span>, <span class="math notranslate nohighlight">\(r &gt; 0\)</span> known, with a density</p>
 <div class="math notranslate nohighlight">
 \[
@@ -1308,7 +1317,7 @@ f(x | \lambda) = \lambda r x^{r-1} \exp \{-\lambda x^r \}, \quad \lambda &gt; 0,
 </div>
 </section>
 <section id="normal-inverse-gamma">
-<h2>11. Normal - Inverse Gamma<a class="headerlink" href="#normal-inverse-gamma" title="Permalink to this headline">#</a></h2>
+<h2>11. Normal - Inverse Gamma<a class="headerlink" href="#normal-inverse-gamma" title="Link to this heading">#</a></h2>
 <p>Let <span class="math notranslate nohighlight">\(X \sim N(\mu, \sigma^2)\)</span>, with <span class="math notranslate nohighlight">\(\mu\)</span> known, and <span class="math notranslate nohighlight">\(\sigma^2\)</span> is inverse gamma <span class="math notranslate nohighlight">\(IG(\alpha, \beta)\)</span>, with a density</p>
 <div class="math notranslate nohighlight">
 \[
@@ -1361,7 +1370,7 @@ f(\sigma^2 | X_1, X_2, \ldots, X_N) \propto \left(\frac{1}{\sigma^2}\right)^{(N/
 </div>
 </section>
 <section id="uniform-pareto">
-<h2>12. Uniform - Pareto<a class="headerlink" href="#uniform-pareto" title="Permalink to this headline">#</a></h2>
+<h2>12. Uniform - Pareto<a class="headerlink" href="#uniform-pareto" title="Link to this heading">#</a></h2>
 <p>Suppose <span class="math notranslate nohighlight">\(X = (X_1, \ldots, X_n)\)</span> is a sample from <span class="math notranslate nohighlight">\(U(0, \theta)\)</span>. Let <span class="math notranslate nohighlight">\(\theta\)</span> have Pareto <span class="math notranslate nohighlight">\(Pa (\theta_0, \alpha)\)</span> distribution. Show that the posterior distribution is <span class="math notranslate nohighlight">\(Pa (\max \{\theta_0, x_1, \ldots, x_n\}, \alpha + n)\)</span>.</p>
 <div class="tip dropdown admonition">
 <p class="admonition-title">Solution</p>
@@ -1397,7 +1406,7 @@ With the likelihood and prior provided above, the posterior is proportional to t
 </div>
 </section>
 <section id="gamma-inverse-gamma">
-<h2>13. Gamma - Inverse Gamma<a class="headerlink" href="#gamma-inverse-gamma" title="Permalink to this headline">#</a></h2>
+<h2>13. Gamma - Inverse Gamma<a class="headerlink" href="#gamma-inverse-gamma" title="Link to this heading">#</a></h2>
 <p>Let <span class="math notranslate nohighlight">\(X \sim Ga \left(\frac{n}{2}, \frac{1}{2\theta}\right)\)</span>, so that <span class="math notranslate nohighlight">\(X/\theta\)</span> is <span class="math notranslate nohighlight">\(\chi^2_n\)</span>. Let <span class="math notranslate nohighlight">\(\theta \sim IG(\alpha, \beta)\)</span>. Show that the posterior is <span class="math notranslate nohighlight">\(IG\left(\frac{n}{2} + \alpha, \frac{x}{2} + \beta\right)\)</span>.</p>
 <div class="tip dropdown admonition">
 <p class="admonition-title">Solution</p>
@@ -1439,7 +1448,7 @@ L(\theta) \cdot \pi(\theta) \propto x^{\frac{n}{2}-1} (2\theta)^{-\frac{n}{2}} \
 </div>
 </section>
 <section id="negative-binomial-beta">
-<h2>14. Negative Binomial - Beta<a class="headerlink" href="#negative-binomial-beta" title="Permalink to this headline">#</a></h2>
+<h2>14. Negative Binomial - Beta<a class="headerlink" href="#negative-binomial-beta" title="Link to this heading">#</a></h2>
 <p>If <span class="math notranslate nohighlight">\(X = (X_1, \ldots, X_n)\)</span> is a sample from <span class="math notranslate nohighlight">\(NB(m, \theta)\)</span> and <span class="math notranslate nohighlight">\(\theta \sim Be(\alpha, \beta)\)</span>, show that the posterior for <span class="math notranslate nohighlight">\(\theta\)</span> is beta <span class="math notranslate nohighlight">\(Be \left(\alpha + mn, \beta + \sum_{i=1}^n x_i\right)\)</span>.</p>
 <div class="tip dropdown admonition">
 <p class="admonition-title">Solution</p>
@@ -1463,9 +1472,9 @@ f(x) = \binom{r + x - 1}{x} p^r (1 - p)^x, \quad x = 0, 1, 2, \ldots
 </div>
 </section>
 <section id="horse-kick-fatalities-and-gamma-prior">
-<h2>15. Horse-Kick Fatalities and Gamma Prior<a class="headerlink" href="#horse-kick-fatalities-and-gamma-prior" title="Permalink to this headline">#</a></h2>
+<h2>15. Horse-Kick Fatalities and Gamma Prior<a class="headerlink" href="#horse-kick-fatalities-and-gamma-prior" title="Link to this heading">#</a></h2>
 <p>During the latter part of the nineteenth century, Prussian officials gathered information on the hazards that horses posed to cavalry soldiers. Fatal accidents for 10 cavalry corps were collected over a period of 20 years (Preussischen Statistik). The number of fatalities due to kicks, <span class="math notranslate nohighlight">\(x\)</span>, was recorded for each year and each corps. The table below shows the distribution of <span class="math notranslate nohighlight">\(x\)</span> for these 200 “corps-years.”</p>
-<table class="colwidths-auto table">
+<div class="pst-scrollable-table-container"><table class="table">
 <thead>
 <tr class="row-odd"><th class="head"><p><span class="math notranslate nohighlight">\(x\)</span> (number of deaths)</p></th>
 <th class="head"><p>Observed number of corps-years</p></th>
@@ -1492,6 +1501,7 @@ f(x) = \binom{r + x - 1}{x} p^r (1 - p)^x, \quad x = 0, 1, 2, \ldots
 </tr>
 </tbody>
 </table>
+</div>
 <p>Altogether there were 122 fatalities (<span class="math notranslate nohighlight">\(109(0) + 65(1) + 22(2) + 3(3) + 1(4)\)</span>), meaning that the observed fatality rate was <span class="math notranslate nohighlight">\(\frac{122}{200}\)</span>, or 0.61 fatalities per corps-year. Von Bortkiewicz (1898) proposed a Poisson model for <span class="math notranslate nohighlight">\(x\)</span> with a rate <span class="math notranslate nohighlight">\(\lambda\)</span>.</p>
 <p>If the prior on <span class="math notranslate nohighlight">\(\lambda\)</span> is gamma <span class="math notranslate nohighlight">\(Ga(5, 9)\)</span>, find the posterior for <span class="math notranslate nohighlight">\(\lambda\)</span>. What are the posterior mean and variance?</p>
 <div class="tip dropdown admonition">
@@ -1508,9 +1518,9 @@ f(x) = \binom{r + x - 1}{x} p^r (1 - p)^x, \quad x = 0, 1, 2, \ldots
 </div>
 </section>
 <section id="counts-of-alpha">
-<h2>16. Counts of Alpha<a class="headerlink" href="#counts-of-alpha" title="Permalink to this headline">#</a></h2>
+<h2>16. Counts of Alpha<a class="headerlink" href="#counts-of-alpha" title="Link to this heading">#</a></h2>
 <p>Rutherford and Geiger (Rutherford, Geiger and Bateman, Phil. Mag. 20, 698, 19) provided counts of α-particles in their experiment. The counts, given in the table below, can be well–modeled by the Poisson distribution:</p>
-<table class="colwidths-auto table">
+<div class="pst-scrollable-table-container"><table class="table">
 <thead>
 <tr class="row-odd"><th class="head"><p>Particle ct.</p></th>
 <th class="head"><p>0</p></th>
@@ -1561,6 +1571,7 @@ f(x) = \binom{r + x - 1}{x} p^r (1 - p)^x, \quad x = 0, 1, 2, \ldots
 </tr>
 </tbody>
 </table>
+</div>
 <ol class="arabic simple">
 <li><p>Find sample size n and sample mean <span class="math notranslate nohighlight">\(\bar{X}\)</span>. In calculations for <span class="math notranslate nohighlight">\(\bar{X}\)</span> take ≥ 12 as 12.</p></li>
 <li><p>Elicit a gamma prior for λ with rate parameter β = 10 and shape parameter α selected in such a way that the prior mean is 7.</p></li>
@@ -1573,7 +1584,7 @@ f(x) = \binom{r + x - 1}{x} p^r (1 - p)^x, \quad x = 0, 1, 2, \ldots
 </div>
 </section>
 <section id="estimating-chemotherapy-response-rates">
-<h2>17. Estimating Chemotherapy Response Rates<a class="headerlink" href="#estimating-chemotherapy-response-rates" title="Permalink to this headline">#</a></h2>
+<h2>17. Estimating Chemotherapy Response Rates<a class="headerlink" href="#estimating-chemotherapy-response-rates" title="Link to this heading">#</a></h2>
 <p>An oncologist believes that <span class="math notranslate nohighlight">\(90\%\)</span> of cancer patients will respond to a new chemotherapy treatment and that it is unlikely that this proportion will be below <span class="math notranslate nohighlight">\(80\%\)</span>. Elicit a beta prior that models the oncologist’s beliefs. During the trial, with 30 patients treated, 22 responded.</p>
 <p><em>Hint</em>: For elicitation of the prior use <span class="math notranslate nohighlight">\(\mu = 0.9\)</span>, <span class="math notranslate nohighlight">\(\mu − 2\sigma = 0.8\)</span> and expressions for <span class="math notranslate nohighlight">\(\mu\)</span> and <span class="math notranslate nohighlight">\(\sigma\)</span> for beta.</p>
 <ol class="arabic simple">
@@ -1625,7 +1636,7 @@ f(x) = \binom{r + x - 1}{x} p^r (1 - p)^x, \quad x = 0, 1, 2, \ldots
 <p>I realize now after writing this that the conjugate table does the opposite with <span class="math notranslate nohighlight">\(m\)</span> and <span class="math notranslate nohighlight">\(n\)</span>. But I wanted to keep the <span class="math notranslate nohighlight">\(n\)</span> the same as this problem’s description. You could switch them and the derivation remains the same.</p>
 <p>We need to elicit a beta prior where the mean is <span class="math notranslate nohighlight">\(.9\)</span> and <span class="math notranslate nohighlight">\(.8\)</span> is within two standard deviations of the mean.</p>
 <p>The beta distribution mean is :<span class="math notranslate nohighlight">\(\frac{\alpha}{\alpha + \beta}\)</span> and the variance is <span class="math notranslate nohighlight">\(\frac{\alpha\beta}{(\alpha + \beta)^2(\alpha + \beta + 1)}\)</span>.</p>
-<p>Based on the hint, we have <span class="math notranslate nohighlight">\(.9=\frac{\alpha}{\alpha + \beta}\)</span> and <span class="math notranslate nohighlight">\(\sigma^2 =\left(\frac{.9 - .8}{2}\right)^2 =\frac{\alpha\beta}{(\alpha + \beta)^2(\alpha + \beta + 1)}\)</span>. We can solve the system of equations for <span class="math notranslate nohighlight">\(\alpha=63/2\)</span> and <span class="math notranslate nohighlight">\(\beta=7/2\)</span> using a <a class="reference external" href="https://www.wolframalpha.com/input?i=systems+of+equations+calculator&amp;assumption=%7B%22F%22%2C+%22SolveSystemOf2EquationsCalculator%22%2C+%22equation1%22%7D+-%3E%22.9+%3D+a%2F%28a%2Bb%29%22&amp;assumption=%22FSelect%22+-%3E+%7B%7B%22SolveSystemOf2EquationsCalculator%22%7D%2C+%22dflt%22%7D&amp;assumption=%7B%22F%22%2C+%22SolveSystemOf2EquationsCalculator%22%2C+%22equation2%22%7D+-%3E%22%28.1%2F2%29%5E2+%3D+%28a*b%29%2F%28%28a+%2B+b%29%5E2+%28a+%2B+b+%2B+1%29%29%22">system of equations solver</a></p>
+<p>Based on the hint, we have <span class="math notranslate nohighlight">\(.9=\frac{\alpha}{\alpha + \beta}\)</span> and <span class="math notranslate nohighlight">\(\sigma^2 =\left(\frac{.9 - .8}{2}\right)^2 =\frac{\alpha\beta}{(\alpha + \beta)^2(\alpha + \beta + 1)}\)</span>. We can solve the system of equations for <span class="math notranslate nohighlight">\(\alpha=63/2\)</span> and <span class="math notranslate nohighlight">\(\beta=7/2\)</span> using a <a class="reference external" href="https://www.wolframalpha.com/input?i=systems+of+equations+calculator&amp;amp;assumption=%7B%22F%22%2C+%22SolveSystemOf2EquationsCalculator%22%2C+%22equation1%22%7D+-%3E%22.9+%3D+a%2F%28a%2Bb%29%22&amp;amp;assumption=%22FSelect%22+-%3E+%7B%7B%22SolveSystemOf2EquationsCalculator%22%7D%2C+%22dflt%22%7D&amp;amp;assumption=%7B%22F%22%2C+%22SolveSystemOf2EquationsCalculator%22%2C+%22equation2%22%7D+-%3E%22%28.1%2F2%29%5E2+%3D+%28a*b%29%2F%28%28a+%2B+b%29%5E2+%28a+%2B+b+%2B+1%29%29%22">system of equations solver</a></p>
 <p>Then our beta prior will be:</p>
 <div class="math notranslate nohighlight">
 \[
@@ -1646,10 +1657,10 @@ f(x) = \binom{r + x - 1}{x} p^r (1 - p)^x, \quad x = 0, 1, 2, \ldots
 <p>See the second hidden code cell below.</p>
 </div>
 <div class="cell tag_hide-cell docutils container">
-<details class="hide above-input">
+<details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
-<span class="collapsed">Show code cell content</span>
-<span class="expanded">Hide code cell content</span>
+<p class="collapsed admonition-title">Show code cell content</p>
+<p class="expanded admonition-title">Hide code cell content</p>
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
@@ -1674,71 +1685,71 @@ f(x) = \binom{r + x - 1}{x} p^r (1 - p)^x, \quad x = 0, 1, 2, \ldots
 
 <span class="c1"># Plotting the prior, likelihood and posterior</span>
 <span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s2">&quot;Chemotherapy Response Rate&quot;</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s2">"Chemotherapy Response Rate"</span><span class="p">)</span>
 
 <span class="c1"># Plot prior</span>
 <span class="n">prior_mean</span> <span class="o">=</span> <span class="n">prior_alpha</span> <span class="o">/</span> <span class="p">(</span><span class="n">prior_alpha</span> <span class="o">+</span> <span class="n">prior_beta</span><span class="p">)</span>
-<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">prior_densities</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Prior&quot;</span><span class="p">)</span>
-<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">prior_mean</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;g&quot;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">prior_densities</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"Prior"</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">prior_mean</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"g"</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">"--"</span><span class="p">)</span>
 <span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
     <span class="n">prior_mean</span> <span class="o">+</span> <span class="mf">0.01</span><span class="p">,</span>
     <span class="n">y</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">prior_densities</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.5</span><span class="p">,</span>
-    <span class="n">s</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">prior_mean</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
-    <span class="n">color</span><span class="o">=</span><span class="s2">&quot;g&quot;</span><span class="p">,</span>
-    <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">,</span>
+    <span class="n">s</span><span class="o">=</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">prior_mean</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+    <span class="n">color</span><span class="o">=</span><span class="s2">"g"</span><span class="p">,</span>
+    <span class="n">ha</span><span class="o">=</span><span class="s2">"left"</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
     <span class="n">x</span><span class="o">=</span><span class="mf">0.02</span><span class="p">,</span>
     <span class="n">y</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">prior_densities</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.85</span><span class="p">,</span>
-    <span class="n">s</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Be(</span><span class="si">{</span><span class="n">prior_alpha</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">prior_beta</span><span class="si">}</span><span class="s2">) prior&quot;</span><span class="p">,</span>
-    <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span>
+    <span class="n">s</span><span class="o">=</span><span class="sa">f</span><span class="s2">"Be(</span><span class="si">{</span><span class="n">prior_alpha</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">prior_beta</span><span class="si">}</span><span class="s2">) prior"</span><span class="p">,</span>
+    <span class="n">color</span><span class="o">=</span><span class="s2">"black"</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Density&quot;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">"Density"</span><span class="p">)</span>
 <span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 
 <span class="c1"># Plot likelihood</span>
 <span class="n">mle</span> <span class="o">=</span> <span class="n">k</span> <span class="o">/</span> <span class="n">n</span>
-<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">likelihood</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Likelihood&quot;</span><span class="p">)</span>
-<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">mle</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;g&quot;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">likelihood</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"Likelihood"</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">mle</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"g"</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">"--"</span><span class="p">)</span>
 <span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
     <span class="n">x</span><span class="o">=</span><span class="n">mle</span> <span class="o">+</span> <span class="mf">0.01</span><span class="p">,</span>
     <span class="n">y</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">likelihood</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.5</span><span class="p">,</span>
-    <span class="n">s</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">mle</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
-    <span class="n">color</span><span class="o">=</span><span class="s2">&quot;g&quot;</span><span class="p">,</span>
-    <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">,</span>
+    <span class="n">s</span><span class="o">=</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">mle</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+    <span class="n">color</span><span class="o">=</span><span class="s2">"g"</span><span class="p">,</span>
+    <span class="n">ha</span><span class="o">=</span><span class="s2">"left"</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
     <span class="n">x</span><span class="o">=</span><span class="mf">0.02</span><span class="p">,</span>
     <span class="n">y</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">likelihood</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.85</span><span class="p">,</span>
-    <span class="n">s</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Bin(n=</span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2">, x=</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">, p)&quot;</span><span class="p">,</span>
-    <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span>
+    <span class="n">s</span><span class="o">=</span><span class="sa">f</span><span class="s2">"Bin(n=</span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2">, x=</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">, p)"</span><span class="p">,</span>
+    <span class="n">color</span><span class="o">=</span><span class="s2">"black"</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Density&quot;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">"Density"</span><span class="p">)</span>
 <span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 
 <span class="c1"># Plot posterior</span>
 <span class="n">post_mean</span> <span class="o">=</span> <span class="n">post_alpha</span> <span class="o">/</span> <span class="p">(</span><span class="n">post_alpha</span> <span class="o">+</span> <span class="n">post_beta</span><span class="p">)</span>
-<span class="n">axs</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">posterior_densities</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Posterior&quot;</span><span class="p">)</span>
-<span class="n">axs</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">post_mean</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;g&quot;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">posterior_densities</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"Posterior"</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">post_mean</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"g"</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">"--"</span><span class="p">)</span>
 <span class="n">axs</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
     <span class="n">x</span><span class="o">=</span><span class="n">post_mean</span> <span class="o">+</span> <span class="mf">0.01</span><span class="p">,</span>
     <span class="n">y</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">posterior_densities</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.5</span><span class="p">,</span>
-    <span class="n">s</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">post_mean</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
-    <span class="n">color</span><span class="o">=</span><span class="s2">&quot;g&quot;</span><span class="p">,</span>
-    <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">,</span>
+    <span class="n">s</span><span class="o">=</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">post_mean</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+    <span class="n">color</span><span class="o">=</span><span class="s2">"g"</span><span class="p">,</span>
+    <span class="n">ha</span><span class="o">=</span><span class="s2">"left"</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="n">axs</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
     <span class="n">x</span><span class="o">=</span><span class="mf">0.02</span><span class="p">,</span>
     <span class="n">y</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">posterior_densities</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.85</span><span class="p">,</span>
-    <span class="n">s</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Be(</span><span class="si">{</span><span class="n">post_alpha</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">post_beta</span><span class="si">}</span><span class="s2">) posterior&quot;</span><span class="p">,</span>
-    <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span>
+    <span class="n">s</span><span class="o">=</span><span class="sa">f</span><span class="s2">"Be(</span><span class="si">{</span><span class="n">post_alpha</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">post_beta</span><span class="si">}</span><span class="s2">) posterior"</span><span class="p">,</span>
+    <span class="n">color</span><span class="o">=</span><span class="s2">"black"</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="n">axs</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Density&quot;</span><span class="p">)</span>
-<span class="n">axs</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Probability of Success&quot;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">"Density"</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">"Probability of Success"</span><span class="p">)</span>
 <span class="n">axs</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 
 
-<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;../images/q17_plot.png&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">"../images/q17_plot.png"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1748,18 +1759,18 @@ f(x) = \binom{r + x - 1}{x} p^r (1 - p)^x, \quad x = 0, 1, 2, \ldots
 </details>
 </div>
 <div class="cell tag_hide-cell docutils container">
-<details class="hide above-input">
+<details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
-<span class="collapsed">Show code cell content</span>
-<span class="expanded">Hide code cell content</span>
+<p class="collapsed admonition-title">Show code cell content</p>
+<p class="expanded admonition-title">Hide code cell content</p>
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pymc</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pm</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">arviz</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">az</span>
 
 <span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">():</span>
-    <span class="n">prior_p</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Beta</span><span class="p">(</span><span class="s2">&quot;p&quot;</span><span class="p">,</span> <span class="mf">31.5</span><span class="p">,</span> <span class="mf">3.5</span><span class="p">)</span>
-    <span class="n">pm</span><span class="o">.</span><span class="n">Binomial</span><span class="p">(</span><span class="s2">&quot;likelihood&quot;</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">n</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">prior_p</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">k</span><span class="p">)</span>
+    <span class="n">prior_p</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Beta</span><span class="p">(</span><span class="s2">"p"</span><span class="p">,</span> <span class="mf">31.5</span><span class="p">,</span> <span class="mf">3.5</span><span class="p">)</span>
+    <span class="n">pm</span><span class="o">.</span><span class="n">Binomial</span><span class="p">(</span><span class="s2">"likelihood"</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">n</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">prior_p</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">k</span><span class="p">)</span>
 
     <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">3000</span><span class="p">)</span>
 
@@ -1847,7 +1858,7 @@ NUTS: [p]
 </div>
 </section>
 <section id="jeremy-and-variance-from-single-observation">
-<h2>18. Jeremy and Variance from Single Observation<a class="headerlink" href="#jeremy-and-variance-from-single-observation" title="Permalink to this headline">#</a></h2>
+<h2>18. Jeremy and Variance from Single Observation<a class="headerlink" href="#jeremy-and-variance-from-single-observation" title="Link to this heading">#</a></h2>
 <p>Jeremy believes that his IQ test scores have a normal distribution with mean 110 and unknown variance <span class="math notranslate nohighlight">\(\sigma^2\)</span>. He takes a test and scores <span class="math notranslate nohighlight">\(X = 98\)</span>.</p>
 <ol class="arabic">
 <li><p>Show that inverse gamma prior <span class="math notranslate nohighlight">\(IG(\alpha, \beta)\)</span> is the conjugate for <span class="math notranslate nohighlight">\(\sigma^2\)</span> if the observation <span class="math notranslate nohighlight">\(X\)</span> is normal <span class="math notranslate nohighlight">\(N(\mu, \sigma^2)\)</span> with <span class="math notranslate nohighlight">\(\mu\)</span> known. What is the posterior?</p></li>
@@ -1900,10 +1911,10 @@ E[\sigma^2] = \frac{172}{2.5} = 68.8, \quad \text{Var} (\sigma^2) = \frac{(172)^
 </ol>
 </div>
 <div class="cell tag_hide-cell docutils container">
-<details class="hide above-input">
+<details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
-<span class="collapsed">Show code cell content</span>
-<span class="expanded">Hide code cell content</span>
+<p class="collapsed admonition-title">Show code cell content</p>
+<p class="expanded admonition-title">Hide code cell content</p>
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pymc</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pm</span>
@@ -1913,9 +1924,9 @@ E[\sigma^2] = \frac{172}{2.5} = 68.8, \quad \text{Var} (\sigma^2) = \frac{(172)^
 <span class="n">mu</span> <span class="o">=</span> <span class="mi">110</span>
 
 <span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">m</span><span class="p">:</span>
-    <span class="n">sigma2</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">InverseGamma</span><span class="p">(</span><span class="s2">&quot;sigma2&quot;</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+    <span class="n">sigma2</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">InverseGamma</span><span class="p">(</span><span class="s2">"sigma2"</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
 
-    <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;likelihood&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">pm</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">sigma2</span><span class="p">),</span> <span class="n">observed</span><span class="o">=</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">"likelihood"</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">pm</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">sigma2</span><span class="p">),</span> <span class="n">observed</span><span class="o">=</span><span class="n">x</span><span class="p">)</span>
 
     <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">10000</span><span class="p">)</span>
 
@@ -2003,7 +2014,7 @@ NUTS: [sigma2]
 </div>
 </section>
 <section id="easy-2d">
-<h2>19. Easy 2D<a class="headerlink" href="#easy-2d" title="Permalink to this headline">#</a></h2>
+<h2>19. Easy 2D<a class="headerlink" href="#easy-2d" title="Link to this heading">#</a></h2>
 <p>Joint distribution for <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(\Theta\)</span> is</p>
 <div class="math notranslate nohighlight">
 \[
@@ -2030,7 +2041,7 @@ P(g_1(Y) \le X \le g_2(Y)) &amp;= E \left[P(g_1(Y) \le X \le g_2(Y)) \mid Y\righ
 </div>
 </section>
 <section id="bayes-and-bats">
-<h2>20. Bayes and Bats<a class="headerlink" href="#bayes-and-bats" title="Permalink to this headline">#</a></h2>
+<h2>20. Bayes and Bats<a class="headerlink" href="#bayes-and-bats" title="Link to this heading">#</a></h2>
 <p>By careful examination of sound and film records it is possible to measure the distance at which a bat first detects an insect. The measurements are modeled by a normal distribution <span class="math notranslate nohighlight">\(N(\theta, 10^2)\)</span>, where <span class="math notranslate nohighlight">\(\theta\)</span> is the unknown mean distance (in cm).</p>
 <p>Experts believe that the prior suitably expressing uncertainty about <span class="math notranslate nohighlight">\(\theta\)</span> is <span class="math notranslate nohighlight">\(\theta \sim N(50, 10^2)\)</span>. Three measurements are obtained: 62, 52, and 68.</p>
 <ol class="arabic simple">
@@ -2062,21 +2073,21 @@ See code below.</p></li>
 <p>‘HPD credible set: (48.2002, 67.7998)’</p>
 </div>
 <div class="cell tag_hide-cell docutils container">
-<details class="hide above-input">
+<details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
-<span class="collapsed">Show code cell content</span>
-<span class="expanded">Hide code cell content</span>
+<p class="collapsed admonition-title">Show code cell content</p>
+<p class="expanded admonition-title">Hide code cell content</p>
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">scipy.optimize</span><span class="w"> </span><span class="kn">import</span> <span class="n">fsolve</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">norm</span>
 
 <span class="n">posterior</span> <span class="o">=</span> <span class="n">norm</span><span class="p">(</span><span class="mi">58</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Probability of H_0: </span><span class="si">{</span><span class="mi">1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">posterior</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>  <span class="c1"># 0.9452</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Probability of H_0: </span><span class="si">{</span><span class="mi">1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">posterior</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>  <span class="c1"># 0.9452</span>
 
 <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.05</span>
 <span class="nb">print</span><span class="p">(</span>
-    <span class="sa">f</span><span class="s2">&quot;Equi-tailed credible set: (</span><span class="si">{</span><span class="n">posterior</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="n">alpha</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">posterior</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">alpha</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">)&quot;</span>  <span class="c1"># &#39;Equi-tailed credible set: (48.2002, 67.7998)&#39;</span>
+    <span class="sa">f</span><span class="s2">"Equi-tailed credible set: (</span><span class="si">{</span><span class="n">posterior</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="n">alpha</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">posterior</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">alpha</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">)"</span>  <span class="c1"># 'Equi-tailed credible set: (48.2002, 67.7998)'</span>
 <span class="p">)</span>
 
 <span class="n">guess_lwr</span><span class="p">,</span> <span class="n">guess_upr</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">70</span>
@@ -2094,8 +2105,8 @@ See code below.</p></li>
 <span class="c1"># since this distribution is symmetrical, HPD should be the same as EQT</span>
 <span class="n">hpd</span> <span class="o">=</span> <span class="n">fsolve</span><span class="p">(</span><span class="n">conditions</span><span class="p">,</span> <span class="p">(</span><span class="n">guess_lwr</span><span class="p">,</span> <span class="n">guess_upr</span><span class="p">),</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">posterior</span><span class="p">,</span> <span class="n">alpha</span><span class="p">))</span>
 <span class="nb">print</span><span class="p">(</span>
-    <span class="sa">f</span><span class="s2">&quot;HPD credible set: (</span><span class="si">{</span><span class="n">hpd</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">hpd</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">)&quot;</span>
-<span class="p">)</span>  <span class="c1"># &#39;HPD credible set: (48.2002, 67.7998)&#39;</span>
+    <span class="sa">f</span><span class="s2">"HPD credible set: (</span><span class="si">{</span><span class="n">hpd</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">hpd</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">)"</span>
+<span class="p">)</span>  <span class="c1"># 'HPD credible set: (48.2002, 67.7998)'</span>
 </pre></div>
 </div>
 </div>
@@ -2129,11 +2140,10 @@ See code below.</p></li>
 
               
               
-                <footer class="bd-footer-article">
+              
+              
+                <footer class="prev-next-footer d-print-none">
                   
-<div class="footer-article-items footer-article__inner">
-  
-    <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
        href="Unit4-AlphaParticles.html"
@@ -2153,23 +2163,23 @@ See code below.</p></li>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
-</div></div>
-  
 </div>
-
                 </footer>
               
             </div>
             
             
               
-                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
-  <div class="sidebar-secondary-item">
-  <div class="page-toc tocsection onthispage">
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
     <i class="fa-solid fa-list"></i> Contents
   </div>
-  <nav class="bd-toc-nav page-toc">
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#expectation-and-variance">1. Expectation and Variance</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#uniform-on-unit-circle">2. Uniform on Unit Circle</a></li>
@@ -2212,6 +2222,7 @@ By Georgia Tech ISYE 6420 Staff
   
   <div class="footer-item">
     
+
   <p class="copyright">
     
       © Copyright 2024.
@@ -2238,8 +2249,8 @@ By Georgia Tech ISYE 6420 Staff
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
-<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
 
   <footer class="bd-footer">
   </footer>

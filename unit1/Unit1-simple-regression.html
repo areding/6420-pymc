@@ -1,13 +1,12 @@
 
-
 <!DOCTYPE html>
 
 
-<html lang="en" >
+<html lang="en" data-content_root="../" >
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>4. A Simple Regression* &#8212; ISYE 6420 - BUGS to PyMC</title>
   
@@ -15,66 +14,65 @@
   
   <script data-cfasync="false">
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
-    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
-  
-  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
-
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../_static/proof.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/panels-bootstrap.5fd3999ee7762ccc51105388f4a9d115.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=65f6aa99" />
   
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-    <script src="../_static/jquery.js"></script>
-    <script src="../_static/underscore.js"></script>
-    <script src="../_static/doctools.js"></script>
-    <script src="../_static/clipboard.min.js"></script>
-    <script src="../_static/copybutton.js"></script>
-    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
-    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
-    <script src="../_static/design-tabs.js"></script>
-    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
-const thebe_selector = ".thebe,.cell"
-const thebe_selector_input = "pre"
-const thebe_selector_output = ".output, .cell_output"
-</script>
-    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'unit1/Unit1-simple-regression';</script>
-    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="1. History of Bayesian Statistics" href="../unit2/Unit2-history.html" />
     <link rel="prev" title="3. Software" href="Unit1-software.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
   </head>
   
   
@@ -82,23 +80,16 @@ const thebe_selector_output = ".output, .cell_output"
 
   
   
-  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          name="__primary"
-          id="__primary"/>
-  <label class="overlay overlay-primary" for="__primary"></label>
+  <div id="pst-scroll-pixel-helper"></div>
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          name="__secondary"
-          id="__secondary"/>
-  <label class="overlay overlay-secondary" for="__secondary"></label>
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
   
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="../search.html"
       method="get">
@@ -106,7 +97,6 @@ const thebe_selector_output = ".output, .cell_output"
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search this book..."
          aria-label="Search this book..."
          autocomplete="off"
@@ -114,16 +104,25 @@ const thebe_selector_output = ".output, .cell_output"
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
   
-    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
-    </nav>
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
   
+
   <div class="bd-container">
     <div class="bd-container__inner bd-page-width">
       
-      <div class="bd-sidebar-primary bd-sidebar">
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -136,9 +135,13 @@ const thebe_selector_output = ".output, .cell_output"
   
     <div class="sidebar-primary-items__start sidebar-primary__section">
         <div class="sidebar-primary-item">
+
+  
+    
   
 
 <a class="navbar-brand logo" href="../intro.html">
+  
   
   
   
@@ -148,12 +151,19 @@ const thebe_selector_output = ".output, .cell_output"
       
     
     
-    <img src="../_static/logo2.png" class="logo__image only-light" alt="Logo image"/>
-    <script>document.write(`<img src="../_static/logo2.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+    <img src="../_static/logo2.png" class="logo__image only-light" alt="ISYE 6420 - BUGS to PyMC - Home"/>
+    <img src="../_static/logo2.png" class="logo__image only-dark pst-js-only" alt="ISYE 6420 - BUGS to PyMC - Home"/>
   
   
 </a></div>
-        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         
         <ul class="nav bd-sidenav bd-sidenav__home-link">
@@ -188,73 +198,73 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="../unit3/Unit3-TwoHeadedCoin.html">6. Two-headed Coin*</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../unit3/Unit3-bayesnetworks.html">7. Bayes Networks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../unit3/Unit3-Alarm.html">8. Alarm*</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../unit3/moreexamples3.html">More Examples</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../unit3/moreexamples3.html">More Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../unit3/Unit3-Emily.html">Supplementary Problem: Emily’s Vacation*</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../unit3/SupplementaryExercises35.html">Supplementary Exercises*</a></li>
 </ul>
-</li>
+</details></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Unit 4</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1 has-children"><a class="reference internal" href="../unit4/distributions.html">Probability Distributions</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../unit4/distributions.html">Probability Distributions</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../unit4/Unit4-basicdist.html">1. Basic Distributions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../unit4/Unit4-numericalchar.html">2. Numerical Characteristics of Random Variables</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../unit4/Unit4-jointconditionals.html">3. Joint and Conditional Distributions</a></li>
 </ul>
-</li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../unit4/bayestheorem.html">Bayes’ Theorem</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../unit4/bayestheorem.html">Bayes’ Theorem</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../unit4/Unit4-ingredients.html">4. Ingredients for Bayesian Inference</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../unit4/Unit4-conjugatefamilies.html">5. Conjugate Families</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../unit4/Unit4-IQexample.html">6. Example: Jeremy’s IQ</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../unit4/Unit4-BetaPriors.html">7. Ten Coin Flips Revisited: Beta Plots*</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../unit4/Unit4-poissongamma.html">8. Poisson–Gamma Model</a></li>
 </ul>
-</li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../unit4/conjugatecases.html">Bayesian Inference in Conjugate Cases</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../unit4/conjugatecases.html">Bayesian Inference in Conjugate Cases</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../unit4/Unit4-estimation.html">9. Estimation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../unit4/Unit4-crediblesets.html">10. Credible Intervals</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../unit4/Unit4-GammaGamma.html">11. Gamma Gamma*</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../unit4/Unit4-testing.html">12. Bayesian Testing</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../unit4/Unit4-prediction.html">13. Prediction</a></li>
 </ul>
-</li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../unit4/priors.html">Priors</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../unit4/priors.html">Priors</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../unit4/Unit4-elicitation.html">14. Prior Elicitation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../unit4/Unit4-noninform.html">15. Non-informative Priors</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../unit4/Unit4-samplesize.html">16. Prior Sample Size</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../unit4/Unit4-eBay.html">17. eBay Purchase Example*</a></li>
 </ul>
-</li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../unit4/empiricalbayes.html">Empirical Bayes</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../unit4/empiricalbayes.html">Empirical Bayes</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../unit4/Unit4-parametric.html">18. Parametric</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../unit4/Unit4-nonpara.html">19. Non-parametric</a></li>
 </ul>
-</li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../unit4/moreexamples.html">More Examples</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../unit4/moreexamples.html">More Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../unit4/Unit4-AlphaParticles.html">Counts of Alpha Particles*</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../unit4/SupplementaryExercises43.html">Supplementary Exercises 4.3</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../unit4/SupplementaryExercises48.html">Supplementary Exercises 4.8</a></li>
 </ul>
-</li>
+</details></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Unit 5</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1 has-children"><a class="reference internal" href="../unit5/bayesian-computation.html">Bayesian Computation</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../unit5/bayesian-computation.html">Bayesian Computation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-numericalapproaches.html">1. Numerical Approaches</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-norcau1.html">2. Normal–Cauchy Example</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-Laplace.html">3. Laplace’s Method</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-demo-Laplaces-method.html">4. Laplace’s Method Demo*</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-mcmc.html">5. Markov Chain Monte Carlo</a></li>
 </ul>
-</li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../unit5/metropolis-hastings.html">The Metropolis Algorithm</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-9"><i class="fa-solid fa-chevron-down"></i></label><ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../unit5/metropolis-hastings.html">The Metropolis Algorithm</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-Metropolis.html">6. Metropolis</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-Metropolis1.html">7. Metropolis: Normal-Cauchy*</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-MetropolisHastings.html">8. Metropolis–Hastings: Weibull-Exponential Example</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-MetropolisHastings2.html">9. Weibull Lifetimes*</a></li>
 </ul>
-</li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../unit5/gibbs-sampling.html">Gibbs Sampling</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-10"><i class="fa-solid fa-chevron-down"></i></label><ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../unit5/gibbs-sampling.html">Gibbs Sampling</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-gibbsintro.html">10. Introduction to Gibbs Sampling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-GibbsSampler.html">11. Normal-Cauchy Gibbs Sampler*</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-gibbs2.html">12. Conjugate Gamma-Poisson Model</a></li>
@@ -262,12 +272,12 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-gibbsex3math.html">14. Change Point Problem</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-Gibbs3.html">15. Coal Mining Disasters in the UK*</a></li>
 </ul>
-</li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../unit5/other.html">Other Algorithms</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-11"><i class="fa-solid fa-chevron-down"></i></label><ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../unit5/other.html">Other Algorithms</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-hamiltonian.html">16. Hamiltonian Monte Carlo</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../unit5/Unit5-other-methods.html">17. Going Further</a></li>
 </ul>
-</li>
+</details></li>
 <li class="toctree-l1"><a class="reference internal" href="../unit5/SupplementaryExercises54.html">Supplementary Exercises</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Unit 6</span></p>
@@ -285,15 +295,15 @@ const thebe_selector_output = ".output, .cell_output"
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Unit 7</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1 has-children"><a class="reference internal" href="../unit7/hierarchical.html">Hierarchical Models</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-12"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../unit7/hierarchical.html">Hierarchical Models</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../unit7/Unit7-introduction.html">1. Introduction to Hierarchical Models</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../unit7/Unit7-why.html">2. Reasons to Use Hierarchical Models</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../unit7/Unit7-priors.html">3. Priors with Structural Information</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../unit7/Unit7-hiddenmixtures.html">4. Priors as Hidden Mixtures*</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../unit7/Unit7-metaanalysis.html">5. Meta-analysis via Hierarchical Models*</a></li>
 </ul>
-</li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../unit7/linearmodels.html">Linear Models</a><input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-13"><i class="fa-solid fa-chevron-down"></i></label><ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../unit7/linearmodels.html">Linear Models</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../unit7/Unit7-anova.html">6. Analysis of Variance</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../unit7/Unit7-coagulation.html">7. Coagulation*</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../unit7/Unit7-factorial.html">8. Factorial Designs</a></li>
@@ -303,8 +313,8 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l2"><a class="reference internal" href="../unit7/Unit7-multipleregression.html">12. Multiple Linear Regression</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../unit7/Unit7-demo-multiple.html">13. Multiple Regression: Brozek Index Prediction*</a></li>
 </ul>
-</li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../unit7/othermodels.html">Other Models</a><input class="toctree-checkbox" id="toctree-checkbox-14" name="toctree-checkbox-14" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-14"><i class="fa-solid fa-chevron-down"></i></label><ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../unit7/othermodels.html">Other Models</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../unit7/Unit7-other.html">14. Generalized Linear Models</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../unit7/Unit7-arrhythmia.html">15. GLM Examples*</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../unit7/Unit7-multinomial.html">16. Multinomial Logit</a></li>
@@ -312,7 +322,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l2"><a class="reference internal" href="../unit7/Unit7-multilevel.html">18. Multilevel Models</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../unit7/Unit7-demo-multilevel.html">19. Paraguay Vaccination Status*</a></li>
 </ul>
-</li>
+</details></li>
 <li class="toctree-l1"><a class="reference internal" href="../unit7/SupplementaryExercises74.html">Supplementary Exercises</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Unit 8</span></p>
@@ -351,14 +361,14 @@ const thebe_selector_output = ".output, .cell_output"
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Appendix A</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1 has-children"><a class="reference internal" href="../appendixA/BUGSVol1.html">BUGS Examples, Volume 1</a><input class="toctree-checkbox" id="toctree-checkbox-15" name="toctree-checkbox-15" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-15"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../appendixA/BUGSVol1.html">BUGS Examples, Volume 1</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../appendixA/vol1-10-blocker.html">10 - Blocker</a></li>
 </ul>
-</li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../appendixA/BUGSVol2.html">BUGS Examples, Volume 2</a><input class="toctree-checkbox" id="toctree-checkbox-16" name="toctree-checkbox-16" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-16"><i class="fa-solid fa-chevron-down"></i></label><ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../appendixA/BUGSVol2.html">BUGS Examples, Volume 2</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../appendixA/vol2-01-dugongs.html">01 - Dugongs</a></li>
 </ul>
-</li>
+</details></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Back Matter</span></p>
 <ul class="nav bd-sidenav">
@@ -372,14 +382,19 @@ const thebe_selector_output = ".output, .cell_output"
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
       
-      <main id="main-content" class="bd-main">
+      <main id="main-content" class="bd-main" role="main">
         
         
 
@@ -388,14 +403,14 @@ const thebe_selector_output = ".output, .cell_output"
           <div class="bd-content">
             <div class="bd-article-container">
               
-              <div class="bd-header-article">
+              <div class="bd-header-article d-print-none">
 <div class="header-article-items header-article__inner">
   
     <div class="header-article-items__start">
       
-        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
   <span class="fa-solid fa-bars"></span>
-</label></div>
+</button></div>
       
     </div>
   
@@ -420,14 +435,14 @@ const thebe_selector_output = ".output, .cell_output"
       
       <li><a href="https://colab.research.google.com/github/areding/6420-pymc/blob/main/unit1/Unit1-simple-regression.ipynb" target="_blank"
    class="btn btn-sm dropdown-item"
-   title="Launch onColab"
+   title="Launch on Colab"
    data-bs-placement="left" data-bs-toggle="tooltip"
 >
   
 
 <span class="btn__icon-container">
   
-    <img src="../_static/images/logo_colab.png">
+    <img alt="Colab logo" src="../_static/images/logo_colab.png">
   </span>
 <span class="btn__text-container">Colab</span>
 </a>
@@ -535,7 +550,7 @@ const thebe_selector_output = ".output, .cell_output"
 
 
 <button onclick="toggleFullScreen()"
-  class="btn btn-sm btn-fullscreen-button"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
   title="Fullscreen mode"
   data-bs-placement="bottom" data-bs-toggle="tooltip"
 >
@@ -548,26 +563,20 @@ const thebe_selector_output = ".output, .cell_output"
 </button>
 
 
-<script>
-document.write(`
-  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
-    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
-    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
-  </button>
-`);
-</script>
 
-<script>
-document.write(`
-  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-  </button>
-`);
-</script>
-<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <span class="fa-solid fa-list"></span>
-</label>
+</button>
 </div></div>
       
     </div>
@@ -602,7 +611,7 @@ document.write(`
               
                 
 <div id="searchbox"></div>
-                <article class="bd-article" role="main">
+                <article class="bd-article">
                   
   <div class="cell tag_hide-output docutils container">
 <div class="cell_input docutils container">
@@ -615,18 +624,18 @@ document.write(`
 </div>
 </div>
 <section class="tex2jax_ignore mathjax_ignore" id="a-simple-regression">
-<h1><span class="section-number">4. </span>A Simple Regression*<a class="headerlink" href="#a-simple-regression" title="Permalink to this headline">#</a></h1>
+<h1><span class="section-number">4. </span>A Simple Regression*<a class="headerlink" href="#a-simple-regression" title="Link to this heading">#</a></h1>
 <p>Adapted from <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/original_examples/Codes4Unit1/Regression.odc">unit 1: Regression.odc</a> and <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/original_examples/Codes4Unit1/Regression.m">unit 1: Regression.m</a>.</p>
 <p>The professor shows an example of Bayesian linear regression in BUGS, and compares it to how you would use MATLAB to perform one-least-squares regression. Don’t worry about the details for now—this is more of a preview of where we’re going in the second half of the class.</p>
 <hr class="docutils" />
 <section id="initial-values">
-<h2>Initial values<a class="headerlink" href="#initial-values" title="Permalink to this headline">#</a></h2>
+<h2>Initial values<a class="headerlink" href="#initial-values" title="Link to this heading">#</a></h2>
 <p>The professor often sets the initial values manually because BUGS will auto-generate really crazy initial values if you use wide priors.</p>
 <p>This is not usually necessary in PyMC. The generated values are probably always going to be better than what you would have chosen. If a model is not running in PyMC and you suspect it is because of the initial values, instead of manually entering new ones select one of the <a class="reference external" href="https://www.pymc.io/projects/docs/en/stable/api/generated/pymc.init_nuts.html">many other methods</a> for generating them by using the <code class="docutils literal notranslate"><span class="pre">init</span></code> parameter of <code class="docutils literal notranslate"><span class="pre">pm.sample</span></code>. I’ve found the new <code class="docutils literal notranslate"><span class="pre">&quot;jitter+adapt_diag_grad&quot;</span></code> option really helpful here for certain models.</p>
 <p>If you do need to set initial values, one way is to pass a dictionary with the keys as variable names to the <code class="docutils literal notranslate"><span class="pre">initvals</span></code> parameter of <code class="docutils literal notranslate"><span class="pre">pm.sample</span></code>, like this:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">inits</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;alpha&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="mf">0.0</span><span class="p">),</span>
-    <span class="s2">&quot;beta&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span>
+    <span class="s2">"alpha"</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="mf">0.0</span><span class="p">),</span>
+    <span class="s2">"beta"</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span>
 <span class="p">}</span>
 
 <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">2000</span><span class="p">,</span> <span class="n">initvals</span><span class="o">=</span><span class="n">inits</span><span class="p">)</span>
@@ -642,40 +651,40 @@ document.write(`
 
 <span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">m</span><span class="p">:</span>  <span class="c1"># context manager with pm.Model class</span>
     <span class="c1"># priors</span>
-    <span class="n">alpha</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;alpha&quot;</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
-    <span class="n">beta</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;beta&quot;</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
-    <span class="c1"># using the professor&#39;s standard precision prior</span>
-    <span class="n">tau</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Gamma</span><span class="p">(</span><span class="s2">&quot;tau&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span>
+    <span class="n">alpha</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">"alpha"</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+    <span class="n">beta</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">"beta"</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+    <span class="c1"># using the professor's standard precision prior</span>
+    <span class="n">tau</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Gamma</span><span class="p">(</span><span class="s2">"tau"</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span>
 
     <span class="c1"># what if we want to know sigma (std. dev.)?</span>
-    <span class="n">sigma</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">&quot;sigma&quot;</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="n">tau</span><span class="o">**</span><span class="mf">0.5</span><span class="p">))</span>
+    <span class="n">sigma</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">"sigma"</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="n">tau</span><span class="o">**</span><span class="mf">0.5</span><span class="p">))</span>
 
     <span class="n">mu</span> <span class="o">=</span> <span class="n">alpha</span> <span class="o">+</span> <span class="n">beta</span> <span class="o">*</span> <span class="p">(</span><span class="n">X</span> <span class="o">-</span> <span class="n">x_bar</span><span class="p">)</span>
 
     <span class="c1"># likelihood uses observed parameter to incorporate target data</span>
     <span class="c1"># the Normal dist can be specified either tau (precision) or sigma (stdev)</span>
-    <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;likelihood&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="n">tau</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
+    <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">"likelihood"</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="n">tau</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
 
     <span class="c1"># start sampling and save results to trace variable</span>
     <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span>
         <span class="n">draws</span><span class="o">=</span><span class="mi">3000</span><span class="p">,</span>
         <span class="c1"># chains=4,  # independent runs of the sampling process, for diagnostics</span>
         <span class="c1"># tune=500, # tuning sampler hyperparameters (these values are burned)</span>
-        <span class="c1"># init=&quot;jitter+adapt_diag&quot;,  # method for choosing initial values</span>
+        <span class="c1"># init="jitter+adapt_diag",  # method for choosing initial values</span>
         <span class="c1"># random_seed=1,</span>
         <span class="c1"># cores=4,  # parallel processing of chains</span>
-        <span class="c1"># nuts_sampler=&quot;nutpie&quot;, # try a different NUTS implementation</span>
+        <span class="c1"># nuts_sampler="nutpie", # try a different NUTS implementation</span>
     <span class="p">)</span>
 </pre></div>
 </div>
 </div>
-<details class="hide below-input">
+<details class="admonition hide below-input">
 <summary aria-label="Toggle hidden content">
-<span class="collapsed">Show code cell output</span>
-<span class="expanded">Hide code cell output</span>
+<p class="collapsed admonition-title">Show code cell output</p>
+<p class="expanded admonition-title">Hide code cell output</p>
 </summary>
 <div class="cell_output docutils container">
-<script type="application/vnd.jupyter.widget-view+json">{"model_id": "d4eb946f7d2c4c0f917caafba441216a", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "c24c781d3b674a6594ffb5e1705754b2", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
 </div></div>
 </details>
 </div>
@@ -683,7 +692,7 @@ document.write(`
 <p>But don’t worry about it for now. We go into regression after the midterm.</p>
 </section>
 <section id="visualize-your-model-structure">
-<h2>Visualize your model structure<a class="headerlink" href="#visualize-your-model-structure" title="Permalink to this headline">#</a></h2>
+<h2>Visualize your model structure<a class="headerlink" href="#visualize-your-model-structure" title="Link to this heading">#</a></h2>
 <p>PyMC has a built-in method to visualize the structure of your model. It’s really useful for making sure your code is doing what you intended.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -692,11 +701,12 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/adbdf786e4fec2a8c59840eeebb5f4818c4b255b9fa4616255df6d2230952439.svg" src="../_images/adbdf786e4fec2a8c59840eeebb5f4818c4b255b9fa4616255df6d2230952439.svg" /></div>
+<img alt="../_images/cb71869eb63212c08d87b2fc7832c2146913d311c87d10061808ca80b2bf68b2.svg" src="../_images/cb71869eb63212c08d87b2fc7832c2146913d311c87d10061808ca80b2bf68b2.svg" />
+</div>
 </div>
 </section>
 <section id="tuning-and-burning-samples">
-<h2>Tuning and burning samples<a class="headerlink" href="#tuning-and-burning-samples" title="Permalink to this headline">#</a></h2>
+<h2>Tuning and burning samples<a class="headerlink" href="#tuning-and-burning-samples" title="Link to this heading">#</a></h2>
 <p>PyMC uses the tuning step specified in the <code class="docutils literal notranslate"><span class="pre">pm.sample</span></code> call to adjust various parameters in the No-U-Turn Sampler <a class="reference external" href="https://arxiv.org/abs/1111.4246">(NUTS) algorithm</a>, which is a form of Hamiltonian Monte Carlo. BUGS also silently uses different types of tuning depending on the algorithm it <a class="reference external" href="https://www.york.ac.uk/depts/maths/histstat/pml1/bayes/winbugsinfo/cowles_winbugs.pdf">chooses</a>. The professor also usually burns some number of samples in his examples. Note that this is separate from the tuning phase for both programs!</p>
 <p>We usually won’t require students to burn PyMC samples separately from the tuning phase. So if a homework or exam problem specifies that you must burn 1000 samples, you can just set <code class="docutils literal notranslate"><span class="pre">tune=1000</span></code> in your <code class="docutils literal notranslate"><span class="pre">pm.sample</span></code> call and be done with it. That said, if for some reason you needed to burn samples from a PyMC trace after sampling, you could slice the trace (which is based on <a class="reference external" href="https://docs.xarray.dev/en/stable/index.html">xarray</a>) like so:</p>
 <div class="cell docutils container">
@@ -710,7 +720,7 @@ document.write(`
 <p>For some more detail on tuning, see <a class="reference external" href="https://colcarroll.github.io/hmc_tuning_talk/">this post</a>.</p>
 </section>
 <section id="arviz-for-visualization-and-summary-statistics">
-<h2>ArViz for visualization and summary statistics<a class="headerlink" href="#arviz-for-visualization-and-summary-statistics" title="Permalink to this headline">#</a></h2>
+<h2>ArViz for visualization and summary statistics<a class="headerlink" href="#arviz-for-visualization-and-summary-statistics" title="Link to this heading">#</a></h2>
 <p>For visualization and summarization of your trace, use <a class="reference external" href="https://arviz-devs.github.io/arviz/">ArViz</a>.</p>
 <p>Arviz has a variety of functions to view the results of the model. One of the most useful is <code class="docutils literal notranslate"><span class="pre">az.summary</span></code>. Professor Vidakovic arbitrarily asks for the 95% credible set (also called the highest density interval), so we can specify hdi_prob=.95 to get that. This is the HPD, or minimum-width, credible set.</p>
 <div class="cell docutils container">
@@ -738,51 +748,51 @@ document.write(`
   <tbody>
     <tr>
       <th>alpha</th>
-      <td>2.99</td>
-      <td>0.56</td>
-      <td>1.8</td>
-      <td>4</td>
-      <td>4129</td>
-      <td>3155</td>
+      <td>3</td>
+      <td>0.54</td>
+      <td>2</td>
+      <td>4.1</td>
+      <td>4548</td>
+      <td>3482</td>
       <td>1.00</td>
-      <td>0.011</td>
-      <td>0.02</td>
+      <td>0.0084</td>
+      <td>0.016</td>
     </tr>
     <tr>
       <th>beta</th>
-      <td>0.8</td>
-      <td>0.37</td>
-      <td>0.091</td>
-      <td>1.5</td>
-      <td>5480</td>
-      <td>3666</td>
+      <td>0.81</td>
+      <td>0.39</td>
+      <td>0.081</td>
+      <td>1.6</td>
+      <td>4447</td>
+      <td>3639</td>
       <td>1.00</td>
-      <td>0.0055</td>
-      <td>0.013</td>
+      <td>0.0068</td>
+      <td>0.012</td>
     </tr>
     <tr>
       <th>tau</th>
-      <td>1.93</td>
-      <td>1.61</td>
-      <td>0.14</td>
-      <td>6.1</td>
-      <td>1922</td>
-      <td>2101</td>
+      <td>1.85</td>
+      <td>1.5</td>
+      <td>0.13</td>
+      <td>5.7</td>
+      <td>2132</td>
+      <td>2410</td>
       <td>1.00</td>
-      <td>0.032</td>
-      <td>0.039</td>
+      <td>0.028</td>
+      <td>0.034</td>
     </tr>
     <tr>
       <th>sigma</th>
-      <td>1</td>
-      <td>0.7</td>
-      <td>0.4</td>
-      <td>2.7</td>
-      <td>1922</td>
-      <td>2101</td>
+      <td>1.02</td>
+      <td>0.69</td>
+      <td>0.42</td>
+      <td>2.8</td>
+      <td>2132</td>
+      <td>2410</td>
       <td>1.00</td>
-      <td>0.018</td>
-      <td>0.076</td>
+      <td>0.017</td>
+      <td>0.047</td>
     </tr>
   </tbody>
 </table></div></div>
@@ -796,7 +806,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/35168cc277d13cc7c64aa57c580f04481d23adc5837677da58d35e96e01a7498.png" src="../_images/35168cc277d13cc7c64aa57c580f04481d23adc5837677da58d35e96e01a7498.png" />
+<img alt="../_images/a2085370eeead4e45f98a38b115100eea10718130dc45857504659fc89e69ecc.png" src="../_images/a2085370eeead4e45f98a38b115100eea10718130dc45857504659fc89e69ecc.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -807,12 +817,12 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/a01c630a6b29922dc4d4646a378052199e656e86e429f837048581ed5067ee70.png" src="../_images/a01c630a6b29922dc4d4646a378052199e656e86e429f837048581ed5067ee70.png" />
+<img alt="../_images/fb1a863ced197c6b55bf23008da151b002a24dc7ec62bb12e42c5de398e50b03.png" src="../_images/fb1a863ced197c6b55bf23008da151b002a24dc7ec62bb12e42c5de398e50b03.png" />
 </div>
 </div>
 </section>
 <section id="comparison-with-a-standard-regression">
-<h2>Comparison with a standard regression<a class="headerlink" href="#comparison-with-a-standard-regression" title="Permalink to this headline">#</a></h2>
+<h2>Comparison with a standard regression<a class="headerlink" href="#comparison-with-a-standard-regression" title="Link to this heading">#</a></h2>
 <p>There are many ways to manipulate Arviz <a class="reference external" href="https://arviz-devs.github.io/arviz/api/generated/arviz.InferenceData.html">InferenceData</a> objects to calculate statistics after sampling is complete.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -826,13 +836,13 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array(0.58076299)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array(0.57129987)
 </pre></div>
 </div>
 </div>
 </div>
 <p>OpenBugs results from the lecture:</p>
-<table class="colwidths-auto table">
+<div class="pst-scrollable-table-container"><table class="table">
 <thead>
 <tr class="row-odd"><th class="head"><p></p></th>
 <th class="head"><p>mean</p></th>
@@ -878,6 +888,7 @@ document.write(`
 </tr>
 </tbody>
 </table>
+</div>
 <p>Sometimes you might want to do a sanity check with classical regression. If your Bayesian regression has non-informative priors, the results should be close.</p>
 <p>The two most well-known libraries for this in Python are <a class="reference external" href="https://scikit-learn.org/stable/index.html">Scikit-learn</a> and <a class="reference external" href="https://www.statsmodels.org/">Statsmodels</a>. Sklearn is more focused on predictive modeling. If you’re looking for nice summary printouts like <code class="docutils literal notranslate"><span class="pre">lm()</span></code> in R, Statsmodels will be more familiar.</p>
 <div class="cell docutils container">
@@ -893,7 +904,7 @@ document.write(`
 </div>
 <div class="cell_output docutils container">
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/miniforge3/envs/pymc_f26/lib/python3.14/site-packages/statsmodels/stats/stattools.py:74: ValueWarning: omni_normtest is not valid with less than 8 observations; 5 samples were given.
-  warn(&quot;omni_normtest is not valid with less than 8 observations; %i &quot;
+  warn("omni_normtest is not valid with less than 8 observations; %i "
 </pre></div>
 </div>
 <div class="output text_html"><table class="simpletable">
@@ -908,10 +919,10 @@ document.write(`
   <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   12.00</td>
 </tr>
 <tr>
-  <th>Date:</th>             <td>Mon, 24 Aug 2026</td> <th>  Prob (F-statistic):</th>  <td>0.0405</td> 
+  <th>Date:</th>             <td>Sun, 18 Oct 2026</td> <th>  Prob (F-statistic):</th>  <td>0.0405</td> 
 </tr>
 <tr>
-  <th>Time:</th>                 <td>17:12:10</td>     <th>  Log-Likelihood:    </th> <td> -4.2461</td>
+  <th>Time:</th>                 <td>14:35:38</td>     <th>  Log-Likelihood:    </th> <td> -4.2461</td>
 </tr>
 <tr>
   <th>No. Observations:</th>      <td>     5</td>      <th>  AIC:               </th> <td>   12.49</td>
@@ -960,7 +971,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Mon, 24 Aug 2026
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Sun, 18 Oct 2026
 
 Python implementation: CPython
 Python version       : 3.14.7
@@ -1005,11 +1016,10 @@ statsmodels: 0.14.6
 
               
               
-                <footer class="bd-footer-article">
+              
+              
+                <footer class="prev-next-footer d-print-none">
                   
-<div class="footer-article-items footer-article__inner">
-  
-    <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
        href="Unit1-software.html"
@@ -1029,23 +1039,23 @@ statsmodels: 0.14.6
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
-</div></div>
-  
 </div>
-
                 </footer>
               
             </div>
             
             
               
-                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
-  <div class="sidebar-secondary-item">
-  <div class="page-toc tocsection onthispage">
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
     <i class="fa-solid fa-list"></i> Contents
   </div>
-  <nav class="bd-toc-nav page-toc">
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#initial-values">Initial values</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualize-your-model-structure">Visualize your model structure</a></li>
@@ -1073,6 +1083,7 @@ By Georgia Tech ISYE 6420 Staff
   
   <div class="footer-item">
     
+
   <p class="copyright">
     
       © Copyright 2024.
@@ -1099,8 +1110,8 @@ By Georgia Tech ISYE 6420 Staff
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
-<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
 
   <footer class="bd-footer">
   </footer>
