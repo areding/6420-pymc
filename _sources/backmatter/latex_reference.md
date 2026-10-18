@@ -30,7 +30,7 @@ You can also add a second aligned item per-line. Say you wanted to add comments 
 \begin{align*}
 f(y | \theta) &= \prod_{i=1}^{n} e^{l_i} && \text{Log-likelihood to likelihood.}\\
 &= \prod_{i=1}^{n} \frac{e^{-(-l_i)}(-l_i)^0}{0!} && \text{Matching the form of the Poisson PMF.} \\
-&= \prod_{i=1}^{n} f_P(0; -l_i) && \text{Poisson evaluated at zero with mean $-l_i$.}
+&= \prod_{i=1}^{n} f_P(0; -l_i) && \text{Poisson evaluated at zero with mean } -l_i\text{.}
 \end{align*}
 ```
 
