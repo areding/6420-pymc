@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>4. More About PyMC &#8212; ISYE 6420 - BUGS to PyMC</title>
+    <title>4. More about PyMC &#8212; ISYE 6420 - BUGS to PyMC</title>
   
   
   
@@ -62,6 +62,8 @@
     <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'unit6/Unit6-moreaboutpymc';</script>
     <link rel="icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -283,7 +285,7 @@
 <li class="toctree-l1"><a class="reference internal" href="Unit6-probabilisticprogramming.html">1. Probabilistic Programming Languages</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Unit6-graphicalmodels.html">2. A Gentle Introduction to DAGs for Bayesian Models</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Unit6-demo-doodle.html">3. Joint Probability Graphs</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">4. More About PyMC</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">4. More about PyMC</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Unit6-loadingdata.html">5. Loading Data, Step Function, and Deterministic Variables*</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Unit6-missingdata.html">6. Missing Data*</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Unit6-htesting.html">7. Hypothesis Testing*</a></li>
@@ -423,6 +425,37 @@
 
 
 
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/areding/6420-pymc/blob/main/unit6/Unit6-moreaboutpymc.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
 <div class="dropdown dropdown-source-buttons">
   <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
     <i class="fab fa-github"></i>
@@ -478,7 +511,7 @@
       
       
       
-      <li><a href="../_sources/unit6/Unit6-moreaboutpymc.md" target="_blank"
+      <li><a href="../_sources/unit6/Unit6-moreaboutpymc.ipynb" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -488,7 +521,7 @@
 <span class="btn__icon-container">
   <i class="fas fa-file"></i>
   </span>
-<span class="btn__text-container">.md</span>
+<span class="btn__text-container">.ipynb</span>
 </a>
 </li>
       
@@ -554,7 +587,7 @@
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>More About PyMC</h1>
+    <h1>More about PyMC</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -564,7 +597,11 @@
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#relevant-links">Relevant links</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-workflow">Basic workflow</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#summarizing-results">Summarizing results</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mathematical-operations-with-pymc">Mathematical Operations with PyMC</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview-of-the-unit-6-demos">Overview of the Unit 6 Demos</a></li>
 </ul>
             </nav>
@@ -577,18 +614,96 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="more-about-pymc">
-<h1><span class="section-number">4. </span>More About PyMC<a class="headerlink" href="#more-about-pymc" title="Link to this heading">#</a></h1>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>This page is a stub. It will be updated soon with supplementary lecture notes.</p>
+  <div class="cell tag_hide-output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pymc</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pm</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">arviz</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">az</span>
+
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">6420</span><span class="p">)</span>
+</pre></div>
 </div>
-<p>The original lecture was “More About WinBUGS” and went over basic links and stuff to the relevant documentation and related packages. I’ll do the same here with PyMC.</p>
-<section id="relevant-links">
-<h2>Relevant links<a class="headerlink" href="#relevant-links" title="Link to this heading">#</a></h2>
+</div>
+</div>
+<section class="tex2jax_ignore mathjax_ignore" id="more-about-pymc">
+<h1><span class="section-number">4. </span>More about PyMC<a class="headerlink" href="#more-about-pymc" title="Link to this heading">#</a></h1>
+<section id="basic-workflow">
+<h2>Basic workflow<a class="headerlink" href="#basic-workflow" title="Link to this heading">#</a></h2>
+<p>In Unit 4, the Ten Coin Flips example, we observed 10 tails in 10 flips, with a <span class="math notranslate nohighlight">\(\operatorname{Beta}(500,500)\)</span> prior on the probability of heads. We previously found the posterior using the conjugate table as <span class="math notranslate nohighlight">\(\operatorname{Beta}(500,510)\)</span>, with a mean of approximately 0.495.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">model</span><span class="p">:</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Beta</span><span class="p">(</span><span class="s2">"p"</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
+    <span class="n">pm</span><span class="o">.</span><span class="n">Binomial</span><span class="p">(</span><span class="s2">"y"</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">p</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">draws</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">tune</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>NUTS[nutpie]: [p]
+</pre></div>
+</div>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "faa17e8c49904d81a38a3703c606b3ff", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
+</div></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">pm.sample()</span></code> draws samples from the posterior.</p>
+<p>See the <a class="reference external" href="https://www.pymc.io/projects/docs/en/stable/api/generated/pymc.sample.html">pm.sample documentation</a> to learn about the various options. For the most part, the arguments above are all you’ll need for this course, but we may write more about initial value generation and other things as they come up. The <code class="docutils literal notranslate"><span class="pre">tune</span></code> argument defines how many samples are burned (those samples are also used to tune the algorithm itself).</p>
+<section id="summarizing-results">
+<h3>Summarizing results<a class="headerlink" href="#summarizing-results" title="Link to this heading">#</a></h3>
+<p>The <a class="reference external" href="https://python.arviz.org/en/stable/">ArviZ</a> library is for analyzing our posterior samples stored in the trace object.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">ci_prob</span><span class="o">=</span><span class="mf">0.95</span><span class="p">,</span> <span class="n">ci_kind</span><span class="o">=</span><span class="s2">"hdi"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mean</th>
+      <th>sd</th>
+      <th>hdi95_lb</th>
+      <th>hdi95_ub</th>
+      <th>ess_bulk</th>
+      <th>ess_tail</th>
+      <th>r_hat</th>
+      <th>mcse_mean</th>
+      <th>mcse_sd</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>p</th>
+      <td>0.495</td>
+      <td>0.0156</td>
+      <td>0.47</td>
+      <td>0.53</td>
+      <td>3573</td>
+      <td>4742</td>
+      <td>1.00</td>
+      <td>0.00026</td>
+      <td>0.00018</td>
+    </tr>
+  </tbody>
+</table></div></div>
+</div>
+<p>The default credible interval method is now equi-tailed with Arviz 1.0. You can switch to HDI and change the credibility level with the arguments above.</p>
+<p>See the <a class="reference external" href="https://python.arviz.org/en/stable/api/generated/arviz.summary.html">ArviZ summary documentation</a>.</p>
+</section>
+</section>
+<section id="mathematical-operations-with-pymc">
+<h2>Mathematical Operations with PyMC<a class="headerlink" href="#mathematical-operations-with-pymc" title="Link to this heading">#</a></h2>
+<p>PyMC uses PyTensor to build and optimize mathematical expressions and calculate derivatives. When performing any mathematical operation within your model, use <code class="docutils literal notranslate"><span class="pre">pm.math</span></code> or PyTensor functions rather than NumPy whenever possible.</p>
+<p>For example, use <code class="docutils literal notranslate"><span class="pre">pm.math.log(p)</span></code> instead of <code class="docutils literal notranslate"><span class="pre">np.log(p)</span></code>.</p>
+<p>The usual arithmetic operators (<code class="docutils literal notranslate"><span class="pre">+</span></code>, <code class="docutils literal notranslate"><span class="pre">-</span></code>, <code class="docutils literal notranslate"><span class="pre">*</span></code>, <code class="docutils literal notranslate"><span class="pre">/</span></code>) work directly with PyMC variables.</p>
+<p>See the <a class="reference external" href="https://www.pymc.io/projects/docs/en/stable/api/math.html">PyMC Math API</a> and <a class="reference external" href="https://pytensor.readthedocs.io/">PyTensor documentation</a>.</p>
 </section>
 <section id="overview-of-the-unit-6-demos">
 <h2>Overview of the Unit 6 Demos<a class="headerlink" href="#overview-of-the-unit-6-demos" title="Link to this heading">#</a></h2>
+<p>To be added.</p>
 </section>
 </section>
 
@@ -658,7 +773,11 @@
   </div>
   <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#relevant-links">Relevant links</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-workflow">Basic workflow</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#summarizing-results">Summarizing results</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mathematical-operations-with-pymc">Mathematical Operations with PyMC</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview-of-the-unit-6-demos">Overview of the Unit 6 Demos</a></li>
 </ul>
   </nav></div>
