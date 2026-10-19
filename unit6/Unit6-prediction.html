@@ -616,7 +616,8 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pymc</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pm</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">6420</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -751,13 +752,12 @@ f(x_{n+1}\vert x_{1} , \cdots , x_{n}) = \int_{\Theta}f(x_{n+1} \vert \mathbf{\t
     <span class="n">oos_mean_response</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span>
         <span class="s2">"oos_mean_response"</span><span class="p">,</span> <span class="n">pm</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">new_obs</span><span class="p">,</span> <span class="n">beta</span><span class="p">)</span>
     <span class="p">)</span>
-    <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">"oos_prediction"</span><span class="p">,</span> <span class="n">oos_mean_response</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">)</span>
+    <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span>
+        <span class="s2">"oos_prediction"</span><span class="p">,</span> <span class="n">oos_mean_response</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span>
+    <span class="p">)</span>  <span class="c1"># BUGS-style post. pred.</span>
 
     <span class="c1"># start sampling</span>
-    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">5000</span><span class="p">,</span> <span class="n">target_accept</span><span class="o">=</span><span class="mf">0.95</span><span class="p">)</span>
-    <span class="c1"># this first sample_posterior_predictive is with the in-sample data.</span>
-    <span class="c1"># it's used for the az.r2_score function</span>
-    <span class="n">pm</span><span class="o">.</span><span class="n">sample_posterior_predictive</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">extend_inferencedata</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">5000</span><span class="p">,</span> <span class="n">target_accept</span><span class="o">=</span><span class="mf">0.95</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -767,176 +767,135 @@ f(x_{n+1}\vert x_{1} , \cdots , x_{n}) = \int_{\Theta}f(x_{n+1} \vert \mathbf{\t
 <p class="expanded admonition-title">Hide code cell output</p>
 </summary>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Initializing NUTS using jitter+adapt_diag...
-Multiprocess sampling (4 chains in 4 jobs)
-NUTS: [beta, tau, oos_prediction]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>NUTS[nutpie]: [beta, tau, oos_prediction]
 </pre></div>
 </div>
-<script type="application/vnd.jupyter.widget-view+json">{"model_id": "62864552563948cd8e4b6126a0071359", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 5_000 draw iterations (4_000 + 20_000 draws total) took 15 seconds.
-Sampling: [taste_score]
-</pre></div>
-</div>
-<script type="application/vnd.jupyter.widget-view+json">{"model_id": "c3e008b1ef11433e85c60018aadb64a1", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "b6fdda0a03324cb6b534bba4d8f17033", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
 </div></div>
 </details>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">hdi_prob</span><span class="o">=</span><span class="mf">0.95</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">ci_prob</span><span class="o">=</span><span class="mf">0.95</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
+<div class="output text_html"><table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
       <th></th>
       <th>mean</th>
       <th>sd</th>
-      <th>hdi_2.5%</th>
-      <th>hdi_97.5%</th>
-      <th>mcse_mean</th>
-      <th>mcse_sd</th>
+      <th>eti95_lb</th>
+      <th>eti95_ub</th>
       <th>ess_bulk</th>
       <th>ess_tail</th>
       <th>r_hat</th>
+      <th>mcse_mean</th>
+      <th>mcse_sd</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <th>beta[0]</th>
-      <td>-28.623</td>
-      <td>20.216</td>
-      <td>-68.795</td>
-      <td>10.327</td>
-      <td>0.219</td>
-      <td>0.161</td>
-      <td>8525.0</td>
-      <td>10493.0</td>
-      <td>1.0</td>
+      <td>-29.4</td>
+      <td>20.5</td>
+      <td>-71</td>
+      <td>11</td>
+      <td>4347</td>
+      <td>5445</td>
+      <td>1.00</td>
+      <td>0.31</td>
+      <td>0.23</td>
     </tr>
     <tr>
       <th>beta[1]</th>
-      <td>0.252</td>
-      <td>4.558</td>
-      <td>-8.983</td>
-      <td>8.947</td>
-      <td>0.051</td>
-      <td>0.038</td>
-      <td>7861.0</td>
-      <td>9713.0</td>
-      <td>1.0</td>
+      <td>0.5</td>
+      <td>4.6</td>
+      <td>-8.6</td>
+      <td>9.7</td>
+      <td>4226</td>
+      <td>5232</td>
+      <td>1.00</td>
+      <td>0.071</td>
+      <td>0.054</td>
     </tr>
     <tr>
       <th>beta[2]</th>
-      <td>3.911</td>
-      <td>1.283</td>
-      <td>1.413</td>
-      <td>6.408</td>
-      <td>0.013</td>
-      <td>0.009</td>
-      <td>9885.0</td>
-      <td>12008.0</td>
-      <td>1.0</td>
+      <td>3.9</td>
+      <td>1.3</td>
+      <td>1.3</td>
+      <td>6.5</td>
+      <td>7713</td>
+      <td>8903</td>
+      <td>1.00</td>
+      <td>0.015</td>
+      <td>0.012</td>
     </tr>
     <tr>
       <th>beta[3]</th>
-      <td>19.799</td>
-      <td>8.883</td>
-      <td>2.955</td>
-      <td>38.032</td>
-      <td>0.086</td>
-      <td>0.070</td>
-      <td>10558.0</td>
-      <td>10750.0</td>
-      <td>1.0</td>
+      <td>19.6</td>
+      <td>8.9</td>
+      <td>1.7</td>
+      <td>37</td>
+      <td>7314</td>
+      <td>8326</td>
+      <td>1.00</td>
+      <td>0.1</td>
+      <td>0.079</td>
     </tr>
     <tr>
       <th>oos_prediction[0]</th>
-      <td>30.158</td>
-      <td>11.190</td>
-      <td>8.515</td>
-      <td>52.880</td>
-      <td>0.102</td>
-      <td>0.088</td>
-      <td>12048.0</td>
-      <td>11751.0</td>
-      <td>1.0</td>
+      <td>29.9</td>
+      <td>11.4</td>
+      <td>7.4</td>
+      <td>52</td>
+      <td>15036</td>
+      <td>12078</td>
+      <td>1.00</td>
+      <td>0.093</td>
+      <td>0.069</td>
     </tr>
     <tr>
       <th>tau</th>
-      <td>0.010</td>
-      <td>0.003</td>
-      <td>0.005</td>
-      <td>0.015</td>
-      <td>0.000</td>
-      <td>0.000</td>
-      <td>10985.0</td>
-      <td>11872.0</td>
-      <td>1.0</td>
+      <td>0.00978</td>
+      <td>0.00271</td>
+      <td>0.0052</td>
+      <td>0.016</td>
+      <td>14779</td>
+      <td>12317</td>
+      <td>1.00</td>
+      <td>2.2e-05</td>
+      <td>1.7e-05</td>
     </tr>
     <tr>
       <th>sigma</th>
-      <td>10.429</td>
-      <td>1.512</td>
-      <td>7.697</td>
-      <td>13.403</td>
-      <td>0.015</td>
-      <td>0.014</td>
-      <td>10985.0</td>
-      <td>11872.0</td>
-      <td>1.0</td>
+      <td>10.41</td>
+      <td>1.51</td>
+      <td>8</td>
+      <td>14</td>
+      <td>14779</td>
+      <td>12317</td>
+      <td>1.00</td>
+      <td>0.013</td>
+      <td>0.011</td>
     </tr>
     <tr>
       <th>oos_mean_response[0]</th>
-      <td>30.104</td>
-      <td>3.715</td>
-      <td>22.496</td>
-      <td>37.211</td>
-      <td>0.039</td>
-      <td>0.027</td>
-      <td>9210.0</td>
-      <td>11373.0</td>
-      <td>1.0</td>
+      <td>30</td>
+      <td>3.76</td>
+      <td>22</td>
+      <td>37</td>
+      <td>5632</td>
+      <td>7331</td>
+      <td>1.00</td>
+      <td>0.05</td>
+      <td>0.038</td>
     </tr>
   </tbody>
-</table>
-</div></div></div>
+</table></div></div>
 </div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y_pred</span> <span class="o">=</span> <span class="n">trace</span><span class="o">.</span><span class="n">posterior_predictive</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">sample</span><span class="o">=</span><span class="p">(</span><span class="s2">"chain"</span><span class="p">,</span> <span class="s2">"draw"</span><span class="p">))[</span>
-    <span class="s2">"taste_score"</span>
-<span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">T</span>
-<span class="n">az</span><span class="o">.</span><span class="n">r2_score</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>r2        0.576355
-r2_std    0.076174
-dtype: float64
-</pre></div>
-</div>
-</div>
-</div>
-<p>PyMC may give warnings about the model unless we increase the <code class="docutils literal notranslate"><span class="pre">target_accept</span></code> parameter of <code class="docutils literal notranslate"><span class="pre">pm.sample</span></code>. This is because PyMC uses more diagnostics to check if there are any problems with its exploration of the parameter space. Divergences indicate bias in the results.</p>
-<p>For further reading, check out <a class="reference external" href="https://docs.pymc.io/en/v3/pymc-examples/examples/diagnostics_and_criticism/Diagnosing_biased_Inference_with_Divergences.html">Diagnosing Biased Inference with Divergences</a>.</p>
 <div class="cell tag_hide-output docutils container">
 <div class="cell_input above-output-prompt docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># single prediction on out-of-sample data (new_obs defined above)</span>
@@ -954,62 +913,47 @@ dtype: float64
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling: [taste_score]
 </pre></div>
 </div>
-<script type="application/vnd.jupyter.widget-view+json">{"model_id": "fe47915914a7499a9e31cc4770fc6f22", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "350248af5aad475a92a5d3577b2f89a9", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
 </div></div>
 </details>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">ppc</span><span class="o">.</span><span class="n">predictions</span><span class="p">,</span> <span class="n">hdi_prob</span><span class="o">=</span><span class="mf">0.95</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">ppc</span><span class="o">.</span><span class="n">predictions</span><span class="p">,</span> <span class="n">group</span><span class="o">=</span><span class="s2">"predictions"</span><span class="p">,</span> <span class="n">ci_prob</span><span class="o">=</span><span class="mf">0.95</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
+<div class="output text_html"><table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
       <th></th>
       <th>mean</th>
       <th>sd</th>
-      <th>hdi_2.5%</th>
-      <th>hdi_97.5%</th>
-      <th>mcse_mean</th>
-      <th>mcse_sd</th>
+      <th>eti95_lb</th>
+      <th>eti95_ub</th>
       <th>ess_bulk</th>
       <th>ess_tail</th>
       <th>r_hat</th>
+      <th>mcse_mean</th>
+      <th>mcse_sd</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <th>taste_score[0]</th>
-      <td>30.132</td>
-      <td>11.18</td>
-      <td>8.127</td>
-      <td>52.018</td>
-      <td>0.084</td>
-      <td>0.06</td>
-      <td>17839.0</td>
-      <td>18593.0</td>
-      <td>1.0</td>
+      <td>29.9</td>
+      <td>11.1</td>
+      <td>8.2</td>
+      <td>52</td>
+      <td>15777</td>
+      <td>17502</td>
+      <td>1.00</td>
+      <td>0.089</td>
+      <td>0.066</td>
     </tr>
   </tbody>
-</table>
-</div></div></div>
+</table></div></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1019,19 +963,18 @@ dtype: float64
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Tue Mar 24 2026
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Sun, 18 Oct 2026
 
 Python implementation: CPython
-Python version       : 3.13.8
-IPython version      : 9.6.0
+Python version       : 3.14.7
+IPython version      : 9.16.1
 
-pytensor: 2.28.3
+pytensor: 3.3.0
 
-pandas    : 2.3.3
-matplotlib: 3.10.6
-arviz     : 0.22.0
-pymc      : 5.21.1
-numpy     : 2.3.3
+arviz : 1.3.0
+numpy : 2.4.6
+pandas: 3.0.5
+pymc  : 6.3.1
 </pre></div>
 </div>
 </div>
