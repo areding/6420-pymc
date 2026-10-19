@@ -598,7 +598,7 @@
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#single-predictor-x8">Single predictor (X8)</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#multivariate-regression-with-all-predictors">Multivariate regression with all predictors</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#all-predictors">All predictors</a></li>
 </ul>
             </nav>
         </div>
@@ -676,7 +676,7 @@
     <span class="n">variance</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">"variance"</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">tau</span><span class="p">)</span>
 
     <span class="n">mu</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">"mu"</span><span class="p">,</span> <span class="n">beta0</span> <span class="o">+</span> <span class="n">beta1</span> <span class="o">*</span> <span class="n">X</span><span class="p">)</span>
-    <span class="n">likelihood</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">"likelihood"</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="n">tau</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
+    <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">"likelihood"</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="n">tau</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
 
     <span class="c1"># Bayesian R2 from fat1.odc</span>
     <span class="c1"># no need to use this anymore, use az.bayesian_r2 instead</span>
@@ -788,8 +788,6 @@
   </tbody>
 </table></div></div>
 </div>
-<p>This matches the results from the U7 L11 video.</p>
-<p>Another way to calculate the <span class="math notranslate nohighlight">\(R^2\)</span> using a posterior predictive check (keeping in mind that there is no standard “Bayesian <span class="math notranslate nohighlight">\(R^2\)</span>”). The results will be slightly different:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">bayesian_r2</span><span class="p">(</span>
@@ -810,90 +808,39 @@
 </div>
 </div>
 </section>
-<section id="multivariate-regression-with-all-predictors">
-<h2>Multivariate regression with all predictors<a class="headerlink" href="#multivariate-regression-with-all-predictors" title="Link to this heading">#</a></h2>
-<p>Based on fat2d.odc or fatmulti.odc (they appear to be identical). This is using Zellner’s G-prior <span class="bibtex-citation" id="id1">Zellner [<a class="reference internal" href="../backmatter/bibliography.html#id61" title="A. Zellner. On assessing prior distributions and bayesian regression analysis with g prior distributions. In P. Goel and A. Zellner, editors, Bayesian Inference and Decision Techniques: Essays in Honor of Bruno de Finetti, volume 6 of Studies in Bayesian Econometrics and Statistics, pages 233–243. Elsevier, New York, 1986.">1986</a>]</span>. Note that this is an uncommon prior and may not always be the best choice.</p>
+<section id="all-predictors">
+<h2>All predictors<a class="headerlink" href="#all-predictors" title="Link to this heading">#</a></h2>
+<p>This is not in the lecture, just adding an extra PyMC example with all predictors.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">"../data/fat.tsv"</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">"</span><span class="se">\t</span><span class="s2">"</span><span class="p">)</span>
-
-<span class="n">y</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">"y"</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(</span><span class="n">copy</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">X</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(</span><span class="n">copy</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-
-<span class="c1"># add intercept</span>
-<span class="n">X_aug</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">)),</span> <span class="n">X</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">n</span><span class="p">,</span> <span class="n">p</span> <span class="o">=</span> <span class="n">X_aug</span><span class="o">.</span><span class="n">shape</span>
-
-<span class="c1"># Zellner's g</span>
-<span class="n">g</span> <span class="o">=</span> <span class="n">p</span><span class="o">**</span><span class="mi">2</span>
-
-<span class="n">n</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">g</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(252, 15, 225)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">"y"</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="s2">"y"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X_aug</span><span class="o">.</span><span class="n">shape</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(252, 15)
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mu_beta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell tag_hide-output docutils container">
-<div class="cell_input above-output-prompt docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">m2d</span><span class="p">:</span>
-    <span class="n">tau</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Gamma</span><span class="p">(</span><span class="s2">"tau"</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">coords</span><span class="o">=</span><span class="p">{</span><span class="s2">"predictor"</span><span class="p">:</span> <span class="n">X</span><span class="o">.</span><span class="n">columns</span><span class="p">})</span> <span class="k">as</span> <span class="n">m_multiple</span><span class="p">:</span>
+    <span class="n">tau</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Gamma</span><span class="p">(</span><span class="s2">"tau"</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">)</span>
+    <span class="n">alpha</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">"intercept"</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span>
+    <span class="n">beta</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">"beta"</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="s2">"predictor"</span><span class="p">)</span>
     <span class="n">variance</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">"variance"</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">tau</span><span class="p">)</span>
 
-    <span class="c1"># tau_matrix = pt.fill(pt.zeros((15, 15)), tau)</span>
-    <span class="c1"># tau_beta = tau_matrix / g * dot(X_aug.T, X_aug)</span>
-    <span class="n">tau_beta</span> <span class="o">=</span> <span class="p">(</span><span class="n">tau</span> <span class="o">/</span> <span class="n">g</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">X_aug</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">X_aug</span><span class="p">)</span>
-    <span class="n">beta</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">MvNormal</span><span class="p">(</span><span class="s2">"beta"</span><span class="p">,</span> <span class="n">mu_beta</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="n">tau_beta</span><span class="p">)</span>
+    <span class="n">mu</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">"mu"</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">+</span> <span class="n">pm</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">beta</span><span class="p">))</span>
 
-    <span class="n">mu</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">"mu"</span><span class="p">,</span> <span class="n">dot</span><span class="p">(</span><span class="n">X_aug</span><span class="p">,</span> <span class="n">beta</span><span class="p">))</span>
     <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">"likelihood"</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="n">tau</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
 
-    <span class="c1"># Bayesian R2 from fat2d.odc</span>
-    <span class="c1"># No need to use this anymore! use az.bayesian_r2</span>
-    <span class="n">sse</span> <span class="o">=</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="n">p</span><span class="p">)</span> <span class="o">*</span> <span class="n">variance</span>
-    <span class="n">cy</span> <span class="o">=</span> <span class="n">y</span> <span class="o">-</span> <span class="n">y</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
-    <span class="n">sst</span> <span class="o">=</span> <span class="n">dot</span><span class="p">(</span><span class="n">cy</span><span class="p">,</span> <span class="n">cy</span><span class="p">)</span>
-    <span class="n">br2</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">"br2"</span><span class="p">,</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">sse</span> <span class="o">/</span> <span class="n">sst</span><span class="p">)</span>
-    <span class="n">br2_adj</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">"br2_adj"</span><span class="p">,</span> <span class="mi">1</span> <span class="o">-</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">variance</span> <span class="o">/</span> <span class="n">sst</span><span class="p">)</span>
-
-    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span>
+    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">3000</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="mi">6420</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
-<details class="admonition hide below-input">
-<summary aria-label="Toggle hidden content">
-<p class="collapsed admonition-title">Show code cell output</p>
-<p class="expanded admonition-title">Hide code cell output</p>
-</summary>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>NUTS[nutpie]: [tau, beta]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>NUTS[nutpie]: [tau, intercept, beta]
 </pre></div>
 </div>
-<script type="application/vnd.jupyter.widget-view+json">{"model_id": "65a1769d1cb744dcb74105a8e8938748", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "7e0f1775cafd485bb6317afbc9bb453d", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
 </div></div>
-</details>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -919,232 +866,208 @@
   </thead>
   <tbody>
     <tr>
-      <th>beta[0]</th>
-      <td>-15.9</td>
-      <td>16.4</td>
-      <td>-48</td>
-      <td>17</td>
-      <td>1380</td>
-      <td>1787</td>
+      <th>intercept</th>
+      <td>-12.2</td>
+      <td>14.6</td>
+      <td>-41</td>
+      <td>16</td>
+      <td>3700</td>
+      <td>4990</td>
       <td>1.00</td>
-      <td>0.44</td>
-      <td>0.31</td>
+      <td>0.24</td>
+      <td>0.18</td>
     </tr>
     <tr>
-      <th>beta[1]</th>
-      <td>0.055</td>
-      <td>0.0315</td>
-      <td>-0.0054</td>
+      <th>beta[X2]</th>
+      <td>0.0568</td>
+      <td>0.0304</td>
+      <td>-0.0021</td>
       <td>0.12</td>
-      <td>3595</td>
-      <td>3239</td>
+      <td>10942</td>
+      <td>10301</td>
       <td>1.00</td>
+      <td>0.00029</td>
+      <td>0.00021</td>
+    </tr>
+    <tr>
+      <th>beta[X3]</th>
+      <td>-0.073</td>
+      <td>0.046</td>
+      <td>-0.17</td>
+      <td>0.016</td>
+      <td>4108</td>
+      <td>5302</td>
+      <td>1.00</td>
+      <td>0.00072</td>
       <td>0.00053</td>
-      <td>0.00037</td>
     </tr>
     <tr>
-      <th>beta[2]</th>
-      <td>-0.083</td>
-      <td>0.051</td>
-      <td>-0.18</td>
-      <td>0.02</td>
-      <td>1458</td>
-      <td>1925</td>
-      <td>1.00</td>
-      <td>0.0013</td>
-      <td>0.00093</td>
-    </tr>
-    <tr>
-      <th>beta[3]</th>
-      <td>-0.048</td>
-      <td>0.106</td>
-      <td>-0.25</td>
-      <td>0.16</td>
-      <td>2573</td>
-      <td>2834</td>
-      <td>1.00</td>
-      <td>0.0021</td>
-      <td>0.0015</td>
-    </tr>
-    <tr>
-      <th>beta[4]</th>
-      <td>0.07</td>
-      <td>0.29</td>
-      <td>-0.51</td>
-      <td>0.64</td>
-      <td>2670</td>
-      <td>2543</td>
-      <td>1.00</td>
-      <td>0.0056</td>
-      <td>0.0042</td>
-    </tr>
-    <tr>
-      <th>beta[5]</th>
-      <td>-0.44</td>
-      <td>0.227</td>
-      <td>-0.89</td>
-      <td>0.0027</td>
-      <td>3014</td>
-      <td>2843</td>
-      <td>1.00</td>
-      <td>0.0041</td>
-      <td>0.003</td>
-    </tr>
-    <tr>
-      <th>beta[6]</th>
-      <td>-0.03</td>
+      <th>beta[X4]</th>
+      <td>-0.064</td>
       <td>0.102</td>
-      <td>-0.23</td>
-      <td>0.17</td>
-      <td>2454</td>
-      <td>2635</td>
+      <td>-0.26</td>
+      <td>0.14</td>
+      <td>7290</td>
+      <td>8004</td>
       <td>1.00</td>
-      <td>0.0021</td>
-      <td>0.0015</td>
+      <td>0.0012</td>
+      <td>0.00086</td>
     </tr>
     <tr>
-      <th>beta[7]</th>
-      <td>0.874</td>
-      <td>0.089</td>
-      <td>0.7</td>
-      <td>1</td>
-      <td>2915</td>
-      <td>2270</td>
+      <th>beta[X5]</th>
+      <td>0.064</td>
+      <td>0.28</td>
+      <td>-0.48</td>
+      <td>0.62</td>
+      <td>7969</td>
+      <td>8146</td>
       <td>1.00</td>
-      <td>0.0017</td>
-      <td>0.0011</td>
+      <td>0.0031</td>
+      <td>0.0022</td>
     </tr>
     <tr>
-      <th>beta[8]</th>
-      <td>-0.197</td>
-      <td>0.139</td>
-      <td>-0.47</td>
-      <td>0.074</td>
-      <td>1731</td>
-      <td>1980</td>
+      <th>beta[X6]</th>
+      <td>-0.456</td>
+      <td>0.221</td>
+      <td>-0.89</td>
+      <td>-0.02</td>
+      <td>7706</td>
+      <td>8078</td>
       <td>1.00</td>
-      <td>0.0033</td>
-      <td>0.0024</td>
-    </tr>
-    <tr>
-      <th>beta[9]</th>
-      <td>0.218</td>
-      <td>0.142</td>
-      <td>-0.055</td>
-      <td>0.5</td>
-      <td>2883</td>
-      <td>2904</td>
-      <td>1.00</td>
-      <td>0.0026</td>
+      <td>0.0025</td>
       <td>0.0019</td>
     </tr>
     <tr>
-      <th>beta[10]</th>
-      <td>0.013</td>
-      <td>0.237</td>
+      <th>beta[X7]</th>
+      <td>-0.039</td>
+      <td>0.097</td>
+      <td>-0.23</td>
+      <td>0.16</td>
+      <td>6869</td>
+      <td>7952</td>
+      <td>1.00</td>
+      <td>0.0012</td>
+      <td>0.00084</td>
+    </tr>
+    <tr>
+      <th>beta[X8]</th>
+      <td>0.879</td>
+      <td>0.086</td>
+      <td>0.71</td>
+      <td>1</td>
+      <td>8102</td>
+      <td>8096</td>
+      <td>1.00</td>
+      <td>0.00095</td>
+      <td>0.00068</td>
+    </tr>
+    <tr>
+      <th>beta[X9]</th>
+      <td>-0.217</td>
+      <td>0.132</td>
+      <td>-0.47</td>
+      <td>0.048</td>
+      <td>4763</td>
+      <td>6044</td>
+      <td>1.00</td>
+      <td>0.0019</td>
+      <td>0.0014</td>
+    </tr>
+    <tr>
+      <th>beta[X10]</th>
+      <td>0.224</td>
+      <td>0.138</td>
+      <td>-0.047</td>
+      <td>0.5</td>
+      <td>7669</td>
+      <td>7633</td>
+      <td>1.00</td>
+      <td>0.0016</td>
+      <td>0.0011</td>
+    </tr>
+    <tr>
+      <th>beta[X11]</th>
+      <td>-0.01</td>
+      <td>0.228</td>
       <td>-0.45</td>
-      <td>0.48</td>
-      <td>2717</td>
-      <td>2380</td>
+      <td>0.44</td>
+      <td>8501</td>
+      <td>8341</td>
       <td>1.00</td>
-      <td>0.0045</td>
-      <td>0.0032</td>
-    </tr>
-    <tr>
-      <th>beta[11]</th>
-      <td>0.153</td>
-      <td>0.216</td>
-      <td>-0.27</td>
-      <td>0.58</td>
-      <td>4309</td>
-      <td>3162</td>
-      <td>1.00</td>
-      <td>0.0033</td>
-      <td>0.0024</td>
-    </tr>
-    <tr>
-      <th>beta[12]</th>
-      <td>0.149</td>
-      <td>0.164</td>
-      <td>-0.17</td>
-      <td>0.48</td>
-      <td>4089</td>
-      <td>3235</td>
-      <td>1.00</td>
-      <td>0.0026</td>
+      <td>0.0025</td>
       <td>0.0018</td>
     </tr>
     <tr>
-      <th>beta[13]</th>
-      <td>0.425</td>
-      <td>0.196</td>
-      <td>0.04</td>
-      <td>0.8</td>
-      <td>4780</td>
-      <td>3020</td>
+      <th>beta[X12]</th>
+      <td>0.15</td>
+      <td>0.209</td>
+      <td>-0.26</td>
+      <td>0.56</td>
+      <td>13769</td>
+      <td>9745</td>
       <td>1.00</td>
-      <td>0.0028</td>
-      <td>0.002</td>
+      <td>0.0018</td>
+      <td>0.0012</td>
     </tr>
     <tr>
-      <th>beta[14]</th>
-      <td>-1.47</td>
-      <td>0.51</td>
-      <td>-2.5</td>
-      <td>-0.44</td>
-      <td>2648</td>
-      <td>2478</td>
+      <th>beta[X13]</th>
+      <td>0.146</td>
+      <td>0.163</td>
+      <td>-0.17</td>
+      <td>0.47</td>
+      <td>13077</td>
+      <td>9531</td>
       <td>1.00</td>
-      <td>0.01</td>
-      <td>0.007</td>
+      <td>0.0014</td>
+      <td>0.001</td>
+    </tr>
+    <tr>
+      <th>beta[X14]</th>
+      <td>0.428</td>
+      <td>0.189</td>
+      <td>0.05</td>
+      <td>0.8</td>
+      <td>13739</td>
+      <td>9203</td>
+      <td>1.00</td>
+      <td>0.0016</td>
+      <td>0.0012</td>
+    </tr>
+    <tr>
+      <th>beta[X15&nbsp;&nbsp;]</th>
+      <td>-1.49</td>
+      <td>0.494</td>
+      <td>-2.5</td>
+      <td>-0.53</td>
+      <td>7642</td>
+      <td>7930</td>
+      <td>1.00</td>
+      <td>0.0056</td>
+      <td>0.004</td>
     </tr>
     <tr>
       <th>tau</th>
-      <td>0.0594</td>
-      <td>0.0054</td>
-      <td>0.049</td>
-      <td>0.07</td>
-      <td>3531</td>
-      <td>2146</td>
+      <td>0.0627</td>
+      <td>0.00577</td>
+      <td>0.052</td>
+      <td>0.074</td>
+      <td>12074</td>
+      <td>7100</td>
       <td>1.00</td>
-      <td>9.1e-05</td>
-      <td>6.7e-05</td>
+      <td>5.2e-05</td>
+      <td>3.7e-05</td>
     </tr>
     <tr>
       <th>variance</th>
-      <td>16.97</td>
-      <td>1.57</td>
-      <td>14</td>
-      <td>20</td>
-      <td>3531</td>
-      <td>2146</td>
+      <td>16.09</td>
+      <td>1.5</td>
+      <td>13</td>
+      <td>19</td>
+      <td>12074</td>
+      <td>7100</td>
       <td>1.00</td>
-      <td>0.027</td>
-      <td>0.021</td>
-    </tr>
-    <tr>
-      <th>br2</th>
-      <td>0.7334</td>
-      <td>0.0246</td>
-      <td>0.68</td>
-      <td>0.78</td>
-      <td>3531</td>
-      <td>2146</td>
-      <td>1.00</td>
-      <td>0.00042</td>
-      <td>0.00033</td>
-    </tr>
-    <tr>
-      <th>br2_adj</th>
-      <td>0.7176</td>
-      <td>0.0261</td>
-      <td>0.66</td>
-      <td>0.76</td>
-      <td>3531</td>
-      <td>2146</td>
-      <td>1.00</td>
-      <td>0.00045</td>
-      <td>0.00035</td>
+      <td>0.014</td>
+      <td>0.01</td>
     </tr>
   </tbody>
 </table></div></div>
@@ -1163,7 +1086,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>bayesian_R2(mean=0.73, hdi_lb=0.68, hdi_ub=0.77)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>bayesian_R2(mean=0.74, hdi_lb=0.69, hdi_ub=0.78)
 </pre></div>
 </div>
 </div>
@@ -1261,7 +1184,7 @@ pytensor: 3.3.0
   <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#single-predictor-x8">Single predictor (X8)</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#multivariate-regression-with-all-predictors">Multivariate regression with all predictors</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#all-predictors">All predictors</a></li>
 </ul>
   </nav></div>
 
