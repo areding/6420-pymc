@@ -630,8 +630,8 @@
 <section id="basic-workflow">
 <h2>Basic workflow<a class="headerlink" href="#basic-workflow" title="Link to this heading">#</a></h2>
 <p>In Unit 4, the Ten Coin Flips example, we observed 10 tails in 10 flips, with a <span class="math notranslate nohighlight">\(\operatorname{Beta}(500,500)\)</span> prior on the probability of heads. We previously found the posterior using the conjugate table as <span class="math notranslate nohighlight">\(\operatorname{Beta}(500,510)\)</span>, with a mean of approximately 0.495.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
+<div class="cell tag_hide-output docutils container">
+<div class="cell_input above-output-prompt docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">model</span><span class="p">:</span>
     <span class="n">p</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Beta</span><span class="p">(</span><span class="s2">"p"</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
     <span class="n">pm</span><span class="o">.</span><span class="n">Binomial</span><span class="p">(</span><span class="s2">"y"</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">p</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
@@ -640,12 +640,18 @@
 </pre></div>
 </div>
 </div>
+<details class="admonition hide below-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell output</p>
+<p class="expanded admonition-title">Hide code cell output</p>
+</summary>
 <div class="cell_output docutils container">
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>NUTS[nutpie]: [p]
 </pre></div>
 </div>
 <script type="application/vnd.jupyter.widget-view+json">{"model_id": "faa17e8c49904d81a38a3703c606b3ff", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
 </div></div>
+</details>
 </div>
 <p><code class="docutils literal notranslate"><span class="pre">pm.sample()</span></code> draws samples from the posterior.</p>
 <p>See the <a class="reference external" href="https://www.pymc.io/projects/docs/en/stable/api/generated/pymc.sample.html">pm.sample documentation</a> to learn about the various options. For the most part, the arguments above are all you’ll need for this course, but we may write more about initial value generation and other things as they come up. The <code class="docutils literal notranslate"><span class="pre">tune</span></code> argument defines how many samples are burned (those samples are also used to tune the algorithm itself).</p>
