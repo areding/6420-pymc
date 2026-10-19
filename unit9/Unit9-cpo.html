@@ -617,7 +617,7 @@
 \text{CPO}_{i} = f(y_{i}\vert y_{-i})
 =\int_{\Theta}f(y_{i}\vert \theta)\pi(\theta \vert y_{-i})d\theta
 \end{equation*}\]</div>
-<p>Where <span class="math notranslate nohighlight">\(y_{-i}\)</span> denotes all of the data <strong>exclusive of the <span class="math notranslate nohighlight">\(i\)</span>-th observation</strong> .  Here, we will derive the formula for CPO (somewhat rigorously) and allude to how it is well-calculated from an appropriate number of posterior samples (less rigorously).</p>
+<p>Where <span class="math notranslate nohighlight">\(y_{-i}\)</span> denotes all of the data exclusive of the <span class="math notranslate nohighlight">\(i\)</span>-th observation.  Here, we will derive the formula for CPO (somewhat rigorously) and allude to how it is well-calculated from an appropriate number of posterior samples (less rigorously).</p>
 <p>Starting with Bayes’ Theorem, and noting that the likelihood term <span class="math notranslate nohighlight">\(p(y\vert \theta)\)</span> factorizes into <span class="math notranslate nohighlight">\(p(y_{i}\vert \theta)\cdot p(y_{-i}\vert \theta)\)</span></p>
 <div class="amsmath math notranslate nohighlight">
 \[\begin{equation*}
@@ -654,8 +654,8 @@ p(\theta \vert y_{-i}) &amp;= \frac{p(y)}{p(y_{-i})}\cdot\frac{1}{p(y_{i}\vert \
 \[\begin{align*}
 1 &amp;= \frac{p(y)}{p(y_{-i})}\cdot \int_{\Theta}\frac{1}{p(y_{i}\vert \theta)}p(\theta\vert y)d\theta\\
 \end{align*}\]</div>
-<div class="amsmath math notranslate nohighlight" id="equation-39cc4a37-0c02-48cb-add8-d9c61e6c1c40">
-<span class="eqno">(1)<a class="headerlink" href="#equation-39cc4a37-0c02-48cb-add8-d9c61e6c1c40" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-df87b8d3-3eb8-4d6b-86ad-e26c6d64308a">
+<span class="eqno">(1)<a class="headerlink" href="#equation-df87b8d3-3eb8-4d6b-86ad-e26c6d64308a" title="Permalink to this equation">#</a></span>\[\begin{equation}
 \frac{p(y_{-i})}{p(y)} = \int_{\Theta}\bigg[ \frac{1}{p(y_{i}\vert \theta)} \bigg]\cdot p(\theta \vert y)d\theta
 \end{equation}\]</div>
 <p>The right-hand side of equation (1) should remind you of LOTUS (Law of The Unconscious Statistician): It’s just an expectation.  Recall that for a continuous random variable <span class="math notranslate nohighlight">\(X\)</span> with density function <span class="math notranslate nohighlight">\(p(x)\)</span>, if <span class="math notranslate nohighlight">\(Y=g(x)\)</span> then:</p>
@@ -669,8 +669,8 @@ p(\theta \vert y_{-i}) &amp;= \frac{p(y)}{p(y_{-i})}\cdot\frac{1}{p(y_{i}\vert \
 \frac{p(y_{-i})}{p(y)} = \mathbb{E}_{\theta \sim p(\theta \vert y)}\bigg[ \frac{1}{p(y_{i}\vert \theta)} \bigg]
 \end{equation*}\]</div>
 <p>In other words, the right-hand side of (1) represents the expectation of <span class="math notranslate nohighlight">\(\frac{1}{p(y_{i}\vert \theta)}\)</span> over <span class="math notranslate nohighlight">\(\theta\)</span> when <span class="math notranslate nohighlight">\(\theta\)</span> is distributed according to <span class="math notranslate nohighlight">\(p(\theta \vert y)\)</span>.  Taking the reciprocal of both sides gives:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-55ea80f5-dbca-49f1-8706-3f0ce7517998">
-<span class="eqno">(2)<a class="headerlink" href="#equation-55ea80f5-dbca-49f1-8706-3f0ce7517998" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-d1210560-9383-4045-874e-030a42bc1497">
+<span class="eqno">(2)<a class="headerlink" href="#equation-d1210560-9383-4045-874e-030a42bc1497" title="Permalink to this equation">#</a></span>\[\begin{equation}
 \frac{p(y)}{p(y_{-i})} = 
 \bigg( \mathbb{E}_{\theta \sim p(\theta \vert y)}\bigg[ \frac{1}{p(y_{i}\vert \theta)} \bigg] \bigg)^{-1}
 \end{equation}\]</div>

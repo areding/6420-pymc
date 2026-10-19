@@ -601,7 +601,7 @@
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#deviance-example">Deviance example</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#extra">Extra</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#extra-learning-for-pymc">Extra learning for PyMC</a></li>
 </ul>
             </nav>
         </div>
@@ -619,25 +619,33 @@
 <h2>Deviance<a class="headerlink" href="#deviance" title="Link to this heading">#</a></h2>
 <p>For model with likelihood <span class="math notranslate nohighlight">\(f(y|\theta)\)</span>, deviance is given by</p>
 <div class="math notranslate nohighlight">
-\[ D(\theta) = -2\log(f(y|\theta)) \]</div>
+\[
+D(\theta) = -2\log(f(y|\theta)) 
+\]</div>
 <p>When comparing 2 models with deviance, the model with smaller deviance is better, in that it better fits the data. An alternate method for calculating deviance is</p>
 <div class="math notranslate nohighlight">
-\[ D_s(\theta) = -2(\log(f(y|\theta)) - \log(f(y|\theta_s))) \]</div>
+\[
+D_s(\theta) = -2(\log(f(y|\theta)) - \log(f(y|\theta_s))) 
+\]</div>
 <p>where <span class="math notranslate nohighlight">\(f(y|\theta_s)\)</span> is the <em>saturated</em> model, that is a model that perfectly fits the data. A few examples of saturated deviance are</p>
 <div class="math notranslate nohighlight">
-\[\begin{split}\begin{align*}
+\[\begin{split}
+\begin{align*}
  y_i \sim Bin(n_i,\theta_i): &amp; \space \space D_s(\underset{\sim}{\theta}) = 
  2 \sum_i \left ( y_i \log \frac{y_i/n_i}{\theta_i} + (n_i - y_i)\log \frac{1-y_i/n_i}{1-\theta_i} \right ) \\
  y_i \sim Poi(\theta_i): &amp; \space \space D_s(\underset{\sim}{\theta}) = 
  2 \sum_i \left ( y_i \log \frac{y_i}{\theta_i} - (y_i - \theta_i) \right ) \\
   y_i \sim N(\theta_i,\delta_i^2): &amp; \space \space D_s(\underset{\sim}{\theta}) = 
- 2 \sum_i \left ( \frac{y_i - \theta_i}{\delta_i} \right ) ^2 \\
- \end{align*}\end{split}\]</div>
+ \sum_i \left ( \frac{y_i - \theta_i}{\delta_i} \right ) ^2 \\
+ \end{align*}
+ \end{split}\]</div>
 <section id="deviance-example">
 <h3>Deviance example<a class="headerlink" href="#deviance-example" title="Link to this heading">#</a></h3>
 <p>Consider 2 models, Weibull and Exponential, for the data</p>
 <div class="math notranslate nohighlight">
-\[ y = (1,1,2,2,3,4,4,5,5,8) \]</div>
+\[
+y = (1,1,2,2,3,4,4,5,5,8)
+\]</div>
 <p>with non-informative priors. Which model has the smaller deviance?</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -645,117 +653,161 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">arviz</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">az</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 
-<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">8</span><span class="p">])</span>
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">6420</span><span class="p">)</span>
+
+<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">8</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Weibull Model</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Weibull Model</span>
 <span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">m1</span><span class="p">:</span>
-    <span class="c1">#priors</span>
-    <span class="n">mu</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">"mu"</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">tau</span><span class="o">=</span><span class="mf">.001</span><span class="p">)</span>
-    <span class="n">gamma</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Gamma</span><span class="p">(</span><span class="s2">"gamma"</span><span class="p">,</span><span class="mf">0.001</span><span class="p">,</span><span class="mf">0.001</span><span class="p">)</span>
+    <span class="c1"># priors</span>
+    <span class="n">alpha</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Exponential</span><span class="p">(</span><span class="s2">"alpha"</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">gamma</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Gamma</span><span class="p">(</span><span class="s2">"gamma"</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">)</span>
 
-    <span class="c1">#convert Weibull parameterization</span>
-    <span class="n">beta</span> <span class="o">=</span> <span class="n">gamma</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span> <span class="o">/</span> <span class="n">mu</span><span class="p">)</span>
+    <span class="c1"># convert Weibull parameterization</span>
+    <span class="n">beta</span> <span class="o">=</span> <span class="n">gamma</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span> <span class="o">/</span> <span class="n">alpha</span><span class="p">)</span>
 
-    <span class="c1">#likelihood</span>
-    <span class="n">like</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Weibull</span><span class="p">(</span><span class="s2">"like"</span><span class="p">,</span><span class="n">mu</span><span class="p">,</span><span class="n">beta</span><span class="p">,</span><span class="n">observed</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
+    <span class="c1"># likelihood</span>
+    <span class="n">like</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Weibull</span><span class="p">(</span><span class="s2">"like"</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
 
-    <span class="n">log_like</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">mu</span><span class="o">*</span><span class="n">y</span><span class="o">**</span><span class="p">(</span><span class="n">mu</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">pm</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="n">y</span><span class="o">/</span><span class="n">beta</span><span class="p">)</span><span class="o">**</span><span class="n">mu</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">beta</span><span class="o">**</span><span class="n">mu</span><span class="p">))</span>
-    <span class="n">deviance</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">"deviance"</span><span class="p">,</span><span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">pm</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">log_like</span><span class="p">))</span>
-    
-    <span class="n">trace1</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">()</span>
+    <span class="c1"># log_like = pm.math.log(</span>
+    <span class="c1">#    alpha * y ** (alpha - 1) * pm.math.exp(-((y / beta) ** alpha)) / (beta**alpha)</span>
+    <span class="c1"># )</span>
+    <span class="n">log_like</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">logp</span><span class="p">(</span><span class="n">pm</span><span class="o">.</span><span class="n">Weibull</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="n">beta</span><span class="p">),</span> <span class="n">y</span><span class="p">)</span>
+    <span class="n">deviance</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">"deviance"</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span> <span class="o">*</span> <span class="n">log_like</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
 
-<span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace1</span><span class="p">,</span><span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s2">"deviance"</span><span class="p">])</span>
+    <span class="n">trace1</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">target_accept</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span>
+
+<span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace1</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s2">"deviance"</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Initializing NUTS using jitter+adapt_diag...
-Multiprocess sampling (4 chains in 4 jobs)
-NUTS: [mu, gamma]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>NUTS[nutpie]: [alpha, gamma]
 </pre></div>
 </div>
-<script type="application/vnd.jupyter.widget-view+json">{"model_id": "5384aaf4b0cc4e568ea6ac9cfd80cc4f", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws total) took 0 seconds.
-</pre></div>
-</div>
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "612d9f9777df4636a39f808fd2af0131", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
+</div><div class="output text_html"><table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
       <th></th>
       <th>mean</th>
       <th>sd</th>
-      <th>hdi_3%</th>
-      <th>hdi_97%</th>
-      <th>mcse_mean</th>
-      <th>mcse_sd</th>
+      <th>eti89_lb</th>
+      <th>eti89_ub</th>
       <th>ess_bulk</th>
       <th>ess_tail</th>
       <th>r_hat</th>
+      <th>mcse_mean</th>
+      <th>mcse_sd</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <th>deviance</th>
-      <td>42.911</td>
-      <td>2.121</td>
-      <td>40.869</td>
-      <td>46.741</td>
-      <td>0.08</td>
-      <td>0.126</td>
-      <td>984.0</td>
-      <td>906.0</td>
-      <td>1.0</td>
+      <td>42.8</td>
+      <td>1.8</td>
+      <td>41</td>
+      <td>47</td>
+      <td>1437</td>
+      <td>1626</td>
+      <td>1.00</td>
+      <td>0.051</td>
+      <td>0.062</td>
     </tr>
   </tbody>
-</table>
-</div></div></div>
+</table></div></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Exponential Model</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Exponential Model</span>
 <span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">m2</span><span class="p">:</span>
-    <span class="c1">#prior</span>
-    <span class="n">lambda_</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Gamma</span><span class="p">(</span><span class="s2">"lambda_"</span><span class="p">,</span><span class="mf">0.001</span><span class="p">,</span><span class="mf">0.001</span><span class="p">)</span>
+    <span class="c1"># prior</span>
+    <span class="n">lambda_</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Gamma</span><span class="p">(</span><span class="s2">"lambda_"</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">)</span>
 
-    <span class="c1">#likelihood</span>
-    <span class="n">like</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Exponential</span><span class="p">(</span><span class="s2">"like"</span><span class="p">,</span><span class="n">lambda_</span><span class="p">,</span><span class="n">observed</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
+    <span class="c1"># likelihood</span>
+    <span class="n">like</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Exponential</span><span class="p">(</span><span class="s2">"like"</span><span class="p">,</span> <span class="n">lambda_</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
 
-    <span class="n">log_like</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">lambda_</span><span class="o">*</span><span class="n">pm</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">lambda_</span> <span class="o">*</span> <span class="n">y</span><span class="p">))</span>
-    <span class="n">deviance</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">"deviance"</span><span class="p">,</span><span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">pm</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">log_like</span><span class="p">))</span>
+    <span class="c1"># log_like = pm.math.log(lambda_ * pm.math.exp(-lambda_ * y))</span>
+    <span class="n">log_like</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">logp</span><span class="p">(</span><span class="n">pm</span><span class="o">.</span><span class="n">Exponential</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="n">lam</span><span class="o">=</span><span class="n">lambda_</span><span class="p">),</span> <span class="n">y</span><span class="p">)</span>
+    <span class="n">deviance</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">"deviance"</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span> <span class="o">*</span> <span class="n">log_like</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
 
-    <span class="n">trace2</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">()</span>
+    <span class="n">trace2</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span>
 
-<span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace2</span><span class="p">,</span><span class="n">var_names</span><span class="o">=</span><span class="s2">"deviance"</span><span class="p">)</span>
+<span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace2</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="s2">"deviance"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Initializing NUTS using jitter+adapt_diag...
-Multiprocess sampling (4 chains in 4 jobs)
-NUTS: [lambda_]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>NUTS[nutpie]: [lambda_]
 </pre></div>
 </div>
-<script type="application/vnd.jupyter.widget-view+json">{"model_id": "26cb87529d4e4cc1ba033eb1a6507463", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 1_000 draw iterations (4_000 + 4_000 draws total) took 0 seconds.
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "2f63bb234f144f3d953b495feec9ccdb", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
+</div><div class="output text_html"><table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mean</th>
+      <th>sd</th>
+      <th>eti89_lb</th>
+      <th>eti89_ub</th>
+      <th>ess_bulk</th>
+      <th>ess_tail</th>
+      <th>r_hat</th>
+      <th>mcse_mean</th>
+      <th>mcse_sd</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>deviance</th>
+      <td>46.08</td>
+      <td>1.4</td>
+      <td>45</td>
+      <td>49</td>
+      <td>1816</td>
+      <td>2031</td>
+      <td>1.00</td>
+      <td>0.034</td>
+      <td>0.057</td>
+    </tr>
+  </tbody>
+</table></div></div>
+</div>
+<p>We see the Weibull model has a lower deviance, and therefore fits the data better than the exponential model. This is not too surprising, given the extra parameter.</p>
+</section>
+</section>
+<section id="extra-learning-for-pymc">
+<h2>Extra learning for PyMC<a class="headerlink" href="#extra-learning-for-pymc" title="Link to this heading">#</a></h2>
+<p>Deviance measures model fit, but doesn’t tell us how well a model predicts new data. A more modern approach is Pareto-smoothed importance-sampling leave-one-out cross-validation (PSIS-LOO) (<span class="bibtex-citation" id="id1">Vehtari, Gelman, and Gabry [<a class="reference internal" href="../backmatter/bibliography.html#id63" title="Aki Vehtari, Andrew Gelman, and Jonah Gabry. Practical bayesian model evaluation using leave-one-out cross-validation and waic. Statistics and Computing, 27:1413–1432, 2017. URL: https://arxiv.org/abs/1507.04544, doi:10.1007/s11222-016-9696-4.">2017</a>]</span>), which estimates predictive accuracy using posterior samples. ArviZ provides <a class="reference external" href="https://python.arviz.org/projects/stats/en/stable/api/generated/arviz_stats.loo.html"><code class="docutils literal notranslate"><span class="pre">az.loo()</span></code></a> and <a class="reference external" href="https://python.arviz.org/projects/stats/en/stable/api/generated/arviz_stats.compare.html"><code class="docutils literal notranslate"><span class="pre">az.compare()</span></code></a>. Higher ELPD is better, but the metric gets complicated by some diagnostics that we’ll talk about later.</p>
+<p>See the <a class="reference external" href="https://www.pymc.io/projects/docs/en/stable/learn/core_notebooks/model_comparison.html">PyMC model comparison guide</a> and <span class="bibtex-citation" id="id2">Vehtari, Simpson, Gelman, Yao, and Gabry [<a class="reference internal" href="../backmatter/bibliography.html#id64" title="Aki Vehtari, Daniel Simpson, Andrew Gelman, Yuling Yao, and Jonah Gabry. Pareto smoothed importance sampling. Journal of Machine Learning Research, 25(72):1–58, 2024. URL: https://arxiv.org/abs/1507.02646.">2024</a>]</span>. The CPO discussed later in lectures is also based on leave-one-out prediction.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># need log-likelihoods for PSIS-LOO</span>
+<span class="k">with</span> <span class="n">m1</span><span class="p">:</span>
+    <span class="n">pm</span><span class="o">.</span><span class="n">compute_log_likelihood</span><span class="p">(</span><span class="n">trace1</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="n">m2</span><span class="p">:</span>
+    <span class="n">pm</span><span class="o">.</span><span class="n">compute_log_likelihood</span><span class="p">(</span><span class="n">trace2</span><span class="p">)</span>
+
+<span class="n">az</span><span class="o">.</span><span class="n">compare</span><span class="p">(</span>
+    <span class="p">{</span>
+        <span class="s2">"Weibull"</span><span class="p">:</span> <span class="n">trace1</span><span class="p">,</span>
+        <span class="s2">"Exponential"</span><span class="p">:</span> <span class="n">trace2</span><span class="p">,</span>
+    <span class="p">}</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "90bf0e56dab2419a8d8b80a1db75db1c", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
+</div><script type="application/vnd.jupyter.widget-view+json">{"model_id": "1557bfeb0f474373a7be54a14ba21aeb", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/miniforge3/envs/pymc_f26/lib/python3.14/site-packages/arviz_stats/loo/loo_helper.py:1146: UserWarning: Estimated shape parameter of Pareto distribution is greater than 0.70 for one or more samples. You should consider using a more robust model, this is because importance sampling is less likely to work well if the marginal posterior and LOO posterior are very different. This is more likely to happen with a non-robust model and highly influential observations.
+  warnings.warn(
 </pre></div>
 </div>
 <div class="output text_html"><div>
@@ -776,42 +828,49 @@ NUTS: [lambda_]
   <thead>
     <tr style="text-align: right;">
       <th></th>
-      <th>mean</th>
-      <th>sd</th>
-      <th>hdi_3%</th>
-      <th>hdi_97%</th>
-      <th>mcse_mean</th>
-      <th>mcse_sd</th>
-      <th>ess_bulk</th>
-      <th>ess_tail</th>
-      <th>r_hat</th>
+      <th>rank</th>
+      <th>elpd_diff</th>
+      <th>dse</th>
+      <th>p_worse</th>
+      <th>diag_diff</th>
+      <th>diag_elpd</th>
+      <th>p</th>
+      <th>elpd</th>
+      <th>se</th>
+      <th>weight</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <th>deviance</th>
-      <td>46.045</td>
-      <td>1.402</td>
-      <td>45.055</td>
-      <td>48.603</td>
-      <td>0.033</td>
-      <td>0.058</td>
-      <td>1864.0</td>
-      <td>2570.0</td>
-      <td>1.0</td>
+      <th>Weibull</th>
+      <td>0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>NaN</td>
+      <td></td>
+      <td>1 k̂ &gt; 0.70</td>
+      <td>1.7</td>
+      <td>-22.0</td>
+      <td>2.3</td>
+      <td>0.91</td>
+    </tr>
+    <tr>
+      <th>Exponential</th>
+      <td>1</td>
+      <td>-1.0</td>
+      <td>1.4</td>
+      <td>0.73</td>
+      <td>N &lt; 100</td>
+      <td></td>
+      <td>0.4</td>
+      <td>-23.0</td>
+      <td>1.9</td>
+      <td>0.09</td>
     </tr>
   </tbody>
 </table>
 </div></div></div>
 </div>
-<p>We see the Weibull model has a lower deviance, and therefore fits the data better than the exponential model.</p>
-</section>
-</section>
-<section id="extra">
-<h2>Extra<a class="headerlink" href="#extra" title="Link to this heading">#</a></h2>
-<p>Papers to check out:</p>
-<p><a class="reference external" href="https://arxiv.org/abs/1307.5928">https://arxiv.org/abs/1307.5928</a></p>
-<p><a class="reference external" href="https://arxiv.org/abs/1507.04544?context=stat">https://arxiv.org/abs/1507.04544?context=stat</a></p>
 </section>
 </section>
 
@@ -885,7 +944,7 @@ NUTS: [lambda_]
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#deviance-example">Deviance example</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#extra">Extra</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#extra-learning-for-pymc">Extra learning for PyMC</a></li>
 </ul>
   </nav></div>
 
