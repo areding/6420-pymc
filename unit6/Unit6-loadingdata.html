@@ -628,7 +628,7 @@
 </div>
 <section class="tex2jax_ignore mathjax_ignore" id="loading-data-step-function-and-deterministic-variables">
 <h1><span class="section-number">5. </span>Loading Data, Step Function, and Deterministic Variables*<a class="headerlink" href="#loading-data-step-function-and-deterministic-variables" title="Link to this heading">#</a></h1>
-<p>This example introduces data containers, tracking of deterministic variables, and shows how to recreate the BUGS step function in PyMC.</p>
+<p>This example introduces the tracking of deterministic variables, Bayesian <span class="math notranslate nohighlight">\(R^2\)</span>, and shows how to recreate the BUGS step function in PyMC.</p>
 <section id="taste-of-cheese">
 <h2>Taste of Cheese<a class="headerlink" href="#taste-of-cheese" title="Link to this heading">#</a></h2>
 <p>Adapted from <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/original_examples/Codes4Unit6/cheese.odc">Unit 6: cheese.odc</a>.</p>
@@ -771,15 +771,9 @@
     <span class="n">mu</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">"mu"</span><span class="p">,</span> <span class="n">pm</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">X_aug</span><span class="p">,</span> <span class="n">beta</span><span class="p">))</span>
 
     <span class="c1"># likelihood</span>
-    <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span>
-        <span class="s2">"taste_score"</span><span class="p">,</span>
-        <span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span>
-        <span class="n">tau</span><span class="o">=</span><span class="n">tau</span><span class="p">,</span>
-        <span class="n">observed</span><span class="o">=</span><span class="n">y</span><span class="p">,</span>
-        <span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">,</span>
-    <span class="p">)</span>
+    <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">"taste_score"</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="n">tau</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
 
-    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">5000</span><span class="p">,</span> <span class="n">target_accept</span><span class="o">=</span><span class="mf">0.95</span><span class="p">)</span>
+    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">5000</span><span class="p">,</span> <span class="n">target_accept</span><span class="o">=</span><span class="mf">0.95</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -787,7 +781,7 @@
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>NUTS[nutpie]: [beta, tau]
 </pre></div>
 </div>
-<script type="application/vnd.jupyter.widget-view+json">{"model_id": "83610475b2df4de2af76e418efe120e1", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "4b2be889ce624a13850ec5414a6c58f3", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
 </div></div>
 </div>
 <p>The <code class="docutils literal notranslate"><span class="pre">var_names</span></code> argument below can help control the amount of <code class="docutils literal notranslate"><span class="pre">arviz.summary</span></code> output, depending on which variables are the most important to your analysis. Especially in this case; because <code class="docutils literal notranslate"><span class="pre">mu</span></code> is going to have a shape of 30, we might want to exclude it from the output.</p>
@@ -817,68 +811,68 @@
     <tr>
       <th>beta[0]</th>
       <td>-28.9</td>
-      <td>20.6</td>
-      <td>-70</td>
-      <td>11</td>
-      <td>4797</td>
-      <td>5681</td>
+      <td>20.8</td>
+      <td>-69</td>
+      <td>12</td>
+      <td>4638</td>
+      <td>6043</td>
       <td>1.00</td>
-      <td>0.3</td>
+      <td>0.31</td>
       <td>0.23</td>
     </tr>
     <tr>
       <th>beta[1]</th>
       <td>0.3</td>
-      <td>4.6</td>
-      <td>-8.6</td>
-      <td>9.4</td>
-      <td>4373</td>
-      <td>5482</td>
+      <td>4.7</td>
+      <td>-9</td>
+      <td>9.7</td>
+      <td>4531</td>
+      <td>5625</td>
       <td>1.00</td>
-      <td>0.069</td>
-      <td>0.052</td>
+      <td>0.07</td>
+      <td>0.053</td>
     </tr>
     <tr>
       <th>beta[2]</th>
-      <td>3.93</td>
+      <td>3.92</td>
+      <td>1.31</td>
       <td>1.3</td>
-      <td>1.4</td>
       <td>6.5</td>
-      <td>8045</td>
-      <td>9179</td>
+      <td>8561</td>
+      <td>9567</td>
       <td>1.00</td>
-      <td>0.015</td>
+      <td>0.014</td>
       <td>0.011</td>
     </tr>
     <tr>
       <th>beta[3]</th>
-      <td>19.7</td>
-      <td>8.9</td>
-      <td>1.8</td>
+      <td>19.6</td>
+      <td>8.8</td>
+      <td>2.3</td>
       <td>37</td>
-      <td>7520</td>
-      <td>8056</td>
+      <td>8392</td>
+      <td>9148</td>
       <td>1.00</td>
-      <td>0.1</td>
-      <td>0.077</td>
+      <td>0.096</td>
+      <td>0.072</td>
     </tr>
     <tr>
       <th>sigma</th>
-      <td>10.44</td>
-      <td>1.5</td>
+      <td>10.43</td>
+      <td>1.49</td>
       <td>8</td>
       <td>14</td>
-      <td>14092</td>
-      <td>12047</td>
+      <td>14160</td>
+      <td>11484</td>
       <td>1.00</td>
       <td>0.013</td>
-      <td>0.012</td>
+      <td>0.011</td>
     </tr>
   </tbody>
 </table></div></div>
 </div>
-<p>This is how we find the <a class="reference external" href="https://python.arviz.org/projects/stats/en/latest/api/generated/arviz_stats.bayesian_r2.html">Bayesian <span class="math notranslate nohighlight">\(R^2\)</span></a> <span class="bibtex-citation" id="id1">[<a class="reference internal" href="../backmatter/bibliography.html#id62" title="Andrew Gelman, Ben Goodrich, Jonah Gabry, and Aki Vehtari. R-squared for Bayesian regression models. The American Statistician, 73(3):307–309, 2019. URL: https://doi.org/10.1080/00031305.2018.1549100, doi:10.1080/00031305.2018.1549100.">Gelman <em>et al.</em>, 2019</a>]</span>. Note this is a different version from the lectures. This one is both easier to use in PyMC and a better metric in every way compared to the lecture version. The lecture version can sometimes result in negative <span class="math notranslate nohighlight">\(R^2\)</span> values.</p>
-<p>We saved <code class="docutils literal notranslate"><span class="pre">mu</span></code> above as a deterministic variable for this purpose. By default, the scale will be the standard deviation, but you can manually define it and switch to variance with the <code class="docutils literal notranslate"><span class="pre">scale_kind</span></code> argument. As with every</p>
+<p>This is how we find the <a class="reference external" href="https://python.arviz.org/projects/stats/en/latest/api/generated/arviz_stats.bayesian_r2.html">Bayesian <span class="math notranslate nohighlight">\(R^2\)</span></a> <span class="bibtex-citation" id="id1">[<a class="reference internal" href="../backmatter/bibliography.html#id62" title="Andrew Gelman, Ben Goodrich, Jonah Gabry, and Aki Vehtari. R-squared for Bayesian regression models. The American Statistician, 73(3):307–309, 2019. URL: https://doi.org/10.1080/00031305.2018.1549100, doi:10.1080/00031305.2018.1549100.">Gelman <em>et al.</em>, 2019</a>]</span>. Note this is a different version from the lectures. This one is both easier to use in PyMC and generally a better metric compared to the lecture version. The lecture version can sometimes result in negative <span class="math notranslate nohighlight">\(R^2\)</span> values.</p>
+<p>We saved <code class="docutils literal notranslate"><span class="pre">mu</span></code> above as a deterministic variable for this purpose. By default, the scale will be the standard deviation, but you can manually define it and switch to variance with the <code class="docutils literal notranslate"><span class="pre">scale_kind</span></code> argument.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">bayesian_r2</span><span class="p">(</span>
@@ -893,7 +887,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>bayesian_R2(mean=0.62, hdi_lb=0.43, hdi_ub=0.78)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>bayesian_R2(mean=0.62, hdi_lb=0.44, hdi_ub=0.78)
 </pre></div>
 </div>
 </div>
@@ -912,7 +906,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>bayesian_R2(mean=0.62, hdi_lb=0.43, hdi_ub=0.78)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>bayesian_R2(mean=0.62, hdi_lb=0.44, hdi_ub=0.78)
 </pre></div>
 </div>
 </div>
@@ -1026,7 +1020,7 @@
 </section>
 <section id="how-do-i-track-non-random-variables-in-pymc">
 <h3>How do I track non-random variables in PyMC?<a class="headerlink" href="#how-do-i-track-non-random-variables-in-pymc" title="Link to this heading">#</a></h3>
-<p>One nice thing about BUGS is you can easily track both deterministic and non-deterministic variables while sampling. For PyMC, you can wrap these in <a class="reference external" href="https://docs.pymc.io/en/v3/api/model.html"><code class="docutils literal notranslate"><span class="pre">pm.Deterministic()</span></code></a>. Just make sure to use <a class="reference external" href="https://docs.pymc.io/en/v3/api/math.html"><code class="docutils literal notranslate"><span class="pre">pm.math</span></code></a> functions where possible.</p>
+<p>One nice thing about BUGS is you can easily track both deterministic and non-deterministic variables while sampling. For PyMC, you can wrap these in <a class="reference external" href="https://www.pymc.io/projects/docs/en/stable/api/model/generated/pymc.model.core.Deterministic.html"><code class="docutils literal notranslate"><span class="pre">pm.Deterministic()</span></code></a>. Just make sure to use <a class="reference external" href="https://www.pymc.io/projects/docs/en/stable/api/math.html"><code class="docutils literal notranslate"><span class="pre">pm.math</span></code></a> functions where possible.</p>
 <div class="cell tag_hide-output docutils container">
 <div class="cell_input above-output-prompt docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">m</span><span class="p">:</span>
@@ -1068,7 +1062,7 @@
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>NUTS[nutpie]: [tau_nonsmokers, mu_nonsmokers, tau_smokers, mu_smokers]
 </pre></div>
 </div>
-<script type="application/vnd.jupyter.widget-view+json">{"model_id": "9fae72473be14ea39e67073c63c56e02", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "c635cdc7b3664d8bb0ae57988c75bc66", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
 </div></div>
 </details>
 </div>
