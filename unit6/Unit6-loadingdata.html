@@ -719,7 +719,7 @@
 \begin{align*}
 \texttt{taste}_{i} &amp;\sim \mathcal{N}(\mu_{i} , \sigma^{2})\\
 \mu_{i} &amp;= \beta_{0} + \beta_{1}\cdot\texttt{Acetic}_{i} + \beta_{2}\cdot\texttt{H2S}_{i} + \beta_{3}\cdot\texttt{Lactic}_{i}\\
-\boldsymbol{\beta} &amp;\sim \mathcal{N}(0,\sigma^{2} = 100000)\\
+\boldsymbol{\beta} &amp;\sim \mathcal{N}(0,\sigma^{2} = 1000^2)\\
 \sigma &amp;= \frac{1}{\sqrt{\tau}}\\
 \tau  &amp;\sim \text{Gamma(0.001, 0.001)}\\ 
 \end{align*}
@@ -762,24 +762,20 @@
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">m</span><span class="p">:</span>
-    <span class="c1"># associate data with model (this makes prediction easier)</span>
-    <span class="n">X_data</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Data</span><span class="p">(</span><span class="s2">"X"</span><span class="p">,</span> <span class="n">X_aug</span><span class="p">)</span>
-    <span class="n">y_data</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Data</span><span class="p">(</span><span class="s2">"y"</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
-
     <span class="c1"># priors</span>
     <span class="n">beta</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">"beta"</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
-    <span class="n">sigma</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Exponential</span><span class="p">(</span><span class="s2">"sigma"</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">)</span>
-    <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">"sigma2"</span><span class="p">,</span> <span class="n">sigma</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">tau</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Gamma</span><span class="p">(</span><span class="s2">"tau"</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">)</span>  <span class="c1"># precision</span>
+    <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">"sigma"</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">pm</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">tau</span><span class="p">))</span>  <span class="c1"># sd</span>
+    <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">"sigma2"</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">tau</span><span class="p">)</span>  <span class="c1"># variance</span>
 
-    <span class="n">mu</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">"mu"</span><span class="p">,</span> <span class="n">pm</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">X_data</span><span class="p">,</span> <span class="n">beta</span><span class="p">))</span>
+    <span class="n">mu</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">"mu"</span><span class="p">,</span> <span class="n">pm</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">X_aug</span><span class="p">,</span> <span class="n">beta</span><span class="p">))</span>
 
     <span class="c1"># likelihood</span>
     <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span>
         <span class="s2">"taste_score"</span><span class="p">,</span>
         <span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span>
-        <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">,</span>
-        <span class="n">observed</span><span class="o">=</span><span class="n">y_data</span><span class="p">,</span>
-        <span class="n">shape</span><span class="o">=</span><span class="n">X_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+        <span class="n">tau</span><span class="o">=</span><span class="n">tau</span><span class="p">,</span>
+        <span class="n">observed</span><span class="o">=</span><span class="n">y</span><span class="p">,</span>
         <span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">,</span>
     <span class="p">)</span>
 
@@ -788,10 +784,10 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>NUTS[nutpie]: [beta, sigma]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>NUTS[nutpie]: [beta, tau]
 </pre></div>
 </div>
-<script type="application/vnd.jupyter.widget-view+json">{"model_id": "9fdf91d30081430c912468d1706c7b50", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "83610475b2df4de2af76e418efe120e1", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
 </div></div>
 </div>
 <p>The <code class="docutils literal notranslate"><span class="pre">var_names</span></code> argument below can help control the amount of <code class="docutils literal notranslate"><span class="pre">arviz.summary</span></code> output, depending on which variables are the most important to your analysis. Especially in this case; because <code class="docutils literal notranslate"><span class="pre">mu</span></code> is going to have a shape of 30, we might want to exclude it from the output.</p>
@@ -820,63 +816,63 @@
   <tbody>
     <tr>
       <th>beta[0]</th>
-      <td>-29</td>
-      <td>20.7</td>
+      <td>-28.9</td>
+      <td>20.6</td>
       <td>-70</td>
-      <td>12</td>
-      <td>4418</td>
-      <td>5819</td>
+      <td>11</td>
+      <td>4797</td>
+      <td>5681</td>
       <td>1.00</td>
-      <td>0.31</td>
+      <td>0.3</td>
       <td>0.23</td>
     </tr>
     <tr>
       <th>beta[1]</th>
-      <td>0.4</td>
-      <td>4.7</td>
-      <td>-9</td>
-      <td>9.6</td>
-      <td>4329</td>
-      <td>5774</td>
+      <td>0.3</td>
+      <td>4.6</td>
+      <td>-8.6</td>
+      <td>9.4</td>
+      <td>4373</td>
+      <td>5482</td>
       <td>1.00</td>
-      <td>0.072</td>
-      <td>0.054</td>
+      <td>0.069</td>
+      <td>0.052</td>
     </tr>
     <tr>
       <th>beta[2]</th>
-      <td>3.91</td>
-      <td>1.31</td>
+      <td>3.93</td>
+      <td>1.3</td>
       <td>1.4</td>
       <td>6.5</td>
-      <td>8108</td>
-      <td>9575</td>
+      <td>8045</td>
+      <td>9179</td>
       <td>1.00</td>
-      <td>0.014</td>
+      <td>0.015</td>
       <td>0.011</td>
     </tr>
     <tr>
       <th>beta[3]</th>
-      <td>19.5</td>
-      <td>9</td>
-      <td>1.6</td>
+      <td>19.7</td>
+      <td>8.9</td>
+      <td>1.8</td>
       <td>37</td>
-      <td>7767</td>
-      <td>8460</td>
+      <td>7520</td>
+      <td>8056</td>
       <td>1.00</td>
       <td>0.1</td>
-      <td>0.078</td>
+      <td>0.077</td>
     </tr>
     <tr>
       <th>sigma</th>
-      <td>10.54</td>
-      <td>1.53</td>
+      <td>10.44</td>
+      <td>1.5</td>
       <td>8</td>
       <td>14</td>
-      <td>14924</td>
-      <td>11499</td>
+      <td>14092</td>
+      <td>12047</td>
       <td>1.00</td>
       <td>0.013</td>
-      <td>0.011</td>
+      <td>0.012</td>
     </tr>
   </tbody>
 </table></div></div>
@@ -897,7 +893,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>bayesian_R2(mean=0.61, hdi_lb=0.43, hdi_ub=0.78)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>bayesian_R2(mean=0.62, hdi_lb=0.43, hdi_ub=0.78)
 </pre></div>
 </div>
 </div>
@@ -916,7 +912,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>bayesian_R2(mean=0.61, hdi_lb=0.43, hdi_ub=0.78)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>bayesian_R2(mean=0.62, hdi_lb=0.43, hdi_ub=0.78)
 </pre></div>
 </div>
 </div>
@@ -1019,10 +1015,9 @@
 </div>
 <section id="bugs-step-function">
 <h3>BUGS step function<a class="headerlink" href="#bugs-step-function" title="Link to this heading">#</a></h3>
-<p>I think this is the first time we’ve seen the BUGS step function.</p>
 <p>BUGS defines the step function like this:</p>
 <p><code class="docutils literal notranslate"><span class="pre">step(e)</span></code> is 1 if e &gt;= 0; 0 otherwise.</p>
-<p>Keep in mind that in PyMC, step functions are how they refer to the algorithms used for sampling, as in NUTS or Metropolis. Just different terminology.</p>
+<p>Keep in mind that in PyMC, step functions are sometimes how they refer to the algorithms used for sampling, as in NUTS or Metropolis. Just different terminology.</p>
 <p>We can recreate the BUGS step function with <code class="docutils literal notranslate"><span class="pre">pm.math.switch()</span></code>:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pm</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">switch</span><span class="p">(</span><span class="n">e</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
 
@@ -1073,7 +1068,7 @@
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>NUTS[nutpie]: [tau_nonsmokers, mu_nonsmokers, tau_smokers, mu_smokers]
 </pre></div>
 </div>
-<script type="application/vnd.jupyter.widget-view+json">{"model_id": "e75917413bfa48b1b1ac881d81297e6d", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "9fae72473be14ea39e67073c63c56e02", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
 </div></div>
 </details>
 </div>
