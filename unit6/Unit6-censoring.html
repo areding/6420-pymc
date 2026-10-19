@@ -601,7 +601,7 @@
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#results-of-a-life-test-on-ten-pieces-of-equipment">Results of a life test on ten pieces of equipment</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-bayesian-approach-two-ways">A Bayesian Approach : Two Ways</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#imputing-censored-points">Imputing Censored Points</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#the-conjugate-prior-approach">The Conjugate Prior Approach:</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#the-conjugate-prior-approach">The Conjugate Prior Approach</a></li>
 </ul>
 </li>
 </ul>
@@ -622,23 +622,17 @@
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">arviz</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">az</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pymc</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pm</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">6420</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 <section class="tex2jax_ignore mathjax_ignore" id="type-1-censoring">
 <h1><span class="section-number">9. </span>Type-1 Censoring*<a class="headerlink" href="#type-1-censoring" title="Link to this heading">#</a></h1>
-<p>Censoring occurs when we have incomplete information about the value of an observation. That is, instead of observing the exact value of a variable, we only know that it falls above, below, or between certain thresholds.  This is common in many fields:</p>
-<ul class="simple">
-<li><p>In survival analysis, if a patient leaves a study before the event (e.g., death) occurs, we only know their survival time exceeds the time they were last seen.</p></li>
-<li><p>In industrial testing, sometimes instruments can only measure up to a certain maximum (or minimum).</p>
-<ul>
-<li><p>A scale might return a value of “too heavy”, over a certain weight threshold.  This is known as <strong>right censoring</strong>.</p></li>
-<li><p>A water testing kit that unable to detect a chemical substance if the concentration is below <span class="math notranslate nohighlight">\(x\)</span> parts per million (ppm) might return “not detected”.  This is an example of <strong>left censoring</strong>.</p></li>
-<li><p>Notice that, in both cases, though we cannot observe the value exactly, we are resonably certain it is above (right) or below (left) a certain threshold.</p></li>
-</ul>
-</li>
-</ul>
+<p>Censoring occurs when we have incomplete information about the value of an observation. That is, instead of observing the exact value of a variable, we only know that it falls above, below, or between certain thresholds.</p>
+<p>Typically in this course, we’ll see this in survival analysis or time-to-event modeling. If a patient leaves a study before the event (e.g. disease recurrence, death) occurs, we only know their survival time exceeds the time they were last seen. We don’t know when the event occurred. This is where right-censoring comes in.</p>
+<p>Another example is water-quality testing. Say we’re testing for arsenic in groundwater. The lab’s test procedure will have a method detection limit (MDL); concentrations below the limit may exist, but aren’t detectable by the test. So we can’t say there’s absolutely no arsenic even if it’s not detected by the test. For a non-detection at an MDL of 0.05 μg/L, we can only say the arsenic concentration isn’t greater than that, not whether there’s arsenic at a concentration between 0 and 0.05 μg/L. This is when we might use left-censoring.</p>
 <section id="bartholomew-1957">
 <h2>Bartholomew (1957)<a class="headerlink" href="#bartholomew-1957" title="Link to this heading">#</a></h2>
 <p>This is our first introduction to censoring.  It is adapted from <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/original_examples/Codes4Unit6/exponential1.odc">Unit 6: exponential1.odc</a>.</p>
@@ -743,9 +737,9 @@
 <p>We will right-censor the three machines that still hadn’t failed by August 31, following <a class="reference external" href="https://www.pymc.io/projects/examples/en/latest/generalized_linear_models/GLM-truncated-censored-regression.html">this example</a>.</p>
 <p>We specify our priors as above, and use <code class="docutils literal notranslate"><span class="pre">pm.Deterministic</span></code> for <span class="math notranslate nohighlight">\(\frac{1}{\lambda}\)</span>.  Notice we create introduce an exponential distribution <em>without</em> supplying an observed argument.  Then, wrapping that in <code class="docutils literal notranslate"><span class="pre">pm.Censored</span></code> with an <code class="docutils literal notranslate"><span class="pre">observed</span></code> argument tells PyMC that this is a likelihood with censoring.  Specifying combinations of <code class="docutils literal notranslate"><span class="pre">lower</span></code> and <code class="docutils literal notranslate"><span class="pre">upper</span></code> arguments will give the desired censoring:</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">lower=None</span></code> and <code class="docutils literal notranslate"><span class="pre">upper</span></code> specified : <em>right</em> censoring</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">lower</span></code> specified and <code class="docutils literal notranslate"><span class="pre">upper=None</span></code> : <em>left</em> censoring</p></li>
-<li><p>both <code class="docutils literal notranslate"><span class="pre">lower</span></code> and <code class="docutils literal notranslate"><span class="pre">upper</span></code> specified: <em>interval</em> censoring</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">lower=None</span></code> and <code class="docutils literal notranslate"><span class="pre">upper</span></code> specified : right censoring</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">lower</span></code> specified and <code class="docutils literal notranslate"><span class="pre">upper=None</span></code> : left censoring</p></li>
+<li><p>both <code class="docutils literal notranslate"><span class="pre">lower</span></code> and <code class="docutils literal notranslate"><span class="pre">upper</span></code> specified: censoring at both ends of the distribution</p></li>
 </ul>
 <section id="imputing-censored-points">
 <h4>Imputing Censored Points<a class="headerlink" href="#imputing-censored-points" title="Link to this heading">#</a></h4>
@@ -782,7 +776,7 @@
         <span class="s2">"censored_imputed"</span><span class="p">,</span> <span class="n">obs_latent</span><span class="p">,</span> <span class="n">lower</span><span class="o">=</span><span class="p">[</span><span class="mi">72</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">21</span><span class="p">]</span>
     <span class="p">)</span>
 
-    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">5000</span><span class="p">)</span>
+    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">5000</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -792,157 +786,165 @@
 <p class="expanded admonition-title">Hide code cell output</p>
 </summary>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Initializing NUTS using jitter+adapt_diag...
-Multiprocess sampling (4 chains in 4 jobs)
-NUTS: [λ, censored_imputed]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>NUTS[nutpie]: [λ, censored_imputed]
 </pre></div>
 </div>
-<script type="application/vnd.jupyter.widget-view+json">{"model_id": "49279c9ebb524c599b0b264684a4bfa5", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 5_000 draw iterations (4_000 + 20_000 draws total) took 1 seconds.
-</pre></div>
-</div>
-</div>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "1912f9cdd60e4ddaa60158c07021e766", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
+</div></div>
 </details>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">hdi_prob</span><span class="o">=</span><span class="mf">0.95</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">ci_prob</span><span class="o">=</span><span class="mf">0.95</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
+<div class="output text_html"><table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
       <th></th>
       <th>mean</th>
       <th>sd</th>
-      <th>hdi_2.5%</th>
-      <th>hdi_97.5%</th>
-      <th>mcse_mean</th>
-      <th>mcse_sd</th>
+      <th>eti95_lb</th>
+      <th>eti95_ub</th>
       <th>ess_bulk</th>
       <th>ess_tail</th>
       <th>r_hat</th>
+      <th>mcse_mean</th>
+      <th>mcse_sd</th>
     </tr>
   </thead>
   <tbody>
     <tr>
+      <th>λ</th>
+      <td>0.0226</td>
+      <td>0.0085</td>
+      <td>0.0091</td>
+      <td>0.042</td>
+      <td>11199</td>
+      <td>9692</td>
+      <td>1.00</td>
+      <td>7.6e-05</td>
+      <td>6.5e-05</td>
+    </tr>
+    <tr>
       <th>censored_imputed[0]</th>
-      <td>123.111</td>
-      <td>61.181</td>
-      <td>72.000</td>
-      <td>234.111</td>
-      <td>0.580</td>
-      <td>1.443</td>
-      <td>9004.0</td>
-      <td>6434.0</td>
-      <td>1.0</td>
+      <td>123</td>
+      <td>59</td>
+      <td>73</td>
+      <td>280</td>
+      <td>9635</td>
+      <td>8118</td>
+      <td>1.00</td>
+      <td>0.54</td>
+      <td>1.1</td>
     </tr>
     <tr>
       <th>censored_imputed[1]</th>
-      <td>111.495</td>
-      <td>61.776</td>
-      <td>60.008</td>
-      <td>223.221</td>
-      <td>0.541</td>
-      <td>1.360</td>
-      <td>10197.0</td>
-      <td>7827.0</td>
-      <td>1.0</td>
+      <td>112</td>
+      <td>61</td>
+      <td>61</td>
+      <td>270</td>
+      <td>9910</td>
+      <td>8021</td>
+      <td>1.00</td>
+      <td>0.56</td>
+      <td>1.4</td>
     </tr>
     <tr>
       <th>censored_imputed[2]</th>
-      <td>71.592</td>
-      <td>58.517</td>
-      <td>21.001</td>
-      <td>181.962</td>
-      <td>0.508</td>
-      <td>1.152</td>
-      <td>11514.0</td>
-      <td>8874.0</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>λ</th>
-      <td>0.023</td>
-      <td>0.009</td>
-      <td>0.008</td>
-      <td>0.040</td>
-      <td>0.000</td>
-      <td>0.000</td>
-      <td>11541.0</td>
-      <td>9435.0</td>
-      <td>1.0</td>
+      <td>73</td>
+      <td>60</td>
+      <td>22</td>
+      <td>240</td>
+      <td>9634</td>
+      <td>8065</td>
+      <td>1.00</td>
+      <td>0.56</td>
+      <td>1.3</td>
     </tr>
     <tr>
       <th>μ</th>
-      <td>50.986</td>
-      <td>22.636</td>
-      <td>18.702</td>
-      <td>93.074</td>
-      <td>0.240</td>
-      <td>0.452</td>
-      <td>11541.0</td>
-      <td>9435.0</td>
-      <td>1.0</td>
+      <td>51.5</td>
+      <td>23</td>
+      <td>24</td>
+      <td>110</td>
+      <td>11199</td>
+      <td>9692</td>
+      <td>1.00</td>
+      <td>0.25</td>
+      <td>0.44</td>
     </tr>
   </tbody>
-</table>
-</div></div></div>
+</table></div></div>
 </div>
 </section>
 <section id="the-conjugate-prior-approach">
-<h4>The Conjugate Prior Approach:<a class="headerlink" href="#the-conjugate-prior-approach" title="Link to this heading">#</a></h4>
-<p>The priors chosen above also allow us to use analytical methods (conjugate priors).  This will give us some intuition for what happens to the likelihood function for censored observations.  We will use an <span class="math notranslate nohighlight">\(\text{Exponential}(\lambda)\)</span> likelihood, where <span class="math notranslate nohighlight">\(\lambda\)</span> has a <span class="math notranslate nohighlight">\(\text{Gamma}(\alpha = 0.01,\beta = 0.1)\)</span> prior distribution.  First, consider the likelihood function for the case that all values were fully observed (no censoring):</p>
+<h4>The Conjugate Prior Approach<a class="headerlink" href="#the-conjugate-prior-approach" title="Link to this heading">#</a></h4>
+<p>We can also solve this problem analytically using conjugate priors. We’ll use the same exponential likelihood and Gamma prior as in the PyMC model:</p>
 <div class="math notranslate nohighlight">
 \[
-f(Y=y\vert \lambda ) = \prod_{i=1}^{n}\lambda \exp\big\{-\lambda y_{i}\big\}
+\lambda \sim \text{Gamma}(\alpha=0.01,\beta=0.1)
 \]</div>
-<p>We evaluate the exponential PDF at the observation value and multiply them all together.  Consider now the cases where a failure was not observed.  Note that for these, <span class="math notranslate nohighlight">\(T_{i}\)</span> in the table above denotes the point after which a failure would be observed had it occurred.</p>
-<p>In the censored case, points above the censoring threshold <span class="math notranslate nohighlight">\(T_{i}\)</span> will contribute to the likelihood a bit differently:</p>
-<div class="amsmath math notranslate nohighlight">
-\[\begin{align*}
-f(Y \geq T_i \mid \lambda)
-&amp;= \int_{T_i}^{\infty} \lambda \exp\big\{ -\lambda y \big\} \, dy = \exp\big\{ -\lambda T_i \big\}
-\end{align*}\]</div>
-<p>The censoring-adjusted likelihood function becomes:</p>
+<p>Here, <span class="math notranslate nohighlight">\(\beta\)</span> is the rate parameter of the Gamma distribution.</p>
+<p>First, suppose we observe the exact failure time <span class="math notranslate nohighlight">\(y_i\)</span> for every machine. The likelihood is simply the product of the exponential PDFs:</p>
 <div class="math notranslate nohighlight">
 \[
-f(y\vert \lambda) = \prod_{\{i\vert y_{i} &lt; T_{i}\}}\lambda \exp\big\{-\lambda y_{i}\big\}\times \prod_{\{i\vert y_{i}\geq T_{i}\}}\exp\big\{-\lambda T_i\big\}
+L(\lambda \mid \mathbf{y}) = \prod_{i=1}^{n}\lambda e^{-\lambda y_i}
 \]</div>
-<p>We introduce an indicator variable <span class="math notranslate nohighlight">\(\delta_{i} = 1\)</span> for <span class="math notranslate nohighlight">\(y_{i}&lt; T_{i}\)</span>, otherwise <span class="math notranslate nohighlight">\(\delta_{i} = 0\)</span>.  The posterior distribution is:</p>
+<p>Censored observations are different. If a machine was still working after <span class="math notranslate nohighlight">\(T_i\)</span> days, we don’t know its failure time. We only know that it exceeds <span class="math notranslate nohighlight">\(T_i\)</span>. Instead of the PDF, we use the survival probability:</p>
+<div class="math notranslate nohighlight">
+\[
+P(Y_i &gt; T_i \mid \lambda)
+= \int_{T_i}^{\infty}\lambda e^{-\lambda y}\,dy
+= e^{-\lambda T_i}
+\]</div>
+<p>So our likelihood has two parts: the exponential PDF for observed failures, and the survival probability for censored observations.</p>
+<div class="math notranslate nohighlight">
+\[
+L(\lambda \mid \mathbf{y})
+=
+\prod_{\text{observed}}\lambda e^{-\lambda y_i}
+\prod_{\text{censored}}e^{-\lambda T_i}
+\]</div>
+<p>Let <span class="math notranslate nohighlight">\(\delta_i=1\)</span> if we observed a failure and <span class="math notranslate nohighlight">\(\delta_i=0\)</span> if the observation was censored. Combining the likelihood with our Gamma prior gives:</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \begin{align*}
-\pi(\lambda \vert \mathbf{y})&amp;\propto \prod_{\{i\vert y_{i} &lt; T_{i}\}}\lambda \exp\big\{-\lambda y_{i}\big\}\times \prod_{\{i\vert y_{i}\geq T_{i}\}}\exp\big\{-\lambda T_i\big\}\times \lambda^{\alpha - 1}\exp\big\{ - \lambda \beta \big\}\\
-&amp;\phantom{;}\\ 
-&amp;= \lambda^{(\alpha + \sum_{i}\delta_{i}) - 1}\exp\big\{-\lambda (\beta + \sum_{\{i\vert y_{i} &lt; T_{i}\}}y_{i} +  \sum_{\{i\vert y_{i} \geq T_{i}\}}T_{i})\big\}\\
-&amp;\sim \text{Gamma}(\alpha + \sum_{i=1}^{n}\delta_{i}\text{ , } \beta + \sum_{\{i\vert y_{i} &lt; T_{i}\}}y_{i} +  \sum_{\{i\vert y_{i} \geq T_{i}\}}T_{i})
+\pi(\lambda \mid \mathbf{y})
+&amp;\propto L(\lambda \mid \mathbf{y})\,\pi(\lambda)\\
+&amp;\propto
+\lambda^{\alpha+\sum_i\delta_i-1}
+\exp\left[
+-\lambda\left(
+\beta+
+\sum_{\text{observed}}y_i+
+\sum_{\text{censored}}T_i
+\right)
+\right]
 \end{align*}
 \end{split}\]</div>
-<p>Take note of the subset indexing that appears in the rate parameter.  We only want to add the <span class="math notranslate nohighlight">\(y_{i}\)</span>’s that are fully observed.  For observations that are right censored, we add the <span class="math notranslate nohighlight">\(T_{i}\)</span>’s instead.</p>
-<p>The posterior distribution for <span class="math notranslate nohighlight">\(\lambda\)</span> (the failure rate) summarizes our updated beliefs about the typical rate at which equipment failures occur, given both the observed and censored data. Lower values of <span class="math notranslate nohighlight">\(\lambda\)</span> indicate a lower failure rate, and longer equipment lifetimes.  Next, for interpretability, let’s define <span class="math notranslate nohighlight">\(\mu = \frac{1}{\lambda}\)</span>.  Then <span class="math notranslate nohighlight">\(\pi(\mu\vert \mathbf{y})\)</span> is a posterior distribution of expected lifetimes until equipment failure.  Next we will:</p>
-<ul class="simple">
-<li><p>Calculate the mean and standard deviation of <span class="math notranslate nohighlight">\(\pi(\lambda \vert \mathbf{y})\)</span> using their closed form solutions</p></li>
-<li><p>Calculate an estimate of the 95% HDI credible interval using <code class="docutils literal notranslate"><span class="pre">np.random.gamma</span></code> samples and <code class="docutils literal notranslate"><span class="pre">az.hdi</span></code></p></li>
-<li><p>Calculate the mean, standard deviation, and 95% HDI credible interval for <span class="math notranslate nohighlight">\(\pi(\mu\vert \mathbf{y})\)</span> using the reciprocals of our samples above.</p></li>
-</ul>
-<p>An estimate of the mean, standard deviation, and 95% HDI credible interval for <span class="math notranslate nohighlight">\(\pi(\frac{1}{\lambda}\vert \mathbf{y})\)</span>.  This is a posterior distribution for the mean lifetime of the equipment.</p>
+<p>Recognizing the Gamma distribution, we get:</p>
+<div class="math notranslate nohighlight">
+\[
+\lambda \mid \mathbf{y}
+\sim
+\text{Gamma}\left(
+\alpha+\sum_i\delta_i,\;
+\beta+\sum_{\text{observed}}y_i+
+\sum_{\text{censored}}T_i
+\right)
+\]</div>
+<p>The posterior shape parameter increases by the number of observed failures, while the rate parameter increases by the total observed operating time, including the time contributed by censored machines.</p>
+<p>In our data, there are 7 observed failures and 308 total days of operating time:</p>
+<div class="math notranslate nohighlight">
+\[
+\lambda \mid \mathbf{y}\sim\text{Gamma}(7.01,308.1)
+\]</div>
+<p>The code below calculates the posterior mean and standard deviation of <span class="math notranslate nohighlight">\(\lambda\)</span> directly. We’ll also draw samples from this Gamma distribution to estimate a 95% HDI.</p>
+<p>Finally, recall that the expected lifetime of a machine under the exponential model is <span class="math notranslate nohighlight">\(\mu=1/\lambda\)</span>. We can transform our Gamma samples by taking their reciprocals to obtain posterior estimates and a credible interval for the mean lifetime.</p>
+<p>The results should be close to the ones from the PyMC model.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># prior parameters:</span>
@@ -971,22 +973,17 @@ f(y\vert \lambda) = \prod_{\{i\vert y_{i} &lt; T_{i}\}}\lambda \exp\big\{-\lambd
 <span class="p">)</span>
 
 
-<span class="c1"># Signature: np.random.gamma(shape, scale=1.0, size=None)</span>
-<span class="c1"># Docstring:</span>
-<span class="c1"># gamma(shape, scale=1.0, size=None)</span>
-<span class="c1"># TLDR: need to use "scale= 1/β_posterior"</span>
-
-<span class="n">samples</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">gamma</span><span class="p">(</span><span class="n">α_posterior</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">β_posterior</span><span class="p">,</span> <span class="mi">100000</span><span class="p">)</span>
+<span class="n">samples</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">gamma</span><span class="p">(</span><span class="n">α_posterior</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">β_posterior</span><span class="p">,</span> <span class="mi">100000</span><span class="p">)</span>
 
 
 <span class="nb">print</span><span class="p">(</span><span class="s2">"λ Posterior:"</span><span class="p">)</span>
-<span class="n">hdi</span> <span class="o">=</span> <span class="n">az</span><span class="o">.</span><span class="n">hdi</span><span class="p">(</span><span class="n">samples</span><span class="p">,</span> <span class="n">hdi_prob</span><span class="o">=</span><span class="mf">0.95</span><span class="p">)</span>
+<span class="n">hdi</span> <span class="o">=</span> <span class="n">az</span><span class="o">.</span><span class="n">hdi</span><span class="p">(</span><span class="n">samples</span><span class="p">,</span> <span class="n">prob</span><span class="o">=</span><span class="mf">0.95</span><span class="p">)</span>
 <span class="n">summary</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"Posterior Mean: </span><span class="si">{</span><span class="n">α_posterior</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">β_posterior</span><span class="si">:</span><span class="s2">&lt;.4f</span><span class="si">}</span><span class="s2">   Posterior SD: </span><span class="si">{</span><span class="p">(</span><span class="n">α_posterior</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">((</span><span class="n">β_posterior</span><span class="p">)</span><span class="o">**</span><span class="p">(</span><span class="mi">2</span><span class="p">)))</span><span class="o">**</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="si">:</span><span class="s2">&lt;.4f</span><span class="si">}</span><span class="s2">   HDI Bounds[</span><span class="si">{</span><span class="n">hdi</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">&lt;.4f</span><span class="si">}</span><span class="s2">,</span><span class="si">{</span><span class="n">hdi</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">&lt;.4f</span><span class="si">}</span><span class="s2">]"</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">"-"</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">summary</span><span class="p">))</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">summary</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">""</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">"μ = 1/λ Posterior:"</span><span class="p">)</span>
-<span class="n">hdi</span> <span class="o">=</span> <span class="n">az</span><span class="o">.</span><span class="n">hdi</span><span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">samples</span><span class="p">,</span> <span class="n">hdi_prob</span><span class="o">=</span><span class="mf">0.95</span><span class="p">)</span>
+<span class="n">hdi</span> <span class="o">=</span> <span class="n">az</span><span class="o">.</span><span class="n">hdi</span><span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">samples</span><span class="p">,</span> <span class="n">prob</span><span class="o">=</span><span class="mf">0.95</span><span class="p">)</span>
 <span class="n">summary</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"Posterior Mean: </span><span class="si">{</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">samples</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">&lt;.4f</span><span class="si">}</span><span class="s2">   Posterior SD: </span><span class="si">{</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">samples</span><span class="p">)</span><span class="o">.</span><span class="n">std</span><span class="p">()</span><span class="si">:</span><span class="s2">&lt;.4f</span><span class="si">}</span><span class="s2">   HDI Bounds[</span><span class="si">{</span><span class="n">hdi</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">&lt;.4f</span><span class="si">}</span><span class="s2">,</span><span class="si">{</span><span class="n">hdi</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">&lt;.4f</span><span class="si">}</span><span class="s2">]"</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">"-"</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">summary</span><span class="p">))</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">summary</span><span class="p">)</span>
@@ -996,16 +993,15 @@ f(y\vert \lambda) = \prod_{\{i\vert y_{i} &lt; T_{i}\}}\lambda \exp\big\{-\lambd
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>λ Posterior:
 -------------------------------------------------------------------------
-Posterior Mean: 0.0228   Posterior SD: 0.0086   HDI Bounds[0.0078,0.0400]
+Posterior Mean: 0.0228   Posterior SD: 0.0086   HDI Bounds[0.0080,0.0400]
 
 μ = 1/λ Posterior:
 -----------------------------------------------------------------------------
-Posterior Mean: 51.2348   Posterior SD: 22.9443   HDI Bounds[19.2470,95.1005]
+Posterior Mean: 51.1710   Posterior SD: 22.7014   HDI Bounds[19.6744,95.5234]
 </pre></div>
 </div>
 </div>
 </div>
-<p>The results closely match what we found using PyMC.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">load_ext</span> watermark
@@ -1014,17 +1010,17 @@ Posterior Mean: 51.2348   Posterior SD: 22.9443   HDI Bounds[19.2470,95.1005]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Wed Jun 11 2025
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Sun, 18 Oct 2026
 
 Python implementation: CPython
-Python version       : 3.13.3
-IPython version      : 9.2.0
+Python version       : 3.14.7
+IPython version      : 9.16.1
 
-pytensor: 2.30.3
+pytensor: 3.3.0
 
-numpy: 2.2.6
-pymc : 5.22.0
-arviz: 0.21.0
+arviz: 1.3.0
+numpy: 2.4.6
+pymc : 6.3.1
 </pre></div>
 </div>
 </div>
@@ -1104,7 +1100,7 @@ arviz: 0.21.0
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#results-of-a-life-test-on-ten-pieces-of-equipment">Results of a life test on ten pieces of equipment</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-bayesian-approach-two-ways">A Bayesian Approach : Two Ways</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#imputing-censored-points">Imputing Censored Points</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#the-conjugate-prior-approach">The Conjugate Prior Approach:</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#the-conjugate-prior-approach">The Conjugate Prior Approach</a></li>
 </ul>
 </li>
 </ul>
