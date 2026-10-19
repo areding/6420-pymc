@@ -619,10 +619,13 @@
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pymc</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pm</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">arviz</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">az</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">arviz_plots</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">azp</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">itertools</span><span class="w"> </span><span class="kn">import</span> <span class="n">combinations</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pytensor.tensor</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pt</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pytensor.tensor.variable</span><span class="w"> </span><span class="kn">import</span> <span class="n">TensorVariable</span>
+
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">6420</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -686,7 +689,7 @@
     <span class="n">twofour</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">"α2-α4"</span><span class="p">,</span> <span class="n">alpha</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">alpha</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
     <span class="n">threefour</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">"α3-α4"</span><span class="p">,</span> <span class="n">alpha</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="n">alpha</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
 
-    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">5000</span><span class="p">)</span>
+    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">5000</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -696,16 +699,11 @@
 <p class="expanded admonition-title">Hide code cell output</p>
 </summary>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Initializing NUTS using jitter+adapt_diag...
-Multiprocess sampling (4 chains in 4 jobs)
-NUTS: [mu_0, tau, alpha]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>NUTS[nutpie]: [mu_0, tau, alpha]
 </pre></div>
 </div>
-<script type="application/vnd.jupyter.widget-view+json">{"model_id": "b8337e4e8b7149949788b160a29f2d36", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 5_000 draw iterations (4_000 + 20_000 draws total) took 2 seconds.
-</pre></div>
-</div>
-</div>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "7d9b91aa92d0409b95818ba247024cbd", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
+</div></div>
 </details>
 </div>
 <div class="cell docutils container">
@@ -715,141 +713,118 @@ NUTS: [mu_0, tau, alpha]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
+<div class="output text_html"><table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
       <th></th>
       <th>mean</th>
       <th>sd</th>
-      <th>hdi_3%</th>
-      <th>hdi_97%</th>
+      <th>eti89_lb</th>
+      <th>eti89_ub</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <th>mu_0</th>
-      <td>64.001</td>
-      <td>0.523</td>
-      <td>63.034</td>
-      <td>65.003</td>
+      <td>64</td>
+      <td>0.53</td>
+      <td>63</td>
+      <td>65</td>
     </tr>
     <tr>
       <th>tau</th>
-      <td>0.179</td>
-      <td>0.057</td>
-      <td>0.079</td>
-      <td>0.284</td>
+      <td>0.18</td>
+      <td>0.056</td>
+      <td>0.098</td>
+      <td>0.28</td>
     </tr>
     <tr>
       <th>alpha[0]</th>
-      <td>-2.955</td>
-      <td>1.021</td>
-      <td>-4.934</td>
-      <td>-1.104</td>
+      <td>-3</td>
+      <td>1</td>
+      <td>-4.6</td>
+      <td>-1.3</td>
     </tr>
     <tr>
       <th>alpha[1]</th>
-      <td>1.980</td>
-      <td>0.878</td>
-      <td>0.313</td>
-      <td>3.634</td>
+      <td>2</td>
+      <td>0.88</td>
+      <td>0.57</td>
+      <td>3.4</td>
     </tr>
     <tr>
       <th>alpha[2]</th>
-      <td>3.954</td>
-      <td>0.895</td>
-      <td>2.245</td>
-      <td>5.608</td>
+      <td>4</td>
+      <td>0.88</td>
+      <td>2.6</td>
+      <td>5.3</td>
     </tr>
     <tr>
       <th>alpha[3]</th>
-      <td>-2.979</td>
-      <td>0.800</td>
-      <td>-4.520</td>
-      <td>-1.491</td>
+      <td>-3</td>
+      <td>0.81</td>
+      <td>-4.3</td>
+      <td>-1.7</td>
     </tr>
     <tr>
       <th>α1-α2</th>
-      <td>-4.935</td>
-      <td>1.597</td>
-      <td>-7.996</td>
-      <td>-1.997</td>
+      <td>-4.9</td>
+      <td>1.6</td>
+      <td>-7.5</td>
+      <td>-2.4</td>
     </tr>
     <tr>
       <th>α1-α3</th>
-      <td>-6.909</td>
-      <td>1.608</td>
-      <td>-9.875</td>
-      <td>-3.832</td>
+      <td>-6.9</td>
+      <td>1.6</td>
+      <td>-9.4</td>
+      <td>-4.4</td>
     </tr>
     <tr>
       <th>α1-α4</th>
-      <td>0.025</td>
-      <td>1.511</td>
-      <td>-2.750</td>
-      <td>2.953</td>
+      <td>0.0053</td>
+      <td>1.5</td>
+      <td>-2.4</td>
+      <td>2.4</td>
     </tr>
     <tr>
       <th>α2-α3</th>
-      <td>-1.974</td>
-      <td>1.436</td>
-      <td>-4.607</td>
-      <td>0.820</td>
+      <td>-2</td>
+      <td>1.4</td>
+      <td>-4.2</td>
+      <td>0.25</td>
     </tr>
     <tr>
       <th>α2-α4</th>
-      <td>4.959</td>
-      <td>1.312</td>
-      <td>2.456</td>
-      <td>7.417</td>
+      <td>4.9</td>
+      <td>1.3</td>
+      <td>2.8</td>
+      <td>7</td>
     </tr>
     <tr>
       <th>α3-α4</th>
-      <td>6.934</td>
-      <td>1.344</td>
-      <td>4.397</td>
-      <td>9.484</td>
+      <td>6.9</td>
+      <td>1.3</td>
+      <td>4.8</td>
+      <td>9</td>
     </tr>
   </tbody>
-</table>
-</div></div></div>
+</table></div></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">axes</span> <span class="o">=</span> <span class="n">az</span><span class="o">.</span><span class="n">plot_forest</span><span class="p">(</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pc</span> <span class="o">=</span> <span class="n">azp</span><span class="o">.</span><span class="n">plot_ridge</span><span class="p">(</span>
     <span class="n">trace</span><span class="p">,</span>
-    <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s2">"~mu_0"</span><span class="p">,</span> <span class="s2">"~tau"</span><span class="p">],</span>
-    <span class="n">kind</span><span class="o">=</span><span class="s2">"ridgeplot"</span><span class="p">,</span>
+    <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s2">"alpha"</span><span class="p">,</span> <span class="s2">"α1-α2"</span><span class="p">,</span> <span class="s2">"α1-α3"</span><span class="p">,</span> <span class="s2">"α1-α4"</span><span class="p">,</span> <span class="s2">"α2-α3"</span><span class="p">,</span> <span class="s2">"α2-α4"</span><span class="p">,</span> <span class="s2">"α3-α4"</span><span class="p">],</span>
     <span class="n">combined</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">ridgeplot_truncate</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-    <span class="n">ridgeplot_overlap</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
-    <span class="n">ridgeplot_alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span>
-    <span class="n">colors</span><span class="o">=</span><span class="s2">"white"</span><span class="p">,</span>
+    <span class="n">ridge_height</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span>
 <span class="p">)</span>
-
-<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">"Ridgeplot of $</span><span class="se">\\</span><span class="s2">alpha$ and contrasts"</span><span class="p">)</span>
+<span class="n">pc</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, 'Ridgeplot of $\\alpha$ and contrasts')
-</pre></div>
-</div>
-<img alt="../_images/8719b17c11a6b4a09ce826cfb949074c4528201b1c202ac887f0ef6f62b46caf.png" src="../_images/8719b17c11a6b4a09ce826cfb949074c4528201b1c202ac887f0ef6f62b46caf.png" />
+<img alt="../_images/0ea56180ab837c92353df454d754ecc5837fb28ee73e36618df60ca8f41d95b7.png" src="../_images/0ea56180ab837c92353df454d754ecc5837fb28ee73e36618df60ca8f41d95b7.png" />
 </div>
 </div>
 <p>Another downside to this method is how <code class="docutils literal notranslate"><span class="pre">pm.model_to_graphviz</span></code> comes out.</p>
@@ -860,7 +835,7 @@ NUTS: [mu_0, tau, alpha]
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/682e67503dfc6addf5e6356571b4bee33048805f7eb9234fcc3349229fdd0170.svg" src="../_images/682e67503dfc6addf5e6356571b4bee33048805f7eb9234fcc3349229fdd0170.svg" />
+<img alt="../_images/5e9577d9432c2b30dd72f73fd83b8a967589edc0b36333d938ba51827238c732.svg" src="../_images/5e9577d9432c2b30dd72f73fd83b8a967589edc0b36333d938ba51827238c732.svg" />
 </div>
 </div>
 </section>
@@ -912,7 +887,7 @@ NUTS: [mu_0, tau, alpha]
 <span class="w">    </span><span class="sd">"""Builds out a matrix of which pair-wise differences to perform along with names to assign each contrast"""</span>
     <span class="n">names</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">num_pairs</span> <span class="o">=</span> <span class="p">(</span><span class="n">groups</span> <span class="o">*</span> <span class="p">(</span><span class="n">groups</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span> <span class="o">//</span> <span class="mi">2</span>
-    <span class="n">matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">num_pairs</span><span class="p">,</span> <span class="n">groups</span><span class="p">))</span>
+    <span class="n">matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">num_pairs</span><span class="p">,</span> <span class="n">groups</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">pair_idx</span><span class="p">,</span> <span class="p">(</span><span class="n">g1</span><span class="p">,</span> <span class="n">g2</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">combinations</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">groups</span><span class="p">),</span> <span class="mi">2</span><span class="p">)):</span>
         <span class="n">matrix</span><span class="p">[</span><span class="n">pair_idx</span><span class="p">,</span> <span class="n">g1</span><span class="p">],</span> <span class="n">matrix</span><span class="p">[</span><span class="n">pair_idx</span><span class="p">,</span> <span class="n">g2</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span>
         <span class="k">if</span> <span class="n">group_labels</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -923,14 +898,14 @@ NUTS: [mu_0, tau, alpha]
 
 
 <span class="n">pairwise_contrast_matrix</span><span class="p">,</span> <span class="n">contrast_labels</span> <span class="o">=</span> <span class="n">pairwise_contrasts_v1</span><span class="p">(</span>
-    <span class="mi">4</span><span class="p">,</span> <span class="n">diet</span><span class="p">,</span> <span class="s2">"αlpha"</span>
+    <span class="mi">4</span><span class="p">,</span> <span class="n">diet</span><span class="p">,</span> <span class="s2">"alpha"</span>
 <span class="p">)</span>
 
 <span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">coords</span><span class="o">=</span><span class="p">{</span><span class="s2">"diets"</span><span class="p">:</span> <span class="n">diet</span><span class="p">,</span> <span class="s2">"contrast_labels"</span><span class="p">:</span> <span class="n">contrast_labels</span><span class="p">})</span> <span class="k">as</span> <span class="n">m1</span><span class="p">:</span>
     <span class="n">mu0</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">"mu[0]"</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">)</span>
     <span class="n">tau</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Gamma</span><span class="p">(</span><span class="s2">"tau"</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">)</span>
 
-    <span class="n">alphas</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">ZeroSumNormal</span><span class="p">(</span><span class="s2">"αlpha"</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="s2">"diets"</span><span class="p">)</span>
+    <span class="n">alphas</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">ZeroSumNormal</span><span class="p">(</span><span class="s2">"alpha"</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="s2">"diets"</span><span class="p">)</span>
     <span class="n">mus</span> <span class="o">=</span> <span class="n">mu0</span> <span class="o">+</span> <span class="n">alphas</span>
     <span class="c1"># Index each mus similar to how is done in the Simvastatin Example</span>
     <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">"Likelihood"</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mus</span><span class="p">[</span><span class="n">diets_idx</span><span class="p">],</span> <span class="n">tau</span><span class="o">=</span><span class="n">tau</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s2">"times"</span><span class="p">])</span>
@@ -946,127 +921,107 @@ NUTS: [mu_0, tau, alpha]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Initializing NUTS using jitter+adapt_diag...
-Multiprocess sampling (4 chains in 4 jobs)
-NUTS: [mu[0], tau, αlpha]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>NUTS[nutpie]: [mu[0], tau, alpha]
 </pre></div>
 </div>
-<script type="application/vnd.jupyter.widget-view+json">{"model_id": "25f2b58b7b8b4cbe8af6508df810b45d", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 5_000 draw iterations (4_000 + 20_000 draws total) took 2 seconds.
-</pre></div>
-</div>
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "a8a6f30fda06452fb5942c7f580bc018", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
+</div><div class="output text_html"><table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
       <th></th>
       <th>mean</th>
       <th>sd</th>
-      <th>hdi_3%</th>
-      <th>hdi_97%</th>
+      <th>eti89_lb</th>
+      <th>eti89_ub</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <th>mu[0]</th>
-      <td>64.007</td>
-      <td>0.521</td>
-      <td>63.060</td>
-      <td>65.034</td>
+      <td>64</td>
+      <td>0.52</td>
+      <td>63</td>
+      <td>65</td>
     </tr>
     <tr>
       <th>tau</th>
-      <td>0.178</td>
+      <td>0.18</td>
       <td>0.057</td>
-      <td>0.078</td>
-      <td>0.285</td>
+      <td>0.1</td>
+      <td>0.28</td>
     </tr>
     <tr>
-      <th>αlpha[1]</th>
-      <td>-2.942</td>
-      <td>1.026</td>
-      <td>-4.910</td>
-      <td>-1.056</td>
+      <th>alpha[1]</th>
+      <td>-2.9</td>
+      <td>1</td>
+      <td>-4.5</td>
+      <td>-1.4</td>
     </tr>
     <tr>
-      <th>αlpha[2]</th>
-      <td>1.974</td>
-      <td>0.883</td>
-      <td>0.232</td>
-      <td>3.579</td>
+      <th>alpha[2]</th>
+      <td>2</td>
+      <td>0.88</td>
+      <td>0.57</td>
+      <td>3.3</td>
     </tr>
     <tr>
-      <th>αlpha[3]</th>
-      <td>3.951</td>
-      <td>0.888</td>
-      <td>2.232</td>
-      <td>5.578</td>
+      <th>alpha[3]</th>
+      <td>4</td>
+      <td>0.87</td>
+      <td>2.6</td>
+      <td>5.3</td>
     </tr>
     <tr>
-      <th>αlpha[4]</th>
-      <td>-2.983</td>
-      <td>0.820</td>
-      <td>-4.512</td>
-      <td>-1.427</td>
+      <th>alpha[4]</th>
+      <td>-3</td>
+      <td>0.81</td>
+      <td>-4.3</td>
+      <td>-1.7</td>
     </tr>
     <tr>
-      <th>Contrast[αlpha[1] - αlpha[2]]</th>
-      <td>-4.916</td>
-      <td>1.601</td>
-      <td>-7.969</td>
-      <td>-1.978</td>
+      <th>Contrast[alpha[1] - alpha[2]]</th>
+      <td>-4.9</td>
+      <td>1.6</td>
+      <td>-7.4</td>
+      <td>-2.4</td>
     </tr>
     <tr>
-      <th>Contrast[αlpha[1] - αlpha[3]]</th>
-      <td>-6.893</td>
-      <td>1.605</td>
-      <td>-9.947</td>
-      <td>-3.891</td>
+      <th>Contrast[alpha[1] - alpha[3]]</th>
+      <td>-6.9</td>
+      <td>1.6</td>
+      <td>-9.4</td>
+      <td>-4.4</td>
     </tr>
     <tr>
-      <th>Contrast[αlpha[1] - αlpha[4]]</th>
-      <td>0.040</td>
-      <td>1.538</td>
-      <td>-2.807</td>
-      <td>2.957</td>
+      <th>Contrast[alpha[1] - alpha[4]]</th>
+      <td>0.025</td>
+      <td>1.5</td>
+      <td>-2.4</td>
+      <td>2.4</td>
     </tr>
     <tr>
-      <th>Contrast[αlpha[2] - αlpha[3]]</th>
-      <td>-1.977</td>
-      <td>1.433</td>
-      <td>-4.833</td>
-      <td>0.600</td>
+      <th>Contrast[alpha[2] - alpha[3]]</th>
+      <td>-2</td>
+      <td>1.4</td>
+      <td>-4.3</td>
+      <td>0.27</td>
     </tr>
     <tr>
-      <th>Contrast[αlpha[2] - αlpha[4]]</th>
-      <td>4.957</td>
-      <td>1.341</td>
-      <td>2.493</td>
-      <td>7.583</td>
+      <th>Contrast[alpha[2] - alpha[4]]</th>
+      <td>4.9</td>
+      <td>1.3</td>
+      <td>2.8</td>
+      <td>7.1</td>
     </tr>
     <tr>
-      <th>Contrast[αlpha[3] - αlpha[4]]</th>
-      <td>6.934</td>
-      <td>1.351</td>
-      <td>4.364</td>
-      <td>9.481</td>
+      <th>Contrast[alpha[3] - alpha[4]]</th>
+      <td>6.9</td>
+      <td>1.3</td>
+      <td>4.8</td>
+      <td>9</td>
     </tr>
   </tbody>
-</table>
-</div></div></div>
+</table></div></div>
 </div>
 </section>
 </section>
@@ -1133,7 +1088,7 @@ A \backslash \alpha
     <span class="n">mu0</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">"mu[0]"</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">)</span>
     <span class="n">tau</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Gamma</span><span class="p">(</span><span class="s2">"tau"</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">)</span>
 
-    <span class="n">alphas</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">ZeroSumNormal</span><span class="p">(</span><span class="s2">"αlpha"</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="s2">"diets"</span><span class="p">)</span>
+    <span class="n">alphas</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">ZeroSumNormal</span><span class="p">(</span><span class="s2">"alpha"</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="s2">"diets"</span><span class="p">)</span>
     <span class="n">mus</span> <span class="o">=</span> <span class="n">mu0</span> <span class="o">+</span> <span class="n">alphas</span>
     <span class="c1"># Index each mus similar to how is done in the Simvastatin Example</span>
     <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">"Likelihood"</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mus</span><span class="p">[</span><span class="n">diets_idx</span><span class="p">],</span> <span class="n">tau</span><span class="o">=</span><span class="n">tau</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s2">"times"</span><span class="p">])</span>
@@ -1145,16 +1100,11 @@ A \backslash \alpha
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Initializing NUTS using jitter+adapt_diag...
-Multiprocess sampling (4 chains in 4 jobs)
-NUTS: [mu[0], tau, αlpha]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>NUTS[nutpie]: [mu[0], tau, alpha]
 </pre></div>
 </div>
-<script type="application/vnd.jupyter.widget-view+json">{"model_id": "ad0d94d714e4489293ba279c66bf78ea", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 5_000 draw iterations (4_000 + 20_000 draws total) took 2 seconds.
-</pre></div>
-</div>
-</div>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "0e5e56297f104c6cbe778d666a6c9386", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
+</div></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1163,118 +1113,103 @@ NUTS: [mu[0], tau, αlpha]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
+<div class="output text_html"><table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
       <th></th>
       <th>mean</th>
       <th>sd</th>
-      <th>hdi_3%</th>
-      <th>hdi_97%</th>
+      <th>eti89_lb</th>
+      <th>eti89_ub</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <th>mu[0]</th>
-      <td>64.001</td>
-      <td>0.522</td>
-      <td>63.023</td>
-      <td>64.996</td>
+      <td>64</td>
+      <td>0.53</td>
+      <td>63</td>
+      <td>65</td>
     </tr>
     <tr>
       <th>tau</th>
-      <td>0.179</td>
+      <td>0.18</td>
       <td>0.057</td>
-      <td>0.082</td>
-      <td>0.290</td>
+      <td>0.098</td>
+      <td>0.28</td>
     </tr>
     <tr>
-      <th>αlpha[1]</th>
-      <td>-2.961</td>
-      <td>1.015</td>
-      <td>-4.838</td>
-      <td>-1.029</td>
+      <th>alpha[1]</th>
+      <td>-3</td>
+      <td>1</td>
+      <td>-4.6</td>
+      <td>-1.3</td>
     </tr>
     <tr>
-      <th>αlpha[2]</th>
-      <td>1.974</td>
-      <td>0.892</td>
-      <td>0.283</td>
-      <td>3.653</td>
+      <th>alpha[2]</th>
+      <td>2</td>
+      <td>0.88</td>
+      <td>0.57</td>
+      <td>3.4</td>
     </tr>
     <tr>
-      <th>αlpha[3]</th>
-      <td>3.971</td>
-      <td>0.885</td>
-      <td>2.318</td>
-      <td>5.639</td>
+      <th>alpha[3]</th>
+      <td>4</td>
+      <td>0.9</td>
+      <td>2.5</td>
+      <td>5.4</td>
     </tr>
     <tr>
-      <th>αlpha[4]</th>
-      <td>-2.984</td>
-      <td>0.816</td>
-      <td>-4.471</td>
-      <td>-1.376</td>
+      <th>alpha[4]</th>
+      <td>-3</td>
+      <td>0.81</td>
+      <td>-4.3</td>
+      <td>-1.7</td>
     </tr>
     <tr>
       <th>Contrast[alpha[1] - alpha[2]]</th>
-      <td>-4.935</td>
-      <td>1.599</td>
-      <td>-8.029</td>
-      <td>-1.963</td>
+      <td>-4.9</td>
+      <td>1.6</td>
+      <td>-7.5</td>
+      <td>-2.4</td>
     </tr>
     <tr>
       <th>Contrast[alpha[1] - alpha[3]]</th>
-      <td>-6.932</td>
-      <td>1.588</td>
-      <td>-9.984</td>
-      <td>-4.020</td>
+      <td>-6.9</td>
+      <td>1.6</td>
+      <td>-9.5</td>
+      <td>-4.3</td>
     </tr>
     <tr>
       <th>Contrast[alpha[1] - alpha[4]]</th>
-      <td>0.023</td>
-      <td>1.523</td>
-      <td>-2.723</td>
-      <td>2.996</td>
+      <td>0.02</td>
+      <td>1.5</td>
+      <td>-2.4</td>
+      <td>2.5</td>
     </tr>
     <tr>
       <th>Contrast[alpha[2] - alpha[3]]</th>
-      <td>-1.997</td>
-      <td>1.443</td>
-      <td>-4.723</td>
-      <td>0.670</td>
+      <td>-2</td>
+      <td>1.4</td>
+      <td>-4.2</td>
+      <td>0.29</td>
     </tr>
     <tr>
       <th>Contrast[alpha[2] - alpha[4]]</th>
-      <td>4.958</td>
-      <td>1.349</td>
-      <td>2.325</td>
-      <td>7.469</td>
+      <td>5</td>
+      <td>1.3</td>
+      <td>2.9</td>
+      <td>7.1</td>
     </tr>
     <tr>
       <th>Contrast[alpha[3] - alpha[4]]</th>
-      <td>6.955</td>
-      <td>1.343</td>
-      <td>4.487</td>
-      <td>9.546</td>
+      <td>6.9</td>
+      <td>1.4</td>
+      <td>4.8</td>
+      <td>9.1</td>
     </tr>
   </tbody>
-</table>
-</div></div></div>
+</table></div></div>
 </div>
 <p>Both of these methods make nicer model diagrams as well as seen below from the pm.model_to_graphviz output.</p>
 <div class="cell docutils container">
@@ -1284,7 +1219,7 @@ NUTS: [mu[0], tau, αlpha]
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/83eac85803635f3de4bcb50ebc7d537dd670f6082fb95ddfd8f7fdd3c9da4588.svg" src="../_images/83eac85803635f3de4bcb50ebc7d537dd670f6082fb95ddfd8f7fdd3c9da4588.svg" />
+<img alt="../_images/b6261e2c1970172411a374e82d0d24e0ed0ce2d4288fae78b0ea2c36e88e4073.svg" src="../_images/b6261e2c1970172411a374e82d0d24e0ed0ce2d4288fae78b0ea2c36e88e4073.svg" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1295,19 +1230,20 @@ NUTS: [mu[0], tau, αlpha]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Tue Nov 25 2025
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Sun, 18 Oct 2026
 
 Python implementation: CPython
-Python version       : 3.13.8
-IPython version      : 9.6.0
+Python version       : 3.14.7
+IPython version      : 9.16.1
 
-pytensor: 2.28.3
+pytensor: 3.3.0
 
-pandas  : 2.3.3
-arviz   : 0.22.0
-numpy   : 2.3.3
-pymc    : 5.21.1
-pytensor: 2.28.3
+arviz      : 1.3.0
+arviz_plots: 1.3.1
+numpy      : 2.4.6
+pandas     : 3.0.5
+pymc       : 6.3.1
+pytensor   : 3.3.0
 </pre></div>
 </div>
 </div>
