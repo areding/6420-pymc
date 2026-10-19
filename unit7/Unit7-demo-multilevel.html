@@ -62,6 +62,8 @@
     <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'unit7/Unit7-demo-multilevel';</script>
     <link rel="icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -613,6 +615,8 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">arviz</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">az</span>
+
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">6420</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -642,7 +646,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;class 'pandas.core.frame.DataFrame'&gt;
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;class 'pandas.DataFrame'&gt;
 RangeIndex: 3424 entries, 0 to 3423
 Data columns (total 8 columns):
  #   Column    Non-Null Count  Dtype
@@ -703,11 +707,11 @@ memory usage: 214.1 KB
     <span class="n">cluster_effect</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span>
         <span class="s2">"cluster_effect"</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="n">cluster_tau</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="s2">"cluster"</span>
     <span class="p">)</span>
-    <span class="n">p</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">X_data</span><span class="p">,</span> <span class="n">beta</span><span class="p">)</span> <span class="o">+</span> <span class="n">cluster_effect</span><span class="p">[</span><span class="n">clust_idx</span><span class="p">]</span>
+    <span class="n">logit_p</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">X_data</span><span class="p">,</span> <span class="n">beta</span><span class="p">)</span> <span class="o">+</span> <span class="n">cluster_effect</span><span class="p">[</span><span class="n">clust_idx</span><span class="p">]</span>
 
-    <span class="n">pm</span><span class="o">.</span><span class="n">Bernoulli</span><span class="p">(</span><span class="s2">"likelihood"</span><span class="p">,</span> <span class="n">logit_p</span><span class="o">=</span><span class="n">p</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">y_data</span><span class="p">)</span>
+    <span class="n">pm</span><span class="o">.</span><span class="n">Bernoulli</span><span class="p">(</span><span class="s2">"likelihood"</span><span class="p">,</span> <span class="n">logit_p</span><span class="o">=</span><span class="n">logit_p</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">y_data</span><span class="p">)</span>
 
-    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">3000</span><span class="p">)</span>
+    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">3000</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -717,115 +721,89 @@ memory usage: 214.1 KB
 <p class="expanded admonition-title">Hide code cell output</p>
 </summary>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Auto-assigning NUTS sampler...
-Initializing NUTS using jitter+adapt_diag...
-Multiprocess sampling (4 chains in 4 jobs)
-NUTS: [cluster_tau, beta, cluster_effect]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>NUTS[nutpie]: [cluster_tau, beta, cluster_effect]
 </pre></div>
 </div>
-<script type="application/vnd.jupyter.widget-view+json">{"model_id": "54e17c2ccdad4b5f9f1453036afd0dcf", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 3_000 draw iterations (4_000 + 12_000 draws total) took 21 seconds.
-</pre></div>
-</div>
-</div>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "805d9e0021f44869a76d0967db7f4672", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
+</div></div>
 </details>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span>
-    <span class="n">trace</span><span class="p">,</span>
-    <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s2">"beta"</span><span class="p">,</span> <span class="s2">"cluster_variance"</span><span class="p">],</span>
-    <span class="n">filter_vars</span><span class="o">=</span><span class="s2">"like"</span><span class="p">,</span>
-    <span class="n">kind</span><span class="o">=</span><span class="s2">"stats"</span><span class="p">,</span>
-<span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s2">"beta"</span><span class="p">,</span> <span class="s2">"cluster_variance"</span><span class="p">],</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"stats"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
+<div class="output text_html"><table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
       <th></th>
       <th>mean</th>
       <th>sd</th>
-      <th>hdi_3%</th>
-      <th>hdi_97%</th>
+      <th>eti89_lb</th>
+      <th>eti89_ub</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <th>beta[0]</th>
-      <td>1.445</td>
-      <td>0.130</td>
-      <td>1.206</td>
-      <td>1.694</td>
+      <td>1.4</td>
+      <td>0.13</td>
+      <td>1.2</td>
+      <td>1.7</td>
     </tr>
     <tr>
       <th>beta[1]</th>
-      <td>-0.071</td>
+      <td>-0.07</td>
       <td>0.015</td>
-      <td>-0.099</td>
-      <td>-0.043</td>
+      <td>-0.093</td>
+      <td>-0.047</td>
     </tr>
     <tr>
       <th>beta[2]</th>
-      <td>-0.566</td>
-      <td>0.204</td>
-      <td>-0.939</td>
-      <td>-0.175</td>
+      <td>-0.56</td>
+      <td>0.2</td>
+      <td>-0.89</td>
+      <td>-0.24</td>
     </tr>
     <tr>
       <th>beta[3]</th>
-      <td>-0.196</td>
+      <td>-0.2</td>
       <td>0.095</td>
-      <td>-0.370</td>
-      <td>-0.017</td>
+      <td>-0.35</td>
+      <td>-0.044</td>
     </tr>
     <tr>
       <th>beta[4]</th>
-      <td>-0.693</td>
-      <td>0.133</td>
-      <td>-0.943</td>
-      <td>-0.444</td>
+      <td>-0.7</td>
+      <td>0.14</td>
+      <td>-0.91</td>
+      <td>-0.48</td>
     </tr>
     <tr>
       <th>beta[5]</th>
-      <td>-0.285</td>
-      <td>0.110</td>
-      <td>-0.483</td>
-      <td>-0.069</td>
+      <td>-0.29</td>
+      <td>0.11</td>
+      <td>-0.46</td>
+      <td>-0.11</td>
     </tr>
     <tr>
       <th>beta[6]</th>
-      <td>-0.621</td>
+      <td>-0.62</td>
       <td>0.098</td>
-      <td>-0.802</td>
-      <td>-0.428</td>
+      <td>-0.78</td>
+      <td>-0.47</td>
     </tr>
     <tr>
       <th>cluster_variance</th>
-      <td>0.529</td>
+      <td>0.53</td>
       <td>0.094</td>
-      <td>0.364</td>
-      <td>0.711</td>
+      <td>0.39</td>
+      <td>0.68</td>
     </tr>
   </tbody>
-</table>
-</div></div></div>
+</table></div></div>
 </div>
 <p>This was originally based on this <a class="reference external" href="https://oriolabrilpla.cat/python/arviz/pymc3/xarray/2020/09/22/pymc3-arviz.html">old coordinates example</a>.</p>
 <section id="no-clusters">
@@ -833,16 +811,16 @@ NUTS: [cluster_tau, beta, cluster_effect]
 <div class="cell tag_hide-output docutils container">
 <div class="cell_input above-output-prompt docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">m_nc</span><span class="p">:</span>
-    <span class="n">X_data</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Data</span><span class="p">(</span><span class="s2">"X_data"</span><span class="p">,</span> <span class="n">X_aug</span><span class="p">,</span> <span class="n">mutable</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">y_data</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Data</span><span class="p">(</span><span class="s2">"y_data"</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">mutable</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">X_data</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Data</span><span class="p">(</span><span class="s2">"X_data"</span><span class="p">,</span> <span class="n">X_aug</span><span class="p">)</span>
+    <span class="n">y_data</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Data</span><span class="p">(</span><span class="s2">"y_data"</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
 
     <span class="n">beta</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">"beta"</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="n">cols</span><span class="p">)</span>
 
-    <span class="n">p</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">X_data</span><span class="p">,</span> <span class="n">beta</span><span class="p">)</span>
+    <span class="n">logit_p</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">X_data</span><span class="p">,</span> <span class="n">beta</span><span class="p">)</span>
 
-    <span class="n">pm</span><span class="o">.</span><span class="n">Bernoulli</span><span class="p">(</span><span class="s2">"likelihood"</span><span class="p">,</span> <span class="n">logit_p</span><span class="o">=</span><span class="n">p</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">y_data</span><span class="p">)</span>
+    <span class="n">pm</span><span class="o">.</span><span class="n">Bernoulli</span><span class="p">(</span><span class="s2">"likelihood"</span><span class="p">,</span> <span class="n">logit_p</span><span class="o">=</span><span class="n">logit_p</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">y_data</span><span class="p">)</span>
 
-    <span class="n">trace_nc</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">3000</span><span class="p">)</span>
+    <span class="n">trace_nc</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">3000</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -852,110 +830,82 @@ NUTS: [cluster_tau, beta, cluster_effect]
 <p class="expanded admonition-title">Hide code cell output</p>
 </summary>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/aaron/miniforge3/envs/pymc_macos15/lib/python3.12/site-packages/pymc/data.py:440: FutureWarning: Data is now always mutable. Specifying the `mutable` kwarg will raise an error in a future release
-  warnings.warn(
-Auto-assigning NUTS sampler...
-Initializing NUTS using jitter+adapt_diag...
-Multiprocess sampling (4 chains in 4 jobs)
-NUTS: [beta]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>NUTS[nutpie]: [beta]
 </pre></div>
 </div>
-<script type="application/vnd.jupyter.widget-view+json">{"model_id": "ac20bc92922b43ee816894937779fb1c", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 3_000 draw iterations (4_000 + 12_000 draws total) took 13 seconds.
-</pre></div>
-</div>
-</div>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "5e856bf5c33d4ac3ba50c4b3de63577d", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
+</div></div>
 </details>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span>
-    <span class="n">trace_nc</span><span class="p">,</span>
-    <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s2">"beta"</span><span class="p">,</span> <span class="s2">"cluster_variance"</span><span class="p">],</span>
-    <span class="n">filter_vars</span><span class="o">=</span><span class="s2">"like"</span><span class="p">,</span>
-    <span class="n">kind</span><span class="o">=</span><span class="s2">"stats"</span><span class="p">,</span>
-<span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace_nc</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s2">"beta"</span><span class="p">],</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"stats"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
+<div class="output text_html"><table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
       <th></th>
       <th>mean</th>
       <th>sd</th>
-      <th>hdi_3%</th>
-      <th>hdi_97%</th>
+      <th>eti89_lb</th>
+      <th>eti89_ub</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <th>beta[0]</th>
-      <td>1.429</td>
-      <td>0.107</td>
-      <td>1.227</td>
-      <td>1.631</td>
+      <td>1.4</td>
+      <td>0.11</td>
+      <td>1.3</td>
+      <td>1.6</td>
     </tr>
     <tr>
       <th>beta[1]</th>
       <td>-0.064</td>
       <td>0.014</td>
-      <td>-0.089</td>
-      <td>-0.038</td>
+      <td>-0.085</td>
+      <td>-0.042</td>
     </tr>
     <tr>
       <th>beta[2]</th>
-      <td>-0.565</td>
-      <td>0.193</td>
-      <td>-0.931</td>
-      <td>-0.202</td>
+      <td>-0.57</td>
+      <td>0.19</td>
+      <td>-0.87</td>
+      <td>-0.27</td>
     </tr>
     <tr>
       <th>beta[3]</th>
-      <td>-0.189</td>
-      <td>0.085</td>
-      <td>-0.344</td>
-      <td>-0.024</td>
+      <td>-0.19</td>
+      <td>0.087</td>
+      <td>-0.33</td>
+      <td>-0.047</td>
     </tr>
     <tr>
       <th>beta[4]</th>
-      <td>-0.716</td>
-      <td>0.116</td>
-      <td>-0.934</td>
-      <td>-0.499</td>
+      <td>-0.72</td>
+      <td>0.11</td>
+      <td>-0.9</td>
+      <td>-0.54</td>
     </tr>
     <tr>
       <th>beta[5]</th>
-      <td>-0.451</td>
-      <td>0.089</td>
-      <td>-0.622</td>
-      <td>-0.290</td>
+      <td>-0.45</td>
+      <td>0.088</td>
+      <td>-0.59</td>
+      <td>-0.31</td>
     </tr>
     <tr>
       <th>beta[6]</th>
-      <td>-0.607</td>
+      <td>-0.61</td>
       <td>0.084</td>
-      <td>-0.764</td>
-      <td>-0.446</td>
+      <td>-0.74</td>
+      <td>-0.47</td>
     </tr>
   </tbody>
-</table>
-</div></div></div>
+</table></div></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -965,18 +915,18 @@ NUTS: [beta]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Sat Nov 09 2024
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Sun, 18 Oct 2026
 
 Python implementation: CPython
-Python version       : 3.12.7
-IPython version      : 8.29.0
+Python version       : 3.14.7
+IPython version      : 9.16.1
 
-pytensor: 2.26.0
+pytensor: 3.3.0
 
-arviz : 0.20.0
-pymc  : 5.18.0
-pandas: 2.2.3
-numpy : 1.26.4
+arviz : 1.3.0
+numpy : 2.4.6
+pandas: 3.0.5
+pymc  : 6.3.1
 </pre></div>
 </div>
 </div>
