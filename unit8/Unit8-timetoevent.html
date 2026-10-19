@@ -641,7 +641,7 @@
 <ul class="simple">
 <li><p>Cumulative Distribution Function (CDF): <span class="math notranslate nohighlight">\(F(t) = P(T \le t)\)</span>, probability event occurs by time <span class="math notranslate nohighlight">\(t\)</span>.</p></li>
 <li><p>Survival Function: <span class="math notranslate nohighlight">\(S(t) = P(T &gt; t) = 1 - F(t)\)</span>, probability event has not occurred by time <span class="math notranslate nohighlight">\(t\)</span>.</p></li>
-<li><p>Probability Density Function (PDF): <span class="math notranslate nohighlight">\(f(t) = \frac{d}{dt}F(t) = -\frac{d}{dt}S(t)\)</span>, instantaneous rate of event at time <span class="math notranslate nohighlight">\(t\)</span>.</p></li>
+<li><p>Probability Density Function (PDF): <span class="math notranslate nohighlight">\(f(t) = \frac{d}{dt}F(t) = -\frac{d}{dt}S(t)\)</span>, concentration of event times near/around time <span class="math notranslate nohighlight">\(t\)</span>.</p></li>
 <li><p>Hazard Function (Hazard Rate): <span class="math notranslate nohighlight">\(h(t) = \lim_{\Delta t \to 0} \frac{P(t \le T &lt; t+\Delta t | T \ge t)}{\Delta t}\)</span>. Instantaneous potential for event at <span class="math notranslate nohighlight">\(t\)</span>, given survival up to <span class="math notranslate nohighlight">\(t\)</span>.</p></li>
 </ul>
 <div class="math notranslate nohighlight">
@@ -735,6 +735,10 @@ f_{BUGS}(x|r, \lambda) &amp;= \lambda r x^{r-1} e^{-\lambda x^r} \\
 <li><p><span class="math notranslate nohighlight">\(\delta_i = 0\)</span> if event observed (<span class="math notranslate nohighlight">\(T_i \le C_i\)</span>).</p></li>
 <li><p><span class="math notranslate nohighlight">\(\delta_i = 1\)</span> if censored (<span class="math notranslate nohighlight">\(T_i &gt; C_i\)</span>).</p></li>
 </ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The above definition is flexible - you can define <span class="math notranslate nohighlight">\(\delta_i\)</span> either way, you just have to be careful to keep track of what convention you’re using.</p>
+</div>
 <p>Left-Censoring: Event occurred before time <span class="math notranslate nohighlight">\(C_i\)</span>, exact time unknown (<span class="math notranslate nohighlight">\(T_i &lt; C_i\)</span>).</p>
 <p>Truncation: Differs from censoring. Subjects included only if event time is within a range (e.g., left-truncation: only subjects with <span class="math notranslate nohighlight">\(T_i &gt; T_{start}\)</span> are observed).</p>
 <p>Likelihood with Right-Censoring:</p>

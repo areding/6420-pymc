@@ -604,7 +604,6 @@
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#method-1-pm-censored">Method 1: <code class="docutils literal notranslate"><span class="pre">pm.Censored</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#method-2-pm-potential">Method 2: pm.Potential</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#old-imputed-censoring-method">Old imputed censoring method</a></li>
 </ul>
             </nav>
         </div>
@@ -622,6 +621,8 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pymc</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pm</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pymc.math</span><span class="w"> </span><span class="kn">import</span> <span class="n">exp</span>
+
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">6420</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -632,14 +633,14 @@
 <p>Data can be found <a class="reference external" href="https://raw.githubusercontent.com/areding/6420-pymc/main/data/gastric.txt">here</a>.</p>
 <section id="problem-statement">
 <h2>Problem statement<a class="headerlink" href="#problem-statement" title="Link to this heading">#</a></h2>
-<p><span class="bibtex-citation" id="id1">Stablein, Carter, and Novak [<a class="reference internal" href="../backmatter/bibliography.html#id55" title="Donald M. Stablein, Walter H. Carter, and Joel W. Novak. Analysis of survival data with nonproportional hazard functions. Controlled Clinical Trials, 2(2):149-159, 1981. URL: https://www.sciencedirect.com/science/article/pii/0197245681900052, doi:https://doi.org/10.1016/0197-2456(81)90005-2.">1981</a>]</span> provide data on 90 patients affected by locally advanced, nonresectable gastric carcinoma. The patients are randomized to two treatments: chemotherapy alone (coded as 0) and chemotherapy plus radiation (coded as 1). Survival time is reported in days. Recorded times are censored if the patient stopped participating in the study before it finished.</p>
+<p><span class="bibtex-citation" id="id1">Stablein, Carter, and Novak [<a class="reference internal" href="../backmatter/bibliography.html#id55" title="Donald M. Stablein, Walter H. Carter, and Joel W. Novak. Analysis of survival data with nonproportional hazard functions. Controlled Clinical Trials, 2(2):149-159, 1981. URL: https://www.sciencedirect.com/science/article/pii/0197245681900052, doi:https://doi.org/10.1016/0197-2456(81)90005-2.">1981</a>]</span> provide data on 90 patients affected by locally advanced, nonresectable gastric carcinoma. The patients are randomized to two treatments: chemotherapy alone (coded as 0) and chemotherapy plus radiation (coded as 1). Survival time is reported in days. Recorded times are censored either if the patient’s death was not observed during the study.</p>
 <section id="data">
 <h3>Data<a class="headerlink" href="#data" title="Link to this heading">#</a></h3>
 <p>Columns are, from left to right:</p>
 <ul class="simple">
 <li><p>type: Treatment type, chemotherapy (0) or chemotherapy + radiation (1)</p></li>
 <li><p>censored: If censored, meaning the patient survived the observation period, the time in days appears here rather than in the times column. 0 if not censored.</p></li>
-<li><p>times: Recorded days without cancer recurrence. NaN if censored.</p></li>
+<li><p>times: Recorded days until death. NaN if censored.</p></li>
 </ul>
 </section>
 <section id="model-changes">
@@ -694,7 +695,7 @@
 </div>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>We have noticed that using the tau (precision) parameter to define the coefficients is also unstable. In order to stay as close as possible to the lecture model, I’ve kept it here, but when using <a class="reference external" href="https://www.pymc.io/projects/docs/en/latest/api/distributions/censored.html"><code class="docutils literal notranslate"><span class="pre">pm.Censored</span></code></a>, it’s better to define the normal priors for your coefficients and intercept with sigma (standard deviation).</p>
+<p>We have noticed that using the tau (precision) parameter to define the coefficients is sometimes unstable. We aren’t sure why. In order to stay as close as possible to the lecture model, I’ve kept it here, but when using <a class="reference external" href="https://www.pymc.io/projects/docs/en/latest/api/distributions/censored.html"><code class="docutils literal notranslate"><span class="pre">pm.Censored</span></code></a>, it’s better to define the normal priors for your coefficients and intercept with sigma (standard deviation).</p>
 <p>This:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">beta0</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">"beta0"</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 <span class="n">beta1</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">"beta1"</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
@@ -737,7 +738,11 @@
     <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">"hazard"</span><span class="p">,</span> <span class="n">pdf</span> <span class="o">/</span> <span class="n">S</span><span class="p">)</span>
 
     <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span>
-        <span class="mi">10000</span><span class="p">,</span> <span class="n">tune</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">initvals</span><span class="o">=</span><span class="p">{</span><span class="s2">"alpha"</span><span class="p">:</span> <span class="mf">0.25</span><span class="p">},</span> <span class="n">target_accept</span><span class="o">=</span><span class="mf">0.9</span>
+        <span class="mi">10000</span><span class="p">,</span>
+        <span class="n">tune</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span>
+        <span class="n">initvals</span><span class="o">=</span><span class="p">{</span><span class="s2">"alpha"</span><span class="p">:</span> <span class="mf">0.25</span><span class="p">},</span>
+        <span class="n">target_accept</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span>
+        <span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">,</span>
     <span class="p">)</span>
 </pre></div>
 </div>
@@ -748,120 +753,104 @@
 <p class="expanded admonition-title">Hide code cell output</p>
 </summary>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Initializing NUTS using jitter+adapt_diag...
-Multiprocess sampling (4 chains in 4 jobs)
-NUTS: [beta0, beta1, alpha]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>NUTS[nutpie]: [beta0, beta1, alpha]
 </pre></div>
 </div>
-<script type="application/vnd.jupyter.widget-view+json">{"model_id": "879470dd3fe24af49d4de686415d37c6", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 2_000 tune and 10_000 draw iterations (8_000 + 40_000 draws total) took 11 seconds.
-</pre></div>
-</div>
-</div>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "0d7975b5a5194c3aba7ddf2f9dbe87fe", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
+</div></div>
 </details>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s2">"~S"</span><span class="p">,</span> <span class="s2">"~f"</span><span class="p">,</span> <span class="s2">"~h"</span><span class="p">],</span> <span class="n">hdi_prob</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s2">"~survival"</span><span class="p">,</span> <span class="s2">"~hazard"</span><span class="p">],</span> <span class="n">ci_prob</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
+<div class="output text_html"><table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
       <th></th>
       <th>mean</th>
       <th>sd</th>
-      <th>hdi_5%</th>
-      <th>hdi_95%</th>
-      <th>mcse_mean</th>
-      <th>mcse_sd</th>
+      <th>eti90_lb</th>
+      <th>eti90_ub</th>
       <th>ess_bulk</th>
       <th>ess_tail</th>
       <th>r_hat</th>
+      <th>mcse_mean</th>
+      <th>mcse_sd</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <th>beta0</th>
-      <td>-6.764</td>
-      <td>0.669</td>
-      <td>-7.839</td>
-      <td>-5.638</td>
-      <td>0.006</td>
-      <td>0.004</td>
-      <td>12567.0</td>
-      <td>15165.0</td>
-      <td>1.0</td>
+      <td>-6.77</td>
+      <td>0.66</td>
+      <td>-7.9</td>
+      <td>-5.7</td>
+      <td>6429</td>
+      <td>8007</td>
+      <td>1.00</td>
+      <td>0.0083</td>
+      <td>0.0058</td>
     </tr>
     <tr>
       <th>beta1</th>
-      <td>0.261</td>
-      <td>0.232</td>
-      <td>-0.120</td>
-      <td>0.639</td>
-      <td>0.002</td>
-      <td>0.001</td>
-      <td>18180.0</td>
-      <td>17129.0</td>
-      <td>1.0</td>
+      <td>0.263</td>
+      <td>0.234</td>
+      <td>-0.12</td>
+      <td>0.65</td>
+      <td>18125</td>
+      <td>17275</td>
+      <td>1.00</td>
+      <td>0.0017</td>
+      <td>0.0012</td>
     </tr>
     <tr>
       <th>alpha</th>
-      <td>1.024</td>
-      <td>0.098</td>
-      <td>0.868</td>
-      <td>1.189</td>
-      <td>0.001</td>
-      <td>0.001</td>
-      <td>12742.0</td>
-      <td>15317.0</td>
-      <td>1.0</td>
+      <td>1.025</td>
+      <td>0.097</td>
+      <td>0.87</td>
+      <td>1.2</td>
+      <td>6465</td>
+      <td>7917</td>
+      <td>1.00</td>
+      <td>0.0012</td>
+      <td>0.00085</td>
     </tr>
     <tr>
       <th>median0</th>
-      <td>523.222</td>
-      <td>88.206</td>
-      <td>381.286</td>
-      <td>664.081</td>
-      <td>0.587</td>
-      <td>0.485</td>
-      <td>22881.0</td>
-      <td>26115.0</td>
-      <td>1.0</td>
+      <td>523</td>
+      <td>89</td>
+      <td>390</td>
+      <td>680</td>
+      <td>18942</td>
+      <td>21425</td>
+      <td>1.00</td>
+      <td>0.64</td>
+      <td>0.52</td>
     </tr>
     <tr>
       <th>median1</th>
-      <td>405.071</td>
-      <td>69.937</td>
-      <td>294.164</td>
-      <td>518.142</td>
-      <td>0.454</td>
-      <td>0.412</td>
-      <td>23896.0</td>
-      <td>25037.0</td>
-      <td>1.0</td>
+      <td>404.4</td>
+      <td>69.8</td>
+      <td>300</td>
+      <td>530</td>
+      <td>21259</td>
+      <td>24026</td>
+      <td>1.00</td>
+      <td>0.48</td>
+      <td>0.38</td>
     </tr>
   </tbody>
-</table>
-</div></div></div>
+</table></div></div>
 </div>
-<p>This is the preferred way to implement the model in PyMC.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The above model was written to reproduce the original BUGS lecture as closely as possible, so that’s why we need to include that conversion from the rate. If we were building this model directly in PyMC using the Weibull scale parameterization, we might do something like the model below.</p>
+<p>These are similar but not identical models and the coefficients have different interpretations. Ask yourself, what do the signs of the coefficients indicate for each model?</p>
+</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">log2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
@@ -871,7 +860,7 @@ NUTS: [beta0, beta1, alpha]
     <span class="n">beta1</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">"beta1"</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mf">3.2</span><span class="p">)</span>
     <span class="n">alpha</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Gamma</span><span class="p">(</span><span class="s2">"alpha"</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">)</span>
 
-    <span class="n">beta</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">exp</span><span class="p">(</span><span class="n">beta0</span> <span class="o">+</span> <span class="n">beta1</span> <span class="o">*</span> <span class="n">x</span><span class="p">)</span>
+    <span class="n">beta</span> <span class="o">=</span> <span class="n">exp</span><span class="p">(</span><span class="n">beta0</span> <span class="o">+</span> <span class="n">beta1</span> <span class="o">*</span> <span class="n">x</span><span class="p">)</span>
 
     <span class="n">obs_latent</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Weibull</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="n">beta</span><span class="p">)</span>
     <span class="n">likelihood</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Censored</span><span class="p">(</span>
@@ -882,130 +871,110 @@ NUTS: [beta0, beta1, alpha]
         <span class="n">observed</span><span class="o">=</span><span class="n">y</span><span class="p">,</span>
     <span class="p">)</span>
 
-    <span class="n">median0</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">"median0"</span><span class="p">,</span> <span class="p">(</span><span class="n">log2</span> <span class="o">*</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">beta0</span><span class="p">))</span> <span class="o">**</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">alpha</span><span class="p">))</span>
+    <span class="n">median0</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span>
+        <span class="s2">"median0"</span><span class="p">,</span> <span class="n">pm</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">beta0</span><span class="p">)</span> <span class="o">*</span> <span class="n">log2</span> <span class="o">**</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">alpha</span><span class="p">)</span>
+    <span class="p">)</span>
     <span class="n">median1</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span>
-        <span class="s2">"median1"</span><span class="p">,</span> <span class="p">(</span><span class="n">log2</span> <span class="o">*</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">beta0</span> <span class="o">-</span> <span class="n">beta1</span><span class="p">))</span> <span class="o">**</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">alpha</span><span class="p">)</span>
+        <span class="s2">"median1"</span><span class="p">,</span> <span class="n">pm</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">beta0</span> <span class="o">+</span> <span class="n">beta1</span><span class="p">)</span> <span class="o">*</span> <span class="n">log2</span> <span class="o">**</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">alpha</span><span class="p">)</span>
     <span class="p">)</span>
 
-    <span class="n">S</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">"survival"</span><span class="p">,</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">((</span><span class="n">likelihood</span> <span class="o">/</span> <span class="n">beta</span><span class="p">)</span> <span class="o">**</span> <span class="n">alpha</span><span class="p">)))</span>
-    <span class="n">pdf</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="p">(</span><span class="n">alpha</span> <span class="o">/</span> <span class="n">beta</span><span class="p">)</span>
-        <span class="o">*</span> <span class="p">((</span><span class="n">likelihood</span> <span class="o">/</span> <span class="n">beta</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="n">alpha</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
-        <span class="o">*</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">((</span><span class="n">likelihood</span> <span class="o">/</span> <span class="n">beta</span><span class="p">)</span> <span class="o">**</span> <span class="n">alpha</span><span class="p">))</span>
-    <span class="p">)</span>
-    <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">"hazard"</span><span class="p">,</span> <span class="n">pdf</span> <span class="o">/</span> <span class="n">S</span><span class="p">)</span>
+    <span class="n">hazard_ratio</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">"hazard"</span><span class="p">,</span> <span class="n">pm</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">alpha</span> <span class="o">*</span> <span class="n">beta1</span><span class="p">))</span>
 
     <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span>
-        <span class="mi">10000</span><span class="p">,</span> <span class="n">tune</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">initvals</span><span class="o">=</span><span class="p">{</span><span class="s2">"alpha"</span><span class="p">:</span> <span class="mf">0.25</span><span class="p">},</span> <span class="n">target_accept</span><span class="o">=</span><span class="mf">0.9</span>
+        <span class="mi">10000</span><span class="p">,</span>
+        <span class="n">tune</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span>
+        <span class="n">initvals</span><span class="o">=</span><span class="p">{</span><span class="s2">"alpha"</span><span class="p">:</span> <span class="mf">0.25</span><span class="p">},</span>
+        <span class="n">target_accept</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span>
+        <span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">,</span>
     <span class="p">)</span>
 
-<span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s2">"~survival"</span><span class="p">,</span> <span class="s2">"~hazard"</span><span class="p">],</span> <span class="n">hdi_prob</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
+<span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s2">"~hazard"</span><span class="p">],</span> <span class="n">ci_prob</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Initializing NUTS using jitter+adapt_diag...
-Multiprocess sampling (4 chains in 4 jobs)
-NUTS: [beta0, beta1, alpha]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>NUTS[nutpie]: [beta0, beta1, alpha]
 </pre></div>
 </div>
-<script type="application/vnd.jupyter.widget-view+json">{"model_id": "bb6dc1fcf5f64937bd896c7f09795946", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 2_000 tune and 10_000 draw iterations (8_000 + 40_000 draws total) took 4 seconds.
-</pre></div>
-</div>
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "15c9bbce9c99404f9cc8c4e7f699e1fa", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
+</div><div class="output text_html"><table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
       <th></th>
       <th>mean</th>
       <th>sd</th>
-      <th>hdi_5%</th>
-      <th>hdi_95%</th>
-      <th>mcse_mean</th>
-      <th>mcse_sd</th>
+      <th>eti90_lb</th>
+      <th>eti90_ub</th>
       <th>ess_bulk</th>
       <th>ess_tail</th>
       <th>r_hat</th>
+      <th>mcse_mean</th>
+      <th>mcse_sd</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <th>beta0</th>
-      <td>-6.604</td>
-      <td>0.164</td>
-      <td>-6.865</td>
-      <td>-6.327</td>
-      <td>0.001</td>
-      <td>0.001</td>
-      <td>22467.0</td>
-      <td>22594.0</td>
-      <td>1.0</td>
+      <td>6.604</td>
+      <td>0.166</td>
+      <td>6.3</td>
+      <td>6.9</td>
+      <td>17704</td>
+      <td>19918</td>
+      <td>1.00</td>
+      <td>0.0013</td>
+      <td>0.00093</td>
     </tr>
     <tr>
       <th>beta1</th>
-      <td>0.255</td>
-      <td>0.233</td>
-      <td>-0.132</td>
-      <td>0.632</td>
-      <td>0.002</td>
-      <td>0.001</td>
-      <td>21877.0</td>
-      <td>22078.0</td>
-      <td>1.0</td>
+      <td>-0.255</td>
+      <td>0.235</td>
+      <td>-0.65</td>
+      <td>0.13</td>
+      <td>17568</td>
+      <td>19679</td>
+      <td>1.00</td>
+      <td>0.0018</td>
+      <td>0.0013</td>
     </tr>
     <tr>
       <th>alpha</th>
-      <td>1.011</td>
-      <td>0.098</td>
-      <td>0.857</td>
-      <td>1.177</td>
-      <td>0.001</td>
-      <td>0.001</td>
-      <td>22416.0</td>
-      <td>23873.0</td>
-      <td>1.0</td>
+      <td>1.012</td>
+      <td>0.0972</td>
+      <td>0.86</td>
+      <td>1.2</td>
+      <td>22362</td>
+      <td>24544</td>
+      <td>1.00</td>
+      <td>0.00065</td>
+      <td>0.00046</td>
     </tr>
     <tr>
       <th>median0</th>
-      <td>632.289</td>
-      <td>559.645</td>
-      <td>121.467</td>
-      <td>1173.620</td>
-      <td>3.886</td>
-      <td>20.380</td>
-      <td>22038.0</td>
-      <td>24899.0</td>
-      <td>1.0</td>
+      <td>520</td>
+      <td>89</td>
+      <td>390</td>
+      <td>680</td>
+      <td>18073</td>
+      <td>21110</td>
+      <td>1.00</td>
+      <td>0.67</td>
+      <td>0.58</td>
     </tr>
     <tr>
       <th>median1</th>
-      <td>475.234</td>
-      <td>383.121</td>
-      <td>106.540</td>
-      <td>862.676</td>
-      <td>2.585</td>
-      <td>18.081</td>
-      <td>23324.0</td>
-      <td>25162.0</td>
-      <td>1.0</td>
+      <td>402.8</td>
+      <td>70.5</td>
+      <td>300</td>
+      <td>530</td>
+      <td>35315</td>
+      <td>29558</td>
+      <td>1.00</td>
+      <td>0.37</td>
+      <td>0.31</td>
     </tr>
   </tbody>
-</table>
-</div></div></div>
+</table></div></div>
 </div>
 </section>
 <section id="method-2-pm-potential">
@@ -1070,402 +1039,102 @@ NUTS: [beta0, beta1, alpha]
         <span class="s2">"median1"</span><span class="p">,</span> <span class="p">(</span><span class="n">log2</span> <span class="o">*</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">beta0</span> <span class="o">-</span> <span class="n">beta1</span><span class="p">))</span> <span class="o">**</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">alpha</span><span class="p">)</span>
     <span class="p">)</span>
 
-    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">10000</span><span class="p">,</span> <span class="n">tune</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">target_accept</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
+    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">10000</span><span class="p">,</span> <span class="n">tune</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">target_accept</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Initializing NUTS using jitter+adapt_diag...
-Multiprocess sampling (4 chains in 4 jobs)
-NUTS: [beta0, beta1, alpha]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>NUTS[nutpie]: [beta0, beta1, alpha]
 </pre></div>
 </div>
-<script type="application/vnd.jupyter.widget-view+json">{"model_id": "3ed675d47d8a44a0a668e1b0088b6f23", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 2_000 tune and 10_000 draw iterations (8_000 + 40_000 draws total) took 10 seconds.
-</pre></div>
-</div>
-</div>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "9f464537611d47908bb10ad84a7cb93c", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
+</div></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">hdi_prob</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">ci_prob</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
+<div class="output text_html"><table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
       <th></th>
       <th>mean</th>
       <th>sd</th>
-      <th>hdi_5%</th>
-      <th>hdi_95%</th>
-      <th>mcse_mean</th>
-      <th>mcse_sd</th>
+      <th>eti90_lb</th>
+      <th>eti90_ub</th>
       <th>ess_bulk</th>
       <th>ess_tail</th>
       <th>r_hat</th>
+      <th>mcse_mean</th>
+      <th>mcse_sd</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <th>beta0</th>
-      <td>-6.764</td>
-      <td>0.662</td>
-      <td>-7.828</td>
-      <td>-5.652</td>
-      <td>0.006</td>
-      <td>0.005</td>
-      <td>12566.0</td>
-      <td>14049.0</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>beta1</th>
-      <td>0.259</td>
-      <td>0.234</td>
-      <td>-0.127</td>
-      <td>0.638</td>
-      <td>0.002</td>
-      <td>0.001</td>
-      <td>16451.0</td>
-      <td>16081.0</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>alpha</th>
-      <td>1.024</td>
-      <td>0.097</td>
-      <td>0.864</td>
-      <td>1.181</td>
-      <td>0.001</td>
-      <td>0.001</td>
-      <td>12864.0</td>
-      <td>13806.0</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>median0</th>
-      <td>522.005</td>
-      <td>88.886</td>
-      <td>373.861</td>
-      <td>656.463</td>
-      <td>0.625</td>
-      <td>0.534</td>
-      <td>20871.0</td>
-      <td>23343.0</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>median1</th>
-      <td>405.233</td>
-      <td>70.329</td>
-      <td>287.568</td>
-      <td>513.743</td>
-      <td>0.469</td>
-      <td>0.377</td>
-      <td>22645.0</td>
-      <td>25564.0</td>
-      <td>1.0</td>
-    </tr>
-  </tbody>
-</table>
-</div></div></div>
-</div>
-</section>
-<section id="old-imputed-censoring-method">
-<h2>Old imputed censoring method<a class="headerlink" href="#old-imputed-censoring-method" title="Link to this heading">#</a></h2>
-<p>This method is from an older version of <a class="reference external" href="https://www.pymc.io/projects/examples/en/latest/survival_analysis/censored_data.html#censored-data-model1">this notebook</a> by <a class="reference external" href="https://github.com/domenzain">Luis Mario Domenzain</a>, <a class="reference external" href="https://github.com/eigenfoo">George Ho</a>, and <a class="reference external" href="https://github.com/drbenvincent">Dr. Ben Vincent</a>. The newer version doesn’t work for our purposes at this time, so I’ll be on the lookout for another way to do imputed censoring with varying censoring cutoff values.</p>
-<p>I’m just going to preserve it here for posterity.</p>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>pm.Bound is deprecated, so this method has stopped working.</p>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="s2">"../data/gastric.txt"</span><span class="p">)</span>
-<span class="n">x</span> <span class="o">=</span> <span class="n">data</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-<span class="n">censored_vals</span> <span class="o">=</span> <span class="n">data</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-<span class="n">y</span> <span class="o">=</span> <span class="n">data</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-
-<span class="c1"># we need to separate the observed values and the censored values</span>
-<span class="n">observed_mask</span> <span class="o">=</span> <span class="n">censored_vals</span> <span class="o">==</span> <span class="mi">0</span>
-
-<span class="n">censored</span> <span class="o">=</span> <span class="n">censored_vals</span><span class="p">[</span><span class="o">~</span><span class="n">observed_mask</span><span class="p">]</span>
-<span class="n">y_uncensored</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="n">observed_mask</span><span class="p">]</span>
-<span class="n">x_censored</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="o">~</span><span class="n">observed_mask</span><span class="p">]</span>
-<span class="n">x_uncensored</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">observed_mask</span><span class="p">]</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell tag_hide-output docutils container">
-<div class="cell_input above-output-prompt docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">log2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-
-<span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">m</span><span class="p">:</span>
-    <span class="n">beta0</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">"beta0"</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">)</span>
-    <span class="n">beta1</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">"beta1"</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">)</span>
-    <span class="n">alpha</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Exponential</span><span class="p">(</span><span class="s2">"alpha"</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
-
-    <span class="n">lamb_censored</span> <span class="o">=</span> <span class="n">exp</span><span class="p">(</span><span class="n">beta0</span> <span class="o">+</span> <span class="n">beta1</span> <span class="o">*</span> <span class="n">x_censored</span><span class="p">)</span>
-    <span class="n">beta_censored</span> <span class="o">=</span> <span class="n">lamb_censored</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span> <span class="o">/</span> <span class="n">alpha</span><span class="p">)</span>
-
-    <span class="n">lamb_uncensored</span> <span class="o">=</span> <span class="n">exp</span><span class="p">(</span><span class="n">beta0</span> <span class="o">+</span> <span class="n">beta1</span> <span class="o">*</span> <span class="n">x_uncensored</span><span class="p">)</span>
-    <span class="n">beta_uncensored</span> <span class="o">=</span> <span class="n">lamb_uncensored</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span> <span class="o">/</span> <span class="n">alpha</span><span class="p">)</span>
-
-    <span class="n">impute_censored</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Bound</span><span class="p">(</span>
-        <span class="s2">"impute_censored"</span><span class="p">,</span>
-        <span class="n">pm</span><span class="o">.</span><span class="n">Weibull</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="n">beta_censored</span><span class="p">),</span>
-        <span class="n">lower</span><span class="o">=</span><span class="n">censored</span><span class="p">,</span>
-        <span class="n">shape</span><span class="o">=</span><span class="n">censored</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
-    <span class="p">)</span>
-
-    <span class="n">likelihood</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Weibull</span><span class="p">(</span>
-        <span class="s2">"likelihood"</span><span class="p">,</span>
-        <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span>
-        <span class="n">beta</span><span class="o">=</span><span class="n">beta_uncensored</span><span class="p">,</span>
-        <span class="n">observed</span><span class="o">=</span><span class="n">y_uncensored</span><span class="p">,</span>
-        <span class="n">shape</span><span class="o">=</span><span class="n">y_uncensored</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
-    <span class="p">)</span>
-
-    <span class="n">median0</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">"median0"</span><span class="p">,</span> <span class="p">(</span><span class="n">log2</span> <span class="o">*</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">beta0</span><span class="p">))</span> <span class="o">**</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">alpha</span><span class="p">))</span>
-    <span class="n">median1</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span>
-        <span class="s2">"median1"</span><span class="p">,</span> <span class="p">(</span><span class="n">log2</span> <span class="o">*</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">beta0</span> <span class="o">-</span> <span class="n">beta1</span><span class="p">))</span> <span class="o">**</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">alpha</span><span class="p">)</span>
-    <span class="p">)</span>
-
-    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">10000</span><span class="p">,</span> <span class="n">tune</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">target_accept</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<details class="admonition hide below-input">
-<summary aria-label="Toggle hidden content">
-<p class="collapsed admonition-title">Show code cell output</p>
-<p class="expanded admonition-title">Hide code cell output</p>
-</summary>
-<div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">AttributeError</span><span class="g g-Whitespace">                            </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">11</span><span class="p">],</span> <span class="n">line</span> <span class="mi">14</span>
-<span class="g g-Whitespace">     </span><span class="mi">11</span> <span class="n">lamb_uncensored</span> <span class="o">=</span> <span class="n">exp</span><span class="p">(</span><span class="n">beta0</span> <span class="o">+</span> <span class="n">beta1</span> <span class="o">*</span> <span class="n">x_uncensored</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">12</span> <span class="n">beta_uncensored</span> <span class="o">=</span> <span class="n">lamb_uncensored</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span> <span class="o">/</span> <span class="n">alpha</span><span class="p">)</span>
-<span class="ne">---&gt; </span><span class="mi">14</span> <span class="n">impute_censored</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Bound</span><span class="p">(</span>
-<span class="g g-Whitespace">     </span><span class="mi">15</span>     <span class="s2">"impute_censored"</span><span class="p">,</span>
-<span class="g g-Whitespace">     </span><span class="mi">16</span>     <span class="n">pm</span><span class="o">.</span><span class="n">Weibull</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="n">beta_censored</span><span class="p">),</span>
-<span class="g g-Whitespace">     </span><span class="mi">17</span>     <span class="n">lower</span><span class="o">=</span><span class="n">censored</span><span class="p">,</span>
-<span class="g g-Whitespace">     </span><span class="mi">18</span>     <span class="n">shape</span><span class="o">=</span><span class="n">censored</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
-<span class="g g-Whitespace">     </span><span class="mi">19</span> <span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">21</span> <span class="n">likelihood</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Weibull</span><span class="p">(</span>
-<span class="g g-Whitespace">     </span><span class="mi">22</span>     <span class="s2">"likelihood"</span><span class="p">,</span>
-<span class="g g-Whitespace">     </span><span class="mi">23</span>     <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span>
-   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">26</span>     <span class="n">shape</span><span class="o">=</span><span class="n">y_uncensored</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
-<span class="g g-Whitespace">     </span><span class="mi">27</span> <span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">29</span> <span class="n">median0</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">"median0"</span><span class="p">,</span> <span class="p">(</span><span class="n">log2</span> <span class="o">*</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">beta0</span><span class="p">))</span> <span class="o">**</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">alpha</span><span class="p">))</span>
-
-<span class="ne">AttributeError</span>: module 'pymc' has no attribute 'Bound'
-</pre></div>
-</div>
-</div>
-</details>
-</div>
-<div class="cell tag_full-width docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">hdi_prob</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"stats"</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>mean</th>
-      <th>sd</th>
-      <th>hdi_5%</th>
-      <th>hdi_95%</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>beta0</th>
-      <td>-6.619</td>
-      <td>0.654</td>
-      <td>-7.658</td>
-      <td>-5.505</td>
+      <td>-6.79</td>
+      <td>0.67</td>
+      <td>-7.9</td>
+      <td>-5.7</td>
+      <td>6321</td>
+      <td>8716</td>
+      <td>1.00</td>
+      <td>0.0084</td>
+      <td>0.0061</td>
     </tr>
     <tr>
       <th>beta1</th>
       <td>0.261</td>
-      <td>0.236</td>
-      <td>-0.135</td>
-      <td>0.642</td>
+      <td>0.233</td>
+      <td>-0.12</td>
+      <td>0.65</td>
+      <td>18758</td>
+      <td>17735</td>
+      <td>1.00</td>
+      <td>0.0017</td>
+      <td>0.0012</td>
     </tr>
     <tr>
-      <th>α</th>
-      <td>1.002</td>
-      <td>0.096</td>
-      <td>0.844</td>
-      <td>1.158</td>
-    </tr>
-    <tr>
-      <th>impute_censored[0]</th>
-      <td>1470.516</td>
-      <td>624.422</td>
-      <td>882.003</td>
-      <td>2238.512</td>
-    </tr>
-    <tr>
-      <th>impute_censored[1]</th>
-      <td>1485.333</td>
-      <td>638.066</td>
-      <td>892.025</td>
-      <td>2267.560</td>
-    </tr>
-    <tr>
-      <th>impute_censored[2]</th>
-      <td>1623.087</td>
-      <td>636.271</td>
-      <td>1031.002</td>
-      <td>2399.749</td>
-    </tr>
-    <tr>
-      <th>impute_censored[3]</th>
-      <td>1629.358</td>
-      <td>644.748</td>
-      <td>1033.058</td>
-      <td>2417.048</td>
-    </tr>
-    <tr>
-      <th>impute_censored[4]</th>
-      <td>1896.556</td>
-      <td>636.864</td>
-      <td>1306.001</td>
-      <td>2680.457</td>
-    </tr>
-    <tr>
-      <th>impute_censored[5]</th>
-      <td>1927.291</td>
-      <td>645.113</td>
-      <td>1335.035</td>
-      <td>2706.771</td>
-    </tr>
-    <tr>
-      <th>impute_censored[6]</th>
-      <td>2044.492</td>
-      <td>647.964</td>
-      <td>1452.027</td>
-      <td>2827.988</td>
-    </tr>
-    <tr>
-      <th>impute_censored[7]</th>
-      <td>2064.511</td>
-      <td>637.872</td>
-      <td>1472.006</td>
-      <td>2851.689</td>
-    </tr>
-    <tr>
-      <th>impute_censored[8]</th>
-      <td>1144.755</td>
-      <td>823.971</td>
-      <td>381.008</td>
-      <td>2153.162</td>
-    </tr>
-    <tr>
-      <th>impute_censored[9]</th>
-      <td>1295.370</td>
-      <td>823.647</td>
-      <td>529.021</td>
-      <td>2299.400</td>
-    </tr>
-    <tr>
-      <th>impute_censored[10]</th>
-      <td>1717.105</td>
-      <td>832.210</td>
-      <td>945.080</td>
-      <td>2742.788</td>
-    </tr>
-    <tr>
-      <th>impute_censored[11]</th>
-      <td>1948.776</td>
-      <td>828.073</td>
-      <td>1180.049</td>
-      <td>2974.388</td>
-    </tr>
-    <tr>
-      <th>impute_censored[12]</th>
-      <td>2045.309</td>
-      <td>839.943</td>
-      <td>1277.020</td>
-      <td>3052.989</td>
-    </tr>
-    <tr>
-      <th>impute_censored[13]</th>
-      <td>2169.509</td>
-      <td>847.547</td>
-      <td>1397.058</td>
-      <td>3197.841</td>
-    </tr>
-    <tr>
-      <th>impute_censored[14]</th>
-      <td>2286.423</td>
-      <td>854.267</td>
-      <td>1512.011</td>
-      <td>3298.995</td>
-    </tr>
-    <tr>
-      <th>impute_censored[15]</th>
-      <td>2287.177</td>
-      <td>829.874</td>
-      <td>1519.089</td>
-      <td>3316.162</td>
+      <th>alpha</th>
+      <td>1.027</td>
+      <td>0.098</td>
+      <td>0.87</td>
+      <td>1.2</td>
+      <td>6321</td>
+      <td>8694</td>
+      <td>1.00</td>
+      <td>0.0012</td>
+      <td>0.00088</td>
     </tr>
     <tr>
       <th>median0</th>
-      <td>520.012</td>
-      <td>90.909</td>
-      <td>369.907</td>
-      <td>658.412</td>
+      <td>523</td>
+      <td>88</td>
+      <td>390</td>
+      <td>680</td>
+      <td>19390</td>
+      <td>23540</td>
+      <td>1.00</td>
+      <td>0.63</td>
+      <td>0.52</td>
     </tr>
     <tr>
       <th>median1</th>
-      <td>400.322</td>
-      <td>70.953</td>
-      <td>290.464</td>
-      <td>517.338</td>
+      <td>405.5</td>
+      <td>69.8</td>
+      <td>300</td>
+      <td>530</td>
+      <td>21377</td>
+      <td>25175</td>
+      <td>1.00</td>
+      <td>0.47</td>
+      <td>0.38</td>
     </tr>
   </tbody>
-</table>
-</div></div></div>
+</table></div></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1475,17 +1144,17 @@ NUTS: [beta0, beta1, alpha]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Sun Apr 13 2025
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Mon, 19 Oct 2026
 
 Python implementation: CPython
-Python version       : 3.12.7
-IPython version      : 8.29.0
+Python version       : 3.14.7
+IPython version      : 9.16.1
 
-pytensor: 2.30.2
+pytensor: 3.3.0
 
-arviz: 0.21.0
-pymc : 5.22.0
-numpy: 1.26.4
+arviz: 1.3.0
+numpy: 2.4.6
+pymc : 6.3.2
 </pre></div>
 </div>
 </div>
@@ -1566,7 +1235,6 @@ numpy: 1.26.4
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#method-1-pm-censored">Method 1: <code class="docutils literal notranslate"><span class="pre">pm.Censored</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#method-2-pm-potential">Method 2: pm.Potential</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#old-imputed-censoring-method">Old imputed censoring method</a></li>
 </ul>
   </nav></div>
 

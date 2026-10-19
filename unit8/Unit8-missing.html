@@ -636,7 +636,7 @@
 </section>
 <section id="multiple-imputations">
 <h2>Multiple imputations<a class="headerlink" href="#multiple-imputations" title="Link to this heading">#</a></h2>
-<p>Single imputations of missing values are not preferred because they do not estimate the error correctly or account for the uncertainty in imputed data. Multiple imputations is a method developed by <a class="reference external" href="https://pubmed.ncbi.nlm.nih.gov/2057657/">Rubin</a>.</p>
+<p>Single imputations of missing values are not preferred because they do not estimate the error correctly or account for the uncertainty in imputed data. Multiple imputations is a method developed by <a class="reference external" href="https://pubmed.ncbi.nlm.nih.gov/2057657/">Rubin</a>. This approach has Bayesian foundations, but is also used in frequentist methods.</p>
 <p>The actual posterior distribution of <span class="math notranslate nohighlight">\(\theta\)</span> is:</p>
 <div class="math notranslate nohighlight">
 \[\text{P}(\theta | Y_{obs}) = \int \text{P}(\theta | Y_{obs},Y_{mis})\text{P}(Y_{mis},Y_{obs})d Y_{mis}\]</div>
@@ -652,7 +652,7 @@
 </section>
 <section id="pymc-implementation">
 <h2>PyMC Implementation<a class="headerlink" href="#pymc-implementation" title="Link to this heading">#</a></h2>
-<p>Luckily, <code class="docutils literal notranslate"><span class="pre">PyMC</span></code> automatically takes care of imputations for missing observed (or ‘y’) values, when they are encoded is NaN. PyMC provides samples for each missing value, from which we can calculate stats like mean, variance, and HDI.</p>
+<p>Luckily, <code class="docutils literal notranslate"><span class="pre">PyMC</span></code> automatically takes care of imputations for missing observed (or ‘y’) values, when they are encoded is NaN. PyMC provides samples for each missing value, from which we can calculate stats like mean, variance, and HDI. PyMC uses a joint inference approach, treating missing values as unknown parameters and sampling them as part of the joint log-probability graph.</p>
 <p>The next page has examples of ignorable missingness (Models 1 and 2), followed by Model 3 with non-ignoarable missingness.</p>
 <ul class="simple">
 <li><p>Model 1: Imputing observed (or y/response) values</p></li>
