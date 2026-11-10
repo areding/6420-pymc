@@ -598,6 +598,7 @@
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#laud-ibrahim-criteria">Laud-Ibrahim Criteria</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modern-approach">Modern approach</a></li>
 </ul>
             </nav>
         </div>
@@ -631,6 +632,11 @@ L_m^2 = \text{E}(Z - y)'(Z-y) = \sum_{i=1}^n \left[(\text{E} Z_i - y_i)^2 + \tex
 \]</div>
 <p>where <span class="math notranslate nohighlight">\(Z \sim f(z|y,m)\)</span>.</p>
 <p><span class="math notranslate nohighlight">\(\text{L}_m = \sqrt{\text{L}_m^2} \)</span> is essentially a discrepancy measure, and is in the same units as the response <span class="math notranslate nohighlight">\(y\)</span>. The model that minimizes <span class="math notranslate nohighlight">\(\text{L}_m\)</span> is preferred. On the next page, we can see an example of comparing models with Laud-Ibrahim Criteria in PyMC.</p>
+</section>
+<section id="modern-approach">
+<h2>Modern approach<a class="headerlink" href="#modern-approach" title="Link to this heading">#</a></h2>
+<p>The Laud–Ibrahim criterion measures posterior predictive loss by combining the difference between observed and predicted values with the uncertainty in those predictions. Our understanding is that modern practice has moved towards using more visual checks posterior predictive checks (PPCs). We can generate posterior predictive samples using <code class="docutils literal notranslate"><span class="pre">pm.sample_posterior_predictive()</span></code> and compare their distributions with the observed data using ArviZ. ArviZ has functions like <code class="docutils literal notranslate"><span class="pre">az.plot_ppc_dist()</span></code> and <code class="docutils literal notranslate"><span class="pre">az.plot_ppc_tstat()</span></code>.</p>
+<p>When the goal is to compare models based on their expected predictive accuracy on new observations, we generally prefer PSIS-LOO CV, as mentioned in the U9L1 notes.</p>
 </section>
 </section>
 
@@ -701,6 +707,7 @@ L_m^2 = \text{E}(Z - y)'(Z-y) = \sum_{i=1}^n \left[(\text{E} Z_i - y_i)^2 + \tex
   <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#laud-ibrahim-criteria">Laud-Ibrahim Criteria</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modern-approach">Modern approach</a></li>
 </ul>
   </nav></div>
 
