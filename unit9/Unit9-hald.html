@@ -572,7 +572,9 @@
 <button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
 </button>
-
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
 </div></div>
       
     </div>
@@ -588,6 +590,14 @@
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#posterior-predictive-checks">Posterior predictive checks</a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -603,6 +613,9 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">arviz</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">az</span>
+
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">6420</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -644,7 +657,7 @@ Chemistry, 24, 1207†1214.</p>
 </div>
 </div>
 <p>This was a pain to type out. Would be nice to find a cleaner method.</p>
-<p>Model 1 shows how to use the Laud-Ibrahim criterion (<a class="reference external" href="https://rss.onlinelibrary.wiley.com/doi/abs/10.1111/j.2517-6161.1995.tb02028.x">Laud and Ibrahim, 1995</a>) to choose between models. The L metric is based on a comparison between the original target variable and the posterior predictive distribution. In the BUGS example, the <code class="docutils literal notranslate"><span class="pre">Y.new</span></code> contains the results of the Posterior Predictive Check (PPC). As the variable name indicates, it’s just a set of new Y values generated from the posterior. The L metric is a measure of distance between the original y values and the PPC. The lower L is, the better.</p>
+<p>Model 1 shows how to use the Laud-Ibrahim criteria (<a class="reference external" href="https://rss.onlinelibrary.wiley.com/doi/abs/10.1111/j.2517-6161.1995.tb02028.x">Laud and Ibrahim, 1995</a>) to choose between models. The L metric is based on a comparison between the original target variable and the posterior predictive distribution. In the BUGS example, the <code class="docutils literal notranslate"><span class="pre">Y.new</span></code> contains the results of the Posterior Predictive Check (PPC). As the variable name indicates, it’s just a set of new Y values generated from the posterior. The L metric is a measure of distance between the original y values and the PPC. The lower L is, the better.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>The BUGS example has 8 models, but I only have 7 here. That’s because models 6 and 8 were identical, so I just dropped model 8.</p>
@@ -681,8 +694,10 @@ Chemistry, 24, 1207†1214.</p>
     <span class="p">)</span>
     <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">"likelihood"</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="n">tau</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">Y</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="s2">"obs"</span><span class="p">,</span> <span class="s2">"model"</span><span class="p">))</span>
 
-    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">5000</span><span class="p">,</span> <span class="n">target_accept</span><span class="o">=</span><span class="mf">0.95</span><span class="p">)</span>
-    <span class="n">pm</span><span class="o">.</span><span class="n">sample_posterior_predictive</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">extend_inferencedata</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">5000</span><span class="p">,</span> <span class="n">target_accept</span><span class="o">=</span><span class="mf">0.95</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span>
+    <span class="n">pm</span><span class="o">.</span><span class="n">sample_posterior_predictive</span><span class="p">(</span>
+        <span class="n">trace</span><span class="p">,</span> <span class="n">extend_inferencedata</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span>
+    <span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -692,17 +707,14 @@ Chemistry, 24, 1207†1214.</p>
 <p class="expanded admonition-title">Hide code cell output</p>
 </summary>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Initializing NUTS using jitter+adapt_diag...
-Multiprocess sampling (4 chains in 4 jobs)
-NUTS: [a, b, c, d, e, f, g, tau]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>NUTS[nutpie]: [a, b, c, d, e, f, g, tau]
 </pre></div>
 </div>
-<script type="application/vnd.jupyter.widget-view+json">{"model_id": "3e3d662979124b6db77797d1569d4799", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
-</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 5_000 draw iterations (4_000 + 20_000 draws total) took 367 seconds.
-Sampling: [likelihood]
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "fb88222c3120485296870b05bf70b0db", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling: [likelihood]
 </pre></div>
 </div>
-<script type="application/vnd.jupyter.widget-view+json">{"model_id": "6bb8bfa9ddbd4c82a3366c6237af8ea3", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "ee707ddba7e24817acf4374a52a58318", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
 </div></div>
 </details>
 </div>
@@ -714,15 +726,15 @@ Sampling: [likelihood]
 <span class="n">post_pred_vars</span> <span class="o">=</span> <span class="n">post_pred</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">(</span><span class="s2">"chain"</span><span class="p">,</span> <span class="s2">"draw"</span><span class="p">))</span>
 
 <span class="c1"># variance version (from previous page notes)</span>
-<span class="c1"># L2 = ((post_pred_means - Y) ** 2 + post_pred_vars).sum(dim="obs")</span>
-<span class="c1"># L = np.sqrt(L2).to_numpy()</span>
+<span class="n">L2</span> <span class="o">=</span> <span class="p">((</span><span class="n">post_pred_means</span> <span class="o">-</span> <span class="n">Y</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">post_pred_vars</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s2">"obs"</span><span class="p">)</span>
+<span class="n">L</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">L2</span><span class="p">)</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
 
-<span class="c1"># BUGS lecture version</span>
-<span class="n">L_bugs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span>
-    <span class="p">((</span><span class="n">post_pred</span> <span class="o">-</span> <span class="n">Y</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s2">"obs"</span><span class="p">)</span>
-    <span class="o">+</span> <span class="n">post_pred</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s2">"obs"</span><span class="p">,</span> <span class="n">ddof</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
-<span class="p">)</span>
-<span class="n">L</span> <span class="o">=</span> <span class="n">L_bugs</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">(</span><span class="s2">"chain"</span><span class="p">,</span> <span class="s2">"draw"</span><span class="p">))</span>
+<span class="c1"># BUGS lecture version (not sure why they did it differently)</span>
+<span class="c1"># L_bugs = np.sqrt(</span>
+<span class="c1">#     ((post_pred - Y) ** 2).sum(dim="obs")</span>
+<span class="c1">#     + post_pred.std(dim="obs", ddof=1) ** 2</span>
+<span class="c1"># )</span>
+<span class="c1"># L = L_bugs.mean(dim=("chain", "draw"))</span>
 
 
 <span class="n">L_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
@@ -762,37 +774,37 @@ Sampling: [likelihood]
     <tr>
       <th>0</th>
       <td>0124</td>
-      <td>19.130029</td>
+      <td>11.828645</td>
     </tr>
     <tr>
       <th>1</th>
       <td>0123</td>
-      <td>19.135057</td>
+      <td>11.814316</td>
     </tr>
     <tr>
       <th>2</th>
       <td>0134</td>
-      <td>19.249800</td>
+      <td>12.009691</td>
     </tr>
     <tr>
       <th>3</th>
       <td>01234</td>
-      <td>19.347790</td>
+      <td>12.187086</td>
     </tr>
     <tr>
       <th>4</th>
       <td>012</td>
-      <td>19.275367</td>
+      <td>12.101945</td>
     </tr>
     <tr>
       <th>5</th>
       <td>014</td>
-      <td>19.886982</td>
+      <td>13.063982</td>
     </tr>
     <tr>
       <th>6</th>
       <td>0234</td>
-      <td>20.098256</td>
+      <td>13.390507</td>
     </tr>
   </tbody>
 </table>
@@ -820,7 +832,67 @@ Sampling: [likelihood]
 </div>
 </details>
 <div class="cell_output docutils container">
-<img alt="../_images/2418fb77dba345f23236fcf893c612fd49eddb93cf1f02bb689bad63a68c583a.png" src="../_images/2418fb77dba345f23236fcf893c612fd49eddb93cf1f02bb689bad63a68c583a.png" />
+<img alt="../_images/267ee16f8654e8fca4d99ad135f52d6a6f95db702c6b7eabb9c44ec67db13932.png" src="../_images/267ee16f8654e8fca4d99ad135f52d6a6f95db702c6b7eabb9c44ec67db13932.png" />
+</div>
+</div>
+<section id="posterior-predictive-checks">
+<h2>Posterior predictive checks<a class="headerlink" href="#posterior-predictive-checks" title="Link to this heading">#</a></h2>
+<p>Just going to introduce a quick example here.</p>
+<p><a class="reference external" href="https://python.arviz.org/projects/plots/en/stable/api/generated/arviz_plots.plot_ppc_dist.html"><code class="docutils literal notranslate"><span class="pre">az.plot_ppc_dist()</span></code></a> compares the observed data distribution with simulated distributions.</p>
+<p><a class="reference external" href="https://python.arviz.org/projects/plots/en/stable/api/generated/arviz_plots.plot_ppc_tstat.html"><code class="docutils literal notranslate"><span class="pre">az.plot_ppc_tstat()</span></code></a> compares specific statistics between the posterior predictive and the observed value. For example, you might check the standard deviation or mean to see how close your model is to the data.</p>
+<p><a class="reference external" href="https://python.arviz.org/projects/plots/en/latest/api/generated/arviz_plots.plot_ppc_interval.html"><code class="docutils literal notranslate"><span class="pre">az.plot_ppc_interval()</span></code></a> shows how well individual data points are predicted by the model.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">plot_ppc_dist</span><span class="p">(</span>
+    <span class="n">trace</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="s2">"likelihood"</span><span class="p">,</span> <span class="n">coords</span><span class="o">=</span><span class="p">{</span><span class="s2">"model"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"0124"</span><span class="p">]}</span>
+<span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="n">az</span><span class="o">.</span><span class="n">plot_ppc_dist</span><span class="p">(</span>
+    <span class="n">trace</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="s2">"likelihood"</span><span class="p">,</span> <span class="n">coords</span><span class="o">=</span><span class="p">{</span><span class="s2">"model"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"0234"</span><span class="p">]}</span>
+<span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/ed49fc24352d1f7c287d15abedb75d4bbf97224d85a4fe41ae1378415370d084.png" src="../_images/ed49fc24352d1f7c287d15abedb75d4bbf97224d85a4fe41ae1378415370d084.png" />
+<img alt="../_images/39b38714c839c050a404aaae303126dcd90f32664ad60627075a5fac55a0e6c6.png" src="../_images/39b38714c839c050a404aaae303126dcd90f32664ad60627075a5fac55a0e6c6.png" />
+</div>
+</div>
+<p>So in the above two plots comparing the worst and best model by Laud-Ibrahim, it’s pretty clear that the models aren’t different enough for this kind of visual inspection to help us. In that case, it might be better to try using PSIS LOO-CV.</p>
+<p>Below is the Bayesian t-stat plot mentioned above, which isn’t much more helpful for model comparion in this case.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">plot_ppc_tstat</span><span class="p">(</span>
+    <span class="n">trace</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="s2">"likelihood"</span><span class="p">,</span> <span class="n">coords</span><span class="o">=</span><span class="p">{</span><span class="s2">"model"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"0124"</span><span class="p">]},</span> <span class="n">t_stat</span><span class="o">=</span><span class="s2">"std"</span>
+<span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="n">az</span><span class="o">.</span><span class="n">plot_ppc_tstat</span><span class="p">(</span>
+    <span class="n">trace</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="s2">"likelihood"</span><span class="p">,</span> <span class="n">coords</span><span class="o">=</span><span class="p">{</span><span class="s2">"model"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"0234"</span><span class="p">]},</span> <span class="n">t_stat</span><span class="o">=</span><span class="s2">"std"</span>
+<span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/07e60ad702ad61090c3f99aed5533452662231f45851511534d3c28b7fc2c5b3.png" src="../_images/07e60ad702ad61090c3f99aed5533452662231f45851511534d3c28b7fc2c5b3.png" />
+<img alt="../_images/ec3d4d087c9959f2be8cc2069efdc1fdec5d189636fa2edb5e0e7c2fa62c640d.png" src="../_images/ec3d4d087c9959f2be8cc2069efdc1fdec5d189636fa2edb5e0e7c2fa62c640d.png" />
+</div>
+</div>
+<p>The interval plot is interesting but still a little difficult to distinguish visually for this particular model. We’ll come back to PPCs again later in Unit 9.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">plot_ppc_interval</span><span class="p">(</span>
+    <span class="n">trace</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="s2">"likelihood"</span><span class="p">,</span> <span class="n">coords</span><span class="o">=</span><span class="p">{</span><span class="s2">"model"</span><span class="p">:</span> <span class="s2">"0124"</span><span class="p">}</span>
+<span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="n">az</span><span class="o">.</span><span class="n">plot_ppc_interval</span><span class="p">(</span>
+    <span class="n">trace</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="s2">"likelihood"</span><span class="p">,</span> <span class="n">coords</span><span class="o">=</span><span class="p">{</span><span class="s2">"model"</span><span class="p">:</span> <span class="s2">"0234"</span><span class="p">}</span>
+<span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/1efbd4fa3d7412ca06e7f72b62f6323c7c5f76bf1f3d600a73bc7cc637548a2c.png" src="../_images/1efbd4fa3d7412ca06e7f72b62f6323c7c5f76bf1f3d600a73bc7cc637548a2c.png" />
+<img alt="../_images/301cea061ef7baf029e2a0ad5f58db14dcd116d1edc9130cb40f778e127e62f6.png" src="../_images/301cea061ef7baf029e2a0ad5f58db14dcd116d1edc9130cb40f778e127e62f6.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -831,23 +903,24 @@ Sampling: [likelihood]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Tue, 17 Mar 2026
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Tue, 10 Nov 2026
 
 Python implementation: CPython
-Python version       : 3.14.3
-IPython version      : 9.11.0
+Python version       : 3.14.7
+IPython version      : 9.16.1
 
-pytensor: 2.38.2
+pytensor: 3.3.0
 
-arviz     : 0.23.4
-matplotlib: 3.10.8
-numpy     : 2.4.2
-pandas    : 3.0.1
-pymc      : 5.28.1
+arviz     : 1.3.0
+matplotlib: 3.11.1
+numpy     : 2.4.6
+pandas    : 3.0.5
+pymc      : 6.3.2
 </pre></div>
 </div>
 </div>
 </div>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -904,6 +977,23 @@ pymc      : 5.28.1
             </div>
             
             
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#posterior-predictive-checks">Posterior predictive checks</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>
