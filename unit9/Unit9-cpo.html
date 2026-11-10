@@ -342,6 +342,7 @@
 <li class="toctree-l1"><a class="reference internal" href="Unit9-fitsel.html">3. Model Fit and Selection</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Unit9-hald.html">4. Hald*</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">5. Conditional Predictive Ordinate</a></li>
+
 <li class="toctree-l1"><a class="reference internal" href="Unit9-gesell.html">6. Gesell*</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Unit9-cumulative.html">7. Using the Empirical CDF and the Probability Integral Transform</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Unit9-cumulative2.html">8. Cumulative Example*</a></li>
@@ -597,8 +598,13 @@
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">5. Conditional Predictive Ordinate</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#modern-pymc-approach">Modern PyMC approach:</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#authors">Authors</a></li>
 </ul>
+</li>
+</ul>
+
             </nav>
         </div>
     </div>
@@ -627,7 +633,7 @@ p(\theta \vert y) = \frac{p(y\vert \theta) p(\theta)}{p(y)}
 <p>Which gives us:</p>
 <div class="amsmath math notranslate nohighlight">
 \[\begin{equation*}
-p(y_{-i}\vert \theta) = \frac{p(y)p(\theta \vert y)}{p(y\vert \theta)p(\theta)}
+p(y_{-i}\vert \theta) = \frac{p(y)p(\theta \vert y)}{p(y_i\vert \theta)p(\theta)}
 \end{equation*}\]</div>
 <p>and</p>
 <div class="amsmath math notranslate nohighlight">
@@ -654,8 +660,8 @@ p(\theta \vert y_{-i}) &amp;= \frac{p(y)}{p(y_{-i})}\cdot\frac{1}{p(y_{i}\vert \
 \[\begin{align*}
 1 &amp;= \frac{p(y)}{p(y_{-i})}\cdot \int_{\Theta}\frac{1}{p(y_{i}\vert \theta)}p(\theta\vert y)d\theta\\
 \end{align*}\]</div>
-<div class="amsmath math notranslate nohighlight" id="equation-b2f2fb96-bb9f-4a15-88ca-51eda4996c42">
-<span class="eqno">(1)<a class="headerlink" href="#equation-b2f2fb96-bb9f-4a15-88ca-51eda4996c42" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-77022f97-6f1d-4217-9985-c5da107a45f7">
+<span class="eqno">(1)<a class="headerlink" href="#equation-77022f97-6f1d-4217-9985-c5da107a45f7" title="Permalink to this equation">#</a></span>\[\begin{equation}
 \frac{p(y_{-i})}{p(y)} = \int_{\Theta}\bigg[ \frac{1}{p(y_{i}\vert \theta)} \bigg]\cdot p(\theta \vert y)d\theta
 \end{equation}\]</div>
 <p>The right-hand side of equation (1) should remind you of LOTUS (Law of The Unconscious Statistician): It’s just an expectation.  Recall that for a continuous random variable <span class="math notranslate nohighlight">\(X\)</span> with density function <span class="math notranslate nohighlight">\(p(x)\)</span>, if <span class="math notranslate nohighlight">\(Y=g(x)\)</span> then:</p>
@@ -669,8 +675,8 @@ p(\theta \vert y_{-i}) &amp;= \frac{p(y)}{p(y_{-i})}\cdot\frac{1}{p(y_{i}\vert \
 \frac{p(y_{-i})}{p(y)} = \mathbb{E}_{\theta \sim p(\theta \vert y)}\bigg[ \frac{1}{p(y_{i}\vert \theta)} \bigg]
 \end{equation*}\]</div>
 <p>In other words, the right-hand side of (1) represents the expectation of <span class="math notranslate nohighlight">\(\frac{1}{p(y_{i}\vert \theta)}\)</span> over <span class="math notranslate nohighlight">\(\theta\)</span> when <span class="math notranslate nohighlight">\(\theta\)</span> is distributed according to <span class="math notranslate nohighlight">\(p(\theta \vert y)\)</span>.  Taking the reciprocal of both sides gives:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-e15dde84-3e0e-45c1-99e9-2ac648962b62">
-<span class="eqno">(2)<a class="headerlink" href="#equation-e15dde84-3e0e-45c1-99e9-2ac648962b62" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-bb9de1ff-887d-4d43-bb62-14cc5eaaf286">
+<span class="eqno">(2)<a class="headerlink" href="#equation-bb9de1ff-887d-4d43-bb62-14cc5eaaf286" title="Permalink to this equation">#</a></span>\[\begin{equation}
 \frac{p(y)}{p(y_{-i})} = 
 \bigg( \mathbb{E}_{\theta \sim p(\theta \vert y)}\bigg[ \frac{1}{p(y_{i}\vert \theta)} \bigg] \bigg)^{-1}
 \end{equation}\]</div>
@@ -705,6 +711,10 @@ p(y_{i}\vert y_{-i})&amp;=
 <li><p>Take the mean of all values from step (1)</p></li>
 <li><p>Take the reciprocal of the value from step (2), this is the final calculation for <span class="math notranslate nohighlight">\(\text{CPO}_{i}\)</span></p></li>
 </ol>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="modern-pymc-approach">
+<h1>Modern PyMC approach:<a class="headerlink" href="#modern-pymc-approach" title="Link to this heading">#</a></h1>
+<p>The CPO is a leave-one-out predictive density. In modern ArviZ, we generally use <a class="reference external" href="https://python.arviz.org/projects/stats/en/stable/api/generated/arviz_stats.loo.html"><code class="docutils literal notranslate"><span class="pre">az.loo()</span></code></a> to calculate PSIS-LOO, which provides a more stable approximation than the CPO.</p>
 <section id="authors">
 <h2>Authors<a class="headerlink" href="#authors" title="Link to this heading">#</a></h2>
 <ul class="simple">
@@ -779,8 +789,13 @@ p(y_{i}\vert y_{-i})&amp;=
   </div>
   <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">5. Conditional Predictive Ordinate</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#modern-pymc-approach">Modern PyMC approach:</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#authors">Authors</a></li>
 </ul>
+</li>
+</ul>
+
   </nav></div>
 
 </div></div>
