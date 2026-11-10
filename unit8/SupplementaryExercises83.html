@@ -646,7 +646,190 @@
 <p>Fit the data with Weibull distribution, taking the treatment/control (1/0) as a covariate. Place noninformative priors on all parameters. Is the linoleic acid treatment beneficial? Comment.</p>
 <div class="tip dropdown admonition">
 <p class="admonition-title">Solution</p>
-<p>Solution to be added. Feel free to share yours on Ed Discussion!</p>
+<p>Code in hidden cell below!</p>
+</div>
+<div class="cell tag_hide-cell docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell content</p>
+<p class="expanded admonition-title">Hide code cell content</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pymc</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pm</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">arviz</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">az</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pytensor.tensor</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pt</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">"../data/dukes.csv"</span><span class="p">)</span>
+
+<span class="n">censored</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">"censored"</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+<span class="n">treatment</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">"treatment"</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+<span class="n">months</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">"months"</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+
+<span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">():</span>
+    <span class="n">alpha</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Exponential</span><span class="p">(</span><span class="s2">"alpha"</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">beta0</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">"beta0"</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+    <span class="n">beta1</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">"beta1"</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+
+    <span class="n">beta</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">beta0</span> <span class="o">+</span> <span class="n">beta1</span> <span class="o">*</span> <span class="n">treatment</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span> <span class="o">/</span> <span class="n">alpha</span><span class="p">)</span>
+
+    <span class="n">obs_latent</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Weibull</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="n">beta</span><span class="p">)</span>
+    <span class="n">pm</span><span class="o">.</span><span class="n">Censored</span><span class="p">(</span><span class="s2">"lik"</span><span class="p">,</span> <span class="n">obs_latent</span><span class="p">,</span> <span class="n">lower</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">upper</span><span class="o">=</span><span class="n">censored</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">months</span><span class="p">)</span>
+
+    <span class="c1"># https://docs.pymc.io/en/latest/api/distributions/generated/pymc.Weibull.html</span>
+    <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span>
+        <span class="s2">"mean0"</span><span class="p">,</span>
+        <span class="n">pt</span><span class="o">.</span><span class="n">gamma</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">alpha</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">pt</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">beta0</span> <span class="o">+</span> <span class="n">beta1</span> <span class="o">*</span> <span class="mi">0</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span> <span class="o">/</span> <span class="n">alpha</span><span class="p">)),</span>
+    <span class="p">)</span>
+    <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span>
+        <span class="s2">"mean1"</span><span class="p">,</span>
+        <span class="n">pt</span><span class="o">.</span><span class="n">gamma</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">alpha</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">pt</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">beta0</span> <span class="o">+</span> <span class="n">beta1</span> <span class="o">*</span> <span class="mi">1</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span> <span class="o">/</span> <span class="n">alpha</span><span class="p">)),</span>
+    <span class="p">)</span>
+
+    <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span>
+        <span class="s2">"median0"</span><span class="p">,</span>
+        <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">pt</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">beta0</span> <span class="o">+</span> <span class="n">beta1</span> <span class="o">*</span> <span class="mi">0</span><span class="p">))</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span> <span class="o">/</span> <span class="n">alpha</span><span class="p">)),</span>
+    <span class="p">)</span>
+    <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span>
+        <span class="s2">"median1"</span><span class="p">,</span>
+        <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">pt</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">beta0</span> <span class="o">+</span> <span class="n">beta1</span> <span class="o">*</span> <span class="mi">1</span><span class="p">))</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span> <span class="o">/</span> <span class="n">alpha</span><span class="p">)),</span>
+    <span class="p">)</span>
+
+    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">3000</span><span class="p">,</span> <span class="n">target_accept</span> <span class="o">=</span> <span class="mf">.9</span><span class="p">)</span>
+
+<span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Initializing NUTS using jitter+adapt_diag...
+Multiprocess sampling (4 chains in 4 jobs)
+NUTS: [alpha, beta0, beta1]
+</pre></div>
+</div>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "7b603102c2a740ecbd24730a25603948", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 3_000 draw iterations (4_000 + 12_000 draws total) took 2 seconds.
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mean</th>
+      <th>sd</th>
+      <th>hdi_3%</th>
+      <th>hdi_97%</th>
+      <th>mcse_mean</th>
+      <th>mcse_sd</th>
+      <th>ess_bulk</th>
+      <th>ess_tail</th>
+      <th>r_hat</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>alpha</th>
+      <td>1.370</td>
+      <td>0.232</td>
+      <td>0.936</td>
+      <td>1.801</td>
+      <td>0.004</td>
+      <td>0.003</td>
+      <td>3480.0</td>
+      <td>4173.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>beta0</th>
+      <td>-4.450</td>
+      <td>0.749</td>
+      <td>-5.943</td>
+      <td>-3.153</td>
+      <td>0.013</td>
+      <td>0.009</td>
+      <td>3552.0</td>
+      <td>3973.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>beta1</th>
+      <td>-0.686</td>
+      <td>0.450</td>
+      <td>-1.557</td>
+      <td>0.137</td>
+      <td>0.006</td>
+      <td>0.005</td>
+      <td>5719.0</td>
+      <td>5149.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>mean0</th>
+      <td>24.849</td>
+      <td>7.131</td>
+      <td>14.939</td>
+      <td>37.348</td>
+      <td>0.089</td>
+      <td>0.263</td>
+      <td>7245.0</td>
+      <td>6449.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>mean1</th>
+      <td>41.615</td>
+      <td>13.881</td>
+      <td>23.289</td>
+      <td>65.100</td>
+      <td>0.175</td>
+      <td>0.377</td>
+      <td>7367.0</td>
+      <td>7045.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>median0</th>
+      <td>18.541</td>
+      <td>4.882</td>
+      <td>10.894</td>
+      <td>26.944</td>
+      <td>0.059</td>
+      <td>0.159</td>
+      <td>7516.0</td>
+      <td>7403.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>median1</th>
+      <td>31.003</td>
+      <td>9.423</td>
+      <td>17.703</td>
+      <td>47.228</td>
+      <td>0.115</td>
+      <td>0.217</td>
+      <td>7949.0</td>
+      <td>7223.0</td>
+      <td>1.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</details>
 </div>
 </section>
 <section id="censored-rayleigh">
@@ -672,7 +855,165 @@ S(t) = \exp\left(-\frac{t^2}{2\lambda}\right), \lambda &gt; 0
 <p>The Rayleigh distribution is not implemented in PyMC. You can try the zero-trick or create a custom distribution.</p>
 <div class="tip dropdown admonition">
 <p class="admonition-title">Solution</p>
-<p>Solution to be added. Feel free to share yours on Ed Discussion!</p>
+<p>A custom distribution is implemented in PyMC using the Rayleigh survival model:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}f(c,t) = \begin{cases} 
+      \frac{t}{\lambda} \exp(\frac{-t^2}{2\lambda}) &amp; \text{if } c = 1 \\
+      \exp(\frac{-t^2}{2\lambda}) &amp; \text{if } c = 0 \\
+   \end{cases}\end{split}\]</div>
+<p>Censored points are labeled with <span class="math notranslate nohighlight">\(c=0\)</span>:</p>
+</div>
+<div class="cell tag_hide-cell docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell content</p>
+<p class="expanded admonition-title">Hide code cell content</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pymc</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pm</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">arviz</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">az</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pymc.math</span><span class="w"> </span><span class="kn">import</span> <span class="n">log</span><span class="p">,</span> <span class="n">exp</span>
+
+<span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">23</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">41</span><span class="p">,</span> <span class="mi">67</span><span class="p">,</span> <span class="mi">69</span><span class="p">,</span> <span class="mi">72</span><span class="p">,</span> <span class="mi">84</span><span class="p">,</span> <span class="mi">88</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">])</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span> <span class="mi">1</span><span class="p">,</span>  <span class="mi">1</span><span class="p">,</span>  <span class="mi">1</span><span class="p">,</span>  <span class="mi">1</span><span class="p">,</span>  <span class="mi">1</span><span class="p">,</span>  <span class="mi">1</span><span class="p">,</span>  <span class="mi">1</span><span class="p">,</span>  <span class="mi">1</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>   <span class="mi">0</span><span class="p">])</span>
+
+<span class="c1"># CustomDist requires all data to be together in a matrix</span>
+<span class="n">val</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concat</span><span class="p">([[</span><span class="n">t</span><span class="p">],[</span><span class="n">c</span><span class="p">]])</span>
+
+<span class="c1"># log-probability of custom distribution</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">logp</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">lam</span><span class="p">):</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">value</span><span class="p">[</span><span class="mi">0</span><span class="p">,:]</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">value</span><span class="p">[</span><span class="mi">1</span><span class="p">,:]</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">c</span> <span class="o">*</span> <span class="n">log</span><span class="p">(</span><span class="n">t</span><span class="o">/</span><span class="n">lam</span><span class="p">)</span> <span class="o">-</span> <span class="p">((</span><span class="n">t</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">lam</span><span class="p">)))</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+
+<span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">m</span><span class="p">:</span>
+    <span class="n">λ</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Gamma</span><span class="p">(</span><span class="s2">"λ"</span><span class="p">,</span> <span class="mf">.001</span><span class="p">,</span> <span class="mf">.001</span><span class="p">)</span>
+    
+    <span class="n">rayleigh_surv</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">CustomDist</span><span class="p">(</span><span class="s1">'rayleigh_surv'</span><span class="p">,</span> <span class="n">λ</span><span class="p">,</span> <span class="n">logp</span><span class="o">=</span><span class="n">logp</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">val</span><span class="p">)</span>
+
+    <span class="c1">#mean prediction</span>
+    <span class="n">S_new</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s2">"S_new"</span><span class="p">,</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="mi">60</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">λ</span><span class="p">)))</span>
+
+    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">5000</span><span class="p">)</span>
+
+<span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span><span class="n">hdi_prob</span><span class="o">=</span><span class="mf">.95</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Initializing NUTS using jitter+adapt_diag...
+Multiprocess sampling (4 chains in 4 jobs)
+NUTS: [λ]
+/opt/anaconda3/envs/pymc_env/lib/python3.13/multiprocessing/popen_fork.py:67: RuntimeWarning: os.fork() was called. os.fork() is incompatible with multithreaded code, and JAX is multithreaded, so this will likely lead to a deadlock.
+  self.pid = os.fork()
+</pre></div>
+</div>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "e2fca449758e4e22891d17d698108d77", "version_major": 2, "version_minor": 0}</script><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/opt/anaconda3/envs/pymc_env/lib/python3.13/multiprocessing/popen_fork.py:67: RuntimeWarning: os.fork() was called. os.fork() is incompatible with multithreaded code, and JAX is multithreaded, so this will likely lead to a deadlock.
+  self.pid = os.fork()
+</pre></div>
+</div>
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 5_000 draw iterations (4_000 + 20_000 draws total) took 1 seconds.
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mean</th>
+      <th>sd</th>
+      <th>hdi_2.5%</th>
+      <th>hdi_97.5%</th>
+      <th>mcse_mean</th>
+      <th>mcse_sd</th>
+      <th>ess_bulk</th>
+      <th>ess_tail</th>
+      <th>r_hat</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>S_new</th>
+      <td>0.492</td>
+      <td>0.092</td>
+      <td>0.31</td>
+      <td>0.669</td>
+      <td>0.001</td>
+      <td>0.001</td>
+      <td>8524.0</td>
+      <td>13589.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>λ</th>
+      <td>2663.574</td>
+      <td>760.235</td>
+      <td>1423.04</td>
+      <td>4205.367</td>
+      <td>8.133</td>
+      <td>7.232</td>
+      <td>8524.0</td>
+      <td>13589.0</td>
+      <td>1.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</details>
+</div>
+<div class="cell tag_hide-cell docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell content</p>
+<p class="expanded admonition-title">Hide code cell content</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#visualize survival function with mean lambda</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="c1"># MLE</span>
+<span class="n">λ_mle</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">t</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="nb">sum</span><span class="p">(</span><span class="n">c</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="s2">"MLE version of λ:"</span><span class="p">)</span> <span class="o">+</span> <span class="s2">" "</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">λ_mle</span><span class="p">))</span>
+
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">200</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">y1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace</span><span class="p">)[</span><span class="s1">'mean'</span><span class="p">][</span><span class="s1">'λ'</span><span class="p">]))</span>
+<span class="n">y2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">λ_mle</span><span class="p">))</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y1</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s2">"Bayes Estimator"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y2</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s2">"MLE"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"Rayleigh Survival Functions"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">"Time (hours)"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">"Survival Probability"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>MLE version of λ: 3315.25
+</pre></div>
+</div>
+<img alt="../_images/021f695c52642db9be1f94f147601ac0f976feda6e70cb7f2a46f0e9ac0f3a1b.png" src="../_images/021f695c52642db9be1f94f147601ac0f976feda6e70cb7f2a46f0e9ac0f3a1b.png" />
+</div>
+</details>
 </div>
 </section>
 <section id="stagnant-water-with-mar-data">
@@ -693,7 +1034,124 @@ y_i &amp;\sim N(\mu_i, \sigma^2) \\
 <p>According to this model, the regression slope is <span class="math notranslate nohighlight">\( \beta_1 \)</span> for <span class="math notranslate nohighlight">\( x &lt; \theta \)</span> and <span class="math notranslate nohighlight">\( \beta_1 + \beta_2 \)</span> for <span class="math notranslate nohighlight">\( x \geq \theta \)</span>. The original exercise is modified to have two <span class="math notranslate nohighlight">\( y \)</span>‘s and two <span class="math notranslate nohighlight">\( x \)</span>‘s missing at random.</p>
 <div class="tip dropdown admonition">
 <p class="admonition-title">Solution</p>
-<p>Solution to be added. Feel free to share yours on Ed Discussion!</p>
+<p>Solution in hidden cell below!</p>
+</div>
+<div class="cell tag_hide-cell docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell content</p>
+<p class="expanded admonition-title">Hide code cell content</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pymc</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pm</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">arviz</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">az</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pymc.math</span><span class="w"> </span><span class="kn">import</span> <span class="n">switch</span><span class="p">,</span> <span class="n">ge</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">"../data/stagnant_water.csv"</span><span class="p">)</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">"x"</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">"y"</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+
+<span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">m</span><span class="p">:</span>
+
+    <span class="n">tau</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Gamma</span><span class="p">(</span><span class="s2">"tau"</span><span class="p">,</span> <span class="mf">.001</span><span class="p">,</span> <span class="mf">.001</span><span class="p">)</span>
+    <span class="n">alpha</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">"alpha"</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">)</span>
+    <span class="n">beta1</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">"beta1"</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">)</span>
+    <span class="n">beta2</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">"beta2"</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">)</span>
+    <span class="n">theta</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Uniform</span><span class="p">(</span><span class="s2">"theta"</span><span class="p">,</span><span class="o">-</span><span class="mf">1.3</span><span class="p">,</span><span class="mf">1.1</span><span class="p">)</span>
+
+    <span class="n">x_impute</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Uniform</span><span class="p">(</span><span class="s2">"x_impute"</span><span class="p">,</span> <span class="o">-</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="n">observed</span><span class="o">=</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="n">mu</span> <span class="o">=</span> <span class="n">alpha</span> <span class="o">+</span> <span class="n">beta1</span> <span class="o">*</span> <span class="n">x_impute</span> <span class="o">+</span> <span class="n">beta2</span> <span class="o">*</span> <span class="p">(</span><span class="n">x_impute</span><span class="o">-</span><span class="n">theta</span><span class="p">)</span> <span class="o">*</span> <span class="n">switch</span><span class="p">(</span><span class="n">ge</span><span class="p">(</span><span class="n">x_impute</span> <span class="o">-</span> <span class="n">theta</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+    <span class="n">likelihood</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">"likelihood"</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="n">tau</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
+
+    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">5000</span><span class="p">,</span> <span class="n">nuts_sampler</span> <span class="o">=</span> <span class="s1">'numpyro'</span><span class="p">,</span> <span class="n">target_accept</span><span class="o">=</span><span class="mf">.8</span><span class="p">)</span>
+    <span class="c1"># trace = pm.sample(5000)</span>
+
+<span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">hdi_prob</span><span class="o">=</span><span class="mf">.95</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s1">'alpha'</span><span class="p">,</span><span class="s1">'beta1'</span><span class="p">,</span><span class="s1">'beta2'</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/opt/anaconda3/envs/pymc_env/lib/python3.13/site-packages/pymc/model/core.py:1311: ImputationWarning: Data in x_impute contains missing values and will be automatically imputed from the sampling distribution.
+  warnings.warn(impute_message, ImputationWarning)
+/opt/anaconda3/envs/pymc_env/lib/python3.13/site-packages/pymc/model/core.py:1311: ImputationWarning: Data in likelihood contains missing values and will be automatically imputed from the sampling distribution.
+  warnings.warn(impute_message, ImputationWarning)
+</pre></div>
+</div>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "c2567e1bc3974f07a3d0267bee913a4e", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "ed2c52274b9940508e6d1a0cc35d4e76", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "4907a230bd9f4d7bab183db32513de7e", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "2da716f8189042c297b4d4cd00febe9d", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mean</th>
+      <th>sd</th>
+      <th>hdi_2.5%</th>
+      <th>hdi_97.5%</th>
+      <th>mcse_mean</th>
+      <th>mcse_sd</th>
+      <th>ess_bulk</th>
+      <th>ess_tail</th>
+      <th>r_hat</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>alpha</th>
+      <td>0.550</td>
+      <td>0.015</td>
+      <td>0.521</td>
+      <td>0.578</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>5980.0</td>
+      <td>8982.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>beta1</th>
+      <td>-0.416</td>
+      <td>0.016</td>
+      <td>-0.447</td>
+      <td>-0.384</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>6393.0</td>
+      <td>9438.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>beta2</th>
+      <td>-0.589</td>
+      <td>0.022</td>
+      <td>-0.631</td>
+      <td>-0.545</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>11754.0</td>
+      <td>12590.0</td>
+      <td>1.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</details>
 </div>
 </section>
 </section>
