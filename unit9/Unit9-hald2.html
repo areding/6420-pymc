@@ -62,6 +62,8 @@
     <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'unit9/Unit9-hald2';</script>
     <link rel="icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -604,6 +606,8 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">arviz</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">az</span>
+
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">6420</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -641,7 +645,9 @@
     <span class="n">mu</span> <span class="o">=</span> <span class="n">intercept</span> <span class="o">+</span> <span class="n">pm</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">X_centered</span><span class="p">,</span> <span class="n">beta</span><span class="p">)</span>
     <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">"likelihood"</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="n">tau</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
 
-    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">draws</span><span class="o">=</span><span class="n">draws</span><span class="p">,</span> <span class="n">chains</span><span class="o">=</span><span class="n">chains</span><span class="p">,</span> <span class="n">target_accept</span><span class="o">=</span><span class="mf">0.95</span><span class="p">)</span>
+    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span>
+        <span class="n">draws</span><span class="o">=</span><span class="n">draws</span><span class="p">,</span> <span class="n">chains</span><span class="o">=</span><span class="n">chains</span><span class="p">,</span> <span class="n">target_accept</span><span class="o">=</span><span class="mf">0.95</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span>
+    <span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -657,28 +663,8 @@ CompoundStep
 &gt;NUTS: [alpha, tau, intercept]
 </pre></div>
 </div>
-<div class="output text_html">
-<style>
-    /* Turns off some styling */
-    progress {
-        /* gets rid of default border in Firefox and Opera. */
-        border: none;
-        /* Needs to be in here for Safari polyfill so background images work as expected. */
-        background-size: auto;
-    }
-    progress:not([value]), progress:not([value])::-webkit-progress-bar {
-        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
-    }
-    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
-        background: #F44336;
-    }
-</style>
-</div><div class="output text_html">
-    <div>
-      <progress value='44000' class='' max='44000' style='width:300px; height:20px; vertical-align: middle;'></progress>
-      100.00% [44000/44000 00:18&lt;00:00 Sampling 4 chains, 0 divergences]
-    </div>
-    </div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 10_000 draw iterations (4_000 + 40_000 draws total) took 19 seconds.
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "8a384c88442447848da4088b428c9999", "version_major": 2, "version_minor": 0}</script><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"></pre>
+</div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 1_000 tune and 10_000 draw iterations (4_000 + 40_000 draws total) took 9 seconds.
 </pre></div>
 </div>
 </div>
@@ -691,62 +677,47 @@ CompoundStep
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
+<div class="output text_html"><table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
       <th></th>
       <th>mean</th>
       <th>sd</th>
-      <th>hdi_3%</th>
-      <th>hdi_97%</th>
+      <th>eti89_lb</th>
+      <th>eti89_ub</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <th>delta[0]</th>
-      <td>1.000</td>
-      <td>0.021</td>
-      <td>1.0</td>
-      <td>1.0</td>
+      <td>1</td>
+      <td>0.013</td>
+      <td>1</td>
+      <td>1</td>
     </tr>
     <tr>
       <th>delta[1]</th>
-      <td>0.931</td>
-      <td>0.254</td>
-      <td>0.0</td>
-      <td>1.0</td>
+      <td>0.93</td>
+      <td>0.25</td>
+      <td>0</td>
+      <td>1</td>
     </tr>
     <tr>
       <th>delta[2]</th>
-      <td>0.430</td>
-      <td>0.495</td>
-      <td>0.0</td>
-      <td>1.0</td>
+      <td>0.42</td>
+      <td>0.49</td>
+      <td>0</td>
+      <td>1</td>
     </tr>
     <tr>
       <th>delta[3]</th>
-      <td>0.941</td>
-      <td>0.235</td>
-      <td>1.0</td>
-      <td>1.0</td>
+      <td>0.94</td>
+      <td>0.23</td>
+      <td>0</td>
+      <td>1</td>
     </tr>
   </tbody>
-</table>
-</div></div></div>
+</table></div></div>
 </div>
 <p>Delta values, representing how often each feature was selected for the model, match the BUGS results. But what about looking at how often each model was selected? I really don’t want to code that quadruple for-loop (the model variable in the BUGS example) or try to vectorize it.</p>
 <p>Let’s look in the trace. We can view the delta variable across all chains and samples.</p>
@@ -772,38 +743,87 @@ CompoundStep
 </symbol>
 </defs>
 </svg>
-<style>/* CSS stylesheet for displaying xarray objects in jupyterlab.
- *
- */
+<style>/* CSS stylesheet for displaying xarray objects in notebooks */
 
 :root {
-  --xr-font-color0: var(--jp-content-font-color0, rgba(0, 0, 0, 1));
-  --xr-font-color2: var(--jp-content-font-color2, rgba(0, 0, 0, 0.54));
-  --xr-font-color3: var(--jp-content-font-color3, rgba(0, 0, 0, 0.38));
-  --xr-border-color: var(--jp-border-color2, #e0e0e0);
-  --xr-disabled-color: var(--jp-layout-color3, #bdbdbd);
-  --xr-background-color: var(--jp-layout-color0, white);
-  --xr-background-color-row-even: var(--jp-layout-color1, white);
-  --xr-background-color-row-odd: var(--jp-layout-color2, #eeeeee);
+  --xr-font-color0: var(
+    --jp-content-font-color0,
+    var(--pst-color-text-base rgba(0, 0, 0, 1))
+  );
+  --xr-font-color2: var(
+    --jp-content-font-color2,
+    var(--pst-color-text-base, rgba(0, 0, 0, 0.54))
+  );
+  --xr-font-color3: var(
+    --jp-content-font-color3,
+    var(--pst-color-text-base, rgba(0, 0, 0, 0.38))
+  );
+  --xr-border-color: var(
+    --jp-border-color2,
+    hsl(from var(--pst-color-on-background, white) h s calc(l - 10))
+  );
+  --xr-disabled-color: var(
+    --jp-layout-color3,
+    hsl(from var(--pst-color-on-background, white) h s calc(l - 40))
+  );
+  --xr-background-color: var(
+    --jp-layout-color0,
+    var(--pst-color-on-background, white)
+  );
+  --xr-background-color-row-even: var(
+    --jp-layout-color1,
+    hsl(from var(--pst-color-on-background, white) h s calc(l - 5))
+  );
+  --xr-background-color-row-odd: var(
+    --jp-layout-color2,
+    hsl(from var(--pst-color-on-background, white) h s calc(l - 15))
+  );
 }
 
-html[theme=dark],
-body[data-theme=dark],
+html[theme="dark"],
+html[data-theme="dark"],
+body[data-theme="dark"],
 body.vscode-dark {
-  --xr-font-color0: rgba(255, 255, 255, 1);
-  --xr-font-color2: rgba(255, 255, 255, 0.54);
-  --xr-font-color3: rgba(255, 255, 255, 0.38);
-  --xr-border-color: #1F1F1F;
-  --xr-disabled-color: #515151;
-  --xr-background-color: #111111;
-  --xr-background-color-row-even: #111111;
-  --xr-background-color-row-odd: #313131;
+  --xr-font-color0: var(
+    --jp-content-font-color0,
+    var(--pst-color-text-base, rgba(255, 255, 255, 1))
+  );
+  --xr-font-color2: var(
+    --jp-content-font-color2,
+    var(--pst-color-text-base, rgba(255, 255, 255, 0.54))
+  );
+  --xr-font-color3: var(
+    --jp-content-font-color3,
+    var(--pst-color-text-base, rgba(255, 255, 255, 0.38))
+  );
+  --xr-border-color: var(
+    --jp-border-color2,
+    hsl(from var(--pst-color-on-background, #111111) h s calc(l + 10))
+  );
+  --xr-disabled-color: var(
+    --jp-layout-color3,
+    hsl(from var(--pst-color-on-background, #111111) h s calc(l + 40))
+  );
+  --xr-background-color: var(
+    --jp-layout-color0,
+    var(--pst-color-on-background, #111111)
+  );
+  --xr-background-color-row-even: var(
+    --jp-layout-color1,
+    hsl(from var(--pst-color-on-background, #111111) h s calc(l + 5))
+  );
+  --xr-background-color-row-odd: var(
+    --jp-layout-color2,
+    hsl(from var(--pst-color-on-background, #111111) h s calc(l + 15))
+  );
 }
 
 .xr-wrap {
   display: block !important;
   min-width: 300px;
   max-width: 700px;
+  line-height: 1.6;
+  padding-bottom: 4px;
 }
 
 .xr-text-repr-fallback {
@@ -814,8 +834,11 @@ body.vscode-dark {
 .xr-header {
   padding-top: 6px;
   padding-bottom: 6px;
-  margin-bottom: 4px;
+}
+
+.xr-header {
   border-bottom: solid 1px var(--xr-border-color);
+  margin-bottom: 4px;
 }
 
 .xr-header > div,
@@ -826,39 +849,62 @@ body.vscode-dark {
 }
 
 .xr-obj-type,
-.xr-array-name {
+.xr-obj-name {
   margin-left: 2px;
   margin-right: 10px;
 }
 
-.xr-obj-type {
+.xr-obj-type,
+.xr-group-box-contents > label {
   color: var(--xr-font-color2);
+  display: block;
 }
 
 .xr-sections {
   padding-left: 0 !important;
   display: grid;
-  grid-template-columns: 150px auto auto 1fr 20px 20px;
+  grid-template-columns: 150px auto auto 1fr 0 20px 0 20px;
+  margin-block-start: 0;
+  margin-block-end: 0;
 }
 
 .xr-section-item {
   display: contents;
 }
 
-.xr-section-item input {
-  display: none;
+.xr-section-item > input,
+.xr-group-box-contents > input,
+.xr-array-wrap > input {
+  display: block;
+  opacity: 0;
+  height: 0;
+  margin: 0;
 }
 
-.xr-section-item input + label {
+.xr-section-item > input + label,
+.xr-var-item > input + label {
   color: var(--xr-disabled-color);
 }
 
-.xr-section-item input:enabled + label {
+.xr-section-item > input:enabled + label,
+.xr-var-item > input:enabled + label,
+.xr-array-wrap > input:enabled + label,
+.xr-group-box-contents > input:enabled + label {
   cursor: pointer;
   color: var(--xr-font-color2);
 }
 
-.xr-section-item input:enabled + label:hover {
+.xr-section-item > input:focus-visible + label,
+.xr-var-item > input:focus-visible + label,
+.xr-array-wrap > input:focus-visible + label,
+.xr-group-box-contents > input:focus-visible + label {
+  outline: auto;
+}
+
+.xr-section-item > input:enabled + label:hover,
+.xr-var-item > input:enabled + label:hover,
+.xr-array-wrap > input:enabled + label:hover,
+.xr-group-box-contents > input:enabled + label:hover {
   color: var(--xr-font-color0);
 }
 
@@ -866,11 +912,25 @@ body.vscode-dark {
   grid-column: 1;
   color: var(--xr-font-color2);
   font-weight: 500;
+  white-space: nowrap;
+}
+
+.xr-section-summary > em {
+  font-weight: normal;
+}
+
+.xr-span-grid {
+  grid-column-end: -1;
 }
 
 .xr-section-summary > span {
   display: inline-block;
-  padding-left: 0.5em;
+  padding-left: 0.3em;
+}
+
+.xr-group-box-contents > input:checked + label > span {
+  display: inline-block;
+  padding-left: 0.6em;
 }
 
 .xr-section-summary-in:disabled + label {
@@ -879,7 +939,7 @@ body.vscode-dark {
 
 .xr-section-summary-in + label:before {
   display: inline-block;
-  content: '►';
+  content: "►";
   font-size: 11px;
   width: 15px;
   text-align: center;
@@ -890,7 +950,7 @@ body.vscode-dark {
 }
 
 .xr-section-summary-in:checked + label:before {
-  content: '▼';
+  content: "▼";
 }
 
 .xr-section-summary-in:checked + label > span {
@@ -898,9 +958,9 @@ body.vscode-dark {
 }
 
 .xr-section-summary,
-.xr-section-inline-details {
+.xr-section-inline-details,
+.xr-group-box-contents > label {
   padding-top: 4px;
-  padding-bottom: 4px;
 }
 
 .xr-section-inline-details {
@@ -908,13 +968,79 @@ body.vscode-dark {
 }
 
 .xr-section-details {
-  display: none;
   grid-column: 1 / -1;
+  margin-top: 4px;
   margin-bottom: 5px;
+}
+
+.xr-section-summary-in ~ .xr-section-details {
+  display: none;
 }
 
 .xr-section-summary-in:checked ~ .xr-section-details {
   display: contents;
+}
+
+.xr-children {
+  display: inline-grid;
+  grid-template-columns: 100%;
+  grid-column: 1 / -1;
+  padding-top: 4px;
+}
+
+.xr-group-box {
+  display: inline-grid;
+  grid-template-columns: 0px 30px auto;
+}
+
+.xr-group-box-vline {
+  grid-column-start: 1;
+  border-right: 0.2em solid;
+  border-color: var(--xr-border-color);
+  width: 0px;
+}
+
+.xr-group-box-hline {
+  grid-column-start: 2;
+  grid-row-start: 1;
+  height: 1em;
+  width: 26px;
+  border-bottom: 0.2em solid;
+  border-color: var(--xr-border-color);
+}
+
+.xr-group-box-contents {
+  grid-column-start: 3;
+  padding-bottom: 4px;
+}
+
+.xr-group-box-contents > label::before {
+  content: "📂";
+  padding-right: 0.3em;
+}
+
+.xr-group-box-contents > input:checked + label::before {
+  content: "📁";
+}
+
+.xr-group-box-contents > input:checked + label {
+  padding-bottom: 0px;
+}
+
+.xr-group-box-contents > input:checked ~ .xr-sections {
+  display: none;
+}
+
+.xr-group-box-contents > input + label > span {
+  display: none;
+}
+
+.xr-group-box-ellipsis {
+  font-size: 1.4em;
+  font-weight: 900;
+  color: var(--xr-font-color2);
+  letter-spacing: 0.15em;
+  cursor: default;
 }
 
 .xr-array-wrap {
@@ -962,15 +1088,15 @@ body.vscode-dark {
 }
 
 .xr-dim-list:before {
-  content: '(';
+  content: "(";
 }
 
 .xr-dim-list:after {
-  content: ')';
+  content: ")";
 }
 
 .xr-dim-list li:not(:last-child):after {
-  content: ',';
+  content: ",";
   padding-right: 5px;
 }
 
@@ -987,7 +1113,9 @@ body.vscode-dark {
 .xr-var-item label,
 .xr-var-item > .xr-var-name span {
   background-color: var(--xr-background-color-row-even);
+  border-color: var(--xr-background-color-row-odd);
   margin-bottom: 0;
+  padding-top: 2px;
 }
 
 .xr-var-item > .xr-var-name:hover span {
@@ -998,6 +1126,7 @@ body.vscode-dark {
 .xr-var-list > li:nth-child(odd) > label,
 .xr-var-list > li:nth-child(odd) > .xr-var-name span {
   background-color: var(--xr-background-color-row-odd);
+  border-color: var(--xr-background-color-row-even);
 }
 
 .xr-var-name {
@@ -1047,8 +1176,15 @@ body.vscode-dark {
 .xr-var-data,
 .xr-index-data {
   display: none;
-  background-color: var(--xr-background-color) !important;
-  padding-bottom: 5px !important;
+  border-top: 2px dotted var(--xr-background-color);
+  padding-bottom: 20px !important;
+  padding-top: 10px !important;
+}
+
+.xr-var-attrs-in + label,
+.xr-var-data-in + label,
+.xr-index-data-in + label {
+  padding: 0 1px;
 }
 
 .xr-var-attrs-in:checked ~ .xr-var-attrs,
@@ -1059,6 +1195,12 @@ body.vscode-dark {
 
 .xr-var-data > table {
   float: right;
+}
+
+.xr-var-data > pre,
+.xr-index-data > pre,
+.xr-var-data > table > tbody > tr {
+  background-color: transparent !important;
 }
 
 .xr-var-name span,
@@ -1120,24 +1262,24 @@ dl.xr-attrs {
   stroke: currentColor;
   fill: currentColor;
 }
-</style><pre class='xr-text-repr-fallback'>&lt;xarray.DataArray &#x27;delta&#x27; (chain: 4, draw: 10000, delta_dim_0: 4)&gt;
+
+.xr-var-attrs-in:checked + label > .xr-icon-file-text2,
+.xr-var-data-in:checked + label > .xr-icon-database,
+.xr-index-data-in:checked + label > .xr-icon-database {
+  color: var(--xr-font-color0);
+  filter: drop-shadow(1px 1px 5px var(--xr-font-color2));
+  stroke-width: 0.8px;
+}
+</style><pre class='xr-text-repr-fallback'>&lt;xarray.DataArray &#x27;delta&#x27; (chain: 4, draw: 10000, delta_dim_0: 4)&gt; Size: 1MB
 array([[[1, 1, 0, 1],
-        [1, 1, 1, 1],
+        [1, 1, 0, 1],
         [1, 1, 1, 1],
         ...,
-        [1, 1, 0, 0],
-        [1, 1, 0, 0],
-        [1, 1, 1, 0]],
+        [1, 1, 1, 1],
+        [1, 1, 1, 1],
+        [1, 1, 1, 1]],
 
        [[1, 1, 0, 1],
-        [1, 1, 0, 1],
-        [1, 1, 0, 1],
-        ...,
-        [1, 1, 1, 1],
-        [1, 1, 1, 1],
-        [1, 1, 0, 1]],
-
-       [[1, 1, 1, 1],
         [1, 1, 1, 1],
         [1, 1, 1, 1],
         ...,
@@ -1146,32 +1288,32 @@ array([[[1, 1, 0, 1],
         [1, 1, 0, 1]],
 
        [[1, 1, 0, 1],
+        [1, 1, 1, 1],
+        [1, 1, 1, 1],
+        ...,
+        [1, 1, 0, 1],
+        [1, 1, 0, 1],
+        [1, 1, 0, 1]],
+
+       [[1, 1, 0, 1],
         [1, 1, 0, 1],
         [1, 1, 0, 1],
         ...,
         [1, 1, 0, 1],
-        [1, 1, 0, 1],
-        [1, 1, 0, 1]]])
+        [1, 1, 1, 1],
+        [1, 1, 0, 1]]], shape=(4, 10000, 4))
 Coordinates:
-  * chain        (chain) int64 0 1 2 3
-  * draw         (draw) int64 0 1 2 3 4 5 6 ... 9994 9995 9996 9997 9998 9999
-  * delta_dim_0  (delta_dim_0) int64 0 1 2 3</pre><div class='xr-wrap' style='display:none'><div class='xr-header'><div class='xr-obj-type'>xarray.DataArray</div><div class='xr-array-name'>'delta'</div><ul class='xr-dim-list'><li><span class='xr-has-index'>chain</span>: 4</li><li><span class='xr-has-index'>draw</span>: 10000</li><li><span class='xr-has-index'>delta_dim_0</span>: 4</li></ul></div><ul class='xr-sections'><li class='xr-section-item'><div class='xr-array-wrap'><input id='section-e53da5d0-b2ab-4e26-93e9-146264e53ef6' class='xr-array-in' type='checkbox' checked><label for='section-e53da5d0-b2ab-4e26-93e9-146264e53ef6' title='Show/hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-array-preview xr-preview'><span>1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 ... 1 1 0 1 1 1 0 1 1 1 0 1 1 1 0 1</span></div><div class='xr-array-data'><pre>array([[[1, 1, 0, 1],
-        [1, 1, 1, 1],
+  * chain        (chain) int64 32B 0 1 2 3
+  * draw         (draw) int64 80kB 0 1 2 3 4 5 ... 9994 9995 9996 9997 9998 9999
+  * delta_dim_0  (delta_dim_0) int64 32B 0 1 2 3</pre><div class='xr-wrap' style='display:none'><div class='xr-header'><div class='xr-obj-type'>xarray.DataArray</div><div class='xr-obj-name'>&#x27;delta&#x27;</div><ul class='xr-dim-list'><li><span class='xr-has-index'>chain</span>: 4</li><li><span class='xr-has-index'>draw</span>: 10000</li><li><span class='xr-has-index'>delta_dim_0</span>: 4</li></ul></div><ul class='xr-sections'><li class='xr-section-item'><div class='xr-array-wrap'><input id='section-4307d240-6d34-49cc-adeb-d7ecc4e8dcd2' class='xr-array-in' type='checkbox' checked><label for='section-4307d240-6d34-49cc-adeb-d7ecc4e8dcd2' title='Show/hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-array-preview xr-preview'><span>1 1 0 1 1 1 0 1 1 1 1 1 1 1 1 1 1 ... 1 1 0 1 1 1 0 1 1 1 1 1 1 1 0 1</span></div><div class='xr-array-data'><pre>array([[[1, 1, 0, 1],
+        [1, 1, 0, 1],
         [1, 1, 1, 1],
         ...,
-        [1, 1, 0, 0],
-        [1, 1, 0, 0],
-        [1, 1, 1, 0]],
+        [1, 1, 1, 1],
+        [1, 1, 1, 1],
+        [1, 1, 1, 1]],
 
        [[1, 1, 0, 1],
-        [1, 1, 0, 1],
-        [1, 1, 0, 1],
-        ...,
-        [1, 1, 1, 1],
-        [1, 1, 1, 1],
-        [1, 1, 0, 1]],
-
-       [[1, 1, 1, 1],
         [1, 1, 1, 1],
         [1, 1, 1, 1],
         ...,
@@ -1180,15 +1322,20 @@ Coordinates:
         [1, 1, 0, 1]],
 
        [[1, 1, 0, 1],
+        [1, 1, 1, 1],
+        [1, 1, 1, 1],
+        ...,
+        [1, 1, 0, 1],
+        [1, 1, 0, 1],
+        [1, 1, 0, 1]],
+
+       [[1, 1, 0, 1],
         [1, 1, 0, 1],
         [1, 1, 0, 1],
         ...,
         [1, 1, 0, 1],
-        [1, 1, 0, 1],
-        [1, 1, 0, 1]]])</pre></div></div></li><li class='xr-section-item'><input id='section-ed71da4e-1f0c-4974-8c56-229edbeb6ad5' class='xr-section-summary-in' type='checkbox'  checked><label for='section-ed71da4e-1f0c-4974-8c56-229edbeb6ad5' class='xr-section-summary' >Coordinates: <span>(3)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>chain</span></div><div class='xr-var-dims'>(chain)</div><div class='xr-var-dtype'>int64</div><div class='xr-var-preview xr-preview'>0 1 2 3</div><input id='attrs-ea2cb571-9deb-43a3-9136-c00bbc5da872' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-ea2cb571-9deb-43a3-9136-c00bbc5da872' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-cbef66d2-d821-441b-9c89-7d2afd32629b' class='xr-var-data-in' type='checkbox'><label for='data-cbef66d2-d821-441b-9c89-7d2afd32629b' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([0, 1, 2, 3])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>draw</span></div><div class='xr-var-dims'>(draw)</div><div class='xr-var-dtype'>int64</div><div class='xr-var-preview xr-preview'>0 1 2 3 4 ... 9996 9997 9998 9999</div><input id='attrs-5d65c108-fadc-4ed0-a419-8e299989396f' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-5d65c108-fadc-4ed0-a419-8e299989396f' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-7a0df2f9-85ae-4572-a8aa-73bd4da74363' class='xr-var-data-in' type='checkbox'><label for='data-7a0df2f9-85ae-4572-a8aa-73bd4da74363' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([   0,    1,    2, ..., 9997, 9998, 9999])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>delta_dim_0</span></div><div class='xr-var-dims'>(delta_dim_0)</div><div class='xr-var-dtype'>int64</div><div class='xr-var-preview xr-preview'>0 1 2 3</div><input id='attrs-c2457918-b75d-4dbf-ac98-cc3c39f6d857' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-c2457918-b75d-4dbf-ac98-cc3c39f6d857' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-fc2117e8-dd15-488d-a278-3c19ed6c5339' class='xr-var-data-in' type='checkbox'><label for='data-fc2117e8-dd15-488d-a278-3c19ed6c5339' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([0, 1, 2, 3])</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-09fdc093-f857-4383-84f8-1a03ed425e1d' class='xr-section-summary-in' type='checkbox'  ><label for='section-09fdc093-f857-4383-84f8-1a03ed425e1d' class='xr-section-summary' >Indexes: <span>(3)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-index-name'><div>chain</div></div><div class='xr-index-preview'>PandasIndex</div><div></div><input id='index-f5e55eb1-b7b5-462a-997b-8872752a479a' class='xr-index-data-in' type='checkbox'/><label for='index-f5e55eb1-b7b5-462a-997b-8872752a479a' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(Int64Index([0, 1, 2, 3], dtype=&#x27;int64&#x27;, name=&#x27;chain&#x27;))</pre></div></li><li class='xr-var-item'><div class='xr-index-name'><div>draw</div></div><div class='xr-index-preview'>PandasIndex</div><div></div><input id='index-1b49785a-a619-4732-bb6f-0856dd2547dd' class='xr-index-data-in' type='checkbox'/><label for='index-1b49785a-a619-4732-bb6f-0856dd2547dd' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(Int64Index([   0,    1,    2,    3,    4,    5,    6,    7,    8,    9,
-            ...
-            9990, 9991, 9992, 9993, 9994, 9995, 9996, 9997, 9998, 9999],
-           dtype=&#x27;int64&#x27;, name=&#x27;draw&#x27;, length=10000))</pre></div></li><li class='xr-var-item'><div class='xr-index-name'><div>delta_dim_0</div></div><div class='xr-index-preview'>PandasIndex</div><div></div><input id='index-d46a1006-1dcb-40ab-b0b8-d5cf7dd7576b' class='xr-index-data-in' type='checkbox'/><label for='index-d46a1006-1dcb-40ab-b0b8-d5cf7dd7576b' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(Int64Index([0, 1, 2, 3], dtype=&#x27;int64&#x27;, name=&#x27;delta_dim_0&#x27;))</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-2a645156-5320-4588-ada3-b8122f75f9d3' class='xr-section-summary-in' type='checkbox' disabled ><label for='section-2a645156-5320-4588-ada3-b8122f75f9d3' class='xr-section-summary'  title='Expand/collapse section'>Attributes: <span>(0)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><dl class='xr-attrs'></dl></div></li></ul></div></div></div></div>
+        [1, 1, 1, 1],
+        [1, 1, 0, 1]]], shape=(4, 10000, 4))</pre></div></div></li><li class='xr-section-item'><input id='section-8ae34420-6874-4045-a71f-a076c75a8b08' class='xr-section-summary-in' type='checkbox' checked /><label for='section-8ae34420-6874-4045-a71f-a076c75a8b08' class='xr-section-summary' title='Expand/collapse section'>Coordinates: <span>(3)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>chain</span></div><div class='xr-var-dims'>(chain)</div><div class='xr-var-dtype'>int64</div><div class='xr-var-preview xr-preview'>0 1 2 3</div><input id='attrs-60bab548-d10f-49b5-a029-a4d235cb631d' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-60bab548-d10f-49b5-a029-a4d235cb631d' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-001b2c1e-4b4b-465f-8523-7ceded46a76a' class='xr-var-data-in' type='checkbox'><label for='data-001b2c1e-4b4b-465f-8523-7ceded46a76a' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([0, 1, 2, 3])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>draw</span></div><div class='xr-var-dims'>(draw)</div><div class='xr-var-dtype'>int64</div><div class='xr-var-preview xr-preview'>0 1 2 3 4 ... 9996 9997 9998 9999</div><input id='attrs-f25aceaf-9260-43d4-9e47-22f590c35e3f' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-f25aceaf-9260-43d4-9e47-22f590c35e3f' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-d1a79794-7652-4b83-9ee5-7dd8a1b6a49a' class='xr-var-data-in' type='checkbox'><label for='data-d1a79794-7652-4b83-9ee5-7dd8a1b6a49a' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([   0,    1,    2, ..., 9997, 9998, 9999], shape=(10000,))</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>delta_dim_0</span></div><div class='xr-var-dims'>(delta_dim_0)</div><div class='xr-var-dtype'>int64</div><div class='xr-var-preview xr-preview'>0 1 2 3</div><input id='attrs-7f81398e-8a2e-4d04-b70b-b5e41db7aaff' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-7f81398e-8a2e-4d04-b70b-b5e41db7aaff' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-96d2588f-72e3-401b-8c02-2cabc38f80b1' class='xr-var-data-in' type='checkbox'><label for='data-96d2588f-72e3-401b-8c02-2cabc38f80b1' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([0, 1, 2, 3])</pre></div></li></ul></div></li></ul></div></div></div></div>
 </div>
 <p>We just need a way to count each unique combination of predictors. I didn’t see an obvious way to do that in xarray, so I’m copying the delta values to a NumPy array, then reshaping to include all draws for each chain along dimension 0, and finally getting the unique vectors of length p along with their counts, which we can use to calculate the probability of each model being selected.</p>
 <div class="cell docutils container">
@@ -1200,25 +1347,26 @@ Coordinates:
     <span class="n">deltas</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">rows</span><span class="p">,</span> <span class="n">p</span><span class="p">)),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">return_counts</span><span class="o">=</span><span class="kc">True</span>
 <span class="p">)</span>
 
-<span class="k">for</span> <span class="n">model</span><span class="p">,</span> <span class="n">count</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">models</span><span class="p">,</span> <span class="n">counts</span><span class="p">):</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">model</span><span class="si">}</span><span class="s2">: prob=</span><span class="si">{</span><span class="n">count</span><span class="o">/</span><span class="n">rows</span><span class="si">:</span><span class="s2">.3</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">counts</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">models</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">}</span><span class="s2">: prob=</span><span class="si">{</span><span class="n">counts</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">/</span><span class="n">rows</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[0 0 1 1]: prob=0.000175
-[0 1 1 1]: prob=0.00025
-[1 0 0 1]: prob=0.0112
-[1 0 1 1]: prob=0.0578
-[1 1 0 0]: prob=0.0394
-[1 1 0 1]: prob=0.519
-[1 1 1 0]: prob=0.0192
-[1 1 1 1]: prob=0.353
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[1 1 0 1]: prob=0.525
+[1 1 1 1]: prob=0.352
+[1 0 1 1]: prob=0.056
+[1 1 0 0]: prob=0.040
+[1 1 1 0]: prob=0.015
+[1 0 0 1]: prob=0.012
+[0 1 1 1]: prob=0.000
+[0 1 1 0]: prob=0.000
+[0 0 1 1]: prob=0.000
 </pre></div>
 </div>
 </div>
 </div>
-<p>The most chosen models are the same as BUGS: intercept + x0 + x1 + x3 is selected over 50% of the time, intercept + x0 + x1 + x2 + x3 about a third of the time, and so on.</p>
+<p>The most chosen models are the same as the BUGS lecture version: intercept + x0 + x1 + x3 is selected over 50% of the time, intercept + x0 + x1 + x2 + x3 about a third of the time, and so on.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">load_ext</span> watermark
@@ -1227,18 +1375,18 @@ Coordinates:
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Wed Mar 22 2023
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last updated: Tue, 10 Nov 2026
 
 Python implementation: CPython
-Python version       : 3.11.0
-IPython version      : 8.9.0
+Python version       : 3.14.7
+IPython version      : 9.16.1
 
-pytensor: 2.10.1
+pytensor: 3.3.0
 
-pymc  : 5.1.2
-numpy : 1.24.2
-pandas: 1.5.3
-arviz : 0.14.0
+arviz : 1.3.0
+numpy : 2.4.6
+pandas: 3.0.5
+pymc  : 6.3.2
 </pre></div>
 </div>
 </div>
